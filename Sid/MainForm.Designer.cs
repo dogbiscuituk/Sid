@@ -85,7 +85,6 @@
             this.Name = "MainForm";
             this.Text = "Differentiator Demo";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.PopupMenu.ResumeLayout(false);

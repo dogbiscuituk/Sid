@@ -51,10 +51,5 @@ namespace Sid
             y = y.Differentiate();
             Graph.AddSeries(y).PenColour = Color.Blue;
             Invalidate(); }
-
-        private void MainForm_MouseDown(object sender, MouseEventArgs e)
-        {
-
-        }
     }
 }
