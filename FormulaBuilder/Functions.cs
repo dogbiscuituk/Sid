@@ -2,6 +2,12 @@
 
 namespace FormulaBuilder
 {
+    /// <summary>
+    /// A couple of math functions were either unavailable (Step) or unsuitable (Sign,
+    /// which has an integer output), so they were given their own class. Might as well
+    /// include the whole System.Math lot here too; then one reflection will be enough
+    /// to find any function by name.
+    /// </summary>
     public class Functions
     {
         public static double Abs(double x) => Math.Abs(x);
