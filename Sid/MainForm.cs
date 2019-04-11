@@ -20,7 +20,7 @@ namespace Sid
 
         private void MainForm_MouseMove(object sender, MouseEventArgs e) {
             var p = Graph.ScreenToGraph(e.Location, ClientRectangle);
-            ToolTip.SetToolTip(this, string.Format("({0}, {1})", p.X, p.Y)); }
+            ToolTip.SetToolTip(this, $"({p.X}, {p.Y})"); }
 
         private void MenuSinX_Click(object sender, System.EventArgs e) {
             DrawGraphs(sender, x.Sin()); }
