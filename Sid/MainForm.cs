@@ -1,11 +1,11 @@
-﻿using System.Drawing;
-using System.Linq.Expressions;
-using System.Windows.Forms;
-using FormulaBuilder;
-using FormulaGrapher;
-
-namespace Sid
+﻿namespace Sid
 {
+    using System.Drawing;
+    using System.Linq.Expressions;
+    using System.Windows.Forms;
+    using FormulaBuilder;
+    using FormulaGrapher;
+
     public partial class MainForm : Form
     {
         public MainForm() {

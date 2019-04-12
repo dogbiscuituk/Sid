@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace FormulaBuilder
+﻿namespace FormulaBuilder
 {
+    using System;
+
     /// <summary>
     /// A couple of math functions were either unavailable (Step) or unsuitable (Sign,
     /// which has an integer output), so they are provided in this class. Might as well

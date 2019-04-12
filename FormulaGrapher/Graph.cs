@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq.Expressions;
-using FormulaBuilder;
-
-namespace FormulaGrapher
+﻿namespace FormulaGrapher
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Linq.Expressions;
+    using FormulaBuilder;
+
     public class Graph
     {
         public Graph(RectangleF limits, int stepCount)

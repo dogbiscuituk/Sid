@@ -1,9 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq.Expressions;
-
-namespace FormulaBuilder
+﻿namespace FormulaBuilder
 {
+    using System;
+    using System.Diagnostics;
+    using System.Linq.Expressions;
+
     public static class Differentiator
     {
         public static ParameterExpression x = Expression.Variable(typeof(double));

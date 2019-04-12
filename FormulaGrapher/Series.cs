@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq.Expressions;
-using FormulaBuilder;
-
-namespace FormulaGrapher
+﻿namespace FormulaGrapher
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Linq.Expressions;
+    using FormulaBuilder;
+
     public class Series
     {
         public Series(Expression formula, int stepCount, Color lineColour, Color areaColour)
@@ -23,7 +23,7 @@ namespace FormulaGrapher
         public void Draw(Graphics g, RectangleF limits, float penWidth, bool fill)
         {
             if (fill && AreaColour == Color.Transparent)
-                return;
+                return; // Not just an optimisation; omits vertical asymptotes too.
             ComputePoints(limits);
             if (fill)
                 using (var pen = new Pen(Color.DarkGray, penWidth))
@@ -40,13 +40,16 @@ namespace FormulaGrapher
         private void FillArea(Graphics g, Pen pen, Brush brush, List<PointF> p)
         {
             var n = p.Count;
-            var polygon = new PointF[n + 2];
-            p.CopyTo(polygon);
-            polygon[n] = new PointF(polygon[n - 1].X, 0);
-            polygon[n + 1] = new PointF(polygon[0].X, 0);
-            g.FillPolygon(brush, polygon);
-            g.DrawLine(pen, polygon[n - 1], polygon[n]);
-            g.DrawLine(pen, polygon[n + 1], polygon[0]);
+            var points = new PointF[n + 2];
+            p.CopyTo(points);
+            points[n] = new PointF(points[n - 1].X, 0);
+            points[n + 1] = new PointF(points[0].X, 0);
+            g.FillPolygon(brush, points);
+            // Draw vertical asymptotes if X extremes are not Limits.
+            if (points[n].X < Limits.Right)
+                g.DrawLine(pen, points[n - 1], points[n]);
+            if (points[0].X > Limits.Left)
+                g.DrawLine(pen, points[n + 1], points[0]);
         }
 
         private Func<double, double> Func;
