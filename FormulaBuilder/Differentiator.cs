@@ -121,34 +121,34 @@ namespace FormulaBuilder
 
         public static Expression D(this Expression e)
         {
-            if (e is ConstantExpression) return Constant(0);  // d(c)/dx = 0
-            if (e is ParameterExpression) return Constant(1); // d(x)/dx = 1
-            if (e is MethodCallExpression m)
+            switch (e)
             {
-                var f = m.Arguments[0];
-                return DifferentiateFunction(m.Method.Name, f).Times(D(f)); // Chain Rule
-            }
-            if (e is UnaryExpression u)
-            {
-                var f = D(u.Operand);
-                return u.NodeType == ExpressionType.UnaryPlus ? f : Negate(f);
-            }
-            if (e is BinaryExpression b)
-            {
-                Expression f = b.Left, g = b.Right;
-                switch (b.NodeType)
-                {
-                    case ExpressionType.Add:      // (f+g)' = f'+g'
-                        return D(f).Plus(D(g));
-                    case ExpressionType.Subtract: // (f-g)' = f'-g'
-                        return D(f).Minus(D(g));
-                    case ExpressionType.Multiply: // (fg)' = f'g+fg'
-                        return D(f).Times(g).Plus(f.Times(D(g)));
-                    case ExpressionType.Divide:   // (f÷g)' = (f'g-fg')÷(g^2) = f'÷g-fg'÷(g^2)
-                        return D(f).Over(g).Minus(f.Times(D(g)).Over(g.Squared()));
-                    case ExpressionType.Power:    // (f^g)' = (f^g)*(f'g÷f+g'Log(f)) = (f'g+fg'Log(f))f^(g-1)
-                        return D(f).Times(g).Plus(f.Times(D(g)).Times(Log(f))).Times(f.Power(g.Minus(1)));
-                }
+                case ConstantExpression c: // d(c)/dx = 0
+                    return Constant(0);
+                case ParameterExpression p: // d(x)/dx = 1
+                    return Constant(1);
+                case MethodCallExpression m:
+                    var a = m.Arguments[0];
+                    return DifferentiateFunction(m.Method.Name, a).Times(D(a)); // Chain Rule
+                case UnaryExpression u:
+                    var v = D(u.Operand);
+                    return u.NodeType == ExpressionType.UnaryPlus ? v : Negate(v);
+                case BinaryExpression b:
+                    Expression f = b.Left, g = b.Right;
+                    switch (b.NodeType)
+                    {
+                        case ExpressionType.Add:      // (f+g)' = f'+g'
+                            return D(f).Plus(D(g));
+                        case ExpressionType.Subtract: // (f-g)' = f'-g'
+                            return D(f).Minus(D(g));
+                        case ExpressionType.Multiply: // (fg)' = f'g+fg'
+                            return D(f).Times(g).Plus(f.Times(D(g)));
+                        case ExpressionType.Divide:   // (f÷g)' = (f'g-fg')÷(g^2) = f'÷g-fg'÷(g^2)
+                            return D(f).Over(g).Minus(f.Times(D(g)).Over(g.Squared()));
+                        case ExpressionType.Power:    // (f^g)' = (f^g)*(f'g÷f+g'Log(f)) = (f'g+fg'Log(f))f^(g-1)
+                            return D(f).Times(g).Plus(f.Times(D(g)).Times(Log(f))).Times(f.Power(g.Minus(1)));
+                    }
+                    break;
             }
             throw new InvalidOperationException();
         }
@@ -180,9 +180,15 @@ namespace FormulaBuilder
 
         public static Expression Simplify(this Expression e)
         {
-            if (e is MethodCallExpression m) return SimplifyMethodCall(m);
-            if (e is UnaryExpression u) return SimplifyUnary(u);
-            if (e is BinaryExpression b) return SimplifyBinary(b);
+            switch (e)
+            {
+                case MethodCallExpression m:
+                    return SimplifyMethodCall(m);
+                case UnaryExpression u:
+                    return SimplifyUnary(u);
+                case BinaryExpression b:
+                    return SimplifyBinary(b);
+            }
             return e;
         }
 

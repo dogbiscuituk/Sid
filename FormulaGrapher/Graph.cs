@@ -16,10 +16,10 @@ namespace FormulaGrapher
             StepCount = stepCount;
         }
 
-        public Series AddSeries(Expression formula)
+        public Series AddSeries(Expression formula, Color lineColour, Color areaColour)
         {
             Debug.WriteLine(formula.AsString());
-            var series = new Series(formula, StepCount);
+            var series = new Series(formula, StepCount, lineColour, areaColour);
             Series.Add(series);
             return series;
         }
@@ -37,8 +37,9 @@ namespace FormulaGrapher
             g.Transform = GetMatrix(r);
             g.FillRectangle(Brushes.LightYellow, Limits);
             var penWidth = (Limits.Width / r.Width + Limits.Height / r.Height);
+            Series.ForEach(s => s.Draw(g, Limits, penWidth, true));
             DrawGrid(g, penWidth);
-            Series.ForEach(s => s.Draw(g, Limits, penWidth));
+            Series.ForEach(s => s.Draw(g, Limits, penWidth, false));
         }
 
         public PointF ScreenToGraph(Point p, Rectangle r)

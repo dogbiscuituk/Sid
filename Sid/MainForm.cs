@@ -43,13 +43,13 @@ namespace Sid
         private void DrawGraphs(object Sender, Expression y) {
             Text = ((ToolStripMenuItem)Sender).Text;
             Graph.Clear();
-            Graph.AddSeries(y).PenColour = Color.Black;
+            Graph.AddSeries(y, Color.Black, Color.Yellow);
             y = y.Differentiate();
-            Graph.AddSeries(y).PenColour = Color.Red;
+            Graph.AddSeries(y, Color.Red, Color.Transparent);
             y = y.Differentiate();
-            Graph.AddSeries(y).PenColour = Color.Green;
+            Graph.AddSeries(y, Color.Green, Color.Transparent);
             y = y.Differentiate();
-            Graph.AddSeries(y).PenColour = Color.Blue;
+            Graph.AddSeries(y, Color.Blue, Color.Transparent);
             Invalidate(); }
     }
 }

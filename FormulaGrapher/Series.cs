@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq.Expressions;
 using FormulaBuilder;
 
@@ -8,23 +9,44 @@ namespace FormulaGrapher
 {
     public class Series
     {
-        public Series(Expression formula, int stepCount)
+        public Series(Expression formula, int stepCount, Color lineColour, Color areaColour)
         {
             Func = formula.AsFunction();
             StepCount = stepCount;
+            LineColour = lineColour;
+            AreaColour = areaColour;
         }
 
-        public Color PenColour { get; set; }
+        public Color LineColour { get; set; }
+        public Color AreaColour { get; set; }
 
-        public void Draw(Graphics g, RectangleF limits, float penWidth)
+        public void Draw(Graphics g, RectangleF limits, float penWidth, bool fill)
         {
-            if (Limits != limits)
-            {
-                Limits = limits;
-                ComputePoints();
-            }
-            using (var pen = new Pen(PenColour, penWidth))
-                PointLists.ForEach(p => g.DrawLines(pen, p.ToArray()));
+            if (fill && AreaColour == Color.Transparent)
+                return;
+            ComputePoints(limits);
+            if (fill)
+                using (var pen = new Pen(Color.DarkGray, penWidth))
+                {
+                    pen.DashStyle = DashStyle.Dash;
+                    using (var brush = new SolidBrush(AreaColour))
+                        PointLists.ForEach(p => FillArea(g, pen, brush, p));
+                }
+            else
+                using (var pen = new Pen(LineColour, penWidth))
+                    PointLists.ForEach(p => g.DrawLines(pen, p.ToArray()));
+        }
+
+        private void FillArea(Graphics g, Pen pen, Brush brush, List<PointF> p)
+        {
+            var n = p.Count;
+            var polygon = new PointF[n + 2];
+            p.CopyTo(polygon);
+            polygon[n] = new PointF(polygon[n - 1].X, 0);
+            polygon[n + 1] = new PointF(polygon[0].X, 0);
+            g.FillPolygon(brush, polygon);
+            g.DrawLine(pen, polygon[n - 1], polygon[n]);
+            g.DrawLine(pen, polygon[n + 1], polygon[0]);
         }
 
         private Func<double, double> Func;
@@ -32,8 +54,11 @@ namespace FormulaGrapher
         private RectangleF Limits;
         private List<List<PointF>> PointLists = new List<List<PointF>>();
 
-        private void ComputePoints()
+        private void ComputePoints(RectangleF limits)
         {
+            if (Limits == limits)
+                return;
+            Limits = limits;
             PointLists.Clear();
             List<PointF> points = null;
             float
