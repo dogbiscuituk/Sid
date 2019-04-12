@@ -16,10 +16,15 @@
             StepCount = stepCount;
         }
 
-        public Series AddSeries(Expression formula, Color lineColour, Color areaColour)
+        public Series AddSeries(Expression formula) => AddSeries(formula, Color.Black);
+
+        public Series AddSeries(Expression formula, Color pen) =>
+            AddSeries(formula, pen, Color.Transparent);
+
+        public Series AddSeries(Expression formula, Color pen, Color brush)
         {
             Debug.WriteLine(formula.AsString());
-            var series = new Series(formula, StepCount, lineColour, areaColour);
+            var series = new Series(formula, StepCount, pen, brush);
             Series.Add(series);
             return series;
         }
@@ -37,9 +42,9 @@
             g.Transform = GetMatrix(r);
             g.FillRectangle(Brushes.LightYellow, Limits);
             var penWidth = (Limits.Width / r.Width + Limits.Height / r.Height);
-            Series.ForEach(s => s.Draw(g, Limits, penWidth, true));
+            Series.ForEach(s => s.Draw(g, Limits, penWidth, fill: true));
             DrawGrid(g, penWidth);
-            Series.ForEach(s => s.Draw(g, Limits, penWidth, false));
+            Series.ForEach(s => s.Draw(g, Limits, penWidth, fill: false));
         }
 
         public PointF ScreenToGraph(Point p, Rectangle r)

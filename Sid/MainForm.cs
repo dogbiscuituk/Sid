@@ -43,13 +43,13 @@
         private void DrawGraphs(object Sender, Expression y) {
             Text = ((ToolStripMenuItem)Sender).Text;
             Graph.Clear();
-            Graph.AddSeries(y, Color.Black, Color.Yellow);
+            Graph.AddSeries(y, Color.Black, brush: Color.Yellow);
             y = y.Differentiate();
-            Graph.AddSeries(y, Color.Red, Color.Transparent);
+            Graph.AddSeries(y, Color.Red);
             y = y.Differentiate();
-            Graph.AddSeries(y, Color.Green, Color.Transparent);
+            Graph.AddSeries(y, Color.Green);
             y = y.Differentiate();
-            Graph.AddSeries(y, Color.Blue, Color.Transparent);
+            Graph.AddSeries(y, Color.Blue);
             Invalidate(); }
     }
 }

@@ -9,12 +9,12 @@
 
     public class Series
     {
-        public Series(Expression formula, int stepCount, Color lineColour, Color areaColour)
+        public Series(Expression formula, int stepCount, Color pen, Color brush)
         {
             Func = formula.AsFunction();
             StepCount = stepCount;
-            LineColour = lineColour;
-            AreaColour = areaColour;
+            LineColour = pen;
+            AreaColour = brush;
         }
 
         public Color LineColour { get; set; }
@@ -35,21 +35,6 @@
             else
                 using (var pen = new Pen(LineColour, penWidth))
                     PointLists.ForEach(p => g.DrawLines(pen, p.ToArray()));
-        }
-
-        private void FillArea(Graphics g, Pen pen, Brush brush, List<PointF> p)
-        {
-            var n = p.Count;
-            var points = new PointF[n + 2];
-            p.CopyTo(points);
-            points[n] = new PointF(points[n - 1].X, 0);
-            points[n + 1] = new PointF(points[0].X, 0);
-            g.FillPolygon(brush, points);
-            // Draw vertical asymptotes if X extremes are not Limits.
-            if (points[n].X < Limits.Right)
-                g.DrawLine(pen, points[n - 1], points[n]);
-            if (points[0].X > Limits.Left)
-                g.DrawLine(pen, points[n + 1], points[0]);
         }
 
         private Func<double, double> Func;
@@ -86,6 +71,21 @@
             }
             // Every segment of the trace must include at least 2 points.
             PointLists.RemoveAll(p => p.Count < 2);
+        }
+
+        private void FillArea(Graphics g, Pen pen, Brush brush, List<PointF> p)
+        {
+            var n = p.Count;
+            var points = new PointF[n + 2];
+            p.CopyTo(points);
+            points[n] = new PointF(points[n - 1].X, 0);
+            points[n + 1] = new PointF(points[0].X, 0);
+            g.FillPolygon(brush, points);
+            // Draw vertical asymptotes iff X extremes are not Limits.
+            if (points[n].X < Limits.Right)
+                g.DrawLine(pen, points[n - 1], points[n]);
+            if (points[0].X > Limits.Left)
+                g.DrawLine(pen, points[n + 1], points[0]);
         }
     }
 }
