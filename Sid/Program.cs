@@ -2,6 +2,7 @@
 {
     using System;
     using System.Windows.Forms;
+    using Sid.Controllers;
 
     static class Program
     {
@@ -13,7 +14,7 @@
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(new MainFormController().View);
         }
     }
 }

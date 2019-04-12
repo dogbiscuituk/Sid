@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sid", "Sid\Sid.csproj", "{7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormulaBuilder", "FormulaBuilder\FormulaBuilder.csproj", "{091B2974-E44B-49C4-A3AA-355FC2558FEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormulaGrapher", "FormulaGrapher\FormulaGrapher.csproj", "{37C5240F-D5B3-4190-B9DB-AFA81278C274}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{091B2974-E44B-49C4-A3AA-355FC2558FEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{091B2974-E44B-49C4-A3AA-355FC2558FEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{091B2974-E44B-49C4-A3AA-355FC2558FEF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{37C5240F-D5B3-4190-B9DB-AFA81278C274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{37C5240F-D5B3-4190-B9DB-AFA81278C274}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{37C5240F-D5B3-4190-B9DB-AFA81278C274}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{37C5240F-D5B3-4190-B9DB-AFA81278C274}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-﻿namespace FormulaGrapher
+﻿namespace Sid.Models
 {
     using System;
     using System.Collections.Generic;
@@ -7,6 +7,7 @@
     using System.Linq.Expressions;
     using FormulaBuilder;
 
+    [Serializable]
     public class Series
     {
         public Series(Expression formula, int stepCount, Color pen, Color brush)

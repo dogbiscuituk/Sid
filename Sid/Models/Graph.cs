@@ -1,4 +1,4 @@
-﻿namespace FormulaGrapher
+﻿namespace Sid.Models
 {
     using System;
     using System.Collections.Generic;
@@ -8,13 +8,27 @@
     using System.Linq.Expressions;
     using FormulaBuilder;
 
+    [Serializable]
     public class Graph
     {
+        public Graph() : this(new RectangleF(-10, -5, 20, 10), 8000) { }
+
         public Graph(RectangleF limits, int stepCount)
         {
-            Limits = limits;
+            Location = limits.Location;
+            Size = limits.Size;
             StepCount = stepCount;
+
+            var x = Differentiator.x;
+            AddSeries(x.Sin());
         }
+
+        public PointF Location { get; set; }
+        public SizeF Size { get; set; }
+        public int StepCount { get; set; }
+        private List<Series> Series = new List<Series>();
+
+        private RectangleF Limits => new RectangleF(Location, Size);
 
         public Series AddSeries(Expression formula) => AddSeries(formula, Color.Black);
 
@@ -41,7 +55,7 @@
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.Transform = GetMatrix(r);
             g.FillRectangle(Brushes.LightYellow, Limits);
-            var penWidth = (Limits.Width / r.Width + Limits.Height / r.Height);
+            var penWidth = (Size.Width / r.Width + Size.Height / r.Height);
             Series.ForEach(s => s.Draw(g, Limits, penWidth, fill: true));
             DrawGrid(g, penWidth);
             Series.ForEach(s => s.Draw(g, Limits, penWidth, fill: false));
@@ -56,13 +70,10 @@
             return points[0];
         }
 
-        private RectangleF Limits;
-        private int StepCount;
-        private List<Series> Series = new List<Series>();
-
         private void DrawGrid(Graphics g, float penWidth)
         {
-            float x1 = Limits.Left, y1 = Limits.Bottom, x2 = Limits.Right, y2 = Limits.Top;
+            var limits = Limits;
+            float x1 = limits.X, y1 = limits.Bottom, x2 = limits.Right, y2 = limits.Top;
             using (Pen gridPen = new Pen(Color.LightGray, penWidth) { DashStyle = DashStyle.Dot },
                 axisPen = new Pen(Color.DarkGray, penWidth))
             using (var font = new Font("Arial", 5 * penWidth))
@@ -78,8 +89,11 @@
                         var step = Math.Floor(size);
                         size -= step;
                         step = Math.Pow(10, step);
-                        if (size < 0.3) step /= 5;
-                        else if (size < 0.7) step /= 2;
+                        if (size < 0.31) step /= 5;
+                        else if (size < 0.72) step /= 2;
+
+                        Debug.WriteLine($"step = {step}");
+
                         for (var y = step; y <= Math.Max(Math.Abs(y1), Math.Abs(y2)); y += step)
                         {
                             DrawGridLine(g, gridPen, font, brush, x1, x2, (float)y, format, vertical);
