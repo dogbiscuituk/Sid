@@ -19,21 +19,6 @@
             PersistenceController.FileSaving += PersistenceController_FileSaving;
         }
 
-        private void PersistenceController_FileSaving(object sender, CancelEventArgs e)
-        {
-            e.Cancel = !ContinueSaving();
-        }
-
-        private void PersistenceController_FilePathChanged(object sender, EventArgs e)
-        {
-            View.Text = PersistenceController.WindowCaption;
-        }
-
-        private void Model_ModifiedChanged(object sender, EventArgs e)
-        {
-            ModifiedChanged();
-        }
-
         public readonly Model Model;
         public readonly PersistenceController PersistenceController;
 
@@ -44,6 +29,8 @@
             set
             {
                 _view = value;
+
+                View.FormClosing += View_FormClosing;
 
                 View.FileMenu.DropDownOpening += FileMenu_DropDownOpening;
                 View.FileNew.Click += FileNew_Click;
@@ -67,43 +54,46 @@
             }
         }
 
+        private void View_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = !PersistenceController.SaveIfModified();
+        }
+
         public PictureBox PictureBox { get => View.PictureBox; }
         public Graph Graph { get => Model.Graph; }
 
-        private void ViewZoomIn_Click(object sender, EventArgs e)
+        private void PersistenceController_FileSaving(object sender, CancelEventArgs e)
         {
-            Zoom(10.0f / 11.0f);
+            e.Cancel = !ContinueSaving();
         }
 
-        private void ViewZoomOut_Click(object sender, EventArgs e)
+        private void PersistenceController_FilePathChanged(object sender, EventArgs e)
         {
-            Zoom(11.0f / 10.0f);
+            View.Text = PersistenceController.WindowCaption;
         }
 
-        private void ViewScrollLeft_Click(object sender, EventArgs e)
-        {
-            Scroll(-0.1f, 0);
-        }
+        private void Model_ModifiedChanged(object sender, EventArgs e) { ModifiedChanged(); }
 
-        private void ViewScrollRight_Click(object sender, EventArgs e)
-        {
-            Scroll(0.1f, 0);
-        }
+        public void FileMenu_DropDownOpening(object sender, EventArgs e) => View.FileSave.Enabled = Model.Modified;
+        private void FileNew_Click(object sender, EventArgs e) => PersistenceController.Clear();
+        private void FileOpen_Click(object sender, EventArgs e) => PersistenceController.Open();
+        private void FileSave_Click(object sender, EventArgs e) => PersistenceController.Save();
+        private void FileSaveAs_Click(object sender, EventArgs e) => PersistenceController.SaveAs();
+        private void FileExit_Click(object sender, EventArgs e) => View.Close();
+        private void EditUndo_Click(object sender, EventArgs e) { throw new NotImplementedException(); }
+        private void EditRedo_Click(object sender, EventArgs e) { throw new NotImplementedException(); }
+        private void ViewZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
+        private void ViewZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
+        private void ViewScrollLeft_Click(object sender, EventArgs e) => Scroll(-0.1f, 0);
+        private void ViewScrollRight_Click(object sender, EventArgs e) => Scroll(0.1f, 0);
+        private void ViewScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1f);
+        private void ViewScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1f);
+        private void PictureBox_Resize(object sender, EventArgs e) => PictureBox.Invalidate();
 
-        private void ViewScrollUp_Click(object sender, EventArgs e)
-        {
-            Scroll(0, 0.1f);
-        }
-
-        private void ViewScrollDown_Click(object sender, EventArgs e)
-        {
-            Scroll(0, -0.1f);
-        }
-
-        private void PictureBox_Resize(object sender, EventArgs e)
-        {
-            PictureBox.Invalidate();
-        }
+        private void HelpAbout_Click(object sender, EventArgs e) =>
+            MessageBox.Show(
+                $"{Application.CompanyName}\n{Application.ProductName}\nVersion {Application.ProductVersion}",
+                $"About {Application.ProductName}");
 
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
@@ -111,57 +101,7 @@
             View.ToolTip.SetToolTip(PictureBox, $"({p.X}, {p.Y})");
         }
 
-        private void PictureBox_Paint(object sender, PaintEventArgs e)
-        {
-            Graph.Draw(e.Graphics, PictureBox.ClientRectangle);
-        }
-
-        public void FileMenu_DropDownOpening(object sender, EventArgs e)
-        {
-            View.FileSave.Enabled = Model.Modified;
-        }
-
-        private void FileNew_Click(object sender, EventArgs e)
-        {
-            PersistenceController.Clear();
-        }
-
-        private void FileOpen_Click(object sender, EventArgs e)
-        {
-            PersistenceController.Open();
-        }
-
-        private void FileSave_Click(object sender, EventArgs e)
-        {
-            PersistenceController.Save();
-        }
-
-        private void FileSaveAs_Click(object sender, EventArgs e)
-        {
-            PersistenceController.SaveAs();
-        }
-
-        private void FileExit_Click(object sender, EventArgs e)
-        {
-            View.Close();
-        }
-
-        private void EditUndo_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void EditRedo_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void HelpAbout_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(
-                $"{Application.CompanyName}\n{Application.ProductName}\nVersion {Application.ProductVersion}",
-                $"About {Application.ProductName}");
-        }
+        private void PictureBox_Paint(object sender, PaintEventArgs e) => Graph.Draw(e.Graphics, PictureBox.ClientRectangle);
 
         private void ModifiedChanged()
         {

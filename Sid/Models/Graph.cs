@@ -48,41 +48,12 @@
         /// <summary>
         /// XML proxy colour names are spelt incorrectly (without the "u").
         /// </summary>
-        public string PaperColor
-        {
-            get => ColorTranslator.ToHtml(PaperColour);
-            set => PaperColour = ColorTranslator.FromHtml(value);
-        }
-
-        public string AxisColor
-        {
-            get => ColorTranslator.ToHtml(AxisColour);
-            set => AxisColour = ColorTranslator.FromHtml(value);
-        }
-
-        public string GridColor
-        {
-            get => ColorTranslator.ToHtml(GridColour);
-            set => GridColour = ColorTranslator.FromHtml(value);
-        }
-
-        public string PenColor
-        {
-            get => ColorTranslator.ToHtml(PenColour);
-            set => PenColour = ColorTranslator.FromHtml(value);
-        }
-
-        public string FillColor
-        {
-            get => ColorTranslator.ToHtml(FillColour);
-            set => FillColour = ColorTranslator.FromHtml(value);
-        }
-
-        public string LimitColor
-        {
-            get => ColorTranslator.ToHtml(LimitColour);
-            set => LimitColour = ColorTranslator.FromHtml(value);
-        }
+        public string PaperColor { get => ColorTranslator.ToHtml(PaperColour); set => PaperColour = ColorTranslator.FromHtml(value); }
+        public string AxisColor { get => ColorTranslator.ToHtml(AxisColour); set => AxisColour = ColorTranslator.FromHtml(value); }
+        public string GridColor { get => ColorTranslator.ToHtml(GridColour); set => GridColour = ColorTranslator.FromHtml(value); }
+        public string PenColor { get => ColorTranslator.ToHtml(PenColour); set => PenColour = ColorTranslator.FromHtml(value); }
+        public string FillColor { get => ColorTranslator.ToHtml(FillColour); set => FillColour = ColorTranslator.FromHtml(value); }
+        public string LimitColor { get => ColorTranslator.ToHtml(LimitColour); set => LimitColour = ColorTranslator.FromHtml(value); }
 
         private RectangleF Limits => new RectangleF(Location, Size);
         public PointF Location { get; set; }
