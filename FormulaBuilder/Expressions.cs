@@ -4,7 +4,7 @@
     using System.Diagnostics;
     using System.Linq.Expressions;
 
-    public static class Differentiator
+    public static class Expressions
     {
         public static ParameterExpression x = Expression.Variable(typeof(double));
 

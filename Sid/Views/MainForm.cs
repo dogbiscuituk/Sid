@@ -1,4 +1,4 @@
-﻿namespace Sid
+﻿namespace Sid.Views
 {
     using System.Windows.Forms;
 

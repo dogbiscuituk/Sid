@@ -4,6 +4,7 @@
     using System.ComponentModel;
     using System.Windows.Forms;
     using Sid.Models;
+    using Sid.Views;
 
     public class MainFormController
     {
@@ -43,6 +44,7 @@
             set
             {
                 _view = value;
+
                 View.FileMenu.DropDownOpening += FileMenu_DropDownOpening;
                 View.FileNew.Click += FileNew_Click;
                 View.FileOpen.Click += FileOpen_Click;
@@ -51,6 +53,12 @@
                 View.FileExit.Click += FileExit_Click;
                 View.EditUndo.Click += EditUndo_Click;
                 View.EditRedo.Click += EditRedo_Click;
+                View.ViewZoomIn.Click += ViewZoomIn_Click;
+                View.ViewZoomOut.Click += ViewZoomOut_Click;
+                View.ViewScrollLeft.Click += ViewScrollLeft_Click;
+                View.ViewScrollRight.Click += ViewScrollRight_Click;
+                View.ViewScrollUp.Click += ViewScrollUp_Click;
+                View.ViewScrollDown.Click += ViewScrollDown_Click;
                 View.HelpAbout.Click += HelpAbout_Click;
 
                 PictureBox.MouseMove += PictureBox_MouseMove;
@@ -60,6 +68,37 @@
         }
 
         public PictureBox PictureBox { get => View.PictureBox; }
+        public Graph Graph { get => Model.Graph; }
+
+        private void ViewZoomIn_Click(object sender, EventArgs e)
+        {
+            Zoom(10.0f / 11.0f);
+        }
+
+        private void ViewZoomOut_Click(object sender, EventArgs e)
+        {
+            Zoom(11.0f / 10.0f);
+        }
+
+        private void ViewScrollLeft_Click(object sender, EventArgs e)
+        {
+            Scroll(-0.1f, 0);
+        }
+
+        private void ViewScrollRight_Click(object sender, EventArgs e)
+        {
+            Scroll(0.1f, 0);
+        }
+
+        private void ViewScrollUp_Click(object sender, EventArgs e)
+        {
+            Scroll(0, 0.1f);
+        }
+
+        private void ViewScrollDown_Click(object sender, EventArgs e)
+        {
+            Scroll(0, -0.1f);
+        }
 
         private void PictureBox_Resize(object sender, EventArgs e)
         {
@@ -68,13 +107,13 @@
 
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            var p = Model.Graph.ScreenToGraph(e.Location, PictureBox.ClientRectangle);
+            var p = Graph.ScreenToGraph(e.Location, PictureBox.ClientRectangle);
             View.ToolTip.SetToolTip(PictureBox, $"({p.X}, {p.Y})");
         }
 
         private void PictureBox_Paint(object sender, PaintEventArgs e)
         {
-            Model.Graph.Draw(e.Graphics, PictureBox.ClientRectangle);
+            Graph.Draw(e.Graphics, PictureBox.ClientRectangle);
         }
 
         public void FileMenu_DropDownOpening(object sender, EventArgs e)
@@ -133,6 +172,18 @@
         private bool ContinueSaving()
         {
             return true;
+        }
+
+        private void Zoom(float factor)
+        {
+            Graph.Zoom(factor);
+            PictureBox.Invalidate();
+        }
+
+        private void Scroll(float xFactor, float yFactor)
+        {
+            Graph.Scroll(xFactor, yFactor);
+            PictureBox.Invalidate();
         }
     }
 }

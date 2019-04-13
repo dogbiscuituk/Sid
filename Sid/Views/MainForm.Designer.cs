@@ -1,4 +1,4 @@
-﻿namespace Sid
+﻿namespace Sid.Views
 {
     partial class MainForm
     {
@@ -49,6 +49,14 @@
             this.StatusBar = new System.Windows.Forms.StatusStrip();
             this.ModifiedLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.PictureBox = new System.Windows.Forms.PictureBox();
+            this.ViewZoom = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewScroll = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewZoomIn = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewZoomOut = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewScrollLeft = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewScrollRight = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewScrollUp = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewScrollDown = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
@@ -63,7 +71,7 @@
             this.HelpMenu});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(496, 24);
+            this.MainMenu.Size = new System.Drawing.Size(944, 24);
             this.MainMenu.TabIndex = 1;
             this.MainMenu.Text = "menuStrip1";
             // 
@@ -145,18 +153,21 @@
             // 
             this.EditUndo.Name = "EditUndo";
             this.EditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.EditUndo.Size = new System.Drawing.Size(180, 22);
+            this.EditUndo.Size = new System.Drawing.Size(144, 22);
             this.EditUndo.Text = "&Undo";
             // 
             // EditRedo
             // 
             this.EditRedo.Name = "EditRedo";
             this.EditRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.EditRedo.Size = new System.Drawing.Size(180, 22);
+            this.EditRedo.Size = new System.Drawing.Size(144, 22);
             this.EditRedo.Text = "&Redo";
             // 
             // ViewMenu
             // 
+            this.ViewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ViewZoom,
+            this.ViewScroll});
             this.ViewMenu.Name = "ViewMenu";
             this.ViewMenu.Size = new System.Drawing.Size(44, 20);
             this.ViewMenu.Text = "&View";
@@ -172,16 +183,16 @@
             // HelpAbout
             // 
             this.HelpAbout.Name = "HelpAbout";
-            this.HelpAbout.Size = new System.Drawing.Size(107, 22);
+            this.HelpAbout.Size = new System.Drawing.Size(180, 22);
             this.HelpAbout.Text = "&About";
             // 
             // StatusBar
             // 
             this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ModifiedLabel});
-            this.StatusBar.Location = new System.Drawing.Point(0, 339);
+            this.StatusBar.Location = new System.Drawing.Point(0, 479);
             this.StatusBar.Name = "StatusBar";
-            this.StatusBar.Size = new System.Drawing.Size(496, 22);
+            this.StatusBar.Size = new System.Drawing.Size(944, 22);
             this.StatusBar.TabIndex = 2;
             this.StatusBar.Text = "statusStrip1";
             // 
@@ -196,15 +207,83 @@
             this.PictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PictureBox.Location = new System.Drawing.Point(0, 24);
             this.PictureBox.Name = "PictureBox";
-            this.PictureBox.Size = new System.Drawing.Size(496, 315);
+            this.PictureBox.Size = new System.Drawing.Size(944, 455);
             this.PictureBox.TabIndex = 3;
             this.PictureBox.TabStop = false;
+            // 
+            // ViewZoom
+            // 
+            this.ViewZoom.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ViewZoomIn,
+            this.ViewZoomOut});
+            this.ViewZoom.Name = "ViewZoom";
+            this.ViewZoom.Size = new System.Drawing.Size(180, 22);
+            this.ViewZoom.Text = "&Zoom";
+            // 
+            // ViewScroll
+            // 
+            this.ViewScroll.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ViewScrollLeft,
+            this.ViewScrollRight,
+            this.ViewScrollUp,
+            this.ViewScrollDown});
+            this.ViewScroll.Name = "ViewScroll";
+            this.ViewScroll.Size = new System.Drawing.Size(180, 22);
+            this.ViewScroll.Text = "&Scroll";
+            // 
+            // ViewZoomIn
+            // 
+            this.ViewZoomIn.Name = "ViewZoomIn";
+            this.ViewZoomIn.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.I)));
+            this.ViewZoomIn.Size = new System.Drawing.Size(180, 22);
+            this.ViewZoomIn.Text = "&In";
+            // 
+            // ViewZoomOut
+            // 
+            this.ViewZoomOut.Name = "ViewZoomOut";
+            this.ViewZoomOut.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.O)));
+            this.ViewZoomOut.Size = new System.Drawing.Size(180, 22);
+            this.ViewZoomOut.Text = "&Out";
+            // 
+            // ViewScrollLeft
+            // 
+            this.ViewScrollLeft.Name = "ViewScrollLeft";
+            this.ViewScrollLeft.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Left)));
+            this.ViewScrollLeft.Size = new System.Drawing.Size(202, 22);
+            this.ViewScrollLeft.Text = "&Left";
+            // 
+            // ViewScrollRight
+            // 
+            this.ViewScrollRight.Name = "ViewScrollRight";
+            this.ViewScrollRight.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Right)));
+            this.ViewScrollRight.Size = new System.Drawing.Size(202, 22);
+            this.ViewScrollRight.Text = "&Right";
+            // 
+            // ViewScrollUp
+            // 
+            this.ViewScrollUp.Name = "ViewScrollUp";
+            this.ViewScrollUp.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Up)));
+            this.ViewScrollUp.Size = new System.Drawing.Size(202, 22);
+            this.ViewScrollUp.Text = "&Up";
+            // 
+            // ViewScrollDown
+            // 
+            this.ViewScrollDown.Name = "ViewScrollDown";
+            this.ViewScrollDown.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Down)));
+            this.ViewScrollDown.Size = new System.Drawing.Size(202, 22);
+            this.ViewScrollDown.Text = "&Down";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(496, 361);
+            this.ClientSize = new System.Drawing.Size(944, 501);
             this.Controls.Add(this.PictureBox);
             this.Controls.Add(this.StatusBar);
             this.Controls.Add(this.MainMenu);
@@ -242,5 +321,13 @@
         public System.Windows.Forms.ToolStripStatusLabel ModifiedLabel;
         public System.Windows.Forms.ToolTip ToolTip;
         public System.Windows.Forms.PictureBox PictureBox;
+        private System.Windows.Forms.ToolStripMenuItem ViewZoom;
+        private System.Windows.Forms.ToolStripMenuItem ViewScroll;
+        public System.Windows.Forms.ToolStripMenuItem ViewZoomIn;
+        public System.Windows.Forms.ToolStripMenuItem ViewZoomOut;
+        public System.Windows.Forms.ToolStripMenuItem ViewScrollLeft;
+        public System.Windows.Forms.ToolStripMenuItem ViewScrollRight;
+        public System.Windows.Forms.ToolStripMenuItem ViewScrollUp;
+        public System.Windows.Forms.ToolStripMenuItem ViewScrollDown;
     }
 }

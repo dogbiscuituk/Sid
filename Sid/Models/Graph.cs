@@ -27,7 +27,7 @@
             FillColour = Color.Transparent;
             LimitColour = Color.DarkGray;
 
-            var x = Differentiator.x;
+            var x = Expressions.x;
             Expression y = x.Squared().Minus(1).Log();
             AddSeries(y, Color.Black, Color.Yellow);
             y = y.Differentiate();
@@ -138,6 +138,22 @@
             matrix.Invert();
             matrix.TransformPoints(points);
             return points[0];
+        }
+
+        public void Zoom(float factor)
+        {
+            Zoom(factor, factor);
+        }
+
+        public void Zoom(float xFactor, float yFactor)
+        {
+            Location = new PointF(Location.X - Size.Width * (xFactor - 1) / 2, Location.Y - Size.Height * (yFactor - 1) / 2);
+            Size = new SizeF(Size.Width * xFactor, Size.Height * yFactor);
+        }
+
+        public void Scroll(float xFactor, float yFactor)
+        {
+            Location = new PointF(Location.X + Size.Width * xFactor, Location.Y + Size.Height * yFactor);
         }
 
         private void DrawGrid(Graphics g, float penWidth)

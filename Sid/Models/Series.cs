@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Linq.Expressions;
@@ -12,13 +11,11 @@
     [Serializable]
     public class Series
     {
-        public Series() : this(null) { }
+        public Series() : this(Expressions.Constant(0)) { }
 
-        public Series(Expression formula)
-            : this(formula, 8000) { }
+        public Series(Expression formula) : this(formula, 8000) { }
 
-        public Series(Expression formula, int stepCount)
-            : this(formula, stepCount, Color.Black) { }
+        public Series(Expression formula, int stepCount) : this(formula, stepCount, Color.Black) { }
 
         public Series(Expression formula, int stepCount, Color penColour)
             : this(formula, stepCount, penColour, Color.Yellow) { }
