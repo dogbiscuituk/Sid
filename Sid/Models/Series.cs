@@ -2,39 +2,81 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Linq.Expressions;
+    using System.Xml.Serialization;
     using FormulaBuilder;
 
     [Serializable]
     public class Series
     {
-        public Series(Expression formula, int stepCount, Color pen, Color brush)
+        public Series() : this(null) { }
+
+        public Series(Expression formula)
+            : this(formula, 8000) { }
+
+        public Series(Expression formula, int stepCount)
+            : this(formula, stepCount, Color.Black) { }
+
+        public Series(Expression formula, int stepCount, Color penColour)
+            : this(formula, stepCount, penColour, Color.Yellow) { }
+        
+        public Series(Expression formula, int stepCount, Color penColour, Color fillColour)
+            : this(formula, stepCount, penColour, fillColour, Color.DarkGray) { }
+
+        public Series(Expression formula, int stepCount, Color penColour, Color fillColour, Color limitColour)
         {
+            Formula = formula.AsString();
             Func = formula.AsFunction();
             StepCount = stepCount;
-            LineColour = pen;
-            AreaColour = brush;
+            PenColour = penColour;
+            FillColour = fillColour;
+            LimitColour = limitColour;
         }
 
-        public Color LineColour { get; set; }
-        public Color AreaColour { get; set; }
+        [XmlIgnore] public Color PenColour { get; set; }
+        [XmlIgnore] public Color FillColour { get; set; }
+        [XmlIgnore] public Color LimitColour { get; set; }
+
+        /// <summary>
+        /// XML proxy colour names are spelt incorrectly (without the "u").
+        /// </summary>
+        public string PenColor
+        {
+            get => ColorTranslator.ToHtml(PenColour);
+            set => PenColour = ColorTranslator.FromHtml(value);
+        }
+
+        public string FillColor
+        {
+            get => ColorTranslator.ToHtml(FillColour);
+            set => FillColour = ColorTranslator.FromHtml(value);
+        }
+
+        public string LimitColor
+        {
+            get => ColorTranslator.ToHtml(LimitColour);
+            set => LimitColour = ColorTranslator.FromHtml(value);
+        }
+
+        public string Formula { get; set; }
 
         public void Draw(Graphics g, RectangleF limits, float penWidth, bool fill)
         {
-            if (fill && AreaColour == Color.Transparent)
+            if (fill && FillColour == Color.Transparent)
                 return; // Not just an optimisation; omits vertical asymptotes too.
             ComputePoints(limits);
             if (fill)
-                using (var pen = new Pen(Color.DarkGray, penWidth))
+                using (var pen = new Pen(LimitColour, penWidth))
                 {
                     pen.DashStyle = DashStyle.Dash;
-                    using (var brush = new SolidBrush(AreaColour))
+                    using (var brush = new SolidBrush(FillColour))
                         PointLists.ForEach(p => FillArea(g, pen, brush, p));
                 }
             else
-                using (var pen = new Pen(LineColour, penWidth))
+                using (var pen = new Pen(PenColour, penWidth))
                     PointLists.ForEach(p => g.DrawLines(pen, p.ToArray()));
         }
 

@@ -25,7 +25,7 @@ namespace Sid.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Sid Graph Files|*.sidg|Sid Graph Interchange Files|*.sidgx|All Files (*.*)|*.*")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Sid Graph Files|*.sidgx|All Files (*.*)|*.*")]
         public string GraphFilter {
             get {
                 return ((string)(this["GraphFilter"]));

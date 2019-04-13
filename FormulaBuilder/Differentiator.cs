@@ -11,7 +11,7 @@
         public static ConstantExpression Constant(double c) => Expression.Constant(c);
 
         public static string AsString(this Expression e, string variableName = "x") =>
-            e.ToString().Replace("Param_0", variableName);
+            e.ToString().Replace(" ", "").Replace("Param_0", variableName);
 
         public static Func<double, double> AsFunction(this Expression e) =>
             Expression.Lambda<Func<double, double>>(e, x).Compile();

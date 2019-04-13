@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="GraphFilter" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Sid Graph Files|*.sidg|Sid Graph Interchange Files|*.sidgx|All Files (*.*)|*.*</Value>
+      <Value Profile="(Default)">Sid Graph Files|*.sidgx|All Files (*.*)|*.*</Value>
     </Setting>
   </Settings>
 </SettingsFile>

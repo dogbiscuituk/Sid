@@ -49,6 +49,7 @@
                 View.FileSave.Click += FileSave_Click;
                 View.FileSaveAs.Click += FileSaveAs_Click;
                 View.FileExit.Click += FileExit_Click;
+                View.HelpAbout.Click += HelpAbout_Click;
 
                 PictureBox.MouseMove += PictureBox_MouseMove;
                 PictureBox.Paint += PictureBox_Paint;
@@ -102,6 +103,13 @@
         private void FileExit_Click(object sender, EventArgs e)
         {
             View.Close();
+        }
+
+        private void HelpAbout_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+                $"{Application.CompanyName}\n{Application.ProductName}\nVersion {Application.ProductVersion}",
+                $"About {Application.ProductName}");
         }
 
         private void ModifiedChanged()

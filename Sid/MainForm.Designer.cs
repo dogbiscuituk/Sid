@@ -208,7 +208,7 @@
             this.Controls.Add(this.MainMenu);
             this.MainMenuStrip = this.MainMenu;
             this.Name = "MainForm";
-            this.Text = "Differentiator Demo";
+            this.Text = "Sid";
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
             this.StatusBar.ResumeLayout(false);

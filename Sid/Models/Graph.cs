@@ -6,12 +6,13 @@
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Linq.Expressions;
+    using System.Xml.Serialization;
     using FormulaBuilder;
 
     [Serializable]
     public class Graph
     {
-        public Graph() : this(new RectangleF(-10, -5, 20, 10), 8000) { }
+        public Graph() : this(new RectangleF(-10, -5, 20, 10), 16000) { }
 
         public Graph(RectangleF limits, int stepCount)
         {
@@ -19,26 +20,94 @@
             Size = limits.Size;
             StepCount = stepCount;
 
+            PaperColour = Color.LightYellow;
+            AxisColour = Color.DarkGray;
+            GridColour = Color.LightGray;
+            PenColour = Color.Black;
+            FillColour = Color.Transparent;
+            LimitColour = Color.DarkGray;
+
             var x = Differentiator.x;
-            AddSeries(x.Sin());
+            Expression y = x.Squared().Minus(1).Log();
+            AddSeries(y, Color.Black, Color.Yellow);
+            y = y.Differentiate();
+            AddSeries(y, Color.Red, Color.Orange);
+            y = y.Differentiate();
+            AddSeries(y, Color.Green, Color.LightGreen);
+            y = y.Differentiate();
+            AddSeries(y, Color.Blue, Color.AliceBlue);
         }
 
-        public PointF Location { get; set; }
-        public SizeF Size { get; set; }
-        public int StepCount { get; set; }
-        private List<Series> Series = new List<Series>();
+        [XmlIgnore] public Color PaperColour { get; set; }
+        [XmlIgnore] public Color AxisColour { get; set; }
+        [XmlIgnore] public Color GridColour { get; set; }
+        [XmlIgnore] public Color PenColour { get; set; }
+        [XmlIgnore] public Color FillColour { get; set; }
+        [XmlIgnore] public Color LimitColour { get; set; }
+
+        /// <summary>
+        /// XML proxy colour names are spelt incorrectly (without the "u").
+        /// </summary>
+        public string PaperColor
+        {
+            get => ColorTranslator.ToHtml(PaperColour);
+            set => PaperColour = ColorTranslator.FromHtml(value);
+        }
+
+        public string AxisColor
+        {
+            get => ColorTranslator.ToHtml(AxisColour);
+            set => AxisColour = ColorTranslator.FromHtml(value);
+        }
+
+        public string GridColor
+        {
+            get => ColorTranslator.ToHtml(GridColour);
+            set => GridColour = ColorTranslator.FromHtml(value);
+        }
+
+        public string PenColor
+        {
+            get => ColorTranslator.ToHtml(PenColour);
+            set => PenColour = ColorTranslator.FromHtml(value);
+        }
+
+        public string FillColor
+        {
+            get => ColorTranslator.ToHtml(FillColour);
+            set => FillColour = ColorTranslator.FromHtml(value);
+        }
+
+        public string LimitColor
+        {
+            get => ColorTranslator.ToHtml(LimitColour);
+            set => LimitColour = ColorTranslator.FromHtml(value);
+        }
 
         private RectangleF Limits => new RectangleF(Location, Size);
+        public PointF Location { get; set; }
+        public SizeF Size { get; set; }
 
-        public Series AddSeries(Expression formula) => AddSeries(formula, Color.Black);
+        public int StepCount { get; set; }
 
-        public Series AddSeries(Expression formula, Color pen) =>
-            AddSeries(formula, pen, Color.Transparent);
-
-        public Series AddSeries(Expression formula, Color pen, Color brush)
+        private List<Series> _series = new List<Series>();
+        public List<Series> Series
         {
-            Debug.WriteLine(formula.AsString());
-            var series = new Series(formula, StepCount, pen, brush);
+            get => _series;
+            set => _series = value;
+        }
+
+        public Series AddSeries(Expression formula) => AddSeries(formula, PenColour);
+
+        public Series AddSeries(Expression formula, Color penColour) =>
+            AddSeries(formula, penColour, FillColour);
+
+        public Series AddSeries(Expression formula, Color penColour, Color fillColour) =>
+            AddSeries(formula, penColour, fillColour, LimitColour);
+
+        public Series AddSeries(Expression formula, Color penColour, Color fillColour, Color limitColour)
+        {
+            var series = new Series(formula, StepCount, penColour, fillColour, limitColour);
             Series.Add(series);
             return series;
         }
@@ -54,7 +123,8 @@
                 return; // Nothing to draw!
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.Transform = GetMatrix(r);
-            g.FillRectangle(Brushes.LightYellow, Limits);
+            using (var brush = new SolidBrush(PaperColour))
+                g.FillRectangle(brush, Limits);
             var penWidth = (Size.Width / r.Width + Size.Height / r.Height);
             Series.ForEach(s => s.Draw(g, Limits, penWidth, fill: true));
             DrawGrid(g, penWidth);
@@ -74,8 +144,8 @@
         {
             var limits = Limits;
             float x1 = limits.X, y1 = limits.Bottom, x2 = limits.Right, y2 = limits.Top;
-            using (Pen gridPen = new Pen(Color.LightGray, penWidth) { DashStyle = DashStyle.Dot },
-                axisPen = new Pen(Color.DarkGray, penWidth))
+            using (Pen gridPen = new Pen(GridColour, penWidth) { DashStyle = DashStyle.Dot },
+                axisPen = new Pen(AxisColour, penWidth))
             using (var font = new Font("Arial", 5 * penWidth))
             using (var format = new StringFormat(StringFormat.GenericTypographic) { Alignment = StringAlignment.Far })
             {
@@ -91,9 +161,6 @@
                         step = Math.Pow(10, step);
                         if (size < 0.31) step /= 5;
                         else if (size < 0.72) step /= 2;
-
-                        Debug.WriteLine($"step = {step}");
-
                         for (var y = step; y <= Math.Max(Math.Abs(y1), Math.Abs(y2)); y += step)
                         {
                             DrawGridLine(g, gridPen, font, brush, x1, x2, (float)y, format, vertical);
