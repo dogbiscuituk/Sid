@@ -144,13 +144,15 @@
             // EditUndo
             // 
             this.EditUndo.Name = "EditUndo";
-            this.EditUndo.Size = new System.Drawing.Size(103, 22);
+            this.EditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.EditUndo.Size = new System.Drawing.Size(180, 22);
             this.EditUndo.Text = "&Undo";
             // 
             // EditRedo
             // 
             this.EditRedo.Name = "EditRedo";
-            this.EditRedo.Size = new System.Drawing.Size(103, 22);
+            this.EditRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.EditRedo.Size = new System.Drawing.Size(180, 22);
             this.EditRedo.Text = "&Redo";
             // 
             // ViewMenu

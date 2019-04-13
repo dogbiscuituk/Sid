@@ -155,12 +155,10 @@
                     var vertical = (phase & 1) != 0;
                     if (phase < 2)
                     {
-                        var size = Math.Log10(Math.Abs(x2 - x1));
+                        var size = Math.Log10(Math.Abs(y2 - y1));
                         var step = Math.Floor(size);
                         size -= step;
-                        step = Math.Pow(10, step);
-                        if (size < 0.31) step /= 5;
-                        else if (size < 0.72) step /= 2;
+                        step = (size < 0.3 ? 2 : size < 0.7 ? 5 : 10) * Math.Pow(10, step - 1);
                         for (var y = step; y <= Math.Max(Math.Abs(y1), Math.Abs(y2)); y += step)
                         {
                             DrawGridLine(g, gridPen, font, brush, x1, x2, (float)y, format, vertical);
