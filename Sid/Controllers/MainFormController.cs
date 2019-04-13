@@ -49,6 +49,8 @@
                 View.FileSave.Click += FileSave_Click;
                 View.FileSaveAs.Click += FileSaveAs_Click;
                 View.FileExit.Click += FileExit_Click;
+                View.EditUndo.Click += EditUndo_Click;
+                View.EditRedo.Click += EditRedo_Click;
                 View.HelpAbout.Click += HelpAbout_Click;
 
                 PictureBox.MouseMove += PictureBox_MouseMove;
@@ -103,6 +105,16 @@
         private void FileExit_Click(object sender, EventArgs e)
         {
             View.Close();
+        }
+
+        private void EditUndo_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void EditRedo_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void HelpAbout_Click(object sender, EventArgs e)
