@@ -13,6 +13,7 @@
         {
             View = new MainForm();
             Model = new Model();
+            Model.IsotropicChanged += Model_IsotropicChanged;
             Model.ModifiedChanged += Model_ModifiedChanged;
 
             PersistenceController = new PersistenceController(Model, View, View.FileReopen);
@@ -32,6 +33,7 @@
                 _view = value;
 
                 View.FormClosing += View_FormClosing;
+                View.Resize += View_Resize;
 
                 View.FileMenu.DropDownOpening += FileMenu_DropDownOpening;
                 View.FileNew.Click += FileNew_Click;
@@ -41,6 +43,8 @@
                 View.FileExit.Click += FileExit_Click;
                 View.EditUndo.Click += EditUndo_Click;
                 View.EditRedo.Click += EditRedo_Click;
+                View.ViewMenu.DropDownOpening += ViewMenu_DropDownOpening;
+                View.ViewIsotropic.Click += ViewIsotropic_Click;
                 View.ViewZoomIn.Click += ViewZoomIn_Click;
                 View.ViewZoomOut.Click += ViewZoomOut_Click;
                 View.ViewScrollLeft.Click += ViewScrollLeft_Click;
@@ -63,8 +67,15 @@
             e.Cancel = !PersistenceController.SaveIfModified();
         }
 
-        public PictureBox PictureBox { get => View.PictureBox; }
+        private void View_Resize(object sender, EventArgs e)
+        {
+            if (Model.Isotropic)
+                AdjustPictureBox();
+        }
+
+        public Panel ClientPanel { get => View.ClientPanel; }
         public Graph Graph { get => Model.Graph; }
+        public PictureBox PictureBox { get => View.PictureBox; }
 
         private bool Dragging;
         private PointF DragOrigin;
@@ -79,6 +90,8 @@
             View.Text = PersistenceController.WindowCaption;
         }
 
+
+        private void Model_IsotropicChanged(object sender, EventArgs e) { IsotropicChanged(); }
         private void Model_ModifiedChanged(object sender, EventArgs e) { ModifiedChanged(); }
 
         public void FileMenu_DropDownOpening(object sender, EventArgs e) => View.FileSave.Enabled = Model.Modified;
@@ -89,13 +102,14 @@
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
         private void EditUndo_Click(object sender, EventArgs e) { throw new NotImplementedException(); }
         private void EditRedo_Click(object sender, EventArgs e) { throw new NotImplementedException(); }
+        private void ViewMenu_DropDownOpening(object sender, EventArgs e) { View.ViewIsotropic.Checked = Model.Isotropic; }
+        private void ViewIsotropic_Click(object sender, EventArgs e) { Model.Isotropic = !Model.Isotropic; }
         private void ViewZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
         private void ViewZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
         private void ViewScrollLeft_Click(object sender, EventArgs e) => Scroll(-0.1, 0);
         private void ViewScrollRight_Click(object sender, EventArgs e) => Scroll(0.1, 0);
         private void ViewScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1);
         private void ViewScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1);
-        private void PictureBox_Resize(object sender, EventArgs e) => PictureBox.Invalidate();
 
         private void HelpAbout_Click(object sender, EventArgs e) =>
             MessageBox.Show(
@@ -129,6 +143,35 @@
 
         private void PictureBox_Paint(object sender, PaintEventArgs e) =>
             Graph.Draw(e.Graphics, PictureBox.ClientRectangle);
+
+        private void PictureBox_Resize(object sender, EventArgs e) => PictureBox.Invalidate();
+
+        private void AdjustPictureBox()
+        {
+            float gW = Graph.Size.Width, gH = Graph.Size.Height;
+            int cW = ClientPanel.ClientSize.Width, cH = ClientPanel.ClientSize.Height;
+            if (gW > gH * cW / cH)
+            {
+                var h = gH * cW / gW;
+                PictureBox.SetBounds(0, (int)Math.Round((cH - h) / 2), cW, (int)(Math.Round(h)));
+            }
+            else
+            {
+                var w = gW * cH / gH;
+                PictureBox.SetBounds((int)Math.Round((cW - w) / 2), 0, (int)(Math.Round(w)), cH);
+            }
+        }
+
+        private void IsotropicChanged()
+        {
+            if (Model.Isotropic)
+            {
+                PictureBox.Dock = DockStyle.None;
+                AdjustPictureBox();
+            }
+            else
+                PictureBox.Dock = DockStyle.Fill;
+        }
 
         private void ModifiedChanged()
         {

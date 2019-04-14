@@ -18,6 +18,20 @@
             }
         }
 
+        private bool _isotropic;
+        public bool Isotropic
+        {
+            get => _isotropic;
+            set
+            {
+                if (Isotropic != value)
+                {
+                    _isotropic = value;
+                    OnIsotropicChanged();
+                }
+            }
+        }
+
         private bool _modified;
         public bool Modified
         {
@@ -38,11 +52,17 @@
         }
 
         public event EventHandler GraphChanged;
+        public event EventHandler IsotropicChanged;
         public event EventHandler ModifiedChanged;
 
         protected virtual void OnGraphChanged()
         {
             GraphChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnIsotropicChanged()
+        {
+            IsotropicChanged?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void OnModifiedChanged()
