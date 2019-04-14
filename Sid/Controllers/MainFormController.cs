@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel;
+    using System.Drawing;
     using System.Windows.Forms;
     using Sid.Models;
     using Sid.Views;
@@ -48,7 +49,10 @@
                 View.ViewScrollDown.Click += ViewScrollDown_Click;
                 View.HelpAbout.Click += HelpAbout_Click;
 
+                PictureBox.MouseDown += PictureBox_MouseDown;
                 PictureBox.MouseMove += PictureBox_MouseMove;
+                PictureBox.MouseUp += PictureBox_MouseUp;
+                PictureBox.MouseWheel += PictureBox_MouseWheel;
                 PictureBox.Paint += PictureBox_Paint;
                 PictureBox.Resize += PictureBox_Resize;
             }
@@ -61,6 +65,9 @@
 
         public PictureBox PictureBox { get => View.PictureBox; }
         public Graph Graph { get => Model.Graph; }
+
+        private bool Dragging;
+        private PointF DragOrigin;
 
         private void PersistenceController_FileSaving(object sender, CancelEventArgs e)
         {
@@ -84,10 +91,10 @@
         private void EditRedo_Click(object sender, EventArgs e) { throw new NotImplementedException(); }
         private void ViewZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
         private void ViewZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
-        private void ViewScrollLeft_Click(object sender, EventArgs e) => Scroll(-0.1f, 0);
-        private void ViewScrollRight_Click(object sender, EventArgs e) => Scroll(0.1f, 0);
-        private void ViewScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1f);
-        private void ViewScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1f);
+        private void ViewScrollLeft_Click(object sender, EventArgs e) => Scroll(-0.1, 0);
+        private void ViewScrollRight_Click(object sender, EventArgs e) => Scroll(0.1, 0);
+        private void ViewScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1);
+        private void ViewScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1);
         private void PictureBox_Resize(object sender, EventArgs e) => PictureBox.Invalidate();
 
         private void HelpAbout_Click(object sender, EventArgs e) =>
@@ -95,13 +102,33 @@
                 $"{Application.CompanyName}\n{Application.ProductName}\nVersion {Application.ProductVersion}",
                 $"About {Application.ProductName}");
 
+        private void PictureBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            Dragging = true;
+            DragOrigin = GetMousePosition(e);
+        }
+
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            var p = Graph.ScreenToGraph(e.Location, PictureBox.ClientRectangle);
+            var p = GetMousePosition(e);
             View.ToolTip.SetToolTip(PictureBox, $"({p.X}, {p.Y})");
         }
 
-        private void PictureBox_Paint(object sender, PaintEventArgs e) => Graph.Draw(e.Graphics, PictureBox.ClientRectangle);
+        private void PictureBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            var p = GetMousePosition(e);
+            ScrollBy(DragOrigin.X - p.X, DragOrigin.Y - p.Y);
+            Dragging = false;
+        }
+
+        private void PictureBox_MouseWheel(object sender, MouseEventArgs e)
+        {
+            Zoom((float)Math.Pow(e.Delta > 0 ? 10.0 / 11.0 : 11.0 / 10.0,
+                Math.Abs(e.Delta / SystemInformation.MouseWheelScrollDelta)));
+        }
+
+        private void PictureBox_Paint(object sender, PaintEventArgs e) =>
+            Graph.Draw(e.Graphics, PictureBox.ClientRectangle);
 
         private void ModifiedChanged()
         {
@@ -114,15 +141,26 @@
             return true;
         }
 
-        private void Zoom(float factor)
+        private PointF GetMousePosition(MouseEventArgs e)
         {
-            Graph.Zoom(factor);
+            return Graph.ScreenToGraph(e.Location, PictureBox.ClientRectangle);
+        }
+
+        private void Scroll(double xFactor, double yFactor)
+        {
+            Graph.Scroll(xFactor, yFactor);
             PictureBox.Invalidate();
         }
 
-        private void Scroll(float xFactor, float yFactor)
+        private void ScrollBy(float xDelta, float yDelta)
         {
-            Graph.Scroll(xFactor, yFactor);
+            Graph.ScrollBy(xDelta, yDelta);
+            PictureBox.Invalidate();
+        }
+
+        private void Zoom(float factor)
+        {
+            Graph.Zoom(factor);
             PictureBox.Invalidate();
         }
     }

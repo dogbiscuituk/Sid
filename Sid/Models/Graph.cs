@@ -111,20 +111,31 @@
             return points[0];
         }
 
-        public void Zoom(float factor)
+        public void Scroll(double xFactor, double yFactor)
+        {
+            Location = new PointF(
+                (float)(Location.X + Size.Width * xFactor),
+                (float)(Location.Y + Size.Height * yFactor));
+        }
+
+        public void ScrollBy(float xDelta, float yDelta)
+        {
+            Location = new PointF(Location.X + xDelta, Location.Y + yDelta);
+        }
+
+        public void Zoom(double factor)
         {
             Zoom(factor, factor);
         }
 
-        public void Zoom(float xFactor, float yFactor)
+        public void Zoom(double xFactor, double yFactor)
         {
-            Location = new PointF(Location.X - Size.Width * (xFactor - 1) / 2, Location.Y - Size.Height * (yFactor - 1) / 2);
-            Size = new SizeF(Size.Width * xFactor, Size.Height * yFactor);
-        }
-
-        public void Scroll(float xFactor, float yFactor)
-        {
-            Location = new PointF(Location.X + Size.Width * xFactor, Location.Y + Size.Height * yFactor);
+            Location = new PointF(
+                (float)(Location.X - Size.Width * (xFactor - 1) / 2),
+                (float)(Location.Y - Size.Height * (yFactor - 1) / 2));
+            Size = new SizeF(
+                (float)(Size.Width * xFactor),
+                (float)(Size.Height * yFactor));
         }
 
         private void DrawGrid(Graphics g, float penWidth)
