@@ -4,6 +4,7 @@
     using System.ComponentModel;
     using System.Drawing;
     using System.Windows.Forms;
+    using FormulaBuilder;
     using Sid.Models;
     using Sid.Views;
 
@@ -15,6 +16,10 @@
             Model = new Model();
             Model.IsotropicChanged += Model_IsotropicChanged;
             Model.ModifiedChanged += Model_ModifiedChanged;
+
+            ParametersDialog = new ParametersDialog();
+            ParametersDialog.ApplyButton.Click += ParametersDialog_ApplyButton_Click;
+            ParametersDialog.FormClosing += ParametersDialog_FormClosing;
 
             PersistenceController = new PersistenceController(Model, View, View.FileReopen);
             PersistenceController.FilePathChanged += PersistenceController_FilePathChanged;
@@ -43,6 +48,7 @@
                 View.FileExit.Click += FileExit_Click;
                 View.EditUndo.Click += EditUndo_Click;
                 View.EditRedo.Click += EditRedo_Click;
+                View.EditParameters.Click += EditParameters_Click;
                 View.ViewMenu.DropDownOpening += ViewMenu_DropDownOpening;
                 View.ViewIsotropic.Click += ViewIsotropic_Click;
                 View.ViewZoomIn.Click += ViewZoomIn_Click;
@@ -62,6 +68,8 @@
             }
         }
 
+        private ParametersDialog ParametersDialog;
+
         private void View_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = !PersistenceController.SaveIfModified();
@@ -77,7 +85,6 @@
         public Graph Graph { get => Model.Graph; }
         public PictureBox PictureBox { get => View.PictureBox; }
 
-        private bool Dragging;
         private PointF DragOrigin;
 
         private void PersistenceController_FileSaving(object sender, CancelEventArgs e)
@@ -90,7 +97,6 @@
             View.Text = PersistenceController.WindowCaption;
         }
 
-
         private void Model_IsotropicChanged(object sender, EventArgs e) { IsotropicChanged(); }
         private void Model_ModifiedChanged(object sender, EventArgs e) { ModifiedChanged(); }
 
@@ -102,6 +108,7 @@
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
         private void EditUndo_Click(object sender, EventArgs e) { throw new NotImplementedException(); }
         private void EditRedo_Click(object sender, EventArgs e) { throw new NotImplementedException(); }
+        private void EditParameters_Click(object sender, EventArgs e) { ShowParametersDialog(); }
         private void ViewMenu_DropDownOpening(object sender, EventArgs e) { View.ViewIsotropic.Checked = Model.Isotropic; }
         private void ViewIsotropic_Click(object sender, EventArgs e) { Model.Isotropic = !Model.Isotropic; }
         private void ViewZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
@@ -118,7 +125,6 @@
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            Dragging = true;
             DragOrigin = GetMousePosition(e);
         }
 
@@ -132,7 +138,6 @@
         {
             var p = GetMousePosition(e);
             ScrollBy(DragOrigin.X - p.X, DragOrigin.Y - p.Y);
-            Dragging = false;
         }
 
         private void PictureBox_MouseWheel(object sender, MouseEventArgs e)
@@ -205,6 +210,30 @@
         {
             Graph.Zoom(factor);
             PictureBox.Invalidate();
+        }
+
+        private void ShowParametersDialog()
+        {
+            ParametersDialog.Visible = !ParametersDialog.Visible;
+        }
+
+        private void ParametersDialog_ApplyButton_Click(object sender, EventArgs e)
+        {
+            var xMin = (float)ParametersDialog.seXmin.Value;
+            var yMin = (float)ParametersDialog.seYmin.Value;
+            var xMax = (float)ParametersDialog.seXmax.Value;
+            var yMax = (float)ParametersDialog.seYmax.Value;
+            var series = new Parser().Parse(ParametersDialog.edFunction.Text);
+            Graph.Clear();
+            Graph.Location = new PointF(xMin, yMin);
+            Graph.Size = new SizeF(xMax - xMin, yMax - yMin);
+            Graph.AddSeries(series);
+        }
+
+        private void ParametersDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            ParametersDialog.Hide();
         }
     }
 }

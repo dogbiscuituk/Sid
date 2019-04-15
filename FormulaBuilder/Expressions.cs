@@ -8,7 +8,7 @@
     {
         public static ParameterExpression x = Expression.Variable(typeof(double));
 
-        public static ConstantExpression Constant(double c) => Expression.Constant(c);
+        public static ConstantExpression Constant(this double c) => Expression.Constant(c);
 
         public static string AsString(this Expression e, string variableName = "x") =>
             e.ToString().Replace(" ", "").Replace("Param_0", variableName);
@@ -17,6 +17,8 @@
             Expression.Lambda<Func<double, double>>(e, x).Compile();
 
         public static double AsDouble(this Expression e, double x) => AsFunction(e)(x);
+
+        public static Expression Parse(string formula) => new Parser().Parse(formula);
 
         public static void Check(double expected, double actual) =>
             Check(expected.ToString(), actual.ToString());

@@ -47,11 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControlForm.cs">
+    <Compile Include="ParametersDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ControlForm.Designer.cs">
-      <DependentUpon>ControlForm.cs</DependentUpon>
+    <Compile Include="ParametersDialog.Designer.cs">
+      <DependentUpon>ParametersDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\MainFormController.cs" />
     <Compile Include="Controllers\MruController.cs" />
@@ -94,8 +94,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ControlForm.resx">
-      <DependentUpon>ControlForm.cs</DependentUpon>
+    <EmbeddedResource Include="ParametersDialog.resx">
+      <DependentUpon>ParametersDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

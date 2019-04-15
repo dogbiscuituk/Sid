@@ -60,6 +60,8 @@
             this.ViewIsotropic = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.ClientPanel = new System.Windows.Forms.Panel();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.EditParameters = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
@@ -148,7 +150,9 @@
             // 
             this.EditMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.EditUndo,
-            this.EditRedo});
+            this.EditRedo,
+            this.toolStripMenuItem4,
+            this.EditParameters});
             this.EditMenu.Name = "EditMenu";
             this.EditMenu.Size = new System.Drawing.Size(39, 20);
             this.EditMenu.Text = "&Edit";
@@ -305,6 +309,18 @@
             this.ClientPanel.Size = new System.Drawing.Size(944, 455);
             this.ClientPanel.TabIndex = 4;
             // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(177, 6);
+            // 
+            // EditParameters
+            // 
+            this.EditParameters.Name = "EditParameters";
+            this.EditParameters.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.EditParameters.Size = new System.Drawing.Size(180, 22);
+            this.EditParameters.Text = "&Parameters...";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -359,5 +375,7 @@
         public System.Windows.Forms.ToolStripMenuItem ViewIsotropic;
         public System.Windows.Forms.ToolStripMenuItem ViewMenu;
         public System.Windows.Forms.Panel ClientPanel;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        public System.Windows.Forms.ToolStripMenuItem EditParameters;
     }
 }
