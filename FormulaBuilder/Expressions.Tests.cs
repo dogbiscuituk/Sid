@@ -33,7 +33,7 @@
         public static void TestChainRule()
         {
             TestDerivative(Exp(x.Squared()), "(Exp((x^2))*(x*2))");      // d(exp(x²))/dx = exp(x²)*2x
-            TestDerivative(Log(Sin(x)), "((1/Sin(x))*Cos(x))");          // d(ln(sin(x)))/dx = cot(x)
+            TestDerivative(Ln(Sin(x)), "((1/Sin(x))*Cos(x))");           // d(ln(sin(x)))/dx = cot(x)
             TestDerivative(Tan(x.Cubed().Plus(8.Times(x))),
                 "((Sec(((x^3)+(x*8)))^2)*(((x^2)*3)+8))");               // d(tan(x³+8x))/dx = sec²(x³+8x)*(3x²+8)
             TestDerivative(Sqrt(x.Power(4).Minus(1)),
@@ -74,7 +74,7 @@
             TestDerivative(Csch(x), "-(Csch(x)*Coth(x))");               // d(csch x)/dx = -csch x coth x, x≠0
             TestDerivative(Exp(x), "Exp(x)");                            // d(eˣ)/dx = eˣ
             TestDerivative(Floor(x), "0");                               // d(floor x)/dx = 0
-            TestDerivative(Log(x), "(1/x)");                             // d(ln x)/dx = 1/x
+            TestDerivative(Ln(x), "(1/x)");                              // d(ln x)/dx = 1/x
             TestDerivative(Log10(x), "(0.434294481903252/x)");           // d(log₁₀ x)/dx = log₁₀e/x
             TestDerivative(Round(x), "0");                               // d(round x)/dx = 0
             TestDerivative(Sec(x), "(Sec(x)*Tan(x))");                   // d(sec x)/dx = sec x tan x

@@ -32,7 +32,7 @@
         public static double Csch(double x) => 1 / Math.Sinh(x);
         public static double Exp(double x) => Math.Exp(x);
         public static double Floor(double x) => Math.Floor(x);
-        public static double Log(double x) => Math.Log(x);
+        public static double Ln(double x) => Math.Log(x);
         public static double Log10(double x) => Math.Log10(x);
         public static double Round(double x) => Math.Round(x);
         public static double Sec(double x) => 1 / Math.Cos(x);

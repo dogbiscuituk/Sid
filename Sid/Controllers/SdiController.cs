@@ -12,16 +12,8 @@ namespace Sid.Controllers
 		protected SdiController(Model model, string filter, string subKeyName, ToolStripDropDownItem recentMenu)
 			: base(model, subKeyName, recentMenu)
 		{
-			OpenFileDialog = new OpenFileDialog
-			{
-				Filter = filter,
-				Title = "Select the file to open"
-			};
-			SaveFileDialog = new SaveFileDialog
-			{
-				Filter = filter,
-				Title = "Save file"
-			};
+			OpenFileDialog = new OpenFileDialog { Filter = filter, Title = "Select the file to open" };
+			SaveFileDialog = new SaveFileDialog { Filter = filter, Title = "Save file" };
 		}
 
 		public bool Clear()
@@ -36,20 +28,14 @@ namespace Sid.Controllers
 			return result;
 		}
 
-		public bool Open()
-		{
-			return SaveIfModified() && OpenFileDialog.ShowDialog() == DialogResult.OK && LoadFromFile(OpenFileDialog.FileName);
-		}
+		public bool Open() => SaveIfModified()
+            && OpenFileDialog.ShowDialog() == DialogResult.OK
+            && LoadFromFile(OpenFileDialog.FileName);
 
-		public bool Save()
-		{
-			return string.IsNullOrEmpty(FilePath) ? SaveAs() : SaveToFile(FilePath);
-		}
+		public bool Save() => string.IsNullOrEmpty(FilePath) ? SaveAs() : SaveToFile(FilePath);
 
-		public bool SaveAs()
-		{
-			return SaveFileDialog.ShowDialog() == DialogResult.OK && SaveToFile(SaveFileDialog.FileName);
-		}
+		public bool SaveAs() => SaveFileDialog.ShowDialog() == DialogResult.OK
+            && SaveToFile(SaveFileDialog.FileName);
 
 		public bool SaveIfModified()
 		{
@@ -168,7 +154,7 @@ namespace Sid.Controllers
 			var result = false;
 			if (OnFileLoading())
 			{
-				using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
 					result = LoadFromStream(stream, Path.GetExtension(filePath));
 				if (result)
 				{

@@ -73,7 +73,7 @@
         public static MethodCallExpression Csch(this Expression e) => Function("Csch", e);
         public static MethodCallExpression Exp(this Expression e) => Function("Exp", e);
         public static MethodCallExpression Floor(this Expression e) => Function("Floor", e);
-        public static MethodCallExpression Log(this Expression e) => Function("Log", e);
+        public static MethodCallExpression Ln(this Expression e) => Function("Ln", e);
         public static MethodCallExpression Log10(this Expression e) => Function("Log10", e);
         public static MethodCallExpression Round(this Expression e) => Function("Round", e);
         public static MethodCallExpression Sec(this Expression e) => Function("Sec", e);
@@ -118,8 +118,8 @@
                             return D(f).Times(g).Plus(f.Times(D(g)));
                         case ExpressionType.Divide:   // (f÷g)' = (f'g-fg')÷(g^2) = f'÷g-fg'÷(g^2)
                             return D(f).Over(g).Minus(f.Times(D(g)).Over(g.Squared()));
-                        case ExpressionType.Power:    // (f^g)' = (f^g)*(f'g÷f+g'Log(f)) = (f'g+fg'Log(f))f^(g-1)
-                            return D(f).Times(g).Plus(f.Times(D(g)).Times(Log(f))).Times(f.Power(g.Minus(1)));
+                        case ExpressionType.Power:    // (f^g)' = (f^g)*(f'g÷f+g'Ln(f)) = (f'g+fg'Ln(f))f^(g-1)
+                            return D(f).Times(g).Plus(f.Times(D(g)).Times(Ln(f))).Times(f.Power(g.Minus(1)));
                     }
                     break;
             }
@@ -150,7 +150,7 @@
                 case "Csc": return Negate(Csc(x).Times(Cot(x)));                         // d(csc x)/dx = -csc x cot x
                 case "Csch": return Negate(Csch(x).Times(Coth(x)));                      // d(csch x)/dx = -csch x coth x, x≠0
                 case "Exp": return Exp(x);                                               // d(eˣ)/dx = eˣ
-                case "Log": return 1.Over(x);                                            // d(ln x)/dx = 1/x
+                case "Ln": return 1.Over(x);                                             // d(ln x)/dx = 1/x
                 case "Log10": return Math.Log10(Math.E).Over(x);                         // d(log₁₀ x)/dx = log₁₀e/x
                 case "Sec": return Sec(x).Times(Tan(x));                                 // d(sec x)/dx = sec x tan x
                 case "Sech": return Negate(Sech(x).Times(Tanh(x)));                      // d(sech x)/dx = -sech x tanh x

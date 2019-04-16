@@ -28,7 +28,7 @@
             LimitColour = Color.DarkGray;
 
             var x = Expressions.x;
-            Expression y = x.Sin(); // x.Squared().Minus(1).Log();
+            Expression y = x.Sin();
             AddSeries(y, Color.Black, Color.Yellow);
             y = y.Differentiate();
             AddSeries(y, Color.Red, Color.Orange);
