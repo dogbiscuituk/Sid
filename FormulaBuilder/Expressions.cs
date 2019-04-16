@@ -1,10 +1,9 @@
 ﻿namespace FormulaBuilder
 {
     using System;
-    using System.Diagnostics;
     using System.Linq.Expressions;
 
-    public static class Expressions
+    public static partial class Expressions
     {
         public static ParameterExpression x = Expression.Variable(typeof(double));
 
@@ -19,17 +18,6 @@
         public static double AsDouble(this Expression e, double x) => AsFunction(e)(x);
 
         public static Expression Parse(string formula) => new Parser().Parse(formula);
-
-        public static void Check(double expected, double actual) =>
-            Check(expected.ToString(), actual.ToString());
-
-        public static void Check(string expected, string actual)
-        {
-            if (actual == expected)
-                Debug.WriteLine("OK: " + actual);
-            else
-                Debug.WriteLine("*** Comparison failed. Expected: {0}, Actual: {1}.", expected, actual);
-        }
 
         public static BinaryExpression Plus(this Expression f, Expression g) => Expression.Add(f, g);
         public static BinaryExpression Minus(this Expression f, Expression g) => Expression.Subtract(f, g);
@@ -59,13 +47,6 @@
         public static BinaryExpression Reciprocal(this Expression e) => e.Power(-1);
         public static BinaryExpression Squared(this Expression e) => e.Power(2);
         public static BinaryExpression Cubed(this Expression e) => e.Power(3);
-
-        public static void TestCompoundExpression()
-        {
-            var f = x.Squared().Plus(3.Times(x)).Minus(5);    // f(x) = x²+3x-5
-            Check("(((x ^ 2) + (3 * x)) - 5)", f.AsString()); // Check the built expression formula
-            Check(Math.Pow(7, 2) + 3 * 7 - 5, f.AsDouble(7)); // Check the expression value at x = 7 (should be 65)
-        }
 
         public static MethodCallExpression Function(string functionName, Expression e) =>
             Expression.Call(typeof(Functions).GetMethod(functionName, new[] { typeof(double) }), e);
@@ -104,14 +85,6 @@
         public static MethodCallExpression Step(this Expression e) => Function("Step", e);
         public static MethodCallExpression Tan(this Expression e) => Function("Tan", e);
         public static MethodCallExpression Tanh(this Expression e) => Function("Tanh", e);
-
-        public static void TestTrigonometricExpression()
-        {
-            var f = Sin(x).Squared().Plus(Cos(x).Squared());             // f(x) = sin²x+cos²x
-            Check("((Sin(x) ^ 2) + (Cos(x) ^ 2))", f.AsString());        // Check the built expression formula
-            double p3 = Math.PI / 3, s = Math.Sin(p3), c = Math.Cos(p3); // Check the expression value at x = π/3
-            Check(Math.Pow(s, 2) + Math.Pow(c, 2), f.AsDouble(p3));      // (should be 1)
-        }
 
         public static Expression Call(this Expression e, Func<double, double> func)
         {
@@ -334,72 +307,6 @@
                     return Math.Pow(c, d);
             }
             throw new InvalidOperationException();
-        }
-
-        public static void TestSimplify(Expression e, string expected) => Check(expected, Simplify(e).AsString());
-
-        public static void TestSimplifications()
-        {
-            TestSimplify(x.Plus(6).Plus(2), "(x + 8)");
-            TestSimplify(6.Plus(x).Plus(2), "(x + 8)");
-            TestSimplify(6.Plus(x.Plus(2)), "(x + 8)");
-            TestSimplify(x.Plus(6).Minus(2), "(x + 4)");
-            TestSimplify(6.Plus(x).Minus(2), "(x + 4)");
-            TestSimplify(x.Minus(6).Plus(2), "(x - 4)");
-            TestSimplify(x.Minus(6).Minus(2), "(x - 8)");
-            TestSimplify(x.Times(6).Times(2), "(x * 12)");
-            TestSimplify(6.Times(x).Times(2), "(x * 12)");
-            TestSimplify(6.Times(x.Times(2)), "(x * 12)");
-            TestSimplify(x.Times(6).Over(2), "(x * 3)");
-            TestSimplify(6.Times(x).Over(2), "(x * 3)");
-            TestSimplify(x.Over(2).Times(8), "(x / 0.25)");
-            TestSimplify(x.Over(2).Over(8), "(x / 16)");
-        }
-
-        public static void TestDerivative(Expression e, string expected) => Check(expected, Differentiate(e).AsString());
-
-        public static void TestFunctionDerivatives()
-        {
-            TestDerivative(Abs(x), "(x / Abs(x))");                       // d(|x|)/dx = x/|x|
-            TestDerivative(Sqrt(x), "((x ^ -0.5) / 2)");                  // d(√x)/dx = 1/(2√x)
-            TestDerivative(Exp(x), "Exp(x)");                             // d(eˣ)/dx = eˣ
-            TestDerivative(Log(x), "(x ^ -1)");                           // d(ln(x))/dx = 1/x
-            TestDerivative(Log10(x), "((x ^ -1) * 0.434294481903252)");   // d(log₁₀(x))/dx = log₁₀(e)/x
-            TestDerivative(Sin(x), "Cos(x)");                             // d(sin(x))/dx = cos(x)
-            TestDerivative(Cos(x), "-Sin(x)");                            // d(cos(x))/dx = -sin(x)
-            TestDerivative(Tan(x), "(Cos(x) ^ -2)");                      // d(tan(x))/dx = sec²(x)
-            TestDerivative(Asin(x), "((1 - (x ^ 2)) ^ -0.5)");            // d(arcsin(x))/dx = 1/√(1-x²)
-            TestDerivative(Acos(x), "-((1 - (x ^ 2)) ^ -0.5)");           // d(arccos(x))/dx = -1/√(1-x²)
-            TestDerivative(Atan(x), "(1 / ((x ^ 2) + 1))");               // d(arctan(x))/dx = 1/(x²+1)
-            TestDerivative(Sinh(x), "Cosh(x)");                           // d(sinh(x))/dx = cosh(x)
-            TestDerivative(Cosh(x), "Sinh(x)");                           // d(cosh(x))/dx = sinh(x)
-            TestDerivative(Tanh(x), "(1 - (Tanh(x) ^ 2))");               // d(tanh(x))/dx = 1-tanh²(x)
-        }
-
-        public static void TestPolynomialDerivative()
-        {
-            TestDerivative(x.Power(4).Minus(3.Times(x.Cubed())).Plus(6.Times(x.Squared())).Minus(3.Times(x)).Plus(1),
-                "(((((x ^ 3) * 4) - ((x ^ 2) * 9)) + (x * 12)) - 3)");    // d(x⁴-3x³+6x²-3x+1)/dx = 4x³-9x²+12x-3
-        }
-
-        public static void TestChainRule()
-        {
-            TestDerivative(Exp(x.Squared()), "(Exp((x ^ 2)) * (x * 2))"); // d(exp(x²))/dx = exp(x²)*2x
-            TestDerivative(Log(Sin(x)), "((Sin(x) ^ -1) * Cos(x))");      // d(ln(sin(x)))/dx = cot(x)
-            TestDerivative(Tan(x.Cubed().Plus(8.Times(x))),               // d(tan(x³+8x))/dx = sec²(x³+8x)*(3x²+8)
-                "((Cos(((x ^ 3) + (x * 8))) ^ -2) * (((x ^ 2) * 3) + 8))");
-            TestDerivative(Sqrt(x.Power(4).Minus(1)),                     // d(√(x⁴-1))/dx = 2x³/√(x⁴-1)
-                "(((((x ^ 4) - 1) ^ -0.5) / 2) * ((x ^ 3) * 4))");
-        }
-
-        public static void TestAll()
-        {
-            TestCompoundExpression();
-            TestTrigonometricExpression();
-            TestSimplifications();
-            TestFunctionDerivatives();
-            TestPolynomialDerivative();
-            TestChainRule();
         }
     }
 }

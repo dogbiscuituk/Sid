@@ -19,9 +19,7 @@
             Operands = new Stack<Expression>();
             Operations = new Stack<string>(new[] { "(" });
             ParseExpression();
-            var result = Operands.Peek();
-            System.Diagnostics.Debug.WriteLine(result);
-            return result;
+            return Operands.Peek();
         }
 
         private void ConsumeToken(string token)
