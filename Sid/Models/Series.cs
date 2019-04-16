@@ -26,7 +26,6 @@
         public Series(Expression formula, int stepCount, Color penColour, Color fillColour, Color limitColour)
         {
             Formula = formula.AsString();
-            Func = formula.AsFunction();
             StepCount = stepCount;
             PenColour = penColour;
             FillColour = fillColour;
@@ -44,7 +43,18 @@
         public string FillColor { get => ColorTranslator.ToHtml(FillColour); set => FillColour = ColorTranslator.FromHtml(value); }
         public string LimitColor { get => ColorTranslator.ToHtml(LimitColour); set => LimitColour = ColorTranslator.FromHtml(value); }
 
-        public string Formula { get; set; }
+        private string _formula;
+        public string Formula
+        {
+            get => _formula;
+            set
+            {
+                _formula = value;
+                Func = new Parser().Parse(value).AsFunction();
+            }
+        }
+
+        private Func<double, double> Func { get; set; }
 
         public void Draw(Graphics g, RectangleF limits, float penWidth, bool fill)
         {
@@ -63,7 +73,6 @@
                     PointLists.ForEach(p => g.DrawLines(pen, p.ToArray()));
         }
 
-        private Func<double, double> Func;
         private int StepCount;
         private RectangleF Limits;
         private List<List<PointF>> PointLists = new List<List<PointF>>();

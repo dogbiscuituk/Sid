@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ParametersDialogController.cs" />
     <Compile Include="ParametersDialog.cs">
       <SubType>Form</SubType>
     </Compile>

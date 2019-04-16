@@ -204,9 +204,9 @@
 
         private void ParseOperation(string operation)
         {
-            var ours = GetPrecedence(operation);
             do
             {
+                var ours = GetPrecedence(operation);
                 var pending = Operations.Peek();
                 if (pending == "(")
                     break;

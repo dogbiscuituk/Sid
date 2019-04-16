@@ -7,15 +7,8 @@
         private Graph _graph = new Graph();
         public Graph Graph
         {
-            get
-            {
-                return _graph;
-            }
-            set
-            {
-                _graph = value;
-                OnGraphChanged();
-            }
+            get => _graph;
+            set { _graph = value; OnGraphChanged(); }
         }
 
         private bool _isotropic;
@@ -46,28 +39,14 @@
             }
         }
 
-        public void Clear()
-        {
-            Graph.Clear();
-        }
+        public void Clear() => Graph.Clear();
 
         public event EventHandler GraphChanged;
         public event EventHandler IsotropicChanged;
         public event EventHandler ModifiedChanged;
 
-        protected virtual void OnGraphChanged()
-        {
-            GraphChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        protected virtual void OnIsotropicChanged()
-        {
-            IsotropicChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        protected virtual void OnModifiedChanged()
-        {
-            ModifiedChanged?.Invoke(this, EventArgs.Empty);
-        }
+        protected virtual void OnGraphChanged() => GraphChanged?.Invoke(this, EventArgs.Empty);
+        protected virtual void OnIsotropicChanged() => IsotropicChanged?.Invoke(this, EventArgs.Empty);
+        protected virtual void OnModifiedChanged() => ModifiedChanged?.Invoke(this, EventArgs.Empty);
     }
 }

@@ -4,7 +4,6 @@
     using System.ComponentModel;
     using System.Drawing;
     using System.Windows.Forms;
-    using FormulaBuilder;
     using Sid.Models;
     using Sid.Views;
 
@@ -17,17 +16,22 @@
             Model.IsotropicChanged += Model_IsotropicChanged;
             Model.ModifiedChanged += Model_ModifiedChanged;
 
-            ParametersDialog = new ParametersDialog();
-            ParametersDialog.ApplyButton.Click += ParametersDialog_ApplyButton_Click;
-            ParametersDialog.FormClosing += ParametersDialog_FormClosing;
-
             PersistenceController = new PersistenceController(Model, View, View.FileReopen);
             PersistenceController.FilePathChanged += PersistenceController_FilePathChanged;
             PersistenceController.FileSaving += PersistenceController_FileSaving;
+
+            ParametersDialogController = new ParametersDialogController(this);
         }
 
         public readonly Model Model;
         public readonly PersistenceController PersistenceController;
+        public readonly ParametersDialogController ParametersDialogController;
+
+        public Panel ClientPanel { get => View.ClientPanel; }
+        public Graph Graph { get => Model.Graph; }
+        public PictureBox PictureBox { get => View.PictureBox; }
+
+        private PointF DragOrigin;
 
         private MainForm _view;
         public MainForm View
@@ -68,8 +72,6 @@
             }
         }
 
-        private ParametersDialog ParametersDialog;
-
         private void View_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = !PersistenceController.SaveIfModified();
@@ -80,12 +82,6 @@
             if (Model.Isotropic)
                 AdjustPictureBox();
         }
-
-        public Panel ClientPanel { get => View.ClientPanel; }
-        public Graph Graph { get => Model.Graph; }
-        public PictureBox PictureBox { get => View.PictureBox; }
-
-        private PointF DragOrigin;
 
         private void PersistenceController_FileSaving(object sender, CancelEventArgs e)
         {
@@ -206,34 +202,15 @@
             PictureBox.Invalidate();
         }
 
+        private void ShowParametersDialog()
+        {
+            ParametersDialogController.ShowDialog();
+        }
+
         private void Zoom(float factor)
         {
             Graph.Zoom(factor);
             PictureBox.Invalidate();
-        }
-
-        private void ShowParametersDialog()
-        {
-            ParametersDialog.Visible = !ParametersDialog.Visible;
-        }
-
-        private void ParametersDialog_ApplyButton_Click(object sender, EventArgs e)
-        {
-            var xMin = (float)ParametersDialog.seXmin.Value;
-            var yMin = (float)ParametersDialog.seYmin.Value;
-            var xMax = (float)ParametersDialog.seXmax.Value;
-            var yMax = (float)ParametersDialog.seYmax.Value;
-            var series = new Parser().Parse(ParametersDialog.edFunction.Text);
-            Graph.Clear();
-            Graph.Location = new PointF(xMin, yMin);
-            Graph.Size = new SizeF(xMax - xMin, yMax - yMin);
-            Graph.AddSeries(series);
-        }
-
-        private void ParametersDialog_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            e.Cancel = true;
-            ParametersDialog.Hide();
         }
     }
 }
