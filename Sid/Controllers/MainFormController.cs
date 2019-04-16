@@ -31,6 +31,7 @@
         public Graph Graph { get => Model.Graph; }
         public PictureBox PictureBox { get => View.PictureBox; }
 
+        private bool Dragging;
         private PointF DragOrigin;
 
         private MainForm _view;
@@ -121,19 +122,23 @@
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)
         {
+            PictureBox.Cursor = Cursors.Hand;
+            Dragging = true;
             DragOrigin = GetMousePosition(e);
         }
 
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            var p = GetMousePosition(e);
-            View.ToolTip.SetToolTip(PictureBox, $"({p.X}, {p.Y})");
+            PointF p = GetMousePosition(e), q = new PointF(DragOrigin.X - p.X, DragOrigin.Y - p.Y);
+            View.ToolTip.SetToolTip(PictureBox, Dragging ? $"Scroll by ({q.X}, {q.Y})" : $"({p.X}, {p.Y})");
         }
 
         private void PictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             var p = GetMousePosition(e);
             ScrollBy(DragOrigin.X - p.X, DragOrigin.Y - p.Y);
+            Dragging = false;
+            PictureBox.Cursor = Cursors.Default;
         }
 
         private void PictureBox_MouseWheel(object sender, MouseEventArgs e)

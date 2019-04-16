@@ -43,25 +43,25 @@
             this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.EditUndo = new System.Windows.Forms.ToolStripMenuItem();
             this.EditRedo = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.EditParameters = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewIsotropic = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.ViewZoom = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewZoomIn = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewZoomOut = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewScroll = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewScrollLeft = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewScrollRight = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewScrollUp = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewScrollDown = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
             this.ModifiedLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.PictureBox = new System.Windows.Forms.PictureBox();
-            this.ViewZoom = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewScroll = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewZoomIn = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewZoomOut = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewScrollLeft = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewScrollRight = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewScrollUp = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewScrollDown = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewIsotropic = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.ClientPanel = new System.Windows.Forms.Panel();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
-            this.EditParameters = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
@@ -100,50 +100,50 @@
             // 
             this.FileNew.Name = "FileNew";
             this.FileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.FileNew.Size = new System.Drawing.Size(180, 22);
+            this.FileNew.Size = new System.Drawing.Size(146, 22);
             this.FileNew.Text = "&New";
             // 
             // FileOpen
             // 
             this.FileOpen.Name = "FileOpen";
             this.FileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.FileOpen.Size = new System.Drawing.Size(180, 22);
+            this.FileOpen.Size = new System.Drawing.Size(146, 22);
             this.FileOpen.Text = "&Open";
             // 
             // FileReopen
             // 
             this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(180, 22);
+            this.FileReopen.Size = new System.Drawing.Size(146, 22);
             this.FileReopen.Text = "&Reopen";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(143, 6);
             // 
             // FileSave
             // 
             this.FileSave.Name = "FileSave";
             this.FileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.FileSave.Size = new System.Drawing.Size(180, 22);
+            this.FileSave.Size = new System.Drawing.Size(146, 22);
             this.FileSave.Text = "&Save";
             // 
             // FileSaveAs
             // 
             this.FileSaveAs.Name = "FileSaveAs";
-            this.FileSaveAs.Size = new System.Drawing.Size(180, 22);
+            this.FileSaveAs.Size = new System.Drawing.Size(146, 22);
             this.FileSaveAs.Text = "Save &As...";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(143, 6);
             // 
             // FileExit
             // 
             this.FileExit.Name = "FileExit";
             this.FileExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.FileExit.Size = new System.Drawing.Size(180, 22);
+            this.FileExit.Size = new System.Drawing.Size(146, 22);
             this.FileExit.Text = "E&xit";
             // 
             // EditMenu
@@ -161,15 +161,27 @@
             // 
             this.EditUndo.Name = "EditUndo";
             this.EditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.EditUndo.Size = new System.Drawing.Size(180, 22);
+            this.EditUndo.Size = new System.Drawing.Size(161, 22);
             this.EditUndo.Text = "&Undo";
             // 
             // EditRedo
             // 
             this.EditRedo.Name = "EditRedo";
             this.EditRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.EditRedo.Size = new System.Drawing.Size(180, 22);
+            this.EditRedo.Size = new System.Drawing.Size(161, 22);
             this.EditRedo.Text = "&Redo";
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(158, 6);
+            // 
+            // EditParameters
+            // 
+            this.EditParameters.Name = "EditParameters";
+            this.EditParameters.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.EditParameters.Size = new System.Drawing.Size(161, 22);
+            this.EditParameters.Text = "&Parameters...";
             // 
             // ViewMenu
             // 
@@ -182,44 +194,17 @@
             this.ViewMenu.Size = new System.Drawing.Size(44, 20);
             this.ViewMenu.Text = "&View";
             // 
-            // HelpMenu
+            // ViewIsotropic
             // 
-            this.HelpMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.HelpAbout});
-            this.HelpMenu.Name = "HelpMenu";
-            this.HelpMenu.Size = new System.Drawing.Size(44, 20);
-            this.HelpMenu.Text = "&Help";
+            this.ViewIsotropic.Name = "ViewIsotropic";
+            this.ViewIsotropic.Size = new System.Drawing.Size(180, 22);
+            this.ViewIsotropic.Text = "&Isotropic";
+            this.ViewIsotropic.ToolTipText = "The Graph is isotropic when its X and Y scales are equal";
             // 
-            // HelpAbout
+            // toolStripMenuItem3
             // 
-            this.HelpAbout.Name = "HelpAbout";
-            this.HelpAbout.Size = new System.Drawing.Size(180, 22);
-            this.HelpAbout.Text = "&About";
-            // 
-            // StatusBar
-            // 
-            this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ModifiedLabel});
-            this.StatusBar.Location = new System.Drawing.Point(0, 479);
-            this.StatusBar.Name = "StatusBar";
-            this.StatusBar.Size = new System.Drawing.Size(944, 22);
-            this.StatusBar.TabIndex = 2;
-            this.StatusBar.Text = "statusStrip1";
-            // 
-            // ModifiedLabel
-            // 
-            this.ModifiedLabel.Name = "ModifiedLabel";
-            this.ModifiedLabel.Size = new System.Drawing.Size(55, 17);
-            this.ModifiedLabel.Text = "Modified";
-            // 
-            // PictureBox
-            // 
-            this.PictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PictureBox.Location = new System.Drawing.Point(0, 0);
-            this.PictureBox.Name = "PictureBox";
-            this.PictureBox.Size = new System.Drawing.Size(944, 455);
-            this.PictureBox.TabIndex = 3;
-            this.PictureBox.TabStop = false;
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
             // 
             // ViewZoom
             // 
@@ -229,6 +214,22 @@
             this.ViewZoom.Name = "ViewZoom";
             this.ViewZoom.Size = new System.Drawing.Size(180, 22);
             this.ViewZoom.Text = "&Zoom";
+            // 
+            // ViewZoomIn
+            // 
+            this.ViewZoomIn.Name = "ViewZoomIn";
+            this.ViewZoomIn.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.I)));
+            this.ViewZoomIn.Size = new System.Drawing.Size(169, 22);
+            this.ViewZoomIn.Text = "&In";
+            // 
+            // ViewZoomOut
+            // 
+            this.ViewZoomOut.Name = "ViewZoomOut";
+            this.ViewZoomOut.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.O)));
+            this.ViewZoomOut.Size = new System.Drawing.Size(169, 22);
+            this.ViewZoomOut.Text = "&Out";
             // 
             // ViewScroll
             // 
@@ -240,22 +241,6 @@
             this.ViewScroll.Name = "ViewScroll";
             this.ViewScroll.Size = new System.Drawing.Size(180, 22);
             this.ViewScroll.Text = "&Scroll";
-            // 
-            // ViewZoomIn
-            // 
-            this.ViewZoomIn.Name = "ViewZoomIn";
-            this.ViewZoomIn.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.I)));
-            this.ViewZoomIn.Size = new System.Drawing.Size(180, 22);
-            this.ViewZoomIn.Text = "&In";
-            // 
-            // ViewZoomOut
-            // 
-            this.ViewZoomOut.Name = "ViewZoomOut";
-            this.ViewZoomOut.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.O)));
-            this.ViewZoomOut.Size = new System.Drawing.Size(180, 22);
-            this.ViewZoomOut.Text = "&Out";
             // 
             // ViewScrollLeft
             // 
@@ -289,17 +274,44 @@
             this.ViewScrollDown.Size = new System.Drawing.Size(202, 22);
             this.ViewScrollDown.Text = "&Down";
             // 
-            // ViewIsotropic
+            // HelpMenu
             // 
-            this.ViewIsotropic.Name = "ViewIsotropic";
-            this.ViewIsotropic.Size = new System.Drawing.Size(180, 22);
-            this.ViewIsotropic.Text = "&Isotropic";
-            this.ViewIsotropic.ToolTipText = "The Graph is isotropic when its X and Y scales are equal";
+            this.HelpMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.HelpAbout});
+            this.HelpMenu.Name = "HelpMenu";
+            this.HelpMenu.Size = new System.Drawing.Size(44, 20);
+            this.HelpMenu.Text = "&Help";
             // 
-            // toolStripMenuItem3
+            // HelpAbout
             // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
+            this.HelpAbout.Name = "HelpAbout";
+            this.HelpAbout.Size = new System.Drawing.Size(107, 22);
+            this.HelpAbout.Text = "&About";
+            // 
+            // StatusBar
+            // 
+            this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ModifiedLabel});
+            this.StatusBar.Location = new System.Drawing.Point(0, 479);
+            this.StatusBar.Name = "StatusBar";
+            this.StatusBar.Size = new System.Drawing.Size(944, 22);
+            this.StatusBar.TabIndex = 2;
+            this.StatusBar.Text = "statusStrip1";
+            // 
+            // ModifiedLabel
+            // 
+            this.ModifiedLabel.Name = "ModifiedLabel";
+            this.ModifiedLabel.Size = new System.Drawing.Size(55, 17);
+            this.ModifiedLabel.Text = "Modified";
+            // 
+            // PictureBox
+            // 
+            this.PictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PictureBox.Location = new System.Drawing.Point(0, 0);
+            this.PictureBox.Name = "PictureBox";
+            this.PictureBox.Size = new System.Drawing.Size(944, 455);
+            this.PictureBox.TabIndex = 3;
+            this.PictureBox.TabStop = false;
             // 
             // ClientPanel
             // 
@@ -309,18 +321,6 @@
             this.ClientPanel.Name = "ClientPanel";
             this.ClientPanel.Size = new System.Drawing.Size(944, 455);
             this.ClientPanel.TabIndex = 4;
-            // 
-            // toolStripMenuItem4
-            // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(177, 6);
-            // 
-            // EditParameters
-            // 
-            this.EditParameters.Name = "EditParameters";
-            this.EditParameters.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.EditParameters.Size = new System.Drawing.Size(180, 22);
-            this.EditParameters.Text = "&Parameters...";
             // 
             // MainForm
             // 
