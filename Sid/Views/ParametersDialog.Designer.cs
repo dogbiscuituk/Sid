@@ -81,7 +81,7 @@
             -2147483648});
             this.seXmax.Name = "seXmax";
             this.seXmax.Size = new System.Drawing.Size(120, 20);
-            this.seXmax.TabIndex = 3;
+            this.seXmax.TabIndex = 1;
             this.seXmax.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // lblXmax
@@ -108,7 +108,7 @@
             -2147483648});
             this.seXmin.Name = "seXmin";
             this.seXmin.Size = new System.Drawing.Size(120, 20);
-            this.seXmin.TabIndex = 1;
+            this.seXmin.TabIndex = 0;
             this.seXmin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // lblXmin
@@ -148,7 +148,7 @@
             -2147483648});
             this.seYmax.Name = "seYmax";
             this.seYmax.Size = new System.Drawing.Size(120, 20);
-            this.seYmax.TabIndex = 3;
+            this.seYmax.TabIndex = 1;
             this.seYmax.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // lblYmax
@@ -175,7 +175,7 @@
             -2147483648});
             this.seYmin.Name = "seYmin";
             this.seYmin.Size = new System.Drawing.Size(120, 20);
-            this.seYmin.TabIndex = 1;
+            this.seYmin.TabIndex = 0;
             this.seYmin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // lblYmin
@@ -202,15 +202,15 @@
             // 
             this.cbFunction.FormattingEnabled = true;
             this.cbFunction.Items.AddRange(new object[] {
-            "sin(x)",
-            "sinh(x/2)",
+            "sin x",
+            "sinh (x/2)",
             "1/x",
-            "log(x^2-1)",
-            "exp(-(x^2))"});
+            "ln(x^2-1)",
+            "exp -(x^2)"});
             this.cbFunction.Location = new System.Drawing.Point(48, 13);
             this.cbFunction.Name = "cbFunction";
             this.cbFunction.Size = new System.Drawing.Size(291, 21);
-            this.cbFunction.TabIndex = 6;
+            this.cbFunction.TabIndex = 0;
             // 
             // lblFunction
             // 
@@ -252,9 +252,10 @@
             // 
             // ParametersDialog
             // 
-            this.AcceptButton = this.btnApply;
+            this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(375, 206);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);

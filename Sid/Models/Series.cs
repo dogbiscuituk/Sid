@@ -2,14 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Linq.Expressions;
-    using System.Xml.Serialization;
     using FormulaBuilder;
 
     [Serializable]
-    public class Series
+    public class Series: INotifyPropertyChanged
     {
         public Series() : this(Expressions.Constant(0)) { }
 
@@ -32,22 +32,68 @@
             LimitColour = limitColour;
         }
 
-        public Color PenColour { get; set; }
-        public Color FillColour { get; set; }
-        public Color LimitColour { get; set; }
+        private Color _penColour;
+        public Color PenColour
+        {
+            get => _penColour;
+            set
+            {
+                if (PenColour != value)
+                {
+                    _penColour = value;
+                    OnPropertyChanged("PenColour");
+                }
+            }
+        }
 
+        private Color _fillColour;
+        public Color FillColour
+        {
+            get => _fillColour;
+            set
+            {
+                if (FillColour != value)
+                {
+                    _fillColour = value;
+                    OnPropertyChanged("FillColour");
+                }
+            }
+        }
+
+        private Color _limitColour;
+        public Color LimitColour
+        {
+            get => _limitColour;
+            set
+            {
+                if (LimitColour != value)
+                {
+                    _limitColour = value;
+                    OnPropertyChanged("LimitColour");
+                }
+            }
+        }
+
+        private Func<double, double> Func { get; set; }
         private string _formula;
         public string Formula
         {
             get => _formula;
             set
             {
-                _formula = value;
-                Func = new Parser().Parse(value).AsFunction();
+                if (Formula != value)
+                {
+                    Func = new Parser().Parse(value).AsFunction();
+                    _formula = value;
+                    OnPropertyChanged("Formula");
+                }
             }
         }
 
-        private Func<double, double> Func { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         public void Draw(Graphics g, RectangleF limits, float penWidth, bool fill)
         {

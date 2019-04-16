@@ -1,14 +1,19 @@
 ﻿namespace Sid.Models
 {
     using System;
+    using System.ComponentModel;
 
-    public class Model
+    public class Model : INotifyPropertyChanged
     {
         private Graph _graph = new Graph();
         public Graph Graph
         {
             get => _graph;
-            set { _graph = value; OnGraphChanged(); }
+            set
+            {
+                _graph = value;
+                OnPropertyChanged("Graph");
+            }
         }
 
         private bool _isotropic;
@@ -41,12 +46,17 @@
 
         public void Clear() => Graph.Clear();
 
-        public event EventHandler GraphChanged;
         public event EventHandler IsotropicChanged;
         public event EventHandler ModifiedChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnGraphChanged() => GraphChanged?.Invoke(this, EventArgs.Empty);
-        protected virtual void OnIsotropicChanged() => IsotropicChanged?.Invoke(this, EventArgs.Empty);
-        protected virtual void OnModifiedChanged() => ModifiedChanged?.Invoke(this, EventArgs.Empty);
+        protected virtual void OnIsotropicChanged() =>
+            IsotropicChanged?.Invoke(this, EventArgs.Empty);
+
+        protected virtual void OnModifiedChanged() =>
+            ModifiedChanged?.Invoke(this, EventArgs.Empty);
+
+        protected virtual void OnPropertyChanged(string propertyName) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

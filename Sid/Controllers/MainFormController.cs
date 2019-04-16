@@ -62,6 +62,7 @@
                 View.ViewScrollRight.Click += ViewScrollRight_Click;
                 View.ViewScrollUp.Click += ViewScrollUp_Click;
                 View.ViewScrollDown.Click += ViewScrollDown_Click;
+                View.ViewScrollCentre.Click += ViewScrollCentre_Click;
                 View.HelpAbout.Click += HelpAbout_Click;
 
                 PictureBox.MouseDown += PictureBox_MouseDown;
@@ -114,6 +115,7 @@
         private void ViewScrollRight_Click(object sender, EventArgs e) => Scroll(0.1, 0);
         private void ViewScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1);
         private void ViewScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1);
+        private void ViewScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
 
         private void HelpAbout_Click(object sender, EventArgs e) =>
             MessageBox.Show(
@@ -204,6 +206,12 @@
         private void ScrollBy(float xDelta, float yDelta)
         {
             Graph.ScrollBy(xDelta, yDelta);
+            PictureBox.Invalidate();
+        }
+
+        private void ScrollTo(float x, float y)
+        {
+            Graph.ScrollTo(x, y);
             PictureBox.Invalidate();
         }
 

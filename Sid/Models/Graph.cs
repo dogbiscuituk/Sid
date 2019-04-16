@@ -2,14 +2,15 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Drawing;
     using System.Drawing.Drawing2D;
+    using System.Linq;
     using System.Linq.Expressions;
-    using System.Xml.Serialization;
     using FormulaBuilder;
 
     [Serializable]
-    public class Graph
+    public class Graph : INotifyPropertyChanged
     {
         public Graph() : this(new RectangleF(-10, -5, 20, 10), 16000) { }
 
@@ -37,45 +38,177 @@
             AddSeries(y, Color.Blue, Color.AliceBlue);
         }
 
-        public Color PaperColour { get; set; }
-        public Color AxisColour { get; set; }
-        public Color GridColour { get; set; }
-        public Color PenColour { get; set; }
-        public Color FillColour { get; set; }
-        public Color LimitColour { get; set; }
+        public Color PaperColour
+        {
+            get => _paperColour;
+            set
+            {
+                if (PaperColour != value)
+                {
+                    _paperColour = value;
+                    OnPropertyChanged("PaperColour");
+                }
+            }
+        }
+
+        public Color AxisColour
+        {
+            get => _axisColour;
+            set
+            {
+                if (AxisColour != value)
+                {
+                    _axisColour = value;
+                    OnPropertyChanged("AxisColour");
+                }
+            }
+        }
+
+        public Color GridColour
+        {
+            get => _gridColour;
+            set
+            {
+                if (GridColour != value)
+                {
+                    _gridColour = value;
+                    OnPropertyChanged("GridColour");
+                }
+            }
+        }
+
+        public Color PenColour
+        {
+            get => _penColour;
+            set
+            {
+                if (PenColour != value)
+                {
+                    _penColour = value;
+                    OnPropertyChanged("PenColour");
+                }
+            }
+        }
+
+        public Color FillColour
+        {
+            get => _fillColour;
+            set
+            {
+                if (FillColour != value)
+                {
+                    _fillColour = value;
+                    OnPropertyChanged("FillColour");
+                }
+            }
+        }
+
+        public Color LimitColour
+        {
+            get => _limitColour;
+            set
+            {
+                if (LimitColour != value)
+                {
+                    _limitColour = value;
+                    OnPropertyChanged("LimitColour");
+                }
+            }
+        }
+
+        public PointF Location
+        {
+            get => _location;
+            set
+            {
+                if (Location != value)
+                {
+                    _location = value;
+                    OnPropertyChanged("Location");
+                }
+            }
+        }
+
+        public SizeF Size
+        {
+            get => _size;
+            set
+            {
+                if (Size != value)
+                {
+                    _size = value;
+                    OnPropertyChanged("Size");
+                }
+            }
+        }
 
         private RectangleF Limits => new RectangleF(Location, Size);
-        public PointF Location { get; set; }
-        public SizeF Size { get; set; }
 
         public int StepCount { get; set; }
 
         private List<Series> _series = new List<Series>();
+        private Color _paperColour;
+        private Color _axisColour;
+        private Color _gridColour;
+        private Color _penColour;
+        private Color _fillColour;
+        private Color _limitColour;
+        private PointF _location;
+        private SizeF _size;
+
         public List<Series> Series
         {
             get => _series;
-            set => _series = value;
+            set
+            {
+                _series = value;
+                OnPropertyChanged("Series");
+            }
         }
 
-        public Series AddSeries(Expression formula) => AddSeries(formula, PenColour);
+        public void AddSeries(Expression formula) => AddSeries(formula, PenColour);
 
-        public Series AddSeries(Expression formula, Color penColour) =>
+        public void AddSeries(Expression formula, Color penColour) =>
             AddSeries(formula, penColour, FillColour);
 
-        public Series AddSeries(Expression formula, Color penColour, Color fillColour) =>
+        public void AddSeries(Expression formula, Color penColour, Color fillColour) =>
             AddSeries(formula, penColour, fillColour, LimitColour);
 
-        public Series AddSeries(Expression formula, Color penColour, Color fillColour, Color limitColour)
+        public void AddSeries(Expression formula, Color penColour, Color fillColour, Color limitColour)
         {
             var series = new Series(formula, StepCount, penColour, fillColour, limitColour);
             Series.Add(series);
-            return series;
+            series.PropertyChanged += Series_PropertyChanged;
+            OnPropertyChanged("Series");
         }
 
         public void Clear()
         {
-            Series.Clear();
+            if (Series.Any())
+            {
+                for (int index = Series.Count; index > 0;)
+                    RemoveSeries(--index);
+                OnPropertyChanged("Series");
+            }
         }
+
+        public void RemoveSeries(int index)
+        {
+            if (index < 0 || index >= Series.Count)
+                return;
+            var series = Series[index];
+            series.PropertyChanged -= Series_PropertyChanged;
+            Series.RemoveAt(index);
+            OnPropertyChanged("Series");
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private void Series_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
+            OnPropertyChanged($"Series.{e.PropertyName}");
 
         public void Draw(Graphics g, Rectangle r)
         {
@@ -107,15 +240,13 @@
                 (float)(Location.Y + Size.Height * yFactor));
         }
 
-        public void ScrollBy(float xDelta, float yDelta)
-        {
+        public void ScrollBy(float xDelta, float yDelta) =>
             Location = new PointF(Location.X + xDelta, Location.Y + yDelta);
-        }
 
-        public void Zoom(double factor)
-        {
-            Zoom(factor, factor);
-        }
+        public void ScrollTo(float x, float y) =>
+            Location = new PointF(x - Size.Width / 2, y - Size.Height / 2);
+
+        public void Zoom(double factor) => Zoom(factor, factor);
 
         public void Zoom(double xFactor, double yFactor)
         {

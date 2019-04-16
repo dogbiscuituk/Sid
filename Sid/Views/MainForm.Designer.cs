@@ -62,6 +62,8 @@
             this.ModifiedLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.PictureBox = new System.Windows.Forms.PictureBox();
             this.ClientPanel = new System.Windows.Forms.Panel();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
+            this.ViewScrollCentre = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
@@ -219,16 +221,16 @@
             // 
             this.ViewZoomIn.Name = "ViewZoomIn";
             this.ViewZoomIn.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.I)));
-            this.ViewZoomIn.Size = new System.Drawing.Size(169, 22);
+            | System.Windows.Forms.Keys.PageUp)));
+            this.ViewZoomIn.Size = new System.Drawing.Size(189, 22);
             this.ViewZoomIn.Text = "&In";
             // 
             // ViewZoomOut
             // 
             this.ViewZoomOut.Name = "ViewZoomOut";
             this.ViewZoomOut.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.O)));
-            this.ViewZoomOut.Size = new System.Drawing.Size(169, 22);
+            | System.Windows.Forms.Keys.Next)));
+            this.ViewZoomOut.Size = new System.Drawing.Size(189, 22);
             this.ViewZoomOut.Text = "&Out";
             // 
             // ViewScroll
@@ -237,7 +239,9 @@
             this.ViewScrollLeft,
             this.ViewScrollRight,
             this.ViewScrollUp,
-            this.ViewScrollDown});
+            this.ViewScrollDown,
+            this.toolStripMenuItem5,
+            this.ViewScrollCentre});
             this.ViewScroll.Name = "ViewScroll";
             this.ViewScroll.Size = new System.Drawing.Size(180, 22);
             this.ViewScroll.Text = "&Scroll";
@@ -315,12 +319,26 @@
             // 
             // ClientPanel
             // 
+            this.ClientPanel.BackColor = System.Drawing.SystemColors.Control;
             this.ClientPanel.Controls.Add(this.PictureBox);
             this.ClientPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ClientPanel.Location = new System.Drawing.Point(0, 24);
             this.ClientPanel.Name = "ClientPanel";
             this.ClientPanel.Size = new System.Drawing.Size(944, 455);
             this.ClientPanel.TabIndex = 4;
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(199, 6);
+            // 
+            // ViewScrollCentre
+            // 
+            this.ViewScrollCentre.Name = "ViewScrollCentre";
+            this.ViewScrollCentre.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Home)));
+            this.ViewScrollCentre.Size = new System.Drawing.Size(208, 22);
+            this.ViewScrollCentre.Text = "&Centre";
             // 
             // MainForm
             // 
@@ -378,5 +396,7 @@
         public System.Windows.Forms.Panel ClientPanel;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
         public System.Windows.Forms.ToolStripMenuItem EditParameters;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
+        public System.Windows.Forms.ToolStripMenuItem ViewScrollCentre;
     }
 }
