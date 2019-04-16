@@ -72,6 +72,7 @@
             TestDerivative(Coth(x), "-(Csch(x)^2)");                     // d(coth x)/dx = -csch²x,        x≠0
             TestDerivative(Csc(x), "-(Csc(x)*Cot(x))");                  // d(csc x)/dx = -csc x cot x
             TestDerivative(Csch(x), "-(Csch(x)*Coth(x))");               // d(csch x)/dx = -csch x coth x, x≠0
+            TestDerivative(Erf(x), "(Exp(-(x^2))*1.12837916709551)");    // d(erf x)/dx = exp(-x²)*2/√π
             TestDerivative(Exp(x), "Exp(x)");                            // d(eˣ)/dx = eˣ
             TestDerivative(Floor(x), "0");                               // d(floor x)/dx = 0
             TestDerivative(Ln(x), "(1/x)");                              // d(ln x)/dx = 1/x

@@ -44,5 +44,27 @@
         public static double Step(double x) => x < 0 ? 0 : 1;
         public static double Tan(double x) => Math.Tan(x);
         public static double Tanh(double x) => Math.Tanh(x);
+
+        public static double Erf(double x)
+        {
+            // An approximation with a worst case error of 1.2e-7 from the book
+            // Numerical Recipes in Fortran 77: The Art of Scientific Computing
+            // (ISBN 0-521-43064-X) 1992, page 214, Cambridge University Press.
+
+            var k = new[] {
+                -1.26551223, +1.00002368, +0.37409196, +0.09678418, -0.18628806,
+                +0.27886807, -1.13520398, +1.48851587, -0.82215223, +0.17087277 };
+            double
+                t = 1 / (1 + Math.Abs(x) / 2),
+                u = 1,
+                y = -x * x;
+            for (var n = 0; n < 10; n++)
+            {
+                y += k[n] * u;
+                u *= t;
+            }
+            y = t * Math.Exp(y);
+            return x < 0 ? y - 1 : 1 - y;
+        }
     }
 }

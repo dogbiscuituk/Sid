@@ -34,19 +34,19 @@
 
         protected override bool LoadFromStream(Stream stream, string format)
         {
-            using (StreamReader streamReader = new StreamReader(stream))
-            using (JsonReader jsonReader = new JsonTextReader(streamReader))
-                return UseStream(() => Model.Graph = (Graph)GetJsonSerializer().Deserialize(jsonReader));
+            using (var streamer = new StreamReader(stream))
+            using (var reader = new JsonTextReader(streamer))
+                return UseStream(() => Model.Graph = GetSerializer().Deserialize<Graph>(reader));
         }
 
         protected override bool SaveToStream(Stream stream, string format)
         {
-            using (StreamWriter streamWriter = new StreamWriter(stream))
-            using (JsonWriter jsonWriter = new JsonTextWriter(streamWriter))
-                return UseStream(() => GetJsonSerializer().Serialize(jsonWriter, Model.Graph));
+            using (var streamer = new StreamWriter(stream))
+            using (var writer = new JsonTextWriter(streamer))
+                return UseStream(() => GetSerializer().Serialize(writer, Model.Graph));
         }
 
-        private static JsonSerializer GetJsonSerializer() =>
+        private static JsonSerializer GetSerializer() =>
             new JsonSerializer{ Formatting = Formatting.Indented };
     }
 }

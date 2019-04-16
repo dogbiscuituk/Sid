@@ -58,7 +58,6 @@
     </Compile>
     <Compile Include="Controllers\MainFormController.cs" />
     <Compile Include="Controllers\MruController.cs" />
-    <Compile Include="Controllers\PersistenceController.cs" />
     <Compile Include="Controllers\SdiController.cs" />
     <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
