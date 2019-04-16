@@ -72,16 +72,31 @@
 
         public static MethodCallExpression Abs(this Expression e) => Function("Abs", e);
         public static MethodCallExpression Acos(this Expression e) => Function("Acos", e);
+        public static MethodCallExpression Acosh(this Expression e) => Function("Acosh", e);
+        public static MethodCallExpression Acot(this Expression e) => Function("Acot", e);
+        public static MethodCallExpression Acoth(this Expression e) => Function("Acoth", e);
+        public static MethodCallExpression Acsc(this Expression e) => Function("Acsc", e);
+        public static MethodCallExpression Acsch(this Expression e) => Function("Acsch", e);
+        public static MethodCallExpression Asec(this Expression e) => Function("Asec", e);
+        public static MethodCallExpression Asech(this Expression e) => Function("Asech", e);
         public static MethodCallExpression Asin(this Expression e) => Function("Asin", e);
+        public static MethodCallExpression Asinh(this Expression e) => Function("Asinh", e);
         public static MethodCallExpression Atan(this Expression e) => Function("Atan", e);
+        public static MethodCallExpression Atanh(this Expression e) => Function("Atanh", e);
         public static MethodCallExpression Ceiling(this Expression e) => Function("Ceiling", e);
         public static MethodCallExpression Cos(this Expression e) => Function("Cos", e);
         public static MethodCallExpression Cosh(this Expression e) => Function("Cosh", e);
+        public static MethodCallExpression Cot(this Expression e) => Function("Cot", e);
+        public static MethodCallExpression Coth(this Expression e) => Function("Coth", e);
+        public static MethodCallExpression Csc(this Expression e) => Function("Csc", e);
+        public static MethodCallExpression Csch(this Expression e) => Function("Csch", e);
         public static MethodCallExpression Exp(this Expression e) => Function("Exp", e);
         public static MethodCallExpression Floor(this Expression e) => Function("Floor", e);
         public static MethodCallExpression Log(this Expression e) => Function("Log", e);
         public static MethodCallExpression Log10(this Expression e) => Function("Log10", e);
         public static MethodCallExpression Round(this Expression e) => Function("Round", e);
+        public static MethodCallExpression Sec(this Expression e) => Function("Sec", e);
+        public static MethodCallExpression Sech(this Expression e) => Function("Sech", e);
         public static MethodCallExpression Sign(this Expression e) => Function("Sign", e);
         public static MethodCallExpression Sin(this Expression e) => Function("Sin", e);
         public static MethodCallExpression Sinh(this Expression e) => Function("Sinh", e);
@@ -89,23 +104,6 @@
         public static MethodCallExpression Step(this Expression e) => Function("Step", e);
         public static MethodCallExpression Tan(this Expression e) => Function("Tan", e);
         public static MethodCallExpression Tanh(this Expression e) => Function("Tanh", e);
-
-        public static MethodCallExpression Acot(this Expression e) => Atan(Reciprocal(e));
-        public static MethodCallExpression Acsc(this Expression e) => Asin(Reciprocal(e));
-        public static MethodCallExpression Asec(this Expression e) => Acos(Reciprocal(e));
-        public static BinaryExpression Cot(this Expression e) => Reciprocal(Tan(e));
-        public static BinaryExpression Coth(this Expression e) => Reciprocal(Tanh(e));
-        public static BinaryExpression Csc(this Expression e) => Reciprocal(Sin(e));
-        public static BinaryExpression Csch(this Expression e) => Reciprocal(Sinh(e));
-        public static BinaryExpression Sec(this Expression e) => Reciprocal(Cos(e));
-        public static BinaryExpression Sech(this Expression e) => Reciprocal(Cosh(e));
-
-        public static MethodCallExpression Acosh(this Expression e) => Log(e.Plus(Sqrt(e.Squared().Minus(1))));
-        public static BinaryExpression Acoth(this Expression e) => Log(e.Plus(1).Over(e.Minus(1))).Over(2);
-        public static MethodCallExpression Acsch(this Expression e) => Log(1.Plus(Sqrt(1.Plus(e.Squared()))).Over(e));
-        public static MethodCallExpression Asech(this Expression e) => Log(1.Plus(Sqrt(1.Minus(e.Squared()))).Over(e));
-        public static MethodCallExpression Asinh(this Expression e) => Log(e.Plus(Sqrt(e.Squared().Plus(1))));
-        public static BinaryExpression Atanh(this Expression e) => Log(1.Plus(e).Over(1.Minus(e))).Over(2);
 
         public static void TestTrigonometricExpression()
         {
@@ -159,20 +157,35 @@
         {
             switch (methodName)
             {
-                case "Abs": return x.Over(Abs(x));                            // d(|x|)/dx = x/|x|
-                case "Sqrt": return x.Power(-0.5).Over(2);                    // d(√x)/dx = 1/(2√x)
-                case "Exp": return Exp(x);                                    // d(eˣ)/dx = eˣ
-                case "Log": return Reciprocal(x);                             // d(ln(x))/dx = 1/x
-                case "Log10": return Reciprocal(x).Times(Math.Log10(Math.E)); // d(log₁₀(x))/dx = log₁₀(e)/x
-                case "Sin": return Cos(x);                                    // d(sin(x))/dx = cos(x)
-                case "Cos": return Negate(Sin(x));                            // d(cos(x))/dx = -sin(x)
-                case "Tan": return Cos(x).Power(-2);                          // d(tan(x))/dx = sec²(x)
-                case "Asin": return 1.Minus(x.Squared()).Power(-0.5);         // d(arcsin(x))/dx = 1/√(1-x²)
-                case "Acos": return Negate(1.Minus(x.Squared()).Power(-0.5)); // d(arccos(x))/dx = -1/√(1-x²)
-                case "Atan": return 1.Over(1.Plus(x.Squared()));              // d(arctan(x))/dx = 1/(1+x²)
-                case "Sinh": return Cosh(x);                                  // d(sinh(x))/dx = cosh(x)
-                case "Cosh": return Sinh(x);                                  // d(cosh(x))/dx = sinh(x)
-                case "Tanh": return 1.Minus(Tanh(x).Squared());               // d(tanh(x))/dx = 1-tanh²(x)
+                case "Abs": return x.Over(Abs(x));                                       // d(|x|)/dx = x/|x|
+                case "Acos": return (-1).Over(Sqrt(1.Minus(x.Squared())));               // d(acos x)/dx = -1/√(1-x²)
+                case "Acosh": return 1.Over(Sqrt(x.Squared().Minus(1)));                 // d(acosh x)/dx = 1/√(x²-1),     x>1
+                case "Acot": return (-1).Over(1.Plus(x.Squared()));                      // d(acot x)/dx = -1/(1+x²)
+                case "Acoth": return 1.Over(1.Minus(x.Squared()));                       // d(acoth x)/dx = 1/(1-x²),      |x|>1
+                case "Acsc": return (-1).Over(Abs(x).Times(Sqrt(x.Squared().Minus(1)))); // d(acsc x)/dx = -1/|x|√(x²-1)
+                case "Acsch": return (-1).Over(x.Times(Sqrt(1.Plus(x.Squared()))));      // d(acsch x)/dx = -1/x√(1+x²),   x≠0
+                case "Asec": return 1.Over(Abs(x).Times(Sqrt(x.Squared().Minus(1))));    // d(asec x)/dx = 1/|x|√(x²-1)
+                case "Asech": return (-1).Over(x.Times(Sqrt(1.Minus(x.Squared()))));     // d(asech x)/dx = -1/x√(1-x²),   0<x<1
+                case "Asin": return 1.Over(Sqrt(1.Minus(x.Squared())));                  // d(asin x)/dx = 1/√(1-x²)
+                case "Asinh": return 1.Over(Sqrt(1.Plus(x.Squared())));                  // d(asinh x)/dx = 1/√(1+x²)
+                case "Atan": return 1.Over(1.Plus(x.Squared()));                         // d(atan x)/dx = 1/(1+x²)
+                case "Atanh": return 1.Over(1.Minus(x.Squared()));                       // d(atanh x)/dx = 1/(1-x²),      |x|<1
+                case "Cos": return Negate(Sin(x));                                       // d(cos x)/dx = -sin x
+                case "Cosh": return Sinh(x);                                             // d(cosh x)/dx = sinh x
+                case "Cot": return Negate(Csc(x).Squared());                             // d(cot x)/dx = -csc²x
+                case "Coth": return Negate(Csch(x).Squared());                           // d(coth x)/dx = -csch²x,        x≠0
+                case "Csc": return Negate(Csc(x).Times(Cot(x)));                         // d(csc x)/dx = -csc x cot x
+                case "Csch": return Negate(Csch(x).Times(Coth(x)));                      // d(csch x)/dx = -csch x coth x, x≠0
+                case "Exp": return Exp(x);                                               // d(eˣ)/dx = eˣ
+                case "Log": return 1.Over(x);                                            // d(ln x)/dx = 1/x
+                case "Log10": return Math.Log10(Math.E).Over(x);                         // d(log₁₀ x)/dx = log₁₀e/x
+                case "Sec": return Sec(x).Times(Tan(x));                                 // d(sec x)/dx = sec x tan x
+                case "Sech": return Negate(Sech(x).Times(Tanh(x)));                      // d(sech x)/dx = -sech x tanh x
+                case "Sin": return Cos(x);                                               // d(sin x)/dx = cos x
+                case "Sinh": return Cosh(x);                                             // d(sinh x)/dx = cosh x
+                case "Sqrt": return 0.5.Over(Sqrt(x));                                   // d(√x)/dx = 1/(2√x)
+                case "Tan": return Sec(x).Squared();                                     // d(tan x)/dx = sec²x
+                case "Tanh": return Sech(x).Squared();                                   // d(tanh x)/dx = sech²x
                 default: return Constant(0);
             }
             throw new InvalidOperationException();

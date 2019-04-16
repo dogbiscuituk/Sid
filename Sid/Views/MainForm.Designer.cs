@@ -294,6 +294,7 @@
             this.ViewIsotropic.Name = "ViewIsotropic";
             this.ViewIsotropic.Size = new System.Drawing.Size(180, 22);
             this.ViewIsotropic.Text = "&Isotropic";
+            this.ViewIsotropic.ToolTipText = "The Graph is isotropic when its X and Y scales are equal";
             // 
             // toolStripMenuItem3
             // 

@@ -81,30 +81,8 @@
         private Expression MakeBinary(string operation, Expression operand1, Expression operand2) =>
             Expression.MakeBinary(GetExpressionType(operation), operand1, operand2);
 
-        private Expression MakeFunction(string function, Expression operand)
-        {
-            function = char.ToUpper(function[0]) + function.ToLower().Substring(1);
-            switch (function)
-            {
-                case "Acot": return operand.Acot();
-                case "Acsc": return operand.Acsc();
-                case "Asec": return operand.Asec();
-                case "Cot": return operand.Cot();
-                case "Coth": return operand.Coth();
-                case "Csc": return operand.Csc();
-                case "Csch": return operand.Csch();
-                case "Sec": return operand.Sec();
-                case "Sech": return operand.Sech();
-
-                case "Acosh": return operand.Acosh();
-                case "Acoth": return operand.Acoth();
-                case "Acsch": return operand.Acsch();
-                case "Asech": return operand.Asech();
-                case "Asinh": return operand.Asinh();
-                case "Atanh": return operand.Atanh();
-            }
-            return Expressions.Function(function, operand);
-        }
+        private Expression MakeFunction(string f, Expression operand) =>
+            Expressions.Function(char.ToUpper(f[0]) + f.ToLower().Substring(1), operand);
 
         private Expression MakeUnary(string operation, Expression operand) =>
             Expression.MakeUnary(GetExpressionType(operation), operand, null);
