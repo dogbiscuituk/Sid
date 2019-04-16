@@ -32,16 +32,9 @@
             LimitColour = limitColour;
         }
 
-        [XmlIgnore] public Color PenColour { get; set; }
-        [XmlIgnore] public Color FillColour { get; set; }
-        [XmlIgnore] public Color LimitColour { get; set; }
-
-        /// <summary>
-        /// XML proxy colour names are spelt incorrectly (without the "u").
-        /// </summary>
-        public string PenColor { get => ColorTranslator.ToHtml(PenColour); set => PenColour = ColorTranslator.FromHtml(value); }
-        public string FillColor { get => ColorTranslator.ToHtml(FillColour); set => FillColour = ColorTranslator.FromHtml(value); }
-        public string LimitColor { get => ColorTranslator.ToHtml(LimitColour); set => LimitColour = ColorTranslator.FromHtml(value); }
+        public Color PenColour { get; set; }
+        public Color FillColour { get; set; }
+        public Color LimitColour { get; set; }
 
         private string _formula;
         public string Formula

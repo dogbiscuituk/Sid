@@ -174,7 +174,6 @@ namespace Sid.Controllers
 					result = SaveToStream(stream, Path.GetExtension(filePath));
 					if (result)
 					{
-						stream.Flush();
 						FilePath = filePath;
 						AddItem(filePath);
 					}

@@ -16,7 +16,7 @@
             Model.IsotropicChanged += Model_IsotropicChanged;
             Model.ModifiedChanged += Model_ModifiedChanged;
 
-            PersistenceController = new PersistenceController(Model, View, View.FileReopen);
+            PersistenceController = new JsonController(Model, View, View.FileReopen);
             PersistenceController.FilePathChanged += PersistenceController_FilePathChanged;
             PersistenceController.FileSaving += PersistenceController_FileSaving;
 
@@ -24,7 +24,7 @@
         }
 
         public readonly Model Model;
-        public readonly PersistenceController PersistenceController;
+        public readonly JsonController PersistenceController;
         public readonly ParametersDialogController ParametersDialogController;
 
         public Panel ClientPanel { get => View.ClientPanel; }
@@ -103,8 +103,8 @@
         private void FileSave_Click(object sender, EventArgs e) => PersistenceController.Save();
         private void FileSaveAs_Click(object sender, EventArgs e) => PersistenceController.SaveAs();
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
-        private void EditUndo_Click(object sender, EventArgs e) { throw new NotImplementedException(); }
-        private void EditRedo_Click(object sender, EventArgs e) { throw new NotImplementedException(); }
+        private void EditUndo_Click(object sender, EventArgs e) { }
+        private void EditRedo_Click(object sender, EventArgs e) { }
         private void EditParameters_Click(object sender, EventArgs e) { ShowParametersDialog(); }
         private void ViewMenu_DropDownOpening(object sender, EventArgs e) { View.ViewIsotropic.Checked = Model.Isotropic; }
         private void ViewIsotropic_Click(object sender, EventArgs e) { Model.Isotropic = !Model.Isotropic; }
