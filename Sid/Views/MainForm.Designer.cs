@@ -56,14 +56,15 @@
             this.ViewScrollRight = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewScrollUp = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewScrollDown = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
+            this.ViewScrollCentre = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
             this.ModifiedLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.PictureBox = new System.Windows.Forms.PictureBox();
             this.ClientPanel = new System.Windows.Forms.Panel();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
-            this.ViewScrollCentre = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewMouseCoordinates = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
@@ -188,10 +189,11 @@
             // ViewMenu
             // 
             this.ViewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ViewIsotropic,
-            this.toolStripMenuItem3,
             this.ViewZoom,
-            this.ViewScroll});
+            this.ViewScroll,
+            this.toolStripMenuItem3,
+            this.ViewIsotropic,
+            this.ViewMouseCoordinates});
             this.ViewMenu.Name = "ViewMenu";
             this.ViewMenu.Size = new System.Drawing.Size(44, 20);
             this.ViewMenu.Text = "&View";
@@ -199,14 +201,14 @@
             // ViewIsotropic
             // 
             this.ViewIsotropic.Name = "ViewIsotropic";
-            this.ViewIsotropic.Size = new System.Drawing.Size(180, 22);
+            this.ViewIsotropic.Size = new System.Drawing.Size(182, 22);
             this.ViewIsotropic.Text = "&Isotropic";
             this.ViewIsotropic.ToolTipText = "The Graph is isotropic when its X and Y scales are equal";
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(179, 6);
             // 
             // ViewZoom
             // 
@@ -214,8 +216,9 @@
             this.ViewZoomIn,
             this.ViewZoomOut});
             this.ViewZoom.Name = "ViewZoom";
-            this.ViewZoom.Size = new System.Drawing.Size(180, 22);
+            this.ViewZoom.Size = new System.Drawing.Size(182, 22);
             this.ViewZoom.Text = "&Zoom";
+            this.ViewZoom.ToolTipText = "Graphs can also be zoomed using the mouse wheel";
             // 
             // ViewZoomIn
             // 
@@ -224,6 +227,7 @@
             | System.Windows.Forms.Keys.PageUp)));
             this.ViewZoomIn.Size = new System.Drawing.Size(189, 22);
             this.ViewZoomIn.Text = "&In";
+            this.ViewZoomIn.ToolTipText = "Graphs can also be zoomed using the mouse wheel";
             // 
             // ViewZoomOut
             // 
@@ -232,6 +236,7 @@
             | System.Windows.Forms.Keys.Next)));
             this.ViewZoomOut.Size = new System.Drawing.Size(189, 22);
             this.ViewZoomOut.Text = "&Out";
+            this.ViewZoomOut.ToolTipText = "Graphs can also be zoomed using the mouse wheel";
             // 
             // ViewScroll
             // 
@@ -243,40 +248,59 @@
             this.toolStripMenuItem5,
             this.ViewScrollCentre});
             this.ViewScroll.Name = "ViewScroll";
-            this.ViewScroll.Size = new System.Drawing.Size(180, 22);
+            this.ViewScroll.Size = new System.Drawing.Size(182, 22);
             this.ViewScroll.Text = "&Scroll";
+            this.ViewScroll.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
             // 
             // ViewScrollLeft
             // 
             this.ViewScrollLeft.Name = "ViewScrollLeft";
             this.ViewScrollLeft.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.Left)));
-            this.ViewScrollLeft.Size = new System.Drawing.Size(202, 22);
+            this.ViewScrollLeft.Size = new System.Drawing.Size(208, 22);
             this.ViewScrollLeft.Text = "&Left";
+            this.ViewScrollLeft.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
             // 
             // ViewScrollRight
             // 
             this.ViewScrollRight.Name = "ViewScrollRight";
             this.ViewScrollRight.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.Right)));
-            this.ViewScrollRight.Size = new System.Drawing.Size(202, 22);
+            this.ViewScrollRight.Size = new System.Drawing.Size(208, 22);
             this.ViewScrollRight.Text = "&Right";
+            this.ViewScrollRight.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
             // 
             // ViewScrollUp
             // 
             this.ViewScrollUp.Name = "ViewScrollUp";
             this.ViewScrollUp.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.Up)));
-            this.ViewScrollUp.Size = new System.Drawing.Size(202, 22);
+            this.ViewScrollUp.Size = new System.Drawing.Size(208, 22);
             this.ViewScrollUp.Text = "&Up";
+            this.ViewScrollUp.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
             // 
             // ViewScrollDown
             // 
             this.ViewScrollDown.Name = "ViewScrollDown";
             this.ViewScrollDown.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.Down)));
-            this.ViewScrollDown.Size = new System.Drawing.Size(202, 22);
+            this.ViewScrollDown.Size = new System.Drawing.Size(208, 22);
             this.ViewScrollDown.Text = "&Down";
+            this.ViewScrollDown.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(205, 6);
+            // 
+            // ViewScrollCentre
+            // 
+            this.ViewScrollCentre.Name = "ViewScrollCentre";
+            this.ViewScrollCentre.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Home)));
+            this.ViewScrollCentre.Size = new System.Drawing.Size(208, 22);
+            this.ViewScrollCentre.Text = "&Centre";
+            this.ViewScrollCentre.ToolTipText = "Return the origin (0,0) to the centre of the display area";
             // 
             // HelpMenu
             // 
@@ -289,8 +313,9 @@
             // HelpAbout
             // 
             this.HelpAbout.Name = "HelpAbout";
-            this.HelpAbout.Size = new System.Drawing.Size(107, 22);
+            this.HelpAbout.Size = new System.Drawing.Size(180, 22);
             this.HelpAbout.Text = "&About";
+            this.HelpAbout.ToolTipText = "Show version information";
             // 
             // StatusBar
             // 
@@ -327,18 +352,12 @@
             this.ClientPanel.Size = new System.Drawing.Size(944, 455);
             this.ClientPanel.TabIndex = 4;
             // 
-            // toolStripMenuItem5
+            // ViewMouseCoordinates
             // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(199, 6);
-            // 
-            // ViewScrollCentre
-            // 
-            this.ViewScrollCentre.Name = "ViewScrollCentre";
-            this.ViewScrollCentre.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.Home)));
-            this.ViewScrollCentre.Size = new System.Drawing.Size(208, 22);
-            this.ViewScrollCentre.Text = "&Centre";
+            this.ViewMouseCoordinates.Name = "ViewMouseCoordinates";
+            this.ViewMouseCoordinates.Size = new System.Drawing.Size(182, 22);
+            this.ViewMouseCoordinates.Text = "&Mouse Co-ordinates";
+            this.ViewMouseCoordinates.ToolTipText = "Hide or show the x-y coordinates in a tooltip";
             // 
             // MainForm
             // 
@@ -398,5 +417,6 @@
         public System.Windows.Forms.ToolStripMenuItem EditParameters;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         public System.Windows.Forms.ToolStripMenuItem ViewScrollCentre;
+        public System.Windows.Forms.ToolStripMenuItem ViewMouseCoordinates;
     }
 }

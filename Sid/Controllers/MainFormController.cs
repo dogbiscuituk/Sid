@@ -4,6 +4,7 @@
     using System.ComponentModel;
     using System.Drawing;
     using System.Windows.Forms;
+    using FormulaBuilder;
     using Sid.Models;
     using Sid.Views;
 
@@ -31,6 +32,7 @@
         public Graph Graph { get => Model.Graph; }
         public PictureBox PictureBox { get => View.PictureBox; }
 
+        private bool ShowMouseCoordinates = true;
         private bool Dragging;
         private PointF DragOrigin;
 
@@ -55,9 +57,10 @@
                 View.EditRedo.Click += EditRedo_Click;
                 View.EditParameters.Click += EditParameters_Click;
                 View.ViewMenu.DropDownOpening += ViewMenu_DropDownOpening;
-                View.ViewIsotropic.Click += ViewIsotropic_Click;
                 View.ViewZoomIn.Click += ViewZoomIn_Click;
                 View.ViewZoomOut.Click += ViewZoomOut_Click;
+                View.ViewIsotropic.Click += ViewIsotropic_Click;
+                View.ViewMouseCoordinates.Click += ViewMouseCoordinates_Click;
                 View.ViewScrollLeft.Click += ViewScrollLeft_Click;
                 View.ViewScrollRight.Click += ViewScrollRight_Click;
                 View.ViewScrollUp.Click += ViewScrollUp_Click;
@@ -106,21 +109,18 @@
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
         private void EditUndo_Click(object sender, EventArgs e) { }
         private void EditRedo_Click(object sender, EventArgs e) { }
-        private void EditParameters_Click(object sender, EventArgs e) { ShowParametersDialog(); }
-        private void ViewMenu_DropDownOpening(object sender, EventArgs e) { View.ViewIsotropic.Checked = Model.Isotropic; }
-        private void ViewIsotropic_Click(object sender, EventArgs e) { Model.Isotropic = !Model.Isotropic; }
+        private void EditParameters_Click(object sender, EventArgs e) => ShowParametersDialog();
+        private void ViewMenu_DropDownOpening(object sender, EventArgs e) => UpdateViewMenu();
         private void ViewZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
         private void ViewZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
+        private void ViewIsotropic_Click(object sender, EventArgs e) => Model.Isotropic = !Model.Isotropic;
+        private void ViewMouseCoordinates_Click(object sender, EventArgs e) => ToggleMouseCoordinates();
         private void ViewScrollLeft_Click(object sender, EventArgs e) => Scroll(-0.1, 0);
         private void ViewScrollRight_Click(object sender, EventArgs e) => Scroll(0.1, 0);
         private void ViewScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1);
         private void ViewScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1);
         private void ViewScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
-
-        private void HelpAbout_Click(object sender, EventArgs e) =>
-            MessageBox.Show(
-                $"{Application.CompanyName}\n{Application.ProductName}\nVersion {Application.ProductVersion}",
-                $"About {Application.ProductName}");
+        private void HelpAbout_Click(object sender, EventArgs e) => ShowVersionInfo();
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)
         {
@@ -131,8 +131,16 @@
 
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            PointF p = GetMousePosition(e), q = new PointF(DragOrigin.X - p.X, DragOrigin.Y - p.Y);
-            View.ToolTip.SetToolTip(PictureBox, Dragging ? $"Scroll by ({q.X}, {q.Y})" : $"({p.X}, {p.Y})");
+            UpdateMouseCoordinates(e);
+        }
+
+        private void UpdateMouseCoordinates(MouseEventArgs e)
+        {
+            if (ShowMouseCoordinates)
+            {
+                PointF p = GetMousePosition(e), q = new PointF(DragOrigin.X - p.X, DragOrigin.Y - p.Y);
+                InitCoordinatesToolTip(Dragging ? $"Scroll by ({q.X}, {q.Y})" : $"({p.X}, {p.Y})");
+            }
         }
 
         private void PictureBox_MouseUp(object sender, MouseEventArgs e)
@@ -153,6 +161,19 @@
             Graph.Draw(e.Graphics, PictureBox.ClientRectangle);
 
         private void PictureBox_Resize(object sender, EventArgs e) => PictureBox.Invalidate();
+
+        private void ShowVersionInfo()
+        {
+            MessageBox.Show(
+                $"{Application.CompanyName}\n{Application.ProductName}\nVersion {Application.ProductVersion}",
+                $"About {Application.ProductName}");
+        }
+
+        private void UpdateViewMenu()
+        {
+            View.ViewIsotropic.Checked = Model.Isotropic;
+            View.ViewMouseCoordinates.Checked = ShowMouseCoordinates;
+        }
 
         private void AdjustPictureBox()
         {
@@ -195,6 +216,18 @@
         private PointF GetMousePosition(MouseEventArgs e)
         {
             return Graph.ScreenToGraph(e.Location, PictureBox.ClientRectangle);
+        }
+
+        private void ToggleMouseCoordinates()
+        {
+            ShowMouseCoordinates = !ShowMouseCoordinates;
+            if (!ShowMouseCoordinates)
+                InitCoordinatesToolTip(string.Empty);
+        }
+
+        private void InitCoordinatesToolTip(string text)
+        {
+            View.ToolTip.SetToolTip(PictureBox, text);
         }
 
         private void Scroll(double xFactor, double yFactor)

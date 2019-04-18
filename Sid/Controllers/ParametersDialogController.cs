@@ -42,11 +42,11 @@
             Graph.Size = new SizeF(xMax - xMin, yMax - yMin);
             Graph.AddSeries(series, Color.Black, Color.Yellow);
             series = series.Differentiate();
-            Graph.AddSeries(series, Color.Red, Color.Orange);
+            Graph.AddSeries(series, Color.Red, Color.FromArgb(0x7fff0000));
             series = series.Differentiate();
-            Graph.AddSeries(series, Color.Green, Color.Lime);
+            Graph.AddSeries(series, Color.Green, Color.FromArgb(0x4000ff00));
             series = series.Differentiate();
-            Graph.AddSeries(series, Color.Blue, Color.AliceBlue);
+            Graph.AddSeries(series, Color.Blue, Color.FromArgb(0x200000ff));
             Parent.PictureBox.Invalidate();
         }
 
@@ -66,7 +66,8 @@
             View.seYmin.Value = (decimal)yMin;
             View.seXmax.Value = (decimal)xMax;
             View.seYmax.Value = (decimal)yMax;
-            View.cbFunction.Text = Graph.Series.First().Formula;
+            if (Graph.Series.Any())
+                View.cbFunction.Text = Graph.Series.First().Formula;
         }
 
         public void ShowDialog()

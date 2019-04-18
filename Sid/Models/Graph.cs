@@ -19,23 +19,12 @@
             Location = limits.Location;
             Size = limits.Size;
             StepCount = stepCount;
-
             PaperColour = Color.LightYellow;
             AxisColour = Color.DarkGray;
             GridColour = Color.LightGray;
             PenColour = Color.Black;
             FillColour = Color.Transparent;
             LimitColour = Color.DarkGray;
-
-            var x = Expressions.x;
-            Expression y = x.Sin();
-            AddSeries(y, Color.Black, Color.Yellow);
-            y = y.Differentiate();
-            AddSeries(y, Color.Red, Color.Orange);
-            y = y.Differentiate();
-            AddSeries(y, Color.Green, Color.LightGreen);
-            y = y.Differentiate();
-            AddSeries(y, Color.Blue, Color.AliceBlue);
         }
 
         public Color PaperColour

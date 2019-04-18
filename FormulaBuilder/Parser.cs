@@ -7,6 +7,15 @@
 
     public class Parser
     {
+        private enum Precedence
+        {
+            RightParenthesis,
+            Additive,
+            Multiplicative,
+            Exponential,
+            Functional
+        }
+
         private string Formula;
         private int Index;
         private Stack<Expression> Operands;
@@ -20,24 +29,6 @@
             Operations = new Stack<string>(new[] { "(" });
             ParseExpression();
             return Operands.Peek();
-        }
-
-        private void ConsumeToken(string token)
-        {
-            Index += token.Length;
-        }
-
-        private void Error()
-        {
-            throw new FormatException();
-        }
-
-        private void ExpectToken(string token)
-        {
-            if (NextToken() == token)
-                ConsumeToken(token);
-            else
-                Error();
         }
 
         private static ExpressionType GetExpressionType(string operation)
@@ -55,26 +46,19 @@
             throw new FormatException();
         }
 
-        private static int GetPrecedence(string operation)
+        private static Precedence GetPrecedence(string operation)
         {
             switch (operation)
             {
-                case "(":
-                case ")":
-                    return 0;
+                case ")": return Precedence.RightParenthesis;
                 case "+":
-                case "-":
-                    return 1;
+                case "-": return Precedence.Additive;
                 case "*":
-                case "/":
-                    return 2;
-                case "^":
-                    return 3;
+                case "/": return Precedence.Multiplicative;
+                case "^": return Precedence.Exponential;
             }
-            return 4;
+            return Precedence.Functional;
         }
-
-        private bool IsOperation(string token) => "+-*/^".IndexOf(token[0]) >= 0;
 
         private Expression MakeBinary(string operation, Expression operand1, Expression operand2) =>
             Expression.MakeBinary(GetExpressionType(operation), operand1, operand2);
@@ -85,9 +69,9 @@
         private Expression MakeUnary(string operation, Expression operand) =>
             Expression.MakeUnary(GetExpressionType(operation), operand, null);
 
-        private string MatchFunction() => MatchRegex(@"\w+");
+        private string MatchFunction() => MatchRegex(@"\w+").ToLower();
 
-        private string MatchNumber() => MatchRegex(@"^\d+\.?\d*([eE][-+]?\d+)?");
+        private string MatchNumber() => MatchRegex(@"^\d*\.?\d*([eE][+-]?\d+)?");
 
         private string MatchRegex(string pattern)
         {
@@ -95,10 +79,18 @@
             return Formula.Substring(Index + match.Index, match.Length);
         }
 
+        private string NextChar()
+        {
+            var count = Formula.Length;
+            while (Index < count && Formula[Index] == ' ')
+                Index++;
+            return Index < count ? Formula[Index].ToString() : Index == count ? ")" : "$";
+        }
+
         private string NextToken()
         {
-            var peek = Peek();
-            switch (peek)
+            var nextChar = NextChar();
+            switch (nextChar)
             {
                 case "+":
                 case "-":
@@ -107,11 +99,12 @@
                 case "^":
                 case "(":
                 case ")":
-                    return peek.ToString();
+                    return nextChar.ToString();
             }
-            switch (peek[0])
+            switch (nextChar[0])
             {
                 case char c when char.IsDigit(c):
+                case '.':
                     return MatchNumber();
                 case char c when char.IsLetter(c):
                     return MatchFunction();
@@ -124,12 +117,12 @@
             do
             {
                 ParseOperand();
-                var operation = Peek();
+                var operation = NextChar();
                 if ("+-*/^)".IndexOf(operation) < 0)
                     break;
                 ParseOperation(operation);
                 if (operation == ")")
-                    return;
+                    break;
             }
             while (true);
         }
@@ -137,30 +130,31 @@
         private void ParseFunction(string function)
         {
             Operations.Push(function);
-            ConsumeToken(function);
+            ReadPast(function);
         }
 
         private void ParseNumber(string number)
         {
             var operand = double.Parse(number).Constant();
             Operands.Push(operand);
-            ConsumeToken(number);
+            ReadPast(number);
         }
 
         private void ParseOperand()
         {
             var token = NextToken();
-            switch (token[0])
+            switch (char.ToLower(token[0]))
             {
-                case 'x':
+                case 'x' when token.Length == 1:
                     ParseParameter(token);
                     break;
                 case char c when char.IsDigit(c):
+                case '.':
                     ParseNumber(token);
                     break;
                 case '(':
                     Operations.Push(token);
-                    ConsumeToken(token);
+                    ReadPast(token);
                     ParseExpression();
                     break;
                 case '+':
@@ -173,8 +167,7 @@
                     ParseOperand();
                     break;
                 default:
-                    Error();
-                    break;
+                    throw new FormatException();
             }
         }
 
@@ -187,12 +180,12 @@
                 if (pending == "(")
                     break;
                 var theirs = GetPrecedence(pending);
-                // Operator '^' is right associative, i.e., a^b^c = a^(b^c).
+                // Operator '^' is right associative: a^b^c = a^(b^c).
                 if (theirs > ours || theirs == ours && operation != "^")
                 {
                     Operations.Pop();
                     var operand = Operands.Pop();
-                    if (theirs > 3)
+                    if (theirs > Precedence.Exponential)
                         switch (pending)
                         {
                             case "u+":
@@ -216,33 +209,22 @@
                 Operations.Pop();
             else
                 Operations.Push(operation);
-            ConsumeToken(operation);
-        }
-
-        private void ApplyUnaries()
-        {
-
+            ReadPast(operation);
         }
 
         private void ParseParameter(string token)
         {
             var operand = Expressions.x;
             Operands.Push(operand);
-            ConsumeToken(token);
+            ReadPast(token);
         }
 
         private void ParseUnary(string unary)
         {
-            Operations.Push("u" + unary);
-            ConsumeToken(unary);
+            Operations.Push($"u{unary}");
+            ReadPast(unary);
         }
 
-        private string Peek()
-        {
-            var count = Formula.Length;
-            while (Index < count && Formula[Index] == ' ')
-                Index++;
-            return Index < count ? Formula[Index].ToString() : Index == count ? ")" : "$";
-        }
+        private void ReadPast(string token) => Index += token.Length;
     }
 }

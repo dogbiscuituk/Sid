@@ -24,10 +24,11 @@
         {
             TestCompoundExpression();
             TestTrigonometricExpression();
-            TestSimplify();
+            TestSimplifications();
             TestFunctionDerivatives();
             TestPolynomialDerivative();
             TestChainRule();
+            TestParser();
         }
 
         public static void TestChainRule()
@@ -89,15 +90,35 @@
             TestDerivative(Tanh(x), "(Sech(x)^2)");                      // d(tanh x)/dx = sech²x
         }
 
+        public static void TestParse(string input, string output)
+        {
+            Check(output, new Parser().Parse(input).AsString());
+        }
+
+        public static void TestParser()
+        {
+            TestParse("0", "0");
+            TestParse("X+1", "(x+1)");
+            TestParse("((x+1))", "(x+1)");
+            TestParse("x+x*x^x/x-x", "((x+((x*(x^x))/x))-x)");
+            TestParse("3*x+x/5", "((3*x)+(x/5))");
+            TestParse("x-2-x", "((x-2)-x)");                             // Subtraction is left associative
+            TestParse("x^2^x", "(x^(2^x))");                             // Exponentiation is right associative
+            TestParse("(x-3)*(5-x)/10", "(((x-3)*(5-x))/10)");
+            TestParse("sin x * cos x", "(Sin(x)*Cos(x))");
+            TestParse("Ln(sin x - tanh(x)) - 1", "(Ln((Sin(x)-Tanh(x)))-1)");
+            TestParse("Abs Cos Sin Tan (x/2)", "Abs(Cos(Sin(Tan((x/2)))))");
+            TestParse("2*(sin x + cos x ^ 3 - tan(x^3))/3", "((2*((Sin(x)+(Cos(x)^3))-Tan((x^3))))/3)");
+            TestParse("2*(x+3*(x-4^x)-5)/6", "((2*((x+(3*(x-(4^x))))-5))/6)");
+        }
+
         public static void TestPolynomialDerivative()
         {
             TestDerivative(x.Power(4).Minus(3.Times(x.Cubed())).Plus(6.Times(x.Squared())).Minus(3.Times(x)).Plus(1),
                 "(((((x^3)*4)-((x^2)*9))+(x*12))-3)");                   // d(x⁴-3x³+6x²-3x+1)/dx = 4x³-9x²+12x-3
         }
 
-        public static void TestSimplify(Expression e, string expected) => Check(expected, Simplify(e).AsString());
-
-        public static void TestSimplify()
+        public static void TestSimplifications()
         {
             TestSimplify(x.Plus(6).Plus(2), "(x+8)");
             TestSimplify(6.Plus(x).Plus(2), "(x+8)");
@@ -114,6 +135,8 @@
             TestSimplify(x.Over(2).Times(8), "(x/0.25)");
             TestSimplify(x.Over(2).Over(8), "(x/16)");
         }
+
+        public static void TestSimplify(Expression e, string expected) => Check(expected, Simplify(e).AsString());
 
         public static void TestTrigonometricExpression()
         {
