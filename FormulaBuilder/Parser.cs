@@ -49,6 +49,22 @@
             }
         }
 
+        private static double GetNamedConstantValue(string constant)
+        {
+            switch (constant.ToLower())
+            {
+                case "e":
+                    return Math.E;
+                case "π":
+                case "pi":
+                    return Math.PI;
+                case "ϕ":
+                case "phi":
+                    return (1 + Math.Sqrt(5)) / 2;
+            }
+            return 0;
+        }
+
         private static ExpressionType GetExpressionType(string op)
         {
             switch (op)
@@ -85,11 +101,25 @@
         private Expression MakeBinary(string op, Expression lhs, Expression rhs) =>
             Expression.MakeBinary(GetExpressionType(op), lhs, rhs);
 
-        private Expression MakeFunction(string f, Expression operand) =>
-            Expressions.Function($"{char.ToUpper(f[0])}{f.ToLower().Substring(1)}", operand);
+        private Expression MakeFunction(string f, Expression operand)
+        {
+            f = $"{char.ToUpper(f[0])}{f.ToLower().Substring(1)}";
+            var result = Expressions.Function(f, operand);
+            if (operand is ConstantExpression c)
+                return result.AsDouble((double)c.Value).Constant();
+            return result;
+        }
 
-        private Expression MakeUnary(string op, Expression operand) =>
-            Expression.MakeUnary(GetExpressionType(op), operand, null);
+        private Expression MakeUnary(string op, Expression operand)
+        {
+            if (operand is ConstantExpression c)
+                switch (op)
+                {
+                    case "u+": return operand;
+                    case "u-": return (-(double)c.Value).Constant();
+                }
+            return Expression.MakeUnary(GetExpressionType(op), operand, null);
+        }
 
         private string MatchFunction() => MatchRegex(@"\w+").ToLower();
 
@@ -169,6 +199,16 @@
             ReadPast(function);
         }
 
+        private bool ParseNamedConstant(string constant)
+        {
+            var value = GetNamedConstantValue(constant);
+            if (value == 0)
+                return false;
+            Operands.Push(value.Constant());
+            ReadPast(constant);
+            return true;
+        }
+
         private void ParseNumber(string number)
         {
             try
@@ -211,8 +251,11 @@
                     ParseOperand();
                     break;
                 case char c when char.IsLetter(c):
-                    ParseFunction(token);
-                    ParseOperand();
+                    if (!ParseNamedConstant(token))
+                    {
+                        ParseFunction(token);
+                        ParseOperand();
+                    }
                     break;
                 default:
                     throw new FormatException(

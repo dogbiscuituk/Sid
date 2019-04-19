@@ -17,6 +17,8 @@
 
         public static double AsDouble(this Expression e, double x) => AsFunction(e)(x);
 
+        public static ConstantExpression e = Math.PI.Constant();
+
         public static Expression Parse(string formula) => new Parser().Parse(formula);
 
         public static BinaryExpression Plus(this Expression f, Expression g) => Expression.Add(f, g);

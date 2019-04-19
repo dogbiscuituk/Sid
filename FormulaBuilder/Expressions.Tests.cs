@@ -109,6 +109,11 @@
         public static void TestParser()
         {
             TestParse("0", "0");
+            TestParse("e", "2.71828182845905");
+            TestParse("π", "3.14159265358979");
+            TestParse("pi", "3.14159265358979");
+            TestParse("ϕ", "1.61803398874989");
+            TestParse("phi", "1.61803398874989");
             TestParse("X+1", "(x+1)");
             TestParse("((x+1))", "(x+1)");
             TestParse("x+x*x^x/x-x", "((x+((x*(x^x))/x))-x)");
@@ -118,6 +123,7 @@
             TestParse("(x-3)*(5-x)/10", "(((x-3)*(5-x))/10)");
             TestParse("sin x * cos x", "(Sin(x)*Cos(x))");
             TestParse("Ln(sin x - tanh(x)) - 1", "(Ln((Sin(x)-Tanh(x)))-1)");
+            TestParse("Abs Cos Sin Tan 1.5", "0.540839774154307");
             TestParse("Abs Cos Sin Tan (x/2)", "Abs(Cos(Sin(Tan((x/2)))))");
             TestParse("2*(sin x + cos x ^ 3 - tan(x^3))/3", "((2*((Sin(x)+(Cos(x)^3))-Tan((x^3))))/3)");
             TestParse("2*(x+3*(x-4^x)-5)/6", "((2*((x+(3*(x-(4^x))))-5))/6)");
