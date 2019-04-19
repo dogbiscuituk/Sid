@@ -4,7 +4,6 @@
     using System.ComponentModel;
     using System.Drawing;
     using System.Windows.Forms;
-    using FormulaBuilder;
     using Sid.Models;
     using Sid.Views;
 
@@ -16,6 +15,7 @@
             Model = new Model();
             Model.IsotropicChanged += Model_IsotropicChanged;
             Model.ModifiedChanged += Model_ModifiedChanged;
+            Model.PropertyChanged += Model_PropertyChanged;
 
             PersistenceController = new JsonController(Model, View, View.FileReopen);
             PersistenceController.FilePathChanged += PersistenceController_FilePathChanged;
@@ -98,8 +98,9 @@
             View.Text = PersistenceController.WindowCaption;
         }
 
-        private void Model_IsotropicChanged(object sender, EventArgs e) { IsotropicChanged(); }
-        private void Model_ModifiedChanged(object sender, EventArgs e) { ModifiedChanged(); }
+        private void Model_IsotropicChanged(object sender, EventArgs e) => IsotropicChanged();
+        private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
+        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e) => ModelPropertyChanged();
 
         public void FileMenu_DropDownOpening(object sender, EventArgs e) => View.FileSave.Enabled = Model.Modified;
         private void FileNew_Click(object sender, EventArgs e) => PersistenceController.Clear();
@@ -208,6 +209,11 @@
             View.ModifiedLabel.Visible = Model.Modified;
         }
 
+        private void ModelPropertyChanged()
+        {
+            PictureBox.Invalidate();
+        }
+
         private bool ContinueSaving()
         {
             return true;
@@ -233,19 +239,16 @@
         private void Scroll(double xFactor, double yFactor)
         {
             Graph.Scroll(xFactor, yFactor);
-            PictureBox.Invalidate();
         }
 
         private void ScrollBy(float xDelta, float yDelta)
         {
             Graph.ScrollBy(xDelta, yDelta);
-            PictureBox.Invalidate();
         }
 
         private void ScrollTo(float x, float y)
         {
             Graph.ScrollTo(x, y);
-            PictureBox.Invalidate();
         }
 
         private void ShowParametersDialog()
@@ -256,7 +259,6 @@
         private void Zoom(float factor)
         {
             Graph.Zoom(factor);
-            PictureBox.Invalidate();
         }
     }
 }

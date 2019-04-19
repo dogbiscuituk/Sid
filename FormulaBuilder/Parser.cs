@@ -183,8 +183,11 @@
                         if (op == ")")
                             return;
                         break;
-                    case "$" when Index == Formula.Length + 2: // End of input reached
+                    case "$" when Index == Formula.Length + 2: // End of input (normal)
                         return;
+                    case "$" when Index < Formula.Length + 2: // End of input (unexpected)
+                        throw new FormatException(
+                            $"Unexpected end of text, input='{Formula}', index={Index}");
                     default:
                         throw new FormatException(
                             $"Unexpected character '{op}', input='{Formula}', index={Index}");

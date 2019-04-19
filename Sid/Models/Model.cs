@@ -12,6 +12,7 @@
             set
             {
                 _graph = value;
+                Graph.PropertyChanged += Graph_PropertyChanged;
                 OnPropertyChanged("Graph");
             }
         }
@@ -49,6 +50,13 @@
         public event EventHandler IsotropicChanged;
         public event EventHandler ModifiedChanged;
         public event PropertyChangedEventHandler PropertyChanged;
+
+
+        private void Graph_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            PropertyChanged?.Invoke(sender, e);
+            Modified = true;
+        }
 
         protected virtual void OnIsotropicChanged() =>
             IsotropicChanged?.Invoke(this, EventArgs.Empty);

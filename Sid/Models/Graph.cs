@@ -12,19 +12,9 @@
     [Serializable]
     public class Graph : INotifyPropertyChanged
     {
-        public Graph() : this(new RectangleF(-10, -5, 20, 10), 16000) { }
-
-        public Graph(RectangleF limits, int stepCount)
+        public Graph()
         {
-            Location = limits.Location;
-            Size = limits.Size;
-            StepCount = stepCount;
-            PaperColour = Color.LightYellow;
-            AxisColour = Color.DarkGray;
-            GridColour = Color.LightGray;
-            PenColour = Color.Black;
-            FillColour = Color.Transparent;
-            LimitColour = Color.DarkGray;
+            InitDefaults();
         }
 
         public Color PaperColour
@@ -179,6 +169,7 @@
                     RemoveSeries(--index);
                 OnPropertyChanged("Series");
             }
+            InitDefaults();
         }
 
         public void RemoveSeries(int index)
@@ -301,6 +292,19 @@
         {
             return new Matrix(Limits,
                 new[] { new PointF(r.Left, r.Bottom), new PointF(r.Right, r.Bottom), r.Location });
+        }
+
+        private void InitDefaults()
+        {
+            Location = new PointF(-10, -5);
+            Size = new SizeF(20, 10);
+            StepCount = 16000;
+            PaperColour = Color.LightYellow;
+            AxisColour = Color.DarkGray;
+            GridColour = Color.LightGray;
+            PenColour = Color.Black;
+            FillColour = Color.Transparent;
+            LimitColour = Color.DarkGray;
         }
     }
 }

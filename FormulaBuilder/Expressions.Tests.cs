@@ -108,6 +108,24 @@
 
         public static void TestParser()
         {
+            TestParserFailure();
+            TestParserSuccess();
+        }
+
+        public static void TestParserFailure()
+        {
+            TestParseFail("x~2", "Unexpected character '~', input='x~2', index=1");
+            TestParseFail("x+123,456", "Unexpected character ',', input='x+123,456', index=5");
+            TestParseFail("x+1$2", "Unexpected end of text, input='x+1$2', index=3");
+            TestParseFail("x+1e999", "Numerical overflow '1e999', input='x+1e999', index=2");
+            TestParseFail("x+.", "Invalid number format '.', input='x+.', index=2");
+            TestParseFail("x+.E+1", "Invalid number format '.E+1', input='x+.E+1', index=2");
+            TestParseFail("x+", "Missing operand, input='x+', index=2");
+            TestParseFail("(x+(2*(x+(3)))", "Unexpected end of text, input='(x+(2*(x+(3)))', index=15");
+        }
+
+        public static void TestParserSuccess()
+        {
             TestParse("0", "0");
             TestParse("e", "2.71828182845905");
             TestParse("π", "3.14159265358979");
@@ -127,12 +145,6 @@
             TestParse("Abs Cos Sin Tan (x/2)", "Abs(Cos(Sin(Tan((x/2)))))");
             TestParse("2*(sin x + cos x ^ 3 - tan(x^3))/3", "((2*((Sin(x)+(Cos(x)^3))-Tan((x^3))))/3)");
             TestParse("2*(x+3*(x-4^x)-5)/6", "((2*((x+(3*(x-(4^x))))-5))/6)");
-            TestParseFail("x+.", "Invalid number format '.', input='x+.', index=2");
-            TestParseFail("x+123,456", "Unexpected character ',', input='x+123,456', index=5");
-            TestParseFail("x+1e999", "Numerical overflow '1e999', input='x+1e999', index=2");
-            TestParseFail("x+.E+1", "Invalid number format '.E+1', input='x+.E+1', index=2");
-            TestParseFail("x+", "Missing operand, input='x+', index=2");
-            TestParseFail("x+1$2", "Unexpected character '$', input='x+1$2', index=3");
         }
 
         public static void TestPolynomialDerivative()
