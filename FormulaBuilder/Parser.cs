@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
 
@@ -19,21 +20,38 @@
         private string Formula;
         private int Index;
         private Stack<Expression> Operands;
-        private Stack<string> Operations;
+        private Stack<string> Operators;
 
         public Expression Parse(string formula)
         {
             Formula = formula;
             Index = 0;
             Operands = new Stack<Expression>();
-            Operations = new Stack<string>(new[] { "(" });
+            Operators = new Stack<string>(new[] { "(" });
             ParseExpression();
+            if (Operators.Any())
+                throw new FormatException(
+                    $"Unexpected end of expression, input='{Formula}'");
             return Operands.Peek();
         }
 
-        private static ExpressionType GetExpressionType(string operation)
+        public bool TryParse(string formula, out Expression result)
         {
-            switch (operation)
+            try
+            {
+                result = Parse(formula);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                result = 0.0.Constant();
+                return false;
+            }
+        }
+
+        private static ExpressionType GetExpressionType(string op)
+        {
+            switch (op)
             {
                 case "+": return ExpressionType.Add;
                 case "-": return ExpressionType.Subtract;
@@ -46,28 +64,32 @@
             throw new FormatException();
         }
 
-        private static Precedence GetPrecedence(string operation)
+        private static Precedence GetPrecedence(string op)
         {
-            switch (operation)
+            switch (op)
             {
-                case ")": return Precedence.RightParenthesis;
+                case ")":
+                    return Precedence.RightParenthesis;
                 case "+":
-                case "-": return Precedence.Additive;
+                case "-":
+                    return Precedence.Additive;
                 case "*":
-                case "/": return Precedence.Multiplicative;
-                case "^": return Precedence.Exponential;
+                case "/":
+                    return Precedence.Multiplicative;
+                case "^":
+                    return Precedence.Exponential;
             }
             return Precedence.Functional;
         }
 
-        private Expression MakeBinary(string operation, Expression operand1, Expression operand2) =>
-            Expression.MakeBinary(GetExpressionType(operation), operand1, operand2);
+        private Expression MakeBinary(string op, Expression lhs, Expression rhs) =>
+            Expression.MakeBinary(GetExpressionType(op), lhs, rhs);
 
         private Expression MakeFunction(string f, Expression operand) =>
-            Expressions.Function(char.ToUpper(f[0]) + f.ToLower().Substring(1), operand);
+            Expressions.Function($"{char.ToUpper(f[0])}{f.ToLower().Substring(1)}", operand);
 
-        private Expression MakeUnary(string operation, Expression operand) =>
-            Expression.MakeUnary(GetExpressionType(operation), operand, null);
+        private Expression MakeUnary(string op, Expression operand) =>
+            Expression.MakeUnary(GetExpressionType(op), operand, null);
 
         private string MatchFunction() => MatchRegex(@"\w+").ToLower();
 
@@ -109,7 +131,8 @@
                 case char c when char.IsLetter(c):
                     return MatchFunction();
             }
-            throw new FormatException();
+            throw new FormatException(
+                $"Unexpected character '{nextChar}', input='{Formula}', index={Index}");
         }
 
         private void ParseExpression()
@@ -117,26 +140,51 @@
             do
             {
                 ParseOperand();
-                var operation = NextChar();
-                if ("+-*/^)".IndexOf(operation) < 0)
-                    break;
-                ParseOperation(operation);
-                if (operation == ")")
-                    break;
+                var op = NextChar();
+                switch (op)
+                {
+                    case "+":
+                    case "-":
+                    case "*":
+                    case "/":
+                    case "^":
+                    case ")":
+                        ParseOperator(op);
+                        if (op == ")")
+                            return;
+                        break;
+                    case "$" when Index == Formula.Length + 2: // End of input reached
+                        return;
+                    default:
+                        throw new FormatException(
+                            $"Unexpected character '{op}', input='{Formula}', index={Index}");
+                }
             }
             while (true);
         }
 
         private void ParseFunction(string function)
         {
-            Operations.Push(function);
+            Operators.Push(function);
             ReadPast(function);
         }
 
         private void ParseNumber(string number)
         {
-            var operand = double.Parse(number).Constant();
-            Operands.Push(operand);
+            try
+            {
+                Operands.Push(double.Parse(number).Constant());
+            }
+            catch (FormatException)
+            {
+                throw new FormatException(
+                    $"Invalid number format '{number}', input='{Formula}', index={Index}");
+            }
+            catch (OverflowException)
+            {
+                throw new FormatException(
+                    $"Numerical overflow '{number}', input='{Formula}', index={Index}");
+            }
             ReadPast(number);
         }
 
@@ -153,7 +201,7 @@
                     ParseNumber(token);
                     break;
                 case '(':
-                    Operations.Push(token);
+                    Operators.Push(token);
                     ReadPast(token);
                     ParseExpression();
                     break;
@@ -167,23 +215,24 @@
                     ParseOperand();
                     break;
                 default:
-                    throw new FormatException();
+                    throw new FormatException(
+                        $"Missing operand, input='{Formula}', index={Index}");
             }
         }
 
-        private void ParseOperation(string operation)
+        private void ParseOperator(string op)
         {
             do
             {
-                var ours = GetPrecedence(operation);
-                var pending = Operations.Peek();
+                var ours = GetPrecedence(op);
+                var pending = Operators.Peek();
                 if (pending == "(")
                     break;
                 var theirs = GetPrecedence(pending);
                 // Operator '^' is right associative: a^b^c = a^(b^c).
-                if (theirs > ours || theirs == ours && operation != "^")
+                if (theirs > ours || theirs == ours && op != "^")
                 {
-                    Operations.Pop();
+                    Operators.Pop();
                     var operand = Operands.Pop();
                     if (theirs > Precedence.Exponential)
                         switch (pending)
@@ -194,7 +243,15 @@
                                 operand = MakeUnary(pending, operand);
                                 break;
                             default:
-                                operand = MakeFunction(pending, operand);
+                                try
+                                {
+                                    operand = MakeFunction(pending, operand);
+                                }
+                                catch (ArgumentNullException)
+                                {
+                                    throw new FormatException(
+                                        $"Unrecognised function '{pending}', input='{Formula}'");
+                                };
                                 break;
                         }
                     else
@@ -205,23 +262,22 @@
                     break;
             }
             while (true);
-            if (operation == ")")
-                Operations.Pop();
+            if (op == ")")
+                Operators.Pop();
             else
-                Operations.Push(operation);
-            ReadPast(operation);
+                Operators.Push(op);
+            ReadPast(op);
         }
 
         private void ParseParameter(string token)
         {
-            var operand = Expressions.x;
-            Operands.Push(operand);
+            Operands.Push(Expressions.x);
             ReadPast(token);
         }
 
         private void ParseUnary(string unary)
         {
-            Operations.Push($"u{unary}");
+            Operators.Push($"u{unary}");
             ReadPast(unary);
         }
 

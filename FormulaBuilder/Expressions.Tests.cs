@@ -12,7 +12,7 @@
         public static void Check(string expected, string actual)
         {
             const string message = "Comparison failed";
-            var details = $"Expected: {expected}, Actual: {actual}.";
+            var details = $"Expected: \"{expected}\", Actual: \"{actual}\".";
             if (actual == expected)
                 Debug.WriteLine($"OK: {actual}");
             else
@@ -90,9 +90,20 @@
             TestDerivative(Tanh(x), "(Sech(x)^2)");                      // d(tanh x)/dx = sech²x
         }
 
-        public static void TestParse(string input, string output)
-        {
+        public static void TestParse(string input, string output) =>
             Check(output, new Parser().Parse(input).AsString());
+
+        public static void TestParseFail(string input, string error)
+        {
+            try
+            {
+                new Parser().Parse(input);
+                Check("Exception thrown", "no Exception thrown");
+            }
+            catch (Exception ex)
+            {
+                Check(error, ex.Message);
+            }
         }
 
         public static void TestParser()
@@ -110,6 +121,12 @@
             TestParse("Abs Cos Sin Tan (x/2)", "Abs(Cos(Sin(Tan((x/2)))))");
             TestParse("2*(sin x + cos x ^ 3 - tan(x^3))/3", "((2*((Sin(x)+(Cos(x)^3))-Tan((x^3))))/3)");
             TestParse("2*(x+3*(x-4^x)-5)/6", "((2*((x+(3*(x-(4^x))))-5))/6)");
+            TestParseFail("x+.", "Invalid number format '.', input='x+.', index=2");
+            TestParseFail("x+123,456", "Unexpected character ',', input='x+123,456', index=5");
+            TestParseFail("x+1e999", "Numerical overflow '1e999', input='x+1e999', index=2");
+            TestParseFail("x+.E+1", "Invalid number format '.E+1', input='x+.E+1', index=2");
+            TestParseFail("x+", "Missing operand, input='x+', index=2");
+            TestParseFail("x+1$2", "Unexpected character '$', input='x+1$2', index=3");
         }
 
         public static void TestPolynomialDerivative()
@@ -136,7 +153,8 @@
             TestSimplify(x.Over(2).Over(8), "(x/16)");
         }
 
-        public static void TestSimplify(Expression e, string expected) => Check(expected, Simplify(e).AsString());
+        public static void TestSimplify(Expression e, string expected) =>
+            Check(expected, Simplify(e).AsString());
 
         public static void TestTrigonometricExpression()
         {
