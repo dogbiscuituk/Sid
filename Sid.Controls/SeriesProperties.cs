@@ -1,17 +1,29 @@
-﻿namespace Sid
-{
-    using System.Drawing;
-    using System.Windows.Forms;
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
 
-    public partial class ParametersDialog : Form
+namespace Sid.Views
+{
+    public partial class SeriesProperties : UserControl
     {
-        public ParametersDialog()
+        public SeriesProperties()
         {
             InitializeComponent();
         }
 
+        public string Formula
+        {
+            get => cbFunction.Text;
+            set => cbFunction.Text = value;
+        }
+
+        public Color PenColour
+        {
+            get => Palette[cbPenColour.SelectedIndex];
+            set => cbPenColour.SelectedIndex = Array.IndexOf(Palette, valuel);
+        }
+
         private static Color[] Palette = new[] {
-            Color.White,
             Color.Black,
             Color.Brown,
             Color.Red,
@@ -26,15 +38,10 @@
             Color.White
         };
 
-        private void comboBox1_DrawItem(object sender, DrawItemEventArgs e)
+        private void ColourCombo_DrawItem(object sender, DrawItemEventArgs e)
         {
             using (var brush = new SolidBrush(Palette[e.Index + 1]))
                 e.Graphics.FillRectangle(brush, e.Bounds);
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, System.EventArgs e)
-        {
-
         }
     }
 }

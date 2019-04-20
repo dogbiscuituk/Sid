@@ -2,10 +2,9 @@
 {
     using System;
     using System.Drawing;
-    using System.Linq;
     using System.Windows.Forms;
-    using FormulaBuilder;
     using Sid.Models;
+    using Sid.Views;
 
     public class ParametersDialogController
     {
@@ -13,7 +12,8 @@
         {
             Parent = parent;
             View = new ParametersDialog();
-            View.btnApply.Click += ApplyButton_Click;
+            View.btnAddNew.Click += btnAddNew_Click;
+            View.btnApply.Click += btnApply_Click;
         }
 
         private MainFormController Parent;
@@ -29,33 +29,7 @@
             }
         }
 
-        private void Apply()
-        {
-            float
-                xMin = (float)View.seXmin.Value,
-                yMin = (float)View.seYmin.Value,
-                xMax = (float)View.seXmax.Value,
-                yMax = (float)View.seYmax.Value;
-            var series = new Parser().Parse(View.cbFunction.Text);
-            Graph.Clear();
-            Graph.Location = new PointF(xMin, yMin);
-            Graph.Size = new SizeF(xMax - xMin, yMax - yMin);
-            Graph.AddSeries(series, Color.Black, Color.Yellow);
-            series = series.Differentiate();
-            Graph.AddSeries(series, Color.Red, Color.FromArgb(0x7fff0000));
-            series = series.Differentiate();
-            Graph.AddSeries(series, Color.Green, Color.FromArgb(0x4000ff00));
-            series = series.Differentiate();
-            Graph.AddSeries(series, Color.Blue, Color.FromArgb(0x200000ff));
-            Parent.PictureBox.Invalidate();
-        }
-
-        private void ApplyButton_Click(object sender, EventArgs e)
-        {
-            Apply();
-        }
-
-        private void Init()
+        public void ShowDialog()
         {
             float
                 xMin = Graph.Location.X,
@@ -66,15 +40,85 @@
             View.seYmin.Value = (decimal)yMin;
             View.seXmax.Value = (decimal)xMax;
             View.seYmax.Value = (decimal)yMax;
-            if (Graph.Series.Any())
-                View.cbFunction.Text = Graph.Series.First().Formula;
-        }
 
-        public void ShowDialog()
-        {
-            Init();
+            foreach (Series series in Graph.Series)
+                AddNewEditor(series);
+
+            //View.btnAdd.Click += BtnAdd_Click;
+
             if (View.ShowDialog() == DialogResult.OK)
                 Apply();
+        }
+
+        private Panel FlowLayoutPanel { get => View.FlowLayoutPanel; }
+
+        private void btnAddNew_Click(object sender, EventArgs e)
+        {
+            AddNewEditor(null);
+        }
+
+        private void btnApply_Click(object sender, EventArgs e)
+        {
+            Apply();
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            RemoveEditor(((Control)sender).Parent);
+        }
+
+        private void AddNewEditor(Series series)
+        {
+            var controls = FlowLayoutPanel.Controls;
+            var editor = new TraceEditor();
+            if (series != null)
+            {
+                editor.Formula = series.Formula;
+                editor.PenColour = series.PenColour;
+                editor.FillColour = series.FillColour;
+            }
+            else
+            {
+                editor.Formula = string.Empty;
+                editor.PenColour = Color.Black;
+                editor.FillColour = Color.Yellow;
+            }
+            var index = controls.Count;
+            editor.tbLabel.Text = index > 0 ? $"y{controls.Count}" : "y";
+            editor.btnRemove.Click += btnRemove_Click;
+
+            FlowLayoutPanel.Controls.Add(editor);
+        }
+
+        private void Apply()
+        {
+            float
+                xMin = (float)View.seXmin.Value,
+                yMin = (float)View.seYmin.Value,
+                xMax = (float)View.seXmax.Value,
+                yMax = (float)View.seYmax.Value;
+            Graph.Location = new PointF(xMin, yMin);
+            Graph.Size = new SizeF(xMax - xMin, yMax - yMin);
+            var index = 0;
+            foreach (TraceEditor editor in FlowLayoutPanel.Controls)
+            {
+                var series =
+                    index < Graph.Series.Count
+                    ? Graph.Series[index]
+                    : Graph.AddSeries();
+                series.Formula = editor.Formula;
+                series.PenColour = editor.PenColour;
+                series.FillColour = editor.FillColour;
+                index++;
+            }
+        }
+
+        private void RemoveEditor(Control control)
+        {
+            var bounds = control.Bounds;
+            var controls = FlowLayoutPanel.Controls;
+            var index = controls.IndexOf(control);
+            controls.RemoveAt(index);
         }
     }
 }

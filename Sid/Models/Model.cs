@@ -51,7 +51,6 @@
         public event EventHandler ModifiedChanged;
         public event PropertyChangedEventHandler PropertyChanged;
 
-
         private void Graph_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             PropertyChanged?.Invoke(sender, e);

@@ -11,25 +11,9 @@
     [Serializable]
     public class Series: INotifyPropertyChanged
     {
-        public Series() : this(Expressions.Constant(0)) { }
-
-        public Series(Expression formula) : this(formula, 8000) { }
-
-        public Series(Expression formula, int stepCount) : this(formula, stepCount, Color.Black) { }
-
-        public Series(Expression formula, int stepCount, Color penColour)
-            : this(formula, stepCount, penColour, Color.Yellow) { }
-        
-        public Series(Expression formula, int stepCount, Color penColour, Color fillColour)
-            : this(formula, stepCount, penColour, fillColour, Color.DarkGray) { }
-
-        public Series(Expression formula, int stepCount, Color penColour, Color fillColour, Color limitColour)
+        public Series()
         {
-            Formula = formula.AsString();
-            StepCount = stepCount;
-            PenColour = penColour;
-            FillColour = fillColour;
-            LimitColour = limitColour;
+            InitDefaults();
         }
 
         private Color _penColour;
@@ -74,7 +58,9 @@
             }
         }
 
-        private Func<double, double> Func { get; set; }
+        private Expression _expression;
+        public Expression Expression { get => _expression; }
+
         private string _formula;
         public string Formula
         {
@@ -83,12 +69,16 @@
             {
                 if (Formula != value)
                 {
-                    Func = new Parser().Parse(value).AsFunction();
+                    _expression = new Parser().Parse(value);
+                    _func = Expression.AsFunction();
                     _formula = value;
                     OnPropertyChanged("Formula");
                 }
             }
         }
+
+        private Func<double, double> _func;
+        public Func<double, double> Func { get => _func; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -129,7 +119,7 @@
             var skip = true;
             for (var step = 0; step <= StepCount; step++)
             {
-                float x = x1 + step * w / StepCount, y = (float)Func(x);
+                float x = x1 + step * w / StepCount, y = (float)_func(x);
                 if (float.IsInfinity(y) || float.IsNaN(y) || y < y1 - h || y > y2 + h)
                     skip = true;
                 else
@@ -160,6 +150,15 @@
                 g.DrawLine(pen, points[n - 1], points[n]);
             if (points[0].X > Limits.Left)
                 g.DrawLine(pen, points[n + 1], points[0]);
+        }
+
+        private void InitDefaults()
+        {
+            Formula = "0";
+            StepCount = 16000;
+            PenColour = Color.Black;
+            FillColour = Color.Yellow;
+            LimitColour = Color.DarkGray;
         }
     }
 }

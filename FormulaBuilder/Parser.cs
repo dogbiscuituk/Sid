@@ -42,7 +42,7 @@
                 result = Parse(formula);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 result = 0.0.Constant();
                 return false;

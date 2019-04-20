@@ -145,20 +145,13 @@
             }
         }
 
-        public void AddSeries(Expression formula) => AddSeries(formula, PenColour);
-
-        public void AddSeries(Expression formula, Color penColour) =>
-            AddSeries(formula, penColour, FillColour);
-
-        public void AddSeries(Expression formula, Color penColour, Color fillColour) =>
-            AddSeries(formula, penColour, fillColour, LimitColour);
-
-        public void AddSeries(Expression formula, Color penColour, Color fillColour, Color limitColour)
+        public Series AddSeries()
         {
-            var series = new Series(formula, StepCount, penColour, fillColour, limitColour);
+            var series = new Series();
             Series.Add(series);
             series.PropertyChanged += Series_PropertyChanged;
             OnPropertyChanged("Series");
+            return series;
         }
 
         public void Clear()
