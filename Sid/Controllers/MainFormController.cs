@@ -21,12 +21,12 @@
             PersistenceController.FilePathChanged += PersistenceController_FilePathChanged;
             PersistenceController.FileSaving += PersistenceController_FileSaving;
 
-            ParametersDialogController = new ParametersDialogController(this);
+            PropertiesDialogController = new PropertiesDialogController(this);
         }
 
         public readonly Model Model;
         public readonly JsonController PersistenceController;
-        public readonly ParametersDialogController ParametersDialogController;
+        public readonly PropertiesDialogController PropertiesDialogController;
 
         public Panel ClientPanel { get => View.ClientPanel; }
         public Graph Graph { get => Model.Graph; }
@@ -55,7 +55,7 @@
                 View.FileExit.Click += FileExit_Click;
                 View.EditUndo.Click += EditUndo_Click;
                 View.EditRedo.Click += EditRedo_Click;
-                View.EditParameters.Click += EditParameters_Click;
+                View.EditProperties.Click += EditProperties_Click;
                 View.ViewMenu.DropDownOpening += ViewMenu_DropDownOpening;
                 View.ViewZoomIn.Click += ViewZoomIn_Click;
                 View.ViewZoomOut.Click += ViewZoomOut_Click;
@@ -110,7 +110,7 @@
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
         private void EditUndo_Click(object sender, EventArgs e) { }
         private void EditRedo_Click(object sender, EventArgs e) { }
-        private void EditParameters_Click(object sender, EventArgs e) => ShowParametersDialog();
+        private void EditProperties_Click(object sender, EventArgs e) => ShowPropertiesDialog();
         private void ViewMenu_DropDownOpening(object sender, EventArgs e) => UpdateViewMenu();
         private void ViewZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
         private void ViewZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
@@ -251,9 +251,9 @@
             Graph.ScrollTo(x, y);
         }
 
-        private void ShowParametersDialog()
+        private void ShowPropertiesDialog()
         {
-            ParametersDialogController.ShowDialog();
+            PropertiesDialogController.ShowDialog();
         }
 
         private void Zoom(float factor)

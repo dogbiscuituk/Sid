@@ -1,5 +1,6 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
+using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Sid.Views
@@ -9,6 +10,7 @@ namespace Sid.Views
         public TraceEditor()
         {
             InitializeComponent();
+            InitColours();
         }
 
         public string Formula
@@ -19,20 +21,14 @@ namespace Sid.Views
 
         public Color PenColour
         {
-            get => Palette[cbPenColour.SelectedIndex];
-            set => cbPenColour.SelectedIndex = Array.IndexOf(Palette, value);
+            get => GetColour(cbPenColour);
+            set => SetColour(cbPenColour, value);
         }
 
         public Color FillColour
         {
-            get
-            {
-                return Color.FromArgb(100, Palette[cbFillColour.SelectedIndex]);
-            }
-            set
-            {
-                cbFillColour.SelectedIndex = Array.IndexOf(Palette, value);
-            }
+            get => GetColour(cbFillColour);
+            set => SetColour(cbFillColour, value);
         }
 
         public int FillOpacity
@@ -44,27 +40,60 @@ namespace Sid.Views
             }
         }
 
-        private static Color[] Palette = new[] {
-            Color.Black,
-            Color.Brown,
-            Color.Red,
-            Color.Orange,
-            Color.Yellow,
-            Color.GreenYellow,
-            Color.LimeGreen,
-            Color.Cyan,
-            Color.DodgerBlue,
-            Color.MediumOrchid,
-            Color.Gray,
-            Color.White
-        };
+        private void ColourCombo_DrawItem(object sender, DrawItemEventArgs e) =>
+            DrawColour((ComboBox)sender, e);
 
-        private void ColourCombo_DrawItem(object sender, DrawItemEventArgs e)
+        private void DrawColour(object sender, DrawItemEventArgs e)
         {
-            var index = e.Index;
-            var colour = index >= 0 ? Palette[index] : Color.White;
-            using (var brush = new SolidBrush(colour))
-                e.Graphics.FillRectangle(brush, e.Bounds);
+            if (e.Index < 0)
+                return;
+            var colourName = ((ComboBox)sender).Items[e.Index].ToString();
+            Color colour;
+            if ((e.State & DrawItemState.Selected) != 0)
+            {
+                colour = SystemColors.Highlight;
+                e.DrawBackground();
+            }
+            else
+            {
+                colour = Color.FromName(colourName);
+                using (var fill = new SolidBrush(colour))
+                    e.Graphics.FillRectangle(fill, e.Bounds);
+            }
+            var brush = IsBright(colour) ? Brushes.Black : Brushes.White;
+            using (var font = new Font("Arial", 9, FontStyle.Regular))
+                e.Graphics.DrawString(colourName, font, brush, e.Bounds.X, e.Bounds.Top);
         }
+
+        private Color GetColour(ComboBox comboBox) =>
+            Color.FromName(comboBox.SelectedItem.ToString());
+
+        private IOrderedEnumerable<Color> GetNamedColours() =>
+            typeof(Color).GetProperties(
+                BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Static)
+                .Select(colour => Color.FromName(colour.Name))
+                .OrderBy(colour => colour.GetHue())
+                .ThenBy(colour => colour.GetSaturation());
+
+        private void InitColours()
+        {
+            foreach (var colour in GetNamedColours())
+            {
+                cbPenColour.Items.Add(colour.Name);
+                cbFillColour.Items.Add(colour.Name);
+            };
+        }
+
+        /// <summary>
+        /// Uses Luma to determine whether or not a Color is "bright".
+        /// https://en.wikipedia.org/wiki/Luma_%28video%29
+        /// </summary>
+        /// <param name="colour">The sample colour.</param>
+        /// <returns>True if the sample colour's Luma value is above 0.5, otherwise False.</returns>
+        private bool IsBright(Color colour) =>
+            0.2126 * colour.R + 0.7152 * colour.G + 0.0722 * colour.B > 127.5;
+
+        private void SetColour(ComboBox comboBox, Color colour) =>
+            comboBox.SelectedIndex = comboBox.Items.IndexOf(colour.Name);
     }
 }

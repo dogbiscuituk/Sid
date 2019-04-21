@@ -34,9 +34,18 @@
 
         protected override bool LoadFromStream(Stream stream, string format)
         {
+            bool result;
             using (var streamer = new StreamReader(stream))
             using (var reader = new JsonTextReader(streamer))
-                return UseStream(() => Model.Graph = GetSerializer().Deserialize<Graph>(reader));
+                result = UseStream(() => Model.Graph = GetSerializer().Deserialize<Graph>(reader));
+            foreach (var series in Model.Graph.Series)
+                series.PropertyChanged += Model.Graph.Series_PropertyChanged;
+            return result;
+        }
+
+        private void Series_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            throw new System.NotImplementedException();
         }
 
         protected override bool SaveToStream(Stream stream, string format)

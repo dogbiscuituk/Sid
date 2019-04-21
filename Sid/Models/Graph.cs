@@ -180,7 +180,7 @@
         protected virtual void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        private void Series_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
+        public void Series_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
             OnPropertyChanged($"Series.{e.PropertyName}");
 
         public void Draw(Graphics g, Rectangle r)

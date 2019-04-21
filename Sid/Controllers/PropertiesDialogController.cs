@@ -6,26 +6,27 @@
     using Sid.Models;
     using Sid.Views;
 
-    public class ParametersDialogController
+    public class PropertiesDialogController
     {
-        public ParametersDialogController(MainFormController parent)
+        public PropertiesDialogController(MainFormController parent)
         {
             Parent = parent;
-            View = new ParametersDialog();
-            View.btnAddNew.Click += btnAddNew_Click;
-            View.btnApply.Click += btnApply_Click;
+            View = new PropertiesDialog();
         }
 
         private MainFormController Parent;
         private Graph Graph { get => Parent.Graph; }
 
-        private ParametersDialog _view;
-        public ParametersDialog View
+        private PropertiesDialog _view;
+        public PropertiesDialog View
         {
             get => _view;
             set
             {
                 _view = value;
+
+                View.btnAddNew.Click += BtnAddNew_Click;
+                View.btnApply.Click += BtnApply_Click;
             }
         }
 
@@ -41,10 +42,9 @@
             View.seXmax.Value = (decimal)xMax;
             View.seYmax.Value = (decimal)yMax;
 
+            FlowLayoutPanel.Controls.Clear();
             foreach (Series series in Graph.Series)
                 AddNewEditor(series);
-
-            //View.btnAdd.Click += BtnAdd_Click;
 
             if (View.ShowDialog() == DialogResult.OK)
                 Apply();
@@ -52,20 +52,14 @@
 
         private Panel FlowLayoutPanel { get => View.FlowLayoutPanel; }
 
-        private void btnAddNew_Click(object sender, EventArgs e)
-        {
+        private void BtnAddNew_Click(object sender, EventArgs e) =>
             AddNewEditor(null);
-        }
 
-        private void btnApply_Click(object sender, EventArgs e)
-        {
+        private void BtnApply_Click(object sender, EventArgs e) =>
             Apply();
-        }
 
-        private void btnRemove_Click(object sender, EventArgs e)
-        {
+        private void BtnRemove_Click(object sender, EventArgs e) =>
             RemoveEditor(((Control)sender).Parent);
-        }
 
         private void AddNewEditor(Series series)
         {
@@ -85,7 +79,7 @@
             }
             var index = controls.Count;
             editor.tbLabel.Text = index > 0 ? $"y{controls.Count}" : "y";
-            editor.btnRemove.Click += btnRemove_Click;
+            editor.btnRemove.Click += BtnRemove_Click;
 
             FlowLayoutPanel.Controls.Add(editor);
         }
@@ -99,11 +93,13 @@
                 yMax = (float)View.seYmax.Value;
             Graph.Location = new PointF(xMin, yMin);
             Graph.Size = new SizeF(xMax - xMin, yMax - yMin);
-            var index = 0;
+            int
+                index = 0,
+                count = Graph.Series.Count;
             foreach (TraceEditor editor in FlowLayoutPanel.Controls)
             {
                 var series =
-                    index < Graph.Series.Count
+                    index < count
                     ? Graph.Series[index]
                     : Graph.AddSeries();
                 series.Formula = editor.Formula;
@@ -111,6 +107,9 @@
                 series.FillColour = editor.FillColour;
                 index++;
             }
+            count -= index;
+            if (count > 0)
+                Graph.Series.RemoveRange(index, count);
         }
 
         private void RemoveEditor(Control control)

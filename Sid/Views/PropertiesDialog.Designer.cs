@@ -1,6 +1,6 @@
 ﻿namespace Sid
 {
-    partial class ParametersDialog
+    partial class PropertiesDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -39,10 +39,10 @@
             this.lblYmax = new System.Windows.Forms.Label();
             this.lblYmin = new System.Windows.Forms.Label();
             this.gbFunction = new System.Windows.Forms.GroupBox();
+            this.FlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.btnApply = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.FlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.btnAddNew = new System.Windows.Forms.Button();
             this.gbDomain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seXmax)).BeginInit();
@@ -240,6 +240,17 @@
             this.gbFunction.TabStop = false;
             this.gbFunction.Text = "Functions";
             // 
+            // FlowLayoutPanel
+            // 
+            this.FlowLayoutPanel.AutoScroll = true;
+            this.FlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FlowLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.FlowLayoutPanel.Location = new System.Drawing.Point(4, 19);
+            this.FlowLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.FlowLayoutPanel.Name = "FlowLayoutPanel";
+            this.FlowLayoutPanel.Size = new System.Drawing.Size(588, 292);
+            this.FlowLayoutPanel.TabIndex = 0;
+            // 
             // btnApply
             // 
             this.btnApply.Location = new System.Drawing.Point(292, 395);
@@ -271,17 +282,6 @@
             this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
-            // 
-            // FlowLayoutPanel
-            // 
-            this.FlowLayoutPanel.AutoScroll = true;
-            this.FlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FlowLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.FlowLayoutPanel.Location = new System.Drawing.Point(4, 19);
-            this.FlowLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.FlowLayoutPanel.Name = "FlowLayoutPanel";
-            this.FlowLayoutPanel.Size = new System.Drawing.Size(588, 292);
-            this.FlowLayoutPanel.TabIndex = 0;
             // 
             // btnAddNew
             // 
@@ -315,7 +315,7 @@
             this.Name = "ParametersDialog";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.Text = "Parameters";
+            this.Text = "Graph Properties";
             this.gbDomain.ResumeLayout(false);
             this.gbDomain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seXmax)).EndInit();

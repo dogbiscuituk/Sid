@@ -7,6 +7,7 @@
     using System.Drawing.Drawing2D;
     using System.Linq.Expressions;
     using FormulaBuilder;
+    using Newtonsoft.Json;
 
     [Serializable]
     public class Series: INotifyPropertyChanged
@@ -59,6 +60,7 @@
         }
 
         private Expression _expression;
+        [JsonIgnore]
         public Expression Expression { get => _expression; }
 
         private string _formula;
@@ -78,6 +80,7 @@
         }
 
         private Func<double, double> _func;
+        [JsonIgnore]
         public Func<double, double> Func { get => _func; }
 
         public event PropertyChangedEventHandler PropertyChanged;

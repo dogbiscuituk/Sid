@@ -49,12 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\JsonController.cs" />
-    <Compile Include="Controllers\ParametersDialogController.cs" />
-    <Compile Include="Views\ParametersDialog.cs">
+    <Compile Include="Controllers\PropertiesDialogController.cs" />
+    <Compile Include="Views\PropertiesDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\ParametersDialog.Designer.cs">
-      <DependentUpon>ParametersDialog.cs</DependentUpon>
+    <Compile Include="Views\PropertiesDialog.Designer.cs">
+      <DependentUpon>PropertiesDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\MainFormController.cs" />
     <Compile Include="Controllers\MruController.cs" />
@@ -102,8 +102,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\ParametersDialog.resx">
-      <DependentUpon>ParametersDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Views\PropertiesDialog.resx">
+      <DependentUpon>PropertiesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

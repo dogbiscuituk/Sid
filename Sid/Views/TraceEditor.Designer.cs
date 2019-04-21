@@ -38,19 +38,23 @@
             // 
             // cbFunction
             // 
+            this.cbFunction.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbFunction.FormattingEnabled = true;
+            this.cbFunction.ItemHeight = 16;
             this.cbFunction.Location = new System.Drawing.Point(32, 0);
             this.cbFunction.Margin = new System.Windows.Forms.Padding(0);
             this.cbFunction.Name = "cbFunction";
-            this.cbFunction.Size = new System.Drawing.Size(149, 21);
+            this.cbFunction.Size = new System.Drawing.Size(149, 22);
             this.cbFunction.TabIndex = 1;
             // 
             // btnRemove
             // 
-            this.btnRemove.Location = new System.Drawing.Point(289, -1);
+            this.btnRemove.FlatAppearance.BorderSize = 0;
+            this.btnRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRemove.Location = new System.Drawing.Point(345, 0);
             this.btnRemove.Margin = new System.Windows.Forms.Padding(0);
             this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(22, 23);
+            this.btnRemove.Size = new System.Drawing.Size(22, 21);
             this.btnRemove.TabIndex = 5;
             this.btnRemove.Text = "X";
             this.btnRemove.UseVisualStyleBackColor = true;
@@ -59,24 +63,13 @@
             // 
             this.cbPenColour.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbPenColour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPenColour.DropDownWidth = 144;
             this.cbPenColour.FormattingEnabled = true;
-            this.cbPenColour.Items.AddRange(new object[] {
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""});
+            this.cbPenColour.ItemHeight = 16;
             this.cbPenColour.Location = new System.Drawing.Point(181, 0);
             this.cbPenColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbPenColour.Name = "cbPenColour";
-            this.cbPenColour.Size = new System.Drawing.Size(36, 21);
+            this.cbPenColour.Size = new System.Drawing.Size(64, 22);
             this.cbPenColour.TabIndex = 2;
             this.cbPenColour.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ColourCombo_DrawItem);
             // 
@@ -84,31 +77,22 @@
             // 
             this.cbFillColour.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbFillColour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFillColour.DropDownWidth = 144;
             this.cbFillColour.FormattingEnabled = true;
-            this.cbFillColour.Items.AddRange(new object[] {
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""});
-            this.cbFillColour.Location = new System.Drawing.Point(217, 0);
+            this.cbFillColour.ItemHeight = 16;
+            this.cbFillColour.Location = new System.Drawing.Point(245, 0);
             this.cbFillColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbFillColour.Name = "cbFillColour";
-            this.cbFillColour.Size = new System.Drawing.Size(36, 21);
+            this.cbFillColour.Size = new System.Drawing.Size(64, 22);
             this.cbFillColour.TabIndex = 3;
             this.cbFillColour.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ColourCombo_DrawItem);
             // 
             // cbFillOpacity
             // 
+            this.cbFillOpacity.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbFillOpacity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFillOpacity.FormattingEnabled = true;
+            this.cbFillOpacity.ItemHeight = 16;
             this.cbFillOpacity.Items.AddRange(new object[] {
             "0",
             "10",
@@ -121,10 +105,10 @@
             "80",
             "90",
             "100"});
-            this.cbFillOpacity.Location = new System.Drawing.Point(253, 0);
+            this.cbFillOpacity.Location = new System.Drawing.Point(309, 0);
             this.cbFillOpacity.Margin = new System.Windows.Forms.Padding(0);
             this.cbFillOpacity.Name = "cbFillOpacity";
-            this.cbFillOpacity.Size = new System.Drawing.Size(36, 21);
+            this.cbFillOpacity.Size = new System.Drawing.Size(36, 22);
             this.cbFillOpacity.TabIndex = 4;
             // 
             // tbLabel
@@ -147,7 +131,7 @@
             this.Controls.Add(this.cbFillColour);
             this.Controls.Add(this.cbFillOpacity);
             this.Name = "TraceEditor";
-            this.Size = new System.Drawing.Size(336, 21);
+            this.Size = new System.Drawing.Size(377, 22);
             this.ResumeLayout(false);
             this.PerformLayout();
 

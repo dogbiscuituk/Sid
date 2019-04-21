@@ -40,6 +40,7 @@
                 if (Modified != value)
                 {
                     _modified = value;
+                    System.Diagnostics.Debug.WriteLine($"Modified = {Modified}");
                     OnModifiedChanged();
                 }
             }

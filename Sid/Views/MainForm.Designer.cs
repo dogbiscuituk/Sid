@@ -44,10 +44,8 @@
             this.EditUndo = new System.Windows.Forms.ToolStripMenuItem();
             this.EditRedo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
-            this.EditParameters = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditProperties = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewIsotropic = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.ViewZoom = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewZoomIn = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewZoomOut = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,13 +56,15 @@
             this.ViewScrollDown = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.ViewScrollCentre = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.ViewIsotropic = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewMouseCoordinates = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
             this.ModifiedLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.PictureBox = new System.Windows.Forms.PictureBox();
             this.ClientPanel = new System.Windows.Forms.Panel();
-            this.ViewMouseCoordinates = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
@@ -155,7 +155,7 @@
             this.EditUndo,
             this.EditRedo,
             this.toolStripMenuItem4,
-            this.EditParameters});
+            this.EditProperties});
             this.EditMenu.Name = "EditMenu";
             this.EditMenu.Size = new System.Drawing.Size(39, 20);
             this.EditMenu.Text = "&Edit";
@@ -164,27 +164,27 @@
             // 
             this.EditUndo.Name = "EditUndo";
             this.EditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.EditUndo.Size = new System.Drawing.Size(161, 22);
+            this.EditUndo.Size = new System.Drawing.Size(155, 22);
             this.EditUndo.Text = "&Undo";
             // 
             // EditRedo
             // 
             this.EditRedo.Name = "EditRedo";
             this.EditRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.EditRedo.Size = new System.Drawing.Size(161, 22);
+            this.EditRedo.Size = new System.Drawing.Size(155, 22);
             this.EditRedo.Text = "&Redo";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(158, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(152, 6);
             // 
-            // EditParameters
+            // EditProperties
             // 
-            this.EditParameters.Name = "EditParameters";
-            this.EditParameters.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.EditParameters.Size = new System.Drawing.Size(161, 22);
-            this.EditParameters.Text = "&Parameters...";
+            this.EditProperties.Name = "EditProperties";
+            this.EditProperties.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.EditProperties.Size = new System.Drawing.Size(155, 22);
+            this.EditProperties.Text = "&Properties...";
             // 
             // ViewMenu
             // 
@@ -197,18 +197,6 @@
             this.ViewMenu.Name = "ViewMenu";
             this.ViewMenu.Size = new System.Drawing.Size(44, 20);
             this.ViewMenu.Text = "&View";
-            // 
-            // ViewIsotropic
-            // 
-            this.ViewIsotropic.Name = "ViewIsotropic";
-            this.ViewIsotropic.Size = new System.Drawing.Size(182, 22);
-            this.ViewIsotropic.Text = "&Isotropic";
-            this.ViewIsotropic.ToolTipText = "The Graph is isotropic when its X and Y scales are equal";
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(179, 6);
             // 
             // ViewZoom
             // 
@@ -302,6 +290,25 @@
             this.ViewScrollCentre.Text = "&Centre";
             this.ViewScrollCentre.ToolTipText = "Return the origin (0,0) to the centre of the display area";
             // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(179, 6);
+            // 
+            // ViewIsotropic
+            // 
+            this.ViewIsotropic.Name = "ViewIsotropic";
+            this.ViewIsotropic.Size = new System.Drawing.Size(182, 22);
+            this.ViewIsotropic.Text = "&Isotropic";
+            this.ViewIsotropic.ToolTipText = "The Graph is isotropic when its X and Y scales are equal";
+            // 
+            // ViewMouseCoordinates
+            // 
+            this.ViewMouseCoordinates.Name = "ViewMouseCoordinates";
+            this.ViewMouseCoordinates.Size = new System.Drawing.Size(182, 22);
+            this.ViewMouseCoordinates.Text = "&Mouse Co-ordinates";
+            this.ViewMouseCoordinates.ToolTipText = "Hide or show the x-y coordinates in a tooltip";
+            // 
             // HelpMenu
             // 
             this.HelpMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -313,7 +320,7 @@
             // HelpAbout
             // 
             this.HelpAbout.Name = "HelpAbout";
-            this.HelpAbout.Size = new System.Drawing.Size(180, 22);
+            this.HelpAbout.Size = new System.Drawing.Size(107, 22);
             this.HelpAbout.Text = "&About";
             this.HelpAbout.ToolTipText = "Show version information";
             // 
@@ -332,6 +339,7 @@
             this.ModifiedLabel.Name = "ModifiedLabel";
             this.ModifiedLabel.Size = new System.Drawing.Size(55, 17);
             this.ModifiedLabel.Text = "Modified";
+            this.ModifiedLabel.Visible = false;
             // 
             // PictureBox
             // 
@@ -351,13 +359,6 @@
             this.ClientPanel.Name = "ClientPanel";
             this.ClientPanel.Size = new System.Drawing.Size(944, 455);
             this.ClientPanel.TabIndex = 4;
-            // 
-            // ViewMouseCoordinates
-            // 
-            this.ViewMouseCoordinates.Name = "ViewMouseCoordinates";
-            this.ViewMouseCoordinates.Size = new System.Drawing.Size(182, 22);
-            this.ViewMouseCoordinates.Text = "&Mouse Co-ordinates";
-            this.ViewMouseCoordinates.ToolTipText = "Hide or show the x-y coordinates in a tooltip";
             // 
             // MainForm
             // 
@@ -414,7 +415,7 @@
         public System.Windows.Forms.ToolStripMenuItem ViewMenu;
         public System.Windows.Forms.Panel ClientPanel;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
-        public System.Windows.Forms.ToolStripMenuItem EditParameters;
+        public System.Windows.Forms.ToolStripMenuItem EditProperties;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         public System.Windows.Forms.ToolStripMenuItem ViewScrollCentre;
         public System.Windows.Forms.ToolStripMenuItem ViewMouseCoordinates;
