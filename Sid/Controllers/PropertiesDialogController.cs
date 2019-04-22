@@ -2,6 +2,7 @@
 {
     using System;
     using System.Drawing;
+    using System.Text;
     using System.Windows.Forms;
     using FormulaBuilder;
     using Sid.Models;
@@ -143,8 +144,10 @@
             CanCancel = true;
             var ok = View.ValidateChildren();
             CanCancel = false;
-            View.btnApply.Enabled = ok;
-            View.btnOK.Enabled = ok;
+            if (!ok)
+                MessageBox.Show(View,
+                    "Property values can't be applied while errors exist.",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return ok;
         }
     }

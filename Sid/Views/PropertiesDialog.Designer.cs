@@ -233,6 +233,9 @@
             // 
             // gbFunction
             // 
+            this.gbFunction.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbFunction.Controls.Add(this.FlowLayoutPanel);
             this.gbFunction.Location = new System.Drawing.Point(16, 77);
             this.gbFunction.Margin = new System.Windows.Forms.Padding(4);
@@ -256,6 +259,7 @@
             // 
             // btnApply
             // 
+            this.btnApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnApply.Location = new System.Drawing.Point(292, 395);
             this.btnApply.Margin = new System.Windows.Forms.Padding(4);
             this.btnApply.Name = "btnApply";
@@ -266,6 +270,7 @@
             // 
             // btnOK
             // 
+            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOK.Location = new System.Drawing.Point(400, 395);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
@@ -277,6 +282,7 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(508, 395);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
@@ -288,6 +294,7 @@
             // 
             // btnAddNewFunction
             // 
+            this.btnAddNewFunction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnAddNewFunction.Location = new System.Drawing.Point(20, 395);
             this.btnAddNewFunction.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddNewFunction.Name = "btnAddNewFunction";
@@ -319,6 +326,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(640, 480);
             this.Name = "PropertiesDialog";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;

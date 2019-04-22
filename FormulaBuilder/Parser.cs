@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Text;
     using System.Text.RegularExpressions;
 
     public class Parser
@@ -14,8 +15,18 @@
             Additive,
             Multiplicative,
             Exponential,
-            Functional
+            Functional,
+            ImpliedProduct,
+            SuperscriptPower
         }
+
+        const string
+            ImpliedProduct = "i*",
+            SuperscriptPower = "s^",
+            UnaryMinus = "u-",
+            UnaryPlus = "u+",
+            Superscripts = "⁺⁻⁰¹²³⁴⁵⁶⁷⁸⁹",
+            Transcripts = "+-0123456789";
 
         private string Formula;
         private int Index;
@@ -69,13 +80,22 @@
         {
             switch (op)
             {
-                case "+": return ExpressionType.Add;
-                case "-": return ExpressionType.Subtract;
-                case "*": return ExpressionType.Multiply;
-                case "/": return ExpressionType.Divide;
-                case "^": return ExpressionType.Power;
-                case "u+": return ExpressionType.UnaryPlus;
-                case "u-": return ExpressionType.Negate;
+                case "+":
+                    return ExpressionType.Add;
+                case "-":
+                    return ExpressionType.Subtract;
+                case "*":
+                case "i*":
+                    return ExpressionType.Multiply;
+                case "/":
+                    return ExpressionType.Divide;
+                case "^":
+                case "s^":
+                    return ExpressionType.Power;
+                case UnaryPlus:
+                    return ExpressionType.UnaryPlus;
+                case UnaryMinus:
+                    return ExpressionType.Negate;
             }
             throw new FormatException();
         }
@@ -94,6 +114,10 @@
                     return Precedence.Multiplicative;
                 case "^":
                     return Precedence.Exponential;
+                case ImpliedProduct:
+                    return Precedence.ImpliedProduct;
+                case SuperscriptPower:
+                    return Precedence.SuperscriptPower;
             }
             return Precedence.Functional;
         }
@@ -115,13 +139,13 @@
             if (operand is ConstantExpression c)
                 switch (op)
                 {
-                    case "u+": return operand;
-                    case "u-": return (-(double)c.Value).Constant();
+                    case UnaryPlus: return operand;
+                    case UnaryMinus: return (-(double)c.Value).Constant();
                 }
             return Expression.MakeUnary(GetExpressionType(op), operand, null);
         }
 
-        private string MatchFunction() => MatchRegex(@"\w+").ToLower();
+        private string MatchFunction() => MatchRegex(@"^\w+").ToLower();
 
         private string MatchNumber() => MatchRegex(@"^\d*\.?\d*([eE][+-]?\d+)?");
 
@@ -131,12 +155,14 @@
             return Formula.Substring(Index + match.Index, match.Length);
         }
 
-        private string NextChar()
+        private string MatchSuperscript() => MatchRegex(@"^[⁺⁻]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+");
+
+        private char NextChar()
         {
             var count = Formula.Length;
             while (Index < count && Formula[Index] == ' ')
                 Index++;
-            return Index < count ? Formula[Index].ToString() : Index == count ? ")" : "$";
+            return Index < count ? Formula[Index] : Index == count ? ')' : '$';
         }
 
         private string NextToken()
@@ -144,20 +170,19 @@
             var nextChar = NextChar();
             switch (nextChar)
             {
-                case "+":
-                case "-":
-                case "*":
-                case "/":
-                case "^":
-                case "(":
-                case ")":
+                case '+':
+                case '-':
+                case '*':
+                case '/':
+                case '^':
+                case '(':
+                case ')':
                     return nextChar.ToString();
-            }
-            switch (nextChar[0])
-            {
                 case char c when char.IsDigit(c):
                 case '.':
                     return MatchNumber();
+                case char c when Superscripts.IndexOf(c) >= 0:
+                    return MatchSuperscript();
                 case char c when char.IsLetter(c):
                     return MatchFunction();
             }
@@ -173,22 +198,30 @@
                 var op = NextChar();
                 switch (op)
                 {
-                    case "+":
-                    case "-":
-                    case "*":
-                    case "/":
-                    case "^":
-                    case ")":
-                        ParseOperator(op);
-                        if (op == ")")
+                    case '+':
+                    case '-':
+                    case '*':
+                    case '/':
+                    case '^':
+                    case ')':
+                        ParseOperator(op.ToString());
+                        if (op == ')')
                             return;
                         break;
-                    case "$" when Index == Formula.Length + 2: // End of input (normal)
+                    case '$' when Index == Formula.Length + 2: // End of input (normal)
                         return;
-                    case "$" when Index < Formula.Length + 2: // End of input (unexpected)
+                    case '$' when Index < Formula.Length + 2: // End of input (unexpected)
                         throw new FormatException(
                             $"Unexpected end of text, input='{Formula}', index={Index}");
+                    case char c when Superscripts.IndexOf(c) >= 0:
+                        ParseOperator(SuperscriptPower); //
+                        break;
                     default:
+                        if (Operands.Peek() is ConstantExpression)
+                        {
+                            ParseOperator(ImpliedProduct); // Implied multiplication
+                            break;
+                        }
                         throw new FormatException(
                             $"Unexpected character '{op}', input='{Formula}', index={Index}");
                 }
@@ -243,6 +276,9 @@
                 case '.':
                     ParseNumber(token);
                     break;
+                case char c when Superscripts.IndexOf(c) >= 0:
+                    ParseSuperscript(token);
+                    break;
                 case '(':
                     Operators.Push(token);
                     ReadPast(token);
@@ -280,12 +316,12 @@
                 {
                     Operators.Pop();
                     var operand = Operands.Pop();
-                    if (theirs > Precedence.Exponential)
+                    if (theirs == Precedence.Functional)
                         switch (pending)
                         {
-                            case "u+":
+                            case UnaryPlus:
                                 break;
-                            case "u-":
+                            case UnaryMinus:
                                 operand = MakeUnary(pending, operand);
                                 break;
                             default:
@@ -301,7 +337,11 @@
                                 break;
                         }
                     else
+                    {
+                        if (pending == ImpliedProduct)
+                            pending = "*";
                         operand = MakeBinary(pending, Operands.Pop(), operand);
+                    }
                     Operands.Push(operand);
                 }
                 else
@@ -312,13 +352,19 @@
                 Operators.Pop();
             else
                 Operators.Push(op);
-            ReadPast(op);
+            if (op != ImpliedProduct && op != SuperscriptPower)
+                ReadPast(op);
         }
 
         private void ParseParameter(string token)
         {
             Operands.Push(Expressions.x);
             ReadPast(token);
+        }
+
+        private void ParseSuperscript(string number)
+        {
+            ParseNumber(SuperscriptToNormal(number));
         }
 
         private void ParseUnary(string unary)
@@ -328,5 +374,13 @@
         }
 
         private void ReadPast(string token) => Index += token.Length;
+
+        private static string SuperscriptToNormal(string number)
+        {
+            var stringBuilder = new StringBuilder(number);
+            for (var index = 0; index < Superscripts.Length; index++)
+                stringBuilder.Replace(Superscripts[index], Transcripts[index]);
+            return stringBuilder.ToString();
+        }
     }
 }

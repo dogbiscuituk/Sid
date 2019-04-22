@@ -145,6 +145,15 @@
             TestParse("Abs Cos Sin Tan (x/2)", "Abs(Cos(Sin(Tan((x/2)))))");
             TestParse("2*(sin x + cos x ^ 3 - tan(x^3))/3", "((2*((Sin(x)+(Cos(x)^3))-Tan((x^3))))/3)");
             TestParse("2*(x+3*(x-4^x)-5)/6", "((2*((x+(3*(x-(4^x))))-5))/6)");
+            TestParse("1/5x", "(1/(5*x))");                              // Implied products have higher precedence
+            TestParse("1/2sqrt(x)", "(1/(2*Sqrt(x)))");
+            TestParse("2 sin 3x", "(2*Sin((3*x)))");
+            TestParse("2 sin 3x * 5 cos 7x", "((2*Sin((3*x)))*(5*Cos((7*x))))");
+            TestParse("2 3", "(2*3)");
+            TestParse("2(x+3)", "(2*(x+3))");
+            TestParse("2x^3)", "((2*x)^3)");
+            TestParse("2(x^3)", "(2*(x^3))");
+            TestParse("x⁴-4x³+6x²-4x+1", "(((((x^4)-(4*(x^3)))+(6*(x^2)))-(4*x))+1)");
         }
 
         public static void TestPolynomialDerivative()
