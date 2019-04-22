@@ -41,17 +41,18 @@
             this.cbFunction.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbFunction.FormattingEnabled = true;
             this.cbFunction.ItemHeight = 16;
-            this.cbFunction.Location = new System.Drawing.Point(32, 0);
+            this.cbFunction.Location = new System.Drawing.Point(47, 0);
             this.cbFunction.Margin = new System.Windows.Forms.Padding(0);
             this.cbFunction.Name = "cbFunction";
             this.cbFunction.Size = new System.Drawing.Size(149, 22);
             this.cbFunction.TabIndex = 1;
+            this.cbFunction.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.FunctionCombo_DrawItem);
             // 
             // btnRemove
             // 
             this.btnRemove.FlatAppearance.BorderSize = 0;
             this.btnRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRemove.Location = new System.Drawing.Point(345, 0);
+            this.btnRemove.Location = new System.Drawing.Point(373, 0);
             this.btnRemove.Margin = new System.Windows.Forms.Padding(0);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(22, 21);
@@ -66,7 +67,7 @@
             this.cbPenColour.DropDownWidth = 144;
             this.cbPenColour.FormattingEnabled = true;
             this.cbPenColour.ItemHeight = 16;
-            this.cbPenColour.Location = new System.Drawing.Point(181, 0);
+            this.cbPenColour.Location = new System.Drawing.Point(209, 0);
             this.cbPenColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbPenColour.Name = "cbPenColour";
             this.cbPenColour.Size = new System.Drawing.Size(64, 22);
@@ -80,7 +81,7 @@
             this.cbFillColour.DropDownWidth = 144;
             this.cbFillColour.FormattingEnabled = true;
             this.cbFillColour.ItemHeight = 16;
-            this.cbFillColour.Location = new System.Drawing.Point(245, 0);
+            this.cbFillColour.Location = new System.Drawing.Point(273, 0);
             this.cbFillColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbFillColour.Name = "cbFillColour";
             this.cbFillColour.Size = new System.Drawing.Size(64, 22);
@@ -105,7 +106,7 @@
             "80",
             "90",
             "100"});
-            this.cbFillOpacity.Location = new System.Drawing.Point(309, 0);
+            this.cbFillOpacity.Location = new System.Drawing.Point(337, 0);
             this.cbFillOpacity.Margin = new System.Windows.Forms.Padding(0);
             this.cbFillOpacity.Name = "cbFillOpacity";
             this.cbFillOpacity.Size = new System.Drawing.Size(36, 22);
@@ -131,7 +132,7 @@
             this.Controls.Add(this.cbFillColour);
             this.Controls.Add(this.cbFillOpacity);
             this.Name = "TraceEditor";
-            this.Size = new System.Drawing.Size(377, 22);
+            this.Size = new System.Drawing.Size(429, 22);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -35,16 +35,16 @@
             return Operands.Peek();
         }
 
-        public bool TryParse(string formula, out Expression result)
+        public bool TryParse(string formula, out object result)
         {
             try
             {
                 result = Parse(formula);
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                result = 0.0.Constant();
+                result = e.Message;
                 return false;
             }
         }

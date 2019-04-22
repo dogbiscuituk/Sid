@@ -5,6 +5,7 @@
     using System.ComponentModel;
     using System.Drawing;
     using System.Drawing.Drawing2D;
+    using System.Linq;
     using System.Linq.Expressions;
     using FormulaBuilder;
     using Newtonsoft.Json;
@@ -74,6 +75,7 @@
                     _expression = new Parser().Parse(value);
                     _func = Expression.AsFunction();
                     _formula = value;
+                    InvalidatePoints();
                     OnPropertyChanged("Formula");
                 }
             }
@@ -85,8 +87,11 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged(string propertyName) =>
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            System.Diagnostics.Debug.WriteLine($"Series.OnPropertyChanged(\"{propertyName}\")");
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public void Draw(Graphics g, RectangleF limits, float penWidth, bool fill)
         {
@@ -111,10 +116,10 @@
 
         private void ComputePoints(RectangleF limits)
         {
-            if (Limits == limits)
+            if (Limits == limits && PointLists.Any())
                 return;
             Limits = limits;
-            PointLists.Clear();
+            InvalidatePoints();
             List<PointF> points = null;
             float
                 x1 = Limits.Left, y1 = Limits.Top, y2 = Limits.Bottom,
@@ -162,6 +167,11 @@
             PenColour = Color.Black;
             FillColour = Color.Yellow;
             LimitColour = Color.DarkGray;
+        }
+
+        private void InvalidatePoints()
+        {
+            PointLists.Clear();
         }
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.gbDomain = new System.Windows.Forms.GroupBox();
             this.seXmax = new System.Windows.Forms.NumericUpDown();
             this.lblXmax = new System.Windows.Forms.Label();
@@ -43,7 +44,8 @@
             this.btnApply = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.btnAddNew = new System.Windows.Forms.Button();
+            this.btnAddNewFunction = new System.Windows.Forms.Button();
+            this.ErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.gbDomain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seXmax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seXmin)).BeginInit();
@@ -51,6 +53,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.seYmax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seYmin)).BeginInit();
             this.gbFunction.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // gbDomain
@@ -283,24 +286,28 @@
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // btnAddNew
+            // btnAddNewFunction
             // 
-            this.btnAddNew.Location = new System.Drawing.Point(20, 395);
-            this.btnAddNew.Margin = new System.Windows.Forms.Padding(4);
-            this.btnAddNew.Name = "btnAddNew";
-            this.btnAddNew.Size = new System.Drawing.Size(100, 28);
-            this.btnAddNew.TabIndex = 6;
-            this.btnAddNew.Text = "Add New";
-            this.btnAddNew.UseVisualStyleBackColor = true;
+            this.btnAddNewFunction.Location = new System.Drawing.Point(20, 395);
+            this.btnAddNewFunction.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAddNewFunction.Name = "btnAddNewFunction";
+            this.btnAddNewFunction.Size = new System.Drawing.Size(137, 28);
+            this.btnAddNewFunction.TabIndex = 6;
+            this.btnAddNewFunction.Text = "Add a &New Function";
+            this.btnAddNewFunction.UseVisualStyleBackColor = true;
             // 
-            // ParametersDialog
+            // ErrorProvider
+            // 
+            this.ErrorProvider.ContainerControl = this;
+            // 
+            // PropertiesDialog
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(624, 441);
-            this.Controls.Add(this.btnAddNew);
+            this.Controls.Add(this.btnAddNewFunction);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnApply);
@@ -312,10 +319,10 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ParametersDialog";
+            this.Name = "PropertiesDialog";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.Text = "Graph Properties";
+            this.Text = "Properties";
             this.gbDomain.ResumeLayout(false);
             this.gbDomain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seXmax)).EndInit();
@@ -325,6 +332,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.seYmax)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.seYmin)).EndInit();
             this.gbFunction.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -346,6 +354,7 @@
         public System.Windows.Forms.NumericUpDown seYmax;
         public System.Windows.Forms.NumericUpDown seYmin;
         public System.Windows.Forms.FlowLayoutPanel FlowLayoutPanel;
-        public System.Windows.Forms.Button btnAddNew;
+        public System.Windows.Forms.Button btnAddNewFunction;
+        public System.Windows.Forms.ErrorProvider ErrorProvider;
     }
 }

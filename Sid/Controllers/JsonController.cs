@@ -1,5 +1,6 @@
 ﻿namespace Sid.Controllers
 {
+    using System.Collections.Generic;
     using System.IO;
     using System.Windows.Forms;
     using Newtonsoft.Json;
@@ -10,9 +11,12 @@
         public JsonController(Model model, Control view, ToolStripDropDownItem recentMenu)
             : base(model, Properties.Settings.Default.GraphFilter, "LibraryMRU", recentMenu)
         {
+            Model.PropertyChanged += Model_PropertyChanged;
             View = view;
         }
 
+        private Graph Graph { get => Model.Graph; }
+        private List<Series> Series { get => Graph.Series; }
         private readonly Control View;
 
         public string WindowCaption
@@ -38,14 +42,15 @@
             using (var streamer = new StreamReader(stream))
             using (var reader = new JsonTextReader(streamer))
                 result = UseStream(() => Model.Graph = GetSerializer().Deserialize<Graph>(reader));
-            foreach (var series in Model.Graph.Series)
-                series.PropertyChanged += Model.Graph.Series_PropertyChanged;
+            Graph.PropertyChanged += Model.Graph_PropertyChanged;
+            foreach (var series in Series)
+                series.PropertyChanged += Graph.Series_PropertyChanged;
+
             return result;
         }
 
-        private void Series_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            throw new System.NotImplementedException();
         }
 
         protected override bool SaveToStream(Stream stream, string format)

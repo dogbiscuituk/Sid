@@ -1,6 +1,8 @@
-﻿using System.Drawing;
+﻿using FormulaBuilder;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
 
 namespace Sid.Views
@@ -40,8 +42,26 @@ namespace Sid.Views
             }
         }
 
+        private static IOrderedEnumerable<Color> NamedColours =
+            Enum.GetValues(typeof(KnownColor)).Cast<KnownColor>()
+            .Select(Color.FromKnownColor)
+            .Where(colour => !colour.IsSystemColor)
+            .OrderBy(colour => colour.GetHue())
+            .ThenBy(colour => colour.GetSaturation());
+
+        private static IEnumerable<string> NamedFunctions =
+            Functions.KnownFunctionNames.Select(s => $"{s}(x)");
+
         private void ColourCombo_DrawItem(object sender, DrawItemEventArgs e) =>
             DrawColour((ComboBox)sender, e);
+
+        private void FunctionCombo_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            var functionName = ((ComboBox)sender).Items[e.Index].ToString();
+            e.DrawBackground();
+            using (var brush = new SolidBrush(e.ForeColor))
+                e.Graphics.DrawString(functionName, e.Font, brush, e.Bounds);
+        }
 
         private void DrawColour(object sender, DrawItemEventArgs e)
         {
@@ -68,16 +88,11 @@ namespace Sid.Views
         private Color GetColour(ComboBox comboBox) =>
             Color.FromName(comboBox.SelectedItem.ToString());
 
-        private IOrderedEnumerable<Color> GetNamedColours() =>
-            typeof(Color).GetProperties(
-                BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Static)
-                .Select(colour => Color.FromName(colour.Name))
-                .OrderBy(colour => colour.GetHue())
-                .ThenBy(colour => colour.GetSaturation());
-
         private void InitColours()
         {
-            foreach (var colour in GetNamedColours())
+            foreach (var function in NamedFunctions)
+                cbFunction.Items.Add(function);
+            foreach (var colour in NamedColours)
             {
                 cbPenColour.Items.Add(colour.Name);
                 cbFillColour.Items.Add(colour.Name);

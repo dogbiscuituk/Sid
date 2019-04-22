@@ -77,10 +77,8 @@
             }
         }
 
-        private void View_FormClosing(object sender, FormClosingEventArgs e)
-        {
+        private void View_FormClosing(object sender, FormClosingEventArgs e) =>
             e.Cancel = !PersistenceController.SaveIfModified();
-        }
 
         private void View_Resize(object sender, EventArgs e)
         {
@@ -88,19 +86,16 @@
                 AdjustPictureBox();
         }
 
-        private void PersistenceController_FileSaving(object sender, CancelEventArgs e)
-        {
-            e.Cancel = !ContinueSaving();
-        }
-
-        private void PersistenceController_FilePathChanged(object sender, EventArgs e)
-        {
+        private void PersistenceController_FilePathChanged(object sender, EventArgs e) =>
             View.Text = PersistenceController.WindowCaption;
-        }
+
+        private void PersistenceController_FileSaving(object sender, CancelEventArgs e) =>
+            e.Cancel = !ContinueSaving();
 
         private void Model_IsotropicChanged(object sender, EventArgs e) => IsotropicChanged();
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
-        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e) => ModelPropertyChanged();
+        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
+            OnPropertyChanged($"Model.{e.PropertyName}");
 
         public void FileMenu_DropDownOpening(object sender, EventArgs e) => View.FileSave.Enabled = Model.Modified;
         private void FileNew_Click(object sender, EventArgs e) => PersistenceController.Clear();
@@ -130,10 +125,8 @@
             DragOrigin = GetMousePosition(e);
         }
 
-        private void PictureBox_MouseMove(object sender, MouseEventArgs e)
-        {
+        private void PictureBox_MouseMove(object sender, MouseEventArgs e) =>
             UpdateMouseCoordinates(e);
-        }
 
         private void UpdateMouseCoordinates(MouseEventArgs e)
         {
@@ -152,11 +145,9 @@
             PictureBox.Cursor = Cursors.Default;
         }
 
-        private void PictureBox_MouseWheel(object sender, MouseEventArgs e)
-        {
+        private void PictureBox_MouseWheel(object sender, MouseEventArgs e) =>
             Zoom((float)Math.Pow(e.Delta > 0 ? 10.0 / 11.0 : 11.0 / 10.0,
                 Math.Abs(e.Delta / SystemInformation.MouseWheelScrollDelta)));
-        }
 
         private void PictureBox_Paint(object sender, PaintEventArgs e) =>
             Graph.Draw(e.Graphics, PictureBox.ClientRectangle);
@@ -209,20 +200,22 @@
             View.ModifiedLabel.Visible = Model.Modified;
         }
 
-        private void ModelPropertyChanged()
+        protected virtual void OnPropertyChanged(string propertyName)
         {
+            System.Diagnostics.Debug.WriteLine($"Controller.OnPropertyChanged(\"{propertyName}\")");
             PictureBox.Invalidate();
         }
 
-        private bool ContinueSaving()
-        {
-            return true;
-        }
+        private bool ContinueSaving() => true;
 
-        private PointF GetMousePosition(MouseEventArgs e)
-        {
-            return Graph.ScreenToGraph(e.Location, PictureBox.ClientRectangle);
-        }
+        private PointF GetMousePosition(MouseEventArgs e) =>
+            Graph.ScreenToGraph(e.Location, PictureBox.ClientRectangle);
+
+        private void InitCoordinatesToolTip(string text) => View.ToolTip.SetToolTip(PictureBox, text);
+        private void Scroll(double xFactor, double yFactor) => Graph.Scroll(xFactor, yFactor);
+        private void ScrollBy(float xDelta, float yDelta) => Graph.ScrollBy(xDelta, yDelta);
+        private void ScrollTo(float x, float y) => Graph.ScrollTo(x, y);
+        private void ShowPropertiesDialog() => PropertiesDialogController.ShowDialog();
 
         private void ToggleMouseCoordinates()
         {
@@ -231,34 +224,6 @@
                 InitCoordinatesToolTip(string.Empty);
         }
 
-        private void InitCoordinatesToolTip(string text)
-        {
-            View.ToolTip.SetToolTip(PictureBox, text);
-        }
-
-        private void Scroll(double xFactor, double yFactor)
-        {
-            Graph.Scroll(xFactor, yFactor);
-        }
-
-        private void ScrollBy(float xDelta, float yDelta)
-        {
-            Graph.ScrollBy(xDelta, yDelta);
-        }
-
-        private void ScrollTo(float x, float y)
-        {
-            Graph.ScrollTo(x, y);
-        }
-
-        private void ShowPropertiesDialog()
-        {
-            PropertiesDialogController.ShowDialog();
-        }
-
-        private void Zoom(float factor)
-        {
-            Graph.Zoom(factor);
-        }
+        private void Zoom(float factor) => Graph.Zoom(factor);
     }
 }

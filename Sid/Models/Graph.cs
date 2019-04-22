@@ -5,9 +5,6 @@
     using System.ComponentModel;
     using System.Drawing;
     using System.Drawing.Drawing2D;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using FormulaBuilder;
 
     [Serializable]
     public class Graph : INotifyPropertyChanged
@@ -156,16 +153,12 @@
 
         public void Clear()
         {
-            if (Series.Any())
-            {
-                for (int index = Series.Count; index > 0;)
-                    RemoveSeries(--index);
-                OnPropertyChanged("Series");
-            }
+            for (int index = Series.Count; index > 0;)
+                RemoveSeriesAt(--index);
             InitDefaults();
         }
 
-        public void RemoveSeries(int index)
+        public void RemoveSeriesAt(int index)
         {
             if (index < 0 || index >= Series.Count)
                 return;
@@ -175,13 +168,22 @@
             OnPropertyChanged("Series");
         }
 
+        public void RemoveSeriesRange(int index, int count)
+        {
+            while (count-- > 0)
+                RemoveSeriesAt(index + count);
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged(string propertyName) =>
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            System.Diagnostics.Debug.WriteLine($"Graph.OnPropertyChanged(\"{propertyName}\")");
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public void Series_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
-            OnPropertyChanged($"Series.{e.PropertyName}");
+            OnPropertyChanged($"Series[{Series.IndexOf((Series)sender)}].{e.PropertyName}");
 
         public void Draw(Graphics g, Rectangle r)
         {

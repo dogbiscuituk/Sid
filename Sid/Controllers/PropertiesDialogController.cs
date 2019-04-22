@@ -3,6 +3,7 @@
     using System;
     using System.Drawing;
     using System.Windows.Forms;
+    using FormulaBuilder;
     using Sid.Models;
     using Sid.Views;
 
@@ -14,8 +15,10 @@
             View = new PropertiesDialog();
         }
 
-        private MainFormController Parent;
+        private bool CanCancel;
+        private Panel FlowLayoutPanel { get => View.FlowLayoutPanel; }
         private Graph Graph { get => Parent.Graph; }
+        private MainFormController Parent;
 
         private PropertiesDialog _view;
         public PropertiesDialog View
@@ -24,8 +27,8 @@
             set
             {
                 _view = value;
-
-                View.btnAddNew.Click += BtnAddNew_Click;
+                View.FormClosing += View_FormClosing;
+                View.btnAddNewFunction.Click += BtnAddNewFunction_Click;
                 View.btnApply.Click += BtnApply_Click;
             }
         }
@@ -41,25 +44,38 @@
             View.seYmin.Value = (decimal)yMin;
             View.seXmax.Value = (decimal)xMax;
             View.seYmax.Value = (decimal)yMax;
-
             FlowLayoutPanel.Controls.Clear();
             foreach (Series series in Graph.Series)
                 AddNewEditor(series);
-
+            Validate();
             if (View.ShowDialog() == DialogResult.OK)
                 Apply();
         }
 
-        private Panel FlowLayoutPanel { get => View.FlowLayoutPanel; }
-
-        private void BtnAddNew_Click(object sender, EventArgs e) =>
+        private void BtnAddNewFunction_Click(object sender, EventArgs e) =>
             AddNewEditor(null);
 
         private void BtnApply_Click(object sender, EventArgs e) =>
             Apply();
 
         private void BtnRemove_Click(object sender, EventArgs e) =>
-            RemoveEditor(((Control)sender).Parent);
+            RemoveEditor((TraceEditor)((Control)sender).Parent);
+
+        private void CbFunction_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var comboBox = (ComboBox)sender;
+            var ok = new Parser().TryParse(comboBox.Text, out object result);
+            //comboBox.BackColor = ok ? Color.FromKnownColor(KnownColor.Window) : Color.Red;
+            //comboBox.ForeColor = ok ? Color.FromKnownColor(KnownColor.ControlText) : Color.White;
+            View.ErrorProvider.SetError(comboBox, ok ? string.Empty : result.ToString());
+            e.Cancel = CanCancel && !ok;
+        }
+
+        private void View_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (View.DialogResult != DialogResult.Cancel)
+                e.Cancel = !Validate();
+        }
 
         private void AddNewEditor(Series series)
         {
@@ -79,13 +95,15 @@
             }
             var index = controls.Count;
             editor.tbLabel.Text = index > 0 ? $"y{controls.Count}" : "y";
+            editor.cbFunction.Validating += CbFunction_Validating;
             editor.btnRemove.Click += BtnRemove_Click;
-
             FlowLayoutPanel.Controls.Add(editor);
         }
 
         private void Apply()
         {
+            if (!Validate())
+                return;
             float
                 xMin = (float)View.seXmin.Value,
                 yMin = (float)View.seYmin.Value,
@@ -109,15 +127,25 @@
             }
             count -= index;
             if (count > 0)
-                Graph.Series.RemoveRange(index, count);
+                Graph.RemoveSeriesRange(index, count);
         }
 
-        private void RemoveEditor(Control control)
+        private void RemoveEditor(TraceEditor editor)
         {
-            var bounds = control.Bounds;
+            var bounds = editor.Bounds;
             var controls = FlowLayoutPanel.Controls;
-            var index = controls.IndexOf(control);
+            var index = controls.IndexOf(editor);
             controls.RemoveAt(index);
+        }
+
+        private bool Validate()
+        {
+            CanCancel = true;
+            var ok = View.ValidateChildren();
+            CanCancel = false;
+            View.btnApply.Enabled = ok;
+            View.btnOK.Enabled = ok;
+            return ok;
         }
     }
 }

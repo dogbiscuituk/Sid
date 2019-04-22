@@ -5,14 +5,21 @@
 
     public class Model : INotifyPropertyChanged
     {
-        private Graph _graph = new Graph();
+        public Model()
+        {
+            Graph = new Graph();
+            Modified = false;
+        }
+
+        private Graph _graph;
         public Graph Graph
         {
             get => _graph;
             set
             {
+                if (Graph != null) Graph.PropertyChanged -= Graph_PropertyChanged;
                 _graph = value;
-                Graph.PropertyChanged += Graph_PropertyChanged;
+                if (Graph != null) Graph.PropertyChanged += Graph_PropertyChanged;
                 OnPropertyChanged("Graph");
             }
         }
@@ -52,11 +59,8 @@
         public event EventHandler ModifiedChanged;
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void Graph_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(sender, e);
-            Modified = true;
-        }
+        public void Graph_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
+            OnPropertyChanged($"Graph.{e.PropertyName}");
 
         protected virtual void OnIsotropicChanged() =>
             IsotropicChanged?.Invoke(this, EventArgs.Empty);
@@ -64,7 +68,11 @@
         protected virtual void OnModifiedChanged() =>
             ModifiedChanged?.Invoke(this, EventArgs.Empty);
 
-        protected virtual void OnPropertyChanged(string propertyName) =>
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            System.Diagnostics.Debug.WriteLine($"Model.OnPropertyChanged(\"{propertyName}\")");
+            Modified = true;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
