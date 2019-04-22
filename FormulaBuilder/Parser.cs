@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Text;
     using System.Text.RegularExpressions;
 
     public class Parser
@@ -24,9 +23,7 @@
             ImpliedProduct = "i*",
             SuperscriptPower = "s^",
             UnaryMinus = "u-",
-            UnaryPlus = "u+",
-            Superscripts = "⁺⁻⁰¹²³⁴⁵⁶⁷⁸⁹",
-            Transcripts = "+-0123456789";
+            UnaryPlus = "u+";
 
         private string Formula;
         private int Index;
@@ -181,7 +178,7 @@
                 case char c when char.IsDigit(c):
                 case '.':
                     return MatchNumber();
-                case char c when Superscripts.IndexOf(c) >= 0:
+                case char c when c.IsSuperscript():
                     return MatchSuperscript();
                 case char c when char.IsLetter(c):
                     return MatchFunction();
@@ -213,7 +210,7 @@
                     case '$' when Index < Formula.Length + 2: // End of input (unexpected)
                         throw new FormatException(
                             $"Unexpected end of text, input='{Formula}', index={Index}");
-                    case char c when Superscripts.IndexOf(c) >= 0:
+                    case char c when c.IsSuperscript():
                         ParseOperator(SuperscriptPower); //
                         break;
                     default:
@@ -276,7 +273,7 @@
                 case '.':
                     ParseNumber(token);
                     break;
-                case char c when Superscripts.IndexOf(c) >= 0:
+                case char c when c.IsSuperscript():
                     ParseSuperscript(token);
                     break;
                 case '(':
@@ -364,7 +361,7 @@
 
         private void ParseSuperscript(string number)
         {
-            ParseNumber(SuperscriptToNormal(number));
+            ParseNumber(number.SuperscriptToNormal());
         }
 
         private void ParseUnary(string unary)
@@ -374,13 +371,5 @@
         }
 
         private void ReadPast(string token) => Index += token.Length;
-
-        private static string SuperscriptToNormal(string number)
-        {
-            var stringBuilder = new StringBuilder(number);
-            for (var index = 0; index < Superscripts.Length; index++)
-                stringBuilder.Replace(Superscripts[index], Transcripts[index]);
-            return stringBuilder.ToString();
-        }
     }
 }
