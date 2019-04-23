@@ -159,6 +159,11 @@
             TestParse("1/2√(1-x²)", "(1/(2*Sqrt((1-(x^2)))))");
             TestParse("eˣ", "(2.71828182845905^x)");
             TestParse("eᶜᵒˢ⁽ˣ⁾", "(2.71828182845905^Cos(x))");
+            TestParse("x'", "1");                                        // d(x)/dx = 1
+            TestParse("(sin x)'", "Cos(x)");                             // d(sin x)/dx = cos x
+            TestParse("(x³)'", "((x^2)*3)");                             // d(x³)/dx = 3x²
+            TestParse("(exp(cos x))'", "(Exp(Cos(x))*-Sin(x))");         // d(eᶜᵒˢ⁽ˣ⁾)/dx = -(sin x)eᶜᵒˢ⁽ˣ⁾
+            TestParse("(sin x)''", "-Sin(x)");                           // d²(sin x)/dx² = -sin x
         }
 
         public static void TestPolynomialDerivative()

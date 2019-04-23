@@ -13,16 +13,20 @@
         {
             View = new MainForm();
             Model = new Model();
+            Model.Cleared += Model_Cleared;
             Model.IsotropicChanged += Model_IsotropicChanged;
             Model.ModifiedChanged += Model_ModifiedChanged;
             Model.PropertyChanged += Model_PropertyChanged;
 
             PersistenceController = new JsonController(Model, View, View.FileReopen);
+            PersistenceController.FileLoaded += PersistenceController_FileLoaded;
             PersistenceController.FilePathChanged += PersistenceController_FilePathChanged;
             PersistenceController.FileSaving += PersistenceController_FileSaving;
 
             PropertiesDialogController = new PropertiesDialogController(this);
         }
+
+        private void PersistenceController_FileLoaded(object sender, EventArgs e) => FileLoaded();
 
         public readonly Model Model;
         public readonly JsonController PersistenceController;
@@ -32,9 +36,10 @@
         public Graph Graph { get => Model.Graph; }
         public PictureBox PictureBox { get => View.PictureBox; }
 
-        private bool ShowMouseCoordinates = true;
+        private Point DragFrom;
         private bool Dragging;
-        private PointF DragOrigin;
+        private Point MouseDownAt;
+        private bool ShowMouseCoordinates = true;
 
         private MainForm _view;
         public MainForm View
@@ -92,6 +97,8 @@
         private void PersistenceController_FileSaving(object sender, CancelEventArgs e) =>
             e.Cancel = !ContinueSaving();
 
+
+        private void Model_Cleared(object sender, EventArgs e) => ModelCleared();
         private void Model_IsotropicChanged(object sender, EventArgs e) => IsotropicChanged();
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
         private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
@@ -120,29 +127,44 @@
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            PictureBox.Cursor = Cursors.Hand;
+            if (!Model.Isotropic)
+            {
+                Size s = ClientPanel.ClientSize;
+                PictureBox.Hide();
+                PictureBox.Dock = DockStyle.None;
+                PictureBox.SetBounds(0, 0, s.Width, s.Height);
+                PictureBox.Show();
+            }
             Dragging = true;
-            DragOrigin = GetMousePosition(e);
+            PictureBox.Cursor = Cursors.Hand;
+            MouseDownAt = e.Location;
+            DragFrom = PictureBox.Location;
         }
 
-        private void PictureBox_MouseMove(object sender, MouseEventArgs e) =>
-            UpdateMouseCoordinates(e);
-
-        private void UpdateMouseCoordinates(MouseEventArgs e)
+        private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if (ShowMouseCoordinates)
-            {
-                PointF p = GetMousePosition(e), q = new PointF(DragOrigin.X - p.X, DragOrigin.Y - p.Y);
-                InitCoordinatesToolTip(Dragging ? $"Scroll by ({q.X}, {q.Y})" : $"({p.X}, {p.Y})");
-            }
+            if (Dragging)
+                PictureBox.Location = new Point(
+                    PictureBox.Left - MouseDownAt.X + e.X,
+                    PictureBox.Top - MouseDownAt.Y + e.Y);
+            else
+                UpdateMouseCoordinates(e);
         }
 
         private void PictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            var p = GetMousePosition(e);
-            ScrollBy(DragOrigin.X - p.X, DragOrigin.Y - p.Y);
-            Dragging = false;
-            PictureBox.Cursor = Cursors.Default;
+            if (Dragging)
+            {
+                PointF
+                    dragFrom = ScreenToGraph(DragFrom),
+                    dragTo = ScreenToGraph(PictureBox.Location);
+                ScrollBy(dragFrom.X - dragTo.X, dragFrom.Y - dragTo.Y);
+                AdjustPictureBox();
+                if (!Model.Isotropic)
+                    PictureBox.Dock = DockStyle.Fill;
+                PictureBox.Cursor = Cursors.Default;
+                Dragging = false;
+            }
         }
 
         private void PictureBox_MouseWheel(object sender, MouseEventArgs e) =>
@@ -194,6 +216,8 @@
                 PictureBox.Dock = DockStyle.Fill;
         }
 
+        private void ModelCleared() => InitPaper();
+
         private void ModifiedChanged()
         {
             View.Text = PersistenceController.WindowCaption;
@@ -203,15 +227,19 @@
         protected virtual void OnPropertyChanged(string propertyName)
         {
             System.Diagnostics.Debug.WriteLine($"Controller.OnPropertyChanged(\"{propertyName}\")");
+            if (propertyName == "Model.Graph.FillColour")
+                InitPaper();
             PictureBox.Invalidate();
         }
 
         private bool ContinueSaving() => true;
-
-        private PointF GetMousePosition(MouseEventArgs e) =>
-            Graph.ScreenToGraph(e.Location, PictureBox.ClientRectangle);
-
+        private void FileLoaded() => InitPaper();
         private void InitCoordinatesToolTip(string text) => View.ToolTip.SetToolTip(PictureBox, text);
+        private void InitPaper() => ClientPanel.BackColor = Graph.FillColour;
+
+        private PointF ScreenToGraph(Point p) =>
+            Graph.ScreenToGraph(p, PictureBox.ClientRectangle);
+
         private void Scroll(double xFactor, double yFactor) => Graph.Scroll(xFactor, yFactor);
         private void ScrollBy(float xDelta, float yDelta) => Graph.ScrollBy(xDelta, yDelta);
         private void ScrollTo(float x, float y) => Graph.ScrollTo(x, y);
@@ -222,6 +250,12 @@
             ShowMouseCoordinates = !ShowMouseCoordinates;
             if (!ShowMouseCoordinates)
                 InitCoordinatesToolTip(string.Empty);
+        }
+
+        private void UpdateMouseCoordinates(MouseEventArgs e)
+        {
+            if (ShowMouseCoordinates)
+                InitCoordinatesToolTip(ScreenToGraph(e.Location).ToString());
         }
 
         private void Zoom(float factor) => Graph.Zoom(factor);

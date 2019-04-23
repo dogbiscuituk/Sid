@@ -1,18 +1,22 @@
-﻿using FormulaBuilder;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-
-namespace Sid.Views
+﻿namespace Sid.Views
 {
+    using System.Drawing;
+    using System.Linq;
+    using System.Windows.Forms;
+    using FormulaBuilder;
+
     public partial class TraceEditor : UserControl
     {
         public TraceEditor()
         {
             InitializeComponent();
             InitColours();
+        }
+
+        public bool TraceVisible
+        {
+            get => cbVisible.Checked;
+            set => cbVisible.Checked = value;
         }
 
         public string Formula
@@ -41,16 +45,6 @@ namespace Sid.Views
                 return 100;
             }
         }
-
-        private static IOrderedEnumerable<Color> NamedColours =
-            Enum.GetValues(typeof(KnownColor)).Cast<KnownColor>()
-            .Select(Color.FromKnownColor)
-            .Where(colour => !colour.IsSystemColor)
-            .OrderBy(colour => colour.GetHue())
-            .ThenBy(colour => colour.GetSaturation());
-
-        private static IEnumerable<string> NamedFunctions =
-            Functions.KnownFunctionNames.Select(s => $"{s}(x)");
 
         private void ColourCombo_DrawItem(object sender, DrawItemEventArgs e) =>
             DrawColour((ComboBox)sender, e);
@@ -90,13 +84,10 @@ namespace Sid.Views
 
         private void InitColours()
         {
-            foreach (var function in NamedFunctions)
-                cbFunction.Items.Add(function);
-            foreach (var colour in NamedColours)
-            {
-                cbPenColour.Items.Add(colour.Name);
-                cbFillColour.Items.Add(colour.Name);
-            };
+            cbFunction.Items.AddRange(Functions.FunctionNames.Select(f => $"{f}(x)").ToArray());
+            var colourNames = Utility.NonSystemColourNames.ToArray();
+            cbPenColour.Items.AddRange(colourNames);
+            cbFillColour.Items.AddRange(colourNames);
         }
 
         /// <summary>

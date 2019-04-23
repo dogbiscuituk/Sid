@@ -194,9 +194,9 @@
             using (var brush = new SolidBrush(PaperColour))
                 g.FillRectangle(brush, Limits);
             var penWidth = (Size.Width / r.Width + Size.Height / r.Height);
-            Series.ForEach(s => s.Draw(g, Limits, penWidth, fill: true));
+            Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, fill: true); });
             DrawGrid(g, penWidth);
-            Series.ForEach(s => s.Draw(g, Limits, penWidth, fill: false));
+            Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, fill: false); });
         }
 
         public PointF ScreenToGraph(Point p, Rectangle r)

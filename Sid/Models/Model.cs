@@ -53,14 +53,20 @@
             }
         }
 
-        public void Clear() => Graph.Clear();
+        public void Clear()
+        {
+            Graph.Clear();
+            OnClear();
+        }
 
-        public event EventHandler IsotropicChanged;
-        public event EventHandler ModifiedChanged;
+        public event EventHandler Cleared, IsotropicChanged, ModifiedChanged;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void Graph_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
             OnPropertyChanged($"Graph.{e.PropertyName}");
+
+        protected virtual void OnClear() =>
+            Cleared?.Invoke(this, EventArgs.Empty);
 
         protected virtual void OnIsotropicChanged() =>
             IsotropicChanged?.Invoke(this, EventArgs.Empty);

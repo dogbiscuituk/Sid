@@ -300,7 +300,7 @@
             this.btnAddNewFunction.Name = "btnAddNewFunction";
             this.btnAddNewFunction.Size = new System.Drawing.Size(137, 28);
             this.btnAddNewFunction.TabIndex = 6;
-            this.btnAddNewFunction.Text = "Add a &New Function";
+            this.btnAddNewFunction.Text = "&Add a new function";
             this.btnAddNewFunction.UseVisualStyleBackColor = true;
             // 
             // ErrorProvider

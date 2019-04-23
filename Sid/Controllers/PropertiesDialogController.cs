@@ -2,7 +2,6 @@
 {
     using System;
     using System.Drawing;
-    using System.Text;
     using System.Windows.Forms;
     using FormulaBuilder;
     using Sid.Models;
@@ -84,18 +83,20 @@
             var editor = new TraceEditor();
             if (series != null)
             {
+                editor.TraceVisible = series.Visible;
                 editor.Formula = series.Formula;
                 editor.PenColour = series.PenColour;
                 editor.FillColour = series.FillColour;
             }
             else
             {
+                editor.TraceVisible = true;
                 editor.Formula = string.Empty;
                 editor.PenColour = Color.Black;
                 editor.FillColour = Color.Yellow;
             }
             var index = controls.Count;
-            editor.tbLabel.Text = index > 0 ? $"y{controls.Count}" : "y";
+            editor.cbVisible.Text = $"y{controls.Count.ToString().ToSubscript()}";
             editor.cbFunction.Validating += CbFunction_Validating;
             editor.btnRemove.Click += BtnRemove_Click;
             FlowLayoutPanel.Controls.Add(editor);
@@ -121,6 +122,7 @@
                     index < count
                     ? Graph.Series[index]
                     : Graph.AddSeries();
+                series.Visible = editor.TraceVisible;
                 series.Formula = editor.Formula;
                 series.PenColour = editor.PenColour;
                 series.FillColour = editor.FillColour;

@@ -85,6 +85,20 @@
         [JsonIgnore]
         public Func<double, double> Func { get => _func; }
 
+        private bool _visible = true;
+        public bool Visible
+        {
+            get => _visible;
+            set
+            {
+                if (Visible != value)
+                {
+                    _visible = value;
+                    OnPropertyChanged("Visible");
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)

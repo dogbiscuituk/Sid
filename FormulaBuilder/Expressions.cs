@@ -13,7 +13,9 @@
             e.ToString().Replace(" ", "").Replace("Param_0", variableName);
 
         public static Func<double, double> AsFunction(this Expression e) =>
-            Expression.Lambda<Func<double, double>>(e, x).Compile();
+            e is DefaultExpression && e.Type == typeof(void)
+            ? (x) => double.NaN
+            : Expression.Lambda<Func<double, double>>(e, x).Compile();
 
         public static double AsDouble(this Expression e, double x) => AsFunction(e)(x);
 

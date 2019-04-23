@@ -1,5 +1,4 @@
-﻿
-namespace Sid.Controllers
+﻿namespace Sid.Controllers
 {
     using System;
     using System.ComponentModel;
@@ -21,11 +20,11 @@ namespace Sid.Controllers
 			var result = SaveIfModified();
 			if (result)
 			{
-				ClearDocument();
 				Model.Modified = false;
 				FilePath = string.Empty;
-			}
-			return result;
+                ClearDocument();
+            }
+            return result;
 		}
 
 		public bool Open() => SaveIfModified()
@@ -56,10 +55,8 @@ namespace Sid.Controllers
 			return true;
 		}
 
-		public event EventHandler FilePathChanged;
-
-		public event EventHandler<CancelEventArgs> FileLoading;
-		public event EventHandler<CancelEventArgs> FileSaving;
+        public event EventHandler<CancelEventArgs> FileLoading, FileSaving;
+        public event EventHandler FileLoaded, FilePathChanged, FileSaved;
 
 		private string _filePath = string.Empty;
 		protected string FilePath
@@ -84,6 +81,8 @@ namespace Sid.Controllers
             FilePathChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        protected virtual void OnFileLoaded() => FileLoaded?.Invoke(this, EventArgs.Empty);
+
 		protected virtual bool OnFileLoading()
 		{
 			var result = true;
@@ -97,7 +96,9 @@ namespace Sid.Controllers
 			return result;
 		}
 
-		protected virtual bool OnFileSaving()
+        protected virtual void OnFileSaved() => FileSaved?.Invoke(this, EventArgs.Empty);
+
+        protected virtual bool OnFileSaving()
 		{
 			var result = true;
 			var fileSaving = FileSaving;
@@ -160,6 +161,7 @@ namespace Sid.Controllers
 				{
 					FilePath = filePath;
 					AddItem(filePath);
+                    OnFileLoaded();
 				}
 			}
 			return result;

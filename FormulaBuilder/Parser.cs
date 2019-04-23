@@ -33,6 +33,8 @@
 
         public Expression Parse(string formula)
         {
+            if (formula == string.Empty)
+                return Expression.Empty();
             Formula = formula;
             Index = 0;
             Operands = new Stack<Expression>();
@@ -158,8 +160,8 @@
             return Formula.Substring(Index + match.Index, match.Length);
         }
 
-        private string MatchSubscript() => MatchRegex($"^[{StringUtilities.Subscripts}]+");
-        private string MatchSuperscript() => MatchRegex($"^[{StringUtilities.Superscripts}]+");
+        private string MatchSubscript() => MatchRegex($"^[{Utility.Subscripts}]+");
+        private string MatchSuperscript() => MatchRegex($"^[{Utility.Superscripts}]+");
 
         private char NextChar()
         {
@@ -200,6 +202,7 @@
             do
             {
                 ParseOperand();
+nextOperator:
                 var op = NextChar();
                 switch (op)
                 {
@@ -213,6 +216,9 @@
                         if (op == ')')
                             return;
                         break;
+                    case '\'':
+                        ParseTick();
+                        goto nextOperator;
                     case '$' when Index == Formula.Length + 2: // End of input (normal)
                         return;
                     case '$' when Index < Formula.Length + 2: // End of input (unexpected)
@@ -232,6 +238,12 @@
                 }
             }
             while (true);
+        }
+
+        private void ParseTick()
+        {
+            Operands.Push(Operands.Pop().Differentiate());
+            ReadPast("'");
         }
 
         private void ParseFunction(string function)
@@ -373,7 +385,7 @@
 
         private void ParseSuperscript(string superscript)
         {
-            Operands.Push(new Parser().Parse(superscript.SuperscriptToNormal()));
+            Operands.Push(new Parser().Parse(superscript.FromSuperscript()));
             ReadPast(superscript);
         }
 

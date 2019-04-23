@@ -352,7 +352,7 @@
             // 
             // ClientPanel
             // 
-            this.ClientPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientPanel.BackColor = System.Drawing.Color.LightYellow;
             this.ClientPanel.Controls.Add(this.PictureBox);
             this.ClientPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ClientPanel.Location = new System.Drawing.Point(0, 24);

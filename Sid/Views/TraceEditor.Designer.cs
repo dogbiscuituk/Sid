@@ -33,7 +33,7 @@
             this.cbPenColour = new System.Windows.Forms.ComboBox();
             this.cbFillColour = new System.Windows.Forms.ComboBox();
             this.cbFillOpacity = new System.Windows.Forms.ComboBox();
-            this.tbLabel = new System.Windows.Forms.TextBox();
+            this.cbVisible = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // cbFunction
@@ -41,7 +41,7 @@
             this.cbFunction.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbFunction.FormattingEnabled = true;
             this.cbFunction.ItemHeight = 16;
-            this.cbFunction.Location = new System.Drawing.Point(47, 0);
+            this.cbFunction.Location = new System.Drawing.Point(31, 0);
             this.cbFunction.Margin = new System.Windows.Forms.Padding(0);
             this.cbFunction.Name = "cbFunction";
             this.cbFunction.Size = new System.Drawing.Size(149, 22);
@@ -52,7 +52,7 @@
             // 
             this.btnRemove.FlatAppearance.BorderSize = 0;
             this.btnRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRemove.Location = new System.Drawing.Point(373, 0);
+            this.btnRemove.Location = new System.Drawing.Point(357, 0);
             this.btnRemove.Margin = new System.Windows.Forms.Padding(0);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(22, 21);
@@ -67,7 +67,7 @@
             this.cbPenColour.DropDownWidth = 144;
             this.cbPenColour.FormattingEnabled = true;
             this.cbPenColour.ItemHeight = 16;
-            this.cbPenColour.Location = new System.Drawing.Point(209, 0);
+            this.cbPenColour.Location = new System.Drawing.Point(193, 0);
             this.cbPenColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbPenColour.Name = "cbPenColour";
             this.cbPenColour.Size = new System.Drawing.Size(64, 22);
@@ -81,7 +81,7 @@
             this.cbFillColour.DropDownWidth = 144;
             this.cbFillColour.FormattingEnabled = true;
             this.cbFillColour.ItemHeight = 16;
-            this.cbFillColour.Location = new System.Drawing.Point(273, 0);
+            this.cbFillColour.Location = new System.Drawing.Point(257, 0);
             this.cbFillColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbFillColour.Name = "cbFillColour";
             this.cbFillColour.Size = new System.Drawing.Size(64, 22);
@@ -106,35 +106,35 @@
             "80",
             "90",
             "100"});
-            this.cbFillOpacity.Location = new System.Drawing.Point(337, 0);
+            this.cbFillOpacity.Location = new System.Drawing.Point(321, 0);
             this.cbFillOpacity.Margin = new System.Windows.Forms.Padding(0);
             this.cbFillOpacity.Name = "cbFillOpacity";
             this.cbFillOpacity.Size = new System.Drawing.Size(36, 22);
             this.cbFillOpacity.TabIndex = 4;
             // 
-            // tbLabel
+            // cbVisible
             // 
-            this.tbLabel.Location = new System.Drawing.Point(0, 0);
-            this.tbLabel.Margin = new System.Windows.Forms.Padding(0);
-            this.tbLabel.Name = "tbLabel";
-            this.tbLabel.Size = new System.Drawing.Size(32, 20);
-            this.tbLabel.TabIndex = 0;
-            this.tbLabel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cbVisible.Location = new System.Drawing.Point(0, 2);
+            this.cbVisible.Margin = new System.Windows.Forms.Padding(0);
+            this.cbVisible.Name = "cbVisible";
+            this.cbVisible.Size = new System.Drawing.Size(64, 17);
+            this.cbVisible.TabIndex = 0;
+            this.cbVisible.Text = "y";
+            this.cbVisible.UseVisualStyleBackColor = true;
             // 
             // TraceEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tbLabel);
             this.Controls.Add(this.cbFunction);
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.cbPenColour);
             this.Controls.Add(this.cbFillColour);
             this.Controls.Add(this.cbFillOpacity);
+            this.Controls.Add(this.cbVisible);
             this.Name = "TraceEditor";
-            this.Size = new System.Drawing.Size(429, 22);
+            this.Size = new System.Drawing.Size(387, 22);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -145,6 +145,6 @@
         private System.Windows.Forms.ComboBox cbPenColour;
         private System.Windows.Forms.ComboBox cbFillColour;
         private System.Windows.Forms.ComboBox cbFillOpacity;
-        public System.Windows.Forms.TextBox tbLabel;
+        public System.Windows.Forms.CheckBox cbVisible;
     }
 }

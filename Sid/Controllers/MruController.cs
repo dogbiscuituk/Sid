@@ -1,14 +1,15 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
-using Win32 = Microsoft.Win32;
-using Sid.Models;
-
-namespace Sid.Controllers
+﻿namespace Sid.Controllers
 {
-	public class MruController
+    using System;
+    using System.Drawing;
+    using System.IO;
+    using System.Linq;
+    using System.Windows.Forms;
+    using Win32 = Microsoft.Win32;
+    using FormulaBuilder;
+    using Sid.Models;
+
+    public class MruController
 	{
 		protected MruController(Model model, string subKeyName, ToolStripDropDownItem recentMenu)
 		{

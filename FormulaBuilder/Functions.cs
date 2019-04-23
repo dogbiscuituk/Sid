@@ -70,7 +70,7 @@
         public static double Tan(double x) => Math.Tan(x);
         public static double Tanh(double x) => Math.Tanh(x);
 
-        public static string[] KnownFunctionNames = new[]
+        public static string[] FunctionNames = new[]
         {
             "Abs", "Acos", "Acosh", "Acot", "Acoth", "Acsc", "Acsch", "Asec", "Asech", "Asin",
             "Asinh", "Atan", "Atanh", "Ceiling", "Cos", "Cosh", "Cot", "Coth", "Csc", "Csch",
