@@ -33,22 +33,10 @@
             }
         }
 
-        public void ShowDialog()
+        public void ShowDialog(IWin32Window owner)
         {
-            float
-                xMin = Graph.Location.X,
-                yMin = Graph.Location.Y,
-                xMax = xMin + Graph.Size.Width,
-                yMax = yMin + Graph.Size.Height;
-            View.seXmin.Value = (decimal)xMin;
-            View.seYmin.Value = (decimal)yMin;
-            View.seXmax.Value = (decimal)xMax;
-            View.seYmax.Value = (decimal)yMax;
-            FlowLayoutPanel.Controls.Clear();
-            foreach (Series series in Graph.Series)
-                AddNewEditor(series);
-            Validate();
-            if (View.ShowDialog() == DialogResult.OK)
+            InitView();
+            if (View.ShowDialog(owner) == DialogResult.OK)
                 Apply();
         }
 
@@ -96,7 +84,7 @@
                 editor.FillColour = Color.Yellow;
             }
             var index = controls.Count;
-            editor.cbVisible.Text = $"y{controls.Count.ToString().ToSubscript()}";
+            editor.cbVisible.Text = $"f{controls.Count.ToString().ToSubscript()}";
             editor.cbFunction.Validating += CbFunction_Validating;
             editor.btnRemove.Click += BtnRemove_Click;
             FlowLayoutPanel.Controls.Add(editor);
@@ -133,6 +121,23 @@
                 Graph.RemoveSeriesRange(index, count);
         }
 
+        private void InitView()
+        {
+            float
+                xMin = Graph.Location.X,
+                yMin = Graph.Location.Y,
+                xMax = xMin + Graph.Size.Width,
+                yMax = yMin + Graph.Size.Height;
+            View.seXmin.Value = (decimal)xMin;
+            View.seYmin.Value = (decimal)yMin;
+            View.seXmax.Value = (decimal)xMax;
+            View.seYmax.Value = (decimal)yMax;
+            FlowLayoutPanel.Controls.Clear();
+            foreach (Series series in Graph.Series)
+                AddNewEditor(series);
+            Validate();
+        }
+
         private void RemoveEditor(TraceEditor editor)
         {
             var bounds = editor.Bounds;
@@ -148,8 +153,9 @@
             CanCancel = false;
             if (!ok)
                 MessageBox.Show(View,
-                    "Property values can't be applied while errors exist.",
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    @"Property values cannot be applied while any errors remain.
+Mouse over an error icon to see details of the problem.",
+                    "Error in Function", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return ok;
         }
     }

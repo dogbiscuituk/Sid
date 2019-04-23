@@ -24,20 +24,6 @@
             }
         }
 
-        private bool _isotropic;
-        public bool Isotropic
-        {
-            get => _isotropic;
-            set
-            {
-                if (Isotropic != value)
-                {
-                    _isotropic = value;
-                    OnIsotropicChanged();
-                }
-            }
-        }
-
         private bool _modified;
         public bool Modified
         {
@@ -59,7 +45,7 @@
             OnClear();
         }
 
-        public event EventHandler Cleared, IsotropicChanged, ModifiedChanged;
+        public event EventHandler Cleared, ModifiedChanged;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void Graph_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
@@ -67,9 +53,6 @@
 
         protected virtual void OnClear() =>
             Cleared?.Invoke(this, EventArgs.Empty);
-
-        protected virtual void OnIsotropicChanged() =>
-            IsotropicChanged?.Invoke(this, EventArgs.Empty);
 
         protected virtual void OnModifiedChanged() =>
             ModifiedChanged?.Invoke(this, EventArgs.Empty);

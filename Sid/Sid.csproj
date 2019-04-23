@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Controllers\JsonController.cs" />
     <Compile Include="Controllers\PropertiesDialogController.cs" />
+    <Compile Include="Controllers\UndoController.cs" />
     <Compile Include="Views\PropertiesDialog.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -304,6 +304,8 @@
             // 
             // ViewMouseCoordinates
             // 
+            this.ViewMouseCoordinates.Checked = true;
+            this.ViewMouseCoordinates.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ViewMouseCoordinates.Name = "ViewMouseCoordinates";
             this.ViewMouseCoordinates.Size = new System.Drawing.Size(182, 22);
             this.ViewMouseCoordinates.Text = "&Mouse Co-ordinates";
@@ -343,10 +345,9 @@
             // 
             // PictureBox
             // 
-            this.PictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PictureBox.Location = new System.Drawing.Point(0, 0);
+            this.PictureBox.Location = new System.Drawing.Point(12, 3);
             this.PictureBox.Name = "PictureBox";
-            this.PictureBox.Size = new System.Drawing.Size(944, 455);
+            this.PictureBox.Size = new System.Drawing.Size(437, 181);
             this.PictureBox.TabIndex = 3;
             this.PictureBox.TabStop = false;
             // 
