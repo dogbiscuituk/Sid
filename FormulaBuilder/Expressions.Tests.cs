@@ -122,6 +122,7 @@
             TestParseFail("x+.E+1", "Invalid number format '.E+1', input='x+.E+1', index=2");
             TestParseFail("x+", "Missing operand, input='x+', index=2");
             TestParseFail("(x+(2*(x+(3)))", "Unexpected end of text, input='(x+(2*(x+(3)))', index=15");
+            TestParseFail("2 sin x cos x", "Unexpected character 'c', input='2 sin x cos x', index=8");
         }
 
         public static void TestParserSuccess()
@@ -132,6 +133,7 @@
             TestParse("pi", "3.14159265358979");
             TestParse("ϕ", "1.61803398874989");
             TestParse("phi", "1.61803398874989");
+            TestParse("-x", "-x");
             TestParse("X+1", "(x+1)");
             TestParse("((x+1))", "(x+1)");
             TestParse("x+x*x^x/x-x", "((x+((x*(x^x))/x))-x)");
@@ -154,6 +156,9 @@
             TestParse("2x^3)", "((2*x)^3)");
             TestParse("2(x^3)", "(2*(x^3))");
             TestParse("x⁴-4x³+6x²-4x+1", "(((((x^4)-(4*(x^3)))+(6*(x^2)))-(4*x))+1)");
+            TestParse("1/2√(1-x²)", "(1/(2*Sqrt((1-(x^2)))))");
+            TestParse("eˣ", "(2.71828182845905^x)");
+            TestParse("eᶜᵒˢ⁽ˣ⁾", "(2.71828182845905^Cos(x))");
         }
 
         public static void TestPolynomialDerivative()

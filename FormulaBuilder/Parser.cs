@@ -22,8 +22,9 @@
         const string
             ImpliedProduct = "i*",
             SuperscriptPower = "s^",
-            UnaryMinus = "u-",
-            UnaryPlus = "u+";
+            UnaryMinus = "(-)",
+            UnaryPlus = "(+)",
+            SquareRoot = "(√)";
 
         private string Formula;
         private int Index;
@@ -136,13 +137,18 @@
             if (operand is ConstantExpression c)
                 switch (op)
                 {
-                    case UnaryPlus: return operand;
                     case UnaryMinus: return (-(double)c.Value).Constant();
+                    case SquareRoot: return Math.Sqrt((double)c.Value).Constant();
                 }
+            switch (op)
+            {
+                case UnaryPlus: return operand;
+                case SquareRoot: return MakeFunction("Sqrt", operand);
+            }
             return Expression.MakeUnary(GetExpressionType(op), operand, null);
         }
 
-        private string MatchFunction() => MatchRegex(@"^\w+").ToLower();
+        private string MatchFunction() => MatchRegex(@"^[\p{Lu}\p{Ll}\d]+").ToLower();
 
         private string MatchNumber() => MatchRegex(@"^\d*\.?\d*([eE][+-]?\d+)?");
 
@@ -152,7 +158,8 @@
             return Formula.Substring(Index + match.Index, match.Length);
         }
 
-        private string MatchSuperscript() => MatchRegex(@"^[⁺⁻]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+");
+        private string MatchSubscript() => MatchRegex($"^[{StringUtilities.Subscripts}]+");
+        private string MatchSuperscript() => MatchRegex($"^[{StringUtilities.Superscripts}]+");
 
         private char NextChar()
         {
@@ -174,6 +181,7 @@
                 case '^':
                 case '(':
                 case ')':
+                case '√':
                     return nextChar.ToString();
                 case char c when char.IsDigit(c):
                 case '.':
@@ -283,6 +291,7 @@
                     break;
                 case '+':
                 case '-':
+                case '√':
                     ParseUnary(token);
                     ParseOperand();
                     break;
@@ -320,6 +329,9 @@
                                 break;
                             case UnaryMinus:
                                 operand = MakeUnary(pending, operand);
+                                break;
+                            case SquareRoot:
+                                operand = MakeFunction("Sqrt", operand);
                                 break;
                             default:
                                 try
@@ -359,14 +371,15 @@
             ReadPast(token);
         }
 
-        private void ParseSuperscript(string number)
+        private void ParseSuperscript(string superscript)
         {
-            ParseNumber(number.SuperscriptToNormal());
+            Operands.Push(new Parser().Parse(superscript.SuperscriptToNormal()));
+            ReadPast(superscript);
         }
 
         private void ParseUnary(string unary)
         {
-            Operators.Push($"u{unary}");
+            Operators.Push($"({unary})");
             ReadPast(unary);
         }
 
