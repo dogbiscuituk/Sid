@@ -1,6 +1,6 @@
 ﻿namespace Sid
 {
-    partial class PropertiesDialog
+    partial class GraphDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -46,6 +46,7 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnAddNewFunction = new System.Windows.Forms.Button();
             this.ErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.gbDomain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seXmax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seXmin)).BeginInit();
@@ -307,7 +308,7 @@
             // 
             this.ErrorProvider.ContainerControl = this;
             // 
-            // PropertiesDialog
+            // GraphDialog
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -328,11 +329,11 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(640, 480);
-            this.Name = "PropertiesDialog";
+            this.Name = "GraphDialog";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Properties";
+            this.Text = "Graph Properties";
             this.gbDomain.ResumeLayout(false);
             this.gbDomain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seXmax)).EndInit();
@@ -366,5 +367,6 @@
         public System.Windows.Forms.FlowLayoutPanel FlowLayoutPanel;
         public System.Windows.Forms.Button btnAddNewFunction;
         public System.Windows.Forms.ErrorProvider ErrorProvider;
+        private System.Windows.Forms.ToolTip ToolTip;
     }
 }

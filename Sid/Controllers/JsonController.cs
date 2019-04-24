@@ -60,7 +60,8 @@
                 return UseStream(() => GetSerializer().Serialize(writer, Model.Graph));
         }
 
-        private static JsonSerializer GetSerializer() =>
-            new JsonSerializer{ Formatting = Formatting.Indented };
+        private static JsonSerializer GetSerializer() => new JsonSerializer{
+            Formatting = Formatting.Indented,
+            DefaultValueHandling = DefaultValueHandling.Ignore };
     }
 }

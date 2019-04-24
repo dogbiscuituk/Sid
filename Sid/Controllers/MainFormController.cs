@@ -21,13 +21,13 @@
             PersistenceController.FilePathChanged += PersistenceController_FilePathChanged;
             PersistenceController.FileSaving += PersistenceController_FileSaving;
             PersistenceController.FileSaved += PersistenceController_FileSaved;
-            PropertiesDialogController = new PropertiesDialogController(this);
+            GraphDialogController = new GraphDialogController(this);
             AdjustPictureBox();
         }
 
         public readonly Model Model;
         public readonly JsonController PersistenceController;
-        public readonly PropertiesDialogController PropertiesDialogController;
+        public readonly GraphDialogController GraphDialogController;
 
         public Panel ClientPanel { get => View.ClientPanel; }
         public Graph Graph { get => Model.Graph; }
@@ -75,7 +75,7 @@
                 View.FileExit.Click += FileExit_Click;
                 View.EditUndo.Click += EditUndo_Click;
                 View.EditRedo.Click += EditRedo_Click;
-                View.EditProperties.Click += EditProperties_Click;
+                View.EditGraphProperties.Click += EditProperties_Click;
                 View.ViewZoomIn.Click += ViewZoomIn_Click;
                 View.ViewZoomOut.Click += ViewZoomOut_Click;
                 View.ViewZoomReset.Click += ViewZoomReset_Click;
@@ -124,7 +124,7 @@
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
         private void EditUndo_Click(object sender, EventArgs e) { }
         private void EditRedo_Click(object sender, EventArgs e) { }
-        private void EditProperties_Click(object sender, EventArgs e) => ShowPropertiesDialog();
+        private void EditProperties_Click(object sender, EventArgs e) => ShowGraphDialog();
         private void ViewZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
         private void ViewZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
         private void ViewZoomReset_Click(object sender, EventArgs e) => ZoomReset();
@@ -139,10 +139,20 @@
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            Dragging = true;
-            PictureBox.Cursor = Cursors.Hand;
-            MouseDownAt = e.Location;
-            DragFrom = PictureBox.Location;
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    Dragging = true;
+                    PictureBox.Cursor = Cursors.Hand;
+                    MouseDownAt = e.Location;
+                    DragFrom = PictureBox.Location;
+                    break;
+                case MouseButtons.Middle: // Click wheel
+                    ZoomReset();
+                    break;
+                case MouseButtons.Right:
+                    break;
+            }
         }
 
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
@@ -232,7 +242,7 @@ Version: {Application.ProductVersion}",
         private void Scroll(double xFactor, double yFactor) => Graph.Scroll(xFactor, yFactor);
         private void ScrollBy(float xDelta, float yDelta) => Graph.ScrollBy(xDelta, yDelta);
         private void ScrollTo(float x, float y) => Graph.ScrollTo(x, y);
-        private void ShowPropertiesDialog() => PropertiesDialogController.ShowDialog(View);
+        private void ShowGraphDialog() => GraphDialogController.ShowDialog(View);
         private void ToggleMouseCoordinates() => ShowMouseCoordinates = !ShowMouseCoordinates;
 
         private void UpdateMouseCoordinates(MouseEventArgs e)

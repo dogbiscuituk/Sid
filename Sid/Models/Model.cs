@@ -11,6 +11,8 @@
             Modified = false;
         }
 
+        #region Properties
+
         private Graph _graph;
         public Graph Graph
         {
@@ -39,23 +41,34 @@
             }
         }
 
+        protected virtual void OnModifiedChanged() =>
+            ModifiedChanged?.Invoke(this, EventArgs.Empty);
+
+        public event EventHandler ModifiedChanged;
+
+        #endregion
+
+        #region Series management
+
+        public event EventHandler Cleared;
+
         public void Clear()
         {
             Graph.Clear();
             OnClear();
         }
 
-        public event EventHandler Cleared, ModifiedChanged;
+        protected virtual void OnClear() =>
+            Cleared?.Invoke(this, EventArgs.Empty);
+
+        #endregion
+
+        #region INotifyPropertyChanged
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void Graph_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
             OnPropertyChanged($"Graph.{e.PropertyName}");
-
-        protected virtual void OnClear() =>
-            Cleared?.Invoke(this, EventArgs.Empty);
-
-        protected virtual void OnModifiedChanged() =>
-            ModifiedChanged?.Invoke(this, EventArgs.Empty);
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -63,5 +76,7 @@
             Modified = true;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #endregion
     }
 }

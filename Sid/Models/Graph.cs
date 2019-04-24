@@ -9,11 +9,12 @@
     [Serializable]
     public class Graph : INotifyPropertyChanged
     {
-        public Graph()
-        {
-            InitDefaults();
-        }
+        public Graph() { RestoreDefaults(); }
 
+        #region Properties
+
+        private Color _paperColour;
+        [DefaultValue(typeof(Color), "LightYellow")]
         public Color PaperColour
         {
             get => _paperColour;
@@ -27,6 +28,8 @@
             }
         }
 
+        private Color _axisColour;
+        [DefaultValue(typeof(Color), "DarkGray")]
         public Color AxisColour
         {
             get => _axisColour;
@@ -40,6 +43,8 @@
             }
         }
 
+        private Color _gridColour;
+        [DefaultValue(typeof(Color), "LightGray")]
         public Color GridColour
         {
             get => _gridColour;
@@ -53,6 +58,8 @@
             }
         }
 
+        private Color _penColour;
+        [DefaultValue(typeof(Color), "Black")]
         public Color PenColour
         {
             get => _penColour;
@@ -66,6 +73,8 @@
             }
         }
 
+        private Color _fillColour;
+        [DefaultValue(typeof(Color), "Transparent")]
         public Color FillColour
         {
             get => _fillColour;
@@ -79,6 +88,8 @@
             }
         }
 
+        private Color _limitColour;
+        [DefaultValue(typeof(Color), "DarkGray")]
         public Color LimitColour
         {
             get => _limitColour;
@@ -92,6 +103,7 @@
             }
         }
 
+        private PointF _location, _originalLocation = new PointF(-10, -5);
         public PointF Location
         {
             get => _location;
@@ -105,6 +117,7 @@
             }
         }
 
+        private SizeF _size, _originalSize = new SizeF(20, 10);
         public SizeF Size
         {
             get => _size;
@@ -118,19 +131,13 @@
             }
         }
 
-        private RectangleF Limits => new RectangleF(Location, Size);
+        public RectangleF Limits { get => new RectangleF(Location, Size); }
 
+        private const int DefaultStepCount = 16000;
+        [DefaultValue(DefaultStepCount)]
         public int StepCount { get; set; }
 
         private List<Series> _series = new List<Series>();
-        private Color _paperColour;
-        private Color _axisColour;
-        private Color _gridColour;
-        private Color _penColour;
-        private Color _fillColour;
-        private Color _limitColour;
-        private PointF _location, _originalLocation = new PointF(-10, -5);
-        private SizeF _size, _originalSize = new SizeF(20, 10);
 
         public List<Series> Series
         {
@@ -141,6 +148,22 @@
                 OnPropertyChanged("Series");
             }
         }
+
+        private void RestoreDefaults()
+        {
+            ZoomReset();
+            StepCount = DefaultStepCount;
+            PaperColour = Color.LightYellow;
+            AxisColour = Color.DarkGray;
+            GridColour = Color.LightGray;
+            PenColour = Color.Black;
+            FillColour = Color.Transparent;
+            LimitColour = Color.DarkGray;
+        }
+
+        #endregion
+
+        #region Series management
 
         public Series AddSeries()
         {
@@ -155,7 +178,7 @@
         {
             for (int index = Series.Count; index > 0;)
                 RemoveSeriesAt(--index);
-            InitDefaults();
+            RestoreDefaults();
         }
 
         public void RemoveSeriesAt(int index)
@@ -174,16 +197,9 @@
                 RemoveSeriesAt(index + count);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
 
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            System.Diagnostics.Debug.WriteLine($"Graph.OnPropertyChanged(\"{propertyName}\")");
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public void Series_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
-            OnPropertyChanged($"Series[{Series.IndexOf((Series)sender)}].{e.PropertyName}");
+        #region Drawing
 
         public void Draw(Graphics g, Rectangle r)
         {
@@ -198,43 +214,6 @@
             DrawGrid(g, penWidth);
             Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, fill: false); });
         }
-
-        public PointF ScreenToGraph(Point p, Rectangle r)
-        {
-            var points = new[] { new PointF(p.X, p.Y) };
-            var matrix = GetMatrix(r);
-            matrix.Invert();
-            matrix.TransformPoints(points);
-            return points[0];
-        }
-
-        public void Scroll(double xFactor, double yFactor)
-        {
-            Location = new PointF(
-                (float)(Location.X + Size.Width * xFactor),
-                (float)(Location.Y + Size.Height * yFactor));
-        }
-
-        public void ScrollBy(float xDelta, float yDelta) =>
-            Location = new PointF(Location.X + xDelta, Location.Y + yDelta);
-
-        public void ScrollTo(float x, float y) =>
-            Location = new PointF(x - Size.Width / 2, y - Size.Height / 2);
-
-        public void Zoom(double factor) => Zoom(factor, factor);
-
-        public void Zoom(double xFactor, double yFactor)
-        {
-            Location = new PointF(
-                (float)(Location.X - Size.Width * (xFactor - 1) / 2),
-                (float)(Location.Y - Size.Height * (yFactor - 1) / 2));
-            Size = new SizeF(
-                (float)(Size.Width * xFactor),
-                (float)(Size.Height * yFactor));
-        }
-
-        public void ZoomReset() { Location = _originalLocation; Size = _originalSize; }
-        public void ZoomSet() { _originalLocation = Location; _originalSize = Size; }
 
         private void DrawGrid(Graphics g, float penWidth)
         {
@@ -292,16 +271,59 @@
                 new[] { new PointF(r.Left, r.Bottom), new PointF(r.Right, r.Bottom), r.Location });
         }
 
-        private void InitDefaults()
+        public PointF ScreenToGraph(Point p, Rectangle r)
         {
-            ZoomReset();
-            StepCount = 16000;
-            PaperColour = Color.LightYellow;
-            AxisColour = Color.DarkGray;
-            GridColour = Color.LightGray;
-            PenColour = Color.Black;
-            FillColour = Color.Transparent;
-            LimitColour = Color.DarkGray;
+            var points = new[] { new PointF(p.X, p.Y) };
+            var matrix = GetMatrix(r);
+            matrix.Invert();
+            matrix.TransformPoints(points);
+            return points[0];
         }
+
+        #endregion
+
+        #region Scroll & Zoom
+
+        public void Scroll(double xFactor, double yFactor)
+        {
+            Location = new PointF(
+                (float)(Location.X + Size.Width * xFactor),
+                (float)(Location.Y + Size.Height * yFactor));
+        }
+
+        public void ScrollBy(float xDelta, float yDelta) =>
+            Location = new PointF(Location.X + xDelta, Location.Y + yDelta);
+
+        public void ScrollTo(float x, float y) =>
+            Location = new PointF(x - Size.Width / 2, y - Size.Height / 2);
+
+        public void Zoom(double factor) => Zoom(factor, factor);
+
+        public void Zoom(double xFactor, double yFactor)
+        {
+            Location = new PointF(
+                (float)(Location.X - Size.Width * (xFactor - 1) / 2),
+                (float)(Location.Y - Size.Height * (yFactor - 1) / 2));
+            Size = new SizeF(
+                (float)(Size.Width * xFactor),
+                (float)(Size.Height * yFactor));
+        }
+
+        public void ZoomReset() { Location = _originalLocation; Size = _originalSize; }
+        public void ZoomSet() { _originalLocation = Location; _originalSize = Size; }
+
+        #endregion
+
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        public void Series_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
+            OnPropertyChanged($"Series[{Series.IndexOf((Series)sender)}].{e.PropertyName}");
+
+        #endregion
     }
 }

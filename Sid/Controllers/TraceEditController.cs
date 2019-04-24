@@ -1,50 +1,82 @@
-﻿namespace Sid.Views
+﻿namespace Sid.Controllers
 {
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
     using FormulaBuilder;
+    using Sid.Views;
 
-    public partial class TraceEditor : UserControl
+    public class TraceEditController
     {
-        public TraceEditor()
+        public TraceEditController(GraphDialogController parent)
         {
-            InitializeComponent();
+            Parent = parent;
+            View = new TraceEdit();
             InitColours();
         }
 
+        #region Properties
+
+        public TraceEdit _view;
+        public TraceEdit View
+        {
+            get => _view;
+            set
+            {
+                _view = value;
+                View.cbPenColour.DrawItem += ColourCombo_DrawItem;
+                View.cbFunction.DrawItem += FunctionCombo_DrawItem;
+                View.cbFillColour.DrawItem += ColourCombo_DrawItem;
+
+                View.cbVisible.CheckedChanged += Parent.LiveUpdate;
+                View.cbFunction.TextChanged += Parent.LiveUpdate;
+                View.cbPenColour.SelectedValueChanged += Parent.LiveUpdate;
+                View.cbFillColour.SelectedValueChanged += Parent.LiveUpdate;
+                View.seTransparency.ValueChanged += Parent.LiveUpdate;
+            }
+        }
+
+        private GraphDialogController Parent;
+
         public bool TraceVisible
         {
-            get => cbVisible.Checked;
-            set => cbVisible.Checked = value;
+            get => View.cbVisible.Checked;
+            set => View.cbVisible.Checked = value;
+        }
+
+        public string TraceLabel
+        {
+            get => View.cbVisible.Text;
+            set => View.cbVisible.Text = value;
         }
 
         public string Formula
         {
-            get => cbFunction.Text;
-            set => cbFunction.Text = value;
+            get => View.cbFunction.Text;
+            set => View.cbFunction.Text = value;
         }
 
         public Color PenColour
         {
-            get => GetColour(cbPenColour);
-            set => SetColour(cbPenColour, value);
+            get => GetColour(View.cbPenColour);
+            set => SetColour(View.cbPenColour, value);
         }
 
         public Color FillColour
         {
-            get => GetColour(cbFillColour);
-            set => SetColour(cbFillColour, value);
+            get => GetColour(View.cbFillColour);
+            set => SetColour(View.cbFillColour, value);
         }
 
-        public int FillOpacity
+        public int FillTransparency
         {
-            get
-            {
-                var x = cbFillOpacity.SelectedItem;
-                return 100;
-            }
+            get => (int)View.seTransparency.Value;
+            set => View.seTransparency.Value = value;
         }
+
+        #endregion
+
+        #region Colours
 
         private void ColourCombo_DrawItem(object sender, DrawItemEventArgs e) =>
             DrawColour((ComboBox)sender, e);
@@ -84,10 +116,10 @@
 
         private void InitColours()
         {
-            cbFunction.Items.AddRange(Functions.FunctionNames.Select(f => $"{f}(x)").ToArray());
+            View.cbFunction.Items.AddRange(Functions.FunctionNames.Select(f => $"{f}(x)").ToArray());
             var colourNames = Utility.NonSystemColourNames.ToArray();
-            cbPenColour.Items.AddRange(colourNames);
-            cbFillColour.Items.AddRange(colourNames);
+            View.cbPenColour.Items.AddRange(colourNames);
+            View.cbFillColour.Items.AddRange(colourNames);
         }
 
         /// <summary>
@@ -101,5 +133,7 @@
 
         private void SetColour(ComboBox comboBox, Color colour) =>
             comboBox.SelectedIndex = comboBox.Items.IndexOf(colour.Name);
+
+        #endregion
     }
 }

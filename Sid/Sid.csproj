@@ -51,13 +51,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\JsonController.cs" />
-    <Compile Include="Controllers\PropertiesDialogController.cs" />
+    <Compile Include="Controllers\GraphDialogController.cs" />
+    <Compile Include="Controllers\TraceEditController.cs" />
     <Compile Include="Controllers\UndoController.cs" />
-    <Compile Include="Views\PropertiesDialog.cs">
+    <Compile Include="Views\GraphDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\PropertiesDialog.Designer.cs">
-      <DependentUpon>PropertiesDialog.cs</DependentUpon>
+    <Compile Include="Views\GraphDialog.Designer.cs">
+      <DependentUpon>GraphDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\MainFormController.cs" />
     <Compile Include="Controllers\MruController.cs" />
@@ -83,11 +84,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Views\TraceEditor.cs">
+    <Compile Include="Views\TraceEdit.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\TraceEditor.Designer.cs">
-      <DependentUpon>TraceEditor.cs</DependentUpon>
+    <Compile Include="Views\TraceEdit.Designer.cs">
+      <DependentUpon>TraceEdit.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -105,8 +106,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\PropertiesDialog.resx">
-      <DependentUpon>PropertiesDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Views\GraphDialog.resx">
+      <DependentUpon>GraphDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -115,8 +116,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\TraceEditor.resx">
-      <DependentUpon>TraceEditor.cs</DependentUpon>
+    <EmbeddedResource Include="Views\TraceEdit.resx">
+      <DependentUpon>TraceEdit.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

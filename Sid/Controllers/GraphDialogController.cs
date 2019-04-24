@@ -1,27 +1,30 @@
 ﻿namespace Sid.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Drawing;
     using System.Windows.Forms;
     using FormulaBuilder;
     using Sid.Models;
     using Sid.Views;
 
-    public class PropertiesDialogController
+    public class GraphDialogController
     {
-        public PropertiesDialogController(MainFormController parent)
+        public GraphDialogController(MainFormController parent)
         {
             Parent = parent;
-            View = new PropertiesDialog();
+            View = new GraphDialog();
         }
 
-        private bool CanCancel;
+        private bool CanCancel, Loading = true;
         private Panel FlowLayoutPanel { get => View.FlowLayoutPanel; }
         private Graph Graph { get => Parent.Graph; }
         private MainFormController Parent;
+        private List<TraceEditController> Children = new List<TraceEditController>();
 
-        private PropertiesDialog _view;
-        public PropertiesDialog View
+        private GraphDialog _view;
+
+        public GraphDialog View
         {
             get => _view;
             set
@@ -30,7 +33,18 @@
                 View.FormClosing += View_FormClosing;
                 View.btnAddNewFunction.Click += BtnAddNewFunction_Click;
                 View.btnApply.Click += BtnApply_Click;
+
+                View.seXmin.ValueChanged += LiveUpdate;
+                View.seYmin.ValueChanged += LiveUpdate;
+                View.seXmax.ValueChanged += LiveUpdate;
+                View.seYmax.ValueChanged += LiveUpdate;
             }
+        }
+
+        public void LiveUpdate(object sender, EventArgs e)
+        {
+            if (!Loading)
+                Apply();
         }
 
         public void ShowDialog(IWin32Window owner)
@@ -41,13 +55,13 @@
         }
 
         private void BtnAddNewFunction_Click(object sender, EventArgs e) =>
-            AddNewEditor(null);
+            AddNewEdit(null);
 
         private void BtnApply_Click(object sender, EventArgs e) =>
             Apply();
 
         private void BtnRemove_Click(object sender, EventArgs e) =>
-            RemoveEditor((TraceEditor)((Control)sender).Parent);
+            RemoveEditor((TraceEdit)((Control)sender).Parent);
 
         private void CbFunction_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -65,29 +79,30 @@
                 e.Cancel = !Validate();
         }
 
-        private void AddNewEditor(Series series)
+        private void AddNewEdit(Series series)
         {
-            var controls = FlowLayoutPanel.Controls;
-            var editor = new TraceEditor();
+            var child = new TraceEditController(this);
+            Children.Add(child);
             if (series != null)
             {
-                editor.TraceVisible = series.Visible;
-                editor.Formula = series.Formula;
-                editor.PenColour = series.PenColour;
-                editor.FillColour = series.FillColour;
+                child.TraceVisible = series.Visible;
+                child.Formula = series.Formula;
+                child.PenColour = series.PenColour;
+                child.FillColour = series.FillColour;
             }
             else
             {
-                editor.TraceVisible = true;
-                editor.Formula = string.Empty;
-                editor.PenColour = Color.Black;
-                editor.FillColour = Color.Yellow;
+                child.TraceVisible = true;
+                child.Formula = string.Empty;
+                child.PenColour = Color.Black;
+                child.FillColour = Color.Yellow;
             }
+            var controls = FlowLayoutPanel.Controls;
             var index = controls.Count;
-            editor.cbVisible.Text = $"f{controls.Count.ToString().ToSubscript()}";
-            editor.cbFunction.Validating += CbFunction_Validating;
-            editor.btnRemove.Click += BtnRemove_Click;
-            FlowLayoutPanel.Controls.Add(editor);
+            child.TraceLabel = $"f{controls.Count.ToString().ToSubscript()}";
+            child.View.cbFunction.Validating += CbFunction_Validating;
+            child.View.btnRemove.Click += BtnRemove_Click;
+            FlowLayoutPanel.Controls.Add(child.View);
         }
 
         private void Apply()
@@ -101,19 +116,14 @@
                 yMax = (float)View.seYmax.Value;
             Graph.Location = new PointF(xMin, yMin);
             Graph.Size = new SizeF(xMax - xMin, yMax - yMin);
-            int
-                index = 0,
-                count = Graph.Series.Count;
-            foreach (TraceEditor editor in FlowLayoutPanel.Controls)
+            int index = 0, count = Graph.Series.Count;
+            foreach (var child in Children)
             {
-                var series =
-                    index < count
-                    ? Graph.Series[index]
-                    : Graph.AddSeries();
-                series.Visible = editor.TraceVisible;
-                series.Formula = editor.Formula;
-                series.PenColour = editor.PenColour;
-                series.FillColour = editor.FillColour;
+                var series = index < count ? Graph.Series[index] : Graph.AddSeries();
+                series.Visible = child.TraceVisible;
+                series.Formula = child.Formula;
+                series.PenColour = child.PenColour;
+                series.FillColour = child.FillColour;
                 index++;
             }
             count -= index;
@@ -123,27 +133,24 @@
 
         private void InitView()
         {
-            float
-                xMin = Graph.Location.X,
-                yMin = Graph.Location.Y,
-                xMax = xMin + Graph.Size.Width,
-                yMax = yMin + Graph.Size.Height;
-            View.seXmin.Value = (decimal)xMin;
-            View.seYmin.Value = (decimal)yMin;
-            View.seXmax.Value = (decimal)xMax;
-            View.seYmax.Value = (decimal)yMax;
+            Loading = true;
+            View.seXmin.Value = (decimal)Graph.Limits.Left;
+            View.seYmin.Value = (decimal)Graph.Limits.Top;
+            View.seXmax.Value = (decimal)Graph.Limits.Right;
+            View.seYmax.Value = (decimal)Graph.Limits.Bottom;
             FlowLayoutPanel.Controls.Clear();
             foreach (Series series in Graph.Series)
-                AddNewEditor(series);
+                AddNewEdit(series);
             Validate();
+            Loading = false;
         }
 
-        private void RemoveEditor(TraceEditor editor)
+        private void RemoveEditor(TraceEdit editor)
         {
-            var bounds = editor.Bounds;
             var controls = FlowLayoutPanel.Controls;
             var index = controls.IndexOf(editor);
             controls.RemoveAt(index);
+            Children.RemoveAt(index);
         }
 
         private bool Validate()

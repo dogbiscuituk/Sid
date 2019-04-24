@@ -18,7 +18,10 @@
             InitDefaults();
         }
 
-        private Color _penColour;
+        #region Properties
+
+        private Color _penColour = Color.Black;
+        [DefaultValue(typeof(Color), "Black")]
         public Color PenColour
         {
             get => _penColour;
@@ -32,7 +35,8 @@
             }
         }
 
-        private Color _fillColour;
+        private Color _fillColour = Color.Yellow;
+        [DefaultValue(typeof(Color), "Yellow")]
         public Color FillColour
         {
             get => _fillColour;
@@ -46,7 +50,23 @@
             }
         }
 
-        private Color _limitColour;
+        private int _fillTransparency = 0;
+        [DefaultValue(0)]
+        public int FillTransparency
+        {
+            get => _fillTransparency;
+            set
+            {
+                if (FillTransparency != value)
+                {
+                    _fillTransparency = value;
+                    OnPropertyChanged("FillTransparency");
+                }
+            }
+        }
+
+        private Color _limitColour = Color.DarkGray;
+        [DefaultValue(typeof(Color), "DarkGray")]
         public Color LimitColour
         {
             get => _limitColour;
@@ -64,7 +84,8 @@
         [JsonIgnore]
         public Expression Expression { get => _expression; }
 
-        private string _formula;
+        private string _formula = string.Empty;
+        [DefaultValue("")]
         public string Formula
         {
             get => _formula;
@@ -85,7 +106,11 @@
         [JsonIgnore]
         public Func<double, double> Func { get => _func; }
 
+        private RectangleF Limits;
+        private int StepCount;
+
         private bool _visible = true;
+        [DefaultValue(true)]
         public bool Visible
         {
             get => _visible;
@@ -99,13 +124,18 @@
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
+        private void InitDefaults()
         {
-            System.Diagnostics.Debug.WriteLine($"Series.OnPropertyChanged(\"{propertyName}\")");
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            Formula = "0";
+            StepCount = 16000;
+            PenColour = Color.Black;
+            FillColour = Color.Yellow;
+            LimitColour = Color.DarkGray;
         }
+
+        #endregion
+
+        #region Drawing
 
         public void Draw(Graphics g, RectangleF limits, float penWidth, bool fill)
         {
@@ -124,8 +154,6 @@
                     PointLists.ForEach(p => g.DrawLines(pen, p.ToArray()));
         }
 
-        private int StepCount;
-        private RectangleF Limits;
         private List<List<PointF>> PointLists = new List<List<PointF>>();
 
         private void ComputePoints(RectangleF limits)
@@ -174,18 +202,23 @@
                 g.DrawLine(pen, points[n + 1], points[0]);
         }
 
-        private void InitDefaults()
-        {
-            Formula = "0";
-            StepCount = 16000;
-            PenColour = Color.Black;
-            FillColour = Color.Yellow;
-            LimitColour = Color.DarkGray;
-        }
-
         private void InvalidatePoints()
         {
             PointLists.Clear();
         }
+
+        #endregion
+
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            System.Diagnostics.Debug.WriteLine($"Series.OnPropertyChanged(\"{propertyName}\")");
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
     }
 }
