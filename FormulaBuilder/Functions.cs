@@ -10,6 +10,8 @@
     /// </summary>
     public static class Functions
     {
+        #region Elementary Functions
+
         public static double Abs(double x) => Math.Abs(x);
         public static double Acos(double x) => Math.Acos(x);
         public static double Acosh(double x) => Math.Log(x + Math.Sqrt(Math.Pow(x, 2) - 1));
@@ -30,31 +32,6 @@
         public static double Coth(double x) => 1 / Math.Tanh(x);
         public static double Csc(double x) => 1 / Math.Sin(x);
         public static double Csch(double x) => 1 / Math.Sinh(x);
-
-        public static double Erf(double x)
-        {
-            // An approximation with a worst case error of 1.2e-7 from the book
-            // Numerical Recipes in Fortran 77: The Art of Scientific Computing
-            // (ISBN 0-521-43064-X) 1992, page 214, Cambridge University Press.
-
-            var a = new[]
-            {
-                -1.26551223, +1.00002368, +0.37409196, +0.09678418, -0.18628806,
-                +0.27886807, -1.13520398, +1.48851587, -0.82215223, +0.17087277
-            };
-            double
-                t = 1 / (1 + Math.Abs(x) / 2),
-                u = 1,
-                v = 0;
-            for (var n = 0; n < 10; n++)
-            {
-                v += a[n] * u;
-                u *= t;
-            }
-            v = t * Math.Exp(v - x * x);
-            return x < 0 ? v - 1 : 1 - v;
-        }
-
         public static double Exp(double x) => Math.Exp(x);
         public static double Floor(double x) => Math.Floor(x);
         public static double Ln(double x) => Math.Log(x);
@@ -70,12 +47,30 @@
         public static double Tan(double x) => Math.Tan(x);
         public static double Tanh(double x) => Math.Tanh(x);
 
-        public static string[] FunctionNames = new[]
+        #endregion
+
+        #region Non-elementary Functions
+
+        private static readonly double[] erf_a =
         {
-            "Abs", "Acos", "Acosh", "Acot", "Acoth", "Acsc", "Acsch", "Asec", "Asech", "Asin",
-            "Asinh", "Atan", "Atanh", "Ceiling", "Cos", "Cosh", "Cot", "Coth", "Csc", "Csch",
-            "Erf", "Exp", "Floor", "Ln", "Log10", "Round", "Sec", "Sech", "Sign", "Sin",
-            "Sinh", "Sqrt", "Step", "Tan", "Tanh"
+            -1.26551223, +1.00002368, +0.37409196, +0.09678418, -0.18628806,
+            +0.27886807, -1.13520398, +1.48851587, -0.82215223, +0.17087277
         };
+
+        /// <summary>
+        /// An approximation, with a worst case error of 1.2e-7, from the book
+        /// "Numerical Recipes in Fortran 77: The Art of Scientific Computing"
+        /// (ISBN 0-521-43064-X), 1992, page 214, Cambridge University Press.
+        /// </summary>
+        /// <param name="x">The input value to the function Erf(x).</param>
+        /// <returns>An approximation to the value of erf(x).</returns>
+        public static double Erf(double x)
+        {
+            double t = 1 / (1 + Math.Abs(x) / 2), u = 1, v = 0;
+            for (var n = 0; n < 10; v += erf_a[n] * u, n++, u *= t) ;
+            return (1 - t * Math.Exp(v - x * x)) * Math.Sign(x);
+        }
+
+        #endregion
     }
 }

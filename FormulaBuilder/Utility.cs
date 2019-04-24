@@ -36,6 +36,18 @@
 
         #endregion
 
+        #region Functions
+
+        public static string[] FunctionNames = new[]
+        {
+            "Abs", "Acos", "Acosh", "Acot", "Acoth", "Acsc", "Acsch", "Asec", "Asech", "Asin",
+            "Asinh", "Atan", "Atanh", "Ceiling", "Cos", "Cosh", "Cot", "Coth", "Csc", "Csch",
+            "Erf", "Exp", "Floor", "Ln", "Log10", "Round", "Sec", "Sech", "Sign", "Sin",
+            "Sinh", "Sqrt", "Step", "Tan", "Tanh"
+        };
+
+        #endregion
+
         #region Strings
 
         /// <summary>

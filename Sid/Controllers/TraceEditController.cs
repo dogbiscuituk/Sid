@@ -116,7 +116,7 @@
 
         private void InitColours()
         {
-            View.cbFunction.Items.AddRange(Functions.FunctionNames.Select(f => $"{f}(x)").ToArray());
+            View.cbFunction.Items.AddRange(Utility.FunctionNames.Select(f => $"{f}(x)").ToArray());
             var colourNames = Utility.NonSystemColourNames.ToArray();
             View.cbPenColour.Items.AddRange(colourNames);
             View.cbFillColour.Items.AddRange(colourNames);
