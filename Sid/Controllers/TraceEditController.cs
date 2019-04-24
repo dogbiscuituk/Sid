@@ -68,7 +68,7 @@
             set => SetColour(View.cbFillColour, value);
         }
 
-        public int FillTransparency
+        public int FillTransparencyPercent
         {
             get => (int)View.seTransparency.Value;
             set => View.seTransparency.Value = value;
@@ -80,14 +80,6 @@
 
         private void ColourCombo_DrawItem(object sender, DrawItemEventArgs e) =>
             DrawColour((ComboBox)sender, e);
-
-        private void FunctionCombo_DrawItem(object sender, DrawItemEventArgs e)
-        {
-            var functionName = ((ComboBox)sender).Items[e.Index].ToString();
-            e.DrawBackground();
-            using (var brush = new SolidBrush(e.ForeColor))
-                e.Graphics.DrawString(functionName, e.Font, brush, e.Bounds);
-        }
 
         private void DrawColour(object sender, DrawItemEventArgs e)
         {
@@ -109,6 +101,14 @@
             var brush = IsBright(colour) ? Brushes.Black : Brushes.White;
             using (var font = new Font("Arial", 9, FontStyle.Regular))
                 e.Graphics.DrawString(colourName, font, brush, e.Bounds.X, e.Bounds.Top);
+        }
+
+        private void FunctionCombo_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            var functionName = ((ComboBox)sender).Items[e.Index].ToString();
+            e.DrawBackground();
+            using (var brush = new SolidBrush(e.ForeColor))
+                e.Graphics.DrawString(functionName, e.Font, brush, e.Bounds);
         }
 
         private Color GetColour(ComboBox comboBox) =>

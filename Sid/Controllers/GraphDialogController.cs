@@ -126,6 +126,7 @@
                 series.Formula = child.Formula;
                 series.PenColour = child.PenColour;
                 series.FillColour = child.FillColour;
+                series.FillTransparencyPercent = child.FillTransparencyPercent;
                 index++;
             }
             count -= index;

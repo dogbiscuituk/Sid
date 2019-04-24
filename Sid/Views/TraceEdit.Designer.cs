@@ -99,7 +99,7 @@
             this.cbVisible.Name = "cbVisible";
             this.cbVisible.Size = new System.Drawing.Size(64, 17);
             this.cbVisible.TabIndex = 0;
-            this.cbVisible.Text = "y";
+            this.cbVisible.Text = "f";
             this.ToolTip.SetToolTip(this.cbVisible, "Show or hide this trace");
             this.cbVisible.UseVisualStyleBackColor = true;
             // 
@@ -116,13 +116,8 @@
             this.seTransparency.Size = new System.Drawing.Size(38, 20);
             this.seTransparency.TabIndex = 6;
             this.ToolTip.SetToolTip(this.seTransparency, "Fill transparency (%)");
-            this.seTransparency.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
             // 
-            // TraceEditor
+            // TraceEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -132,7 +127,7 @@
             this.Controls.Add(this.cbPenColour);
             this.Controls.Add(this.cbFillColour);
             this.Controls.Add(this.cbVisible);
-            this.Name = "TraceEditor";
+            this.Name = "TraceEdit";
             this.Size = new System.Drawing.Size(400, 22);
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).EndInit();
             this.ResumeLayout(false);

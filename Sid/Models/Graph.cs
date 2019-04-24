@@ -5,6 +5,7 @@
     using System.ComponentModel;
     using System.Drawing;
     using System.Drawing.Drawing2D;
+    using Newtonsoft.Json;
 
     [Serializable]
     public class Graph : INotifyPropertyChanged
@@ -131,6 +132,7 @@
             }
         }
 
+        [JsonIgnore]
         public RectangleF Limits { get => new RectangleF(Location, Size); }
 
         private const int DefaultStepCount = 16000;

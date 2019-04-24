@@ -8,8 +8,7 @@
 
     public static class Utility
     {
-        public static string AmpersandEscape(this string s) => s.Replace("&", "&&");
-        public static string AmpersandUnescape(this string s) => s.Replace("&&", "&");
+        #region Colours
 
         private static IEnumerable<string> _nonSystemColourNames = null;
         public static IEnumerable<string> NonSystemColourNames
@@ -25,6 +24,37 @@
                 return _nonSystemColourNames;
             }
         }
+
+        public static int AlphaFromTransparencyPercent(int transparencyPercent) =>
+            (int)Math.Round(255 * (1 - transparencyPercent / 100.0));
+
+        public static int AlphaToTransparencyPercent(int alpha) =>
+            (int)Math.Round(100 * (1 - alpha / 255.0));
+
+        public static Color MakeColour(Color baseColour, int transparencyPerCent) =>
+            Color.FromArgb(AlphaFromTransparencyPercent(transparencyPerCent), baseColour);
+
+        #endregion
+
+        #region Strings
+
+        /// <summary>
+        /// Convert a string containing ampersands for use as a menu item caption
+        /// </summary>
+        /// <param name="s">The input string</param>
+        /// <returns>The input string with all ampersands escaped (doubled up)</returns>
+        public static string AmpersandEscape(this string s) => s.Replace("&", "&&");
+
+        /// <summary>
+        /// Convert a string obtained from a menu caption for use in other contexts
+        /// </summary>
+        /// <param name="s">The string obtained from a menu caption</param>
+        /// <returns>The input string with all escaped (doubled) ampersands unescaped</returns>
+        public static string AmpersandUnescape(this string s) => s.Replace("&&", "&");
+
+        #endregion
+
+        #region Subscripts & Superscripts
 
         public const string
             Subscripts = "₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₕᵢⱼₖₗₘₙₒₚᵣₛₜᵤᵥₓᵦᵧᵨᵩᵪ",
@@ -48,5 +78,7 @@
                 stringBuilder.Replace(source[index], target[index]);
             return stringBuilder.ToString();
         }
+
+        #endregion
     }
 }

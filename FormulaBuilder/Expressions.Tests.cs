@@ -22,6 +22,7 @@
 
         public static void TestAll()
         {
+            TestAlphaConversions();
             TestCompoundExpression();
             TestTrigonometricExpression();
             TestSimplifications();
@@ -29,6 +30,15 @@
             TestPolynomialDerivative();
             TestChainRule();
             TestParser();
+        }
+
+        /// <summary>
+        /// Check the alpha conversion functions correctly round-trip any transparency percent between 0 and 100.
+        /// </summary>
+        public static void TestAlphaConversions()
+        {
+            for (int percent = 0; percent <= 100; percent++)
+                Check(percent, Utility.AlphaToTransparencyPercent(Utility.AlphaFromTransparencyPercent(percent)));
         }
 
         public static void TestChainRule()

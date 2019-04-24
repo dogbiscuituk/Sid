@@ -50,17 +50,17 @@
             }
         }
 
-        private int _fillTransparency = 0;
+        private int _fillTransparencyPercent = 0;
         [DefaultValue(0)]
-        public int FillTransparency
+        public int FillTransparencyPercent
         {
-            get => _fillTransparency;
+            get => _fillTransparencyPercent;
             set
             {
-                if (FillTransparency != value)
+                if (FillTransparencyPercent != value)
                 {
-                    _fillTransparency = value;
-                    OnPropertyChanged("FillTransparency");
+                    _fillTransparencyPercent = value;
+                    OnPropertyChanged("FillTransparencyPercent");
                 }
             }
         }
@@ -80,9 +80,8 @@
             }
         }
 
-        private Expression _expression;
         [JsonIgnore]
-        public Expression Expression { get => _expression; }
+        public Expression Expression { get; private set; }
 
         private string _formula = string.Empty;
         [DefaultValue("")]
@@ -93,8 +92,8 @@
             {
                 if (Formula != value)
                 {
-                    _expression = new Parser().Parse(value);
-                    _func = Expression.AsFunction();
+                    Expression = new Parser().Parse(value);
+                    Func = Expression.AsFunction();
                     _formula = value;
                     InvalidatePoints();
                     OnPropertyChanged("Formula");
@@ -102,9 +101,8 @@
             }
         }
 
-        private Func<double, double> _func;
         [JsonIgnore]
-        public Func<double, double> Func { get => _func; }
+        public Func<double, double> Func { get; private set; }
 
         private RectangleF Limits;
         private int StepCount;
@@ -139,14 +137,15 @@
 
         public void Draw(Graphics g, RectangleF limits, float penWidth, bool fill)
         {
-            if (fill && FillColour == Color.Transparent)
+            if (fill && (FillColour == Color.Transparent || FillTransparencyPercent == 100))
                 return; // Not just an optimisation; omits vertical asymptotes too.
             ComputePoints(limits);
             if (fill)
                 using (var pen = new Pen(LimitColour, penWidth))
                 {
                     pen.DashStyle = DashStyle.Dash;
-                    using (var brush = new SolidBrush(FillColour))
+                    var paint = Utility.MakeColour(FillColour, FillTransparencyPercent);
+                    using (var brush = new SolidBrush(paint))
                         PointLists.ForEach(p => FillArea(g, pen, brush, p));
                 }
             else
@@ -169,7 +168,7 @@
             var skip = true;
             for (var step = 0; step <= StepCount; step++)
             {
-                float x = x1 + step * w / StepCount, y = (float)_func(x);
+                float x = x1 + step * w / StepCount, y = (float)Func(x);
                 if (float.IsInfinity(y) || float.IsNaN(y) || y < y1 - h || y > y2 + h)
                     skip = true;
                 else
