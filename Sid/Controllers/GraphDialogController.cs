@@ -81,6 +81,7 @@
 
         private void AddNewEdit(Series series)
         {
+            Loading = true;
             var child = new TraceEditController(this);
             Children.Add(child);
             if (series != null)
@@ -103,6 +104,7 @@
             child.View.cbFunction.Validating += CbFunction_Validating;
             child.View.btnRemove.Click += BtnRemove_Click;
             FlowLayoutPanel.Controls.Add(child.View);
+            Loading = false;
         }
 
         private void Apply()
