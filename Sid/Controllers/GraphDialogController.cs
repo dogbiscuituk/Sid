@@ -16,6 +16,8 @@
             View = new GraphDialog();
         }
 
+        #region Properties
+
         private bool CanCancel, Loading = true;
         private Panel FlowLayoutPanel { get => View.FlowLayoutPanel; }
         private Graph Graph { get => Parent.Graph; }
@@ -41,6 +43,48 @@
             }
         }
 
+        #endregion
+
+        #region Series Management
+
+        private void BtnAddNewFunction_Click(object sender, EventArgs e) =>
+            AddNewEdit(null);
+
+        private void BtnRemove_Click(object sender, EventArgs e) =>
+            RemoveEditor((TraceEdit)((Control)sender).Parent);
+
+        private void AddNewEdit(Series series)
+        {
+            Loading = true;
+            var child = new TraceEditController(this);
+            Children.Add(child);
+            if (series != null)
+            {
+                child.TraceVisible = series.Visible;
+                child.Formula = series.Formula;
+                child.PenColour = series.PenColour;
+                child.FillColour = series.FillColour;
+                child.FillTransparencyPercent = series.FillTransparencyPercent;
+            }
+            else
+            {
+                child.TraceVisible = true;
+                child.Formula = string.Empty;
+                child.PenColour = Color.Black;
+                child.FillColour = Color.Yellow;
+                child.FillTransparencyPercent = 0;
+            }
+            var controls = FlowLayoutPanel.Controls;
+            var index = controls.Count;
+            child.TraceLabel = $"f{controls.Count.ToString().ToSubscript()}";
+            child.View.cbFunction.Validating += CbFunction_Validating;
+            child.View.btnRemove.Click += BtnRemove_Click;
+            FlowLayoutPanel.Controls.Add(child.View);
+            Loading = false;
+        }
+
+        #endregion
+
         public void LiveUpdate(object sender, EventArgs e)
         {
             if (!Loading)
@@ -54,14 +98,8 @@
                 Apply();
         }
 
-        private void BtnAddNewFunction_Click(object sender, EventArgs e) =>
-            AddNewEdit(null);
-
         private void BtnApply_Click(object sender, EventArgs e) =>
             Apply();
-
-        private void BtnRemove_Click(object sender, EventArgs e) =>
-            RemoveEditor((TraceEdit)((Control)sender).Parent);
 
         private void CbFunction_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -77,34 +115,6 @@
         {
             if (View.DialogResult != DialogResult.Cancel)
                 e.Cancel = !Validate();
-        }
-
-        private void AddNewEdit(Series series)
-        {
-            Loading = true;
-            var child = new TraceEditController(this);
-            Children.Add(child);
-            if (series != null)
-            {
-                child.TraceVisible = series.Visible;
-                child.Formula = series.Formula;
-                child.PenColour = series.PenColour;
-                child.FillColour = series.FillColour;
-            }
-            else
-            {
-                child.TraceVisible = true;
-                child.Formula = string.Empty;
-                child.PenColour = Color.Black;
-                child.FillColour = Color.Yellow;
-            }
-            var controls = FlowLayoutPanel.Controls;
-            var index = controls.Count;
-            child.TraceLabel = $"f{controls.Count.ToString().ToSubscript()}";
-            child.View.cbFunction.Validating += CbFunction_Validating;
-            child.View.btnRemove.Click += BtnRemove_Click;
-            FlowLayoutPanel.Controls.Add(child.View);
-            Loading = false;
         }
 
         private void Apply()
