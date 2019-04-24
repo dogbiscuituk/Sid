@@ -20,6 +20,7 @@
             PersistenceController.FileLoaded += PersistenceController_FileLoaded;
             PersistenceController.FilePathChanged += PersistenceController_FilePathChanged;
             PersistenceController.FileSaving += PersistenceController_FileSaving;
+            PersistenceController.FileSaved += PersistenceController_FileSaved;
             PropertiesDialogController = new PropertiesDialogController(this);
             AdjustPictureBox();
         }
@@ -77,13 +78,14 @@
                 View.EditProperties.Click += EditProperties_Click;
                 View.ViewZoomIn.Click += ViewZoomIn_Click;
                 View.ViewZoomOut.Click += ViewZoomOut_Click;
-                View.ViewIsotropic.Click += ViewIsotropic_Click;
-                View.ViewMouseCoordinates.Click += ViewMouseCoordinates_Click;
+                View.ViewZoomReset.Click += ViewZoomReset_Click;
                 View.ViewScrollLeft.Click += ViewScrollLeft_Click;
                 View.ViewScrollRight.Click += ViewScrollRight_Click;
                 View.ViewScrollUp.Click += ViewScrollUp_Click;
                 View.ViewScrollDown.Click += ViewScrollDown_Click;
                 View.ViewScrollCentre.Click += ViewScrollCentre_Click;
+                View.ViewIsotropic.Click += ViewIsotropic_Click;
+                View.ViewMouseCoordinates.Click += ViewMouseCoordinates_Click;
                 View.HelpAbout.Click += HelpAbout_Click;
                 PictureBox.MouseDown += PictureBox_MouseDown;
                 PictureBox.MouseMove += PictureBox_MouseMove;
@@ -104,6 +106,8 @@
         private void PersistenceController_FilePathChanged(object sender, EventArgs e) =>
             View.Text = PersistenceController.WindowCaption;
 
+        private void PersistenceController_FileSaved(object sender, EventArgs e) => FileSaved();
+
         private void PersistenceController_FileSaving(object sender, CancelEventArgs e) =>
             e.Cancel = !ContinueSaving();
 
@@ -123,6 +127,7 @@
         private void EditProperties_Click(object sender, EventArgs e) => ShowPropertiesDialog();
         private void ViewZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
         private void ViewZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
+        private void ViewZoomReset_Click(object sender, EventArgs e) => ZoomReset();
         private void ViewIsotropic_Click(object sender, EventArgs e) => Isotropic = !Isotropic;
         private void ViewMouseCoordinates_Click(object sender, EventArgs e) => ToggleMouseCoordinates();
         private void ViewScrollLeft_Click(object sender, EventArgs e) => Scroll(-0.1, 0);
@@ -154,8 +159,8 @@
         {
             if (Dragging)
             {
-                PointF from = ScreenToGraph(DragFrom), to = ScreenToGraph(PictureBox.Location);
-                ScrollBy(from.X - to.X, from.Y - to.Y);
+                PointF p = ScreenToGraph(DragFrom), q = ScreenToGraph(PictureBox.Location);
+                ScrollBy(p.X - q.X, p.Y - q.Y);
                 AdjustPictureBox();
                 PictureBox.Cursor = Cursors.Default;
                 Dragging = false;
@@ -177,6 +182,14 @@
 Product Name: {Application.ProductName}
 Version: {Application.ProductVersion}",
                 $"About {Application.ProductName}");
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            System.Diagnostics.Debug.WriteLine($"Controller.OnPropertyChanged(\"{propertyName}\")");
+            if (propertyName == "Model.Graph.FillColour")
+                InitPaper();
+            PictureBox.Invalidate();
+        }
 
         private void AdjustPictureBox()
         {
@@ -201,16 +214,10 @@ Version: {Application.ProductVersion}",
             PictureBox.SetBounds(r.X, r.Y, r.Width, r.Height);
         }
 
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            System.Diagnostics.Debug.WriteLine($"Controller.OnPropertyChanged(\"{propertyName}\")");
-            if (propertyName == "Model.Graph.FillColour")
-                InitPaper();
-            PictureBox.Invalidate();
-        }
-
         private bool ContinueSaving() => true;
-        private void FileLoaded() => InitPaper();
+
+        private void FileLoaded() { Graph.ZoomSet(); InitPaper(); }
+        private void FileSaved() => Graph.ZoomSet();
         private void InitCoordinatesToolTip(string text) => View.ToolTip.SetToolTip(PictureBox, text);
         private void InitPaper() => ClientPanel.BackColor = Graph.FillColour;
         private void ModelCleared() => InitPaper();
@@ -226,7 +233,6 @@ Version: {Application.ProductVersion}",
         private void ScrollBy(float xDelta, float yDelta) => Graph.ScrollBy(xDelta, yDelta);
         private void ScrollTo(float x, float y) => Graph.ScrollTo(x, y);
         private void ShowPropertiesDialog() => PropertiesDialogController.ShowDialog(View);
-
         private void ToggleMouseCoordinates() => ShowMouseCoordinates = !ShowMouseCoordinates;
 
         private void UpdateMouseCoordinates(MouseEventArgs e)
@@ -236,5 +242,6 @@ Version: {Application.ProductVersion}",
         }
 
         private void Zoom(float factor) => Graph.Zoom(factor);
+        private void ZoomReset() => Graph.ZoomReset();
     }
 }

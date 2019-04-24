@@ -129,8 +129,8 @@
         private Color _penColour;
         private Color _fillColour;
         private Color _limitColour;
-        private PointF _location;
-        private SizeF _size;
+        private PointF _location, _originalLocation = new PointF(-10, -5);
+        private SizeF _size, _originalSize = new SizeF(20, 10);
 
         public List<Series> Series
         {
@@ -233,6 +233,9 @@
                 (float)(Size.Height * yFactor));
         }
 
+        public void ZoomReset() { Location = _originalLocation; Size = _originalSize; }
+        public void ZoomSet() { _originalLocation = Location; _originalSize = Size; }
+
         private void DrawGrid(Graphics g, float penWidth)
         {
             var limits = Limits;
@@ -291,8 +294,7 @@
 
         private void InitDefaults()
         {
-            Location = new PointF(-10, -5);
-            Size = new SizeF(20, 10);
+            ZoomReset();
             StepCount = 16000;
             PaperColour = Color.LightYellow;
             AxisColour = Color.DarkGray;

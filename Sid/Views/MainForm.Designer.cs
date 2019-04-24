@@ -49,6 +49,8 @@
             this.ViewZoom = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewZoomIn = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewZoomOut = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
+            this.ViewZoomReset = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewScroll = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewScrollLeft = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewScrollRight = new System.Windows.Forms.ToolStripMenuItem();
@@ -202,7 +204,9 @@
             // 
             this.ViewZoom.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ViewZoomIn,
-            this.ViewZoomOut});
+            this.ViewZoomOut,
+            this.toolStripMenuItem6,
+            this.ViewZoomReset});
             this.ViewZoom.Name = "ViewZoom";
             this.ViewZoom.Size = new System.Drawing.Size(182, 22);
             this.ViewZoom.Text = "&Zoom";
@@ -211,20 +215,31 @@
             // ViewZoomIn
             // 
             this.ViewZoomIn.Name = "ViewZoomIn";
-            this.ViewZoomIn.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.PageUp)));
-            this.ViewZoomIn.Size = new System.Drawing.Size(189, 22);
+            this.ViewZoomIn.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.PageUp)));
+            this.ViewZoomIn.Size = new System.Drawing.Size(180, 22);
             this.ViewZoomIn.Text = "&In";
             this.ViewZoomIn.ToolTipText = "Graphs can also be zoomed using the mouse wheel";
             // 
             // ViewZoomOut
             // 
             this.ViewZoomOut.Name = "ViewZoomOut";
-            this.ViewZoomOut.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.Next)));
-            this.ViewZoomOut.Size = new System.Drawing.Size(189, 22);
+            this.ViewZoomOut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Next)));
+            this.ViewZoomOut.Size = new System.Drawing.Size(180, 22);
             this.ViewZoomOut.Text = "&Out";
             this.ViewZoomOut.ToolTipText = "Graphs can also be zoomed using the mouse wheel";
+            // 
+            // toolStripMenuItem6
+            // 
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(177, 6);
+            // 
+            // ViewZoomReset
+            // 
+            this.ViewZoomReset.Name = "ViewZoomReset";
+            this.ViewZoomReset.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.End)));
+            this.ViewZoomReset.Size = new System.Drawing.Size(180, 22);
+            this.ViewZoomReset.Text = "&Reset";
+            this.ViewZoomReset.ToolTipText = "To the viewport when the graph was created or last saved";
             // 
             // ViewScroll
             // 
@@ -243,50 +258,45 @@
             // ViewScrollLeft
             // 
             this.ViewScrollLeft.Name = "ViewScrollLeft";
-            this.ViewScrollLeft.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.Left)));
-            this.ViewScrollLeft.Size = new System.Drawing.Size(208, 22);
+            this.ViewScrollLeft.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Left)));
+            this.ViewScrollLeft.Size = new System.Drawing.Size(180, 22);
             this.ViewScrollLeft.Text = "&Left";
             this.ViewScrollLeft.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
             // 
             // ViewScrollRight
             // 
             this.ViewScrollRight.Name = "ViewScrollRight";
-            this.ViewScrollRight.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.Right)));
-            this.ViewScrollRight.Size = new System.Drawing.Size(208, 22);
+            this.ViewScrollRight.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Right)));
+            this.ViewScrollRight.Size = new System.Drawing.Size(180, 22);
             this.ViewScrollRight.Text = "&Right";
             this.ViewScrollRight.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
             // 
             // ViewScrollUp
             // 
             this.ViewScrollUp.Name = "ViewScrollUp";
-            this.ViewScrollUp.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.Up)));
-            this.ViewScrollUp.Size = new System.Drawing.Size(208, 22);
+            this.ViewScrollUp.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Up)));
+            this.ViewScrollUp.Size = new System.Drawing.Size(180, 22);
             this.ViewScrollUp.Text = "&Up";
             this.ViewScrollUp.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
             // 
             // ViewScrollDown
             // 
             this.ViewScrollDown.Name = "ViewScrollDown";
-            this.ViewScrollDown.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.Down)));
-            this.ViewScrollDown.Size = new System.Drawing.Size(208, 22);
+            this.ViewScrollDown.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Down)));
+            this.ViewScrollDown.Size = new System.Drawing.Size(180, 22);
             this.ViewScrollDown.Text = "&Down";
             this.ViewScrollDown.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(205, 6);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(177, 6);
             // 
             // ViewScrollCentre
             // 
             this.ViewScrollCentre.Name = "ViewScrollCentre";
-            this.ViewScrollCentre.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.Home)));
-            this.ViewScrollCentre.Size = new System.Drawing.Size(208, 22);
+            this.ViewScrollCentre.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Home)));
+            this.ViewScrollCentre.Size = new System.Drawing.Size(180, 22);
             this.ViewScrollCentre.Text = "&Centre";
             this.ViewScrollCentre.ToolTipText = "Return the origin (0,0) to the centre of the display area";
             // 
@@ -420,5 +430,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         public System.Windows.Forms.ToolStripMenuItem ViewScrollCentre;
         public System.Windows.Forms.ToolStripMenuItem ViewMouseCoordinates;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
+        public System.Windows.Forms.ToolStripMenuItem ViewZoomReset;
     }
 }
