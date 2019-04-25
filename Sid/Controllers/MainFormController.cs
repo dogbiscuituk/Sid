@@ -71,6 +71,7 @@
             {
                 View.ViewEditor.Checked = value;
                 View.SplitContainer.Panel2Collapsed = !value;
+                AdjustPictureBox();
             }
         }
 
