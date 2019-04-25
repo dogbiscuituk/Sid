@@ -16,17 +16,19 @@
             Model.Cleared += Model_Cleared;
             Model.ModifiedChanged += Model_ModifiedChanged;
             Model.PropertyChanged += Model_PropertyChanged;
-            PersistenceController = new JsonController(Model, View, View.FileReopen);
-            PersistenceController.FileLoaded += PersistenceController_FileLoaded;
-            PersistenceController.FilePathChanged += PersistenceController_FilePathChanged;
-            PersistenceController.FileSaving += PersistenceController_FileSaving;
-            PersistenceController.FileSaved += PersistenceController_FileSaved;
+            JsonController = new JsonController(Model, View, View.FileReopen);
+            JsonController.FileLoaded += JsonController_FileLoaded;
+            JsonController.FilePathChanged += JsonController_FilePathChanged;
+            JsonController.FileSaving += JsonController_FileSaving;
+            JsonController.FileSaved += JsonController_FileSaved;
             GraphDialogController = new GraphDialogController(this);
             AdjustPictureBox();
         }
 
+        #region Properties
+
         public readonly Model Model;
-        public readonly JsonController PersistenceController;
+        public readonly JsonController JsonController;
         public readonly GraphDialogController GraphDialogController;
 
         public Panel ClientPanel { get => View.ClientPanel; }
@@ -96,31 +98,15 @@
             }
         }
 
-        private void View_FormClosing(object sender, FormClosingEventArgs e) =>
-            e.Cancel = !PersistenceController.SaveIfModified();
+        #endregion
 
-        private void View_Resize(object sender, EventArgs e) => AdjustPictureBox();
-
-        private void PersistenceController_FileLoaded(object sender, EventArgs e) => FileLoaded();
-
-        private void PersistenceController_FilePathChanged(object sender, EventArgs e) =>
-            View.Text = PersistenceController.WindowCaption;
-
-        private void PersistenceController_FileSaved(object sender, EventArgs e) => FileSaved();
-
-        private void PersistenceController_FileSaving(object sender, CancelEventArgs e) =>
-            e.Cancel = !ContinueSaving();
-
-        private void Model_Cleared(object sender, EventArgs e) => ModelCleared();
-        private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
-        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
-            OnPropertyChanged($"Model.{e.PropertyName}");
+        #region Main menu
 
         public void FileMenu_DropDownOpening(object sender, EventArgs e) => View.FileSave.Enabled = Model.Modified;
-        private void FileNew_Click(object sender, EventArgs e) => PersistenceController.Clear();
-        private void FileOpen_Click(object sender, EventArgs e) => PersistenceController.Open();
-        private void FileSave_Click(object sender, EventArgs e) => PersistenceController.Save();
-        private void FileSaveAs_Click(object sender, EventArgs e) => PersistenceController.SaveAs();
+        private void FileNew_Click(object sender, EventArgs e) => JsonController.Clear();
+        private void FileOpen_Click(object sender, EventArgs e) => JsonController.Open();
+        private void FileSave_Click(object sender, EventArgs e) => JsonController.Save();
+        private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
         private void EditUndo_Click(object sender, EventArgs e) { }
         private void EditRedo_Click(object sender, EventArgs e) { }
@@ -136,6 +122,46 @@
         private void ViewScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1);
         private void ViewScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
         private void HelpAbout_Click(object sender, EventArgs e) => ShowVersionInfo();
+
+        private void ShowGraphDialog() => GraphDialogController.ShowDialog(View);
+
+        private void ShowVersionInfo() =>
+            MessageBox.Show(
+                $@"Company Name: {Application.CompanyName}
+Product Name: {Application.ProductName}
+Version: {Application.ProductVersion}",
+                $"About {Application.ProductName}");
+
+        #endregion
+
+        #region Model
+
+        private void Model_Cleared(object sender, EventArgs e) => ModelCleared();
+        private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
+        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
+            OnPropertyChanged($"Model.{e.PropertyName}");
+
+        private void ModelCleared() => InitPaper();
+
+        private void ModifiedChanged()
+        {
+            View.Text = JsonController.WindowCaption;
+            View.ModifiedLabel.Visible = Model.Modified;
+        }
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            System.Diagnostics.Debug.WriteLine($"Controller.OnPropertyChanged(\"{propertyName}\")");
+            if (propertyName == "Model.Graph.FillColour")
+                InitPaper();
+            PictureBox.Invalidate();
+        }
+
+        #endregion
+
+        #region PictureBox
+
+        private void View_Resize(object sender, EventArgs e) => AdjustPictureBox();
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)
         {
@@ -186,21 +212,6 @@
 
         private void PictureBox_Resize(object sender, EventArgs e) => PictureBox.Invalidate();
 
-        private void ShowVersionInfo() =>
-            MessageBox.Show(
-                $@"Company Name: {Application.CompanyName}
-Product Name: {Application.ProductName}
-Version: {Application.ProductVersion}",
-                $"About {Application.ProductName}");
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            System.Diagnostics.Debug.WriteLine($"Controller.OnPropertyChanged(\"{propertyName}\")");
-            if (propertyName == "Model.Graph.FillColour")
-                InitPaper();
-            PictureBox.Invalidate();
-        }
-
         private void AdjustPictureBox()
         {
             int cW = ClientPanel.ClientSize.Width, cH = ClientPanel.ClientSize.Height;
@@ -224,25 +235,9 @@ Version: {Application.ProductVersion}",
             PictureBox.SetBounds(r.X, r.Y, r.Width, r.Height);
         }
 
-        private bool ContinueSaving() => true;
-
-        private void FileLoaded() { Graph.ZoomSet(); InitPaper(); }
-        private void FileSaved() => Graph.ZoomSet();
         private void InitCoordinatesToolTip(string text) => View.ToolTip.SetToolTip(PictureBox, text);
         private void InitPaper() => ClientPanel.BackColor = Graph.FillColour;
-        private void ModelCleared() => InitPaper();
-
-        private void ModifiedChanged()
-        {
-            View.Text = PersistenceController.WindowCaption;
-            View.ModifiedLabel.Visible = Model.Modified;
-        }
-
         private PointF ScreenToGraph(Point p) => Graph.ScreenToGraph(p, PictureBox.ClientRectangle);
-        private void Scroll(double xFactor, double yFactor) => Graph.Scroll(xFactor, yFactor);
-        private void ScrollBy(float xDelta, float yDelta) => Graph.ScrollBy(xDelta, yDelta);
-        private void ScrollTo(float x, float y) => Graph.ScrollTo(x, y);
-        private void ShowGraphDialog() => GraphDialogController.ShowDialog(View);
         private void ToggleMouseCoordinates() => ShowMouseCoordinates = !ShowMouseCoordinates;
 
         private void UpdateMouseCoordinates(MouseEventArgs e)
@@ -251,7 +246,37 @@ Version: {Application.ProductVersion}",
                 InitCoordinatesToolTip(ScreenToGraph(e.Location).ToString());
         }
 
+        #endregion
+
+        #region Scroll & Zoom
+
+        private void Scroll(double xFactor, double yFactor) => Graph.Scroll(xFactor, yFactor);
+        private void ScrollBy(float xDelta, float yDelta) => Graph.ScrollBy(xDelta, yDelta);
+        private void ScrollTo(float x, float y) => Graph.ScrollTo(x, y);
         private void Zoom(float factor) => Graph.Zoom(factor);
         private void ZoomReset() => Graph.ZoomReset();
+
+        #endregion
+
+        #region JsonController
+
+        private void JsonController_FileLoaded(object sender, EventArgs e) => FileLoaded();
+
+        private void JsonController_FilePathChanged(object sender, EventArgs e) =>
+            View.Text = JsonController.WindowCaption;
+
+        private void JsonController_FileSaved(object sender, EventArgs e) => FileSaved();
+
+        private void JsonController_FileSaving(object sender, CancelEventArgs e) =>
+            e.Cancel = !ContinueSaving();
+
+        private void View_FormClosing(object sender, FormClosingEventArgs e) =>
+            e.Cancel = !JsonController.SaveIfModified();
+
+        private bool ContinueSaving() => true;
+        private void FileLoaded() { Graph.ZoomSet(); InitPaper(); }
+        private void FileSaved() => Graph.ZoomSet();
+
+        #endregion
     }
 }

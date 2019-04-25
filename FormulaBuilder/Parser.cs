@@ -216,7 +216,7 @@ nextOperator:
                         if (op == ')')
                             return;
                         break;
-                    case '\'':
+                    case '\'': // Postfix apostrophe => differentiate
                         ParseTick();
                         goto nextOperator;
                     case '$' when Index == Formula.Length + 2: // End of input (normal)
