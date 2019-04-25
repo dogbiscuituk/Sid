@@ -114,8 +114,8 @@
         #region Menus
 
         public void FileMenu_DropDownOpening(object sender, EventArgs e) => View.FileSave.Enabled = Model.Modified;
-        private void FileNew_Click(object sender, EventArgs e) => JsonController.Clear();
-        private void FileOpen_Click(object sender, EventArgs e) => JsonController.Open();
+        private void FileNew_Click(object sender, EventArgs e) => NewFile();
+        private void FileOpen_Click(object sender, EventArgs e) => OpenFile();
         private void FileSave_Click(object sender, EventArgs e) => JsonController.Save();
         private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
@@ -315,6 +315,19 @@ Version: {Application.ProductVersion}",
         private bool ContinueSaving() => true;
         private void FileLoaded() { Graph.ZoomSet(); InitPaper(); }
         private void FileSaved() => Graph.ZoomSet();
+
+        private void NewFile()
+        {
+            JsonController.Clear();
+            GraphEditController.GraphRead();
+        }
+
+        private void OpenFile()
+        {
+            JsonController.Open();
+            GraphEditController.GraphRead();
+        }
+
         private void UpdateCaption() => View.Text = JsonController.WindowCaption;
 
         #endregion

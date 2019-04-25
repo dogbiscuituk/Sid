@@ -32,14 +32,23 @@
             get => _view;
             set
             {
+                if (View != null)
+                {
+                    View.seXmin.ValueChanged -= LiveUpdate;
+                    View.seYmin.ValueChanged -= LiveUpdate;
+                    View.seXmax.ValueChanged -= LiveUpdate;
+                    View.seYmax.ValueChanged -= LiveUpdate;
+                    View.btnAddNewFunction.Click -= BtnAddNewFunction_Click;
+                }
                 _view = value;
-                View.FormClosing += View_FormClosing;
-                View.btnAddNewFunction.Click += BtnAddNewFunction_Click;
-
-                View.seXmin.ValueChanged += LiveUpdate;
-                View.seYmin.ValueChanged += LiveUpdate;
-                View.seXmax.ValueChanged += LiveUpdate;
-                View.seYmax.ValueChanged += LiveUpdate;
+                if (View != null)
+                {
+                    View.seXmin.ValueChanged += LiveUpdate;
+                    View.seYmin.ValueChanged += LiveUpdate;
+                    View.seXmax.ValueChanged += LiveUpdate;
+                    View.seYmax.ValueChanged += LiveUpdate;
+                    View.btnAddNewFunction.Click += BtnAddNewFunction_Click;
+                }
             }
         }
 
@@ -50,7 +59,7 @@
         private void BtnAddNewFunction_Click(object sender, EventArgs e) =>
             AddNewEdit(null);
 
-        private void BtnRemove_Click(object sender, EventArgs e) =>
+        private void BtnRemoveFunction_Click(object sender, EventArgs e) =>
             RemoveEdit((TraceEdit)((Control)sender).Parent);
 
         private void AddNewEdit(Series series)
@@ -78,9 +87,10 @@
             var index = controls.Count;
             child.TraceLabel = $"f{controls.Count.ToString().ToSubscript()}";
             child.View.cbFunction.Validating += CbFunction_Validating;
-            child.View.btnRemove.Click += BtnRemove_Click;
+            child.View.btnRemove.Click += BtnRemoveFunction_Click;
             FlowLayoutPanel.Controls.Add(child.View);
             Loading = false;
+            GraphWrite();
         }
 
         private void RemoveEdit(TraceEdit edit)
@@ -89,6 +99,7 @@
             var index = controls.IndexOf(edit);
             controls.RemoveAt(index);
             Children.RemoveAt(index);
+            GraphWrite();
         }
 
         #endregion
@@ -96,14 +107,14 @@
         public void LiveUpdate(object sender, EventArgs e)
         {
             if (!Loading)
-                Apply();
+                GraphWrite();
         }
 
         public void Show(IWin32Window owner)
         {
-            InitView();
+            GraphRead();
             View.Show(owner);
-            Apply();
+            GraphWrite();
         }
 
         private void CbFunction_Validating(object sender, System.ComponentModel.CancelEventArgs e)
@@ -116,21 +127,27 @@
             e.Cancel = CanCancel && !ok;
         }
 
-        private void View_FormClosing(object sender, FormClosingEventArgs e)
+        public void GraphRead()
         {
-            if (View.DialogResult != DialogResult.Cancel)
-                e.Cancel = !Validate();
+            Loading = true;
+            View.seXmin.Value = (decimal)Graph.Limits.Left;
+            View.seYmin.Value = (decimal)Graph.Limits.Top;
+            View.seXmax.Value = (decimal)Graph.Limits.Right;
+            View.seYmax.Value = (decimal)Graph.Limits.Bottom;
+            FlowLayoutPanel.Controls.Clear();
+            foreach (Series series in Graph.Series)
+                AddNewEdit(series);
+            Validate();
+            Loading = false;
         }
 
-        private void Apply()
+        private void GraphWrite()
         {
             if (!Validate())
                 return;
             float
-                xMin = (float)View.seXmin.Value,
-                yMin = (float)View.seYmin.Value,
-                xMax = (float)View.seXmax.Value,
-                yMax = (float)View.seYmax.Value;
+                xMin = (float)View.seXmin.Value, yMin = (float)View.seYmin.Value,
+                xMax = (float)View.seXmax.Value, yMax = (float)View.seYmax.Value;
             Graph.Location = new PointF(xMin, yMin);
             Graph.Size = new SizeF(xMax - xMin, yMax - yMin);
             int index = 0, count = Graph.Series.Count;
@@ -149,30 +166,11 @@
                 Graph.RemoveSeriesRange(index, count);
         }
 
-        private void InitView()
-        {
-            Loading = true;
-            View.seXmin.Value = (decimal)Graph.Limits.Left;
-            View.seYmin.Value = (decimal)Graph.Limits.Top;
-            View.seXmax.Value = (decimal)Graph.Limits.Right;
-            View.seYmax.Value = (decimal)Graph.Limits.Bottom;
-            FlowLayoutPanel.Controls.Clear();
-            foreach (Series series in Graph.Series)
-                AddNewEdit(series);
-            Validate();
-            Loading = false;
-        }
-
         private bool Validate()
         {
             CanCancel = true;
             var ok = View.ValidateChildren();
             CanCancel = false;
-            if (!ok)
-                MessageBox.Show(View,
-                    @"Property values cannot be applied while any errors remain.
-Mouse over an error icon to see details of the problem.",
-                    "Error in Function", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return ok;
         }
     }

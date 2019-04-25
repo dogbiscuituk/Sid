@@ -268,6 +268,7 @@
             // 
             // ErrorProvider
             // 
+            this.ErrorProvider.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.ErrorProvider.ContainerControl = this;
             // 
             // GraphEdit
@@ -275,7 +276,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
-            this.ClientSize = new System.Drawing.Size(624, 441);
+            this.ClientSize = new System.Drawing.Size(620, 437);
             this.ControlBox = false;
             this.Controls.Add(this.btnAddNewFunction);
             this.Controls.Add(this.gbFunction);
