@@ -1,4 +1,4 @@
-﻿namespace FormulaBuilder
+﻿namespace Sid.Expressions
 {
     using System;
     using System.Diagnostics;

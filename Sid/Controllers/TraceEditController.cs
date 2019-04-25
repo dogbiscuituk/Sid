@@ -3,7 +3,7 @@
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
-    using FormulaBuilder;
+    using Sid.Expressions;
     using Sid.Views;
 
     public class TraceEditController

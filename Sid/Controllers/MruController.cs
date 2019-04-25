@@ -6,7 +6,7 @@
     using System.Linq;
     using System.Windows.Forms;
     using Win32 = Microsoft.Win32;
-    using FormulaBuilder;
+    using Sid.Expressions;
     using Sid.Models;
 
     /// <summary>

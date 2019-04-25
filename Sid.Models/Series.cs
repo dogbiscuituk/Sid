@@ -7,8 +7,8 @@
     using System.Drawing.Drawing2D;
     using System.Linq;
     using System.Linq.Expressions;
-    using FormulaBuilder;
     using Newtonsoft.Json;
+    using Sid.Expressions;
 
     [Serializable]
     public class Series: INotifyPropertyChanged

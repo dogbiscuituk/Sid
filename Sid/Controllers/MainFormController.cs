@@ -5,6 +5,7 @@
     using System.Diagnostics;
     using System.Drawing;
     using System.Windows.Forms;
+    using Sid.Expressions;
     using Sid.Models;
     using Sid.Views;
 
@@ -12,6 +13,7 @@
     {
         public MainFormController()
         {
+            Expressions.TestAll();
             View = new MainForm();
             Model = new Model();
             Model.Cleared += Model_Cleared;

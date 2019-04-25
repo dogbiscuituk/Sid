@@ -1,7 +1,7 @@
-﻿using System.Windows.Forms;
-
-namespace Sid.Views
+﻿namespace Sid.Views
 {
+    using System.Windows.Forms;
+
     public partial class TraceEdit : UserControl
     {
         public TraceEdit()
