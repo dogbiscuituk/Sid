@@ -13,8 +13,7 @@
         public GraphEditController(MainFormController parent)
         {
             Parent = parent;
-            View = new GraphEdit();
-            View.Show();
+            View = parent.View;
         }
 
         #region Properties
@@ -23,11 +22,11 @@
         private Panel FlowLayoutPanel { get => View.FlowLayoutPanel; }
         private Graph Graph { get => Parent.Graph; }
         private MainFormController Parent;
-        private List<TraceEditController> Children = new List<TraceEditController>();
+        public List<TraceEditController> Children = new List<TraceEditController>();
 
-        private GraphEdit _view;
+        private MainForm _view;
 
-        public GraphEdit View
+        public MainForm View
         {
             get => _view;
             set

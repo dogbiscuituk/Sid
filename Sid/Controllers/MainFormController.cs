@@ -2,8 +2,8 @@
 {
     using System;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Drawing;
-    using System.Linq;
     using System.Windows.Forms;
     using Sid.Models;
     using Sid.Views;
@@ -62,13 +62,23 @@
             }
         }
 
+        private bool ShowEditor
+        {
+            get => View.ViewEditor.Checked;
+            set
+            {
+                View.ViewEditor.Checked = value;
+                View.SplitContainer.Panel2Collapsed = !value;
+            }
+        }
+
         private bool ShowMouseCoordinates
         {
             get => View.ViewMouseCoordinates.Checked;
             set
             {
                 View.ViewMouseCoordinates.Checked = value;
-                if (!ShowMouseCoordinates)
+                if (!value)
                     InitCoordinatesToolTip(string.Empty);
             }
         }
@@ -96,6 +106,7 @@
                 View.ViewScrollUp.Click += ViewScrollUp_Click;
                 View.ViewScrollDown.Click += ViewScrollDown_Click;
                 View.ViewScrollCentre.Click += ViewScrollCentre_Click;
+                View.ViewEditor.Click += ViewEditor_Click;
                 View.ViewFullScreen.Click += ViewFullScreen_Click;
                 View.ViewIsotropic.Click += ViewIsotropic_Click;
                 View.ViewMouseCoordinates.Click += ViewMouseCoordinates_Click;
@@ -127,17 +138,34 @@
         private void ViewScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1);
         private void ViewScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1);
         private void ViewScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
+        private void ViewEditor_Click(object sender, EventArgs e) => ToggleEditor();
         private void ViewFullScreen_Click(object sender, EventArgs e) => ToggleFullScreen();
         private void ViewIsotropic_Click(object sender, EventArgs e) => Isotropic = !Isotropic;
         private void ViewMouseCoordinates_Click(object sender, EventArgs e) => ToggleMouseCoordinates();
         private void HelpAbout_Click(object sender, EventArgs e) => ShowVersionInfo();
 
-        private void ShowVersionInfo() =>
+        private void ShowVersionInfo()
+        {
+            /*
             MessageBox.Show(
                 $@"Company Name: {Application.CompanyName}
 Product Name: {Application.ProductName}
 Version: {Application.ProductVersion}",
                 $"About {Application.ProductName}");
+                */
+            Debug.WriteLine("GRAPH INFO:");
+            for (int i = 0; i < Graph.Series.Count; i++)
+            {
+                var s = Graph.Series[i];
+                Debug.WriteLine($"f{i}: '{s.Formula}'");
+            }
+            Debug.WriteLine("EDIT CONTROL INFO:");
+            for (int j = 0; j < GraphEditController.Children.Count; j++)
+            {
+                var t = GraphEditController.Children[j];
+                Debug.WriteLine($"f{j}: '{t.Formula}'");
+            }
+        }
 
         #endregion
 
@@ -276,6 +304,7 @@ Version: {Application.ProductVersion}",
         }
 
         private PointF ScreenToGraph(Point p) => Graph.ScreenToGraph(p, PictureBox.ClientRectangle);
+        private void ToggleEditor() => ShowEditor = !ShowEditor;
         private void ToggleFullScreen() => FullScreen = !FullScreen;
         private void ToggleMouseCoordinates() => ShowMouseCoordinates = !ShowMouseCoordinates;
 
