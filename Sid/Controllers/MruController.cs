@@ -172,13 +172,15 @@
 
         private static string CompactMenuText(string text)
         {
-            // https://stackoverflow.com/questions/1764204/how-to-display-abbreviated-path-names-in-net
-            // "Important: Passing in a formatting option of TextFormatFlags.ModifyString actually causes
-            // the MeasureText method to alter the string argument [...] to be a compacted string. This
-            // seems very weird since no explicit ref or out method parameter keyword is specified and
-            // strings are immutable. However, its definitely the case. I assume the string's pointer was
-            // updated via unsafe code to the new compacted string."
             var result = Path.ChangeExtension(text, string.Empty).TrimEnd('.');
+            /*
+                https://stackoverflow.com/questions/1764204/how-to-display-abbreviated-path-names-in-net
+                "Important: Passing in a formatting option of TextFormatFlags.ModifyString actually causes
+                the MeasureText method to alter the string argument [...] to be a compacted string. This
+                seems very weird since no explicit ref or out method parameter keyword is specified and
+                strings are immutable. However, its definitely the case. I assume the string's pointer was
+                updated via unsafe code to the new compacted string." -- Sam.
+            */
             TextRenderer.MeasureText(
                 result, SystemFonts.MenuFont, new Size(320, 0),
                 TextFormatFlags.PathEllipsis | TextFormatFlags.ModifyString);
