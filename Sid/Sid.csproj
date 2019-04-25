@@ -54,12 +54,6 @@
     <Compile Include="Controllers\GraphEditController.cs" />
     <Compile Include="Controllers\TraceEditController.cs" />
     <Compile Include="Controllers\UndoController.cs" />
-    <Compile Include="Views\GraphEdit.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\GraphEdit.Designer.cs">
-      <DependentUpon>GraphEdit.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\MainFormController.cs" />
     <Compile Include="Controllers\MruController.cs" />
     <Compile Include="Controllers\SdiController.cs" />
@@ -106,9 +100,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\GraphEdit.resx">
-      <DependentUpon>GraphEdit.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

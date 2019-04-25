@@ -276,7 +276,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
-            this.ClientSize = new System.Drawing.Size(620, 437);
+            this.ClientSize = new System.Drawing.Size(616, 433);
             this.ControlBox = false;
             this.Controls.Add(this.btnAddNewFunction);
             this.Controls.Add(this.gbFunction);
