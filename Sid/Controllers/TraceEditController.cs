@@ -8,7 +8,7 @@
 
     public class TraceEditController
     {
-        public TraceEditController(GraphDialogController parent)
+        public TraceEditController(GraphEditController parent)
         {
             Parent = parent;
             View = new TraceEdit();
@@ -36,7 +36,7 @@
             }
         }
 
-        private GraphDialogController Parent;
+        private GraphEditController Parent;
 
         public bool TraceVisible
         {

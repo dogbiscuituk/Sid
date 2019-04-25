@@ -40,11 +40,6 @@
             this.FileSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.FileExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditUndo = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditRedo = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
-            this.EditGraphProperties = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewZoom = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewZoomIn = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,6 +62,8 @@
             this.ModifiedLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.PictureBox = new System.Windows.Forms.PictureBox();
             this.ClientPanel = new System.Windows.Forms.Panel();
+            this.ViewFullScreen = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
@@ -77,14 +74,13 @@
             // 
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenu,
-            this.EditMenu,
             this.ViewMenu,
             this.HelpMenu});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Size = new System.Drawing.Size(944, 24);
             this.MainMenu.TabIndex = 1;
-            this.MainMenu.Text = "menuStrip1";
+            this.MainMenu.Text = "Main Menu";
             // 
             // FileMenu
             // 
@@ -151,49 +147,13 @@
             this.FileExit.Size = new System.Drawing.Size(146, 22);
             this.FileExit.Text = "E&xit";
             // 
-            // EditMenu
-            // 
-            this.EditMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.EditUndo,
-            this.EditRedo,
-            this.toolStripMenuItem4,
-            this.EditGraphProperties});
-            this.EditMenu.Name = "EditMenu";
-            this.EditMenu.Size = new System.Drawing.Size(39, 20);
-            this.EditMenu.Text = "&Edit";
-            // 
-            // EditUndo
-            // 
-            this.EditUndo.Name = "EditUndo";
-            this.EditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.EditUndo.Size = new System.Drawing.Size(190, 22);
-            this.EditUndo.Text = "&Undo";
-            // 
-            // EditRedo
-            // 
-            this.EditRedo.Name = "EditRedo";
-            this.EditRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.EditRedo.Size = new System.Drawing.Size(190, 22);
-            this.EditRedo.Text = "&Redo";
-            // 
-            // toolStripMenuItem4
-            // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(187, 6);
-            // 
-            // EditGraphProperties
-            // 
-            this.EditGraphProperties.Name = "EditGraphProperties";
-            this.EditGraphProperties.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.EditGraphProperties.Size = new System.Drawing.Size(190, 22);
-            this.EditGraphProperties.Text = "&Graph Properties...";
-            // 
             // ViewMenu
             // 
             this.ViewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ViewZoom,
             this.ViewScroll,
             this.toolStripMenuItem3,
+            this.ViewFullScreen,
             this.ViewIsotropic,
             this.ViewMouseCoordinates});
             this.ViewMenu.Name = "ViewMenu";
@@ -216,7 +176,7 @@
             // 
             this.ViewZoomIn.Name = "ViewZoomIn";
             this.ViewZoomIn.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.PageUp)));
-            this.ViewZoomIn.Size = new System.Drawing.Size(157, 22);
+            this.ViewZoomIn.Size = new System.Drawing.Size(180, 22);
             this.ViewZoomIn.Text = "&In";
             this.ViewZoomIn.ToolTipText = "Graphs can also be zoomed using the mouse wheel";
             // 
@@ -224,20 +184,20 @@
             // 
             this.ViewZoomOut.Name = "ViewZoomOut";
             this.ViewZoomOut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Next)));
-            this.ViewZoomOut.Size = new System.Drawing.Size(157, 22);
+            this.ViewZoomOut.Size = new System.Drawing.Size(180, 22);
             this.ViewZoomOut.Text = "&Out";
             this.ViewZoomOut.ToolTipText = "Graphs can also be zoomed using the mouse wheel";
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(154, 6);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(177, 6);
             // 
             // ViewZoomReset
             // 
             this.ViewZoomReset.Name = "ViewZoomReset";
             this.ViewZoomReset.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.End)));
-            this.ViewZoomReset.Size = new System.Drawing.Size(157, 22);
+            this.ViewZoomReset.Size = new System.Drawing.Size(180, 22);
             this.ViewZoomReset.Text = "&Reset";
             this.ViewZoomReset.ToolTipText = "To the viewport when the graph was created or last saved";
             // 
@@ -371,11 +331,25 @@
             this.ClientPanel.Size = new System.Drawing.Size(944, 455);
             this.ClientPanel.TabIndex = 4;
             // 
+            // ViewFullScreen
+            // 
+            this.ViewFullScreen.Name = "ViewFullScreen";
+            this.ViewFullScreen.ShortcutKeys = System.Windows.Forms.Keys.F11;
+            this.ViewFullScreen.Size = new System.Drawing.Size(182, 22);
+            this.ViewFullScreen.Text = "&Full Screen";
+            // 
+            // PopupMenu
+            // 
+            this.PopupMenu.Name = "PopupMenu";
+            this.PopupMenu.Size = new System.Drawing.Size(61, 4);
+            this.PopupMenu.Text = "Popup Menu";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(944, 501);
+            this.ContextMenuStrip = this.PopupMenu;
             this.Controls.Add(this.ClientPanel);
             this.Controls.Add(this.StatusBar);
             this.Controls.Add(this.MainMenu);
@@ -394,8 +368,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.MenuStrip MainMenu;
-        private System.Windows.Forms.ToolStripMenuItem EditMenu;
         private System.Windows.Forms.ToolStripMenuItem HelpMenu;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
@@ -406,10 +378,7 @@
         public System.Windows.Forms.ToolStripMenuItem FileExit;
         public System.Windows.Forms.ToolStripMenuItem FileNew;
         public System.Windows.Forms.ToolStripMenuItem FileOpen;
-        public System.Windows.Forms.ToolStripMenuItem EditUndo;
-        public System.Windows.Forms.ToolStripMenuItem EditRedo;
         public System.Windows.Forms.ToolStripMenuItem HelpAbout;
-        private System.Windows.Forms.StatusStrip StatusBar;
         public System.Windows.Forms.ToolStripStatusLabel ModifiedLabel;
         public System.Windows.Forms.ToolTip ToolTip;
         public System.Windows.Forms.PictureBox PictureBox;
@@ -425,12 +394,14 @@
         public System.Windows.Forms.ToolStripMenuItem ViewIsotropic;
         public System.Windows.Forms.ToolStripMenuItem ViewMenu;
         public System.Windows.Forms.Panel ClientPanel;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
-        public System.Windows.Forms.ToolStripMenuItem EditGraphProperties;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         public System.Windows.Forms.ToolStripMenuItem ViewScrollCentre;
         public System.Windows.Forms.ToolStripMenuItem ViewMouseCoordinates;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
         public System.Windows.Forms.ToolStripMenuItem ViewZoomReset;
+        public System.Windows.Forms.ToolStripMenuItem ViewFullScreen;
+        public System.Windows.Forms.StatusStrip StatusBar;
+        public System.Windows.Forms.ContextMenuStrip PopupMenu;
+        public System.Windows.Forms.MenuStrip MainMenu;
     }
 }

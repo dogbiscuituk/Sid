@@ -8,12 +8,13 @@
     using Sid.Models;
     using Sid.Views;
 
-    public class GraphDialogController
+    public class GraphEditController
     {
-        public GraphDialogController(MainFormController parent)
+        public GraphEditController(MainFormController parent)
         {
             Parent = parent;
-            View = new GraphDialog();
+            View = new GraphEdit();
+            View.Show();
         }
 
         #region Properties
@@ -24,9 +25,9 @@
         private MainFormController Parent;
         private List<TraceEditController> Children = new List<TraceEditController>();
 
-        private GraphDialog _view;
+        private GraphEdit _view;
 
-        public GraphDialog View
+        public GraphEdit View
         {
             get => _view;
             set
@@ -34,7 +35,6 @@
                 _view = value;
                 View.FormClosing += View_FormClosing;
                 View.btnAddNewFunction.Click += BtnAddNewFunction_Click;
-                View.btnApply.Click += BtnApply_Click;
 
                 View.seXmin.ValueChanged += LiveUpdate;
                 View.seYmin.ValueChanged += LiveUpdate;
@@ -51,7 +51,7 @@
             AddNewEdit(null);
 
         private void BtnRemove_Click(object sender, EventArgs e) =>
-            RemoveEditor((TraceEdit)((Control)sender).Parent);
+            RemoveEdit((TraceEdit)((Control)sender).Parent);
 
         private void AddNewEdit(Series series)
         {
@@ -83,6 +83,14 @@
             Loading = false;
         }
 
+        private void RemoveEdit(TraceEdit edit)
+        {
+            var controls = FlowLayoutPanel.Controls;
+            var index = controls.IndexOf(edit);
+            controls.RemoveAt(index);
+            Children.RemoveAt(index);
+        }
+
         #endregion
 
         public void LiveUpdate(object sender, EventArgs e)
@@ -91,15 +99,12 @@
                 Apply();
         }
 
-        public void ShowDialog(IWin32Window owner)
+        public void Show(IWin32Window owner)
         {
             InitView();
-            if (View.ShowDialog(owner) == DialogResult.OK)
-                Apply();
-        }
-
-        private void BtnApply_Click(object sender, EventArgs e) =>
+            View.Show(owner);
             Apply();
+        }
 
         private void CbFunction_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -156,14 +161,6 @@
                 AddNewEdit(series);
             Validate();
             Loading = false;
-        }
-
-        private void RemoveEditor(TraceEdit editor)
-        {
-            var controls = FlowLayoutPanel.Controls;
-            var index = controls.IndexOf(editor);
-            controls.RemoveAt(index);
-            Children.RemoveAt(index);
         }
 
         private bool Validate()

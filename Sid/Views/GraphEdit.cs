@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    public partial class GraphDialog : Form
+    public partial class GraphEdit : Form
     {
-        public GraphDialog()
+        public GraphEdit()
         {
             InitializeComponent();
         }

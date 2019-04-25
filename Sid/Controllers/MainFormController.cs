@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel;
     using System.Drawing;
+    using System.Linq;
     using System.Windows.Forms;
     using Sid.Models;
     using Sid.Views;
@@ -21,7 +22,7 @@
             JsonController.FilePathChanged += JsonController_FilePathChanged;
             JsonController.FileSaving += JsonController_FileSaving;
             JsonController.FileSaved += JsonController_FileSaved;
-            GraphDialogController = new GraphDialogController(this);
+            GraphEditController = new GraphEditController(this);
             AdjustPictureBox();
             UpdateCaption();
         }
@@ -30,7 +31,7 @@
 
         public readonly Model Model;
         public readonly JsonController JsonController;
-        public readonly GraphDialogController GraphDialogController;
+        public readonly GraphEditController GraphEditController;
 
         public Panel ClientPanel { get => View.ClientPanel; }
         public Graph Graph { get => Model.Graph; }
@@ -39,6 +40,17 @@
         private Point DragFrom;
         private bool Dragging;
         private Point MouseDownAt;
+        private FormWindowState PriorWindowState;
+
+        private bool FullScreen
+        {
+            get => View.ViewFullScreen.Checked;
+            set
+            {
+                View.ViewFullScreen.Checked = value;
+                AdjustFullScreen();
+            }
+        }
 
         private bool Isotropic
         {
@@ -76,9 +88,6 @@
                 View.FileSave.Click += FileSave_Click;
                 View.FileSaveAs.Click += FileSaveAs_Click;
                 View.FileExit.Click += FileExit_Click;
-                View.EditUndo.Click += EditUndo_Click;
-                View.EditRedo.Click += EditRedo_Click;
-                View.EditGraphProperties.Click += EditProperties_Click;
                 View.ViewZoomIn.Click += ViewZoomIn_Click;
                 View.ViewZoomOut.Click += ViewZoomOut_Click;
                 View.ViewZoomReset.Click += ViewZoomReset_Click;
@@ -87,6 +96,7 @@
                 View.ViewScrollUp.Click += ViewScrollUp_Click;
                 View.ViewScrollDown.Click += ViewScrollDown_Click;
                 View.ViewScrollCentre.Click += ViewScrollCentre_Click;
+                View.ViewFullScreen.Click += ViewFullScreen_Click;
                 View.ViewIsotropic.Click += ViewIsotropic_Click;
                 View.ViewMouseCoordinates.Click += ViewMouseCoordinates_Click;
                 View.HelpAbout.Click += HelpAbout_Click;
@@ -101,7 +111,7 @@
 
         #endregion
 
-        #region Main menu
+        #region Menus
 
         public void FileMenu_DropDownOpening(object sender, EventArgs e) => View.FileSave.Enabled = Model.Modified;
         private void FileNew_Click(object sender, EventArgs e) => JsonController.Clear();
@@ -109,22 +119,18 @@
         private void FileSave_Click(object sender, EventArgs e) => JsonController.Save();
         private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
-        private void EditUndo_Click(object sender, EventArgs e) { }
-        private void EditRedo_Click(object sender, EventArgs e) { }
-        private void EditProperties_Click(object sender, EventArgs e) => ShowGraphDialog();
         private void ViewZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
         private void ViewZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
         private void ViewZoomReset_Click(object sender, EventArgs e) => ZoomReset();
-        private void ViewIsotropic_Click(object sender, EventArgs e) => Isotropic = !Isotropic;
-        private void ViewMouseCoordinates_Click(object sender, EventArgs e) => ToggleMouseCoordinates();
         private void ViewScrollLeft_Click(object sender, EventArgs e) => Scroll(-0.1, 0);
         private void ViewScrollRight_Click(object sender, EventArgs e) => Scroll(0.1, 0);
         private void ViewScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1);
         private void ViewScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1);
         private void ViewScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
+        private void ViewFullScreen_Click(object sender, EventArgs e) => ToggleFullScreen();
+        private void ViewIsotropic_Click(object sender, EventArgs e) => Isotropic = !Isotropic;
+        private void ViewMouseCoordinates_Click(object sender, EventArgs e) => ToggleMouseCoordinates();
         private void HelpAbout_Click(object sender, EventArgs e) => ShowVersionInfo();
-
-        private void ShowGraphDialog() => GraphDialogController.ShowDialog(View);
 
         private void ShowVersionInfo() =>
             MessageBox.Show(
@@ -213,6 +219,26 @@ Version: {Application.ProductVersion}",
 
         private void PictureBox_Resize(object sender, EventArgs e) => PictureBox.Invalidate();
 
+        private void AdjustFullScreen()
+        {
+            var normal = !FullScreen;
+            View.MainMenuStrip.Visible = normal;
+            View.StatusBar.Visible = normal;
+            if (FullScreen)
+            {
+                View.FormBorderStyle = FormBorderStyle.None;
+                PriorWindowState = View.WindowState;
+                View.WindowState = FormWindowState.Maximized;
+                MoveMenuItems(View.MainMenu, View.PopupMenu);
+            }
+            else
+            {
+                View.FormBorderStyle = FormBorderStyle.Sizable;
+                View.WindowState = PriorWindowState;
+                MoveMenuItems(View.PopupMenu, View.MainMenu);
+            }
+        }
+
         private void AdjustPictureBox()
         {
             int cW = ClientPanel.ClientSize.Width, cH = ClientPanel.ClientSize.Height;
@@ -238,7 +264,19 @@ Version: {Application.ProductVersion}",
 
         private void InitCoordinatesToolTip(string text) => View.ToolTip.SetToolTip(PictureBox, text);
         private void InitPaper() => ClientPanel.BackColor = Graph.FillColour;
+
+        private static void MoveMenuItems(ToolStrip source, ToolStrip target)
+        {
+            while (source.Items.Count > 0)
+            {
+                var item = source.Items[0];
+                source.Items.RemoveAt(0);
+                target.Items.Add(item);
+            }
+        }
+
         private PointF ScreenToGraph(Point p) => Graph.ScreenToGraph(p, PictureBox.ClientRectangle);
+        private void ToggleFullScreen() => FullScreen = !FullScreen;
         private void ToggleMouseCoordinates() => ShowMouseCoordinates = !ShowMouseCoordinates;
 
         private void UpdateMouseCoordinates(MouseEventArgs e)

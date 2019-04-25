@@ -178,8 +178,7 @@
 
         public void Clear()
         {
-            for (int index = Series.Count; index > 0;)
-                RemoveSeriesAt(--index);
+            RemoveSeriesRange(0, Series.Count);
             RestoreDefaults();
         }
 
@@ -189,7 +188,7 @@
                 return;
             var series = Series[index];
             series.PropertyChanged -= Series_PropertyChanged;
-            Series.RemoveAt(index);
+            Series.Remove(series);
             OnPropertyChanged("Series");
         }
 

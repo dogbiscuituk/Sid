@@ -1,6 +1,6 @@
 ﻿namespace Sid
 {
-    partial class GraphDialog
+    partial class GraphEdit
     {
         /// <summary>
         /// Required designer variable.
@@ -41,9 +41,6 @@
             this.lblYmin = new System.Windows.Forms.Label();
             this.gbFunction = new System.Windows.Forms.GroupBox();
             this.FlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnApply = new System.Windows.Forms.Button();
-            this.btnOK = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
             this.btnAddNewFunction = new System.Windows.Forms.Button();
             this.ErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
@@ -258,41 +255,6 @@
             this.FlowLayoutPanel.Size = new System.Drawing.Size(588, 292);
             this.FlowLayoutPanel.TabIndex = 0;
             // 
-            // btnApply
-            // 
-            this.btnApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnApply.Location = new System.Drawing.Point(292, 395);
-            this.btnApply.Margin = new System.Windows.Forms.Padding(4);
-            this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(100, 28);
-            this.btnApply.TabIndex = 3;
-            this.btnApply.Text = "Apply";
-            this.btnApply.UseVisualStyleBackColor = true;
-            // 
-            // btnOK
-            // 
-            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(400, 395);
-            this.btnOK.Margin = new System.Windows.Forms.Padding(4);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(100, 28);
-            this.btnOK.TabIndex = 4;
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(508, 395);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(100, 28);
-            this.btnCancel.TabIndex = 5;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            // 
             // btnAddNewFunction
             // 
             this.btnAddNewFunction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -308,31 +270,28 @@
             // 
             this.ErrorProvider.ContainerControl = this;
             // 
-            // GraphDialog
+            // GraphEdit
             // 
-            this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnCancel;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(624, 441);
+            this.ControlBox = false;
             this.Controls.Add(this.btnAddNewFunction);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.btnApply);
             this.Controls.Add(this.gbFunction);
             this.Controls.Add(this.gbRange);
             this.Controls.Add(this.gbDomain);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Location = new System.Drawing.Point(64, 64);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(640, 480);
-            this.Name = "GraphDialog";
+            this.Name = "GraphEdit";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Graph Properties";
             this.gbDomain.ResumeLayout(false);
             this.gbDomain.PerformLayout();
@@ -358,9 +317,6 @@
         private System.Windows.Forms.Label lblYmin;
         private System.Windows.Forms.GroupBox gbFunction;
         public System.Windows.Forms.NumericUpDown seXmin;
-        public System.Windows.Forms.Button btnApply;
-        public System.Windows.Forms.Button btnOK;
-        public System.Windows.Forms.Button btnCancel;
         public System.Windows.Forms.NumericUpDown seXmax;
         public System.Windows.Forms.NumericUpDown seYmax;
         public System.Windows.Forms.NumericUpDown seYmin;
