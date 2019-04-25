@@ -23,6 +23,7 @@
             JsonController.FileSaved += JsonController_FileSaved;
             GraphDialogController = new GraphDialogController(this);
             AdjustPictureBox();
+            UpdateCaption();
         }
 
         #region Properties
@@ -145,7 +146,7 @@ Version: {Application.ProductVersion}",
 
         private void ModifiedChanged()
         {
-            View.Text = JsonController.WindowCaption;
+            UpdateCaption();
             View.ModifiedLabel.Visible = Model.Modified;
         }
 
@@ -263,7 +264,7 @@ Version: {Application.ProductVersion}",
         private void JsonController_FileLoaded(object sender, EventArgs e) => FileLoaded();
 
         private void JsonController_FilePathChanged(object sender, EventArgs e) =>
-            View.Text = JsonController.WindowCaption;
+            UpdateCaption();
 
         private void JsonController_FileSaved(object sender, EventArgs e) => FileSaved();
 
@@ -276,6 +277,7 @@ Version: {Application.ProductVersion}",
         private bool ContinueSaving() => true;
         private void FileLoaded() { Graph.ZoomSet(); InitPaper(); }
         private void FileSaved() => Graph.ZoomSet();
+        private void UpdateCaption() => View.Text = JsonController.WindowCaption;
 
         #endregion
     }

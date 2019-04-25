@@ -9,6 +9,9 @@
     using FormulaBuilder;
     using Sid.Models;
 
+    /// <summary>
+    /// Most Recently Used Controller
+    /// </summary>
     public class MruController
 	{
 		protected MruController(Model model, string subKeyName, ToolStripDropDownItem recentMenu)
@@ -25,9 +28,17 @@
 			RefreshRecentMenu();
 		}
 
-		protected readonly Model Model;
+        #region Properties
 
-		protected void AddItem(string item)
+        protected readonly Model Model;
+        private string SubKeyName;
+        private ToolStripDropDownItem RecentMenu;
+
+        #endregion
+
+        #region MRU item management
+
+        protected void AddItem(string item)
 		{
 			try
 			{
@@ -86,9 +97,6 @@
 		protected virtual void Reopen(ToolStripItem menuItem)
 		{
 		}
-
-		private string SubKeyName;
-		private ToolStripDropDownItem RecentMenu;
 
 		private void OnItemClick(object sender, EventArgs e)
 		{
@@ -162,9 +170,32 @@
 			RecentMenu.Enabled = ok;
 		}
 
-		private Win32.RegistryKey CreateSubKey()
+        private static string CompactMenuText(string text)
+        {
+            // https://stackoverflow.com/questions/1764204/how-to-display-abbreviated-path-names-in-net
+            // "Important: Passing in a formatting option of TextFormatFlags.ModifyString actually causes
+            // the MeasureText method to alter the string argument [...] to be a compacted string. This
+            // seems very weird since no explicit ref or out method parameter keyword is specified and
+            // strings are immutable. However, its definitely the case. I assume the string's pointer was
+            // updated via unsafe code to the new compacted string."
+            var result = Path.ChangeExtension(text, string.Empty).TrimEnd('.');
+            TextRenderer.MeasureText(
+                result, SystemFonts.MenuFont, new Size(320, 0),
+                TextFormatFlags.PathEllipsis | TextFormatFlags.ModifyString);
+            var length = result.IndexOf((char)0);
+            if (length >= 0)
+                result = result.Substring(0, length);
+            return result.AmpersandEscape();
+        }
+
+        #endregion
+
+        #region Registry
+
+        private Win32.RegistryKey CreateSubKey()
 		{
-			return Win32.Registry.CurrentUser.CreateSubKey(SubKeyName, Win32.RegistryKeyPermissionCheck.ReadWriteSubTree);
+			return Win32.Registry.CurrentUser.CreateSubKey(
+                SubKeyName, Win32.RegistryKeyPermissionCheck.ReadWriteSubTree);
 		}
 
 		private Win32.RegistryKey OpenSubKey(bool writable)
@@ -172,18 +203,6 @@
 			return Win32.Registry.CurrentUser.OpenSubKey(SubKeyName, writable);
 		}
 
-		private static string CompactMenuText(string text)
-		{
-			var result = Path.ChangeExtension(text, string.Empty).TrimEnd('.');
-			TextRenderer.MeasureText(
-				result,
-				SystemFonts.MenuFont,
-				new Size(320, 0),
-				TextFormatFlags.PathEllipsis | TextFormatFlags.ModifyString);
-			var length = result.IndexOf((char)0);
-			if (length >= 0)
-				result = result.Substring(0, length);
-			return result.AmpersandEscape();
-		}
+        #endregion
 	}
 }

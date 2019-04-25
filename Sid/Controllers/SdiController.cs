@@ -6,6 +6,9 @@
     using System.Windows.Forms;
     using Sid.Models;
 
+    /// <summary>
+    /// Single Document Interface Controller
+    /// </summary>
     public abstract class SdiController : MruController
 	{
 		protected SdiController(Model model, string filter, string subKeyName, ToolStripDropDownItem recentMenu)
@@ -20,9 +23,9 @@
 			var result = SaveIfModified();
 			if (result)
 			{
-				Model.Modified = false;
 				FilePath = string.Empty;
                 ClearDocument();
+                Model.Modified = false;
             }
             return result;
 		}
