@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    public partial class TraceEdit : UserControl
+    public partial class Key : UserControl
     {
-        public TraceEdit()
+        public Key()
         {
             InitializeComponent();
         }

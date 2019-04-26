@@ -1,6 +1,6 @@
 ﻿namespace Sid.Views
 {
-    partial class TraceEdit
+    partial class Key
     {
         /// <summary> 
         /// Required designer variable.
@@ -117,17 +117,18 @@
             this.seTransparency.TabIndex = 6;
             this.ToolTip.SetToolTip(this.seTransparency, "Fill transparency (%)");
             // 
-            // TraceEdit
+            // LegendLine
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Transparent;
             this.Controls.Add(this.seTransparency);
             this.Controls.Add(this.cbFunction);
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.cbPenColour);
             this.Controls.Add(this.cbFillColour);
             this.Controls.Add(this.cbVisible);
-            this.Name = "TraceEdit";
+            this.Name = "LegendLine";
             this.Size = new System.Drawing.Size(400, 22);
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).EndInit();
             this.ResumeLayout(false);

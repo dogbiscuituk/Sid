@@ -51,10 +51,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\JsonController.cs" />
-    <Compile Include="Controllers\GraphEditController.cs" />
-    <Compile Include="Controllers\TraceEditController.cs" />
+    <Compile Include="Controllers\LegendController.cs" />
+    <Compile Include="Controllers\KeyController.cs" />
     <Compile Include="Controllers\UndoController.cs" />
-    <Compile Include="Controllers\MainFormController.cs" />
+    <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\MruController.cs" />
     <Compile Include="Controllers\SdiController.cs" />
     <Compile Include="Views\MainForm.cs">
@@ -75,11 +75,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Views\TraceEdit.cs">
+    <Compile Include="Views\Key.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\TraceEdit.Designer.cs">
-      <DependentUpon>TraceEdit.cs</DependentUpon>
+    <Compile Include="Views\Key.Designer.cs">
+      <DependentUpon>Key.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -108,8 +108,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\TraceEdit.resx">
-      <DependentUpon>TraceEdit.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Key.resx">
+      <DependentUpon>Key.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

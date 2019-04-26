@@ -9,9 +9,9 @@
     using Sid.Models;
     using Sid.Views;
 
-    public class MainFormController
+    public class AppController
     {
-        public MainFormController()
+        public AppController()
         {
             Expressions.TestAll();
             View = new MainForm();
@@ -24,7 +24,7 @@
             JsonController.FilePathChanged += JsonController_FilePathChanged;
             JsonController.FileSaving += JsonController_FileSaving;
             JsonController.FileSaved += JsonController_FileSaved;
-            GraphEditController = new GraphEditController(this);
+            LegendController = new LegendController(this);
             AdjustPictureBox();
             UpdateCaption();
         }
@@ -33,7 +33,7 @@
 
         public readonly Model Model;
         public readonly JsonController JsonController;
-        public readonly GraphEditController GraphEditController;
+        public readonly LegendController LegendController;
 
         public Panel ClientPanel { get => View.ClientPanel; }
         public Graph Graph { get => Model.Graph; }
@@ -70,7 +70,6 @@
             set
             {
                 View.ViewEditor.Checked = value;
-                View.SplitContainer.Panel2Collapsed = !value;
                 AdjustPictureBox();
             }
         }
@@ -163,9 +162,9 @@ Version: {Application.ProductVersion}",
                 Debug.WriteLine($"f{i}: '{s.Formula}'");
             }
             Debug.WriteLine("EDIT CONTROL INFO:");
-            for (int j = 0; j < GraphEditController.Children.Count; j++)
+            for (int j = 0; j < LegendController.Children.Count; j++)
             {
-                var t = GraphEditController.Children[j];
+                var t = LegendController.Children[j];
                 Debug.WriteLine($"f{j}: '{t.Formula}'");
             }
         }
@@ -351,13 +350,13 @@ Version: {Application.ProductVersion}",
         private void NewFile()
         {
             JsonController.Clear();
-            GraphEditController.GraphRead();
+            LegendController.GraphRead();
         }
 
         private void OpenFile()
         {
             JsonController.Open();
-            GraphEditController.GraphRead();
+            LegendController.GraphRead();
         }
 
         private void UpdateCaption() => View.Text = JsonController.WindowCaption;

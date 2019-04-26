@@ -8,9 +8,9 @@
     using Sid.Models;
     using Sid.Views;
 
-    public class GraphEditController
+    public class LegendController
     {
-        public GraphEditController(MainFormController parent)
+        public LegendController(AppController parent)
         {
             Parent = parent;
             View = parent.View;
@@ -19,10 +19,10 @@
         #region Properties
 
         private bool CanCancel, Loading = true;
-        private Panel FlowLayoutPanel { get => View.FlowLayoutPanel; }
+        private Panel FlowLayoutPanel { get => View.LegendPanel; }
         private Graph Graph { get => Parent.Graph; }
-        private MainFormController Parent;
-        public List<TraceEditController> Children = new List<TraceEditController>();
+        private AppController Parent;
+        public List<KeyController> Children = new List<KeyController>();
 
         private MainForm _view;
 
@@ -33,19 +33,11 @@
             {
                 if (View != null)
                 {
-                    View.seXmin.ValueChanged -= LiveUpdate;
-                    View.seYmin.ValueChanged -= LiveUpdate;
-                    View.seXmax.ValueChanged -= LiveUpdate;
-                    View.seYmax.ValueChanged -= LiveUpdate;
                     View.btnAddNewFunction.Click -= BtnAddNewFunction_Click;
                 }
                 _view = value;
                 if (View != null)
                 {
-                    View.seXmin.ValueChanged += LiveUpdate;
-                    View.seYmin.ValueChanged += LiveUpdate;
-                    View.seXmax.ValueChanged += LiveUpdate;
-                    View.seYmax.ValueChanged += LiveUpdate;
                     View.btnAddNewFunction.Click += BtnAddNewFunction_Click;
                 }
             }
@@ -56,15 +48,15 @@
         #region Series Management
 
         private void BtnAddNewFunction_Click(object sender, EventArgs e) =>
-            AddNewEdit(null);
+            AddNewKey(null);
 
         private void BtnRemoveFunction_Click(object sender, EventArgs e) =>
-            RemoveEdit((TraceEdit)((Control)sender).Parent);
+            RemoveKey((Key)((Control)sender).Parent);
 
-        private void AddNewEdit(Series series)
+        private void AddNewKey(Series series)
         {
             Loading = true;
-            var child = new TraceEditController(this);
+            var child = new KeyController(this);
             Children.Add(child);
             if (series != null)
             {
@@ -92,7 +84,7 @@
             GraphWrite();
         }
 
-        private void RemoveEdit(TraceEdit edit)
+        private void RemoveKey(Key edit)
         {
             var controls = FlowLayoutPanel.Controls;
             var index = controls.IndexOf(edit);
@@ -129,13 +121,9 @@
         public void GraphRead()
         {
             Loading = true;
-            View.seXmin.Value = (decimal)Graph.Limits.Left;
-            View.seYmin.Value = (decimal)Graph.Limits.Top;
-            View.seXmax.Value = (decimal)Graph.Limits.Right;
-            View.seYmax.Value = (decimal)Graph.Limits.Bottom;
             FlowLayoutPanel.Controls.Clear();
             foreach (Series series in Graph.Series)
-                AddNewEdit(series);
+                AddNewKey(series);
             Validate();
             Loading = false;
         }
@@ -144,11 +132,6 @@
         {
             if (!Validate())
                 return;
-            float
-                xMin = (float)View.seXmin.Value, yMin = (float)View.seYmin.Value,
-                xMax = (float)View.seXmax.Value, yMax = (float)View.seYmax.Value;
-            Graph.Location = new PointF(xMin, yMin);
-            Graph.Size = new SizeF(xMax - xMin, yMax - yMin);
             int index = 0, count = Graph.Series.Count;
             foreach (var child in Children)
             {

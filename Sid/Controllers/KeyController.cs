@@ -6,19 +6,19 @@
     using Sid.Expressions;
     using Sid.Views;
 
-    public class TraceEditController
+    public class KeyController
     {
-        public TraceEditController(GraphEditController parent)
+        public KeyController(LegendController parent)
         {
             Parent = parent;
-            View = new TraceEdit();
+            View = new Key();
             InitColours();
         }
 
         #region Properties
 
-        public TraceEdit _view;
-        public TraceEdit View
+        public Key _view;
+        public Key View
         {
             get => _view;
             set
@@ -36,7 +36,7 @@
             }
         }
 
-        private GraphEditController Parent;
+        private LegendController Parent;
 
         public bool TraceVisible
         {

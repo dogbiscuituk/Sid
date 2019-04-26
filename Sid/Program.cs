@@ -15,7 +15,7 @@
             Expressions.Expressions.TestAll();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainFormController().View);
+            Application.Run(new AppController().View);
         }
     }
 }
