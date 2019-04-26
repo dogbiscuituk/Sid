@@ -14,7 +14,7 @@
         public AppController()
         {
             Expressions.TestAll();
-            View = new MainForm();
+            View = new AppView();
             Model = new Model();
             Model.Cleared += Model_Cleared;
             Model.ModifiedChanged += Model_ModifiedChanged;
@@ -64,16 +64,6 @@
             }
         }
 
-        private bool ShowEditor
-        {
-            get => View.ViewLegend.Checked;
-            set
-            {
-                View.ViewLegend.Checked = value;
-                AdjustPictureBox();
-            }
-        }
-
         private bool ShowMouseCoordinates
         {
             get => View.ViewMouseCoordinates.Checked;
@@ -85,8 +75,8 @@
             }
         }
 
-        private MainForm _view;
-        public MainForm View
+        private AppView _view;
+        public AppView View
         {
             get => _view;
             set
@@ -108,7 +98,6 @@
                 View.ViewScrollUp.Click += ViewScrollUp_Click;
                 View.ViewScrollDown.Click += ViewScrollDown_Click;
                 View.ViewScrollCentre.Click += ViewScrollCentre_Click;
-                View.ViewLegend.Click += ViewEditor_Click;
                 View.ViewFullScreen.Click += ViewFullScreen_Click;
                 View.ViewIsotropic.Click += ViewIsotropic_Click;
                 View.ViewMouseCoordinates.Click += ViewMouseCoordinates_Click;
@@ -140,7 +129,6 @@
         private void ViewScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1);
         private void ViewScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1);
         private void ViewScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
-        private void ViewEditor_Click(object sender, EventArgs e) => ToggleEditor();
         private void ViewFullScreen_Click(object sender, EventArgs e) => ToggleFullScreen();
         private void ViewIsotropic_Click(object sender, EventArgs e) => Isotropic = !Isotropic;
         private void ViewMouseCoordinates_Click(object sender, EventArgs e) => ToggleMouseCoordinates();
@@ -306,7 +294,6 @@ Version: {Application.ProductVersion}",
         }
 
         private PointF ScreenToGraph(Point p) => Graph.ScreenToGraph(p, PictureBox.ClientRectangle);
-        private void ToggleEditor() => ShowEditor = !ShowEditor;
         private void ToggleFullScreen() => FullScreen = !FullScreen;
         private void ToggleMouseCoordinates() => ShowMouseCoordinates = !ShowMouseCoordinates;
 

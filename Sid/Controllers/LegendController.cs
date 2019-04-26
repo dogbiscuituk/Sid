@@ -19,20 +19,24 @@
         #region Properties
 
         private bool CanCancel, Loading = true;
-        private Panel FlowLayoutPanel { get => View.LegendPanel; }
+        private Panel LegendPanel { get => View.LegendPanel; }
         private Graph Graph { get => Parent.Graph; }
         private AppController Parent;
         public List<KeyController> Children = new List<KeyController>();
 
-        private MainForm _view;
+        private AppView _view;
 
-        public MainForm View
+        public AppView View
         {
             get => _view;
             set
             {
                 if (View != null)
                 {
+                    View.ViewLegendTopLeft.Click -= ViewLegendAlignment_Click;
+                    View.ViewLegendTopRight.Click -= ViewLegendAlignment_Click;
+                    View.ViewLegendBottomLeft.Click -= ViewLegendAlignment_Click;
+                    View.ViewLegendBottomRight.Click -= ViewLegendAlignment_Click;
                     View.btnAddNewFunction.Click -= BtnAddNewFunction_Click;
                 }
                 _view = value;
@@ -50,6 +54,10 @@
                 }
             }
         }
+
+        #endregion
+
+        #region Alignment
 
         private void ViewLegendAlignment_Click(object sender, EventArgs e)
         {
@@ -91,7 +99,7 @@
             AddNewKey(null);
 
         private void BtnRemoveFunction_Click(object sender, EventArgs e) =>
-            RemoveKey((Key)((Control)sender).Parent);
+            RemoveKey((KeyView)((Control)sender).Parent);
 
         private void AddNewKey(Series series)
         {
@@ -114,19 +122,20 @@
                 child.FillColour = Color.Yellow;
                 child.FillTransparencyPercent = 0;
             }
-            var controls = FlowLayoutPanel.Controls;
+            var controls = LegendPanel.Controls;
             var index = controls.Count;
             child.TraceLabel = $"f{controls.Count.ToString().ToSubscript()}";
             child.View.cbFunction.Validating += CbFunction_Validating;
             child.View.btnRemove.Click += BtnRemoveFunction_Click;
-            FlowLayoutPanel.Controls.Add(child.View);
+            LegendPanel.Controls.Add(child.View);
+            LegendPanel.Width = child.View.Width + SystemInformation.VerticalScrollBarWidth;
             Loading = false;
             GraphWrite();
         }
 
-        private void RemoveKey(Key edit)
+        private void RemoveKey(KeyView edit)
         {
-            var controls = FlowLayoutPanel.Controls;
+            var controls = LegendPanel.Controls;
             var index = controls.IndexOf(edit);
             controls.RemoveAt(index);
             Children.RemoveAt(index);
@@ -139,13 +148,6 @@
         {
             if (!Loading)
                 GraphWrite();
-        }
-
-        public void Show(IWin32Window owner)
-        {
-            GraphRead();
-            View.Show(owner);
-            GraphWrite();
         }
 
         private void CbFunction_Validating(object sender, System.ComponentModel.CancelEventArgs e)
@@ -161,7 +163,7 @@
         public void GraphRead()
         {
             Loading = true;
-            FlowLayoutPanel.Controls.Clear();
+            LegendPanel.Controls.Clear();
             foreach (Series series in Graph.Series)
                 AddNewKey(series);
             Validate();

@@ -1,5 +1,6 @@
 ﻿namespace Sid.Controllers
 {
+    using System;
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
@@ -11,26 +12,25 @@
         public KeyController(LegendController parent)
         {
             Parent = parent;
-            View = new Key();
+            View = new KeyView();
             InitColours();
         }
 
         #region Properties
 
-        public Key _view;
-        public Key View
+        public KeyView _view;
+        public KeyView View
         {
             get => _view;
             set
             {
                 _view = value;
-                View.cbPenColour.DrawItem += ColourCombo_DrawItem;
-                View.cbFunction.DrawItem += FunctionCombo_DrawItem;
-                View.cbFillColour.DrawItem += ColourCombo_DrawItem;
-
                 View.cbVisible.CheckedChanged += Parent.LiveUpdate;
+                View.cbFunction.DrawItem += FunctionCombo_DrawItem;
                 View.cbFunction.TextChanged += Parent.LiveUpdate;
+                View.cbPenColour.DrawItem += DrawColour;
                 View.cbPenColour.SelectedValueChanged += Parent.LiveUpdate;
+                View.cbFillColour.DrawItem += DrawColour;
                 View.cbFillColour.SelectedValueChanged += Parent.LiveUpdate;
                 View.seTransparency.ValueChanged += Parent.LiveUpdate;
             }
@@ -78,37 +78,33 @@
 
         #region Colours
 
-        private void ColourCombo_DrawItem(object sender, DrawItemEventArgs e) =>
-            DrawColour((ComboBox)sender, e);
-
         private void DrawColour(object sender, DrawItemEventArgs e)
         {
             if (e.Index < 0)
                 return;
+            var r = e.Bounds;
             var colourName = ((ComboBox)sender).Items[e.Index].ToString();
-            Color colour;
-            if ((e.State & DrawItemState.Selected) != 0)
-            {
-                colour = SystemColors.Highlight;
-                e.DrawBackground();
-            }
-            else
-            {
-                colour = Color.FromName(colourName);
-                using (var fill = new SolidBrush(colour))
-                    e.Graphics.FillRectangle(fill, e.Bounds);
-            }
+            var selected = (e.State & DrawItemState.Selected) != 0;
+            var colour = Color.FromName(colourName);
+            using (var fill = new SolidBrush(colour))
+                e.Graphics.FillRectangle(fill, r);
             var brush = IsBright(colour) ? Brushes.Black : Brushes.White;
-            using (var font = new Font("Arial", 9, FontStyle.Regular))
-                e.Graphics.DrawString(colourName, font, brush, e.Bounds.X, e.Bounds.Top);
+            e.Graphics.DrawString(colourName, e.Font, brush, r.X + 1, r.Y + 1);
+            if (selected)
+                using (var pen = new Pen(brush))
+                {
+                    pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                    e.Graphics.DrawRectangle(pen, r.X, r.Y, r.Width - 1, r.Height - 1);
+                }
         }
 
         private void FunctionCombo_DrawItem(object sender, DrawItemEventArgs e)
         {
+            var r = e.Bounds;
             var functionName = ((ComboBox)sender).Items[e.Index].ToString();
             e.DrawBackground();
             using (var brush = new SolidBrush(e.ForeColor))
-                e.Graphics.DrawString(functionName, e.Font, brush, e.Bounds);
+                e.Graphics.DrawString(functionName, e.Font, brush, r);
         }
 
         private Color GetColour(ComboBox comboBox) =>

@@ -1,6 +1,6 @@
 ﻿namespace Sid.Views
 {
-    partial class Key
+    partial class KeyView
     {
         /// <summary> 
         /// Required designer variable.
@@ -41,10 +41,12 @@
             // 
             // cbFunction
             // 
+            this.cbFunction.BackColor = System.Drawing.SystemColors.Control;
             this.cbFunction.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbFunction.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbFunction.FormattingEnabled = true;
             this.cbFunction.ItemHeight = 16;
-            this.cbFunction.Location = new System.Drawing.Point(31, 0);
+            this.cbFunction.Location = new System.Drawing.Point(38, 0);
             this.cbFunction.Margin = new System.Windows.Forms.Padding(0);
             this.cbFunction.Name = "cbFunction";
             this.cbFunction.Size = new System.Drawing.Size(149, 22);
@@ -55,10 +57,10 @@
             // 
             this.btnRemove.FlatAppearance.BorderSize = 0;
             this.btnRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRemove.Location = new System.Drawing.Point(362, -1);
+            this.btnRemove.Location = new System.Drawing.Point(372, 0);
             this.btnRemove.Margin = new System.Windows.Forms.Padding(0);
             this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(22, 21);
+            this.btnRemove.Size = new System.Drawing.Size(18, 18);
             this.btnRemove.TabIndex = 5;
             this.btnRemove.Text = "X";
             this.ToolTip.SetToolTip(this.btnRemove, "Delete this trace from the graph");
@@ -66,12 +68,14 @@
             // 
             // cbPenColour
             // 
+            this.cbPenColour.BackColor = System.Drawing.SystemColors.Control;
             this.cbPenColour.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbPenColour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbPenColour.DropDownWidth = 144;
+            this.cbPenColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbPenColour.FormattingEnabled = true;
             this.cbPenColour.ItemHeight = 16;
-            this.cbPenColour.Location = new System.Drawing.Point(193, 0);
+            this.cbPenColour.Location = new System.Drawing.Point(203, 0);
             this.cbPenColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbPenColour.Name = "cbPenColour";
             this.cbPenColour.Size = new System.Drawing.Size(64, 22);
@@ -80,12 +84,14 @@
             // 
             // cbFillColour
             // 
+            this.cbFillColour.BackColor = System.Drawing.SystemColors.Control;
             this.cbFillColour.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbFillColour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFillColour.DropDownWidth = 144;
+            this.cbFillColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbFillColour.FormattingEnabled = true;
             this.cbFillColour.ItemHeight = 16;
-            this.cbFillColour.Location = new System.Drawing.Point(257, 0);
+            this.cbFillColour.Location = new System.Drawing.Point(266, 0);
             this.cbFillColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbFillColour.Name = "cbFillColour";
             this.cbFillColour.Size = new System.Drawing.Size(64, 22);
@@ -94,30 +100,41 @@
             // 
             // cbVisible
             // 
-            this.cbVisible.Location = new System.Drawing.Point(0, 2);
+            this.cbVisible.BackColor = System.Drawing.SystemColors.Control;
+            this.cbVisible.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.cbVisible.FlatAppearance.BorderSize = 0;
+            this.cbVisible.FlatAppearance.CheckedBackColor = System.Drawing.SystemColors.Control;
+            this.cbVisible.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.Control;
+            this.cbVisible.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
+            this.cbVisible.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbVisible.Location = new System.Drawing.Point(8, 1);
             this.cbVisible.Margin = new System.Windows.Forms.Padding(0);
             this.cbVisible.Name = "cbVisible";
             this.cbVisible.Size = new System.Drawing.Size(64, 17);
             this.cbVisible.TabIndex = 0;
             this.cbVisible.Text = "f";
             this.ToolTip.SetToolTip(this.cbVisible, "Show or hide this trace");
-            this.cbVisible.UseVisualStyleBackColor = true;
+            this.cbVisible.UseVisualStyleBackColor = false;
             // 
             // seTransparency
             // 
+            this.seTransparency.BackColor = System.Drawing.SystemColors.Control;
+            this.seTransparency.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.seTransparency.Increment = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.seTransparency.Location = new System.Drawing.Point(324, 0);
+            this.seTransparency.Location = new System.Drawing.Point(330, 3);
             this.seTransparency.Margin = new System.Windows.Forms.Padding(0);
             this.seTransparency.Name = "seTransparency";
-            this.seTransparency.Size = new System.Drawing.Size(38, 20);
+            this.seTransparency.ReadOnly = true;
+            this.seTransparency.Size = new System.Drawing.Size(38, 16);
             this.seTransparency.TabIndex = 6;
+            this.seTransparency.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.ToolTip.SetToolTip(this.seTransparency, "Fill transparency (%)");
             // 
-            // LegendLine
+            // KeyView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -128,7 +145,8 @@
             this.Controls.Add(this.cbPenColour);
             this.Controls.Add(this.cbFillColour);
             this.Controls.Add(this.cbVisible);
-            this.Name = "LegendLine";
+            this.Name = "KeyView";
+            this.Padding = new System.Windows.Forms.Padding(1);
             this.Size = new System.Drawing.Size(400, 22);
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).EndInit();
             this.ResumeLayout(false);
