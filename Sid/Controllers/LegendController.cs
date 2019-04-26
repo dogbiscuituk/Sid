@@ -38,9 +38,49 @@
                 _view = value;
                 if (View != null)
                 {
+                    View.ViewLegendTopLeft.Tag = ContentAlignment.TopLeft;
+                    View.ViewLegendTopRight.Tag = ContentAlignment.TopRight;
+                    View.ViewLegendBottomLeft.Tag = ContentAlignment.BottomLeft;
+                    View.ViewLegendBottomRight.Tag = ContentAlignment.BottomRight;
+                    View.ViewLegendTopLeft.Click += ViewLegendAlignment_Click;
+                    View.ViewLegendTopRight.Click += ViewLegendAlignment_Click;
+                    View.ViewLegendBottomLeft.Click += ViewLegendAlignment_Click;
+                    View.ViewLegendBottomRight.Click += ViewLegendAlignment_Click;
                     View.btnAddNewFunction.Click += BtnAddNewFunction_Click;
                 }
             }
+        }
+
+        private void ViewLegendAlignment_Click(object sender, EventArgs e)
+        {
+            var align = (ContentAlignment)((ToolStripMenuItem)sender).Tag;
+            var panel = View.LegendPanel;
+            switch (align)
+            {
+                case ContentAlignment.TopLeft:
+                    InitLegendPanel(0, 0,
+                        AnchorStyles.Top | AnchorStyles.Left, FlowDirection.TopDown);
+                    break;
+                case ContentAlignment.TopRight:
+                    InitLegendPanel(View.Width - panel.Width, 0,
+                        AnchorStyles.Top | AnchorStyles.Right, FlowDirection.TopDown);
+                    break;
+                case ContentAlignment.BottomLeft:
+                    InitLegendPanel(0, View.ClientPanel.Height - panel.Height,
+                        AnchorStyles.Bottom | AnchorStyles.Left, FlowDirection.BottomUp);
+                    break;
+                case ContentAlignment.BottomRight:
+                    InitLegendPanel(View.Width - panel.Width, View.ClientPanel.Height - panel.Height,
+                        AnchorStyles.Bottom | AnchorStyles.Right, FlowDirection.BottomUp);
+                    break;
+            }
+        }
+
+        private void InitLegendPanel(int x, int y, AnchorStyles anchor, FlowDirection flow)
+        {
+            View.LegendPanel.Anchor = anchor;
+            View.LegendPanel.FlowDirection = flow;
+            View.LegendPanel.Location = new Point(x, y);
         }
 
         #endregion

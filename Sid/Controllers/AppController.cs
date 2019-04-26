@@ -66,10 +66,10 @@
 
         private bool ShowEditor
         {
-            get => View.ViewEditor.Checked;
+            get => View.ViewLegend.Checked;
             set
             {
-                View.ViewEditor.Checked = value;
+                View.ViewLegend.Checked = value;
                 AdjustPictureBox();
             }
         }
@@ -108,7 +108,7 @@
                 View.ViewScrollUp.Click += ViewScrollUp_Click;
                 View.ViewScrollDown.Click += ViewScrollDown_Click;
                 View.ViewScrollCentre.Click += ViewScrollCentre_Click;
-                View.ViewEditor.Click += ViewEditor_Click;
+                View.ViewLegend.Click += ViewEditor_Click;
                 View.ViewFullScreen.Click += ViewFullScreen_Click;
                 View.ViewIsotropic.Click += ViewIsotropic_Click;
                 View.ViewMouseCoordinates.Click += ViewMouseCoordinates_Click;
