@@ -1,7 +1,7 @@
 ﻿namespace Sid.Controllers
 {
-    using System;
     using System.Drawing;
+    using System.Drawing.Drawing2D;
     using System.Linq;
     using System.Windows.Forms;
     using Sid.Expressions;
@@ -24,15 +24,31 @@
             get => _view;
             set
             {
+                if (View != null)
+                {
+                    View.cbVisible.CheckedChanged -= Parent.LiveUpdate;
+                    View.cbFunction.DrawItem -= FunctionCombo_DrawItem;
+                    View.cbFunction.TextChanged -= Parent.LiveUpdate;
+                    View.cbPenColour.DrawItem -= DrawColour;
+                    View.cbPenColour.SelectedValueChanged -= Parent.LiveUpdate;
+                    View.cbFillColour.DrawItem -= DrawColour;
+                    View.cbFillColour.SelectedValueChanged -= Parent.LiveUpdate;
+                    View.seTransparency.ValueChanged -= Parent.LiveUpdate;
+                    View.btnRemove.Click -= BtnRemove_Click;
+                }
                 _view = value;
-                View.cbVisible.CheckedChanged += Parent.LiveUpdate;
-                View.cbFunction.DrawItem += FunctionCombo_DrawItem;
-                View.cbFunction.TextChanged += Parent.LiveUpdate;
-                View.cbPenColour.DrawItem += DrawColour;
-                View.cbPenColour.SelectedValueChanged += Parent.LiveUpdate;
-                View.cbFillColour.DrawItem += DrawColour;
-                View.cbFillColour.SelectedValueChanged += Parent.LiveUpdate;
-                View.seTransparency.ValueChanged += Parent.LiveUpdate;
+                if (View != null)
+                {
+                    View.cbVisible.CheckedChanged += Parent.LiveUpdate;
+                    View.cbFunction.DrawItem += FunctionCombo_DrawItem;
+                    View.cbFunction.TextChanged += Parent.LiveUpdate;
+                    View.cbPenColour.DrawItem += DrawColour;
+                    View.cbPenColour.SelectedValueChanged += Parent.LiveUpdate;
+                    View.cbFillColour.DrawItem += DrawColour;
+                    View.cbFillColour.SelectedValueChanged += Parent.LiveUpdate;
+                    View.seTransparency.ValueChanged += Parent.LiveUpdate;
+                    View.btnRemove.Click += BtnRemove_Click;
+                }
             }
         }
 
@@ -74,6 +90,11 @@
             set => View.seTransparency.Value = value;
         }
 
+        private void BtnRemove_Click(object sender, System.EventArgs e)
+        {
+            Parent.Children.Remove(this);
+        }
+
         #endregion
 
         #region Colours
@@ -93,7 +114,7 @@
             if (selected)
                 using (var pen = new Pen(brush))
                 {
-                    pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                    pen.DashStyle = DashStyle.Dash;
                     e.Graphics.DrawRectangle(pen, r.X, r.Y, r.Width - 1, r.Height - 1);
                 }
         }

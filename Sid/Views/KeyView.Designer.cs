@@ -46,7 +46,7 @@
             this.cbFunction.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbFunction.FormattingEnabled = true;
             this.cbFunction.ItemHeight = 16;
-            this.cbFunction.Location = new System.Drawing.Point(38, 0);
+            this.cbFunction.Location = new System.Drawing.Point(34, 0);
             this.cbFunction.Margin = new System.Windows.Forms.Padding(0);
             this.cbFunction.Name = "cbFunction";
             this.cbFunction.Size = new System.Drawing.Size(149, 22);
@@ -57,7 +57,7 @@
             // 
             this.btnRemove.FlatAppearance.BorderSize = 0;
             this.btnRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRemove.Location = new System.Drawing.Point(372, 0);
+            this.btnRemove.Location = new System.Drawing.Point(368, 0);
             this.btnRemove.Margin = new System.Windows.Forms.Padding(0);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(18, 18);
@@ -75,7 +75,7 @@
             this.cbPenColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbPenColour.FormattingEnabled = true;
             this.cbPenColour.ItemHeight = 16;
-            this.cbPenColour.Location = new System.Drawing.Point(203, 0);
+            this.cbPenColour.Location = new System.Drawing.Point(199, 0);
             this.cbPenColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbPenColour.Name = "cbPenColour";
             this.cbPenColour.Size = new System.Drawing.Size(64, 22);
@@ -91,7 +91,7 @@
             this.cbFillColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbFillColour.FormattingEnabled = true;
             this.cbFillColour.ItemHeight = 16;
-            this.cbFillColour.Location = new System.Drawing.Point(266, 0);
+            this.cbFillColour.Location = new System.Drawing.Point(262, 0);
             this.cbFillColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbFillColour.Name = "cbFillColour";
             this.cbFillColour.Size = new System.Drawing.Size(64, 22);
@@ -107,7 +107,7 @@
             this.cbVisible.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.Control;
             this.cbVisible.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
             this.cbVisible.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbVisible.Location = new System.Drawing.Point(8, 1);
+            this.cbVisible.Location = new System.Drawing.Point(4, 1);
             this.cbVisible.Margin = new System.Windows.Forms.Padding(0);
             this.cbVisible.Name = "cbVisible";
             this.cbVisible.Size = new System.Drawing.Size(64, 17);
@@ -125,7 +125,7 @@
             0,
             0,
             0});
-            this.seTransparency.Location = new System.Drawing.Point(330, 3);
+            this.seTransparency.Location = new System.Drawing.Point(326, 3);
             this.seTransparency.Margin = new System.Windows.Forms.Padding(0);
             this.seTransparency.Name = "seTransparency";
             this.seTransparency.ReadOnly = true;
@@ -147,7 +147,7 @@
             this.Controls.Add(this.cbVisible);
             this.Name = "KeyView";
             this.Padding = new System.Windows.Forms.Padding(1);
-            this.Size = new System.Drawing.Size(400, 22);
+            this.Size = new System.Drawing.Size(386, 22);
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).EndInit();
             this.ResumeLayout(false);
 

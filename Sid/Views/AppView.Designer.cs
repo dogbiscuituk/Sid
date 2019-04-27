@@ -61,7 +61,6 @@
             this.ViewLegendBottomLeft = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewLegendBottomRight = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
-            this.ViewLegendFloating = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewLegendNone = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewMouseCoordinates = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewFullScreen = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,13 +71,14 @@
             this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.ClientPanel = new System.Windows.Forms.Panel();
-            this.LegendPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnAddNewFunction = new System.Windows.Forms.Button();
+            this.LegendPanel = new System.Windows.Forms.Panel();
             this.PictureBox = new System.Windows.Forms.PictureBox();
+            this.lblAddNewKey = new System.Windows.Forms.LinkLabel();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.ClientPanel.SuspendLayout();
+            this.LegendPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -293,7 +293,6 @@
             this.ViewLegendBottomLeft,
             this.ViewLegendBottomRight,
             this.toolStripMenuItem4,
-            this.ViewLegendFloating,
             this.ViewLegendNone});
             this.ViewLegend.Name = "ViewLegend";
             this.ViewLegend.Size = new System.Drawing.Size(183, 22);
@@ -328,12 +327,6 @@
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
             this.toolStripMenuItem4.Size = new System.Drawing.Size(142, 6);
-            // 
-            // ViewLegendFloating
-            // 
-            this.ViewLegendFloating.Name = "ViewLegendFloating";
-            this.ViewLegendFloating.Size = new System.Drawing.Size(145, 22);
-            this.ViewLegendFloating.Text = "&Floating";
             // 
             // ViewLegendNone
             // 
@@ -403,7 +396,6 @@
             // 
             this.ClientPanel.BackColor = System.Drawing.Color.LightYellow;
             this.ClientPanel.Controls.Add(this.LegendPanel);
-            this.ClientPanel.Controls.Add(this.btnAddNewFunction);
             this.ClientPanel.Controls.Add(this.PictureBox);
             this.ClientPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ClientPanel.Location = new System.Drawing.Point(0, 24);
@@ -413,31 +405,13 @@
             // 
             // LegendPanel
             // 
-            this.LegendPanel.AutoScroll = true;
-            this.LegendPanel.AutoScrollMargin = new System.Drawing.Size(4, 4);
-            this.LegendPanel.AutoSize = true;
-            this.LegendPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.LegendPanel.BackColor = System.Drawing.SystemColors.Control;
-            this.LegendPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.LegendPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.LegendPanel.Location = new System.Drawing.Point(0, 0);
+            this.LegendPanel.Controls.Add(this.lblAddNewKey);
+            this.LegendPanel.Location = new System.Drawing.Point(20, 20);
             this.LegendPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.LegendPanel.MaximumSize = new System.Drawing.Size(480, 384);
             this.LegendPanel.Name = "LegendPanel";
-            this.LegendPanel.Size = new System.Drawing.Size(2, 2);
+            this.LegendPanel.Size = new System.Drawing.Size(413, 21);
             this.LegendPanel.TabIndex = 9;
-            this.LegendPanel.WrapContents = false;
-            // 
-            // btnAddNewFunction
-            // 
-            this.btnAddNewFunction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAddNewFunction.Location = new System.Drawing.Point(484, 0);
-            this.btnAddNewFunction.Margin = new System.Windows.Forms.Padding(4);
-            this.btnAddNewFunction.Name = "btnAddNewFunction";
-            this.btnAddNewFunction.Size = new System.Drawing.Size(137, 28);
-            this.btnAddNewFunction.TabIndex = 10;
-            this.btnAddNewFunction.Text = "&Add a new function";
-            this.btnAddNewFunction.UseVisualStyleBackColor = true;
             // 
             // PictureBox
             // 
@@ -446,6 +420,17 @@
             this.PictureBox.Size = new System.Drawing.Size(244, 104);
             this.PictureBox.TabIndex = 3;
             this.PictureBox.TabStop = false;
+            // 
+            // lblAddNewKey
+            // 
+            this.lblAddNewKey.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblAddNewKey.Location = new System.Drawing.Point(0, 0);
+            this.lblAddNewKey.Name = "lblAddNewKey";
+            this.lblAddNewKey.Size = new System.Drawing.Size(413, 21);
+            this.lblAddNewKey.TabIndex = 0;
+            this.lblAddNewKey.TabStop = true;
+            this.lblAddNewKey.Text = "Click here to Add a New Function";
+            this.lblAddNewKey.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // AppView
             // 
@@ -466,7 +451,7 @@
             this.StatusBar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).EndInit();
             this.ClientPanel.ResumeLayout(false);
-            this.ClientPanel.PerformLayout();
+            this.LegendPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -510,15 +495,14 @@
         public System.Windows.Forms.ErrorProvider ErrorProvider;
         public System.Windows.Forms.ToolStripMenuItem ViewLegend;
         public System.Windows.Forms.Panel ClientPanel;
-        public System.Windows.Forms.Button btnAddNewFunction;
         public System.Windows.Forms.PictureBox PictureBox;
-        public System.Windows.Forms.FlowLayoutPanel LegendPanel;
+        public System.Windows.Forms.Panel LegendPanel;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
         public System.Windows.Forms.ToolStripMenuItem ViewLegendTopLeft;
         public System.Windows.Forms.ToolStripMenuItem ViewLegendTopRight;
         public System.Windows.Forms.ToolStripMenuItem ViewLegendBottomLeft;
         public System.Windows.Forms.ToolStripMenuItem ViewLegendBottomRight;
-        public System.Windows.Forms.ToolStripMenuItem ViewLegendFloating;
         public System.Windows.Forms.ToolStripMenuItem ViewLegendNone;
+        public System.Windows.Forms.LinkLabel lblAddNewKey;
     }
 }

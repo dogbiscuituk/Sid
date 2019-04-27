@@ -18,14 +18,7 @@
 
         #region Properties
 
-        private bool CanCancel, Loading = true;
-        private Panel LegendPanel { get => View.LegendPanel; }
-        private Graph Graph { get => Parent.Graph; }
-        private AppController Parent;
-        public List<KeyController> Children = new List<KeyController>();
-
         private AppView _view;
-
         public AppView View
         {
             get => _view;
@@ -33,24 +26,44 @@
             {
                 if (View != null)
                 {
-                    View.ViewLegendTopLeft.Click -= ViewLegendAlignment_Click;
-                    View.ViewLegendTopRight.Click -= ViewLegendAlignment_Click;
-                    View.ViewLegendBottomLeft.Click -= ViewLegendAlignment_Click;
-                    View.ViewLegendBottomRight.Click -= ViewLegendAlignment_Click;
-                    View.btnAddNewFunction.Click -= BtnAddNewFunction_Click;
+                    View.ViewLegendTopLeft.Click -= ViewLegendTopLeft_Click;
+                    View.ViewLegendTopRight.Click -= ViewLegendTopRight_Click;
+                    View.ViewLegendBottomLeft.Click -= ViewLegendBottomLeft_Click;
+                    View.ViewLegendBottomRight.Click -= ViewLegendBottomRight_Click;
+                    View.ViewLegendNone.Click -= ViewLegendNone_Click;
+                    View.lblAddNewKey.Click -= LblAddNewKey_Click;
                 }
                 _view = value;
                 if (View != null)
                 {
-                    View.ViewLegendTopLeft.Tag = ContentAlignment.TopLeft;
-                    View.ViewLegendTopRight.Tag = ContentAlignment.TopRight;
-                    View.ViewLegendBottomLeft.Tag = ContentAlignment.BottomLeft;
-                    View.ViewLegendBottomRight.Tag = ContentAlignment.BottomRight;
-                    View.ViewLegendTopLeft.Click += ViewLegendAlignment_Click;
-                    View.ViewLegendTopRight.Click += ViewLegendAlignment_Click;
-                    View.ViewLegendBottomLeft.Click += ViewLegendAlignment_Click;
-                    View.ViewLegendBottomRight.Click += ViewLegendAlignment_Click;
-                    View.btnAddNewFunction.Click += BtnAddNewFunction_Click;
+                    View.ViewLegendTopLeft.Click += ViewLegendTopLeft_Click;
+                    View.ViewLegendTopRight.Click += ViewLegendTopRight_Click;
+                    View.ViewLegendBottomLeft.Click += ViewLegendBottomLeft_Click;
+                    View.ViewLegendBottomRight.Click += ViewLegendBottomRight_Click;
+                    View.ViewLegendNone.Click += ViewLegendNone_Click;
+                    View.lblAddNewKey.Click += LblAddNewKey_Click;
+                }
+            }
+        }
+
+        public List<KeyController> Children = new List<KeyController>();
+
+        private bool CanCancel, Loading = true;
+        private Graph Graph { get => Parent.Graph; }
+        private AppController Parent;
+        private Panel Client { get => View.ClientPanel; }
+        private Panel Legend { get => View.LegendPanel; }
+        private Control.ControlCollection Keys { get => Legend.Controls; }
+        private ContentAlignment _legendAlignment = ContentAlignment.TopLeft;
+        private ContentAlignment LegendAlignment
+        {
+            get => _legendAlignment;
+            set
+            {
+                if (LegendAlignment != value)
+                {
+                    _legendAlignment = value;
+                    AdjustLegend();
                 }
             }
         }
@@ -59,43 +72,52 @@
 
         #region Alignment
 
-        private void ViewLegendAlignment_Click(object sender, EventArgs e)
+        private void ViewLegendTopLeft_Click(object sender, EventArgs e) =>
+            LegendAlignment = ContentAlignment.TopLeft;
+
+        private void ViewLegendTopRight_Click(object sender, EventArgs e) =>
+            LegendAlignment = ContentAlignment.TopRight;
+
+        private void ViewLegendBottomLeft_Click(object sender, EventArgs e) =>
+            LegendAlignment = ContentAlignment.BottomLeft;
+
+        private void ViewLegendBottomRight_Click(object sender, EventArgs e) =>
+            LegendAlignment = ContentAlignment.BottomRight;
+
+        private void ViewLegendNone_Click(object sender, EventArgs e)
         {
-            var align = (ContentAlignment)((ToolStripMenuItem)sender).Tag;
-            var panel = View.LegendPanel;
-            switch (align)
-            {
-                case ContentAlignment.TopLeft:
-                    InitLegendPanel(0, 0,
-                        AnchorStyles.Top | AnchorStyles.Left, FlowDirection.TopDown);
-                    break;
-                case ContentAlignment.TopRight:
-                    InitLegendPanel(View.Width - panel.Width, 0,
-                        AnchorStyles.Top | AnchorStyles.Right, FlowDirection.TopDown);
-                    break;
-                case ContentAlignment.BottomLeft:
-                    InitLegendPanel(0, View.ClientPanel.Height - panel.Height,
-                        AnchorStyles.Bottom | AnchorStyles.Left, FlowDirection.BottomUp);
-                    break;
-                case ContentAlignment.BottomRight:
-                    InitLegendPanel(View.Width - panel.Width, View.ClientPanel.Height - panel.Height,
-                        AnchorStyles.Bottom | AnchorStyles.Right, FlowDirection.BottomUp);
-                    break;
-            }
+            throw new NotImplementedException();
         }
 
-        private void InitLegendPanel(int x, int y, AnchorStyles anchor, FlowDirection flow)
+        private void AdjustLegend()
         {
-            View.LegendPanel.Anchor = anchor;
-            View.LegendPanel.FlowDirection = flow;
-            View.LegendPanel.Location = new Point(x, y);
+            Legend.Visible = true;
+            const int keyHeight = 21, maxKeys = 17;
+            var scroll = Keys.Count > maxKeys;
+            int w = 392 + (scroll ? SystemInformation.VerticalScrollBarWidth : 0),
+                h = Math.Min(Keys.Count, maxKeys) * keyHeight,
+                x = Client.Width - w, y = Client.Height - h;
+            for (int index = 0, top = 0; index < Keys.Count; index++, top += keyHeight)
+                Keys[index].Location = new Point(0, top);
+            var anchor = AlignToAnchor(LegendAlignment);
+            switch (LegendAlignment)
+            {
+                case ContentAlignment.TopLeft: x = 20; y = 20; break;
+                case ContentAlignment.TopRight: x -= 20; y = 20; break;
+                case ContentAlignment.BottomLeft: x = 20; y -= 20; break;
+                case ContentAlignment.BottomRight: x -= 20; y -= 20; break;
+            }
+            Legend.Anchor = anchor;
+            Legend.AutoScroll = scroll;
+            Legend.Size = new Size(w, h);
+            Legend.SetBounds(x, y, w, h);
         }
 
         #endregion
 
         #region Series Management
 
-        private void BtnAddNewFunction_Click(object sender, EventArgs e) =>
+        private void LblAddNewKey_Click(object sender, EventArgs e) =>
             AddNewKey(null);
 
         private void BtnRemoveFunction_Click(object sender, EventArgs e) =>
@@ -122,23 +144,26 @@
                 child.FillColour = Color.Yellow;
                 child.FillTransparencyPercent = 0;
             }
-            var controls = LegendPanel.Controls;
-            var index = controls.Count;
-            child.TraceLabel = $"f{controls.Count.ToString().ToSubscript()}";
+            var index = Keys.Count;
+            child.TraceLabel = $"f{Keys.Count.ToString().ToSubscript()}";
             child.View.cbFunction.Validating += CbFunction_Validating;
             child.View.btnRemove.Click += BtnRemoveFunction_Click;
-            LegendPanel.Controls.Add(child.View);
-            LegendPanel.Width = child.View.Width + SystemInformation.VerticalScrollBarWidth;
+            Keys.Add(child.View);
             Loading = false;
+            AdjustLegend();
             GraphWrite();
         }
 
         private void RemoveKey(KeyView edit)
         {
-            var controls = LegendPanel.Controls;
-            var index = controls.IndexOf(edit);
-            controls.RemoveAt(index);
+            RemoveKeyAt(Keys.IndexOf(edit));
+        }
+
+        private void RemoveKeyAt(int index)
+        {
+            Keys.RemoveAt(index);
             Children.RemoveAt(index);
+            AdjustLegend();
             GraphWrite();
         }
 
@@ -163,7 +188,7 @@
         public void GraphRead()
         {
             Loading = true;
-            LegendPanel.Controls.Clear();
+            Keys.Clear();
             foreach (Series series in Graph.Series)
                 AddNewKey(series);
             Validate();
@@ -196,6 +221,22 @@
             var ok = View.ValidateChildren();
             CanCancel = false;
             return ok;
+        }
+
+        private static AnchorStyles AlignToAnchor(ContentAlignment align)
+        {
+            switch (align)
+            {
+                case ContentAlignment.BottomLeft:
+                    return AnchorStyles.Bottom | AnchorStyles.Left;
+                case ContentAlignment.BottomRight:
+                    return AnchorStyles.Bottom | AnchorStyles.Right;
+                case ContentAlignment.TopLeft:
+                    return AnchorStyles.Top | AnchorStyles.Left;
+                case ContentAlignment.TopRight:
+                    return AnchorStyles.Top | AnchorStyles.Right;
+            }
+            return 0;
         }
     }
 }
