@@ -23,6 +23,7 @@
         public static void TestAll()
         {
             TestAlphaConversions();
+            TestComparisons();
             TestCompoundExpression();
             TestTrigonometricExpression();
             TestSimplifications();
@@ -49,6 +50,17 @@
                 "((Sec(((x^3)+(x*8)))^2)*(((x^2)*3)+8))");               // d(tan(x³+8x))/dx = sec²(x³+8x)*(3x²+8)
             TestDerivative(Sqrt(x.Power(4).Minus(1)),
                 "((0.5/Sqrt(((x^4)-1)))*((x^3)*4))");                    // d(√(x⁴-1))/dx = 2x³/√(x⁴-1)
+        }
+
+        public static void TestComparisons()
+        {
+            Check("(x==10)", x.Equal(10).AsString());
+            Check("(x==10)", x.Equal(10).AsString());
+            Check("(x!=10)", x.NotEqual(10).AsString());
+            Check("(x<10)", x.LessThan(10).AsString());
+            Check("(x>10)", x.GreaterThan(10).AsString());
+            Check("(x<=10)", x.LessThanOrEqual(10).AsString());
+            Check("(x>=10)", x.GreaterThanOrEqual(10).AsString());
         }
 
         public static void TestCompoundExpression()
@@ -124,15 +136,15 @@
 
         public static void TestParserFailure()
         {
-            TestParseFail("x~2", "Unexpected character '~', input='x~2', index=1");
+            TestParseFail("x~2", "Unexpected token '~', input='x~2', index=1");
             TestParseFail("x+123,456", "Unexpected character ',', input='x+123,456', index=5");
-            TestParseFail("x+1$2", "Unexpected end of text, input='x+1$2', index=3");
+            TestParseFail("x+1$2", "Unexpected character '$', input='x+1$2', index=3");
             TestParseFail("x+1e999", "Numerical overflow '1e999', input='x+1e999', index=2");
             TestParseFail("x+.", "Invalid number format '.', input='x+.', index=2");
             TestParseFail("x+.E+1", "Invalid number format '.E+1', input='x+.E+1', index=2");
             TestParseFail("x+", "Missing operand, input='x+', index=2");
-            TestParseFail("(x+(2*(x+(3)))", "Unexpected end of text, input='(x+(2*(x+(3)))', index=15");
-            TestParseFail("2 sin x cos x", "Unexpected character 'c', input='2 sin x cos x', index=8");
+            TestParseFail("(x+(2*(x+(3)))", "Unexpected character '$', input='(x+(2*(x+(3)))', index=15");
+            TestParseFail("2 sin x cos x", "Unexpected token 'cos', input='2 sin x cos x', index=8");
         }
 
         public static void TestParserSuccess()
@@ -174,6 +186,10 @@
             TestParse("(x³)'", "((x^2)*3)");                             // d(x³)/dx = 3x²
             TestParse("(exp(cos x))'", "(Exp(Cos(x))*-Sin(x))");         // d(eᶜᵒˢ⁽ˣ⁾)/dx = -(sin x)eᶜᵒˢ⁽ˣ⁾
             TestParse("(sin x)''", "-Sin(x)");                           // d²(sin x)/dx² = -sin x
+            TestParse("x<1|x>2&x<3", "((x<1)Or((x>2)And(x<3)))");        // Precedence('&') > Precedence('|')
+            TestParse("x<1|x>2&&x<3", "(((x<1)Or(x>2))And(x<3))");       // Precedence('&&') < Precedence('|')
+            TestParse("x<1||x>2&&x<3", "((x<1)Or((x>2)And(x<3)))");      // Precedence('&&') > Precedence('||')
+            TestParse("x<0?x^2:x^3", "");
         }
 
         public static void TestPolynomialDerivative()

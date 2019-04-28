@@ -10,13 +10,21 @@
     {
         private enum Precedence
         {
-            RightParenthesis,
-            Additive,
-            Multiplicative,
-            Exponential,
-            Functional,
-            ImpliedProduct,
-            SuperscriptPower
+            Assignment,     // 
+            Ternary,        // x<0 ? -x : +x
+            LogicalOr,      // x<1 || x>2
+            LogicalAnd,     // x>1 && x<2
+            BitwiseOr,      // x<1 | x>2
+            BitwiseAnd,     // x>1 & x<2
+            Equality,       // x=2
+            Relational,     // x>2
+            Additive,       // x+2, x-2
+            Multiplicative, // x*2. x/2
+            Exponential,    // x^2
+            Unary,          // +x, -x, sin x
+            Implied,        // 2x
+            Derivative,     // (sin x)'
+            Superscript     // x²
         }
 
         const string
@@ -80,6 +88,32 @@
         {
             switch (op)
             {
+                case "?":
+                case ":":
+                    return ExpressionType.Conditional;
+                case "|":
+                case "||":
+                    return ExpressionType.Or;
+                case "&":
+                case "&&":
+                    return ExpressionType.And;
+                case "=":
+                case "==":
+                    return ExpressionType.Equal;
+                case "≠":
+                case "<>":
+                case "!=":
+                    return ExpressionType.NotEqual;
+                case "<":
+                    return ExpressionType.LessThan;
+                case ">":
+                    return ExpressionType.GreaterThan;
+                case "≯":
+                case "<=":
+                    return ExpressionType.LessThanOrEqual;
+                case "≮":
+                case ">=":
+                    return ExpressionType.GreaterThanOrEqual;
                 case "+":
                     return ExpressionType.Add;
                 case "-":
@@ -96,6 +130,9 @@
                     return ExpressionType.UnaryPlus;
                 case UnaryMinus:
                     return ExpressionType.Negate;
+                case "!":
+                case "~":
+                    return ExpressionType.Not;
             }
             throw new FormatException();
         }
@@ -105,7 +142,31 @@
             switch (op)
             {
                 case ")":
-                    return Precedence.RightParenthesis;
+                    return Precedence.Assignment;
+                case "?":
+                case ":":
+                    return Precedence.Ternary;
+                case "||":
+                    return Precedence.LogicalOr;
+                case "&&":
+                    return Precedence.LogicalAnd;
+                case "|":
+                    return Precedence.BitwiseOr;
+                case "&":
+                    return Precedence.BitwiseAnd;
+                case "=":
+                case "==":
+                case "≠":
+                case "<>":
+                case "!=":
+                    return Precedence.Equality;
+                case "<":
+                case ">":
+                case "≮":
+                case ">=":
+                case "≯":
+                case "<=":
+                    return Precedence.Relational;
                 case "+":
                 case "-":
                     return Precedence.Additive;
@@ -115,15 +176,20 @@
                 case "^":
                     return Precedence.Exponential;
                 case ImpliedProduct:
-                    return Precedence.ImpliedProduct;
+                    return Precedence.Implied;
+                case "'":
+                    return Precedence.Derivative;
                 case SuperscriptPower:
-                    return Precedence.SuperscriptPower;
+                    return Precedence.Superscript;
             }
-            return Precedence.Functional;
+            return Precedence.Unary;
         }
 
         private Expression MakeBinary(string op, Expression lhs, Expression rhs) =>
             Expression.MakeBinary(GetExpressionType(op), lhs, rhs);
+
+        private Expression MakeConditional(Expression test, Expression then, Expression otherwise) =>
+            Expression.Condition(test, then, otherwise);
 
         private Expression MakeFunction(string f, Expression operand)
         {
@@ -137,15 +203,25 @@
         private Expression MakeUnary(string op, Expression operand)
         {
             if (operand is ConstantExpression c)
+            {
+                var cValue = (double)c.Value;
                 switch (op)
                 {
-                    case UnaryMinus: return (-(double)c.Value).Constant();
-                    case SquareRoot: return Math.Sqrt((double)c.Value).Constant();
+                    case UnaryMinus:
+                        return (-cValue).Constant();
+                    case "!":
+                    case "~":
+                        return (cValue == 0.0 ? 1.0 : 0.0).Constant();
+                    case SquareRoot:
+                        return Math.Sqrt(cValue).Constant();
                 }
+            }
             switch (op)
             {
-                case UnaryPlus: return operand;
-                case SquareRoot: return MakeFunction("Sqrt", operand);
+                case UnaryPlus:
+                    return operand;
+                case SquareRoot:
+                    return MakeFunction("Sqrt", operand);
             }
             return Expression.MakeUnary(GetExpressionType(op), operand, null);
         }
@@ -174,17 +250,10 @@
         private string NextToken()
         {
             var nextChar = NextChar();
+            if ("()?:≠≮≯+-*/^~√'".IndexOf(nextChar) >= 0)
+                return nextChar.ToString();
             switch (nextChar)
             {
-                case '+':
-                case '-':
-                case '*':
-                case '/':
-                case '^':
-                case '(':
-                case ')':
-                case '√':
-                    return nextChar.ToString();
                 case char c when char.IsDigit(c):
                 case '.':
                     return MatchNumber();
@@ -192,6 +261,22 @@
                     return MatchSuperscript();
                 case char c when char.IsLetter(c):
                     return MatchFunction();
+            }
+            if ("|&=<>!".IndexOf(nextChar) >= 0)
+            {
+                var lookahead = Formula.Substring(Index, 2);
+                switch (lookahead)
+                {
+                    case "||":
+                    case "&&":
+                    case "==":
+                    case "<>":
+                    case "!=":
+                    case "<=":
+                    case ">=":
+                        return lookahead;
+                }
+                return nextChar.ToString();
             }
             throw new FormatException(
                 $"Unexpected character '{nextChar}', input='{Formula}', index={Index}");
@@ -202,48 +287,64 @@
             do
             {
                 ParseOperand();
-nextOperator:
-                var op = NextChar();
+            nextOperator:
+                var op = NextToken();
                 switch (op)
                 {
-                    case '+':
-                    case '-':
-                    case '*':
-                    case '/':
-                    case '^':
-                    case ')':
+                    case ")":
+                    case "?":
+                    case ":":
+                    case "||":
+                    case "&&":
+                    case "|":
+                    case "&":
+                    case "=":
+                    case "==":
+                    case "≠":
+                    case "<>":
+                    case "!=":
+                    case "<":
+                    case ">":
+                    case "≮":
+                    case ">=":
+                    case "≯":
+                    case "<=":
+                    case "+":
+                    case "-":
+                    case "*":
+                    case "/":
+                    case "^":
                         ParseOperator(op.ToString());
-                        if (op == ')')
+                        if (op == ")")
                             return;
                         break;
-                    case '\'': // Postfix apostrophe => differentiate
+                    case "'": // Postfix apostrophe => differentiate
                         ParseTick();
                         goto nextOperator;
-                    case '$' when Index == Formula.Length + 2: // End of input (normal)
+                    case "$" when Index == Formula.Length + 2: // End of input (normal)
                         return;
-                    case '$' when Index < Formula.Length + 2: // End of input (unexpected)
+                    case "$" when Index < Formula.Length + 2: // End of input (unexpected)
                         throw new FormatException(
                             $"Unexpected end of text, input='{Formula}', index={Index}");
-                    case char c when c.IsSuperscript():
-                        ParseOperator(SuperscriptPower); //
-                        break;
                     default:
-                        if (Operands.Peek() is ConstantExpression)
+                        switch (op[0])
                         {
-                            ParseOperator(ImpliedProduct); // Implied multiplication
-                            break;
+                            case char c when c.IsSuperscript():
+                                ParseOperator(SuperscriptPower); //
+                                break;
+                            default:
+                                if (Operands.Peek() is ConstantExpression)
+                                {
+                                    ParseOperator(ImpliedProduct); // Implied multiplication
+                                    break;
+                                }
+                                throw new FormatException(
+                                    $"Unexpected token '{op}', input='{Formula}', index={Index}");
                         }
-                        throw new FormatException(
-                            $"Unexpected character '{op}', input='{Formula}', index={Index}");
+                        break;
                 }
             }
             while (true);
-        }
-
-        private void ParseTick()
-        {
-            Operands.Push(Operands.Pop().Differentiate());
-            ReadPast("'");
         }
 
         private void ParseFunction(string function)
@@ -303,6 +404,8 @@ nextOperator:
                     break;
                 case '+':
                 case '-':
+                case '!':
+                case '~':
                 case '√':
                     ParseUnary(token);
                     ParseOperand();
@@ -330,16 +433,19 @@ nextOperator:
                     break;
                 var theirs = GetPrecedence(pending);
                 // Operator '^' is right associative: a^b^c = a^(b^c).
-                if (theirs > ours || theirs == ours && op != "^")
+                // Also, both ternary operators in a?b:c must be pended.
+                if (theirs > ours || theirs == ours && op != "^" && op != "?")
                 {
                     Operators.Pop();
                     var operand = Operands.Pop();
-                    if (theirs == Precedence.Functional)
+                    if (theirs == Precedence.Unary)
                         switch (pending)
                         {
                             case UnaryPlus:
                                 break;
                             case UnaryMinus:
+                            case "!":
+                            case "~":
                                 operand = MakeUnary(pending, operand);
                                 break;
                             case SquareRoot:
@@ -361,7 +467,17 @@ nextOperator:
                     {
                         if (pending == ImpliedProduct)
                             pending = "*";
-                        operand = MakeBinary(pending, Operands.Pop(), operand);
+                        if (op == ":") // End of a conditional
+                        {
+                            var then = Operands.Pop();
+                            operand = MakeConditional(Operands.Pop(), then, operand);
+                            Operators.Pop();
+//                            if (Operators.Peek() != "?")
+//                                throw new FormatException(
+//                                    $"Badly formed conditional, input='{Formula}', index={Index}");
+                        }
+                        else
+                            operand = MakeBinary(pending, Operands.Pop(), operand);
                     }
                     Operands.Push(operand);
                 }
@@ -387,6 +503,12 @@ nextOperator:
         {
             Operands.Push(new Parser().Parse(superscript.FromSuperscript()));
             ReadPast(superscript);
+        }
+
+        private void ParseTick()
+        {
+            Operands.Push(Operands.Pop().Differentiate());
+            ReadPast("'");
         }
 
         private void ParseUnary(string unary)

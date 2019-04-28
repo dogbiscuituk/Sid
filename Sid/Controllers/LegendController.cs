@@ -84,14 +84,11 @@
         private void ViewLegendBottomRight_Click(object sender, EventArgs e) =>
             LegendAlignment = ContentAlignment.BottomRight;
 
-        private void ViewLegendNone_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        private void ViewLegendNone_Click(object sender, EventArgs e) => Legend.Hide();
 
         private void AdjustLegend()
         {
-            Legend.Visible = true;
+            Legend.Show();
             const int keyHeight = 21, maxKeys = 17;
             var scroll = Keys.Count > maxKeys;
             int w = 392 + (scroll ? SystemInformation.VerticalScrollBarWidth : 0),

@@ -21,7 +21,7 @@
 
         public static ConstantExpression e = Math.PI.Constant();
 
-        public static Expression Parse(string formula) => new Parser().Parse(formula);
+        public static Expression Parse(this string formula) => new Parser().Parse(formula);
 
         public static BinaryExpression Plus(this Expression f, Expression g) => Expression.Add(f, g);
         public static BinaryExpression Minus(this Expression f, Expression g) => Expression.Subtract(f, g);
@@ -46,6 +46,34 @@
         public static BinaryExpression Times(this int f, Expression g) => Constant(f).Times(g);
         public static BinaryExpression Over(this int f, Expression g) => Constant(f).Over(g);
         public static BinaryExpression Power(this int f, Expression g) => Constant(f).Power(g);
+
+        public static BinaryExpression Equal(this Expression f, Expression g) => Expression.Equal(f, g);
+        public static BinaryExpression NotEqual(this Expression f, Expression g) => Expression.NotEqual(f, g);
+        public static BinaryExpression LessThan(this Expression f, Expression g) => Expression.LessThan(f, g);
+        public static BinaryExpression GreaterThan(this Expression f, Expression g) => Expression.GreaterThan(f, g);
+        public static BinaryExpression LessThanOrEqual(this Expression f, Expression g) => Expression.LessThanOrEqual(f, g);
+        public static BinaryExpression GreaterThanOrEqual(this Expression f, Expression g) => Expression.GreaterThanOrEqual(f, g);
+
+        public static BinaryExpression Equal(this Expression f, double g) => Expression.Equal(f, Constant(g));
+        public static BinaryExpression NotEqual(this Expression f, double g) => Expression.NotEqual(f, Constant(g));
+        public static BinaryExpression LessThan(this Expression f, double g) => Expression.LessThan(f, Constant(g));
+        public static BinaryExpression GreaterThan(this Expression f, double g) => Expression.GreaterThan(f, Constant(g));
+        public static BinaryExpression LessThanOrEqual(this Expression f, double g) => Expression.LessThanOrEqual(f, Constant(g));
+        public static BinaryExpression GreaterThanOrEqual(this Expression f, double g) => Expression.GreaterThanOrEqual(f, Constant(g));
+
+        public static BinaryExpression Equal(this double f, Expression g) => Expression.Equal(Constant(f), g);
+        public static BinaryExpression NotEqual(this double f, Expression g) => Expression.NotEqual(Constant(f), g);
+        public static BinaryExpression LessThan(this double f, Expression g) => Expression.LessThan(Constant(f), g);
+        public static BinaryExpression GreaterThan(this double f, Expression g) => Expression.GreaterThan(Constant(f), g);
+        public static BinaryExpression LessThanOrEqual(this double f, Expression g) => Expression.LessThanOrEqual(Constant(f), g);
+        public static BinaryExpression GreaterThanOrEqual(this double f, Expression g) => Expression.GreaterThanOrEqual(Constant(f), g);
+
+        public static BinaryExpression Equal(this int f, Expression g) => Expression.Equal(Constant(f), g);
+        public static BinaryExpression NotEqual(this int f, Expression g) => Expression.NotEqual(Constant(f), g);
+        public static BinaryExpression LessThan(this int f, Expression g) => Expression.LessThan(Constant(f), g);
+        public static BinaryExpression GreaterThan(this int f, Expression g) => Expression.GreaterThan(Constant(f), g);
+        public static BinaryExpression LessThanOrEqual(this int f, Expression g) => Expression.LessThanOrEqual(Constant(f), g);
+        public static BinaryExpression GreaterThanOrEqual(this int f, Expression g) => Expression.GreaterThanOrEqual(Constant(f), g);
 
         public static UnaryExpression Negate(this Expression e) => Expression.Negate(e);
         public static BinaryExpression Reciprocal(this Expression e) => e.Power(-1);
