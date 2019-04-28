@@ -16,13 +16,7 @@
         {
             if (e is DefaultExpression && e.Type == typeof(void))
                 return (x) => double.NaN;
-            if (e.Type == typeof(bool))
-                e = Expression.Condition(e, Constant(1), Constant(0));
-//            {
-//                var c = Expression.Condition(e, Constant(1), Constant(0));
-//                return Expression.Lambda<Func<double, double>>(c, x).Compile();
-//            }
-            return Expression.Lambda<Func<double, double>>(e, x).Compile();
+            return Expression.Lambda<Func<double, double>>(e.ToDouble(), x).Compile();
         }
 
         public static double AsDouble(this Expression e, double x) => AsFunction(e)(x);
@@ -350,5 +344,32 @@
             }
             throw new InvalidOperationException();
         }
+
+        public static Expression ToBoolean(this Expression e)
+        {
+            var type = e.Type;
+            if (type == typeof(bool))
+                return e;
+            if (type == typeof(double))
+                return Expression.NotEqual(e, Constant(0));
+            throw new FormatException($"Unsuppported type {type}");
+        }
+
+        public static Expression ToDouble(this Expression e)
+        {
+            var type = e.Type;
+            if (type == typeof(bool))
+                return Expression.Condition(e, Constant(1), Constant(0));
+            if (type == typeof(double))
+                return e;
+            throw new FormatException($"Unsuppported type {type}");
+        }
+    }
+
+    public enum OperandTypes
+    {
+        Unknown,
+        Boolean,
+        Double
     }
 }

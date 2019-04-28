@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Text;
 
     public static class Utility
@@ -33,6 +34,157 @@
 
         public static Color MakeColour(Color baseColour, int transparencyPerCent) =>
             Color.FromArgb(AlphaFromTransparencyPercent(transparencyPerCent), baseColour);
+
+        #endregion
+
+        #region Expressions
+
+        public static ExpressionType GetExpressionType(this string op)
+        {
+            switch (op)
+            {
+                case "?":
+                case ":":
+                    return ExpressionType.Conditional;
+                case "|":
+                case "||":
+                    return ExpressionType.Or;
+                case "&":
+                case "&&":
+                    return ExpressionType.And;
+                case "=":
+                case "==":
+                    return ExpressionType.Equal;
+                case "≠":
+                case "<>":
+                case "!=":
+                    return ExpressionType.NotEqual;
+                case "<":
+                    return ExpressionType.LessThan;
+                case ">":
+                    return ExpressionType.GreaterThan;
+                case "≯":
+                case "<=":
+                    return ExpressionType.LessThanOrEqual;
+                case "≮":
+                case ">=":
+                    return ExpressionType.GreaterThanOrEqual;
+                case "+":
+                    return ExpressionType.Add;
+                case "-":
+                    return ExpressionType.Subtract;
+                case "*":
+                case "i*":
+                    return ExpressionType.Multiply;
+                case "/":
+                    return ExpressionType.Divide;
+                case "^":
+                case "s^":
+                    return ExpressionType.Power;
+                case Ops.UnaryPlus:
+                    return ExpressionType.UnaryPlus;
+                case Ops.UnaryMinus:
+                    return ExpressionType.Negate;
+                case "!":
+                case "~":
+                    return ExpressionType.Not;
+            }
+            throw new FormatException();
+        }
+
+        public static double GetNamedValue(this string constant)
+        {
+            switch (constant.ToLower())
+            {
+                case "e":
+                    return Math.E;
+                case "π":
+                case "pi":
+                    return Math.PI;
+                case "ϕ":
+                case "phi":
+                    return (1 + Math.Sqrt(5)) / 2;
+            }
+            return 0;
+        }
+
+        public static OperandTypes GetOperandTypes(this string op)
+        {
+            switch (op)
+            {
+                case "||":
+                case "&&":
+                case "|":
+                case "&":
+                    return OperandTypes.Boolean;
+                case "=":
+                case "==":
+                case "≠":
+                case "<>":
+                case "!=":
+                case "<":
+                case ">":
+                case "≮":
+                case ">=":
+                case "≯":
+                case "<=":
+                case "+":
+                case "-":
+                case "*":
+                case "/":
+                case "^":
+                    return OperandTypes.Double;
+            }
+            return OperandTypes.Unknown;
+        }
+
+        public static Precedence GetPrecedence(this string op)
+        {
+            switch (op)
+            {
+                case ")":
+                    return Precedence.Assignment;
+                case "?":
+                case ":":
+                    return Precedence.Ternary;
+                case "||":
+                    return Precedence.LogicalOr;
+                case "&&":
+                    return Precedence.LogicalAnd;
+                case "|":
+                    return Precedence.BitwiseOr;
+                case "&":
+                    return Precedence.BitwiseAnd;
+                case "=":
+                case "==":
+                case "≠":
+                case "<>":
+                case "!=":
+                    return Precedence.Equality;
+                case "<":
+                case ">":
+                case "≮":
+                case ">=":
+                case "≯":
+                case "<=":
+                    return Precedence.Relational;
+                case "+":
+                case "-":
+                    return Precedence.Additive;
+                case "*":
+                case "/":
+                    return Precedence.Multiplicative;
+                case "^":
+                    return Precedence.Exponential;
+                case Ops.ImpliedProduct:
+                    return Precedence.Implied;
+                case "'":
+                    return Precedence.Postfix;
+                case Ops.SuperscriptPower:
+                    return Precedence.Superscript;
+            }
+            return Precedence.Unary;
+        }
 
         #endregion
 

@@ -8,32 +8,6 @@
 
     public class Parser
     {
-        private enum Precedence
-        {
-            Assignment,     // End of expression
-            Ternary,        // x<0 ? -x : +x
-            LogicalOr,      // x<1 || x>2
-            LogicalAnd,     // x>1 && x<2
-            BitwiseOr,      // x<1 | x>2
-            BitwiseAnd,     // x>1 & x<2
-            Equality,       // x=2, x!=2
-            Relational,     // x>2, x<=2
-            Additive,       // x+2, x-2
-            Multiplicative, // x*2, x/2
-            Exponential,    // x^2, e^x
-            Unary,          // +x, -x, √x, sin x
-            Implied,        // 2x
-            Postfix,        // (sin x)'
-            Superscript     // x²
-        }
-
-        const string
-            ImpliedProduct = "i*",
-            SuperscriptPower = "s^",
-            UnaryMinus = "(-)",
-            UnaryPlus = "(+)",
-            SquareRoot = "(√)";
-
         private string Formula;
         private int Index;
         private Stack<Expression> Operands;
@@ -68,125 +42,21 @@
             }
         }
 
-        private static double GetNamedConstantValue(string constant)
+        private Expression MakeBinary(string op, Expression left, Expression right)
         {
-            switch (constant.ToLower())
+            switch (op.GetOperandTypes())
             {
-                case "e":
-                    return Math.E;
-                case "π":
-                case "pi":
-                    return Math.PI;
-                case "ϕ":
-                case "phi":
-                    return (1 + Math.Sqrt(5)) / 2;
+                case OperandTypes.Boolean:
+                    left = left.ToBoolean();
+                    right = right.ToBoolean();
+                    break;
+                case OperandTypes.Double:
+                    left = left.ToDouble();
+                    right = right.ToDouble();
+                    break;
             }
-            return 0;
+            return Expression.MakeBinary(op.GetExpressionType(), left, right);
         }
-
-        private static ExpressionType GetExpressionType(string op)
-        {
-            switch (op)
-            {
-                case "?":
-                case ":":
-                    return ExpressionType.Conditional;
-                case "|":
-                case "||":
-                    return ExpressionType.Or;
-                case "&":
-                case "&&":
-                    return ExpressionType.And;
-                case "=":
-                case "==":
-                    return ExpressionType.Equal;
-                case "≠":
-                case "<>":
-                case "!=":
-                    return ExpressionType.NotEqual;
-                case "<":
-                    return ExpressionType.LessThan;
-                case ">":
-                    return ExpressionType.GreaterThan;
-                case "≯":
-                case "<=":
-                    return ExpressionType.LessThanOrEqual;
-                case "≮":
-                case ">=":
-                    return ExpressionType.GreaterThanOrEqual;
-                case "+":
-                    return ExpressionType.Add;
-                case "-":
-                    return ExpressionType.Subtract;
-                case "*":
-                case "i*":
-                    return ExpressionType.Multiply;
-                case "/":
-                    return ExpressionType.Divide;
-                case "^":
-                case "s^":
-                    return ExpressionType.Power;
-                case UnaryPlus:
-                    return ExpressionType.UnaryPlus;
-                case UnaryMinus:
-                    return ExpressionType.Negate;
-                case "!":
-                case "~":
-                    return ExpressionType.Not;
-            }
-            throw new FormatException();
-        }
-
-        private static Precedence GetPrecedence(string op)
-        {
-            switch (op)
-            {
-                case ")":
-                    return Precedence.Assignment;
-                case "?":
-                case ":":
-                    return Precedence.Ternary;
-                case "||":
-                    return Precedence.LogicalOr;
-                case "&&":
-                    return Precedence.LogicalAnd;
-                case "|":
-                    return Precedence.BitwiseOr;
-                case "&":
-                    return Precedence.BitwiseAnd;
-                case "=":
-                case "==":
-                case "≠":
-                case "<>":
-                case "!=":
-                    return Precedence.Equality;
-                case "<":
-                case ">":
-                case "≮":
-                case ">=":
-                case "≯":
-                case "<=":
-                    return Precedence.Relational;
-                case "+":
-                case "-":
-                    return Precedence.Additive;
-                case "*":
-                case "/":
-                    return Precedence.Multiplicative;
-                case "^":
-                    return Precedence.Exponential;
-                case ImpliedProduct:
-                    return Precedence.Implied;
-                case "'":
-                    return Precedence.Postfix;
-                case SuperscriptPower:
-                    return Precedence.Superscript;
-            }
-            return Precedence.Unary;
-        }
-
-        private Expression MakeBinary(string op, Expression lhs, Expression rhs) =>
-            Expression.MakeBinary(GetExpressionType(op), lhs, rhs);
 
         private Expression MakeConditional(Expression test, Expression then, Expression otherwise) =>
             Expression.Condition(test, then, otherwise);
@@ -207,23 +77,23 @@
                 var cValue = (double)c.Value;
                 switch (op)
                 {
-                    case UnaryMinus:
+                    case Ops.UnaryMinus:
                         return (-cValue).Constant();
                     case "!":
                     case "~":
                         return (cValue == 0.0 ? 1.0 : 0.0).Constant();
-                    case SquareRoot:
+                    case Ops.SquareRoot:
                         return Math.Sqrt(cValue).Constant();
                 }
             }
             switch (op)
             {
-                case UnaryPlus:
+                case Ops.UnaryPlus:
                     return operand;
-                case SquareRoot:
+                case Ops.SquareRoot:
                     return MakeFunction("Sqrt", operand);
             }
-            return Expression.MakeUnary(GetExpressionType(op), operand, null);
+            return Expression.MakeUnary(op.GetExpressionType(), operand, null);
         }
 
         private string MatchFunction() => MatchRegex(@"^[\p{Lu}\p{Ll}\d]+").ToLower();
@@ -330,12 +200,12 @@
                         switch (op[0])
                         {
                             case char c when c.IsSuperscript():
-                                ParseOperator(SuperscriptPower); //
+                                ParseOperator(Ops.SuperscriptPower); //
                                 break;
                             default:
                                 if (Operands.Peek() is ConstantExpression)
                                 {
-                                    ParseOperator(ImpliedProduct); // Implied multiplication
+                                    ParseOperator(Ops.ImpliedProduct); // Implied multiplication
                                     break;
                                 }
                                 throw new FormatException(
@@ -355,7 +225,7 @@
 
         private bool ParseNamedConstant(string constant)
         {
-            var value = GetNamedConstantValue(constant);
+            var value = constant.GetNamedValue();
             if (value == 0)
                 return false;
             Operands.Push(value.Constant());
@@ -427,11 +297,11 @@
         {
             do
             {
-                var ours = GetPrecedence(op);
+                var ours = op.GetPrecedence();
                 var pending = Operators.Peek();
                 if (pending == "(")
                     break;
-                var theirs = GetPrecedence(pending);
+                var theirs = pending.GetPrecedence();
                 // Operator '^' is right associative: a^b^c = a^(b^c).
                 // Also, both ternary operators in a?b:c must be pended.
                 if (theirs > ours || theirs == ours && op != "^" && op != "?")
@@ -441,14 +311,14 @@
                     if (theirs == Precedence.Unary)
                         switch (pending)
                         {
-                            case UnaryPlus:
+                            case Ops.UnaryPlus:
                                 break;
-                            case UnaryMinus:
+                            case Ops.UnaryMinus:
                             case "!":
                             case "~":
                                 operand = MakeUnary(pending, operand);
                                 break;
-                            case SquareRoot:
+                            case Ops.SquareRoot:
                                 operand = MakeFunction("Sqrt", operand);
                                 break;
                             default:
@@ -465,7 +335,7 @@
                         }
                     else
                     {
-                        if (pending == ImpliedProduct)
+                        if (pending == Ops.ImpliedProduct)
                             pending = "*";
                         if (op == ":") // End of a conditional
                         {
@@ -489,7 +359,7 @@
                 Operators.Pop();
             else
                 Operators.Push(op);
-            if (op != ImpliedProduct && op != SuperscriptPower)
+            if (op != Ops.ImpliedProduct && op != Ops.SuperscriptPower)
                 ReadPast(op);
         }
 
@@ -518,5 +388,8 @@
         }
 
         private void ReadPast(string token) => Index += token.Length;
+
+        #region 
+        #endregion
     }
 }

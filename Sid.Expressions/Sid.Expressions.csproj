@@ -7,7 +7,7 @@
     <ProjectGuid>{091B2974-E44B-49C4-A3AA-355FC2558FEF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FormulaBuilder</RootNamespace>
+    <RootNamespace>Sid.Expressions</RootNamespace>
     <AssemblyName>FormulaBuilder</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -46,7 +46,9 @@
     <Compile Include="Expressions.Tests.cs" />
     <Compile Include="Functions.cs" />
     <Compile Include="Parser.cs" />
+    <Compile Include="Precedence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ops.cs" />
     <Compile Include="Utility.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
