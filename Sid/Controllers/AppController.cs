@@ -56,10 +56,10 @@
 
         private bool Isotropic
         {
-            get => View.ViewIsotropic.Checked;
+            get => View.ViewZoomIsotropic.Checked;
             set
             {
-                View.ViewIsotropic.Checked = value;
+                View.ViewZoomIsotropic.Checked = value;
                 AdjustPictureBox();
             }
         }
@@ -81,33 +81,65 @@
             get => _view;
             set
             {
+                if (View != null)
+                {
+                    View.FormClosing -= View_FormClosing;
+                    View.Resize -= View_Resize;
+                    View.FileMenu.DropDownOpening -= FileMenu_DropDownOpening;
+                    View.FileNew.Click -= FileNew_Click;
+                    View.FileOpen.Click -= FileOpen_Click;
+                    View.FileSave.Click -= FileSave_Click;
+                    View.FileSaveAs.Click -= FileSaveAs_Click;
+                    View.FileExit.Click -= FileExit_Click;
+                    View.ViewZoomIn.Click -= ViewZoomIn_Click;
+                    View.ViewZoomOut.Click -= ViewZoomOut_Click;
+                    View.ViewZoomReset.Click -= ViewZoomReset_Click;
+                    View.ViewZoomIsotropic.Click -= ViewZoomIsotropic_Click;
+                    View.ViewScrollLeft.Click -= ViewScrollLeft_Click;
+                    View.ViewScrollRight.Click -= ViewScrollRight_Click;
+                    View.ViewScrollUp.Click -= ViewScrollUp_Click;
+                    View.ViewScrollDown.Click -= ViewScrollDown_Click;
+                    View.ViewScrollCentre.Click -= ViewScrollCentre_Click;
+                    View.ViewFullScreen.Click -= ViewFullScreen_Click;
+                    View.ViewMouseCoordinates.Click -= ViewMouseCoordinates_Click;
+                    View.HelpAbout.Click -= HelpAbout_Click;
+                    PictureBox.MouseDown -= PictureBox_MouseDown;
+                    PictureBox.MouseMove -= PictureBox_MouseMove;
+                    PictureBox.MouseUp -= PictureBox_MouseUp;
+                    PictureBox.MouseWheel -= PictureBox_MouseWheel;
+                    PictureBox.Paint -= PictureBox_Paint;
+                    PictureBox.Resize -= PictureBox_Resize;
+                }
                 _view = value;
-                View.FormClosing += View_FormClosing;
-                View.Resize += View_Resize;
-                View.FileMenu.DropDownOpening += FileMenu_DropDownOpening;
-                View.FileNew.Click += FileNew_Click;
-                View.FileOpen.Click += FileOpen_Click;
-                View.FileSave.Click += FileSave_Click;
-                View.FileSaveAs.Click += FileSaveAs_Click;
-                View.FileExit.Click += FileExit_Click;
-                View.ViewZoomIn.Click += ViewZoomIn_Click;
-                View.ViewZoomOut.Click += ViewZoomOut_Click;
-                View.ViewZoomReset.Click += ViewZoomReset_Click;
-                View.ViewScrollLeft.Click += ViewScrollLeft_Click;
-                View.ViewScrollRight.Click += ViewScrollRight_Click;
-                View.ViewScrollUp.Click += ViewScrollUp_Click;
-                View.ViewScrollDown.Click += ViewScrollDown_Click;
-                View.ViewScrollCentre.Click += ViewScrollCentre_Click;
-                View.ViewFullScreen.Click += ViewFullScreen_Click;
-                View.ViewIsotropic.Click += ViewIsotropic_Click;
-                View.ViewMouseCoordinates.Click += ViewMouseCoordinates_Click;
-                View.HelpAbout.Click += HelpAbout_Click;
-                PictureBox.MouseDown += PictureBox_MouseDown;
-                PictureBox.MouseMove += PictureBox_MouseMove;
-                PictureBox.MouseUp += PictureBox_MouseUp;
-                PictureBox.MouseWheel += PictureBox_MouseWheel;
-                PictureBox.Paint += PictureBox_Paint;
-                PictureBox.Resize += PictureBox_Resize;
+                if (View != null)
+                {
+                    View.FormClosing += View_FormClosing;
+                    View.Resize += View_Resize;
+                    View.FileMenu.DropDownOpening += FileMenu_DropDownOpening;
+                    View.FileNew.Click += FileNew_Click;
+                    View.FileOpen.Click += FileOpen_Click;
+                    View.FileSave.Click += FileSave_Click;
+                    View.FileSaveAs.Click += FileSaveAs_Click;
+                    View.FileExit.Click += FileExit_Click;
+                    View.ViewZoomIn.Click += ViewZoomIn_Click;
+                    View.ViewZoomOut.Click += ViewZoomOut_Click;
+                    View.ViewZoomReset.Click += ViewZoomReset_Click;
+                    View.ViewZoomIsotropic.Click += ViewZoomIsotropic_Click;
+                    View.ViewScrollLeft.Click += ViewScrollLeft_Click;
+                    View.ViewScrollRight.Click += ViewScrollRight_Click;
+                    View.ViewScrollUp.Click += ViewScrollUp_Click;
+                    View.ViewScrollDown.Click += ViewScrollDown_Click;
+                    View.ViewScrollCentre.Click += ViewScrollCentre_Click;
+                    View.ViewFullScreen.Click += ViewFullScreen_Click;
+                    View.ViewMouseCoordinates.Click += ViewMouseCoordinates_Click;
+                    View.HelpAbout.Click += HelpAbout_Click;
+                    PictureBox.MouseDown += PictureBox_MouseDown;
+                    PictureBox.MouseMove += PictureBox_MouseMove;
+                    PictureBox.MouseUp += PictureBox_MouseUp;
+                    PictureBox.MouseWheel += PictureBox_MouseWheel;
+                    PictureBox.Paint += PictureBox_Paint;
+                    PictureBox.Resize += PictureBox_Resize;
+                }
             }
         }
 
@@ -124,37 +156,23 @@
         private void ViewZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
         private void ViewZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
         private void ViewZoomReset_Click(object sender, EventArgs e) => ZoomReset();
+        private void ViewZoomIsotropic_Click(object sender, EventArgs e) => Isotropic = !Isotropic;
         private void ViewScrollLeft_Click(object sender, EventArgs e) => Scroll(-0.1, 0);
         private void ViewScrollRight_Click(object sender, EventArgs e) => Scroll(0.1, 0);
         private void ViewScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1);
         private void ViewScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1);
         private void ViewScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
         private void ViewFullScreen_Click(object sender, EventArgs e) => ToggleFullScreen();
-        private void ViewIsotropic_Click(object sender, EventArgs e) => Isotropic = !Isotropic;
         private void ViewMouseCoordinates_Click(object sender, EventArgs e) => ToggleMouseCoordinates();
         private void HelpAbout_Click(object sender, EventArgs e) => ShowVersionInfo();
 
         private void ShowVersionInfo()
         {
-            /*
             MessageBox.Show(
                 $@"Company Name: {Application.CompanyName}
 Product Name: {Application.ProductName}
 Version: {Application.ProductVersion}",
                 $"About {Application.ProductName}");
-                */
-            Debug.WriteLine("GRAPH INFO:");
-            for (int i = 0; i < Graph.Series.Count; i++)
-            {
-                var s = Graph.Series[i];
-                Debug.WriteLine($"f{i}: '{s.Formula}'");
-            }
-            Debug.WriteLine("EDIT CONTROL INFO:");
-            for (int j = 0; j < LegendController.Children.Count; j++)
-            {
-                var t = LegendController.Children[j];
-                Debug.WriteLine($"f{j}: '{t.Formula}'");
-            }
         }
 
         #endregion

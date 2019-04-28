@@ -8,10 +8,7 @@
 
     public class Parser
     {
-        private string Formula;
-        private int Index;
-        private Stack<Expression> Operands;
-        private Stack<string> Operators;
+        #region Public interface
 
         public Expression Parse(string formula)
         {
@@ -42,6 +39,19 @@
             }
         }
 
+        #endregion
+
+        #region Fields
+
+        private string Formula;
+        private int Index;
+        private Stack<Expression> Operands;
+        private Stack<string> Operators;
+
+        #endregion
+
+        #region Make methods
+
         private Expression MakeBinary(string op, Expression left, Expression right)
         {
             switch (op.GetOperandTypes())
@@ -59,7 +69,7 @@
         }
 
         private Expression MakeConditional(Expression test, Expression then, Expression otherwise) =>
-            Expression.Condition(test, then, otherwise);
+            Expression.Condition(test.ToBoolean(), then, otherwise);
 
         private Expression MakeFunction(string f, Expression operand)
         {
@@ -96,6 +106,10 @@
             return Expression.MakeUnary(op.GetExpressionType(), operand, null);
         }
 
+        #endregion
+
+        #region Match methods
+
         private string MatchFunction() => MatchRegex(@"^[\p{Lu}\p{Ll}\d]+").ToLower();
 
         private string MatchNumber() => MatchRegex(@"^\d*\.?\d*([eE][+-]?\d+)?");
@@ -109,48 +123,9 @@
         private string MatchSubscript() => MatchRegex($"^[{Utility.Subscripts}]+");
         private string MatchSuperscript() => MatchRegex($"^[{Utility.Superscripts}]+");
 
-        private char NextChar()
-        {
-            var count = Formula.Length;
-            while (Index < count && Formula[Index] == ' ')
-                Index++;
-            return Index < count ? Formula[Index] : Index == count ? ')' : '$';
-        }
+        #endregion
 
-        private string NextToken()
-        {
-            var nextChar = NextChar();
-            if ("()?:≠≮≯+-*/^~√'".IndexOf(nextChar) >= 0)
-                return nextChar.ToString();
-            switch (nextChar)
-            {
-                case char c when char.IsDigit(c):
-                case '.':
-                    return MatchNumber();
-                case char c when c.IsSuperscript():
-                    return MatchSuperscript();
-                case char c when char.IsLetter(c):
-                    return MatchFunction();
-            }
-            if ("|&=<>!".IndexOf(nextChar) >= 0)
-            {
-                var lookahead = Formula.Substring(Index, 2);
-                switch (lookahead)
-                {
-                    case "||":
-                    case "&&":
-                    case "==":
-                    case "<>":
-                    case "!=":
-                    case "<=":
-                    case ">=":
-                        return lookahead;
-                }
-                return nextChar.ToString();
-            }
-            throw new FormatException(
-                $"Unexpected character '{nextChar}', input='{Formula}', index={Index}");
-        }
+        #region Parse methods
 
         private void ParseExpression()
         {
@@ -158,7 +133,7 @@
             {
                 ParseOperand();
             nextOperator:
-                var op = NextToken();
+                var op = PeekToken();
                 switch (op)
                 {
                     case ")":
@@ -254,7 +229,7 @@
 
         private void ParseOperand()
         {
-            var token = NextToken();
+            var token = PeekToken();
             switch (char.ToLower(token[0]))
             {
                 case 'x' when token.Length == 1:
@@ -303,8 +278,7 @@
                     break;
                 var theirs = pending.GetPrecedence();
                 // Operator '^' is right associative: a^b^c = a^(b^c).
-                // Also, both ternary operators in a?b:c must be pended.
-                if (theirs > ours || theirs == ours && op != "^" && op != "?")
+                if (theirs > ours || theirs == ours && op != "^")
                 {
                     Operators.Pop();
                     var operand = Operands.Pop();
@@ -337,14 +311,13 @@
                     {
                         if (pending == Ops.ImpliedProduct)
                             pending = "*";
-                        if (op == ":") // End of a conditional
+                        if (pending == ":") // End of a conditional
                         {
+                            var otherwise = operand;
                             var then = Operands.Pop();
-                            operand = MakeConditional(Operands.Pop(), then, operand);
-                            Operators.Pop();
-//                            if (Operators.Peek() != "?")
-//                                throw new FormatException(
-//                                    $"Badly formed conditional, input='{Formula}', index={Index}");
+                            Operators.Pop(); // Must be '?'
+                            var test = Operands.Pop();
+                            operand = MakeConditional(test, operand, Operands.Pop());
                         }
                         else
                             operand = MakeBinary(pending, Operands.Pop(), operand);
@@ -387,9 +360,55 @@
             ReadPast(unary);
         }
 
+        #endregion
+
+        #region Read methods
+
+        private char PeekChar()
+        {
+            var count = Formula.Length;
+            while (Index < count && Formula[Index] == ' ')
+                Index++;
+            return Index < count ? Formula[Index] : Index == count ? ')' : '$';
+        }
+
+        private string PeekToken()
+        {
+            var nextChar = PeekChar();
+            if ("()?:≠≮≯+-*/^~√'".IndexOf(nextChar) >= 0)
+                return nextChar.ToString();
+            switch (nextChar)
+            {
+                case char c when char.IsDigit(c):
+                case '.':
+                    return MatchNumber();
+                case char c when c.IsSuperscript():
+                    return MatchSuperscript();
+                case char c when char.IsLetter(c):
+                    return MatchFunction();
+            }
+            if ("|&=<>!".IndexOf(nextChar) >= 0)
+            {
+                var lookahead = Formula.Substring(Index, 2);
+                switch (lookahead)
+                {
+                    case "||":
+                    case "&&":
+                    case "==":
+                    case "<>":
+                    case "!=":
+                    case "<=":
+                    case ">=":
+                        return lookahead;
+                }
+                return nextChar.ToString();
+            }
+            throw new FormatException(
+                $"Unexpected character '{nextChar}', input='{Formula}', index={Index}");
+        }
+
         private void ReadPast(string token) => Index += token.Length;
 
-        #region 
         #endregion
     }
 }

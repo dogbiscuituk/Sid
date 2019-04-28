@@ -26,22 +26,24 @@
             {
                 if (View != null)
                 {
-                    View.EditAddaNewFunction.Click -= EditAddaNewFunction_Click;
+                    View.EditAddNewFunction.Click -= EditAddNewFunction_Click;
+                    View.ViewLegend.DropDownOpening -= ViewLegend_DropDownOpening;
                     View.ViewLegendTopLeft.Click -= ViewLegendTopLeft_Click;
                     View.ViewLegendTopRight.Click -= ViewLegendTopRight_Click;
                     View.ViewLegendBottomLeft.Click -= ViewLegendBottomLeft_Click;
                     View.ViewLegendBottomRight.Click -= ViewLegendBottomRight_Click;
-                    View.ViewLegendNone.Click -= ViewLegendNone_Click;
+                    View.ViewLegendHide.Click -= ViewLegendHide_Click;
                 }
                 _view = value;
                 if (View != null)
                 {
-                    View.EditAddaNewFunction.Click += EditAddaNewFunction_Click;
+                    View.EditAddNewFunction.Click += EditAddNewFunction_Click;
+                    View.ViewLegend.DropDownOpening += ViewLegend_DropDownOpening;
                     View.ViewLegendTopLeft.Click += ViewLegendTopLeft_Click;
                     View.ViewLegendTopRight.Click += ViewLegendTopRight_Click;
                     View.ViewLegendBottomLeft.Click += ViewLegendBottomLeft_Click;
                     View.ViewLegendBottomRight.Click += ViewLegendBottomRight_Click;
-                    View.ViewLegendNone.Click += ViewLegendNone_Click;
+                    View.ViewLegendHide.Click += ViewLegendHide_Click;
                 }
             }
         }
@@ -69,6 +71,15 @@
 
         #region Alignment
 
+        private void ViewLegend_DropDownOpening(object sender, EventArgs e)
+        {
+            View.ViewLegendTopLeft.Checked = LegendAlignment == ContentAlignment.TopLeft;
+            View.ViewLegendTopRight.Checked = LegendAlignment == ContentAlignment.TopRight;
+            View.ViewLegendBottomLeft.Checked = LegendAlignment == ContentAlignment.BottomLeft;
+            View.ViewLegendBottomRight.Checked = LegendAlignment == ContentAlignment.BottomRight;
+            View.ViewLegendHide.Checked = !Legend.Visible;
+        }
+
         private void ViewLegendTopLeft_Click(object sender, EventArgs e) =>
             LegendAlignment = ContentAlignment.TopLeft;
 
@@ -81,11 +92,12 @@
         private void ViewLegendBottomRight_Click(object sender, EventArgs e) =>
             LegendAlignment = ContentAlignment.BottomRight;
 
-        private void ViewLegendNone_Click(object sender, EventArgs e) => Legend.Hide();
+        private void ViewLegendHide_Click(object sender, EventArgs e) =>
+            Legend.Visible = !Legend.Visible;
 
         private void AdjustLegend()
         {
-            Legend.Show();
+            Legend.Visible = true;
             const int margin = 0, keyHeight = 21, maxKeys = 17;
             var scroll = Keys.Count > maxKeys;
             int w = 392 + (scroll ? SystemInformation.VerticalScrollBarWidth : 0),
@@ -111,7 +123,7 @@
 
         #region Series Management
 
-        private void EditAddaNewFunction_Click(object sender, EventArgs e) =>
+        private void EditAddNewFunction_Click(object sender, EventArgs e) =>
             AddNewKey(null);
 
         private void BtnRemoveFunction_Click(object sender, EventArgs e) =>

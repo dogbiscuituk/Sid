@@ -1,5 +1,8 @@
 ﻿namespace Sid.Expressions
 {
+    /// <summary>
+    /// The precedence levels attributed to operators.
+    /// </summary>
     public enum Precedence
     {
         Assignment,     // End of expression
