@@ -313,11 +313,11 @@
                             pending = "*";
                         if (pending == ":") // End of a conditional
                         {
-                            var otherwise = operand;
+                            if (Operators.Peek() != "?") // Must be '?'
+                                throw new FormatException($"Missing '?', input='{Formula}'");
+                            Operators.Pop(); // Discard '?'
                             var then = Operands.Pop();
-                            Operators.Pop(); // Must be '?'
-                            var test = Operands.Pop();
-                            operand = MakeConditional(test, operand, Operands.Pop());
+                            operand = MakeConditional(Operands.Pop(), then, operand);
                         }
                         else
                             operand = MakeBinary(pending, Operands.Pop(), operand);

@@ -2,7 +2,6 @@
 {
     using System;
     using System.ComponentModel;
-    using System.Diagnostics;
     using System.Drawing;
     using System.Windows.Forms;
     using Sid.Expressions;
@@ -46,20 +45,20 @@
 
         private bool FullScreen
         {
-            get => View.ViewFullScreen.Checked;
+            get => View.ZoomFullScreen.Checked;
             set
             {
-                View.ViewFullScreen.Checked = value;
+                View.ZoomFullScreen.Checked = value;
                 AdjustFullScreen();
             }
         }
 
         private bool Isotropic
         {
-            get => View.ViewZoomIsotropic.Checked;
+            get => View.ZoomIsotropic.Checked;
             set
             {
-                View.ViewZoomIsotropic.Checked = value;
+                View.ZoomIsotropic.Checked = value;
                 AdjustPictureBox();
             }
         }
@@ -91,17 +90,17 @@
                     View.FileSave.Click -= FileSave_Click;
                     View.FileSaveAs.Click -= FileSaveAs_Click;
                     View.FileExit.Click -= FileExit_Click;
-                    View.ViewZoomIn.Click -= ViewZoomIn_Click;
-                    View.ViewZoomOut.Click -= ViewZoomOut_Click;
-                    View.ViewZoomReset.Click -= ViewZoomReset_Click;
-                    View.ViewZoomIsotropic.Click -= ViewZoomIsotropic_Click;
-                    View.ViewScrollLeft.Click -= ViewScrollLeft_Click;
-                    View.ViewScrollRight.Click -= ViewScrollRight_Click;
-                    View.ViewScrollUp.Click -= ViewScrollUp_Click;
-                    View.ViewScrollDown.Click -= ViewScrollDown_Click;
-                    View.ViewScrollCentre.Click -= ViewScrollCentre_Click;
-                    View.ViewFullScreen.Click -= ViewFullScreen_Click;
                     View.ViewMouseCoordinates.Click -= ViewMouseCoordinates_Click;
+                    View.ZoomIn.Click -= ZoomIn_Click;
+                    View.ZoomOut.Click -= ZoomOut_Click;
+                    View.ZoomReset.Click -= ZoomReset_Click;
+                    View.ZoomFullScreen.Click -= ZoomFullScreen_Click;
+                    View.ZoomIsotropic.Click -= ZoomIsotropic_Click;
+                    View.ScrollLeft.Click -= ScrollLeft_Click;
+                    View.ScrollRight.Click -= ScrollRight_Click;
+                    View.ScrollUp.Click -= ScrollUp_Click;
+                    View.ScrollDown.Click -= ScrollDown_Click;
+                    View.ScrollCentre.Click -= ScrollCentre_Click;
                     View.HelpAbout.Click -= HelpAbout_Click;
                     PictureBox.MouseDown -= PictureBox_MouseDown;
                     PictureBox.MouseMove -= PictureBox_MouseMove;
@@ -121,17 +120,17 @@
                     View.FileSave.Click += FileSave_Click;
                     View.FileSaveAs.Click += FileSaveAs_Click;
                     View.FileExit.Click += FileExit_Click;
-                    View.ViewZoomIn.Click += ViewZoomIn_Click;
-                    View.ViewZoomOut.Click += ViewZoomOut_Click;
-                    View.ViewZoomReset.Click += ViewZoomReset_Click;
-                    View.ViewZoomIsotropic.Click += ViewZoomIsotropic_Click;
-                    View.ViewScrollLeft.Click += ViewScrollLeft_Click;
-                    View.ViewScrollRight.Click += ViewScrollRight_Click;
-                    View.ViewScrollUp.Click += ViewScrollUp_Click;
-                    View.ViewScrollDown.Click += ViewScrollDown_Click;
-                    View.ViewScrollCentre.Click += ViewScrollCentre_Click;
-                    View.ViewFullScreen.Click += ViewFullScreen_Click;
                     View.ViewMouseCoordinates.Click += ViewMouseCoordinates_Click;
+                    View.ZoomIn.Click += ZoomIn_Click;
+                    View.ZoomOut.Click += ZoomOut_Click;
+                    View.ZoomReset.Click += ZoomReset_Click;
+                    View.ZoomIsotropic.Click += ZoomIsotropic_Click;
+                    View.ZoomFullScreen.Click += ZoomFullScreen_Click;
+                    View.ScrollLeft.Click += ScrollLeft_Click;
+                    View.ScrollRight.Click += ScrollRight_Click;
+                    View.ScrollUp.Click += ScrollUp_Click;
+                    View.ScrollDown.Click += ScrollDown_Click;
+                    View.ScrollCentre.Click += ScrollCentre_Click;
                     View.HelpAbout.Click += HelpAbout_Click;
                     PictureBox.MouseDown += PictureBox_MouseDown;
                     PictureBox.MouseMove += PictureBox_MouseMove;
@@ -153,16 +152,16 @@
         private void FileSave_Click(object sender, EventArgs e) => JsonController.Save();
         private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
-        private void ViewZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
-        private void ViewZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
-        private void ViewZoomReset_Click(object sender, EventArgs e) => ZoomReset();
-        private void ViewZoomIsotropic_Click(object sender, EventArgs e) => Isotropic = !Isotropic;
-        private void ViewScrollLeft_Click(object sender, EventArgs e) => Scroll(-0.1, 0);
-        private void ViewScrollRight_Click(object sender, EventArgs e) => Scroll(0.1, 0);
-        private void ViewScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1);
-        private void ViewScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1);
-        private void ViewScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
-        private void ViewFullScreen_Click(object sender, EventArgs e) => ToggleFullScreen();
+        private void ZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
+        private void ZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
+        private void ZoomReset_Click(object sender, EventArgs e) => ZoomReset();
+        private void ZoomIsotropic_Click(object sender, EventArgs e) => Isotropic = !Isotropic;
+        private void ZoomFullScreen_Click(object sender, EventArgs e) => ToggleFullScreen();
+        private void ScrollLeft_Click(object sender, EventArgs e) => Scroll(-0.1, 0);
+        private void ScrollRight_Click(object sender, EventArgs e) => Scroll(0.1, 0);
+        private void ScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1);
+        private void ScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1);
+        private void ScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
         private void ViewMouseCoordinates_Click(object sender, EventArgs e) => ToggleMouseCoordinates();
         private void HelpAbout_Click(object sender, EventArgs e) => ShowVersionInfo();
 

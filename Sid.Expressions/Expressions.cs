@@ -344,26 +344,6 @@
             }
             throw new InvalidOperationException();
         }
-
-        public static Expression ToBoolean(this Expression e)
-        {
-            var type = e.Type;
-            if (type == typeof(bool))
-                return e;
-            if (type == typeof(double))
-                return Expression.NotEqual(e, Constant(0));
-            throw new FormatException($"Unsuppported type {type}");
-        }
-
-        public static Expression ToDouble(this Expression e)
-        {
-            var type = e.Type;
-            if (type == typeof(bool))
-                return Expression.Condition(e, Constant(1), Constant(0));
-            if (type == typeof(double))
-                return e;
-            throw new FormatException($"Unsuppported type {type}");
-        }
     }
 
     public enum OperandTypes

@@ -143,8 +143,8 @@
             switch (op)
             {
                 case ")":
-                    return Precedence.Assignment;
                 case "?":
+                    return Precedence.Assignment;
                 case ":":
                     return Precedence.Ternary;
                 case "||":
@@ -184,6 +184,26 @@
                     return Precedence.Superscript;
             }
             return Precedence.Unary;
+        }
+
+        public static Expression ToBoolean(this Expression e)
+        {
+            var type = e.Type;
+            if (type == typeof(bool))
+                return e;
+            if (type == typeof(double))
+                return Expression.NotEqual(e, 0.0.Constant());
+            throw new FormatException($"Unsuppported type {type}");
+        }
+
+        public static Expression ToDouble(this Expression e)
+        {
+            var type = e.Type;
+            if (type == typeof(bool))
+                return Expression.Condition(e, 1.0.Constant(), 0.0.Constant());
+            if (type == typeof(double))
+                return e;
+            throw new FormatException($"Unsuppported type {type}");
         }
 
         #endregion

@@ -83,7 +83,7 @@
             TestParse("x<1|x>2&&x<3", "(((x<1)Or(x>2))And(x<3))");       // Precedence('&&') < Precedence('|')
             TestParse("x<1||x>2&&x<3", "((x<1)Or((x>2)And(x<3)))");      // Precedence('&&') > Precedence('||')
             TestParse("(x>0)*sin x", "(IIF((x>0),1,0)*Sin(x))");
-            TestParse("x<0 ? -1 : +1", "");
+            TestParse("x<0 ? sin x : tan x", "IIF((x<0),Sin(x),Tan(x))");
         }
     }
 }
