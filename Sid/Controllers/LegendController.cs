@@ -26,22 +26,22 @@
             {
                 if (View != null)
                 {
+                    View.EditAddaNewFunction.Click -= EditAddaNewFunction_Click;
                     View.ViewLegendTopLeft.Click -= ViewLegendTopLeft_Click;
                     View.ViewLegendTopRight.Click -= ViewLegendTopRight_Click;
                     View.ViewLegendBottomLeft.Click -= ViewLegendBottomLeft_Click;
                     View.ViewLegendBottomRight.Click -= ViewLegendBottomRight_Click;
                     View.ViewLegendNone.Click -= ViewLegendNone_Click;
-                    View.lblAddNewKey.Click -= LblAddNewKey_Click;
                 }
                 _view = value;
                 if (View != null)
                 {
+                    View.EditAddaNewFunction.Click += EditAddaNewFunction_Click;
                     View.ViewLegendTopLeft.Click += ViewLegendTopLeft_Click;
                     View.ViewLegendTopRight.Click += ViewLegendTopRight_Click;
                     View.ViewLegendBottomLeft.Click += ViewLegendBottomLeft_Click;
                     View.ViewLegendBottomRight.Click += ViewLegendBottomRight_Click;
                     View.ViewLegendNone.Click += ViewLegendNone_Click;
-                    View.lblAddNewKey.Click += LblAddNewKey_Click;
                 }
             }
         }
@@ -60,11 +60,8 @@
             get => _legendAlignment;
             set
             {
-                if (LegendAlignment != value)
-                {
-                    _legendAlignment = value;
-                    AdjustLegend();
-                }
+                _legendAlignment = value;
+                AdjustLegend();
             }
         }
 
@@ -89,7 +86,7 @@
         private void AdjustLegend()
         {
             Legend.Show();
-            const int keyHeight = 21, maxKeys = 17;
+            const int margin = 0, keyHeight = 21, maxKeys = 17;
             var scroll = Keys.Count > maxKeys;
             int w = 392 + (scroll ? SystemInformation.VerticalScrollBarWidth : 0),
                 h = Math.Min(Keys.Count, maxKeys) * keyHeight,
@@ -99,10 +96,10 @@
             var anchor = AlignToAnchor(LegendAlignment);
             switch (LegendAlignment)
             {
-                case ContentAlignment.TopLeft: x = 20; y = 20; break;
-                case ContentAlignment.TopRight: x -= 20; y = 20; break;
-                case ContentAlignment.BottomLeft: x = 20; y -= 20; break;
-                case ContentAlignment.BottomRight: x -= 20; y -= 20; break;
+                case ContentAlignment.TopLeft: x = margin; y = margin; break;
+                case ContentAlignment.TopRight: x -= margin; y = margin; break;
+                case ContentAlignment.BottomLeft: x = margin; y -= margin; break;
+                case ContentAlignment.BottomRight: x -= margin; y -= margin; break;
             }
             Legend.Anchor = anchor;
             Legend.AutoScroll = scroll;
@@ -114,7 +111,7 @@
 
         #region Series Management
 
-        private void LblAddNewKey_Click(object sender, EventArgs e) =>
+        private void EditAddaNewFunction_Click(object sender, EventArgs e) =>
             AddNewKey(null);
 
         private void BtnRemoveFunction_Click(object sender, EventArgs e) =>

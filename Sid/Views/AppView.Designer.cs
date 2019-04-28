@@ -73,12 +73,12 @@
             this.ClientPanel = new System.Windows.Forms.Panel();
             this.LegendPanel = new System.Windows.Forms.Panel();
             this.PictureBox = new System.Windows.Forms.PictureBox();
-            this.lblAddNewKey = new System.Windows.Forms.LinkLabel();
+            this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditAddaNewFunction = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.ClientPanel.SuspendLayout();
-            this.LegendPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -86,6 +86,7 @@
             // 
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenu,
+            this.EditMenu,
             this.ViewMenu,
             this.HelpMenu});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
@@ -113,50 +114,50 @@
             // 
             this.FileNew.Name = "FileNew";
             this.FileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.FileNew.Size = new System.Drawing.Size(146, 22);
+            this.FileNew.Size = new System.Drawing.Size(180, 22);
             this.FileNew.Text = "&New";
             // 
             // FileOpen
             // 
             this.FileOpen.Name = "FileOpen";
             this.FileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.FileOpen.Size = new System.Drawing.Size(146, 22);
+            this.FileOpen.Size = new System.Drawing.Size(180, 22);
             this.FileOpen.Text = "&Open";
             // 
             // FileReopen
             // 
             this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(146, 22);
+            this.FileReopen.Size = new System.Drawing.Size(180, 22);
             this.FileReopen.Text = "&Reopen";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(143, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // FileSave
             // 
             this.FileSave.Name = "FileSave";
             this.FileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.FileSave.Size = new System.Drawing.Size(146, 22);
+            this.FileSave.Size = new System.Drawing.Size(180, 22);
             this.FileSave.Text = "&Save";
             // 
             // FileSaveAs
             // 
             this.FileSaveAs.Name = "FileSaveAs";
-            this.FileSaveAs.Size = new System.Drawing.Size(146, 22);
+            this.FileSaveAs.Size = new System.Drawing.Size(180, 22);
             this.FileSaveAs.Text = "Save &As...";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(143, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
             // 
             // FileExit
             // 
             this.FileExit.Name = "FileExit";
             this.FileExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.FileExit.Size = new System.Drawing.Size(146, 22);
+            this.FileExit.Size = new System.Drawing.Size(180, 22);
             this.FileExit.Text = "E&xit";
             // 
             // ViewMenu
@@ -189,7 +190,7 @@
             // 
             this.ViewZoomIn.Name = "ViewZoomIn";
             this.ViewZoomIn.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.PageUp)));
-            this.ViewZoomIn.Size = new System.Drawing.Size(157, 22);
+            this.ViewZoomIn.Size = new System.Drawing.Size(180, 22);
             this.ViewZoomIn.Text = "&In";
             this.ViewZoomIn.ToolTipText = "Graphs can also be zoomed using the mouse wheel";
             // 
@@ -197,20 +198,20 @@
             // 
             this.ViewZoomOut.Name = "ViewZoomOut";
             this.ViewZoomOut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Next)));
-            this.ViewZoomOut.Size = new System.Drawing.Size(157, 22);
+            this.ViewZoomOut.Size = new System.Drawing.Size(180, 22);
             this.ViewZoomOut.Text = "&Out";
             this.ViewZoomOut.ToolTipText = "Graphs can also be zoomed using the mouse wheel";
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(154, 6);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(177, 6);
             // 
             // ViewZoomReset
             // 
             this.ViewZoomReset.Name = "ViewZoomReset";
             this.ViewZoomReset.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.End)));
-            this.ViewZoomReset.Size = new System.Drawing.Size(157, 22);
+            this.ViewZoomReset.Size = new System.Drawing.Size(180, 22);
             this.ViewZoomReset.Text = "&Reset";
             this.ViewZoomReset.ToolTipText = "To the viewport when the graph was created or last saved";
             // 
@@ -232,7 +233,7 @@
             // 
             this.ViewScrollLeft.Name = "ViewScrollLeft";
             this.ViewScrollLeft.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Left)));
-            this.ViewScrollLeft.Size = new System.Drawing.Size(176, 22);
+            this.ViewScrollLeft.Size = new System.Drawing.Size(180, 22);
             this.ViewScrollLeft.Text = "&Left";
             this.ViewScrollLeft.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
             // 
@@ -240,7 +241,7 @@
             // 
             this.ViewScrollRight.Name = "ViewScrollRight";
             this.ViewScrollRight.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Right)));
-            this.ViewScrollRight.Size = new System.Drawing.Size(176, 22);
+            this.ViewScrollRight.Size = new System.Drawing.Size(180, 22);
             this.ViewScrollRight.Text = "&Right";
             this.ViewScrollRight.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
             // 
@@ -248,7 +249,7 @@
             // 
             this.ViewScrollUp.Name = "ViewScrollUp";
             this.ViewScrollUp.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Up)));
-            this.ViewScrollUp.Size = new System.Drawing.Size(176, 22);
+            this.ViewScrollUp.Size = new System.Drawing.Size(180, 22);
             this.ViewScrollUp.Text = "&Up";
             this.ViewScrollUp.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
             // 
@@ -256,20 +257,20 @@
             // 
             this.ViewScrollDown.Name = "ViewScrollDown";
             this.ViewScrollDown.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Down)));
-            this.ViewScrollDown.Size = new System.Drawing.Size(176, 22);
+            this.ViewScrollDown.Size = new System.Drawing.Size(180, 22);
             this.ViewScrollDown.Text = "&Down";
             this.ViewScrollDown.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(173, 6);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(177, 6);
             // 
             // ViewScrollCentre
             // 
             this.ViewScrollCentre.Name = "ViewScrollCentre";
             this.ViewScrollCentre.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Home)));
-            this.ViewScrollCentre.Size = new System.Drawing.Size(176, 22);
+            this.ViewScrollCentre.Size = new System.Drawing.Size(180, 22);
             this.ViewScrollCentre.Text = "&Centre";
             this.ViewScrollCentre.ToolTipText = "Return the origin (0,0) to the centre of the display area";
             // 
@@ -301,37 +302,37 @@
             // ViewLegendTopLeft
             // 
             this.ViewLegendTopLeft.Name = "ViewLegendTopLeft";
-            this.ViewLegendTopLeft.Size = new System.Drawing.Size(145, 22);
+            this.ViewLegendTopLeft.Size = new System.Drawing.Size(180, 22);
             this.ViewLegendTopLeft.Tag = "";
             this.ViewLegendTopLeft.Text = "Top Left";
             // 
             // ViewLegendTopRight
             // 
             this.ViewLegendTopRight.Name = "ViewLegendTopRight";
-            this.ViewLegendTopRight.Size = new System.Drawing.Size(145, 22);
+            this.ViewLegendTopRight.Size = new System.Drawing.Size(180, 22);
             this.ViewLegendTopRight.Text = "Top Right";
             // 
             // ViewLegendBottomLeft
             // 
             this.ViewLegendBottomLeft.Name = "ViewLegendBottomLeft";
-            this.ViewLegendBottomLeft.Size = new System.Drawing.Size(145, 22);
+            this.ViewLegendBottomLeft.Size = new System.Drawing.Size(180, 22);
             this.ViewLegendBottomLeft.Text = "Bottom Left";
             // 
             // ViewLegendBottomRight
             // 
             this.ViewLegendBottomRight.Name = "ViewLegendBottomRight";
-            this.ViewLegendBottomRight.Size = new System.Drawing.Size(145, 22);
+            this.ViewLegendBottomRight.Size = new System.Drawing.Size(180, 22);
             this.ViewLegendBottomRight.Text = "Bottom Right";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(142, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(177, 6);
             // 
             // ViewLegendNone
             // 
             this.ViewLegendNone.Name = "ViewLegendNone";
-            this.ViewLegendNone.Size = new System.Drawing.Size(145, 22);
+            this.ViewLegendNone.Size = new System.Drawing.Size(180, 22);
             this.ViewLegendNone.Text = "&None";
             // 
             // ViewMouseCoordinates
@@ -361,7 +362,7 @@
             // HelpAbout
             // 
             this.HelpAbout.Name = "HelpAbout";
-            this.HelpAbout.Size = new System.Drawing.Size(107, 22);
+            this.HelpAbout.Size = new System.Drawing.Size(180, 22);
             this.HelpAbout.Text = "&About";
             this.HelpAbout.ToolTipText = "Show version information";
             // 
@@ -406,7 +407,6 @@
             // LegendPanel
             // 
             this.LegendPanel.BackColor = System.Drawing.SystemColors.Control;
-            this.LegendPanel.Controls.Add(this.lblAddNewKey);
             this.LegendPanel.Location = new System.Drawing.Point(20, 20);
             this.LegendPanel.Margin = new System.Windows.Forms.Padding(0);
             this.LegendPanel.Name = "LegendPanel";
@@ -421,16 +421,19 @@
             this.PictureBox.TabIndex = 3;
             this.PictureBox.TabStop = false;
             // 
-            // lblAddNewKey
+            // EditMenu
             // 
-            this.lblAddNewKey.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblAddNewKey.Location = new System.Drawing.Point(0, 0);
-            this.lblAddNewKey.Name = "lblAddNewKey";
-            this.lblAddNewKey.Size = new System.Drawing.Size(413, 21);
-            this.lblAddNewKey.TabIndex = 0;
-            this.lblAddNewKey.TabStop = true;
-            this.lblAddNewKey.Text = "Click here to Add a New Function";
-            this.lblAddNewKey.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.EditMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.EditAddaNewFunction});
+            this.EditMenu.Name = "EditMenu";
+            this.EditMenu.Size = new System.Drawing.Size(39, 20);
+            this.EditMenu.Text = "&Edit";
+            // 
+            // EditAddaNewFunction
+            // 
+            this.EditAddaNewFunction.Name = "EditAddaNewFunction";
+            this.EditAddaNewFunction.Size = new System.Drawing.Size(182, 22);
+            this.EditAddaNewFunction.Text = "&Add a New Function";
             // 
             // AppView
             // 
@@ -451,7 +454,6 @@
             this.StatusBar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).EndInit();
             this.ClientPanel.ResumeLayout(false);
-            this.LegendPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -459,7 +461,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.ToolStripMenuItem HelpMenu;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         public System.Windows.Forms.ToolStripMenuItem FileSave;
@@ -472,8 +473,6 @@
         public System.Windows.Forms.ToolStripMenuItem HelpAbout;
         public System.Windows.Forms.ToolStripStatusLabel ModifiedLabel;
         public System.Windows.Forms.ToolTip ToolTip;
-        private System.Windows.Forms.ToolStripMenuItem ViewZoom;
-        private System.Windows.Forms.ToolStripMenuItem ViewScroll;
         public System.Windows.Forms.ToolStripMenuItem ViewZoomIn;
         public System.Windows.Forms.ToolStripMenuItem ViewZoomOut;
         public System.Windows.Forms.ToolStripMenuItem ViewScrollLeft;
@@ -503,6 +502,10 @@
         public System.Windows.Forms.ToolStripMenuItem ViewLegendBottomLeft;
         public System.Windows.Forms.ToolStripMenuItem ViewLegendBottomRight;
         public System.Windows.Forms.ToolStripMenuItem ViewLegendNone;
-        public System.Windows.Forms.LinkLabel lblAddNewKey;
+        public System.Windows.Forms.ToolStripMenuItem EditMenu;
+        public System.Windows.Forms.ToolStripMenuItem EditAddaNewFunction;
+        public System.Windows.Forms.ToolStripMenuItem HelpMenu;
+        public System.Windows.Forms.ToolStripMenuItem ViewZoom;
+        public System.Windows.Forms.ToolStripMenuItem ViewScroll;
     }
 }

@@ -12,10 +12,18 @@
         public static string AsString(this Expression e, string variableName = "x") =>
             e.ToString().Replace(" ", "").Replace("Param_0", variableName);
 
-        public static Func<double, double> AsFunction(this Expression e) =>
-            e is DefaultExpression && e.Type == typeof(void)
-            ? (x) => double.NaN
-            : Expression.Lambda<Func<double, double>>(e, x).Compile();
+        public static Func<double, double> AsFunction(this Expression e)
+        {
+            if (e is DefaultExpression && e.Type == typeof(void))
+                return (x) => double.NaN;
+            if (e.Type == typeof(bool))
+                e = Expression.Condition(e, Constant(1), Constant(0));
+//            {
+//                var c = Expression.Condition(e, Constant(1), Constant(0));
+//                return Expression.Lambda<Func<double, double>>(c, x).Compile();
+//            }
+            return Expression.Lambda<Func<double, double>>(e, x).Compile();
+        }
 
         public static double AsDouble(this Expression e, double x) => AsFunction(e)(x);
 
