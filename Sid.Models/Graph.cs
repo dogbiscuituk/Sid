@@ -14,6 +14,28 @@
 
         #region Properties
 
+        private Elements _elements = Elements.All & ~Elements.GridLines;
+        public Elements Elements
+        {
+            get => _elements;
+            set
+            {
+                if (Elements != value)
+                {
+                    _elements = value;
+                    OnPropertyChanged("Elements");
+                }
+            }
+        }
+
+        private bool ShowPaper { get => (Elements & Elements.Paper) != 0; }
+        private bool ShowXaxis { get => (Elements & Elements.AxisX) != 0; }
+        private bool ShowYaxis { get => (Elements & Elements.AxisY) != 0; }
+        private bool ShowXcal { get => (Elements & Elements.NumberingX) != 0; }
+        private bool ShowYcal { get => (Elements & Elements.NumberingY) != 0; }
+        private bool ShowHlines { get => (Elements & Elements.HorizontalGridLines) != 0; }
+        private bool ShowVlines { get => (Elements & Elements.VerticalGridLines) != 0; }
+
         private Color _paperColour;
         [DefaultValue(typeof(Color), "LightYellow")]
         public Color PaperColour
@@ -208,8 +230,9 @@
                 return; // Nothing to draw!
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.Transform = GetMatrix(r);
-            using (var brush = new SolidBrush(PaperColour))
-                g.FillRectangle(brush, Limits);
+            if (ShowPaper)
+                using (var brush = new SolidBrush(PaperColour))
+                    g.FillRectangle(brush, Limits);
             var penWidth = (Size.Width / r.Width + Size.Height / r.Height);
             Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, fill: true); });
             DrawGrid(g, penWidth);
@@ -234,15 +257,20 @@
                         var size = Math.Log10(Math.Abs(y2 - y1));
                         var step = Math.Floor(size);
                         size -= step;
-                        step = (size < 0.3 ? 2 : size < 0.7 ? 5 : 10) * Math.Pow(10, step - 1);
-                        for (var y = step; y <= Math.Max(Math.Abs(y1), Math.Abs(y2)); y += step)
+                        var scale = size < 0.3 ? 2 : size < 0.7 ? 5 : 10;
+                        step = scale * Math.Pow(10, step - 1);
+                        for (var y = 0.0; y <= Math.Max(Math.Abs(y1), Math.Abs(y2)); y += step)
                         {
-                            DrawGridLine(g, gridPen, font, brush, x1, x2, (float)y, format, vertical);
-                            DrawGridLine(g, gridPen, font, brush, x1, x2, -(float)y, format, vertical);
+                            DrawGridLine(g, gridPen, font, brush, x1, x2, (float)y, format, vertical, false);
+                            if (y != 0.0)
+                                DrawGridLine(g, gridPen, font, brush, x1, x2, -(float)y, format, vertical, false);
                         }
                     }
                     else
-                        DrawGridLine(g, axisPen, font, brush, x1, x2, 0, format, vertical);
+                    {
+                        if (vertical && ShowYaxis || !vertical && ShowXaxis)
+                            DrawGridLine(g, axisPen, font, brush, x1, x2, 0, format, vertical, true);
+                    }
                     var t = x1; x1 = y1; y1 = t;
                     t = x2; x2 = y2; y2 = t;
                 }
@@ -250,7 +278,7 @@
         }
 
         private void DrawGridLine(Graphics g, Pen pen, Font font, Brush brush,
-            float x1, float x2, float y, StringFormat format, bool vertical)
+            float x1, float x2, float y, StringFormat format, bool vertical, bool isAxis)
         {
             float x = 0, y1 = y, y2 = y, z = -y;
             if (vertical)
@@ -260,16 +288,21 @@
                 t = x2; x2 = y2; y2 = t;
                 z = -z;
             }
-            g.DrawLine(pen, x1, y1, x2, y2);
+            if (isAxis || vertical && ShowVlines || !vertical && ShowHlines)
+                g.DrawLine(pen, x1, y1, x2, y2);
             g.ScaleTransform(1, -1);
-            g.DrawString(z.ToString(), font, brush, x - pen.Width, y + pen.Width, format);
+            if (vertical && ShowXcal || !vertical && ShowYcal)
+                g.DrawString(z.ToString(), font, brush, x - pen.Width, y + pen.Width, format);
             g.ScaleTransform(1, -1);
         }
 
         private Matrix GetMatrix(Rectangle r)
         {
-            return new Matrix(Limits,
-                new[] { new PointF(r.Left, r.Bottom), new PointF(r.Right, r.Bottom), r.Location });
+            return new Matrix(Limits, new[]
+            {
+                new PointF(r.Left, r.Bottom),
+                new PointF(r.Right, r.Bottom), r.Location
+            });
         }
 
         public PointF ScreenToGraph(Point p, Rectangle r)
