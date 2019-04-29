@@ -26,7 +26,7 @@
             {
                 if (View != null)
                 {
-                    View.EditAddNewFunction.Click -= EditAddNewFunction_Click;
+                    View.GraphAddNewFunction.Click -= GraphAddNewFunction_Click;
                     View.ViewLegend.DropDownOpening -= ViewLegend_DropDownOpening;
                     View.ViewLegendTopLeft.Click -= ViewLegendTopLeft_Click;
                     View.ViewLegendTopRight.Click -= ViewLegendTopRight_Click;
@@ -37,7 +37,7 @@
                 _view = value;
                 if (View != null)
                 {
-                    View.EditAddNewFunction.Click += EditAddNewFunction_Click;
+                    View.GraphAddNewFunction.Click += GraphAddNewFunction_Click;
                     View.ViewLegend.DropDownOpening += ViewLegend_DropDownOpening;
                     View.ViewLegendTopLeft.Click += ViewLegendTopLeft_Click;
                     View.ViewLegendTopRight.Click += ViewLegendTopRight_Click;
@@ -121,9 +121,9 @@
 
         #endregion
 
-        #region Series Management
+        #region Key Management
 
-        private void EditAddNewFunction_Click(object sender, EventArgs e) =>
+        private void GraphAddNewFunction_Click(object sender, EventArgs e) =>
             AddNewKey(null);
 
         private void BtnRemoveFunction_Click(object sender, EventArgs e) =>
@@ -174,9 +174,9 @@
             AfterKeyChange();
         }
 
-        private void RemoveKey(KeyView edit)
+        public void RemoveKey(KeyView key)
         {
-            RemoveKeyAt(Keys.IndexOf(edit));
+            RemoveKeyAt(Keys.IndexOf(key));
         }
 
         private void RemoveKeyAt(int index)

@@ -53,12 +53,12 @@
             }
         }
 
-        private bool ShowMouseCoordinates
+        private bool ShowCoordinatesTooltip
         {
-            get => View.ViewMouseCoordinates.Checked;
+            get => View.ViewCoordinatesTooltip.Checked;
             set
             {
-                View.ViewMouseCoordinates.Checked = value;
+                View.ViewCoordinatesTooltip.Checked = value;
                 if (!value)
                     InitCoordinatesToolTip(string.Empty);
             }
@@ -80,7 +80,8 @@
                     View.FileSave.Click -= FileSave_Click;
                     View.FileSaveAs.Click -= FileSaveAs_Click;
                     View.FileExit.Click -= FileExit_Click;
-                    View.ViewMouseCoordinates.Click -= ViewMouseCoordinates_Click;
+                    View.GraphProperties.Click -= GraphProperties_Click;
+                    View.ViewCoordinatesTooltip.Click -= ViewCoordinatesTooltip_Click;
                     View.ZoomIn.Click -= ZoomIn_Click;
                     View.ZoomOut.Click -= ZoomOut_Click;
                     View.ZoomReset.Click -= ZoomReset_Click;
@@ -93,6 +94,7 @@
                     View.ScrollCentre.Click -= ScrollCentre_Click;
                     View.HelpAbout.Click -= HelpAbout_Click;
                     PictureBox.MouseDown -= PictureBox_MouseDown;
+                    PictureBox.MouseLeave -= PictureBox_MouseLeave;
                     PictureBox.MouseMove -= PictureBox_MouseMove;
                     PictureBox.MouseUp -= PictureBox_MouseUp;
                     PictureBox.MouseWheel -= PictureBox_MouseWheel;
@@ -110,7 +112,8 @@
                     View.FileSave.Click += FileSave_Click;
                     View.FileSaveAs.Click += FileSaveAs_Click;
                     View.FileExit.Click += FileExit_Click;
-                    View.ViewMouseCoordinates.Click += ViewMouseCoordinates_Click;
+                    View.GraphProperties.Click += GraphProperties_Click;
+                    View.ViewCoordinatesTooltip.Click += ViewCoordinatesTooltip_Click;
                     View.ZoomIn.Click += ZoomIn_Click;
                     View.ZoomOut.Click += ZoomOut_Click;
                     View.ZoomReset.Click += ZoomReset_Click;
@@ -123,6 +126,7 @@
                     View.ScrollCentre.Click += ScrollCentre_Click;
                     View.HelpAbout.Click += HelpAbout_Click;
                     PictureBox.MouseDown += PictureBox_MouseDown;
+                    PictureBox.MouseLeave += PictureBox_MouseLeave;
                     PictureBox.MouseMove += PictureBox_MouseMove;
                     PictureBox.MouseUp += PictureBox_MouseUp;
                     PictureBox.MouseWheel += PictureBox_MouseWheel;
@@ -130,6 +134,11 @@
                     PictureBox.Resize += PictureBox_Resize;
                 }
             }
+        }
+
+        private void GraphProperties_Click(object sender, EventArgs e)
+        {
+            new PropertiesController().ShowDialog(View);
         }
 
         #endregion
@@ -152,7 +161,7 @@
         private void ScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1);
         private void ScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1);
         private void ScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
-        private void ViewMouseCoordinates_Click(object sender, EventArgs e) => ToggleMouseCoordinates();
+        private void ViewCoordinatesTooltip_Click(object sender, EventArgs e) => ToggleCoordinatesTooltip();
         private void HelpAbout_Click(object sender, EventArgs e) => ShowVersionInfo();
 
         private void ShowVersionInfo()
@@ -213,6 +222,9 @@ Version: {Application.ProductVersion}",
                     break;
             }
         }
+
+        private void PictureBox_MouseLeave(object sender, EventArgs e) =>
+            UpdateMouseCoordinates(string.Empty);
 
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
@@ -302,13 +314,19 @@ Version: {Application.ProductVersion}",
         }
 
         private PointF ScreenToGraph(Point p) => Graph.ScreenToGraph(p, PictureBox.ClientRectangle);
+        private void ToggleCoordinatesTooltip() => ShowCoordinatesTooltip = !ShowCoordinatesTooltip;
         private void ToggleFullScreen() => FullScreen = !FullScreen;
-        private void ToggleMouseCoordinates() => ShowMouseCoordinates = !ShowMouseCoordinates;
 
         private void UpdateMouseCoordinates(MouseEventArgs e)
         {
-            if (ShowMouseCoordinates)
-                InitCoordinatesToolTip(ScreenToGraph(e.Location).ToString());
+            UpdateMouseCoordinates(ScreenToGraph(e.Location).ToString());
+        }
+
+        private void UpdateMouseCoordinates(string coords)
+        {
+            View.CoordinatesLabel.Text = coords;
+            if (ShowCoordinatesTooltip)
+                InitCoordinatesToolTip(coords);
         }
 
         #endregion
