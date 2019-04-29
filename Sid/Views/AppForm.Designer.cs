@@ -1,6 +1,6 @@
 ﻿namespace Sid.Views
 {
-    partial class AppView
+    partial class AppForm
     {
         /// <summary>
         /// Required designer variable.

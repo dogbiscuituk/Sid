@@ -14,8 +14,8 @@
 
         #region Properties
 
-        private Color _paperColour;
-        [DefaultValue(typeof(Color), "LightYellow")]
+        private Color _paperColour = Color.White;
+        [DefaultValue(typeof(Color), "White")]
         public Color PaperColour
         {
             get => _paperColour;
@@ -29,7 +29,22 @@
             }
         }
 
-        private Color _axisColour;
+        private int _paperTransparencyPercent = 0;
+        [DefaultValue(0)]
+        public int PaperTransparencyPercent
+        {
+            get => _paperTransparencyPercent;
+            set
+            {
+                if (PaperTransparencyPercent != value)
+                {
+                    _paperTransparencyPercent = value;
+                    OnPropertyChanged("PaperTransparencyPercent");
+                }
+            }
+        }
+
+        private Color _axisColour = Color.DarkGray;
         [DefaultValue(typeof(Color), "DarkGray")]
         public Color AxisColour
         {
@@ -44,7 +59,7 @@
             }
         }
 
-        private Color _gridColour;
+        private Color _gridColour = Color.LightGray;
         [DefaultValue(typeof(Color), "LightGray")]
         public Color GridColour
         {
@@ -59,7 +74,7 @@
             }
         }
 
-        private Color _penColour;
+        private Color _penColour = Color.Black;
         [DefaultValue(typeof(Color), "Black")]
         public Color PenColour
         {
@@ -74,7 +89,7 @@
             }
         }
 
-        private Color _fillColour;
+        private Color _fillColour = Color.Transparent;
         [DefaultValue(typeof(Color), "Transparent")]
         public Color FillColour
         {
@@ -89,7 +104,22 @@
             }
         }
 
-        private Color _limitColour;
+        private int _fillTransparencyPercent = 0;
+        [DefaultValue(0)]
+        public int FillTransparencyPercent
+        {
+            get => _fillTransparencyPercent;
+            set
+            {
+                if (FillTransparencyPercent != value)
+                {
+                    _fillTransparencyPercent = value;
+                    OnPropertyChanged("FillTransparencyPercent");
+                }
+            }
+        }
+
+        private Color _limitColour = Color.DarkGray;
         [DefaultValue(typeof(Color), "DarkGray")]
         public Color LimitColour
         {

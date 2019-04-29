@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    public partial class AppView : Form
+    public partial class AppForm : Form
     {
-        public AppView()
+        public AppForm()
         {
             InitializeComponent();
         }

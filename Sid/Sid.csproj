@@ -59,11 +59,11 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\MruController.cs" />
     <Compile Include="Controllers\SdiController.cs" />
-    <Compile Include="Views\AppView.cs">
+    <Compile Include="Views\AppForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\AppView.Designer.cs">
-      <DependentUpon>AppView.cs</DependentUpon>
+    <Compile Include="Views\AppForm.Designer.cs">
+      <DependentUpon>AppForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,11 +77,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Views\PropertiesView.cs">
+    <Compile Include="Views\PropertiesDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\PropertiesView.Designer.cs">
-      <DependentUpon>PropertiesView.cs</DependentUpon>
+    <Compile Include="Views\PropertiesDialog.Designer.cs">
+      <DependentUpon>PropertiesDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\KeyView.cs">
       <SubType>UserControl</SubType>
@@ -109,15 +109,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\AppView.resx">
-      <DependentUpon>AppView.cs</DependentUpon>
+    <EmbeddedResource Include="Views\AppForm.resx">
+      <DependentUpon>AppForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\PropertiesView.resx">
-      <DependentUpon>PropertiesView.cs</DependentUpon>
+    <EmbeddedResource Include="Views\PropertiesDialog.resx">
+      <DependentUpon>PropertiesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\KeyView.resx">
       <DependentUpon>KeyView.cs</DependentUpon>

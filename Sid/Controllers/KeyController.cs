@@ -74,14 +74,14 @@
 
         public Color PenColour
         {
-            get => GetColour(View.cbPenColour);
-            set => SetColour(View.cbPenColour, value);
+            get => ColourController.GetColour(View.cbPenColour);
+            set => ColourController.SetColour(View.cbPenColour, value);
         }
 
         public Color FillColour
         {
-            get => GetColour(View.cbFillColour);
-            set => SetColour(View.cbFillColour, value);
+            get => ColourController.GetColour(View.cbFillColour);
+            set => ColourController.SetColour(View.cbFillColour, value);
         }
 
         public int FillTransparencyPercent
@@ -89,16 +89,6 @@
             get => (int)View.seTransparency.Value;
             set => View.seTransparency.Value = value;
         }
-
-        #endregion
-
-        #region Colours
-
-        private Color GetColour(ComboBox comboBox) =>
-            Color.FromName(comboBox.SelectedItem.ToString());
-
-        private void SetColour(ComboBox comboBox, Color colour) =>
-            comboBox.SelectedIndex = comboBox.Items.IndexOf(colour.Name);
 
         #endregion
 

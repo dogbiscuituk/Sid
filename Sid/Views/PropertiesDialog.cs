@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Sid.Views
 {
-    public partial class PropertiesView : Form
+    public partial class PropertiesDialog : Form
     {
-        public PropertiesView()
+        public PropertiesDialog()
         {
             InitializeComponent();
         }

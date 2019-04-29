@@ -18,8 +18,8 @@
 
         #region Properties
 
-        private AppView _view;
-        public AppView View
+        private AppForm _view;
+        public AppForm View
         {
             get => _view;
             set
@@ -134,21 +134,21 @@
             Loading = true;
             var child = new KeyController(this);
             Children.Add(child);
-            if (series != null)
+            if (series == null)
+            {
+                child.TraceVisible = true;
+                child.Formula = string.Empty;
+                child.PenColour = Graph.PenColour;
+                child.FillColour = Graph.FillColour;
+                child.FillTransparencyPercent = Graph.FillTransparencyPercent;
+            }
+            else
             {
                 child.TraceVisible = series.Visible;
                 child.Formula = series.Formula;
                 child.PenColour = series.PenColour;
                 child.FillColour = series.FillColour;
                 child.FillTransparencyPercent = series.FillTransparencyPercent;
-            }
-            else
-            {
-                child.TraceVisible = true;
-                child.Formula = string.Empty;
-                child.PenColour = Color.Black;
-                child.FillColour = Color.Yellow;
-                child.FillTransparencyPercent = 0;
             }
             var index = Keys.Count;
             child.TraceLabel = $"f{Keys.Count.ToString().ToSubscript()}";

@@ -35,8 +35,8 @@
             }
         }
 
-        private Color _fillColour = Color.Yellow;
-        [DefaultValue(typeof(Color), "Yellow")]
+        private Color _fillColour = Color.White;
+        [DefaultValue(typeof(Color), "White")]
         public Color FillColour
         {
             get => _fillColour;

@@ -13,7 +13,7 @@
         public AppController()
         {
             Expressions.TestAll();
-            View = new AppView();
+            View = new AppForm();
             Model = new Model();
             Model.Cleared += Model_Cleared;
             Model.ModifiedChanged += Model_ModifiedChanged;
@@ -64,8 +64,8 @@
             }
         }
 
-        private AppView _view;
-        public AppView View
+        private AppForm _view;
+        public AppForm View
         {
             get => _view;
             set
@@ -138,7 +138,7 @@
 
         private void GraphProperties_Click(object sender, EventArgs e)
         {
-            new PropertiesController().ShowDialog(View);
+            new PropertiesController(Model).Execute(View);
         }
 
         #endregion

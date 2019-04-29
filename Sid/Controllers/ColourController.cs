@@ -32,6 +32,12 @@
             Controls.Clear();
         }
 
+        public Color GetColour(ComboBox comboBox) =>
+            Color.FromName(comboBox.SelectedItem.ToString());
+
+        public void SetColour(ComboBox comboBox, Color colour) =>
+            comboBox.SelectedIndex = comboBox.Items.IndexOf(colour.Name);
+
         private void Control_DrawItem(object sender, DrawItemEventArgs e)
         {
             if (e.Index < 0)
