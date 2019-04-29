@@ -14,44 +14,6 @@
 
         #region Properties
 
-        private Elements _elements = Elements.All;
-        public Elements Elements
-        {
-            get => _elements;
-            set
-            {
-                if (Elements != value)
-                {
-                    _elements = value;
-                    OnPropertyChanged("Elements");
-                }
-            }
-        }
-
-        private TickStyles _tickStyles = TickStyles.Positive;
-        public TickStyles TickStyles
-        {
-            get => _tickStyles;
-            set
-            {
-                if (TickStyles != value)
-                {
-                    _tickStyles = value;
-                    OnPropertyChanged("TickStyles");
-                }
-            }
-        }
-
-        private bool ShowPaper { get => (Elements & Elements.Paper) != 0; }
-        private bool ShowXaxis { get => (Elements & Elements.Xaxis) != 0; }
-        private bool ShowYaxis { get => (Elements & Elements.Yaxis) != 0; }
-        private bool ShowXcal { get => (Elements & Elements.Xcalibration) != 0; }
-        private bool ShowYcal { get => (Elements & Elements.Ycalibration) != 0; }
-        private bool ShowXticks { get => (Elements & Elements.Xticks) != 0; }
-        private bool ShowYticks { get => (Elements & Elements.Yticks) != 0; }
-        private bool ShowHlines { get => (Elements & Elements.HorizontalGridLines) != 0; }
-        private bool ShowVlines { get => (Elements & Elements.VerticalGridLines) != 0; }
-
         private Color _paperColour;
         [DefaultValue(typeof(Color), "LightYellow")]
         public Color PaperColour
@@ -170,8 +132,60 @@
             }
         }
 
+        private bool _isotropic;
+        public bool Isotropic
+        {
+            get => _isotropic;
+            set
+            {
+                if (Isotropic != value)
+                {
+                    _isotropic = value;
+                    OnPropertyChanged("Isotropic");
+                }
+            }
+        }
+
         [JsonIgnore]
         public RectangleF Limits { get => new RectangleF(Location, Size); }
+
+        private Elements _elements = Elements.All;
+        public Elements Elements
+        {
+            get => _elements;
+            set
+            {
+                if (Elements != value)
+                {
+                    _elements = value;
+                    OnPropertyChanged("Elements");
+                }
+            }
+        }
+
+        private TickStyles _tickStyles = TickStyles.Positive;
+        public TickStyles TickStyles
+        {
+            get => _tickStyles;
+            set
+            {
+                if (TickStyles != value)
+                {
+                    _tickStyles = value;
+                    OnPropertyChanged("TickStyles");
+                }
+            }
+        }
+
+        private bool ShowPaper { get => (Elements & Elements.Paper) != 0; }
+        private bool ShowXaxis { get => (Elements & Elements.Xaxis) != 0; }
+        private bool ShowYaxis { get => (Elements & Elements.Yaxis) != 0; }
+        private bool ShowXcal { get => (Elements & Elements.Xcalibration) != 0; }
+        private bool ShowYcal { get => (Elements & Elements.Ycalibration) != 0; }
+        private bool ShowXticks { get => (Elements & Elements.Xticks) != 0; }
+        private bool ShowYticks { get => (Elements & Elements.Yticks) != 0; }
+        private bool ShowHlines { get => (Elements & Elements.HorizontalGridLines) != 0; }
+        private bool ShowVlines { get => (Elements & Elements.VerticalGridLines) != 0; }
 
         private const int DefaultStepCount = 16000;
         [DefaultValue(DefaultStepCount)]
@@ -251,14 +265,11 @@
                     g.FillRectangle(brush, Limits);
             var penWidth = (Size.Width / r.Width + Size.Height / r.Height);
             Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, fill: true); });
-            // If we are within 1% of isotropic, then use identical X and Y scales.
-            var ratio = Size.Width * r.Height / Size.Height / r.Width;
-            var isotropic = Math.Abs(ratio - 1) < 0.01;
-            DrawGrid(g, penWidth, isotropic);
+            DrawGrid(g, penWidth);
             Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, fill: false); });
         }
 
-        private void DrawGrid(Graphics g, float penWidth, bool isotropic)
+        private void DrawGrid(Graphics g, float penWidth)
         {
             var limits = Limits;
             float x1 = limits.X, y1 = limits.Bottom, x2 = limits.Right, y2 = limits.Top;
@@ -276,7 +287,7 @@
                     var vertical = (phase & 1) != 0;
                     if (phase < 2)
                     {
-                        var log = isotropic || vertical ? logX : logY;
+                        var log = Isotropic || vertical ? logX : logY;
                         var order = Math.Floor(log);
                         var scale = log - order;
 
@@ -311,7 +322,6 @@
                 var tickSize = font.Size;
                 x1 = (TickStyles & TickStyles.Positive) != 0 ? tickSize : 0;
                 x2 = (TickStyles & TickStyles.Negative) != 0 ? tickSize : 0;
-                System.Diagnostics.Debug.WriteLine($"tickSize = {tickSize}");
             }
             float x = 0, y1 = y, y2 = y, z = -y;
             if (vertical)

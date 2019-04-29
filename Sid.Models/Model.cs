@@ -35,7 +35,6 @@
                 if (Modified != value)
                 {
                     _modified = value;
-                    System.Diagnostics.Debug.WriteLine($"Modified = {Modified}");
                     OnModifiedChanged();
                 }
             }
@@ -72,7 +71,6 @@
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            System.Diagnostics.Debug.WriteLine($"Model.OnPropertyChanged(\"{propertyName}\")");
             Modified = true;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

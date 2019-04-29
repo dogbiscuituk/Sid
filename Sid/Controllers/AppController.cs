@@ -53,16 +53,6 @@
             }
         }
 
-        private bool Isotropic
-        {
-            get => View.ZoomIsotropic.Checked;
-            set
-            {
-                View.ZoomIsotropic.Checked = value;
-                AdjustPictureBox();
-            }
-        }
-
         private bool ShowMouseCoordinates
         {
             get => View.ViewMouseCoordinates.Checked;
@@ -155,7 +145,7 @@
         private void ZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
         private void ZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
         private void ZoomReset_Click(object sender, EventArgs e) => ZoomReset();
-        private void ZoomIsotropic_Click(object sender, EventArgs e) => Isotropic = !Isotropic;
+        private void ZoomIsotropic_Click(object sender, EventArgs e) => Graph.Isotropic = !Graph.Isotropic;
         private void ZoomFullScreen_Click(object sender, EventArgs e) => ToggleFullScreen();
         private void ScrollLeft_Click(object sender, EventArgs e) => Scroll(-0.1, 0);
         private void ScrollRight_Click(object sender, EventArgs e) => Scroll(0.1, 0);
@@ -193,9 +183,10 @@ Version: {Application.ProductVersion}",
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            System.Diagnostics.Debug.WriteLine($"Controller.OnPropertyChanged(\"{propertyName}\")");
             if (propertyName == "Model.Graph.FillColour")
                 InitPaper();
+            if (propertyName == "Model.Graph.Isotropic")
+                AdjustPictureBox();
             PictureBox.Invalidate();
         }
 
@@ -278,7 +269,7 @@ Version: {Application.ProductVersion}",
         {
             int cW = ClientPanel.ClientSize.Width, cH = ClientPanel.ClientSize.Height;
             var r = new Rectangle(0, 0, cW, cH);
-            if (Isotropic)
+            if (Graph.Isotropic)
             {
                 float gW = Graph.Size.Width, gH = Graph.Size.Height;
                 if (gW > gH * cW / cH)

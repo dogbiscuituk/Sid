@@ -161,6 +161,13 @@
             child.View.cbFunction.Focus();
         }
 
+        private void RemoveAllKeys()
+        {
+            Keys.Clear();
+            Children.Clear();
+            AdjustLegend();
+        }
+
         private void RemoveKey(KeyView edit)
         {
             RemoveKeyAt(Keys.IndexOf(edit));
@@ -195,7 +202,7 @@
         public void GraphRead()
         {
             Loading = true;
-            Keys.Clear();
+            RemoveAllKeys();
             foreach (Series series in Graph.Series)
                 AddNewKey(series);
             Validate();
