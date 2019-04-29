@@ -6,6 +6,11 @@
     using Newtonsoft.Json;
     using Sid.Models;
 
+    /// <summary>
+    /// Extend SdiController to provide concrete I/O methods using Json data format.
+    /// Maintain a "WindowCaption" property for the app, including the product name,
+    /// current filename (if any, otherwise "(untitled)", and "Modified" flag.
+    /// </summary>
     public class JsonController : SdiController
     {
         public JsonController(Model model, Control view, ToolStripDropDownItem recentMenu)
@@ -15,9 +20,7 @@
             View = view;
         }
 
-        private Graph Graph { get => Model.Graph; }
-        private List<Series> Series { get => Graph.Series; }
-        private readonly Control View;
+        #region Public Properties
 
         public string WindowCaption
         {
@@ -34,6 +37,10 @@
             }
         }
 
+        #endregion
+
+        #region Protected I/O Overrides
+
         protected override void ClearDocument() => Model.Clear();
 
         protected override bool LoadFromStream(Stream stream, string format)
@@ -49,10 +56,6 @@
             return result;
         }
 
-        private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-        }
-
         protected override bool SaveToStream(Stream stream, string format)
         {
             using (var streamer = new StreamWriter(stream))
@@ -60,8 +63,22 @@
                 return UseStream(() => GetSerializer().Serialize(writer, Model.Graph));
         }
 
+        #endregion
+
+        #region Private Implementation
+
+        private Graph Graph { get => Model.Graph; }
+        private List<Series> Series { get => Graph.Series; }
+        private readonly Control View;
+
+        private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+        }
+
         private static JsonSerializer GetSerializer() => new JsonSerializer{
             Formatting = Formatting.Indented,
             DefaultValueHandling = DefaultValueHandling.Ignore };
+
+        #endregion
     }
 }

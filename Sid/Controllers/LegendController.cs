@@ -158,6 +158,7 @@
             Loading = false;
             AdjustLegend();
             GraphWrite();
+            child.View.cbFunction.Focus();
         }
 
         private void RemoveKey(KeyView edit)

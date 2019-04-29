@@ -54,7 +54,7 @@
 
         private Expression MakeBinary(string op, Expression left, Expression right)
         {
-            switch (op.GetOperandTypes())
+            switch (op.GetBinaryOperandTypes())
             {
                 case OperandTypes.Boolean:
                     left = left.ToBoolean();
@@ -268,29 +268,30 @@
             }
         }
 
-        private void ParseOperator(string op)
+        private void ParseOperator(string newOp)
         {
             do
             {
-                var ours = op.GetPrecedence();
-                var pending = Operators.Peek();
-                if (pending == "(")
+                var ours = newOp.GetPrecedence();
+                var oldOp = Operators.Peek();
+                if (oldOp == "(")
                     break;
-                var theirs = pending.GetPrecedence();
+                var theirs = oldOp.GetPrecedence();
                 // Operator '^' is right associative: a^b^c = a^(b^c).
-                if (theirs > ours || theirs == ours && op != "^")
+                // Conditional '?:' needs all 3 operands assembled before evaluation.
+                if (ours < theirs || ours == theirs && newOp != "^" && oldOp != "?" && newOp != "?")
                 {
                     Operators.Pop();
                     var operand = Operands.Pop();
                     if (theirs == Precedence.Unary)
-                        switch (pending)
+                        switch (oldOp)
                         {
                             case Ops.UnaryPlus:
                                 break;
                             case Ops.UnaryMinus:
                             case "!":
                             case "~":
-                                operand = MakeUnary(pending, operand);
+                                operand = MakeUnary(oldOp, operand);
                                 break;
                             case Ops.SquareRoot:
                                 operand = MakeFunction("Sqrt", operand);
@@ -298,20 +299,20 @@
                             default:
                                 try
                                 {
-                                    operand = MakeFunction(pending, operand);
+                                    operand = MakeFunction(oldOp, operand);
                                 }
                                 catch (ArgumentNullException)
                                 {
                                     throw new FormatException(
-                                        $"Unrecognised function '{pending}', input='{Formula}'");
+                                        $"Unrecognised function '{oldOp}', input='{Formula}'");
                                 };
                                 break;
                         }
                     else
                     {
-                        if (pending == Ops.ImpliedProduct)
-                            pending = "*";
-                        if (pending == ":") // End of a conditional
+                        if (oldOp == Ops.ImpliedProduct)
+                            oldOp = "*";
+                        if (oldOp == ":") // End of a conditional
                         {
                             if (Operators.Peek() != "?") // Must be '?'
                                 throw new FormatException($"Missing '?', input='{Formula}'");
@@ -320,7 +321,7 @@
                             operand = MakeConditional(Operands.Pop(), then, operand);
                         }
                         else
-                            operand = MakeBinary(pending, Operands.Pop(), operand);
+                            operand = MakeBinary(oldOp, Operands.Pop(), operand);
                     }
                     Operands.Push(operand);
                 }
@@ -328,12 +329,12 @@
                     break;
             }
             while (true);
-            if (op == ")")
+            if (newOp == ")")
                 Operators.Pop();
             else
-                Operators.Push(op);
-            if (op != Ops.ImpliedProduct && op != Ops.SuperscriptPower)
-                ReadPast(op);
+                Operators.Push(newOp);
+            if (newOp != Ops.ImpliedProduct && newOp != Ops.SuperscriptPower)
+                ReadPast(newOp);
         }
 
         private void ParseParameter(string token)

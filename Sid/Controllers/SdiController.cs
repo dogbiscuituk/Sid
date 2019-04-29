@@ -7,7 +7,11 @@
     using Sid.Models;
 
     /// <summary>
-    /// Single Document Interface Controller
+    /// "Single Document Interface" Controller.
+    /// 
+    /// Extend MruController to provide file Open and Save dialogs.
+    /// Keep track of the document/model's "Modified" state, prompting for "Save" as necessary
+    /// (for example, prior to "File|New" or "File|Open", or application closing).
     /// </summary>
     public abstract class SdiController : MruController
 	{
@@ -18,7 +22,9 @@
 			SaveFileDialog = new SaveFileDialog { Filter = filter, Title = "Save file" };
 		}
 
-		public bool Clear()
+        #region Public Interface
+
+        public bool Clear()
 		{
 			var result = SaveIfModified();
 			if (result)
@@ -61,7 +67,11 @@
         public event EventHandler<CancelEventArgs> FileLoading, FileSaving;
         public event EventHandler FileLoaded, FilePathChanged, FileSaved;
 
-		private string _filePath = string.Empty;
+        #endregion
+
+        #region Properties
+
+        private string _filePath = string.Empty;
 		protected string FilePath
         {
             get => _filePath;
@@ -75,44 +85,55 @@
             }
         }
 
-        protected abstract void ClearDocument();
+        private readonly OpenFileDialog OpenFileDialog;
+        private readonly SaveFileDialog SaveFileDialog;
 
-		protected abstract bool LoadFromStream(Stream stream, string format);
+        #endregion
 
-		protected virtual void OnFilePathChanged()
-		{
+        #region Event Handling
+
+        protected virtual void OnFilePathChanged()
+        {
             FilePathChanged?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void OnFileLoaded() => FileLoaded?.Invoke(this, EventArgs.Empty);
 
-		protected virtual bool OnFileLoading()
-		{
-			var result = true;
-			var fileLoading = FileLoading;
-			if (fileLoading != null)
-			{
-				var e = new CancelEventArgs();
-				fileLoading(this, e);
-				result = !e.Cancel;
-			}
-			return result;
-		}
+        protected virtual bool OnFileLoading()
+        {
+            var result = true;
+            var fileLoading = FileLoading;
+            if (fileLoading != null)
+            {
+                var e = new CancelEventArgs();
+                fileLoading(this, e);
+                result = !e.Cancel;
+            }
+            return result;
+        }
 
         protected virtual void OnFileSaved() => FileSaved?.Invoke(this, EventArgs.Empty);
 
         protected virtual bool OnFileSaving()
-		{
-			var result = true;
-			var fileSaving = FileSaving;
-			if (fileSaving != null)
-			{
-				var e = new CancelEventArgs();
-				fileSaving(this, e);
-				result = !e.Cancel;
-			}
-			return result;
-		}
+        {
+            var result = true;
+            var fileSaving = FileSaving;
+            if (fileSaving != null)
+            {
+                var e = new CancelEventArgs();
+                fileSaving(this, e);
+                result = !e.Cancel;
+            }
+            return result;
+        }
+
+        #endregion
+
+        #region Non-Public Methods
+
+        protected abstract void ClearDocument();
+
+		protected abstract bool LoadFromStream(Stream stream, string format);
 
 		protected override void Reopen(ToolStripItem menuItem)
 		{
@@ -150,9 +171,6 @@
 			return result;
 		}
 
-		private readonly OpenFileDialog OpenFileDialog;
-		private readonly SaveFileDialog SaveFileDialog;
-
 		private bool LoadFromFile(string filePath)
 		{
 			var result = false;
@@ -185,5 +203,7 @@
 				}
 			return result;
 		}
-	}
+
+        #endregion
+    }
 }

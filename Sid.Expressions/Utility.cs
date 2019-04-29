@@ -108,7 +108,7 @@
             return 0;
         }
 
-        public static OperandTypes GetOperandTypes(this string op)
+        public static OperandTypes GetBinaryOperandTypes(this string op)
         {
             switch (op)
             {
@@ -143,8 +143,8 @@
             switch (op)
             {
                 case ")":
-                case "?":
                     return Precedence.Assignment;
+                case "?":
                 case ":":
                     return Precedence.Ternary;
                 case "||":

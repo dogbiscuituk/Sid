@@ -345,11 +345,4 @@
             throw new InvalidOperationException();
         }
     }
-
-    public enum OperandTypes
-    {
-        Unknown,
-        Boolean,
-        Double
-    }
 }

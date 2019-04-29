@@ -10,7 +10,13 @@
     using Sid.Models;
 
     /// <summary>
-    /// Most Recently Used Controller
+    /// "Most Recently Used" Controller.
+    /// 
+    /// Use the Windows Register to keep track of an application's recently used files.
+    /// Display recently used file paths on a dedicated submenu in the application.
+    /// Allow these recently used files to be invoked via a virtual "Reopen" method.
+    /// Provide a "Clear" subitem to reset the content of this submenu to (empty).
+    /// Note: unsafe code is used to abbreviate long paths (see CompactMenuText method).
     /// </summary>
     public class MruController
 	{
