@@ -28,11 +28,27 @@
             }
         }
 
+        private TickStyles _tickStyles = TickStyles.Positive;
+        public TickStyles TickStyles
+        {
+            get => _tickStyles;
+            set
+            {
+                if (TickStyles != value)
+                {
+                    _tickStyles = value;
+                    OnPropertyChanged("TickStyles");
+                }
+            }
+        }
+
         private bool ShowPaper { get => (Elements & Elements.Paper) != 0; }
-        private bool ShowXaxis { get => (Elements & Elements.AxisX) != 0; }
-        private bool ShowYaxis { get => (Elements & Elements.AxisY) != 0; }
-        private bool ShowXcal { get => (Elements & Elements.NumberingX) != 0; }
-        private bool ShowYcal { get => (Elements & Elements.NumberingY) != 0; }
+        private bool ShowXaxis { get => (Elements & Elements.Xaxis) != 0; }
+        private bool ShowYaxis { get => (Elements & Elements.Yaxis) != 0; }
+        private bool ShowXcal { get => (Elements & Elements.Xcalibration) != 0; }
+        private bool ShowYcal { get => (Elements & Elements.Ycalibration) != 0; }
+        private bool ShowXticks { get => (Elements & Elements.Xticks) != 0; }
+        private bool ShowYticks { get => (Elements & Elements.Yticks) != 0; }
         private bool ShowHlines { get => (Elements & Elements.HorizontalGridLines) != 0; }
         private bool ShowVlines { get => (Elements & Elements.VerticalGridLines) != 0; }
 
@@ -235,11 +251,14 @@
                     g.FillRectangle(brush, Limits);
             var penWidth = (Size.Width / r.Width + Size.Height / r.Height);
             Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, fill: true); });
-            DrawGrid(g, penWidth);
+            // If we are within 1% of isotropic, then use identical X and Y scales.
+            var ratio = Size.Width * r.Height / Size.Height / r.Width;
+            var isotropic = Math.Abs(ratio - 1) < 0.01;
+            DrawGrid(g, penWidth, isotropic);
             Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, fill: false); });
         }
 
-        private void DrawGrid(Graphics g, float penWidth)
+        private void DrawGrid(Graphics g, float penWidth, bool isotropic)
         {
             var limits = Limits;
             float x1 = limits.X, y1 = limits.Bottom, x2 = limits.Right, y2 = limits.Top;
@@ -249,28 +268,35 @@
             using (var format = new StringFormat(StringFormat.GenericTypographic) { Alignment = StringAlignment.Far })
             {
                 var brush = Brushes.DarkGray;
+                double 
+                    logX = Math.Log10(Math.Abs(x2 - x1)),
+                    logY = Math.Log10(Math.Abs(y2 - y1));
                 for (int phase = 0; phase < 4; phase++)
                 {
                     var vertical = (phase & 1) != 0;
                     if (phase < 2)
                     {
-                        var size = Math.Log10(Math.Abs(y2 - y1));
-                        var step = Math.Floor(size);
-                        size -= step;
-                        var scale = size < 0.3 ? 2 : size < 0.7 ? 5 : 10;
-                        step = scale * Math.Pow(10, step - 1);
-                        for (var y = 0.0; y <= Math.Max(Math.Abs(y1), Math.Abs(y2)); y += step)
+                        var log = isotropic || vertical ? logX : logY;
+                        var order = Math.Floor(log);
+                        var scale = log - order;
+
+                        double increment = scale < 0.3 ? 2 : scale < 0.7 ? 5 : 10;
+
+                        for (int pass = 1; pass <= 3; pass++)
                         {
-                            DrawGridLine(g, gridPen, font, brush, x1, x2, (float)y, format, vertical, false);
-                            if (y != 0.0)
-                                DrawGridLine(g, gridPen, font, brush, x1, x2, -(float)y, format, vertical, false);
+                            var dy = increment * Math.Pow(10, order - 1);
+                            for (var y = 0.0; y <= Math.Max(Math.Abs(y1), Math.Abs(y2)); y += dy)
+                            {
+                                var pen = pass == 2 ? axisPen : gridPen;
+                                DrawGridLine(g, pen, font, brush, x1, x2, (float)y, format, vertical, pass);
+                                if (y != 0.0)
+                                    DrawGridLine(g, pen, font, brush, x1, x2, -(float)y, format, vertical, pass);
+                            }
+                            increment = increment == 5 ? 2 : increment / 2;
                         }
                     }
-                    else
-                    {
-                        if (vertical && ShowYaxis || !vertical && ShowXaxis)
-                            DrawGridLine(g, axisPen, font, brush, x1, x2, 0, format, vertical, true);
-                    }
+                    else if (vertical && ShowYaxis || !vertical && ShowXaxis)
+                        DrawGridLine(g, axisPen, font, brush, x1, x2, 0, format, vertical, 0);
                     var t = x1; x1 = y1; y1 = t;
                     t = x2; x2 = y2; y2 = t;
                 }
@@ -278,8 +304,15 @@
         }
 
         private void DrawGridLine(Graphics g, Pen pen, Font font, Brush brush,
-            float x1, float x2, float y, StringFormat format, bool vertical, bool isAxis)
+            float x1, float x2, float y, StringFormat format, bool vertical, int pass)
         {
+            if (pass == 2)
+            {
+                var tickSize = font.Size;
+                x1 = (TickStyles & TickStyles.Positive) != 0 ? tickSize : 0;
+                x2 = (TickStyles & TickStyles.Negative) != 0 ? tickSize : 0;
+                System.Diagnostics.Debug.WriteLine($"tickSize = {tickSize}");
+            }
             float x = 0, y1 = y, y2 = y, z = -y;
             if (vertical)
             {
@@ -288,12 +321,22 @@
                 t = x2; x2 = y2; y2 = t;
                 z = -z;
             }
-            if (isAxis || vertical && ShowVlines || !vertical && ShowHlines)
-                g.DrawLine(pen, x1, y1, x2, y2);
-            g.ScaleTransform(1, -1);
-            if (vertical && ShowXcal || !vertical && ShowYcal)
-                g.DrawString(z.ToString(), font, brush, x - pen.Width, y + pen.Width, format);
-            g.ScaleTransform(1, -1);
+            switch (pass)
+            {
+                case 0:
+                case 3 when vertical && ShowVlines || !vertical && ShowHlines:
+                    g.DrawLine(pen, x1, y1, x2, y2);
+                    break;
+                case 1 when vertical && ShowXcal || !vertical && ShowYcal:
+                    g.ScaleTransform(1, -1);
+                    g.DrawString(z.ToString(), font, brush, x - pen.Width, y + pen.Width, format);
+                    g.ScaleTransform(1, -1);
+                    break;
+                case 2:
+                    if (vertical && ShowYticks || !vertical && ShowXticks)
+                        g.DrawLine(pen, x1, y1, x2, y2);
+                    break;
+            }
         }
 
         private Matrix GetMatrix(Rectangle r)
