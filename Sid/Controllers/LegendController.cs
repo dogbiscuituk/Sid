@@ -156,16 +156,21 @@
             child.View.btnRemove.Click += BtnRemoveFunction_Click;
             Keys.Add(child.View);
             Loading = false;
+            AfterKeyChange();
+            child.View.cbFunction.Focus();
+        }
+
+        private void AfterKeyChange()
+        {
             AdjustLegend();
             GraphWrite();
-            child.View.cbFunction.Focus();
         }
 
         private void RemoveAllKeys()
         {
             Keys.Clear();
             Children.Clear();
-            AdjustLegend();
+            AfterKeyChange();
         }
 
         private void RemoveKey(KeyView edit)
@@ -177,8 +182,7 @@
         {
             Keys.RemoveAt(index);
             Children.RemoveAt(index);
-            AdjustLegend();
-            GraphWrite();
+            AfterKeyChange();
         }
 
         #endregion
