@@ -168,6 +168,7 @@
 
         private void RemoveAllKeys()
         {
+            View.StatusBar.Focus();
             Keys.Clear();
             Children.Clear();
             AfterKeyChange();
@@ -180,6 +181,7 @@
 
         private void RemoveKeyAt(int index)
         {
+            View.StatusBar.Focus();
             Keys.RemoveAt(index);
             Children.RemoveAt(index);
             AfterKeyChange();
