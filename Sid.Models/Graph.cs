@@ -14,7 +14,7 @@
 
         #region Properties
 
-        private Elements _elements = Elements.All & ~Elements.GridLines;
+        private Elements _elements = Elements.All;
         public Elements Elements
         {
             get => _elements;
