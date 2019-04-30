@@ -277,9 +277,8 @@
                 if (oldOp == "(")
                     break;
                 var theirs = oldOp.GetPrecedence();
-                // Operator '^' is right associative: a^b^c = a^(b^c).
-                // Conditional '?:' needs all 3 operands assembled before evaluation.
-                if (ours < theirs || ours == theirs && newOp != "^" && oldOp != "?" && newOp != "?")
+                if (ours < theirs || ours == theirs && newOp != "^" // Operator '^' is right associative: a^b^c = a^(b^c).
+                    && oldOp != "?" && newOp != "?") // Conditional '?:' needs all 3 operands assembled before evaluation.
                 {
                     Operators.Pop();
                     var operand = Operands.Pop();

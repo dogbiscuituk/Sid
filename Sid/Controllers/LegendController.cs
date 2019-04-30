@@ -211,8 +211,6 @@
         {
             var comboBox = (ComboBox)sender;
             var ok = new Parser().TryParse(comboBox.Text, out object result);
-            //comboBox.BackColor = ok ? Color.FromKnownColor(KnownColor.Window) : Color.Red;
-            //comboBox.ForeColor = ok ? Color.FromKnownColor(KnownColor.ControlText) : Color.White;
             View.ErrorProvider.SetError(comboBox, ok ? string.Empty : result.ToString());
             e.Cancel = CanCancel && !ok;
         }
@@ -228,12 +226,6 @@
         #endregion
 
         #region Graph Read/Write
-
-        public void LiveUpdate(object sender, EventArgs e)
-        {
-            if (!Loading)
-                GraphWrite();
-        }
 
         public void GraphRead()
         {
@@ -263,6 +255,12 @@
             count -= index;
             if (count > 0)
                 Graph.RemoveSeriesRange(index, count);
+        }
+
+        public void LiveUpdate(object sender, EventArgs e)
+        {
+            if (!Loading)
+                GraphWrite();
         }
 
         #endregion

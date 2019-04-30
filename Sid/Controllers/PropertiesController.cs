@@ -18,7 +18,7 @@
         private CheckedListBox ClbElements { get => View.ElementCheckboxes; }
         private Model Model { get; set; }
         private Graph Graph { get => Model.Graph; }
-        private bool Loading;
+        private bool Loading, Updating;
 
         private PropertiesDialog _view;
         private PropertiesDialog View
@@ -52,16 +52,16 @@
 
         public bool Execute(IWin32Window owner)
         {
-            ReadModel();
+            GraphRead();
             var ok = View.ShowDialog(owner) == DialogResult.OK;
             if (ok)
-                WriteModel();
+                GraphWrite();
             return ok;
         }
 
         private void BtnApply_Click(object sender, System.EventArgs e)
         {
-            WriteModel();
+            GraphWrite();
         }
 
         #endregion
@@ -70,9 +70,9 @@
 
         private void ClbElements_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            if (Loading || e.NewValue == e.CurrentValue)
+            if (Updating || e.NewValue == e.CurrentValue)
                 return;
-            Loading = true;
+            Updating = true;
             int i = e.Index, x = i % 4, y = x + 4, z = y + 4;
             CheckState
                 xState = ClbElements.GetItemCheckState(x),
@@ -87,7 +87,8 @@
                 SetState(x, e.NewValue);
                 SetState(y, e.NewValue);
             }
-            Loading = false;
+            Updating = false;
+            LiveUpdate(sender, e);
         }
 
         private Elements[] GetElementValues() => (Elements[])Enum.GetValues(typeof(Elements));
@@ -96,7 +97,7 @@
         private CheckState GetState(int index) => ClbElements.GetItemCheckState(index);
         private void SetState(int index, CheckState state) => ClbElements.SetItemCheckState(index, state);
 
-        private void ReadElements()
+        private void ElementsRead()
         {
             var values = GetElementValues();
             var graphElements = Graph.Elements;
@@ -111,7 +112,7 @@
             }
         }
 
-        private void WriteElements()
+        private void ElementsWrite()
         {
             var values = GetElementValues();
             Elements graphElements = 0;
@@ -123,10 +124,11 @@
 
         #endregion
 
-        #region Model
+        #region Graph Read/Write
 
-        private void ReadModel()
+        private void GraphRead()
         {
+            Loading = true;
             ColourController.SetColour(View.cbAxisColour, Graph.AxisColour);
             ColourController.SetColour(View.cbGridColour, Graph.GridColour);
             ColourController.SetColour(View.cbPenColour, Graph.PenColour);
@@ -135,10 +137,11 @@
             ColourController.SetColour(View.cbFillColour, Graph.FillColour);
             View.sePaperTransparency.Value = Graph.PaperTransparencyPercent;
             View.seFillTransparency.Value = Graph.FillTransparencyPercent;
-            ReadElements();
+            ElementsRead();
+            Loading = false;
         }
 
-        private void WriteModel()
+        private void GraphWrite()
         {
             Graph.AxisColour = ColourController.GetColour(View.cbAxisColour);
             Graph.GridColour = ColourController.GetColour(View.cbGridColour);
@@ -148,7 +151,13 @@
             Graph.FillColour = ColourController.GetColour(View.cbFillColour);
             Graph.PaperTransparencyPercent = (int)View.sePaperTransparency.Value;
             Graph.FillTransparencyPercent = (int)View.seFillTransparency.Value;
-            WriteElements();
+            ElementsWrite();
+        }
+
+        public void LiveUpdate(object sender, EventArgs e)
+        {
+            if (!Loading)
+                GraphWrite();
         }
 
         #endregion
