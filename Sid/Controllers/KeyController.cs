@@ -1,7 +1,6 @@
 ﻿namespace Sid.Controllers
 {
     using System.Drawing;
-    using System.Drawing.Drawing2D;
     using System.Linq;
     using System.Windows.Forms;
     using Sid.Expressions;
@@ -27,8 +26,8 @@
                 if (View != null)
                 {
                     View.cbVisible.CheckedChanged -= Parent.LiveUpdate;
-                    View.cbFunction.DrawItem -= FunctionCombo_DrawItem;
-                    View.cbFunction.TextChanged -= Parent.LiveUpdate;
+                    FunctionBox.DrawItem -= FunctionBox_DrawItem;
+                    FunctionBox.TextChanged -= FunctionBox_TextChanged;
                     View.cbPenColour.SelectedValueChanged -= Parent.LiveUpdate;
                     View.cbFillColour.SelectedValueChanged -= Parent.LiveUpdate;
                     View.seTransparency.ValueChanged -= Parent.LiveUpdate;
@@ -39,8 +38,8 @@
                 if (View != null)
                 {
                     View.cbVisible.CheckedChanged += Parent.LiveUpdate;
-                    View.cbFunction.DrawItem += FunctionCombo_DrawItem;
-                    View.cbFunction.TextChanged += Parent.LiveUpdate;
+                    FunctionBox.DrawItem += FunctionBox_DrawItem;
+                    FunctionBox.TextChanged += FunctionBox_TextChanged;
                     View.cbPenColour.SelectedValueChanged += Parent.LiveUpdate;
                     View.cbFillColour.SelectedValueChanged += Parent.LiveUpdate;
                     View.seTransparency.ValueChanged += Parent.LiveUpdate;
@@ -51,8 +50,9 @@
         }
 
         private LegendController Parent;
-
         private ColourController ColourController = new ColourController();
+        private ComboBox FunctionBox { get => View.cbFunction; }
+        private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
 
         public bool TraceVisible
         {
@@ -68,8 +68,8 @@
 
         public string Formula
         {
-            get => View.cbFunction.Text;
-            set => View.cbFunction.Text = value;
+            get => FunctionBox.Text;
+            set => FunctionBox.Text = value;
         }
 
         public Color PenColour
@@ -94,7 +94,7 @@
 
         #region Functions
 
-        private void FunctionCombo_DrawItem(object sender, DrawItemEventArgs e)
+        private void FunctionBox_DrawItem(object sender, DrawItemEventArgs e)
         {
             var r = e.Bounds;
             var functionName = ((ComboBox)sender).Items[e.Index].ToString();
@@ -103,9 +103,19 @@
                 e.Graphics.DrawString(functionName, e.Font, brush, r);
         }
 
+        private void FunctionBox_TextChanged(object sender, System.EventArgs e)
+        {
+            var function = FunctionBox.Text;
+            if (!string.IsNullOrWhiteSpace(function) && !Functions.Contains(function))
+                Functions[0] = function;
+            Parent.LiveUpdate(sender, e);
+        }
+
         private void InitFunctionNames()
         {
-            View.cbFunction.Items.AddRange(Utility.FunctionNames.Select(f => $"{f}(x)").ToArray());
+            Functions.Clear();
+            Functions.Add(string.Empty);
+            Functions.AddRange(Utility.FunctionNames.Select(f => $"{f}(x)").ToArray());
         }
 
         #endregion
