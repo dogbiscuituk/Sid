@@ -1,5 +1,6 @@
 ﻿namespace Sid.Controllers
 {
+    using System;
     using System.Windows.Forms;
     using Sid.Models;
     using Sid.Views;
@@ -24,6 +25,7 @@
                 if (View != null)
                 {
                     ColourController.Clear();
+                    View.ElementCheckboxes.ItemCheck -= ElementCheckboxes_ItemCheck;
                     View.btnApply.Click -= BtnApply_Click;
                 }
                 _view = value;
@@ -32,9 +34,23 @@
                     ColourController.AddControls(
                         View.cbAxisColour, View.cbGridColour, View.cbPenColour,
                         View.cbLimitColour, View.cbPaperColour, View.cbFillColour);
+                    View.ElementCheckboxes.ItemCheck += ElementCheckboxes_ItemCheck;
                     View.btnApply.Click += BtnApply_Click;
                 }
             }
+        }
+
+        private void ElementCheckboxes_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (e.NewValue == e.CurrentValue)
+                return;
+            var index = e.Index;
+            int x = index % 4, y = x + 4, z = y + 4;
+            CheckState
+                xState = View.ElementCheckboxes.GetItemCheckState(x),
+                yState = View.ElementCheckboxes.GetItemCheckState(y),
+                zState = View.ElementCheckboxes.GetItemCheckState(z);
+
         }
 
         private ColourController ColourController = new ColourController();
@@ -53,6 +69,41 @@
             WriteModel();
         }
 
+        #region Read/Write Elements
+
+        private Elements[] GetElementValues() => (Elements[])Enum.GetValues(typeof(Elements));
+
+        private int ControlToEnum(int index) => index < 11 ? 3 * index % 11 : 11;
+
+        private void ReadElements()
+        {
+            var values = GetElementValues();
+            var graphElements = Graph.Elements;
+            for (var index = 0; index < View.ElementCheckboxes.Items.Count; index++)
+            {
+                var value = values[ControlToEnum(index)];
+                var graphValue = graphElements & value;
+                var state = graphValue == value ? CheckState.Checked
+                    : graphValue == 0 ? CheckState.Unchecked
+                    : CheckState.Indeterminate;
+                View.ElementCheckboxes.SetItemCheckState(index, state);
+            }
+        }
+
+        private void WriteElements()
+        {
+            var values = GetElementValues();
+            Elements graphElements = 0;
+            for (var index = 0; index < View.ElementCheckboxes.Items.Count; index++)
+                if (View.ElementCheckboxes.GetItemCheckState(index) == CheckState.Checked)
+                    graphElements |= values[ControlToEnum(index)];
+            Graph.Elements = graphElements;
+        }
+
+        #endregion
+
+        #region Read/Write Model
+
         private void ReadModel()
         {
             ColourController.SetColour(View.cbAxisColour, Graph.AxisColour);
@@ -63,6 +114,7 @@
             ColourController.SetColour(View.cbFillColour, Graph.FillColour);
             View.sePaperTransparency.Value = Graph.PaperTransparencyPercent;
             View.seFillTransparency.Value = Graph.FillTransparencyPercent;
+            ReadElements();
         }
 
         private void WriteModel()
@@ -75,6 +127,9 @@
             Graph.FillColour = ColourController.GetColour(View.cbFillColour);
             Graph.PaperTransparencyPercent = (int)View.sePaperTransparency.Value;
             Graph.FillTransparencyPercent = (int)View.seFillTransparency.Value;
+            WriteElements();
         }
+
+        #endregion
     }
 }

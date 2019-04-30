@@ -222,7 +222,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.tableLayoutPanel1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 92);
+            this.groupBox1.Location = new System.Drawing.Point(12, 105);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(371, 98);
             this.groupBox1.TabIndex = 1;
@@ -392,7 +392,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.tableLayoutPanel2);
-            this.groupBox2.Location = new System.Drawing.Point(12, 196);
+            this.groupBox2.Location = new System.Drawing.Point(12, 209);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(245, 139);
             this.groupBox2.TabIndex = 3;
@@ -402,7 +402,7 @@
             // btnOK
             // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(309, 249);
+            this.btnOK.Location = new System.Drawing.Point(308, 267);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 4;
@@ -412,7 +412,7 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(309, 278);
+            this.btnCancel.Location = new System.Drawing.Point(308, 296);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 5;
@@ -421,7 +421,7 @@
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(309, 307);
+            this.btnApply.Location = new System.Drawing.Point(308, 325);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
             this.btnApply.TabIndex = 6;
@@ -433,7 +433,7 @@
             this.groupBox3.Controls.Add(this.ElementCheckboxes);
             this.groupBox3.Location = new System.Drawing.Point(12, 12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(371, 73);
+            this.groupBox3.Size = new System.Drawing.Size(371, 87);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Graph Elements";
@@ -442,23 +442,27 @@
             // 
             this.ElementCheckboxes.BackColor = System.Drawing.SystemColors.Control;
             this.ElementCheckboxes.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ElementCheckboxes.CheckOnClick = true;
             this.ElementCheckboxes.ColumnWidth = 116;
             this.ElementCheckboxes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ElementCheckboxes.FormattingEnabled = true;
             this.ElementCheckboxes.Items.AddRange(new object[] {
-            "Paper",
             "X axis",
-            "Y axis",
             "Horizontal grid lines",
             "X axis ticks",
             "X calibration",
+            "Y axis",
             "Vertical grid lines",
             "Y axis ticks",
-            "Y calibration"});
+            "Y calibration",
+            "Both axes",
+            "Full grid",
+            "X & Y ticks",
+            "Full calibration"});
             this.ElementCheckboxes.Location = new System.Drawing.Point(3, 16);
             this.ElementCheckboxes.MultiColumn = true;
             this.ElementCheckboxes.Name = "ElementCheckboxes";
-            this.ElementCheckboxes.Size = new System.Drawing.Size(365, 54);
+            this.ElementCheckboxes.Size = new System.Drawing.Size(365, 68);
             this.ElementCheckboxes.TabIndex = 8;
             // 
             // PropertiesDialog
@@ -467,13 +471,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(396, 343);
+            this.ClientSize = new System.Drawing.Size(396, 361);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnApply);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "PropertiesDialog";
             this.Text = "Graph Properties";
             this.tableLayoutPanel1.ResumeLayout(false);
