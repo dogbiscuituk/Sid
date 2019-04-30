@@ -17,7 +17,6 @@ namespace Sid.Models
         Xcalibration = 0x0040,
         Ycalibration = 0x0080,
         Calibration = Xcalibration | Ycalibration,
-        Paper = 0x0100,
-        All = Axes | GridLines | Ticks | Calibration | Paper
+        All = Axes | GridLines | Ticks | Calibration
     }
 }

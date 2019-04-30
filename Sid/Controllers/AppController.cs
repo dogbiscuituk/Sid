@@ -18,6 +18,7 @@
             Model.Cleared += Model_Cleared;
             Model.ModifiedChanged += Model_ModifiedChanged;
             Model.PropertyChanged += Model_PropertyChanged;
+            PropertiesController = new PropertiesController(Model);
             JsonController = new JsonController(Model, View, View.FileReopen);
             JsonController.FileLoaded += JsonController_FileLoaded;
             JsonController.FilePathChanged += JsonController_FilePathChanged;
@@ -31,6 +32,7 @@
         #region Properties
 
         public readonly Model Model;
+        public readonly PropertiesController PropertiesController;
         public readonly JsonController JsonController;
         public readonly LegendController LegendController;
 
@@ -138,7 +140,7 @@
 
         private void GraphProperties_Click(object sender, EventArgs e)
         {
-            new PropertiesController(Model).Execute(View);
+            PropertiesController.Show(View);
         }
 
         #endregion

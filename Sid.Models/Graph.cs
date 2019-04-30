@@ -207,7 +207,6 @@
             }
         }
 
-        private bool ShowPaper { get => (Elements & Elements.Paper) != 0; }
         private bool ShowXaxis { get => (Elements & Elements.Xaxis) != 0; }
         private bool ShowYaxis { get => (Elements & Elements.Yaxis) != 0; }
         private bool ShowXcal { get => (Elements & Elements.Xcalibration) != 0; }
@@ -237,7 +236,7 @@
         {
             ZoomReset();
             StepCount = DefaultStepCount;
-            PaperColour = Color.LightYellow;
+            PaperColour = Color.White;
             AxisColour = Color.DarkGray;
             GridColour = Color.LightGray;
             PenColour = Color.Black;
@@ -247,7 +246,7 @@
 
         #endregion
 
-        #region Series management
+        #region Series Management
 
         public Series AddSeries()
         {
@@ -290,9 +289,8 @@
                 return; // Nothing to draw!
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.Transform = GetMatrix(r);
-            if (ShowPaper)
-                using (var brush = new SolidBrush(PaperColour))
-                    g.FillRectangle(brush, Limits);
+            using (var brush = new SolidBrush(PaperColour))
+                g.FillRectangle(brush, Limits);
             var penWidth = (Size.Width / r.Width + Size.Height / r.Height);
             Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, fill: true); });
             DrawGrid(g, penWidth);
@@ -309,45 +307,50 @@
             using (var format = new StringFormat(StringFormat.GenericTypographic) { Alignment = StringAlignment.Far })
             {
                 var brush = Brushes.DarkGray;
-                double 
+                double
                     logX = Math.Log10(Math.Abs(x2 - x1)),
                     logY = Math.Log10(Math.Abs(y2 - y1));
-                for (int phase = 0; phase < 4; phase++)
+                for (var phase = 0; phase < 4; phase++)
                 {
-                    var vertical = (phase & 1) != 0;
-                    if (phase < 2)
+                    var gridPhase = (GridPhase)phase;
+                    var vertical = gridPhase == GridPhase.VerticalLines || gridPhase == GridPhase.Yaxis;
+                    if (gridPhase == GridPhase.HorizontalLines || gridPhase == GridPhase.VerticalLines)
                     {
                         var log = Isotropic || vertical ? logX : logY;
                         var order = Math.Floor(log);
                         var scale = log - order;
-
                         double increment = scale < 0.3 ? 2 : scale < 0.7 ? 5 : 10;
-
-                        for (int pass = 1; pass <= 3; pass++)
+                        BumpDown(ref increment);
+                        BumpDown(ref increment);
+                        for (var pass = 0; pass < 3; pass++)
                         {
+                            var gridPass = (GridPass)pass;
                             var dy = increment * Math.Pow(10, order - 1);
                             for (var y = 0.0; y <= Math.Max(Math.Abs(y1), Math.Abs(y2)); y += dy)
                             {
-                                var pen = pass == 2 ? axisPen : gridPen;
-                                DrawGridLine(g, pen, font, brush, x1, x2, (float)y, format, vertical, pass);
+                                var pen = gridPass == GridPass.Ticks ? axisPen : gridPen;
+                                DrawGridLine(g, pen, font, brush, x1, x2, (float)y, format, vertical, gridPass);
                                 if (y != 0.0)
-                                    DrawGridLine(g, pen, font, brush, x1, x2, -(float)y, format, vertical, pass);
+                                    DrawGridLine(g, pen, font, brush, x1, x2, -(float)y, format, vertical, gridPass);
                             }
-                            increment = increment == 5 ? 2 : increment / 2;
+                            BumpUp(ref increment);
                         }
                     }
-                    else if (vertical && ShowYaxis || !vertical && ShowXaxis)
-                        DrawGridLine(g, axisPen, font, brush, x1, x2, 0, format, vertical, 0);
+                    else
+                        DrawGridLine(g, axisPen, font, brush, x1, x2, 0, format, vertical, GridPass.Axes);
                     var t = x1; x1 = y1; y1 = t;
                     t = x2; x2 = y2; y2 = t;
                 }
             }
         }
 
+        private void BumpDown(ref double value) => value = value == 5 ? 2 : value / 2;
+        private void BumpUp(ref double value) => value = value == 2 ? 5 : value * 2;
+
         private void DrawGridLine(Graphics g, Pen pen, Font font, Brush brush,
-            float x1, float x2, float y, StringFormat format, bool vertical, int pass)
+            float x1, float x2, float y, StringFormat format, bool vertical, GridPass gridPass)
         {
-            if (pass == 2)
+            if (gridPass == GridPass.Ticks)
             {
                 var tickSize = font.Size;
                 x1 = (TickStyles & TickStyles.Positive) != 0 ? tickSize : 0;
@@ -361,19 +364,19 @@
                 t = x2; x2 = y2; y2 = t;
                 z = -z;
             }
-            switch (pass)
+            switch (gridPass)
             {
-                case 0:
-                case 3 when vertical && ShowVlines || !vertical && ShowHlines:
+                case GridPass.Axes when vertical && ShowYaxis || !vertical && ShowXaxis:
+                case GridPass.Lines when vertical && ShowVlines || !vertical && ShowHlines:
                     g.DrawLine(pen, x1, y1, x2, y2);
                     break;
-                case 1 when vertical && ShowXcal || !vertical && ShowYcal:
+                case GridPass.Calibration when vertical && ShowXcal || !vertical && ShowYcal:
                     g.ScaleTransform(1, -1);
                     g.DrawString(z.ToString(), font, brush, x - pen.Width, y + pen.Width, format);
                     g.ScaleTransform(1, -1);
                     break;
-                case 2:
-                    if (vertical && ShowYticks || !vertical && ShowXticks)
+                case GridPass.Ticks:
+                    if (vertical && ShowXticks || !vertical && ShowYticks)
                         g.DrawLine(pen, x1, y1, x2, y2);
                     break;
             }

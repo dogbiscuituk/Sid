@@ -42,6 +42,7 @@
             this.FileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.GraphMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.GraphAddNewFunction = new System.Windows.Forms.ToolStripMenuItem();
+            this.GraphProperties = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewLegend = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewLegendTopLeft = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,8 +77,6 @@
             this.ClientPanel = new System.Windows.Forms.Panel();
             this.LegendPanel = new System.Windows.Forms.Panel();
             this.PictureBox = new System.Windows.Forms.PictureBox();
-            this.GraphProperties = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
@@ -119,57 +118,56 @@
             // 
             this.FileNew.Name = "FileNew";
             this.FileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.FileNew.Size = new System.Drawing.Size(180, 22);
+            this.FileNew.Size = new System.Drawing.Size(146, 22);
             this.FileNew.Text = "&New";
             // 
             // FileOpen
             // 
             this.FileOpen.Name = "FileOpen";
             this.FileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.FileOpen.Size = new System.Drawing.Size(180, 22);
+            this.FileOpen.Size = new System.Drawing.Size(146, 22);
             this.FileOpen.Text = "&Open";
             // 
             // FileReopen
             // 
             this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(180, 22);
+            this.FileReopen.Size = new System.Drawing.Size(146, 22);
             this.FileReopen.Text = "&Reopen";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(143, 6);
             // 
             // FileSave
             // 
             this.FileSave.Name = "FileSave";
             this.FileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.FileSave.Size = new System.Drawing.Size(180, 22);
+            this.FileSave.Size = new System.Drawing.Size(146, 22);
             this.FileSave.Text = "&Save";
             // 
             // FileSaveAs
             // 
             this.FileSaveAs.Name = "FileSaveAs";
-            this.FileSaveAs.Size = new System.Drawing.Size(180, 22);
+            this.FileSaveAs.Size = new System.Drawing.Size(146, 22);
             this.FileSaveAs.Text = "Save &As...";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(143, 6);
             // 
             // FileExit
             // 
             this.FileExit.Name = "FileExit";
             this.FileExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.FileExit.Size = new System.Drawing.Size(180, 22);
+            this.FileExit.Size = new System.Drawing.Size(146, 22);
             this.FileExit.Text = "E&xit";
             // 
             // GraphMenu
             // 
             this.GraphMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.GraphAddNewFunction,
-            this.toolStripMenuItem3,
             this.GraphProperties});
             this.GraphMenu.Name = "GraphMenu";
             this.GraphMenu.Size = new System.Drawing.Size(51, 20);
@@ -181,6 +179,13 @@
             this.GraphAddNewFunction.ShortcutKeys = System.Windows.Forms.Keys.F2;
             this.GraphAddNewFunction.Size = new System.Drawing.Size(201, 22);
             this.GraphAddNewFunction.Text = "&Add a New Function";
+            // 
+            // GraphProperties
+            // 
+            this.GraphProperties.Name = "GraphProperties";
+            this.GraphProperties.ShortcutKeys = System.Windows.Forms.Keys.F3;
+            this.GraphProperties.Size = new System.Drawing.Size(201, 22);
+            this.GraphProperties.Text = "&Properties...";
             // 
             // ViewMenu
             // 
@@ -240,9 +245,9 @@
             this.ViewLegendHide.Size = new System.Drawing.Size(145, 22);
             this.ViewLegendHide.Text = "&Hide";
             // 
-            // ViewMouseCoordinates
+            // ViewCoordinatesTooltip
             // 
-            this.ViewCoordinatesTooltip.Name = "ViewMouseCoordinates";
+            this.ViewCoordinatesTooltip.Name = "ViewCoordinatesTooltip";
             this.ViewCoordinatesTooltip.Size = new System.Drawing.Size(183, 22);
             this.ViewCoordinatesTooltip.Text = "&Co-ordinates Tooltip";
             this.ViewCoordinatesTooltip.ToolTipText = "Hide or show the x-y coordinates in a tooltip";
@@ -419,7 +424,7 @@
             // 
             // ClientPanel
             // 
-            this.ClientPanel.BackColor = System.Drawing.Color.LightYellow;
+            this.ClientPanel.BackColor = System.Drawing.Color.White;
             this.ClientPanel.Controls.Add(this.LegendPanel);
             this.ClientPanel.Controls.Add(this.PictureBox);
             this.ClientPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -439,24 +444,13 @@
             // 
             // PictureBox
             // 
-            this.PictureBox.Location = new System.Drawing.Point(410, 180);
+            this.PictureBox.Location = new System.Drawing.Point(12, 3);
             this.PictureBox.Name = "PictureBox";
             this.PictureBox.Size = new System.Drawing.Size(244, 104);
             this.PictureBox.TabIndex = 3;
             this.PictureBox.TabStop = false;
             // 
-            // GraphProperties
-            // 
-            this.GraphProperties.Name = "GraphProperties";
-            this.GraphProperties.Size = new System.Drawing.Size(201, 22);
-            this.GraphProperties.Text = "&Properties...";
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(198, 6);
-            // 
-            // AppView
+            // AppForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -467,7 +461,7 @@
             this.Controls.Add(this.MainMenu);
             this.MainMenuStrip = this.MainMenu;
             this.MinimumSize = new System.Drawing.Size(640, 480);
-            this.Name = "AppView";
+            this.Name = "AppForm";
             this.Text = "Sid";
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
@@ -529,7 +523,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
         public System.Windows.Forms.ToolStripMenuItem ScrollCentre;
         public System.Windows.Forms.ToolStripStatusLabel CoordinatesLabel;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         public System.Windows.Forms.ToolStripMenuItem GraphProperties;
     }
 }

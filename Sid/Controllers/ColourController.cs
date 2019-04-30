@@ -13,9 +13,9 @@
 
         #region Properties
 
-        private static readonly string[] colourNames = Utility.NonSystemColourNames.ToArray();
+        public readonly List<ComboBox> Controls = new List<ComboBox>();
 
-        private readonly List<ComboBox> Controls = new List<ComboBox>();
+        private static readonly string[] colourNames = Utility.NonSystemColourNames.ToArray();
 
         #endregion
 

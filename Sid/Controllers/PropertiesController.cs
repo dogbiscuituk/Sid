@@ -29,17 +29,18 @@
                 if (View != null)
                 {
                     ColourController.Clear();
+                    View.FormClosing -= View_FormClosing;
                     ClbElements.ItemCheck -= ClbElements_ItemCheck;
-                    View.btnApply.Click -= BtnApply_Click;
+                    View.btnClose.Click -= BtnClose_Click;
                 }
                 _view = value;
                 if (View != null)
                 {
-                    ColourController.AddControls(
-                        View.cbAxisColour, View.cbGridColour, View.cbPenColour,
+                    AddControls(View.cbAxisColour, View.cbGridColour, View.cbPenColour,
                         View.cbLimitColour, View.cbPaperColour, View.cbFillColour);
+                    View.FormClosing += View_FormClosing;
                     ClbElements.ItemCheck += ClbElements_ItemCheck;
-                    View.btnApply.Click += BtnApply_Click;
+                    View.btnClose.Click += BtnClose_Click;
                 }
             }
         }
@@ -48,20 +49,50 @@
 
         #endregion
 
-        #region Execute
+        #region Show/Hide
 
-        public bool Execute(IWin32Window owner)
+        public void Show(IWin32Window owner)
         {
-            GraphRead();
-            var ok = View.ShowDialog(owner) == DialogResult.OK;
-            if (ok)
-                GraphWrite();
-            return ok;
+            if (!View.Visible)
+            {
+                GraphRead();
+                View.Show(owner);
+            }
+            else
+                View.BringToFront();
         }
 
-        private void BtnApply_Click(object sender, System.EventArgs e)
+        private void BtnClose_Click(object sender, EventArgs e)
         {
-            GraphWrite();
+            View.Hide();
+        }
+
+        private void View_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason != CloseReason.UserClosing)
+                return;
+            e.Cancel = true;
+            View.Hide();
+        }
+
+        #endregion
+
+        #region Colours
+
+        private void AddControls(params ComboBox[] controls)
+        {
+            ColourController.AddControls(controls);
+            foreach (var control in controls)
+                control.SelectedValueChanged += Control_SelectedValueChanged;
+        }
+
+        private void Control_SelectedValueChanged(object sender, EventArgs e) => LiveUpdate(sender, e);
+
+        private void Clear()
+        {
+            foreach (var control in ColourController.Controls)
+                control.SelectedValueChanged -= Control_SelectedValueChanged;
+            ColourController.Clear();
         }
 
         #endregion
@@ -73,22 +104,21 @@
             if (Updating || e.NewValue == e.CurrentValue)
                 return;
             Updating = true;
-            int i = e.Index, x = i % 4, y = x + 4, z = y + 4;
-            CheckState
-                xState = ClbElements.GetItemCheckState(x),
-                yState = ClbElements.GetItemCheckState(y),
-                zState = ClbElements.GetItemCheckState(z);
-            if (i == x)
-                SetState(z, e.NewValue == yState ? e.NewValue : CheckState.Indeterminate);
-            else if (i == y)
-                SetState(z, xState == e.NewValue ? e.NewValue : CheckState.Indeterminate);
+            int index = e.Index, x = index % 4, y = x + 4, both = y + 4;
+            if (index == x)
+                SetState(both, e.NewValue == ClbElements.GetItemCheckState(y) ?
+                    e.NewValue : CheckState.Indeterminate);
+            else if (index == y)
+                SetState(both, e.NewValue == ClbElements.GetItemCheckState(x) ?
+                    e.NewValue : CheckState.Indeterminate);
             else
             {
                 SetState(x, e.NewValue);
                 SetState(y, e.NewValue);
             }
             Updating = false;
-            LiveUpdate(sender, e);
+            if (!Loading)
+                View.BeginInvoke((MethodInvoker)(() => LiveUpdate(sender, e)));
         }
 
         private Elements[] GetElementValues() => (Elements[])Enum.GetValues(typeof(Elements));

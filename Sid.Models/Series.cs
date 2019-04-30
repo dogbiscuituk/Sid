@@ -13,10 +13,7 @@
     [Serializable]
     public class Series: INotifyPropertyChanged
     {
-        public Series()
-        {
-            InitDefaults();
-        }
+        public Series() { Formula = "0"; }
 
         #region Properties
 
@@ -105,7 +102,21 @@
         public Func<double, double> Func { get; private set; }
 
         private RectangleF Limits;
-        private int StepCount;
+
+        private int _stepCount = 1000;
+        public int StepCount
+        {
+            get => _stepCount;
+            set
+            {
+                if (StepCount != value)
+                {
+                    _stepCount = value;
+                    InvalidatePoints();
+                    OnPropertyChanged("StepCount");
+                }
+            }
+        }
 
         private bool _visible = true;
         [DefaultValue(true)]
@@ -120,15 +131,6 @@
                     OnPropertyChanged("Visible");
                 }
             }
-        }
-
-        private void InitDefaults()
-        {
-            Formula = "0";
-            StepCount = 16000;
-            PenColour = Color.Black;
-            FillColour = Color.Yellow;
-            LimitColour = Color.DarkGray;
         }
 
         #endregion

@@ -51,10 +51,10 @@
             this.cbAxisColour = new System.Windows.Forms.ComboBox();
             this.cbGridColour = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnOK = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnApply = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.cbStepCount = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.ElementCheckboxes = new System.Windows.Forms.CheckedListBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sePaperTransparency)).BeginInit();
@@ -222,7 +222,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.tableLayoutPanel1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 105);
+            this.groupBox1.Location = new System.Drawing.Point(12, 127);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(371, 98);
             this.groupBox1.TabIndex = 1;
@@ -297,7 +297,7 @@
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(113, 24);
             this.label10.TabIndex = 8;
-            this.label10.Text = "Limit";
+            this.label10.Text = "Limits";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label12
@@ -392,51 +392,62 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.tableLayoutPanel2);
-            this.groupBox2.Location = new System.Drawing.Point(12, 209);
+            this.groupBox2.Location = new System.Drawing.Point(12, 231);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(245, 139);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Pen Colours";
             // 
-            // btnOK
+            // btnClose
             // 
-            this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(308, 267);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 4;
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(308, 296);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 5;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            // 
-            // btnApply
-            // 
-            this.btnApply.Location = new System.Drawing.Point(308, 325);
-            this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(75, 23);
-            this.btnApply.TabIndex = 6;
-            this.btnApply.Text = "Apply";
-            this.btnApply.UseVisualStyleBackColor = true;
+            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnClose.Location = new System.Drawing.Point(308, 347);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(75, 23);
+            this.btnClose.TabIndex = 6;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.cbStepCount);
+            this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.ElementCheckboxes);
             this.groupBox3.Location = new System.Drawing.Point(12, 12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(371, 87);
+            this.groupBox3.Size = new System.Drawing.Size(371, 109);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Graph Elements";
+            // 
+            // cbStepCount
+            // 
+            this.cbStepCount.BackColor = System.Drawing.SystemColors.Control;
+            this.cbStepCount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbStepCount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbStepCount.Items.AddRange(new object[] {
+            "1000",
+            "2000",
+            "4000",
+            "8000",
+            "16000",
+            "32000",
+            "64000"});
+            this.cbStepCount.Location = new System.Drawing.Point(245, 82);
+            this.cbStepCount.Name = "cbStepCount";
+            this.cbStepCount.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.cbStepCount.Size = new System.Drawing.Size(120, 21);
+            this.cbStepCount.TabIndex = 10;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 85);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(217, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Default number of steps computed per trace:";
             // 
             // ElementCheckboxes
             // 
@@ -444,7 +455,7 @@
             this.ElementCheckboxes.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.ElementCheckboxes.CheckOnClick = true;
             this.ElementCheckboxes.ColumnWidth = 116;
-            this.ElementCheckboxes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ElementCheckboxes.Dock = System.Windows.Forms.DockStyle.Top;
             this.ElementCheckboxes.FormattingEnabled = true;
             this.ElementCheckboxes.Items.AddRange(new object[] {
             "X axis",
@@ -462,23 +473,22 @@
             this.ElementCheckboxes.Location = new System.Drawing.Point(3, 16);
             this.ElementCheckboxes.MultiColumn = true;
             this.ElementCheckboxes.Name = "ElementCheckboxes";
-            this.ElementCheckboxes.Size = new System.Drawing.Size(365, 68);
+            this.ElementCheckboxes.Size = new System.Drawing.Size(365, 60);
             this.ElementCheckboxes.TabIndex = 8;
             // 
             // PropertiesDialog
             // 
-            this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(396, 361);
+            this.CancelButton = this.btnClose;
+            this.ClientSize = new System.Drawing.Size(396, 383);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.btnApply);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnOK);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "PropertiesDialog";
             this.Text = "Graph Properties";
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -490,6 +500,7 @@
             this.tableLayoutPanel2.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -519,10 +530,10 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.Button btnCancel;
-        public System.Windows.Forms.Button btnApply;
+        public System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.GroupBox groupBox3;
         public System.Windows.Forms.CheckedListBox ElementCheckboxes;
+        private System.Windows.Forms.Label label1;
+        public System.Windows.Forms.ComboBox cbStepCount;
     }
 }
