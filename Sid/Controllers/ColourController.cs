@@ -11,9 +11,15 @@
     {
         public ColourController() { }
 
+        #region Properties
+
         private static readonly string[] colourNames = Utility.NonSystemColourNames.ToArray();
 
         private readonly List<ComboBox> Controls = new List<ComboBox>();
+
+        #endregion
+
+        #region Control Management
 
         public void AddControls(params ComboBox[] controls)
         {
@@ -31,6 +37,10 @@
                 control.DrawItem -= Control_DrawItem;
             Controls.Clear();
         }
+
+        #endregion
+
+        #region Colour Management
 
         public Color GetColour(ComboBox comboBox) =>
             Color.FromName(comboBox.SelectedItem.ToString());
@@ -66,5 +76,7 @@
         /// <returns>True if the sample colour's Luma value is above 0.5, otherwise False.</returns>
         private static bool IsBright(Color colour) =>
             0.2126 * colour.R + 0.7152 * colour.G + 0.0722 * colour.B > 127.5;
+
+        #endregion
     }
 }

@@ -119,6 +119,22 @@
             Legend.SetBounds(x, y, w, h);
         }
 
+        private static AnchorStyles AlignToAnchor(ContentAlignment align)
+        {
+            switch (align)
+            {
+                case ContentAlignment.BottomLeft:
+                    return AnchorStyles.Bottom | AnchorStyles.Left;
+                case ContentAlignment.BottomRight:
+                    return AnchorStyles.Bottom | AnchorStyles.Right;
+                case ContentAlignment.TopLeft:
+                    return AnchorStyles.Top | AnchorStyles.Left;
+                case ContentAlignment.TopRight:
+                    return AnchorStyles.Top | AnchorStyles.Right;
+            }
+            return 0;
+        }
+
         #endregion
 
         #region Key Management
@@ -189,11 +205,7 @@
 
         #endregion
 
-        public void LiveUpdate(object sender, EventArgs e)
-        {
-            if (!Loading)
-                GraphWrite();
-        }
+        #region Validation
 
         private void CbFunction_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -203,6 +215,24 @@
             //comboBox.ForeColor = ok ? Color.FromKnownColor(KnownColor.ControlText) : Color.White;
             View.ErrorProvider.SetError(comboBox, ok ? string.Empty : result.ToString());
             e.Cancel = CanCancel && !ok;
+        }
+
+        private bool Validate()
+        {
+            CanCancel = true;
+            var ok = View.ValidateChildren();
+            CanCancel = false;
+            return ok;
+        }
+
+        #endregion
+
+        #region Graph Read/Write
+
+        public void LiveUpdate(object sender, EventArgs e)
+        {
+            if (!Loading)
+                GraphWrite();
         }
 
         public void GraphRead()
@@ -235,28 +265,6 @@
                 Graph.RemoveSeriesRange(index, count);
         }
 
-        private bool Validate()
-        {
-            CanCancel = true;
-            var ok = View.ValidateChildren();
-            CanCancel = false;
-            return ok;
-        }
-
-        private static AnchorStyles AlignToAnchor(ContentAlignment align)
-        {
-            switch (align)
-            {
-                case ContentAlignment.BottomLeft:
-                    return AnchorStyles.Bottom | AnchorStyles.Left;
-                case ContentAlignment.BottomRight:
-                    return AnchorStyles.Bottom | AnchorStyles.Right;
-                case ContentAlignment.TopLeft:
-                    return AnchorStyles.Top | AnchorStyles.Left;
-                case ContentAlignment.TopRight:
-                    return AnchorStyles.Top | AnchorStyles.Right;
-            }
-            return 0;
-        }
+        #endregion
     }
 }

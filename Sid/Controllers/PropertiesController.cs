@@ -13,6 +13,8 @@
             View = new PropertiesDialog();
         }
 
+        #region Properties
+
         private CheckedListBox ClbElements { get => View.ElementCheckboxes; }
         private Model Model { get; set; }
         private Graph Graph { get => Model.Graph; }
@@ -42,29 +44,11 @@
             }
         }
 
-        private void ClbElements_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            if (Loading || e.NewValue == e.CurrentValue)
-                return;
-            Loading = true;
-            int i = e.Index, x = i % 4, y = x + 4, z = y + 4;
-            CheckState
-                xState = ClbElements.GetItemCheckState(x),
-                yState = ClbElements.GetItemCheckState(y),
-                zState = ClbElements.GetItemCheckState(z);
-            if (i == x)
-                SetElementState(z, e.NewValue == yState ? e.NewValue : CheckState.Indeterminate);
-            else if (i == y)
-                SetElementState(z, xState == e.NewValue ? e.NewValue : CheckState.Indeterminate);
-            else
-            {
-                SetElementState(x, e.NewValue);
-                SetElementState(y, e.NewValue);
-            }
-            Loading = false;
-        }
-
         private ColourController ColourController = new ColourController();
+
+        #endregion
+
+        #region Execute
 
         public bool Execute(IWin32Window owner)
         {
@@ -80,13 +64,37 @@
             WriteModel();
         }
 
-        #region Read/Write Elements
+        #endregion
+
+        #region Elements
+
+        private void ClbElements_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (Loading || e.NewValue == e.CurrentValue)
+                return;
+            Loading = true;
+            int i = e.Index, x = i % 4, y = x + 4, z = y + 4;
+            CheckState
+                xState = ClbElements.GetItemCheckState(x),
+                yState = ClbElements.GetItemCheckState(y),
+                zState = ClbElements.GetItemCheckState(z);
+            if (i == x)
+                SetState(z, e.NewValue == yState ? e.NewValue : CheckState.Indeterminate);
+            else if (i == y)
+                SetState(z, xState == e.NewValue ? e.NewValue : CheckState.Indeterminate);
+            else
+            {
+                SetState(x, e.NewValue);
+                SetState(y, e.NewValue);
+            }
+            Loading = false;
+        }
 
         private Elements[] GetElementValues() => (Elements[])Enum.GetValues(typeof(Elements));
 
         private int ControlToEnum(int index) => index < 11 ? 3 * index % 11 : 11;
-        private CheckState GetElementState(int index) => ClbElements.GetItemCheckState(index);
-        private void SetElementState(int index, CheckState state) => ClbElements.SetItemCheckState(index, state);
+        private CheckState GetState(int index) => ClbElements.GetItemCheckState(index);
+        private void SetState(int index, CheckState state) => ClbElements.SetItemCheckState(index, state);
 
         private void ReadElements()
         {
@@ -99,7 +107,7 @@
                 var state = graphValue == value ? CheckState.Checked
                     : graphValue == 0 ? CheckState.Unchecked
                     : CheckState.Indeterminate;
-                SetElementState(index, state);
+                SetState(index, state);
             }
         }
 
@@ -108,14 +116,14 @@
             var values = GetElementValues();
             Elements graphElements = 0;
             for (var index = 0; index < ClbElements.Items.Count; index++)
-                if (GetElementState(index) == CheckState.Checked)
+                if (GetState(index) == CheckState.Checked)
                     graphElements |= values[ControlToEnum(index)];
             Graph.Elements = graphElements;
         }
 
         #endregion
 
-        #region Read/Write Model
+        #region Model
 
         private void ReadModel()
         {
