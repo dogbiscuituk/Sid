@@ -142,9 +142,6 @@
         private void GraphAddNewFunction_Click(object sender, EventArgs e) =>
             AddNewKey(null);
 
-        private void BtnRemoveFunction_Click(object sender, EventArgs e) =>
-            RemoveKey((KeyView)((Control)sender).Parent);
-
         private void AddNewKey(Series series)
         {
             Loading = true;
@@ -169,7 +166,6 @@
             var index = Keys.Count;
             child.TraceLabel = $"f{Keys.Count.ToString().ToSubscript()}";
             child.View.cbFunction.Validating += CbFunction_Validating;
-            child.View.btnRemove.Click += BtnRemoveFunction_Click;
             Keys.Add(child.View);
             Loading = false;
             AfterKeyChange();
