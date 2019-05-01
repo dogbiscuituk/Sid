@@ -84,6 +84,7 @@
                     View.FileExit.Click -= FileExit_Click;
                     View.GraphProperties.Click -= GraphProperties_Click;
                     View.ViewCoordinatesTooltip.Click -= ViewCoordinatesTooltip_Click;
+                    View.ZoomMenu.DropDownOpening -= ZoomMenu_DropDownOpening;
                     View.ZoomIn.Click -= ZoomIn_Click;
                     View.ZoomOut.Click -= ZoomOut_Click;
                     View.ZoomReset.Click -= ZoomReset_Click;
@@ -116,6 +117,7 @@
                     View.FileExit.Click += FileExit_Click;
                     View.GraphProperties.Click += GraphProperties_Click;
                     View.ViewCoordinatesTooltip.Click += ViewCoordinatesTooltip_Click;
+                    View.ZoomMenu.DropDownOpening += ZoomMenu_DropDownOpening;
                     View.ZoomIn.Click += ZoomIn_Click;
                     View.ZoomOut.Click += ZoomOut_Click;
                     View.ZoomReset.Click += ZoomReset_Click;
@@ -153,6 +155,7 @@
         private void FileSave_Click(object sender, EventArgs e) => JsonController.Save();
         private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
+        private void ZoomMenu_DropDownOpening(object sender, EventArgs e) => View.ZoomIsotropic.Checked = Graph.Isotropic;
         private void ZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
         private void ZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
         private void ZoomReset_Click(object sender, EventArgs e) => ZoomReset();
