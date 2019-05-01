@@ -325,7 +325,7 @@
 
                             if (oldOp.GetPrecedence() == Precedence.Relational && left.IsRelational())
                                 operand = MakeBinary("&", left, 
-                                    MakeBinary(oldOp, left.GetRightmostDescendant(), operand));
+                                    MakeBinary(oldOp, left.GetRightmostRelation(), operand));
                             else
                                 operand = MakeBinary(oldOp, left, operand);
                         }

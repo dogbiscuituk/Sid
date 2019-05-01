@@ -186,13 +186,24 @@
             return Precedence.Unary;
         }
 
-        public static Expression GetRightmostDescendant(this Expression e)
+        /// <summary>
+        /// Find the rightmost non-relational descendant in a relational subtree
+        /// </summary>
+        /// <param name="e">The source expression.</param>
+        /// <returns>The rightmost non-relational descendant of e.</returns>
+        public static Expression GetRightmostRelation(this Expression e)
         {
             while (e.IsRelational())
                 e = ((BinaryExpression)e).Right;
             return e;
         }
 
+        /// <summary>
+        /// Determine whether a given ExpressionType is relational, i.e.,
+        /// "<", "<=", ">=" or ">".
+        /// </summary>
+        /// <param name="nodeType">The given ExpressionType.</param>
+        /// <returns>True if nodeType is relational, otherwise false.</returns>
         public static bool IsRelational(this ExpressionType nodeType)
         {
             switch (nodeType)
@@ -206,6 +217,13 @@
             return false;
         }
 
+        /// <summary>
+        /// Determine whether a given Expression is relational, i.e.,
+        /// either a relational binary itself ("<", "<=", ">=" or ">"),
+        /// or a conjunction ("&") of two relational expressions.
+        /// </summary>
+        /// <param name="e">The given Expression.</param>
+        /// <returns>True if the Expression is relational, otherwise false.</returns>
         public static bool IsRelational(this Expression e)
         {
             if (e is BinaryExpression b)
