@@ -167,15 +167,16 @@
             child.TraceLabel = $"f{Keys.Count.ToString().ToSubscript()}";
             child.View.cbFunction.Validating += CbFunction_Validating;
             Keys.Add(child.View);
-            Loading = false;
             AfterKeyChange();
+            Loading = false;
             child.View.cbFunction.Focus();
         }
 
         private void AfterKeyChange()
         {
             AdjustLegend();
-            GraphWrite();
+            if (!Loading)
+                GraphWrite();
         }
 
         private void RemoveAllKeys()

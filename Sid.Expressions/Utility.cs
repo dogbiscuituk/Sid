@@ -210,8 +210,8 @@
             {
                 case ExpressionType.LessThan:
                 case ExpressionType.LessThanOrEqual:
-                case ExpressionType.GreaterThan:
                 case ExpressionType.GreaterThanOrEqual:
+                case ExpressionType.GreaterThan:
                     return true;
             }
             return false;

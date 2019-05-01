@@ -237,7 +237,6 @@
         private void RestoreDefaults()
         {
             ZoomReset();
-
             AxisColour = Defaults.GraphAxisColour;
             FillColour = Defaults.GraphFillColour;
             GridColour = Defaults.GraphGridColour;

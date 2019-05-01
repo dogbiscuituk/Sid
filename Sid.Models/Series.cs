@@ -167,6 +167,8 @@
                 return;
             Limits = limits;
             InvalidatePoints();
+            if (Func == null)
+                return;
             List<PointF> points = null;
             float
                 x1 = Limits.Left, y1 = Limits.Top, y2 = Limits.Bottom,
