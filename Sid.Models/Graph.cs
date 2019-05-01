@@ -292,7 +292,7 @@
 
         #region Drawing
 
-        public void Draw(Graphics g, Rectangle r)
+        public void Draw(Graphics g, Rectangle r, double time)
         {
             if (r.Width == 0 || r.Height == 0)
                 return; // Nothing to draw!
@@ -301,9 +301,9 @@
             using (var brush = new SolidBrush(PaperColour))
                 g.FillRectangle(brush, Limits);
             var penWidth = (Size.Width / r.Width + Size.Height / r.Height);
-            Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, fill: true); });
+            Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, true, time); });
             DrawGrid(g, penWidth);
-            Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, fill: false); });
+            Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, false, time); });
         }
 
         private void DrawGrid(Graphics g, float penWidth)

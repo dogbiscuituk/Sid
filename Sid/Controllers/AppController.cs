@@ -16,6 +16,7 @@
             View = new AppForm();
             Model = new Model();
             Model.Cleared += Model_Cleared;
+            Model.ClockTick += Model_ClockTick;
             Model.ModifiedChanged += Model_ModifiedChanged;
             Model.PropertyChanged += Model_PropertyChanged;
             PropertiesController = new PropertiesController(Model);
@@ -183,6 +184,12 @@ Version: {Application.ProductVersion}",
         #region Model
 
         private void Model_Cleared(object sender, EventArgs e) => ModelCleared();
+
+        private void Model_ClockTick(object sender, EventArgs e)
+        {
+            PictureBox.Invalidate();
+        }
+
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
         private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
             OnPropertyChanged($"Model.{e.PropertyName}");
@@ -258,7 +265,7 @@ Version: {Application.ProductVersion}",
                 Math.Abs(e.Delta / SystemInformation.MouseWheelScrollDelta)));
 
         private void PictureBox_Paint(object sender, PaintEventArgs e) =>
-            Graph.Draw(e.Graphics, PictureBox.ClientRectangle);
+            Model.Draw(e.Graphics, PictureBox.ClientRectangle);
 
         private void PictureBox_Resize(object sender, EventArgs e) => PictureBox.Invalidate();
 

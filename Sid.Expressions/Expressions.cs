@@ -6,22 +6,26 @@
     public static partial class Expressions
     {
         public static ParameterExpression x = Expression.Variable(typeof(double));
+        public static ParameterExpression t = Expression.Variable(typeof(double));
 
         public static ConstantExpression Constant(this double c) => Expression.Constant(c);
 
-        public static string AsString(this Expression e, string variableName = "x") =>
-            e.ToString().Replace(" ", "").Replace("Param_0", variableName);
+        public static string AsString(this Expression e) =>
+            e.ToString().Replace(" ", "").Replace("Param_0", "x").Replace("Param_1", "t");
 
-        public static Func<double, double> AsFunction(this Expression e)
+        public static Func<double, double, double> AsFunction(this Expression e)
         {
             if (e is DefaultExpression && e.Type == typeof(void))
-                return (x) => double.NaN;
-            return Expression.Lambda<Func<double, double>>(e.ToDouble(), x).Compile();
+                return (x, t) => double.NaN;
+            return Expression.Lambda<Func<double, double, double>>(e.ToDouble(), X, T).Compile();
         }
 
-        public static double AsDouble(this Expression e, double x) => AsFunction(e)(x);
+        public static double AsDouble(this Expression e, double x, double t = 0) => AsFunction(e)(x, t);
 
         public static ConstantExpression e = Math.PI.Constant();
+
+        public static ParameterExpression X { get => x; set => x = value; }
+        public static ParameterExpression T { get => t; set => t = value; }
 
         public static Expression Parse(this string formula) => new Parser().Parse(formula);
 
@@ -222,7 +226,7 @@
             if (operand is ConstantExpression ce)
             {
                 var c = (double)ce.Value;
-                return Constant(Function(m.Method.Name, x).AsDouble(c));
+                return Constant(Function(m.Method.Name, X).AsDouble(c));
             }
             return Function(m.Method.Name, operand);
         }

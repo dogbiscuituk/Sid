@@ -233,6 +233,7 @@
             switch (char.ToLower(token[0]))
             {
                 case 'x' when token.Length == 1:
+                case 't' when token.Length == 1:
                     ParseParameter(token);
                     break;
                 case char c when char.IsDigit(c):
@@ -346,7 +347,15 @@
 
         private void ParseParameter(string token)
         {
-            Operands.Push(Expressions.x);
+            switch (token)
+            {
+                case "x":
+                    Operands.Push(Expressions.X);
+                    break;
+                case "t":
+                    Operands.Push(Expressions.T);
+                    break;
+            }
             ReadPast(token);
         }
 

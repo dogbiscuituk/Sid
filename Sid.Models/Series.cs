@@ -104,7 +104,7 @@
         }
 
         [JsonIgnore]
-        public Func<double, double> Func { get; private set; }
+        public Func<double, double, double> Func { get; private set; }
 
         private RectangleF Limits;
 
@@ -137,15 +137,17 @@
             }
         }
 
+        private double LastTime;
+
         #endregion
 
         #region Drawing
 
-        public void Draw(Graphics g, RectangleF limits, float penWidth, bool fill)
+        public void Draw(Graphics g, RectangleF limits, float penWidth, bool fill, double time)
         {
             if (fill && (FillColour == Color.Transparent || FillTransparencyPercent == 100))
                 return; // Not just an optimisation; omits vertical asymptotes too.
-            ComputePoints(limits);
+            ComputePoints(limits, time);
             if (fill)
                 using (var pen = new Pen(LimitColour, penWidth))
                 {
@@ -161,11 +163,12 @@
 
         private List<List<PointF>> PointLists = new List<List<PointF>>();
 
-        private void ComputePoints(RectangleF limits)
+        private void ComputePoints(RectangleF limits, double time)
         {
-            if (Limits == limits && PointLists.Any())
+            if (Limits == limits && LastTime == time && PointLists.Any())
                 return;
             Limits = limits;
+            LastTime = time;
             InvalidatePoints();
             if (Func == null)
                 return;
@@ -176,7 +179,7 @@
             var skip = true;
             for (var step = 0; step <= StepCount; step++)
             {
-                float x = x1 + step * w / StepCount, y = (float)Func(x);
+                float x = x1 + step * w / StepCount, y = (float)Func(x, time);
                 if (float.IsInfinity(y) || float.IsNaN(y) || y < y1 - h || y > y2 + h)
                     skip = true;
                 else

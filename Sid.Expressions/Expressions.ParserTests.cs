@@ -88,6 +88,7 @@
             TestParse("x<2 ? x<1 ? 0 : 1 : x>3 ? 3 : 2", "IIF((x<2),IIF((x<1),0,1),IIF((x>3),3,2))");
             TestParse("0<x<1", "((0<x)And(x<1))");
             TestParse("0<x<2x<1", "(((0<x)And(x<(2*x)))And((2*x)<1))");
+            TestParse("t*x", "(x*t)");
         }
     }
 }

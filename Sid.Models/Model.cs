@@ -1,7 +1,9 @@
 ﻿namespace Sid.Models
 {
+    using Sid.Expressions;
     using System;
     using System.ComponentModel;
+    using System.Drawing;
 
     public class Model : INotifyPropertyChanged
     {
@@ -9,6 +11,8 @@
         {
             Graph = new Graph();
             Modified = false;
+            Clock = new Clock();
+            Clock.Tick += Clock_Tick;
         }
 
         #region Properties
@@ -59,6 +63,18 @@
 
         protected virtual void OnClear() =>
             Cleared?.Invoke(this, EventArgs.Empty);
+
+        #endregion
+
+        #region Clock
+
+        private Clock Clock;
+
+        public void Draw(Graphics g, Rectangle r) => Graph.Draw(g, r, Clock.SecondsElapsed);
+
+        private void Clock_Tick(object sender, EventArgs e) => ClockTick?.Invoke(this, EventArgs.Empty);
+
+        public event EventHandler ClockTick;
 
         #endregion
 
