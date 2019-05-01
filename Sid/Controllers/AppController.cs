@@ -75,6 +75,7 @@
             {
                 if (View != null)
                 {
+                    Clock.Stop();
                     Clock.Tick -= Clock_Tick;
                     View.FormClosing -= View_FormClosing;
                     View.Resize -= View_Resize;
@@ -148,6 +149,7 @@
                     PictureBox.Resize += PictureBox_Resize;
                     Clock = new Clock { Sync = View };
                     Clock.Tick += Clock_Tick;
+                    Clock.Start();
                 }
             }
         }
