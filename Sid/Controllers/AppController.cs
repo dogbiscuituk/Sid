@@ -16,7 +16,6 @@
             View = new AppForm();
             Model = new Model();
             Model.Cleared += Model_Cleared;
-            Model.ClockTick += Model_ClockTick;
             Model.ModifiedChanged += Model_ModifiedChanged;
             Model.PropertyChanged += Model_PropertyChanged;
             PropertiesController = new PropertiesController(Model);
@@ -41,6 +40,7 @@
         public Graph Graph { get => Model.Graph; }
         public PictureBox PictureBox { get => View.PictureBox; }
 
+        private Clock Clock = new Clock();
         private Point DragFrom;
         private bool Dragging;
         private Point MouseDownAt;
@@ -75,6 +75,7 @@
             {
                 if (View != null)
                 {
+                    Clock.Tick -= Clock_Tick;
                     View.FormClosing -= View_FormClosing;
                     View.Resize -= View_Resize;
                     View.FileMenu.DropDownOpening -= FileMenu_DropDownOpening;
@@ -96,6 +97,10 @@
                     View.ScrollUp.Click -= ScrollUp_Click;
                     View.ScrollDown.Click -= ScrollDown_Click;
                     View.ScrollCentre.Click -= ScrollCentre_Click;
+                    View.TimerMenu.DropDownOpening -= TimerMenu_DropDownOpening;
+                    View.TimerRunPause.Click -= TimerRunPause_Click;
+                    View.TimerReset.Click -= TimerReset_Click;
+                    View.TimerInterval.SelectedIndexChanged -= TimerInterval_SelectedIndexChanged;
                     View.HelpAbout.Click -= HelpAbout_Click;
                     PictureBox.MouseDown -= PictureBox_MouseDown;
                     PictureBox.MouseLeave -= PictureBox_MouseLeave;
@@ -129,6 +134,10 @@
                     View.ScrollUp.Click += ScrollUp_Click;
                     View.ScrollDown.Click += ScrollDown_Click;
                     View.ScrollCentre.Click += ScrollCentre_Click;
+                    View.TimerMenu.DropDownOpening += TimerMenu_DropDownOpening;
+                    View.TimerRunPause.Click += TimerRunPause_Click;
+                    View.TimerReset.Click += TimerReset_Click;
+                    View.TimerInterval.SelectedIndexChanged += TimerInterval_SelectedIndexChanged;
                     View.HelpAbout.Click += HelpAbout_Click;
                     PictureBox.MouseDown += PictureBox_MouseDown;
                     PictureBox.MouseLeave += PictureBox_MouseLeave;
@@ -137,13 +146,10 @@
                     PictureBox.MouseWheel += PictureBox_MouseWheel;
                     PictureBox.Paint += PictureBox_Paint;
                     PictureBox.Resize += PictureBox_Resize;
+                    Clock = new Clock { Sync = View };
+                    Clock.Tick += Clock_Tick;
                 }
             }
-        }
-
-        private void GraphProperties_Click(object sender, EventArgs e)
-        {
-            PropertiesController.Show(View);
         }
 
         #endregion
@@ -156,6 +162,7 @@
         private void FileSave_Click(object sender, EventArgs e) => JsonController.Save();
         private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
+        private void GraphProperties_Click(object sender, EventArgs e) => PropertiesController.Show(View);
         private void ZoomMenu_DropDownOpening(object sender, EventArgs e) => View.ZoomIsotropic.Checked = Graph.Isotropic;
         private void ZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
         private void ZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
@@ -167,6 +174,17 @@
         private void ScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1);
         private void ScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1);
         private void ScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
+
+        private void TimerMenu_DropDownOpening(object sender, EventArgs e)
+        {
+            View.TimerRunPause.Checked = Clock.Running;
+            View.TimerInterval.SelectedIndex = View.TimerInterval.Items.IndexOf(Clock.Tick_ms.ToString());
+        }
+
+        private void TimerRunPause_Click(object sender, EventArgs e) => Clock.Running = !Clock.Running;
+        private void TimerReset_Click(object sender, EventArgs e) => Clock.Reset();
+        private void TimerInterval_SelectedIndexChanged(object sender, EventArgs e) => Clock.Tick_ms = Get_ms();
+
         private void ViewCoordinatesTooltip_Click(object sender, EventArgs e) => ToggleCoordinatesTooltip();
         private void HelpAbout_Click(object sender, EventArgs e) => ShowVersionInfo();
 
@@ -179,6 +197,9 @@ Version: {Application.ProductVersion}",
                 $"About {Application.ProductName}");
         }
 
+        private int Get_ms() => Get_ms(View.TimerInterval.SelectedItem);
+        private int Get_ms(object item) => int.Parse(item.ToString());
+
         #endregion
 
         #region Model
@@ -187,7 +208,7 @@ Version: {Application.ProductVersion}",
 
         private void Model_ClockTick(object sender, EventArgs e)
         {
-            PictureBox.Invalidate();
+            InvalidatePictureBox();
         }
 
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
@@ -208,7 +229,16 @@ Version: {Application.ProductVersion}",
                 InitPaper();
             if (propertyName == "Model.Graph.Isotropic")
                 AdjustPictureBox();
-            PictureBox.Invalidate();
+            InvalidatePictureBox();
+        }
+
+        #endregion
+
+        #region Clock
+
+        private void Clock_Tick(object sender, EventArgs e)
+        {
+            InvalidatePictureBox();
         }
 
         #endregion
@@ -265,9 +295,9 @@ Version: {Application.ProductVersion}",
                 Math.Abs(e.Delta / SystemInformation.MouseWheelScrollDelta)));
 
         private void PictureBox_Paint(object sender, PaintEventArgs e) =>
-            Model.Draw(e.Graphics, PictureBox.ClientRectangle);
+            Graph.Draw(e.Graphics, PictureBox.ClientRectangle, Clock.SecondsElapsed);
 
-        private void PictureBox_Resize(object sender, EventArgs e) => PictureBox.Invalidate();
+        private void PictureBox_Resize(object sender, EventArgs e) => InvalidatePictureBox();
 
         private void AdjustFullScreen()
         {
@@ -314,6 +344,7 @@ Version: {Application.ProductVersion}",
 
         private void InitCoordinatesToolTip(string text) => View.ToolTip.SetToolTip(PictureBox, text);
         private void InitPaper() => ClientPanel.BackColor = Graph.FillColour;
+        private void InvalidatePictureBox() => PictureBox.Invalidate();
 
         private static void MoveMenuItems(ToolStrip source, ToolStrip target)
         {

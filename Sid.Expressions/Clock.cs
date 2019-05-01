@@ -1,20 +1,20 @@
 ﻿namespace Sid.Expressions
 {
     using System;
+    using System.ComponentModel;
     using System.Timers;
 
     public class Clock
     {
         public Clock()
         {
-            _timer = new Timer
+            Timer = new Timer
             {
                 AutoReset = true,
-                Interval = 25,
+                Interval = 50,
                 Enabled = true
             };
-            _timer.Elapsed += _timer_Elapsed;
-            Start();
+            Timer.Elapsed += Timer_Elapsed;
         }
 
         #region Fields
@@ -22,7 +22,7 @@
         private bool _running;
         private DateTime _startedAt;
         private TimeSpan _timeElapsed;
-        private Timer _timer;
+        private Timer Timer;
 
         #endregion
 
@@ -38,20 +38,32 @@
                     var now = DateTime.Now;
                     if (Running)
                     {
-                        _timer.Stop();
+                        Timer.Enabled = false;
                         _timeElapsed += now - _startedAt;
                     }
                     _running = value;
                     if (Running)
                     {
                         _startedAt = now;
-                        _timer.Start();
+                        Timer.Enabled = true;
                     }
                 }
             }
         }
 
         public double SecondsElapsed => TimeElapsed.TotalSeconds;
+
+        public ISynchronizeInvoke Sync
+        {
+            get => Timer.SynchronizingObject;
+            set => Timer.SynchronizingObject = value;
+        }
+
+        public double Tick_ms
+        {
+            get => Timer.Interval;
+            set => Timer.Interval = value;
+        }
 
         public TimeSpan TimeElapsed =>
             Running ? _timeElapsed + (DateTime.Now - _startedAt) : _timeElapsed;
@@ -80,7 +92,7 @@
 
         #region Events
 
-        private void _timer_Elapsed(object sender, ElapsedEventArgs e)
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             Tick?.Invoke(this, EventArgs.Empty);
         }
