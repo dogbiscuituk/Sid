@@ -257,6 +257,19 @@
             throw new FormatException($"Unsuppported type {type}");
         }
 
+        public static bool UsesTime(this Expression e)
+        {
+            if (e == Expressions.t)
+                return true;
+            if (e is UnaryExpression u)
+                return u.Operand.UsesTime();
+            if (e is MethodCallExpression m)
+                return m.Arguments.Any(p => p.UsesTime());
+            if (e is BinaryExpression b)
+                return b.Left.UsesTime() || b.Right.UsesTime();
+            return false;
+        }
+
         #endregion
 
         #region Functions

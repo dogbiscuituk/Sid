@@ -165,11 +165,11 @@
 
         private void ComputePoints(RectangleF limits, double time)
         {
-            if (Limits == limits && LastTime == time && PointLists.Any())
+            if (Limits == limits && (LastTime == time || !Expression.UsesTime()) && PointLists.Any())
                 return;
+            InvalidatePoints();
             Limits = limits;
             LastTime = time;
-            InvalidatePoints();
             if (Func == null)
                 return;
             List<PointF> points = null;
@@ -212,10 +212,7 @@
                 g.DrawLine(pen, points[n + 1], points[0]);
         }
 
-        private void InvalidatePoints()
-        {
-            PointLists.Clear();
-        }
+        private void InvalidatePoints() => PointLists.Clear();
 
         #endregion
 
