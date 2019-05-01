@@ -350,10 +350,10 @@
             switch (token)
             {
                 case "x":
-                    Operands.Push(Expressions.X);
+                    Operands.Push(Expressions.x);
                     break;
                 case "t":
-                    Operands.Push(Expressions.T);
+                    Operands.Push(Expressions.t);
                     break;
             }
             ReadPast(token);

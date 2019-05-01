@@ -17,15 +17,12 @@
         {
             if (e is DefaultExpression && e.Type == typeof(void))
                 return (x, t) => double.NaN;
-            return Expression.Lambda<Func<double, double, double>>(e.ToDouble(), X, T).Compile();
+            return Expression.Lambda<Func<double, double, double>>(e.ToDouble(), x, t).Compile();
         }
 
         public static double AsDouble(this Expression e, double x, double t = 0) => AsFunction(e)(x, t);
 
         public static ConstantExpression e = Math.PI.Constant();
-
-        public static ParameterExpression X { get => x; set => x = value; }
-        public static ParameterExpression T { get => t; set => t = value; }
 
         public static Expression Parse(this string formula) => new Parser().Parse(formula);
 
@@ -138,7 +135,7 @@
                 case ConstantExpression c: // d(c)/dx = 0
                     return Constant(0);
                 case ParameterExpression p: // d(x)/dx = 1
-                    return Constant(1);
+                    return p == x ? Constant(1) : Constant(0);
                 case MethodCallExpression m:
                     var a = m.Arguments[0];
                     return DifferentiateFunction(m.Method.Name, a).Times(D(a)); // Chain Rule
@@ -226,7 +223,7 @@
             if (operand is ConstantExpression ce)
             {
                 var c = (double)ce.Value;
-                return Constant(Function(m.Method.Name, X).AsDouble(c));
+                return Constant(Function(m.Method.Name, x).AsDouble(c));
             }
             return Function(m.Method.Name, operand);
         }
