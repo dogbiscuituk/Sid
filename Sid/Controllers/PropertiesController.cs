@@ -28,6 +28,7 @@
             {
                 if (View != null)
                 {
+                    View.cbStepCount.SelectedValueChanged -= LiveUpdate;
                     ColourController.Clear();
                     View.FormClosing -= View_FormClosing;
                     ClbElements.ItemCheck -= ClbElements_ItemCheck;
@@ -36,6 +37,7 @@
                 _view = value;
                 if (View != null)
                 {
+                    View.cbStepCount.SelectedValueChanged += LiveUpdate;
                     AddControls(View.cbAxisColour, View.cbGridColour, View.cbPenColour,
                         View.cbLimitColour, View.cbPaperColour, View.cbFillColour);
                     View.FormClosing += View_FormClosing;
@@ -159,6 +161,7 @@
         private void GraphRead()
         {
             Loading = true;
+            View.cbStepCount.Text = Graph.StepCount.ToString();
             ColourController.SetColour(View.cbAxisColour, Graph.AxisColour);
             ColourController.SetColour(View.cbGridColour, Graph.GridColour);
             ColourController.SetColour(View.cbPenColour, Graph.PenColour);
@@ -173,6 +176,7 @@
 
         private void GraphWrite()
         {
+            Graph.StepCount = int.Parse(View.cbStepCount.Text);
             Graph.AxisColour = ColourController.GetColour(View.cbAxisColour);
             Graph.GridColour = ColourController.GetColour(View.cbGridColour);
             Graph.PenColour = ColourController.GetColour(View.cbPenColour);

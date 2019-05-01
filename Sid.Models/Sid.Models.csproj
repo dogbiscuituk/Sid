@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Defaults.cs" />
     <Compile Include="Elements.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="GridPass.cs" />

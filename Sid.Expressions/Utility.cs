@@ -39,6 +39,36 @@
 
         #region Expressions
 
+        public static OperandTypes GetBinaryOperandTypes(this string op)
+        {
+            switch (op)
+            {
+                case "||":
+                case "&&":
+                case "|":
+                case "&":
+                    return OperandTypes.Boolean;
+                case "=":
+                case "==":
+                case "≠":
+                case "<>":
+                case "!=":
+                case "<":
+                case ">":
+                case "≮":
+                case ">=":
+                case "≯":
+                case "<=":
+                case "+":
+                case "-":
+                case "*":
+                case "/":
+                case "^":
+                    return OperandTypes.Double;
+            }
+            return OperandTypes.Unknown;
+        }
+
         public static ExpressionType GetExpressionType(this string op)
         {
             switch (op)
@@ -108,36 +138,6 @@
             return 0;
         }
 
-        public static OperandTypes GetBinaryOperandTypes(this string op)
-        {
-            switch (op)
-            {
-                case "||":
-                case "&&":
-                case "|":
-                case "&":
-                    return OperandTypes.Boolean;
-                case "=":
-                case "==":
-                case "≠":
-                case "<>":
-                case "!=":
-                case "<":
-                case ">":
-                case "≮":
-                case ">=":
-                case "≯":
-                case "<=":
-                case "+":
-                case "-":
-                case "*":
-                case "/":
-                case "^":
-                    return OperandTypes.Double;
-            }
-            return OperandTypes.Unknown;
-        }
-
         public static Precedence GetPrecedence(this string op)
         {
             switch (op)
@@ -184,6 +184,39 @@
                     return Precedence.Superscript;
             }
             return Precedence.Unary;
+        }
+
+        public static Expression GetRightmostDescendant(this Expression e)
+        {
+            while (e.IsRelational())
+                e = ((BinaryExpression)e).Right;
+            return e;
+        }
+
+        public static bool IsRelational(this ExpressionType nodeType)
+        {
+            switch (nodeType)
+            {
+                case ExpressionType.LessThan:
+                case ExpressionType.LessThanOrEqual:
+                case ExpressionType.GreaterThan:
+                case ExpressionType.GreaterThanOrEqual:
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsRelational(this Expression e)
+        {
+            if (e is BinaryExpression b)
+            {
+                var nodeType = b.NodeType;
+                return nodeType.IsRelational()
+                    || nodeType == ExpressionType.And
+                    && b.Left.IsRelational()
+                    && b.Right.IsRelational();
+            }
+            return false;
         }
 
         public static Expression ToBoolean(this Expression e)

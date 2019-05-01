@@ -14,8 +14,7 @@
 
         #region Properties
 
-        private Color _paperColour = Color.White;
-        [DefaultValue(typeof(Color), "White")]
+        private Color _paperColour = Defaults.GraphPaperColour;
         public Color PaperColour
         {
             get => _paperColour;
@@ -29,8 +28,7 @@
             }
         }
 
-        private int _paperTransparencyPercent = 0;
-        [DefaultValue(0)]
+        private int _paperTransparencyPercent = Defaults.GraphPaperTransparencyPercent;
         public int PaperTransparencyPercent
         {
             get => _paperTransparencyPercent;
@@ -44,8 +42,7 @@
             }
         }
 
-        private Color _axisColour = Color.DarkGray;
-        [DefaultValue(typeof(Color), "DarkGray")]
+        private Color _axisColour = Defaults.GraphAxisColour;
         public Color AxisColour
         {
             get => _axisColour;
@@ -59,8 +56,7 @@
             }
         }
 
-        private Color _gridColour = Color.LightGray;
-        [DefaultValue(typeof(Color), "LightGray")]
+        private Color _gridColour = Defaults.GraphGridColour;
         public Color GridColour
         {
             get => _gridColour;
@@ -74,8 +70,7 @@
             }
         }
 
-        private Color _penColour = Color.Black;
-        [DefaultValue(typeof(Color), "Black")]
+        private Color _penColour = Defaults.GraphPenColour;
         public Color PenColour
         {
             get => _penColour;
@@ -89,8 +84,7 @@
             }
         }
 
-        private Color _fillColour = Color.Transparent;
-        [DefaultValue(typeof(Color), "Transparent")]
+        private Color _fillColour = Defaults.GraphFillColour;
         public Color FillColour
         {
             get => _fillColour;
@@ -104,8 +98,7 @@
             }
         }
 
-        private int _fillTransparencyPercent = 0;
-        [DefaultValue(0)]
+        private int _fillTransparencyPercent = Defaults.GraphFillTransparencyPercent;
         public int FillTransparencyPercent
         {
             get => _fillTransparencyPercent;
@@ -119,8 +112,7 @@
             }
         }
 
-        private Color _limitColour = Color.DarkGray;
-        [DefaultValue(typeof(Color), "DarkGray")]
+        private Color _limitColour = Defaults.GraphLimitColour;
         public Color LimitColour
         {
             get => _limitColour;
@@ -134,7 +126,7 @@
             }
         }
 
-        private PointF _location, _originalLocation = new PointF(-10, -5);
+        private PointF _location, _originalLocation = Defaults.GraphLocation;
         public PointF Location
         {
             get => _location;
@@ -148,7 +140,7 @@
             }
         }
 
-        private SizeF _size, _originalSize = new SizeF(20, 10);
+        private SizeF _size, _originalSize = Defaults.GraphSize;
         public SizeF Size
         {
             get => _size;
@@ -162,7 +154,7 @@
             }
         }
 
-        private bool _isotropic;
+        private bool _isotropic = Defaults.GraphIsotropic;
         public bool Isotropic
         {
             get => _isotropic;
@@ -179,7 +171,7 @@
         [JsonIgnore]
         public RectangleF Limits { get => new RectangleF(Location, Size); }
 
-        private Elements _elements = Elements.All;
+        private Elements _elements = Defaults.GraphElements;
         public Elements Elements
         {
             get => _elements;
@@ -193,7 +185,7 @@
             }
         }
 
-        private TickStyles _tickStyles = TickStyles.Positive;
+        private TickStyles _tickStyles = Defaults.GraphTickStyles;
         public TickStyles TickStyles
         {
             get => _tickStyles;
@@ -216,9 +208,19 @@
         private bool ShowHlines { get => (Elements & Elements.HorizontalGridLines) != 0; }
         private bool ShowVlines { get => (Elements & Elements.VerticalGridLines) != 0; }
 
-        private const int DefaultStepCount = 16000;
-        [DefaultValue(DefaultStepCount)]
-        public int StepCount { get; set; }
+        private int _stepCount = Defaults.GraphStepCount;
+        public int StepCount
+        {
+            get => _stepCount;
+            set
+            {
+                if (StepCount != value)
+                {
+                    _stepCount = value;
+                    OnPropertyChanged("StepCount");
+                }
+            }
+        }
 
         private List<Series> _series = new List<Series>();
 
@@ -235,13 +237,21 @@
         private void RestoreDefaults()
         {
             ZoomReset();
-            StepCount = DefaultStepCount;
-            PaperColour = Color.White;
-            AxisColour = Color.DarkGray;
-            GridColour = Color.LightGray;
-            PenColour = Color.Black;
-            FillColour = Color.Transparent;
-            LimitColour = Color.DarkGray;
+
+            AxisColour = Defaults.GraphAxisColour;
+            FillColour = Defaults.GraphFillColour;
+            GridColour = Defaults.GraphGridColour;
+            LimitColour = Defaults.GraphLimitColour;
+            PaperColour = Defaults.GraphPaperColour;
+            PenColour = Defaults.GraphPenColour;
+            StepCount = Defaults.GraphStepCount;
+            FillTransparencyPercent = Defaults.GraphFillTransparencyPercent;
+            PaperTransparencyPercent = Defaults.GraphPaperTransparencyPercent;
+            Location = Defaults.GraphLocation;
+            Size = Defaults.GraphSize;
+            Isotropic = Defaults.GraphIsotropic;
+            Elements = Defaults.GraphElements;
+            TickStyles = Defaults.GraphTickStyles;
         }
 
         #endregion
@@ -250,7 +260,7 @@
 
         public Series AddSeries()
         {
-            var series = new Series();
+            var series = new Series(this);
             Series.Add(series);
             series.PropertyChanged += Series_PropertyChanged;
             OnPropertyChanged("Series");

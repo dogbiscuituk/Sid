@@ -359,7 +359,14 @@ Version: {Application.ProductVersion}",
             e.Cancel = !JsonController.SaveIfModified();
 
         private bool ContinueSaving() => true;
-        private void FileLoaded() { Graph.ZoomSet(); InitPaper(); }
+
+        private void FileLoaded()
+        {
+            Graph.ZoomSet();
+            InitPaper();
+            LegendController.GraphRead();
+        }
+
         private void FileSaved() => Graph.ZoomSet();
 
         private void NewFile()

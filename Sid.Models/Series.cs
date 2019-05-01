@@ -13,12 +13,21 @@
     [Serializable]
     public class Series: INotifyPropertyChanged
     {
-        public Series() { Formula = "0"; }
+        public Series() { }
+
+        public Series(Graph graph): this()
+        {
+            FillColour = graph.FillColour;
+            LimitColour = graph.LimitColour;
+            PenColour = graph.PenColour;
+            StepCount = graph.StepCount;
+            FillTransparencyPercent = graph.FillTransparencyPercent;
+            Formula = "0";
+        }
 
         #region Properties
 
-        private Color _penColour = Color.Black;
-        [DefaultValue(typeof(Color), "Black")]
+        private Color _penColour;
         public Color PenColour
         {
             get => _penColour;
@@ -32,8 +41,7 @@
             }
         }
 
-        private Color _fillColour = Color.White;
-        [DefaultValue(typeof(Color), "White")]
+        private Color _fillColour;
         public Color FillColour
         {
             get => _fillColour;
@@ -47,8 +55,7 @@
             }
         }
 
-        private int _fillTransparencyPercent = 0;
-        [DefaultValue(0)]
+        private int _fillTransparencyPercent;
         public int FillTransparencyPercent
         {
             get => _fillTransparencyPercent;
@@ -62,8 +69,7 @@
             }
         }
 
-        private Color _limitColour = Color.DarkGray;
-        [DefaultValue(typeof(Color), "DarkGray")]
+        private Color _limitColour;
         public Color LimitColour
         {
             get => _limitColour;
@@ -81,7 +87,6 @@
         public Expression Expression { get; private set; }
 
         private string _formula = string.Empty;
-        [DefaultValue("")]
         public string Formula
         {
             get => _formula;
@@ -103,7 +108,7 @@
 
         private RectangleF Limits;
 
-        private int _stepCount = 1000;
+        private int _stepCount;
         public int StepCount
         {
             get => _stepCount;
@@ -119,7 +124,6 @@
         }
 
         private bool _visible = true;
-        [DefaultValue(true)]
         public bool Visible
         {
             get => _visible;

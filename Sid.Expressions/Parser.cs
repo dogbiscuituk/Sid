@@ -320,7 +320,15 @@
                             operand = MakeConditional(Operands.Pop(), then, operand);
                         }
                         else
-                            operand = MakeBinary(oldOp, Operands.Pop(), operand);
+                        {
+                            var left = Operands.Pop();
+
+                            if (oldOp.GetPrecedence() == Precedence.Relational && left.IsRelational())
+                                operand = MakeBinary("&", left, 
+                                    MakeBinary(oldOp, left.GetRightmostDescendant(), operand));
+                            else
+                                operand = MakeBinary(oldOp, left, operand);
+                        }
                     }
                     Operands.Push(operand);
                 }
