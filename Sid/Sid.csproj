@@ -58,7 +58,7 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\MruController.cs" />
     <Compile Include="Controllers\SdiController.cs" />
-    <Compile Include="Controllers\UnicodeController.cs" />
+    <Compile Include="Controllers\MathboardController.cs" />
     <Compile Include="Views\AppForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,11 +90,11 @@
     <Compile Include="Views\KeyView.Designer.cs">
       <DependentUpon>KeyView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\MathematicalKeyboard.cs">
+    <Compile Include="Views\Mathboard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\MathematicalKeyboard.Designer.cs">
-      <DependentUpon>MathematicalKeyboard.cs</DependentUpon>
+    <Compile Include="Views\Mathboard.Designer.cs">
+      <DependentUpon>Mathboard.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -129,8 +129,8 @@
     <EmbeddedResource Include="Views\KeyView.resx">
       <DependentUpon>KeyView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\MathematicalKeyboard.resx">
-      <DependentUpon>MathematicalKeyboard.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Mathboard.resx">
+      <DependentUpon>Mathboard.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

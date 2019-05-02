@@ -1,6 +1,6 @@
 ﻿namespace Sid.Views
 {
-    partial class MathematicalKeyboard
+    partial class Mathboard
     {
         /// <summary>
         /// Required designer variable.
@@ -560,6 +560,7 @@
             this.btnBackspace.Name = "btnBackspace";
             this.btnBackspace.Size = new System.Drawing.Size(72, 24);
             this.btnBackspace.TabIndex = 14;
+            this.btnBackspace.Tag = "Fixed";
             this.btnBackspace.Text = "Backspace";
             this.btnBackspace.UseVisualStyleBackColor = true;
             // 
@@ -570,6 +571,7 @@
             this.btnCapsLock.Name = "btnCapsLock";
             this.btnCapsLock.Size = new System.Drawing.Size(66, 24);
             this.btnCapsLock.TabIndex = 37;
+            this.btnCapsLock.Tag = "Fixed";
             this.btnCapsLock.Text = "Caps Lock";
             this.btnCapsLock.UseVisualStyleBackColor = true;
             // 
@@ -580,6 +582,7 @@
             this.btnLshift.Name = "btnLshift";
             this.btnLshift.Size = new System.Drawing.Size(54, 24);
             this.btnLshift.TabIndex = 53;
+            this.btnLshift.Tag = "Fixed";
             this.btnLshift.Text = "Shift";
             this.btnLshift.UseVisualStyleBackColor = true;
             // 
@@ -590,6 +593,7 @@
             this.btnTab.Name = "btnTab";
             this.btnTab.Size = new System.Drawing.Size(60, 24);
             this.btnTab.TabIndex = 19;
+            this.btnTab.Tag = "Fixed";
             this.btnTab.Text = "Tab";
             this.btnTab.UseVisualStyleBackColor = true;
             // 
@@ -600,6 +604,7 @@
             this.btnRshift.Name = "btnRshift";
             this.btnRshift.Size = new System.Drawing.Size(90, 24);
             this.btnRshift.TabIndex = 65;
+            this.btnRshift.Tag = "Fixed";
             this.btnRshift.Text = "Shift";
             this.btnRshift.UseVisualStyleBackColor = true;
             // 
@@ -721,6 +726,7 @@
             this.btnEnter.Name = "btnEnter";
             this.btnEnter.Size = new System.Drawing.Size(24, 48);
             this.btnEnter.TabIndex = 69;
+            this.btnEnter.Tag = "Fixed";
             this.btnEnter.Text = "⏎";
             this.btnEnter.UseVisualStyleBackColor = true;
             // 
@@ -795,11 +801,12 @@
             // btnReturn
             // 
             this.btnReturn.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReturn.Location = new System.Drawing.Point(354, 30);
+            this.btnReturn.Location = new System.Drawing.Point(360, 30);
             this.btnReturn.Margin = new System.Windows.Forms.Padding(0);
             this.btnReturn.Name = "btnReturn";
-            this.btnReturn.Size = new System.Drawing.Size(60, 48);
+            this.btnReturn.Size = new System.Drawing.Size(54, 48);
             this.btnReturn.TabIndex = 32;
+            this.btnReturn.Tag = "Fixed";
             this.btnReturn.Text = "⏎";
             this.btnReturn.UseVisualStyleBackColor = true;
             // 
@@ -832,7 +839,7 @@
             this.btnApostrophe.Text = "\'";
             this.btnApostrophe.UseVisualStyleBackColor = true;
             // 
-            // UnicodeKeyboard
+            // Mathboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -911,7 +918,7 @@
             this.Controls.Add(this.btnNum0);
             this.Controls.Add(this.btnNumPeriod);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "UnicodeKeyboard";
+            this.Name = "Mathboard";
             this.Text = "Mathematical Keyboard";
             this.ResumeLayout(false);
 
@@ -919,78 +926,78 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnQ;
-        private System.Windows.Forms.Button btnW;
-        private System.Windows.Forms.Button btnE;
-        private System.Windows.Forms.Button btnR;
-        private System.Windows.Forms.Button btnT;
-        private System.Windows.Forms.Button btnY;
-        private System.Windows.Forms.Button btnU;
-        private System.Windows.Forms.Button btnI;
-        private System.Windows.Forms.Button btnO;
-        private System.Windows.Forms.Button btnP;
-        private System.Windows.Forms.Button btnA;
-        private System.Windows.Forms.Button btnS;
-        private System.Windows.Forms.Button btnD;
-        private System.Windows.Forms.Button btnF;
-        private System.Windows.Forms.Button btnG;
-        private System.Windows.Forms.Button btnH;
-        private System.Windows.Forms.Button btnJ;
-        private System.Windows.Forms.Button btnK;
-        private System.Windows.Forms.Button btnL;
-        private System.Windows.Forms.Button btnZ;
-        private System.Windows.Forms.Button btnX;
-        private System.Windows.Forms.Button btnC;
-        private System.Windows.Forms.Button btnV;
-        private System.Windows.Forms.Button btnB;
-        private System.Windows.Forms.Button btnN;
-        private System.Windows.Forms.Button btnM;
-        private System.Windows.Forms.Button btn1;
-        private System.Windows.Forms.Button btn2;
-        private System.Windows.Forms.Button btn3;
-        private System.Windows.Forms.Button btn4;
-        private System.Windows.Forms.Button btn5;
-        private System.Windows.Forms.Button btn6;
-        private System.Windows.Forms.Button btn7;
-        private System.Windows.Forms.Button btn8;
-        private System.Windows.Forms.Button btn9;
-        private System.Windows.Forms.Button btn0;
-        private System.Windows.Forms.Button btnMinus;
-        private System.Windows.Forms.Button btnEqual;
-        private System.Windows.Forms.Button btnBackTick;
-        private System.Windows.Forms.Button btnBackslash;
-        private System.Windows.Forms.Button btnPeriod;
-        private System.Windows.Forms.Button btnSlash;
-        private System.Windows.Forms.Button btnHash;
-        private System.Windows.Forms.Button bynLeftBracket;
-        private System.Windows.Forms.Button btnRightBracket;
-        private System.Windows.Forms.Button btnBackspace;
-        private System.Windows.Forms.Button btnCapsLock;
-        private System.Windows.Forms.Button btnLshift;
-        private System.Windows.Forms.Button btnTab;
-        private System.Windows.Forms.Button btnRshift;
-        private System.Windows.Forms.Button btnNum9;
-        private System.Windows.Forms.Button btnNum8;
-        private System.Windows.Forms.Button btnNum7;
-        private System.Windows.Forms.Button btnNum6;
-        private System.Windows.Forms.Button btnNum5;
-        private System.Windows.Forms.Button btnNum4;
-        private System.Windows.Forms.Button btnNum3;
-        private System.Windows.Forms.Button btnNum2;
-        private System.Windows.Forms.Button btnNum1;
-        private System.Windows.Forms.Button btnNum0;
-        private System.Windows.Forms.Button btnNumPeriod;
-        private System.Windows.Forms.Button btnEnter;
-        private System.Windows.Forms.Button btnComma;
-        private System.Windows.Forms.Button btnNumSlash;
-        private System.Windows.Forms.Button btnNumAsterisk;
-        private System.Windows.Forms.Button btnNumMinus;
-        private System.Windows.Forms.Button btnNumPlus;
-        private System.Windows.Forms.Button btnSpace;
-        private System.Windows.Forms.Button btnTopLeft;
-        private System.Windows.Forms.Button btnReturn;
-        private System.Windows.Forms.Button btnNumTopLeft;
-        private System.Windows.Forms.Button btnSemicolon;
-        private System.Windows.Forms.Button btnApostrophe;
+        public System.Windows.Forms.Button btnQ;
+        public System.Windows.Forms.Button btnW;
+        public System.Windows.Forms.Button btnE;
+        public System.Windows.Forms.Button btnR;
+        public System.Windows.Forms.Button btnT;
+        public System.Windows.Forms.Button btnY;
+        public System.Windows.Forms.Button btnU;
+        public System.Windows.Forms.Button btnI;
+        public System.Windows.Forms.Button btnO;
+        public System.Windows.Forms.Button btnP;
+        public System.Windows.Forms.Button btnA;
+        public System.Windows.Forms.Button btnS;
+        public System.Windows.Forms.Button btnD;
+        public System.Windows.Forms.Button btnF;
+        public System.Windows.Forms.Button btnG;
+        public System.Windows.Forms.Button btnH;
+        public System.Windows.Forms.Button btnJ;
+        public System.Windows.Forms.Button btnK;
+        public System.Windows.Forms.Button btnL;
+        public System.Windows.Forms.Button btnZ;
+        public System.Windows.Forms.Button btnX;
+        public System.Windows.Forms.Button btnC;
+        public System.Windows.Forms.Button btnV;
+        public System.Windows.Forms.Button btnB;
+        public System.Windows.Forms.Button btnN;
+        public System.Windows.Forms.Button btnM;
+        public System.Windows.Forms.Button btn1;
+        public System.Windows.Forms.Button btn2;
+        public System.Windows.Forms.Button btn3;
+        public System.Windows.Forms.Button btn4;
+        public System.Windows.Forms.Button btn5;
+        public System.Windows.Forms.Button btn6;
+        public System.Windows.Forms.Button btn7;
+        public System.Windows.Forms.Button btn8;
+        public System.Windows.Forms.Button btn9;
+        public System.Windows.Forms.Button btn0;
+        public System.Windows.Forms.Button btnMinus;
+        public System.Windows.Forms.Button btnEqual;
+        public System.Windows.Forms.Button btnBackTick;
+        public System.Windows.Forms.Button btnBackslash;
+        public System.Windows.Forms.Button btnPeriod;
+        public System.Windows.Forms.Button btnSlash;
+        public System.Windows.Forms.Button btnHash;
+        public System.Windows.Forms.Button bynLeftBracket;
+        public System.Windows.Forms.Button btnRightBracket;
+        public System.Windows.Forms.Button btnBackspace;
+        public System.Windows.Forms.Button btnCapsLock;
+        public System.Windows.Forms.Button btnLshift;
+        public System.Windows.Forms.Button btnTab;
+        public System.Windows.Forms.Button btnRshift;
+        public System.Windows.Forms.Button btnNum9;
+        public System.Windows.Forms.Button btnNum8;
+        public System.Windows.Forms.Button btnNum7;
+        public System.Windows.Forms.Button btnNum6;
+        public System.Windows.Forms.Button btnNum5;
+        public System.Windows.Forms.Button btnNum4;
+        public System.Windows.Forms.Button btnNum3;
+        public System.Windows.Forms.Button btnNum2;
+        public System.Windows.Forms.Button btnNum1;
+        public System.Windows.Forms.Button btnNum0;
+        public System.Windows.Forms.Button btnNumPeriod;
+        public System.Windows.Forms.Button btnEnter;
+        public System.Windows.Forms.Button btnComma;
+        public System.Windows.Forms.Button btnNumSlash;
+        public System.Windows.Forms.Button btnNumAsterisk;
+        public System.Windows.Forms.Button btnNumMinus;
+        public System.Windows.Forms.Button btnNumPlus;
+        public System.Windows.Forms.Button btnSpace;
+        public System.Windows.Forms.Button btnTopLeft;
+        public System.Windows.Forms.Button btnReturn;
+        public System.Windows.Forms.Button btnNumTopLeft;
+        public System.Windows.Forms.Button btnSemicolon;
+        public System.Windows.Forms.Button btnApostrophe;
     }
 }

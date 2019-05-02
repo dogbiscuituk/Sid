@@ -272,8 +272,8 @@
             // 
             this.ViewUnicodeKeyboard.Name = "ViewUnicodeKeyboard";
             this.ViewUnicodeKeyboard.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.ViewUnicodeKeyboard.Size = new System.Drawing.Size(190, 22);
-            this.ViewUnicodeKeyboard.Text = "&Unicode Keyboard";
+            this.ViewUnicodeKeyboard.Size = new System.Drawing.Size(183, 22);
+            this.ViewUnicodeKeyboard.Text = "&Mathboard";
             // 
             // ZoomMenu
             // 

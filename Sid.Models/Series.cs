@@ -138,7 +138,7 @@
             }
         }
 
-        private double LastTime;
+        private double LastTime = -1;
 
         #endregion
 

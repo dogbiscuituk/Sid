@@ -2,9 +2,9 @@
 
 namespace Sid.Views
 {
-    public partial class MathematicalKeyboard : Form
+    public partial class Mathboard : Form
     {
-        public MathematicalKeyboard()
+        public Mathboard()
         {
             InitializeComponent();
         }
