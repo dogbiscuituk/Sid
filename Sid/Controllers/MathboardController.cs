@@ -20,12 +20,25 @@
             {
                 if (View != null)
                 {
-                    CustomKeys.Clear();
+                    UnloadKeys();
+                    View.FormClosing -= View_FormClosing;
+                    View.KeyDown -= View_KeyDown;
+                    View.KeyPress -= View_KeyPress;
+                    View.KeyUp -= View_KeyUp;
+                    View.PopupLowercase.Click -= PopupLowercase_Click;
+                    View.PopupUppercase.Click -= PopupUppercase_Click;
+                    View.PopupGreekLower.Click -= PopupGreekLower_Click;
+                    View.PopupGreekUpper.Click -= PopupGreekUpper_Click;
+                    View.PopupMathematical.Click -= PopupMathematical_Click;
+                    View.PopupSubscript.Click -= PopupSubscript_Click;
+                    View.PopupSuperLowercase.Click -= PopupSuperLowercase_Click;
+                    View.PopupSuperUppercase.Click -= PopupSuperUppercase_Click;
                 }
                 _view = value;
                 if (View != null)
                 {
-                    PopulateKeys();
+                    LoadKeys();
+                    View.FormClosing += View_FormClosing;
                     View.KeyDown += View_KeyDown;
                     View.KeyPress += View_KeyPress;
                     View.KeyUp += View_KeyUp;
@@ -33,11 +46,30 @@
                     View.PopupUppercase.Click += PopupUppercase_Click;
                     View.PopupGreekLower.Click += PopupGreekLower_Click;
                     View.PopupGreekUpper.Click += PopupGreekUpper_Click;
+                    View.PopupMathematical.Click += PopupMathematical_Click;
                     View.PopupSubscript.Click += PopupSubscript_Click;
                     View.PopupSuperLowercase.Click += PopupSuperLowercase_Click;
                     View.PopupSuperUppercase.Click += PopupSuperUppercase_Click;
                 }
             }
+        }
+
+        private void ViewButton_Click(object sender, System.EventArgs e)
+        {
+            PassThrough(((Control)sender).Text[0]);
+        }
+
+        private void PassThrough(char c)
+        {
+            System.Diagnostics.Debug.Write(c);
+        }
+
+        private void View_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason != CloseReason.UserClosing)
+                return;
+            e.Cancel = true;
+            View.Hide();
         }
 
         private void View_KeyUp(object sender, KeyEventArgs e)
@@ -48,6 +80,7 @@
         private void View_KeyPress(object sender, KeyPressEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine($"Key Press. KeyChar = {e.KeyChar}.");
+            PassThrough(e.KeyChar);
         }
 
         private void View_KeyDown(object sender, KeyEventArgs e)
@@ -55,22 +88,35 @@
             System.Diagnostics.Debug.WriteLine($"Key Down. KeyCode = {e.KeyCode}, KeyData = {e.KeyData}.");
         }
 
-        private void PopupLowercase_Click(object sender, System.EventArgs e) => LoadKeys(Lowercase);
-        private void PopupUppercase_Click(object sender, System.EventArgs e) => LoadKeys(Uppercase);
-        private void PopupGreekLower_Click(object sender, System.EventArgs e) => LoadKeys(GreekLower);
-        private void PopupGreekUpper_Click(object sender, System.EventArgs e) => LoadKeys(GreekUpper);
-        private void PopupSubscript_Click(object sender, System.EventArgs e) => LoadKeys(Subscript);
-        private void PopupSuperLowercase_Click(object sender, System.EventArgs e) => LoadKeys(SuperLower);
-        private void PopupSuperUppercase_Click(object sender, System.EventArgs e) => LoadKeys(SuperUpper);
+        private void PopupLowercase_Click(object sender, System.EventArgs e) => InitKeys(Lowercase);
+        private void PopupUppercase_Click(object sender, System.EventArgs e) => InitKeys(Uppercase);
+        private void PopupGreekLower_Click(object sender, System.EventArgs e) => InitKeys(GreekLower);
+        private void PopupGreekUpper_Click(object sender, System.EventArgs e) => InitKeys(GreekUpper);
+        private void PopupMathematical_Click(object sender, System.EventArgs e) => InitKeys(Mathematical);
+        private void PopupSubscript_Click(object sender, System.EventArgs e) => InitKeys(Subscript);
+        private void PopupSuperLowercase_Click(object sender, System.EventArgs e) => InitKeys(SuperLower);
+        private void PopupSuperUppercase_Click(object sender, System.EventArgs e) => InitKeys(SuperUpper);
 
-        private void LoadKeys(string keys)
+        private void InitKeys(string keys)
         {
             for (var index = 0; index < CustomKeys.Count; index++)
                 CustomKeys[index].Text = keys[index].ToString();
         }
 
-        private void PopulateKeys() =>
-            CustomKeys.AddRange(View.Controls.OfType<Button>().Where(p => p.Tag == null));
+        private void LoadKeys()
+        {
+            var keys = View.Controls.OfType<Button>().Where(p => p.Tag == null);
+            CustomKeys.AddRange(keys);
+            foreach (var key in keys)
+                key.Click += ViewButton_Click;
+        }
+
+        private void UnloadKeys()
+        {
+            foreach (var key in CustomKeys)
+                key.Click -= ViewButton_Click;
+            CustomKeys.Clear();
+        }
 
         private readonly List<Button> CustomKeys = new List<Button>();
 

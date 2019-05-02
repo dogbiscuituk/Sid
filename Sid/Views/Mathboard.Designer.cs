@@ -107,7 +107,7 @@
             this.PopupUppercase = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupGreekLower = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupGreekUpper = new System.Windows.Forms.ToolStripMenuItem();
-            this.mathematicalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupMathematical = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupSubscript = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupSuperLowercase = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupSuperUppercase = new System.Windows.Forms.ToolStripMenuItem();
@@ -928,12 +928,12 @@
             this.PopupUppercase,
             this.PopupGreekLower,
             this.PopupGreekUpper,
-            this.mathematicalToolStripMenuItem,
+            this.PopupMathematical,
             this.PopupSubscript,
             this.PopupSuperLowercase,
             this.PopupSuperUppercase});
             this.PopupMenu.Name = "PopupMenu";
-            this.PopupMenu.Size = new System.Drawing.Size(192, 180);
+            this.PopupMenu.Size = new System.Drawing.Size(192, 202);
             // 
             // PopupLowercase
             // 
@@ -959,11 +959,11 @@
             this.PopupGreekUpper.Size = new System.Drawing.Size(191, 22);
             this.PopupGreekUpper.Text = "Greek Uppercase";
             // 
-            // mathematicalToolStripMenuItem
+            // PopupMathematical
             // 
-            this.mathematicalToolStripMenuItem.Name = "mathematicalToolStripMenuItem";
-            this.mathematicalToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
-            this.mathematicalToolStripMenuItem.Text = "Mathematical";
+            this.PopupMathematical.Name = "PopupMathematical";
+            this.PopupMathematical.Size = new System.Drawing.Size(191, 22);
+            this.PopupMathematical.Text = "Mathematical";
             // 
             // PopupSubscript
             // 
@@ -1154,6 +1154,6 @@
         public System.Windows.Forms.ToolStripMenuItem PopupSubscript;
         public System.Windows.Forms.ToolStripMenuItem PopupSuperLowercase;
         public System.Windows.Forms.ToolStripMenuItem PopupSuperUppercase;
-        private System.Windows.Forms.ToolStripMenuItem mathematicalToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem PopupMathematical;
     }
 }
