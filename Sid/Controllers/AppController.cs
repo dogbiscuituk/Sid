@@ -153,7 +153,6 @@
                     PictureBox.Resize += PictureBox_Resize;
                     Clock = new Clock { Sync = View };
                     Clock.Tick += Clock_Tick;
-                    Clock.Start();
                 }
             }
         }
