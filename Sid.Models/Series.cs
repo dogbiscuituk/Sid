@@ -7,6 +7,7 @@
     using System.Drawing.Drawing2D;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Threading.Tasks;
     using Newtonsoft.Json;
     using Sid.Expressions;
 
@@ -143,11 +144,20 @@
 
         #region Drawing
 
-        public void Draw(Graphics g, RectangleF limits, float penWidth, bool fill, double time)
+        private List<List<PointF>> PointLists = new List<List<PointF>>();
+
+        public async void Draw(Graphics g, RectangleF limits, float penWidth, bool fill, double time)
         {
             if (fill && (FillColour == Color.Transparent || FillTransparencyPercent == 100))
                 return; // Not just an optimisation; omits vertical asymptotes too.
-            ComputePoints(limits, time);
+            if (Limits == limits && (LastTime == time || !Expression.UsesTime()) && PointLists.Any())
+                return;
+            InvalidatePoints();
+            Limits = limits;
+            LastTime = time;
+            if (Func == null)
+                return;
+            PointLists.AddRange(await ComputePointsAsync(limits, time));
             if (fill)
                 using (var pen = new Pen(LimitColour, penWidth))
                 {
@@ -161,17 +171,9 @@
                     PointLists.ForEach(p => g.DrawLines(pen, p.ToArray()));
         }
 
-        private List<List<PointF>> PointLists = new List<List<PointF>>();
-
-        private void ComputePoints(RectangleF limits, double time)
+        private Task<List<List<PointF>>> ComputePointsAsync(RectangleF limits, double time)
         {
-            if (Limits == limits && (LastTime == time || !Expression.UsesTime()) && PointLists.Any())
-                return;
-            InvalidatePoints();
-            Limits = limits;
-            LastTime = time;
-            if (Func == null)
-                return;
+            var result = new List<List<PointF>>();
             List<PointF> points = null;
             float
                 x1 = Limits.Left, y1 = Limits.Top, y2 = Limits.Bottom,
@@ -188,13 +190,14 @@
                     {
                         skip = false;
                         points = new List<PointF>();
-                        PointLists.Add(points);
+                        result.Add(points);
                     }
                     points.Add(new PointF(x, y));
                 }
             }
             // Every segment of the trace must include at least 2 points.
-            PointLists.RemoveAll(p => p.Count < 2);
+            result.RemoveAll(p => p.Count < 2);
+            return Task.FromResult(result);
         }
 
         private void FillArea(Graphics g, Pen pen, Brush brush, List<PointF> p)

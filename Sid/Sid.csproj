@@ -55,10 +55,10 @@
     <Compile Include="Controllers\JsonController.cs" />
     <Compile Include="Controllers\LegendController.cs" />
     <Compile Include="Controllers\KeyController.cs" />
-    <Compile Include="Controllers\UndoController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\MruController.cs" />
     <Compile Include="Controllers\SdiController.cs" />
+    <Compile Include="Controllers\UnicodeController.cs" />
     <Compile Include="Views\AppForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +77,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Views\KeyboardModes.cs" />
     <Compile Include="Views\PropertiesDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,6 +89,12 @@
     </Compile>
     <Compile Include="Views\KeyView.Designer.cs">
       <DependentUpon>KeyView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MathematicalKeyboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MathematicalKeyboard.Designer.cs">
+      <DependentUpon>MathematicalKeyboard.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +128,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\KeyView.resx">
       <DependentUpon>KeyView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MathematicalKeyboard.resx">
+      <DependentUpon>MathematicalKeyboard.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

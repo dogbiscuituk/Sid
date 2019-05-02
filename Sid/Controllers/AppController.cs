@@ -19,6 +19,7 @@
             Model.ModifiedChanged += Model_ModifiedChanged;
             Model.PropertyChanged += Model_PropertyChanged;
             PropertiesController = new PropertiesController(Model);
+            UnicodeController = new UnicodeController();
             JsonController = new JsonController(Model, View, View.FileReopen);
             JsonController.FileLoaded += JsonController_FileLoaded;
             JsonController.FilePathChanged += JsonController_FilePathChanged;
@@ -33,6 +34,7 @@
 
         public readonly Model Model;
         public readonly PropertiesController PropertiesController;
+        public readonly UnicodeController UnicodeController;
         public readonly JsonController JsonController;
         public readonly LegendController LegendController;
 
@@ -87,6 +89,7 @@
                     View.FileExit.Click -= FileExit_Click;
                     View.GraphProperties.Click -= GraphProperties_Click;
                     View.ViewCoordinatesTooltip.Click -= ViewCoordinatesTooltip_Click;
+                    View.ViewUnicodeKeyboard.Click -= ViewUnicodeKeyboard_Click;
                     View.ZoomMenu.DropDownOpening -= ZoomMenu_DropDownOpening;
                     View.ZoomIn.Click -= ZoomIn_Click;
                     View.ZoomOut.Click -= ZoomOut_Click;
@@ -124,6 +127,7 @@
                     View.FileExit.Click += FileExit_Click;
                     View.GraphProperties.Click += GraphProperties_Click;
                     View.ViewCoordinatesTooltip.Click += ViewCoordinatesTooltip_Click;
+                    View.ViewUnicodeKeyboard.Click += ViewUnicodeKeyboard_Click;
                     View.ZoomMenu.DropDownOpening += ZoomMenu_DropDownOpening;
                     View.ZoomIn.Click += ZoomIn_Click;
                     View.ZoomOut.Click += ZoomOut_Click;
@@ -165,6 +169,7 @@
         private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
         private void GraphProperties_Click(object sender, EventArgs e) => PropertiesController.Show(View);
+        private void ViewUnicodeKeyboard_Click(object sender, EventArgs e) => UnicodeController.Show(View);
         private void ZoomMenu_DropDownOpening(object sender, EventArgs e) => View.ZoomIsotropic.Checked = Graph.Isotropic;
         private void ZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
         private void ZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
@@ -240,6 +245,7 @@ Version: {Application.ProductVersion}",
 
         private void Clock_Tick(object sender, EventArgs e)
         {
+            View.Tlabel.Text = $"T={Clock.SecondsElapsed}";
             InvalidatePictureBox();
         }
 
@@ -369,7 +375,7 @@ Version: {Application.ProductVersion}",
 
         private void UpdateMouseCoordinates(string coords)
         {
-            View.CoordinatesLabel.Text = coords;
+            View.XYlabel.Text = coords;
             if (ShowCoordinatesTooltip)
                 InitCoordinatesToolTip(coords);
         }
