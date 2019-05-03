@@ -49,6 +49,7 @@
             }
         }
 
+        private AppController AppController { get => Parent.Parent; }
         private LegendController Parent;
         private ColourController ColourController = new ColourController();
         private ComboBox FunctionBox { get => View.cbFunction; }

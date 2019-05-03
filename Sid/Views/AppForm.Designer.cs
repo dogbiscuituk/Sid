@@ -53,7 +53,7 @@
             this.ViewLegendHide = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewCoordinatesTooltip = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
-            this.ViewUnicodeKeyboard = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewMathboard = new System.Windows.Forms.ToolStripMenuItem();
             this.ZoomMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ZoomIn = new System.Windows.Forms.ToolStripMenuItem();
             this.ZoomOut = new System.Windows.Forms.ToolStripMenuItem();
@@ -202,7 +202,7 @@
             this.ViewLegend,
             this.ViewCoordinatesTooltip,
             this.toolStripMenuItem5,
-            this.ViewUnicodeKeyboard});
+            this.ViewMathboard});
             this.ViewMenu.Name = "ViewMenu";
             this.ViewMenu.Size = new System.Drawing.Size(44, 20);
             this.ViewMenu.Text = "&View";
@@ -268,12 +268,12 @@
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
             this.toolStripMenuItem5.Size = new System.Drawing.Size(187, 6);
             // 
-            // ViewUnicodeKeyboard
+            // ViewMathboard
             // 
-            this.ViewUnicodeKeyboard.Name = "ViewUnicodeKeyboard";
-            this.ViewUnicodeKeyboard.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.ViewUnicodeKeyboard.Size = new System.Drawing.Size(183, 22);
-            this.ViewUnicodeKeyboard.Text = "&Mathboard";
+            this.ViewMathboard.Name = "ViewMathboard";
+            this.ViewMathboard.ShortcutKeys = System.Windows.Forms.Keys.F7;
+            this.ViewMathboard.Size = new System.Drawing.Size(183, 22);
+            this.ViewMathboard.Text = "&Mathboard";
             // 
             // ZoomMenu
             // 
@@ -618,7 +618,7 @@
         public System.Windows.Forms.ToolStripMenuItem TimerReset;
         public System.Windows.Forms.ToolStripComboBox TimerInterval;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
-        public System.Windows.Forms.ToolStripMenuItem ViewUnicodeKeyboard;
+        public System.Windows.Forms.ToolStripMenuItem ViewMathboard;
         public System.Windows.Forms.ToolStripStatusLabel Tlabel;
     }
 }

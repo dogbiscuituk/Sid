@@ -31,8 +31,8 @@
                     View.PopupGreekUpper.Click -= PopupGreekUpper_Click;
                     View.PopupMathematical.Click -= PopupMathematical_Click;
                     View.PopupSubscript.Click -= PopupSubscript_Click;
-                    View.PopupSuperLowercase.Click -= PopupSuperLowercase_Click;
-                    View.PopupSuperUppercase.Click -= PopupSuperUppercase_Click;
+                    View.PopupSuperLower.Click -= PopupSuperLower_Click;
+                    View.PopupSuperUpper.Click -= PopupSuperUpper_Click;
                 }
                 _view = value;
                 if (View != null)
@@ -48,8 +48,8 @@
                     View.PopupGreekUpper.Click += PopupGreekUpper_Click;
                     View.PopupMathematical.Click += PopupMathematical_Click;
                     View.PopupSubscript.Click += PopupSubscript_Click;
-                    View.PopupSuperLowercase.Click += PopupSuperLowercase_Click;
-                    View.PopupSuperUppercase.Click += PopupSuperUppercase_Click;
+                    View.PopupSuperLower.Click += PopupSuperLower_Click;
+                    View.PopupSuperUpper.Click += PopupSuperUpper_Click;
                 }
             }
         }
@@ -94,8 +94,8 @@
         private void PopupGreekUpper_Click(object sender, System.EventArgs e) => InitKeys(GreekUpper);
         private void PopupMathematical_Click(object sender, System.EventArgs e) => InitKeys(Mathematical);
         private void PopupSubscript_Click(object sender, System.EventArgs e) => InitKeys(Subscript);
-        private void PopupSuperLowercase_Click(object sender, System.EventArgs e) => InitKeys(SuperLower);
-        private void PopupSuperUppercase_Click(object sender, System.EventArgs e) => InitKeys(SuperUpper);
+        private void PopupSuperLower_Click(object sender, System.EventArgs e) => InitKeys(SuperLower);
+        private void PopupSuperUpper_Click(object sender, System.EventArgs e) => InitKeys(SuperUpper);
 
         private void InitKeys(string keys)
         {
@@ -120,12 +120,17 @@
 
         private readonly List<Button> CustomKeys = new List<Button>();
 
-        public void Show(IWin32Window owner)
+        public void Show(IWin32Window owner, Control sender)
         {
             if (!View.Visible)
                 View.Show(owner);
             else
                 View.BringToFront();
+        }
+
+        public void Hide()
+        {
+            View.Close();
         }
 
         private string GetKeys(KeyboardModes mode)

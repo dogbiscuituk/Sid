@@ -109,8 +109,8 @@
             this.PopupGreekUpper = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupMathematical = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupSubscript = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupSuperLowercase = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupSuperUppercase = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupSuperLower = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupSuperUpper = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -930,8 +930,8 @@
             this.PopupGreekUpper,
             this.PopupMathematical,
             this.PopupSubscript,
-            this.PopupSuperLowercase,
-            this.PopupSuperUppercase});
+            this.PopupSuperLower,
+            this.PopupSuperUpper});
             this.PopupMenu.Name = "PopupMenu";
             this.PopupMenu.Size = new System.Drawing.Size(192, 202);
             // 
@@ -973,15 +973,15 @@
             // 
             // PopupSuperLowercase
             // 
-            this.PopupSuperLowercase.Name = "PopupSuperLowercase";
-            this.PopupSuperLowercase.Size = new System.Drawing.Size(191, 22);
-            this.PopupSuperLowercase.Text = "Superscript Lowercase";
+            this.PopupSuperLower.Name = "PopupSuperLowercase";
+            this.PopupSuperLower.Size = new System.Drawing.Size(191, 22);
+            this.PopupSuperLower.Text = "Superscript Lowercase";
             // 
             // PopupSuperUppercase
             // 
-            this.PopupSuperUppercase.Name = "PopupSuperUppercase";
-            this.PopupSuperUppercase.Size = new System.Drawing.Size(191, 22);
-            this.PopupSuperUppercase.Text = "Superscript Uppercase";
+            this.PopupSuperUpper.Name = "PopupSuperUppercase";
+            this.PopupSuperUpper.Size = new System.Drawing.Size(191, 22);
+            this.PopupSuperUpper.Text = "Superscript Uppercase";
             // 
             // Mathboard
             // 
@@ -1152,8 +1152,8 @@
         public System.Windows.Forms.ToolStripMenuItem PopupGreekLower;
         public System.Windows.Forms.ToolStripMenuItem PopupGreekUpper;
         public System.Windows.Forms.ToolStripMenuItem PopupSubscript;
-        public System.Windows.Forms.ToolStripMenuItem PopupSuperLowercase;
-        public System.Windows.Forms.ToolStripMenuItem PopupSuperUppercase;
+        public System.Windows.Forms.ToolStripMenuItem PopupSuperLower;
+        public System.Windows.Forms.ToolStripMenuItem PopupSuperUpper;
         public System.Windows.Forms.ToolStripMenuItem PopupMathematical;
     }
 }

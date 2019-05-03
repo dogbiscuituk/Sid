@@ -50,9 +50,9 @@
 
         public List<KeyController> Children = new List<KeyController>();
 
+        public AppController Parent;
         private bool CanCancel, Loading = true;
         private Graph Graph { get => Parent.Graph; }
-        private AppController Parent;
         private Panel Client { get => View.ClientPanel; }
         private Panel Legend { get => View.LegendPanel; }
         private Control.ControlCollection Keys { get => Legend.Controls; }

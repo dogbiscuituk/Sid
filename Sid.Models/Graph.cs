@@ -294,6 +294,8 @@
 
         public void Draw(Graphics g, Rectangle r, double time)
         {
+            // && (LastTime == time || !Expression.UsesTime())
+
             if (r.Width == 0 || r.Height == 0)
                 return; // Nothing to draw!
             g.SmoothingMode = SmoothingMode.AntiAlias;

@@ -12,7 +12,7 @@
             {
                 AutoReset = true,
                 Interval = 50,
-                Enabled = true
+                Enabled = false
             };
             Timer.Elapsed += Timer_Elapsed;
         }
@@ -22,6 +22,7 @@
         private bool _running;
         private DateTime _startedAt;
         private TimeSpan _timeElapsed;
+        private int _suspendCount;
         private Timer Timer;
 
         #endregion
@@ -74,17 +75,31 @@
 
         public void Reset()
         {
-            Stop();
+            Running = false;
             _timeElapsed = TimeSpan.Zero;
+        }
+
+        public void Resume()
+        {
+            if (_suspendCount > 0 && --_suspendCount == 0)
+                Running = true;
         }
 
         public void Start()
         {
+            _suspendCount = 0;
             Running = true;
         }
 
         public void Stop()
         {
+            _suspendCount = 0;
+            Running = false;
+        }
+
+        public void Suspend()
+        {
+            _suspendCount++;
             Running = false;
         }
 

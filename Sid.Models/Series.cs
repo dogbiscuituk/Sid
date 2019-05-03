@@ -150,14 +150,15 @@
         {
             if (fill && (FillColour == Color.Transparent || FillTransparencyPercent == 100))
                 return; // Not just an optimisation; omits vertical asymptotes too.
-            if (Limits == limits && (LastTime == time || !Expression.UsesTime()) && PointLists.Any())
-                return;
-            InvalidatePoints();
-            Limits = limits;
-            LastTime = time;
-            if (Func == null)
-                return;
-            PointLists.AddRange(await ComputePointsAsync(limits, time));
+            if (Func == null || Limits != limits || LastTime != time && Expression.UsesTime() || !PointLists.Any())
+            {
+                InvalidatePoints();
+                Limits = limits;
+                LastTime = time;
+                var pointLists = await ComputePointsAsync(limits, time);
+                PointLists.AddRange(pointLists);
+                pointLists.Clear();
+            }
             if (fill)
                 using (var pen = new Pen(LimitColour, penWidth))
                 {
