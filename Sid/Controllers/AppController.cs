@@ -252,11 +252,8 @@ Version: {Application.ProductVersion}",
 
         private void Clock_Tick(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine(Clock.TimeElapsed);
-
             UpdateTlabel();
             InvalidatePictureBox();
-
         }
 
         private void UpdateTlabel()
