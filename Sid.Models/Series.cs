@@ -138,6 +138,7 @@
             }
         }
 
+        private PlotType LastPlotType = (PlotType)(-1);
         private double LastTime = -1;
 
         #endregion
@@ -146,16 +147,21 @@
 
         private List<List<PointF>> PointLists = new List<List<PointF>>();
 
-        public async void Draw(Graphics g, RectangleF limits, float penWidth, bool fill, double time)
+        public async void Draw(Graphics g, RectangleF limits, float penWidth, bool fill, double time, PlotType plotType)
         {
             if (fill && (FillColour == Color.Transparent || FillTransparencyPercent == 100))
                 return; // Not just an optimisation; omits vertical asymptotes too.
-            if (Func == null || Limits != limits || LastTime != time && Expression.UsesTime() || !PointLists.Any())
+            if (Func == null
+                || Limits != limits
+                || LastTime != time && Expression.UsesTime()
+                || LastPlotType != plotType
+                || !PointLists.Any())
             {
                 InvalidatePoints();
                 Limits = limits;
                 LastTime = time;
-                var pointLists = await ComputePointsAsync(limits, time);
+                LastPlotType = plotType;
+                var pointLists = await ComputePointsAsync(limits, time, plotType);
                 PointLists.AddRange(pointLists);
                 pointLists.Clear();
             }
@@ -172,7 +178,7 @@
                     PointLists.ForEach(p => g.DrawLines(pen, p.ToArray()));
         }
 
-        private Task<List<List<PointF>>> ComputePointsAsync(RectangleF limits, double time)
+        private Task<List<List<PointF>>> ComputePointsAsync(RectangleF limits, double time, PlotType plotType)
         {
             var result = new List<List<PointF>>();
             List<PointF> points = null;
@@ -180,9 +186,22 @@
                 x1 = Limits.Left, y1 = Limits.Top, y2 = Limits.Bottom,
                 w = Limits.Width, h = 8 * Limits.Height;
             var skip = true;
+            float x, y;
             for (var step = 0; step <= StepCount; step++)
             {
-                float x = x1 + step * w / StepCount, y = (float)Func(x, time);
+                switch (plotType)
+                {
+                    case PlotType.Polar:
+                        var a = x = x1 + step * w / StepCount;
+                        var r = (float)Func(a, time);
+                        x = (float)(r * Math.Cos(a));
+                        y = (float)(r * Math.Sin(a));
+                        break;
+                    default:
+                        x = x1 + step * w / StepCount;
+                        y = (float)Func(x, time);
+                        break;
+                }
                 if (float.IsInfinity(y) || float.IsNaN(y) || y < y1 - h || y > y2 + h)
                     skip = true;
                 else

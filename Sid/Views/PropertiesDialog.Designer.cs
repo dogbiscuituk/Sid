@@ -56,6 +56,8 @@
             this.cbStepCount = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.ElementCheckboxes = new System.Windows.Forms.CheckedListBox();
+            this.cbPlotType = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sePaperTransparency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seFillTransparency)).BeginInit();
@@ -222,7 +224,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.tableLayoutPanel1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 127);
+            this.groupBox1.Location = new System.Drawing.Point(12, 154);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(371, 98);
             this.groupBox1.TabIndex = 1;
@@ -392,7 +394,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.tableLayoutPanel2);
-            this.groupBox2.Location = new System.Drawing.Point(12, 231);
+            this.groupBox2.Location = new System.Drawing.Point(12, 258);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(245, 139);
             this.groupBox2.TabIndex = 3;
@@ -402,7 +404,7 @@
             // btnClose
             // 
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(308, 347);
+            this.btnClose.Location = new System.Drawing.Point(308, 374);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 6;
@@ -411,15 +413,17 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.cbPlotType);
             this.groupBox3.Controls.Add(this.cbStepCount);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.ElementCheckboxes);
             this.groupBox3.Location = new System.Drawing.Point(12, 12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(371, 109);
+            this.groupBox3.Size = new System.Drawing.Size(371, 136);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Graph Elements";
+            this.groupBox3.Text = "Grid Elements";
             // 
             // cbStepCount
             // 
@@ -476,12 +480,40 @@
             this.ElementCheckboxes.Size = new System.Drawing.Size(365, 60);
             this.ElementCheckboxes.TabIndex = 8;
             // 
+            // cbPlotType
+            // 
+            this.cbPlotType.BackColor = System.Drawing.SystemColors.Control;
+            this.cbPlotType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPlotType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbPlotType.Items.AddRange(new object[] {
+            "1000",
+            "2000",
+            "4000",
+            "8000",
+            "16000",
+            "32000",
+            "64000"});
+            this.cbPlotType.Location = new System.Drawing.Point(245, 109);
+            this.cbPlotType.Name = "cbPlotType";
+            this.cbPlotType.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.cbPlotType.Size = new System.Drawing.Size(120, 21);
+            this.cbPlotType.TabIndex = 11;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 112);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(66, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Type of plot:";
+            // 
             // PropertiesDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(396, 383);
+            this.ClientSize = new System.Drawing.Size(396, 409);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.groupBox2);
@@ -535,5 +567,7 @@
         public System.Windows.Forms.CheckedListBox ElementCheckboxes;
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.ComboBox cbStepCount;
+        private System.Windows.Forms.Label label5;
+        public System.Windows.Forms.ComboBox cbPlotType;
     }
 }

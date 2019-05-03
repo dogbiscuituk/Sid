@@ -11,6 +11,7 @@
         {
             Model = model;
             View = new PropertiesDialog();
+            InitPlotTypes();
         }
 
         #region Properties
@@ -18,6 +19,7 @@
         private CheckedListBox ClbElements { get => View.ElementCheckboxes; }
         private Model Model { get; set; }
         private Graph Graph { get => Model.Graph; }
+        private ComboBox.ObjectCollection PlotTypes { get => View.cbPlotType.Items; }
         private bool Loading, Updating;
 
         private PropertiesDialog _view;
@@ -29,6 +31,7 @@
                 if (View != null)
                 {
                     View.cbStepCount.SelectedValueChanged -= LiveUpdate;
+                    View.cbPlotType.SelectedValueChanged -= LiveUpdate;
                     ColourController.Clear();
                     View.FormClosing -= View_FormClosing;
                     ClbElements.ItemCheck -= ClbElements_ItemCheck;
@@ -38,6 +41,7 @@
                 if (View != null)
                 {
                     View.cbStepCount.SelectedValueChanged += LiveUpdate;
+                    View.cbPlotType.SelectedValueChanged += LiveUpdate;
                     AddControls(View.cbAxisColour, View.cbGridColour, View.cbPenColour,
                         View.cbLimitColour, View.cbPaperColour, View.cbFillColour);
                     View.FormClosing += View_FormClosing;
@@ -154,6 +158,12 @@
             Graph.Elements = graphElements;
         }
 
+        private void InitPlotTypes()
+        {
+            PlotTypes.Clear();
+            PlotTypes.AddRange(Enum.GetNames(typeof(PlotType)));
+        }
+
         #endregion
 
         #region Graph Read/Write
@@ -162,6 +172,7 @@
         {
             Loading = true;
             View.cbStepCount.Text = Graph.StepCount.ToString();
+            View.cbPlotType.SelectedIndex = (int)Graph.PlotType;
             ColourController.SetColour(View.cbAxisColour, Graph.AxisColour);
             ColourController.SetColour(View.cbGridColour, Graph.GridColour);
             ColourController.SetColour(View.cbPenColour, Graph.PenColour);
@@ -177,6 +188,7 @@
         private void GraphWrite()
         {
             Graph.StepCount = int.Parse(View.cbStepCount.Text);
+            Graph.PlotType = (PlotType)View.cbPlotType.SelectedIndex;
             Graph.AxisColour = ColourController.GetColour(View.cbAxisColour);
             Graph.GridColour = ColourController.GetColour(View.cbGridColour);
             Graph.PenColour = ColourController.GetColour(View.cbPenColour);

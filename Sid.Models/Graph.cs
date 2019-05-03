@@ -126,6 +126,20 @@
             }
         }
 
+        private PlotType _plotType;
+        public PlotType PlotType
+        {
+            get => _plotType;
+            set
+            {
+                if (PlotType != value)
+                {
+                    _plotType = value;
+                    OnPropertyChanged("PlotType");
+                }
+            }
+        }
+
         private PointF _location, _originalLocation = Defaults.GraphLocation;
         public PointF Location
         {
@@ -303,9 +317,9 @@
             using (var brush = new SolidBrush(PaperColour))
                 g.FillRectangle(brush, Limits);
             var penWidth = (Size.Width / r.Width + Size.Height / r.Height);
-            Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, true, time); });
+            Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, true, time, PlotType); });
             DrawGrid(g, penWidth);
-            Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, false, time); });
+            Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, false, time, PlotType); });
         }
 
         private void DrawGrid(Graphics g, float penWidth)
