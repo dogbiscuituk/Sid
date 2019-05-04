@@ -52,8 +52,6 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.ViewLegendHide = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewCoordinatesTooltip = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
-            this.ViewMathboard = new System.Windows.Forms.ToolStripMenuItem();
             this.ZoomMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ZoomIn = new System.Windows.Forms.ToolStripMenuItem();
             this.ZoomOut = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,13 +76,13 @@
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
             this.XYlabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.Tlabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ModifiedLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.ClientPanel = new System.Windows.Forms.Panel();
             this.LegendPanel = new System.Windows.Forms.Panel();
             this.PictureBox = new System.Windows.Forms.PictureBox();
-            this.Tlabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
@@ -200,9 +198,7 @@
             // 
             this.ViewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ViewLegend,
-            this.ViewCoordinatesTooltip,
-            this.toolStripMenuItem5,
-            this.ViewMathboard});
+            this.ViewCoordinatesTooltip});
             this.ViewMenu.Name = "ViewMenu";
             this.ViewMenu.Size = new System.Drawing.Size(44, 20);
             this.ViewMenu.Text = "&View";
@@ -217,63 +213,51 @@
             this.toolStripMenuItem4,
             this.ViewLegendHide});
             this.ViewLegend.Name = "ViewLegend";
-            this.ViewLegend.Size = new System.Drawing.Size(190, 22);
+            this.ViewLegend.Size = new System.Drawing.Size(183, 22);
             this.ViewLegend.Text = "&Legend";
             // 
             // ViewLegendTopLeft
             // 
             this.ViewLegendTopLeft.Name = "ViewLegendTopLeft";
-            this.ViewLegendTopLeft.Size = new System.Drawing.Size(145, 22);
+            this.ViewLegendTopLeft.Size = new System.Drawing.Size(180, 22);
             this.ViewLegendTopLeft.Tag = "";
             this.ViewLegendTopLeft.Text = "&Top Left";
             // 
             // ViewLegendTopRight
             // 
             this.ViewLegendTopRight.Name = "ViewLegendTopRight";
-            this.ViewLegendTopRight.Size = new System.Drawing.Size(145, 22);
+            this.ViewLegendTopRight.Size = new System.Drawing.Size(180, 22);
             this.ViewLegendTopRight.Text = "Top &Right";
             // 
             // ViewLegendBottomLeft
             // 
             this.ViewLegendBottomLeft.Name = "ViewLegendBottomLeft";
-            this.ViewLegendBottomLeft.Size = new System.Drawing.Size(145, 22);
+            this.ViewLegendBottomLeft.Size = new System.Drawing.Size(180, 22);
             this.ViewLegendBottomLeft.Text = "&Bottom Left";
             // 
             // ViewLegendBottomRight
             // 
             this.ViewLegendBottomRight.Name = "ViewLegendBottomRight";
-            this.ViewLegendBottomRight.Size = new System.Drawing.Size(145, 22);
+            this.ViewLegendBottomRight.Size = new System.Drawing.Size(180, 22);
             this.ViewLegendBottomRight.Text = "Botto&m Right";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(142, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(177, 6);
             // 
             // ViewLegendHide
             // 
             this.ViewLegendHide.Name = "ViewLegendHide";
-            this.ViewLegendHide.Size = new System.Drawing.Size(145, 22);
+            this.ViewLegendHide.Size = new System.Drawing.Size(180, 22);
             this.ViewLegendHide.Text = "&Hide";
             // 
             // ViewCoordinatesTooltip
             // 
             this.ViewCoordinatesTooltip.Name = "ViewCoordinatesTooltip";
-            this.ViewCoordinatesTooltip.Size = new System.Drawing.Size(190, 22);
+            this.ViewCoordinatesTooltip.Size = new System.Drawing.Size(183, 22);
             this.ViewCoordinatesTooltip.Text = "&Co-ordinates Tooltip";
             this.ViewCoordinatesTooltip.ToolTipText = "Hide or show the x-y coordinates in a tooltip";
-            // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(187, 6);
-            // 
-            // ViewMathboard
-            // 
-            this.ViewMathboard.Name = "ViewMathboard";
-            this.ViewMathboard.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.ViewMathboard.Size = new System.Drawing.Size(183, 22);
-            this.ViewMathboard.Text = "&Mathboard";
             // 
             // ZoomMenu
             // 
@@ -485,6 +469,14 @@
             this.XYlabel.Size = new System.Drawing.Size(200, 17);
             this.XYlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // Tlabel
+            // 
+            this.Tlabel.AutoSize = false;
+            this.Tlabel.Name = "Tlabel";
+            this.Tlabel.Size = new System.Drawing.Size(118, 17);
+            this.Tlabel.Text = "T";
+            this.Tlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // ModifiedLabel
             // 
             this.ModifiedLabel.Name = "ModifiedLabel";
@@ -529,14 +521,6 @@
             this.PictureBox.Size = new System.Drawing.Size(244, 104);
             this.PictureBox.TabIndex = 3;
             this.PictureBox.TabStop = false;
-            // 
-            // Tlabel
-            // 
-            this.Tlabel.AutoSize = false;
-            this.Tlabel.Name = "Tlabel";
-            this.Tlabel.Size = new System.Drawing.Size(118, 17);
-            this.Tlabel.Text = "T";
-            this.Tlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // AppForm
             // 
@@ -617,8 +601,6 @@
         public System.Windows.Forms.ToolStripMenuItem TimerRunPause;
         public System.Windows.Forms.ToolStripMenuItem TimerReset;
         public System.Windows.Forms.ToolStripComboBox TimerInterval;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
-        public System.Windows.Forms.ToolStripMenuItem ViewMathboard;
         public System.Windows.Forms.ToolStripStatusLabel Tlabel;
     }
 }

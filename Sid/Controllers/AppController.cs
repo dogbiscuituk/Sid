@@ -19,7 +19,7 @@
             Model.ModifiedChanged += Model_ModifiedChanged;
             Model.PropertyChanged += Model_PropertyChanged;
             PropertiesController = new PropertiesController(Model);
-            MathboardController = new MathController();
+            MathController = new MathController(this);
             JsonController = new JsonController(Model, View, View.FileReopen);
             JsonController.FileLoaded += JsonController_FileLoaded;
             JsonController.FilePathChanged += JsonController_FilePathChanged;
@@ -34,7 +34,7 @@
 
         public readonly Model Model;
         public readonly PropertiesController PropertiesController;
-        public readonly MathController MathboardController;
+        public readonly MathController MathController;
         public readonly JsonController JsonController;
         public readonly LegendController LegendController;
 
@@ -89,7 +89,6 @@
                     View.FileExit.Click -= FileExit_Click;
                     View.GraphProperties.Click -= GraphProperties_Click;
                     View.ViewCoordinatesTooltip.Click -= ViewCoordinatesTooltip_Click;
-                    View.ViewMathboard.Click -= ViewMathboard_Click;
                     View.ZoomMenu.DropDownOpening -= ZoomMenu_DropDownOpening;
                     View.ZoomIn.Click -= ZoomIn_Click;
                     View.ZoomOut.Click -= ZoomOut_Click;
@@ -127,7 +126,6 @@
                     View.FileExit.Click += FileExit_Click;
                     View.GraphProperties.Click += GraphProperties_Click;
                     View.ViewCoordinatesTooltip.Click += ViewCoordinatesTooltip_Click;
-                    View.ViewMathboard.Click += ViewMathboard_Click;
                     View.ZoomMenu.DropDownOpening += ZoomMenu_DropDownOpening;
                     View.ZoomIn.Click += ZoomIn_Click;
                     View.ZoomOut.Click += ZoomOut_Click;
@@ -168,7 +166,6 @@
         private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
         private void GraphProperties_Click(object sender, EventArgs e) => PropertiesController.Show(View);
-        private void ViewMathboard_Click(object sender, EventArgs e) => MathboardController.Show(View, null);
         private void ZoomMenu_DropDownOpening(object sender, EventArgs e) => View.ZoomIsotropic.Checked = Graph.Isotropic;
         private void ZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
         private void ZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
@@ -180,9 +177,6 @@
         private void ScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1);
         private void ScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1);
         private void ScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
-
-        public void HideMathboard(Control sender) => MathboardController.Hide();
-        public void ShowMathboard(Control sender) => MathboardController.Show(View, sender);
 
         private void TimerMenu_DropDownOpening(object sender, EventArgs e)
         {

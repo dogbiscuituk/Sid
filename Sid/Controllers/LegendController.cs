@@ -100,7 +100,7 @@
             Legend.Visible = true;
             const int margin = 0, keyHeight = 21, maxKeys = 17;
             var scroll = Keys.Count > maxKeys;
-            int w = 392 + (scroll ? SystemInformation.VerticalScrollBarWidth : 0),
+            int w = 412 + (scroll ? SystemInformation.VerticalScrollBarWidth : 0),
                 h = Math.Min(Keys.Count, maxKeys) * keyHeight,
                 x = Client.Width - w, y = Client.Height - h;
             for (int index = 0, top = 0; index < Keys.Count; index++, top += keyHeight)

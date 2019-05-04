@@ -4,14 +4,16 @@
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
+    using System.Text;
     using System.Windows.Forms;
     using Sid.Expressions;
     using Sid.Views;
 
     public class MathController
     {
-        public MathController()
+        public MathController(AppController parent)
         {
+            Parent = parent;
             View = new Mathboard();
         }
 
@@ -27,17 +29,21 @@
                 {
                     UnloadKeys();
                     View.FormClosing -= View_FormClosing;
-
-                    View.KeyDown -= View_KeyDown;
-                    View.KeyPress -= View_KeyPress;
-                    View.KeyUp -= View_KeyUp;
+                    View.TextBox.TextChanged -= TextBox_TextChanged;
+                    View.btnLshift.Click -= BtnShift_Click;
+                    View.btnRshift.Click -= BtnShift_Click;
+                    View.btnShiftLock.Click -= BtnShiftLock_Click;
+                    View.btnGreek.Click -= BtnGreek_Click;
+                    View.btnMaths.Click -= BtnMaths_Click;
+                    View.btnSubscript.Click -= BtnSubscript_Click;
+                    View.btnSuperscript.Click -= BtnSuperscript_Click;
                 }
                 _view = value;
                 if (View != null)
                 {
                     LoadKeys();
                     View.FormClosing += View_FormClosing;
-
+                    View.TextBox.TextChanged += TextBox_TextChanged;
                     View.btnLshift.Click += BtnShift_Click;
                     View.btnRshift.Click += BtnShift_Click;
                     View.btnShiftLock.Click += BtnShiftLock_Click;
@@ -45,15 +51,16 @@
                     View.btnMaths.Click += BtnMaths_Click;
                     View.btnSubscript.Click += BtnSubscript_Click;
                     View.btnSuperscript.Click += BtnSuperscript_Click;
-
-                    View.KeyDown += View_KeyDown;
-                    View.KeyPress += View_KeyPress;
-                    View.KeyUp += View_KeyUp;
-
                     InitKeyboardMode();
                 }
             }
         }
+
+        private void TextBox_TextChanged(object sender, EventArgs e) =>
+            ActiveComboBox.Text = View.TextBox.Text;
+
+        private AppController Parent;
+        private ComboBox ActiveComboBox { get; set; }
 
         private KeyStates _state;
         private KeyStates State
@@ -61,6 +68,7 @@
             get => _state;
             set
             {
+                FocusTextBox();
                 if (State != value)
                 {
                     _state = value;
@@ -82,12 +90,10 @@
 
         #region Show/Hide
 
-        public void Show(IWin32Window owner, Control sender)
+        public void ShowDialog(IWin32Window owner, KeyView sender)
         {
-            if (!View.Visible)
-                View.Show(owner);
-            else
-                View.BringToFront();
+            ActiveComboBox = sender.cbFunction;
+            View.ShowDialog(owner);
         }
 
         public void Hide()
@@ -105,6 +111,7 @@
 
         private void BtnShift_Click(object sender, System.EventArgs e) =>
             State = State & ~KeyStates.ShiftLock ^ KeyStates.Shift;
+
 
         private void BtnShiftLock_Click(object sender, System.EventArgs e) =>
             State = State & ~KeyStates.Shift ^ KeyStates.ShiftLock;
@@ -199,10 +206,15 @@
             if (text != string.Empty)
                 PassThrough(text[0]);
             State &= ~KeyStates.Shift;
+            FocusTextBox();
         }
 
-        private void PassThrough(char c) =>
-            System.Diagnostics.Debug.Write(c);
+        private void FocusTextBox() => View.TextBox.Focus();
+
+        private void PassThrough(char c)
+        {
+            View.TextBox.SelectedText = c.ToString();
+        }
 
         private void View_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -212,6 +224,7 @@
             View.Hide();
         }
 
+        /*
         private Keys LastKeyDownCode;
 
         private void View_KeyDown(object sender, KeyEventArgs e) =>
@@ -235,6 +248,7 @@
         {
             PassThrough(e.KeyChar);
         }
+        */
 
         private void LoadKeys()
         {

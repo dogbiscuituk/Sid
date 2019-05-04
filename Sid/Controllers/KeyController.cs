@@ -31,6 +31,7 @@
                     View.cbPenColour.SelectedValueChanged -= Parent.LiveUpdate;
                     View.cbFillColour.SelectedValueChanged -= Parent.LiveUpdate;
                     View.seTransparency.ValueChanged -= Parent.LiveUpdate;
+                    View.btnDetails.Click -= BtnDetails_Click;
                     View.btnRemove.Click -= BtnRemove_Click;
                     ColourController.Clear();
                 }
@@ -43,6 +44,7 @@
                     View.cbPenColour.SelectedValueChanged += Parent.LiveUpdate;
                     View.cbFillColour.SelectedValueChanged += Parent.LiveUpdate;
                     View.seTransparency.ValueChanged += Parent.LiveUpdate;
+                    View.btnDetails.Click += BtnDetails_Click;
                     View.btnRemove.Click += BtnRemove_Click;
                     ColourController.AddControls(View.cbPenColour, View.cbFillColour);
                 }
@@ -52,6 +54,7 @@
         private AppController AppController { get => Parent.Parent; }
         private LegendController Parent;
         private ColourController ColourController = new ColourController();
+        private MathController MathController { get => AppController.MathController; }
         private ComboBox FunctionBox { get => View.cbFunction; }
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
 
@@ -122,6 +125,9 @@
         #endregion
 
         #region Key Management
+
+        private void BtnDetails_Click(object sender, System.EventArgs e) =>
+            MathController.ShowDialog(AppController.View, View);
 
         private void BtnRemove_Click(object sender, System.EventArgs e) =>
             Parent.RemoveKey(View);
