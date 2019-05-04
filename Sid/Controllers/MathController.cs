@@ -1,6 +1,8 @@
 ﻿namespace Sid.Controllers
 {
+    using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
     using Sid.Expressions;
@@ -8,10 +10,9 @@
 
     public class MathController
     {
-        public MathController()
-        {
-            View = new Mathboard();
-        }
+        public MathController() { View = new Mathboard(); }
+
+        #region Properties
 
         private Mathboard _view;
         private Mathboard View
@@ -23,37 +24,112 @@
                 {
                     UnloadKeys();
                     View.FormClosing -= View_FormClosing;
+
                     View.KeyDown -= View_KeyDown;
                     View.KeyPress -= View_KeyPress;
                     View.KeyUp -= View_KeyUp;
-                    View.PopupLowercase.Click -= PopupLowercase_Click;
-                    View.PopupUppercase.Click -= PopupUppercase_Click;
-                    View.PopupGreekLower.Click -= PopupGreekLower_Click;
-                    View.PopupGreekUpper.Click -= PopupGreekUpper_Click;
-                    View.PopupMathematical.Click -= PopupMathematical_Click;
-                    View.PopupSubscript.Click -= PopupSubscript_Click;
-                    View.PopupSuperLower.Click -= PopupSuperLower_Click;
-                    View.PopupSuperUpper.Click -= PopupSuperUpper_Click;
                 }
                 _view = value;
                 if (View != null)
                 {
                     LoadKeys();
                     View.FormClosing += View_FormClosing;
+
+                    View.btnLshift.Click += BtnShift_Click;
+                    View.btnRshift.Click += BtnShift_Click;
+                    View.btnShiftLock.Click += BtnShiftLock_Click;
+                    View.btnGreek.Click += BtnGreek_Click;
+                    View.btnMaths.Click += BtnMaths_Click;
+                    View.btnSubscript.Click += BtnSubscript_Click;
+                    View.btnSuperscript.Click += BtnSuperscript_Click;
+
                     View.KeyDown += View_KeyDown;
                     View.KeyPress += View_KeyPress;
                     View.KeyUp += View_KeyUp;
-                    View.PopupLowercase.Click += PopupLowercase_Click;
-                    View.PopupUppercase.Click += PopupUppercase_Click;
-                    View.PopupGreekLower.Click += PopupGreekLower_Click;
-                    View.PopupGreekUpper.Click += PopupGreekUpper_Click;
-                    View.PopupMathematical.Click += PopupMathematical_Click;
-                    View.PopupSubscript.Click += PopupSubscript_Click;
-                    View.PopupSuperLower.Click += PopupSuperLower_Click;
-                    View.PopupSuperUpper.Click += PopupSuperUpper_Click;
                 }
             }
         }
+
+        private KeyStates _state;
+        private KeyStates State
+        {
+            get => _state;
+            set
+            {
+                if (State != value)
+                {
+                    _state = value;
+                    InitBackColour(View.btnLshift, KeyStates.Shift);
+                    InitBackColour(View.btnRshift, KeyStates.Shift);
+                    InitBackColour(View.btnShiftLock, KeyStates.ShiftLock);
+                    InitBackColour(View.btnGreek, KeyStates.Greek);
+                    InitBackColour(View.btnMaths, KeyStates.Mathematical);
+                    InitBackColour(View.btnSubscript, KeyStates.Subscript);
+                    InitBackColour(View.btnSuperscript, KeyStates.Superscript);
+                    InitKeyboardMode();
+                }
+            }
+        }
+
+        #endregion
+
+        #region Modes
+
+        private void InitBackColour(Control control, KeyStates state) =>
+            control.BackColor = Color.FromKnownColor(
+                (State & state) == 0 ? KnownColor.ControlLight : KnownColor.Window);
+
+        private void BtnShift_Click(object sender, System.EventArgs e) =>
+            State = State & ~KeyStates.ShiftLock ^ KeyStates.Shift;
+
+        private void BtnShiftLock_Click(object sender, System.EventArgs e) =>
+            State = State & ~KeyStates.Shift ^ KeyStates.ShiftLock;
+
+        private void BtnGreek_Click(object sender, System.EventArgs e) =>
+            ToggleLanguage(KeyStates.Greek);
+
+        private void BtnMaths_Click(object sender, EventArgs e) =>
+            ToggleLanguage(KeyStates.Mathematical);
+
+        private void BtnSubscript_Click(object sender, EventArgs e) =>
+            ToggleLanguage(KeyStates.Subscript);
+
+        private void BtnSuperscript_Click(object sender, EventArgs e) =>
+            ToggleLanguage(KeyStates.Superscript);
+
+        private void ToggleLanguage(KeyStates state)
+        {
+            State = State & (~KeyStates.Languages | state) ^ state;
+        }
+
+        private KeyboardMode GetKeyboardMode()
+        {
+            var shift = (State & KeyStates.Shifted) != 0;
+            switch (State & KeyStates.Languages)
+            {
+                case KeyStates.Greek:
+                    return shift ? KeyboardMode.GreekUpper : KeyboardMode.GreekLower;
+                case KeyStates.Mathematical:
+                    return KeyboardMode.Mathematical;
+                case KeyStates.Subscript:
+                    return KeyboardMode.Subscript;
+                case KeyStates.Superscript:
+                    return shift ? KeyboardMode.SuperUpper : KeyboardMode.SuperLower;
+                default:
+                    return shift ? KeyboardMode.LatinUpper : KeyboardMode.LatinLower;
+            }
+        }
+
+        private void InitKeyboardMode()
+        {
+            var mode = GetKeyboardMode();
+            View.Text = GetModeDescription(mode);
+            var map = GetKeyMap(mode);
+            for (var index = 0; index < CustomKeys.Count; index++)
+                CustomKeys[index].Text = map[index].ToString().AmpersandEscape();
+        }
+
+        #endregion
 
         private void ViewButton_Click(object sender, System.EventArgs e)
         {
@@ -84,22 +160,6 @@
 
         private void View_KeyDown(object sender, KeyEventArgs e) { }
         //    System.Diagnostics.Debug.WriteLine($"Key Down. KeyCode = {e.KeyCode}, KeyData = {e.KeyData}.");
-
-        private void PopupLowercase_Click(object sender, System.EventArgs e) => InitKeys(KeyboardMode.LowerCase);
-        private void PopupUppercase_Click(object sender, System.EventArgs e) => InitKeys(KeyboardMode.UpperCase);
-        private void PopupGreekLower_Click(object sender, System.EventArgs e) => InitKeys(KeyboardMode.GreekLower);
-        private void PopupGreekUpper_Click(object sender, System.EventArgs e) => InitKeys(KeyboardMode.GreekUpper);
-        private void PopupMathematical_Click(object sender, System.EventArgs e) => InitKeys(KeyboardMode.Mathematical);
-        private void PopupSubscript_Click(object sender, System.EventArgs e) => InitKeys(KeyboardMode.Subscript);
-        private void PopupSuperLower_Click(object sender, System.EventArgs e) => InitKeys(KeyboardMode.SuperLower);
-        private void PopupSuperUpper_Click(object sender, System.EventArgs e) => InitKeys(KeyboardMode.SuperUpper);
-
-        private void InitKeys(KeyboardMode mode)
-        {
-            var map = GetKeyMap(mode);
-            for (var index = 0; index < CustomKeys.Count; index++)
-                CustomKeys[index].Text = map[index].ToString().AmpersandEscape();
-        }
 
         private void LoadKeys()
         {
@@ -133,10 +193,12 @@
 
         private string GetKeyMap(KeyboardMode mode) => KeyMaps[(int)mode];
 
+        // Greek keyboard based on https://en.wikipedia.org/wiki/Keyboard_layout#/media/File:KB_Greek.svg
+
         private const string Lowercase = @" `1234567890-= /*-qwertyuiop[]789+asdfghjkl;'#456\zxcvbnm,./123 0.";
         private const string Uppercase = @" ¬!""£$%^&*()_+ /*-QWERTYUIOP{}789+ASDFGHJKL:@~456|ZXCVBNM<>?123 0.";
-        private const string GreekLower = @" `1234567890-= /*-qwertyuiop[]789+asdfghjkl;'#456\zxcvbnm,./123 0.";
-        private const string GreekUpper = @" ¬!""£$%^&*()_+ /*-QWΕΡΤΥΘΙΟΠ{}789+ΑΣΔΦΓΗΞΚΛ:@~456|ΖΧΨΩΒΝΜ<>?123 0.";
+        private const string GreekLower = @" `1234567890-= /*- ςερτυθιοπ[]789+ασδφγηξκλ;'#456\ζχψωβνμ,./123 0.";
+        private const string GreekUpper = @" ¬!""£$%^&*()_+ /*-  ΕΡΤΥΘΙΟΠ{}789+ΑΣΔΦΓΗΞΚΛ:@~456|ΖΧΨΩΒΝΜ<>?123 0.";
         private const string Mathematical = @" `1234567890-= /*-qwertyuiop[]789+asdfghjkl;'#456\zxcvbnm,./123 0.";
         private const string Subscript = @"ᵦᵧᵩᵪᵨ     ₍₎₋₌   ₋  ₑᵣₜ ᵤᵢₒₚ  ₇₈₉₊ₐₛ   ₕⱼₖₗ   ₄₅₆  ₓ ᵥ ₙₘ   ₁₂₃ ₀ ";
         private const string SuperLower = @"ᵝᵞᵠᵡᵅᵟᵋᶿᶥᶲ⁽⁾⁻⁼   ⁻ ʷᵉʳᵗʸᵘⁱᵒᵖ  ⁷⁸⁹⁺ᵃˢᵈᶠᵍʰʲᵏˡ   ⁴⁵⁶ ᶻˣᶜᵛᵇⁿᵐ   ¹²³ ⁰ ";
@@ -153,5 +215,46 @@
             SuperLower,
             SuperUpper
         };
+
+        private string GetModeDescription(KeyboardMode mode) => ModeDescriptions[(int)mode];
+
+        private static readonly string[] ModeDescriptions = new[]
+        {
+            "Latin Lowercase",
+            "Latin Uppercase",
+            "Greek Lowercase",
+            "Greek Uppercase",
+            "Mathematical",
+            "Subscript",
+            "Superscript Lowercase",
+            "Superscript Uppercase"
+        };
+
+        [Flags]
+        private enum KeyStates
+        {
+            Normal = 0x00,
+            Shift = 0x01,
+            ShiftLock = 0x02,
+            Shifted = Shift | ShiftLock,
+            Greek = 0x04,
+            Mathematical = 0x08,
+            Subscript = 0x10,
+            Superscript = 0x20,
+            Languages = Greek | Mathematical | Subscript | Superscript
+        }
+
+        [Flags]
+        public enum KeyboardMode
+        {
+            LatinLower,
+            LatinUpper,
+            GreekLower,
+            GreekUpper,
+            Mathematical,
+            Subscript,
+            SuperLower,
+            SuperUpper
+        }
     }
 }

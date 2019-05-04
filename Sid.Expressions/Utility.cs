@@ -56,8 +56,11 @@
                 case "<":
                 case ">":
                 case "≮":
+                case "≥":
                 case ">=":
                 case "≯":
+                case "":
+                case "≤":
                 case "<=":
                 case "+":
                 case "-":
@@ -94,9 +97,11 @@
                 case ">":
                     return ExpressionType.GreaterThan;
                 case "≯":
+                case "≤":
                 case "<=":
                     return ExpressionType.LessThanOrEqual;
                 case "≮":
+                case "≥":
                 case ">=":
                     return ExpressionType.GreaterThanOrEqual;
                 case "+":
@@ -164,8 +169,10 @@
                 case "<":
                 case ">":
                 case "≮":
+                case "≥":
                 case ">=":
                 case "≯":
+                case "≤":
                 case "<=":
                     return Precedence.Relational;
                 case "+":

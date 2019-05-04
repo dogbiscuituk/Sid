@@ -151,8 +151,10 @@
                     case "<":
                     case ">":
                     case "≮":
+                    case "≥":
                     case ">=":
                     case "≯":
+                    case "≤":
                     case "<=":
                     case "+":
                     case "-":
@@ -392,7 +394,7 @@
         private string PeekToken()
         {
             var nextChar = PeekChar();
-            if ("()?:≠≮≯+-*/^~√'".IndexOf(nextChar) >= 0)
+            if ("()?:≠≤≥≮≯+-*/^~√'".IndexOf(nextChar) >= 0)
                 return nextChar.ToString();
             switch (nextChar)
             {

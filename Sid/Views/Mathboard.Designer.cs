@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.btnQ = new System.Windows.Forms.Button();
             this.btnW = new System.Windows.Forms.Button();
             this.btnE = new System.Windows.Forms.Button();
@@ -75,7 +74,7 @@
             this.bynLeftBracket = new System.Windows.Forms.Button();
             this.btnRightBracket = new System.Windows.Forms.Button();
             this.btnBackspace = new System.Windows.Forms.Button();
-            this.btnCapsLock = new System.Windows.Forms.Button();
+            this.btnShiftLock = new System.Windows.Forms.Button();
             this.btnLshift = new System.Windows.Forms.Button();
             this.btnTab = new System.Windows.Forms.Button();
             this.btnRshift = new System.Windows.Forms.Button();
@@ -102,20 +101,15 @@
             this.btnNumTopLeft = new System.Windows.Forms.Button();
             this.btnSemicolon = new System.Windows.Forms.Button();
             this.btnApostrophe = new System.Windows.Forms.Button();
-            this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.PopupLowercase = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupUppercase = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupGreekLower = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupGreekUpper = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupMathematical = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupSubscript = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupSuperLower = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupSuperUpper = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupMenu.SuspendLayout();
+            this.btnGreek = new System.Windows.Forms.Button();
+            this.btnMaths = new System.Windows.Forms.Button();
+            this.btnSuperscript = new System.Windows.Forms.Button();
+            this.btnSubscript = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnQ
             // 
+            this.btnQ.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnQ.Location = new System.Drawing.Point(66, 30);
             this.btnQ.Margin = new System.Windows.Forms.Padding(0);
@@ -124,10 +118,11 @@
             this.btnQ.TabIndex = 20;
             this.btnQ.Text = "q";
             this.btnQ.UseMnemonic = false;
-            this.btnQ.UseVisualStyleBackColor = true;
+            this.btnQ.UseVisualStyleBackColor = false;
             // 
             // btnW
             // 
+            this.btnW.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnW.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnW.Location = new System.Drawing.Point(90, 30);
             this.btnW.Margin = new System.Windows.Forms.Padding(0);
@@ -136,10 +131,11 @@
             this.btnW.TabIndex = 21;
             this.btnW.Text = "w";
             this.btnW.UseMnemonic = false;
-            this.btnW.UseVisualStyleBackColor = true;
+            this.btnW.UseVisualStyleBackColor = false;
             // 
             // btnE
             // 
+            this.btnE.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnE.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnE.Location = new System.Drawing.Point(114, 30);
             this.btnE.Margin = new System.Windows.Forms.Padding(0);
@@ -148,10 +144,11 @@
             this.btnE.TabIndex = 22;
             this.btnE.Text = "e";
             this.btnE.UseMnemonic = false;
-            this.btnE.UseVisualStyleBackColor = true;
+            this.btnE.UseVisualStyleBackColor = false;
             // 
             // btnR
             // 
+            this.btnR.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnR.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnR.Location = new System.Drawing.Point(138, 30);
             this.btnR.Margin = new System.Windows.Forms.Padding(0);
@@ -160,10 +157,11 @@
             this.btnR.TabIndex = 23;
             this.btnR.Text = "r";
             this.btnR.UseMnemonic = false;
-            this.btnR.UseVisualStyleBackColor = true;
+            this.btnR.UseVisualStyleBackColor = false;
             // 
             // btnT
             // 
+            this.btnT.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnT.Location = new System.Drawing.Point(162, 30);
             this.btnT.Margin = new System.Windows.Forms.Padding(0);
@@ -172,10 +170,11 @@
             this.btnT.TabIndex = 24;
             this.btnT.Text = "t";
             this.btnT.UseMnemonic = false;
-            this.btnT.UseVisualStyleBackColor = true;
+            this.btnT.UseVisualStyleBackColor = false;
             // 
             // btnY
             // 
+            this.btnY.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnY.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnY.Location = new System.Drawing.Point(186, 30);
             this.btnY.Margin = new System.Windows.Forms.Padding(0);
@@ -184,10 +183,11 @@
             this.btnY.TabIndex = 25;
             this.btnY.Text = "y";
             this.btnY.UseMnemonic = false;
-            this.btnY.UseVisualStyleBackColor = true;
+            this.btnY.UseVisualStyleBackColor = false;
             // 
             // btnU
             // 
+            this.btnU.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnU.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnU.Location = new System.Drawing.Point(210, 30);
             this.btnU.Margin = new System.Windows.Forms.Padding(0);
@@ -196,10 +196,11 @@
             this.btnU.TabIndex = 26;
             this.btnU.Text = "u";
             this.btnU.UseMnemonic = false;
-            this.btnU.UseVisualStyleBackColor = true;
+            this.btnU.UseVisualStyleBackColor = false;
             // 
             // btnI
             // 
+            this.btnI.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnI.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnI.Location = new System.Drawing.Point(234, 30);
             this.btnI.Margin = new System.Windows.Forms.Padding(0);
@@ -208,10 +209,11 @@
             this.btnI.TabIndex = 27;
             this.btnI.Text = "i";
             this.btnI.UseMnemonic = false;
-            this.btnI.UseVisualStyleBackColor = true;
+            this.btnI.UseVisualStyleBackColor = false;
             // 
             // btnO
             // 
+            this.btnO.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnO.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnO.Location = new System.Drawing.Point(258, 30);
             this.btnO.Margin = new System.Windows.Forms.Padding(0);
@@ -220,10 +222,11 @@
             this.btnO.TabIndex = 28;
             this.btnO.Text = "o";
             this.btnO.UseMnemonic = false;
-            this.btnO.UseVisualStyleBackColor = true;
+            this.btnO.UseVisualStyleBackColor = false;
             // 
             // btnP
             // 
+            this.btnP.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnP.Location = new System.Drawing.Point(282, 30);
             this.btnP.Margin = new System.Windows.Forms.Padding(0);
@@ -232,10 +235,11 @@
             this.btnP.TabIndex = 29;
             this.btnP.Text = "p";
             this.btnP.UseMnemonic = false;
-            this.btnP.UseVisualStyleBackColor = true;
+            this.btnP.UseVisualStyleBackColor = false;
             // 
             // btnA
             // 
+            this.btnA.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnA.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnA.Location = new System.Drawing.Point(72, 54);
             this.btnA.Margin = new System.Windows.Forms.Padding(0);
@@ -244,10 +248,11 @@
             this.btnA.TabIndex = 38;
             this.btnA.Text = "a";
             this.btnA.UseMnemonic = false;
-            this.btnA.UseVisualStyleBackColor = true;
+            this.btnA.UseVisualStyleBackColor = false;
             // 
             // btnS
             // 
+            this.btnS.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnS.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnS.Location = new System.Drawing.Point(96, 54);
             this.btnS.Margin = new System.Windows.Forms.Padding(0);
@@ -256,10 +261,11 @@
             this.btnS.TabIndex = 39;
             this.btnS.Text = "s";
             this.btnS.UseMnemonic = false;
-            this.btnS.UseVisualStyleBackColor = true;
+            this.btnS.UseVisualStyleBackColor = false;
             // 
             // btnD
             // 
+            this.btnD.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnD.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnD.Location = new System.Drawing.Point(120, 54);
             this.btnD.Margin = new System.Windows.Forms.Padding(0);
@@ -268,10 +274,11 @@
             this.btnD.TabIndex = 40;
             this.btnD.Text = "d";
             this.btnD.UseMnemonic = false;
-            this.btnD.UseVisualStyleBackColor = true;
+            this.btnD.UseVisualStyleBackColor = false;
             // 
             // btnF
             // 
+            this.btnF.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnF.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnF.Location = new System.Drawing.Point(144, 54);
             this.btnF.Margin = new System.Windows.Forms.Padding(0);
@@ -280,10 +287,11 @@
             this.btnF.TabIndex = 41;
             this.btnF.Text = "f";
             this.btnF.UseMnemonic = false;
-            this.btnF.UseVisualStyleBackColor = true;
+            this.btnF.UseVisualStyleBackColor = false;
             // 
             // btnG
             // 
+            this.btnG.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnG.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnG.Location = new System.Drawing.Point(168, 54);
             this.btnG.Margin = new System.Windows.Forms.Padding(0);
@@ -292,10 +300,11 @@
             this.btnG.TabIndex = 42;
             this.btnG.Text = "g";
             this.btnG.UseMnemonic = false;
-            this.btnG.UseVisualStyleBackColor = true;
+            this.btnG.UseVisualStyleBackColor = false;
             // 
             // btnH
             // 
+            this.btnH.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnH.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnH.Location = new System.Drawing.Point(192, 54);
             this.btnH.Margin = new System.Windows.Forms.Padding(0);
@@ -304,10 +313,11 @@
             this.btnH.TabIndex = 43;
             this.btnH.Text = "h";
             this.btnH.UseMnemonic = false;
-            this.btnH.UseVisualStyleBackColor = true;
+            this.btnH.UseVisualStyleBackColor = false;
             // 
             // btnJ
             // 
+            this.btnJ.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnJ.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnJ.Location = new System.Drawing.Point(216, 54);
             this.btnJ.Margin = new System.Windows.Forms.Padding(0);
@@ -316,10 +326,11 @@
             this.btnJ.TabIndex = 44;
             this.btnJ.Text = "j";
             this.btnJ.UseMnemonic = false;
-            this.btnJ.UseVisualStyleBackColor = true;
+            this.btnJ.UseVisualStyleBackColor = false;
             // 
             // btnK
             // 
+            this.btnK.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnK.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnK.Location = new System.Drawing.Point(240, 54);
             this.btnK.Margin = new System.Windows.Forms.Padding(0);
@@ -328,10 +339,11 @@
             this.btnK.TabIndex = 45;
             this.btnK.Text = "k";
             this.btnK.UseMnemonic = false;
-            this.btnK.UseVisualStyleBackColor = true;
+            this.btnK.UseVisualStyleBackColor = false;
             // 
             // btnL
             // 
+            this.btnL.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnL.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnL.Location = new System.Drawing.Point(264, 54);
             this.btnL.Margin = new System.Windows.Forms.Padding(0);
@@ -340,10 +352,11 @@
             this.btnL.TabIndex = 46;
             this.btnL.Text = "l";
             this.btnL.UseMnemonic = false;
-            this.btnL.UseVisualStyleBackColor = true;
+            this.btnL.UseVisualStyleBackColor = false;
             // 
             // btnZ
             // 
+            this.btnZ.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnZ.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnZ.Location = new System.Drawing.Point(84, 78);
             this.btnZ.Margin = new System.Windows.Forms.Padding(0);
@@ -352,10 +365,11 @@
             this.btnZ.TabIndex = 55;
             this.btnZ.Text = "z";
             this.btnZ.UseMnemonic = false;
-            this.btnZ.UseVisualStyleBackColor = true;
+            this.btnZ.UseVisualStyleBackColor = false;
             // 
             // btnX
             // 
+            this.btnX.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnX.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnX.Location = new System.Drawing.Point(108, 78);
             this.btnX.Margin = new System.Windows.Forms.Padding(0);
@@ -364,10 +378,11 @@
             this.btnX.TabIndex = 56;
             this.btnX.Text = "x";
             this.btnX.UseMnemonic = false;
-            this.btnX.UseVisualStyleBackColor = true;
+            this.btnX.UseVisualStyleBackColor = false;
             // 
             // btnC
             // 
+            this.btnC.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnC.Location = new System.Drawing.Point(132, 78);
             this.btnC.Margin = new System.Windows.Forms.Padding(0);
@@ -376,10 +391,11 @@
             this.btnC.TabIndex = 57;
             this.btnC.Text = "c";
             this.btnC.UseMnemonic = false;
-            this.btnC.UseVisualStyleBackColor = true;
+            this.btnC.UseVisualStyleBackColor = false;
             // 
             // btnV
             // 
+            this.btnV.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnV.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnV.Location = new System.Drawing.Point(156, 78);
             this.btnV.Margin = new System.Windows.Forms.Padding(0);
@@ -388,10 +404,11 @@
             this.btnV.TabIndex = 58;
             this.btnV.Text = "v";
             this.btnV.UseMnemonic = false;
-            this.btnV.UseVisualStyleBackColor = true;
+            this.btnV.UseVisualStyleBackColor = false;
             // 
             // btnB
             // 
+            this.btnB.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnB.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnB.Location = new System.Drawing.Point(180, 78);
             this.btnB.Margin = new System.Windows.Forms.Padding(0);
@@ -400,10 +417,11 @@
             this.btnB.TabIndex = 59;
             this.btnB.Text = "b";
             this.btnB.UseMnemonic = false;
-            this.btnB.UseVisualStyleBackColor = true;
+            this.btnB.UseVisualStyleBackColor = false;
             // 
             // btnN
             // 
+            this.btnN.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnN.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnN.Location = new System.Drawing.Point(204, 78);
             this.btnN.Margin = new System.Windows.Forms.Padding(0);
@@ -412,10 +430,11 @@
             this.btnN.TabIndex = 60;
             this.btnN.Text = "n";
             this.btnN.UseMnemonic = false;
-            this.btnN.UseVisualStyleBackColor = true;
+            this.btnN.UseVisualStyleBackColor = false;
             // 
             // btnM
             // 
+            this.btnM.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnM.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnM.Location = new System.Drawing.Point(228, 78);
             this.btnM.Margin = new System.Windows.Forms.Padding(0);
@@ -424,10 +443,11 @@
             this.btnM.TabIndex = 61;
             this.btnM.Text = "m";
             this.btnM.UseMnemonic = false;
-            this.btnM.UseVisualStyleBackColor = true;
+            this.btnM.UseVisualStyleBackColor = false;
             // 
             // btn1
             // 
+            this.btn1.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn1.Location = new System.Drawing.Point(54, 6);
             this.btn1.Margin = new System.Windows.Forms.Padding(0);
@@ -436,10 +456,11 @@
             this.btn1.TabIndex = 2;
             this.btn1.Text = "1";
             this.btn1.UseMnemonic = false;
-            this.btn1.UseVisualStyleBackColor = true;
+            this.btn1.UseVisualStyleBackColor = false;
             // 
             // btn2
             // 
+            this.btn2.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn2.Location = new System.Drawing.Point(78, 6);
             this.btn2.Margin = new System.Windows.Forms.Padding(0);
@@ -448,10 +469,11 @@
             this.btn2.TabIndex = 3;
             this.btn2.Text = "2";
             this.btn2.UseMnemonic = false;
-            this.btn2.UseVisualStyleBackColor = true;
+            this.btn2.UseVisualStyleBackColor = false;
             // 
             // btn3
             // 
+            this.btn3.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn3.Location = new System.Drawing.Point(102, 6);
             this.btn3.Margin = new System.Windows.Forms.Padding(0);
@@ -460,10 +482,11 @@
             this.btn3.TabIndex = 4;
             this.btn3.Text = "3";
             this.btn3.UseMnemonic = false;
-            this.btn3.UseVisualStyleBackColor = true;
+            this.btn3.UseVisualStyleBackColor = false;
             // 
             // btn4
             // 
+            this.btn4.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn4.Location = new System.Drawing.Point(126, 6);
             this.btn4.Margin = new System.Windows.Forms.Padding(0);
@@ -472,10 +495,11 @@
             this.btn4.TabIndex = 5;
             this.btn4.Text = "4";
             this.btn4.UseMnemonic = false;
-            this.btn4.UseVisualStyleBackColor = true;
+            this.btn4.UseVisualStyleBackColor = false;
             // 
             // btn5
             // 
+            this.btn5.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn5.Location = new System.Drawing.Point(150, 6);
             this.btn5.Margin = new System.Windows.Forms.Padding(0);
@@ -484,10 +508,11 @@
             this.btn5.TabIndex = 6;
             this.btn5.Text = "5";
             this.btn5.UseMnemonic = false;
-            this.btn5.UseVisualStyleBackColor = true;
+            this.btn5.UseVisualStyleBackColor = false;
             // 
             // btn6
             // 
+            this.btn6.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn6.Location = new System.Drawing.Point(174, 6);
             this.btn6.Margin = new System.Windows.Forms.Padding(0);
@@ -496,10 +521,11 @@
             this.btn6.TabIndex = 7;
             this.btn6.Text = "6";
             this.btn6.UseMnemonic = false;
-            this.btn6.UseVisualStyleBackColor = true;
+            this.btn6.UseVisualStyleBackColor = false;
             // 
             // btn7
             // 
+            this.btn7.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn7.Location = new System.Drawing.Point(198, 6);
             this.btn7.Margin = new System.Windows.Forms.Padding(0);
@@ -508,10 +534,11 @@
             this.btn7.TabIndex = 8;
             this.btn7.Text = "7";
             this.btn7.UseMnemonic = false;
-            this.btn7.UseVisualStyleBackColor = true;
+            this.btn7.UseVisualStyleBackColor = false;
             // 
             // btn8
             // 
+            this.btn8.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn8.Location = new System.Drawing.Point(222, 6);
             this.btn8.Margin = new System.Windows.Forms.Padding(0);
@@ -520,10 +547,11 @@
             this.btn8.TabIndex = 9;
             this.btn8.Text = "8";
             this.btn8.UseMnemonic = false;
-            this.btn8.UseVisualStyleBackColor = true;
+            this.btn8.UseVisualStyleBackColor = false;
             // 
             // btn9
             // 
+            this.btn9.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn9.Location = new System.Drawing.Point(246, 6);
             this.btn9.Margin = new System.Windows.Forms.Padding(0);
@@ -532,10 +560,11 @@
             this.btn9.TabIndex = 10;
             this.btn9.Text = "9";
             this.btn9.UseMnemonic = false;
-            this.btn9.UseVisualStyleBackColor = true;
+            this.btn9.UseVisualStyleBackColor = false;
             // 
             // btn0
             // 
+            this.btn0.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn0.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn0.Location = new System.Drawing.Point(270, 6);
             this.btn0.Margin = new System.Windows.Forms.Padding(0);
@@ -544,10 +573,11 @@
             this.btn0.TabIndex = 11;
             this.btn0.Text = "0";
             this.btn0.UseMnemonic = false;
-            this.btn0.UseVisualStyleBackColor = true;
+            this.btn0.UseVisualStyleBackColor = false;
             // 
             // btnMinus
             // 
+            this.btnMinus.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnMinus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMinus.Location = new System.Drawing.Point(294, 6);
             this.btnMinus.Margin = new System.Windows.Forms.Padding(0);
@@ -556,10 +586,11 @@
             this.btnMinus.TabIndex = 12;
             this.btnMinus.Text = "-";
             this.btnMinus.UseMnemonic = false;
-            this.btnMinus.UseVisualStyleBackColor = true;
+            this.btnMinus.UseVisualStyleBackColor = false;
             // 
             // btnEqual
             // 
+            this.btnEqual.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnEqual.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEqual.Location = new System.Drawing.Point(318, 6);
             this.btnEqual.Margin = new System.Windows.Forms.Padding(0);
@@ -568,10 +599,11 @@
             this.btnEqual.TabIndex = 13;
             this.btnEqual.Text = "=";
             this.btnEqual.UseMnemonic = false;
-            this.btnEqual.UseVisualStyleBackColor = true;
+            this.btnEqual.UseVisualStyleBackColor = false;
             // 
             // btnBackTick
             // 
+            this.btnBackTick.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnBackTick.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBackTick.Location = new System.Drawing.Point(30, 6);
             this.btnBackTick.Margin = new System.Windows.Forms.Padding(0);
@@ -580,10 +612,11 @@
             this.btnBackTick.TabIndex = 1;
             this.btnBackTick.Text = "`";
             this.btnBackTick.UseMnemonic = false;
-            this.btnBackTick.UseVisualStyleBackColor = true;
+            this.btnBackTick.UseVisualStyleBackColor = false;
             // 
             // btnBackslash
             // 
+            this.btnBackslash.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnBackslash.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBackslash.Location = new System.Drawing.Point(60, 78);
             this.btnBackslash.Margin = new System.Windows.Forms.Padding(0);
@@ -592,10 +625,11 @@
             this.btnBackslash.TabIndex = 54;
             this.btnBackslash.Text = "\\";
             this.btnBackslash.UseMnemonic = false;
-            this.btnBackslash.UseVisualStyleBackColor = true;
+            this.btnBackslash.UseVisualStyleBackColor = false;
             // 
             // btnPeriod
             // 
+            this.btnPeriod.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnPeriod.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPeriod.Location = new System.Drawing.Point(276, 78);
             this.btnPeriod.Margin = new System.Windows.Forms.Padding(0);
@@ -604,10 +638,11 @@
             this.btnPeriod.TabIndex = 63;
             this.btnPeriod.Text = ".";
             this.btnPeriod.UseMnemonic = false;
-            this.btnPeriod.UseVisualStyleBackColor = true;
+            this.btnPeriod.UseVisualStyleBackColor = false;
             // 
             // btnSlash
             // 
+            this.btnSlash.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnSlash.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSlash.Location = new System.Drawing.Point(300, 78);
             this.btnSlash.Margin = new System.Windows.Forms.Padding(0);
@@ -616,10 +651,11 @@
             this.btnSlash.TabIndex = 64;
             this.btnSlash.Text = "/";
             this.btnSlash.UseMnemonic = false;
-            this.btnSlash.UseVisualStyleBackColor = true;
+            this.btnSlash.UseVisualStyleBackColor = false;
             // 
             // btnHash
             // 
+            this.btnHash.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnHash.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHash.Location = new System.Drawing.Point(336, 54);
             this.btnHash.Margin = new System.Windows.Forms.Padding(0);
@@ -628,10 +664,11 @@
             this.btnHash.TabIndex = 49;
             this.btnHash.Text = "#";
             this.btnHash.UseMnemonic = false;
-            this.btnHash.UseVisualStyleBackColor = true;
+            this.btnHash.UseVisualStyleBackColor = false;
             // 
             // bynLeftBracket
             // 
+            this.bynLeftBracket.BackColor = System.Drawing.SystemColors.ControlLight;
             this.bynLeftBracket.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bynLeftBracket.Location = new System.Drawing.Point(306, 30);
             this.bynLeftBracket.Margin = new System.Windows.Forms.Padding(0);
@@ -640,10 +677,11 @@
             this.bynLeftBracket.TabIndex = 30;
             this.bynLeftBracket.Text = "[";
             this.bynLeftBracket.UseMnemonic = false;
-            this.bynLeftBracket.UseVisualStyleBackColor = true;
+            this.bynLeftBracket.UseVisualStyleBackColor = false;
             // 
             // btnRightBracket
             // 
+            this.btnRightBracket.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnRightBracket.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRightBracket.Location = new System.Drawing.Point(330, 30);
             this.btnRightBracket.Margin = new System.Windows.Forms.Padding(0);
@@ -652,10 +690,11 @@
             this.btnRightBracket.TabIndex = 31;
             this.btnRightBracket.Text = "]";
             this.btnRightBracket.UseMnemonic = false;
-            this.btnRightBracket.UseVisualStyleBackColor = true;
+            this.btnRightBracket.UseVisualStyleBackColor = false;
             // 
             // btnBackspace
             // 
+            this.btnBackspace.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnBackspace.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBackspace.Location = new System.Drawing.Point(342, 6);
             this.btnBackspace.Margin = new System.Windows.Forms.Padding(0);
@@ -665,23 +704,25 @@
             this.btnBackspace.Tag = "Fixed";
             this.btnBackspace.Text = "Backspace";
             this.btnBackspace.UseMnemonic = false;
-            this.btnBackspace.UseVisualStyleBackColor = true;
+            this.btnBackspace.UseVisualStyleBackColor = false;
             // 
-            // btnCapsLock
+            // btnShiftLock
             // 
-            this.btnCapsLock.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCapsLock.Location = new System.Drawing.Point(6, 54);
-            this.btnCapsLock.Margin = new System.Windows.Forms.Padding(0);
-            this.btnCapsLock.Name = "btnCapsLock";
-            this.btnCapsLock.Size = new System.Drawing.Size(66, 24);
-            this.btnCapsLock.TabIndex = 37;
-            this.btnCapsLock.Tag = "Fixed";
-            this.btnCapsLock.Text = "Shift Lock";
-            this.btnCapsLock.UseMnemonic = false;
-            this.btnCapsLock.UseVisualStyleBackColor = true;
+            this.btnShiftLock.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.btnShiftLock.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnShiftLock.Location = new System.Drawing.Point(6, 54);
+            this.btnShiftLock.Margin = new System.Windows.Forms.Padding(0);
+            this.btnShiftLock.Name = "btnShiftLock";
+            this.btnShiftLock.Size = new System.Drawing.Size(66, 24);
+            this.btnShiftLock.TabIndex = 37;
+            this.btnShiftLock.Tag = "Fixed";
+            this.btnShiftLock.Text = "Shift Lock";
+            this.btnShiftLock.UseMnemonic = false;
+            this.btnShiftLock.UseVisualStyleBackColor = false;
             // 
             // btnLshift
             // 
+            this.btnLshift.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnLshift.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLshift.Location = new System.Drawing.Point(6, 78);
             this.btnLshift.Margin = new System.Windows.Forms.Padding(0);
@@ -691,10 +732,11 @@
             this.btnLshift.Tag = "Fixed";
             this.btnLshift.Text = "Shift";
             this.btnLshift.UseMnemonic = false;
-            this.btnLshift.UseVisualStyleBackColor = true;
+            this.btnLshift.UseVisualStyleBackColor = false;
             // 
             // btnTab
             // 
+            this.btnTab.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnTab.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTab.Location = new System.Drawing.Point(6, 30);
             this.btnTab.Margin = new System.Windows.Forms.Padding(0);
@@ -704,10 +746,11 @@
             this.btnTab.Tag = "Fixed";
             this.btnTab.Text = "Tab";
             this.btnTab.UseMnemonic = false;
-            this.btnTab.UseVisualStyleBackColor = true;
+            this.btnTab.UseVisualStyleBackColor = false;
             // 
             // btnRshift
             // 
+            this.btnRshift.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnRshift.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRshift.Location = new System.Drawing.Point(324, 78);
             this.btnRshift.Margin = new System.Windows.Forms.Padding(0);
@@ -717,10 +760,11 @@
             this.btnRshift.Tag = "Fixed";
             this.btnRshift.Text = "Shift";
             this.btnRshift.UseMnemonic = false;
-            this.btnRshift.UseVisualStyleBackColor = true;
+            this.btnRshift.UseVisualStyleBackColor = false;
             // 
             // btnNum9
             // 
+            this.btnNum9.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum9.Location = new System.Drawing.Point(468, 30);
             this.btnNum9.Margin = new System.Windows.Forms.Padding(0);
@@ -729,10 +773,11 @@
             this.btnNum9.TabIndex = 35;
             this.btnNum9.Text = "9";
             this.btnNum9.UseMnemonic = false;
-            this.btnNum9.UseVisualStyleBackColor = true;
+            this.btnNum9.UseVisualStyleBackColor = false;
             // 
             // btnNum8
             // 
+            this.btnNum8.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum8.Location = new System.Drawing.Point(444, 30);
             this.btnNum8.Margin = new System.Windows.Forms.Padding(0);
@@ -741,10 +786,11 @@
             this.btnNum8.TabIndex = 34;
             this.btnNum8.Text = "8";
             this.btnNum8.UseMnemonic = false;
-            this.btnNum8.UseVisualStyleBackColor = true;
+            this.btnNum8.UseVisualStyleBackColor = false;
             // 
             // btnNum7
             // 
+            this.btnNum7.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum7.Location = new System.Drawing.Point(420, 30);
             this.btnNum7.Margin = new System.Windows.Forms.Padding(0);
@@ -753,10 +799,11 @@
             this.btnNum7.TabIndex = 33;
             this.btnNum7.Text = "7";
             this.btnNum7.UseMnemonic = false;
-            this.btnNum7.UseVisualStyleBackColor = true;
+            this.btnNum7.UseVisualStyleBackColor = false;
             // 
             // btnNum6
             // 
+            this.btnNum6.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum6.Location = new System.Drawing.Point(468, 54);
             this.btnNum6.Margin = new System.Windows.Forms.Padding(0);
@@ -765,10 +812,11 @@
             this.btnNum6.TabIndex = 52;
             this.btnNum6.Text = "6";
             this.btnNum6.UseMnemonic = false;
-            this.btnNum6.UseVisualStyleBackColor = true;
+            this.btnNum6.UseVisualStyleBackColor = false;
             // 
             // btnNum5
             // 
+            this.btnNum5.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum5.Location = new System.Drawing.Point(444, 54);
             this.btnNum5.Margin = new System.Windows.Forms.Padding(0);
@@ -777,10 +825,11 @@
             this.btnNum5.TabIndex = 51;
             this.btnNum5.Text = "5";
             this.btnNum5.UseMnemonic = false;
-            this.btnNum5.UseVisualStyleBackColor = true;
+            this.btnNum5.UseVisualStyleBackColor = false;
             // 
             // btnNum4
             // 
+            this.btnNum4.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum4.Location = new System.Drawing.Point(420, 54);
             this.btnNum4.Margin = new System.Windows.Forms.Padding(0);
@@ -789,10 +838,11 @@
             this.btnNum4.TabIndex = 50;
             this.btnNum4.Text = "4";
             this.btnNum4.UseMnemonic = false;
-            this.btnNum4.UseVisualStyleBackColor = true;
+            this.btnNum4.UseVisualStyleBackColor = false;
             // 
             // btnNum3
             // 
+            this.btnNum3.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum3.Location = new System.Drawing.Point(468, 78);
             this.btnNum3.Margin = new System.Windows.Forms.Padding(0);
@@ -801,10 +851,11 @@
             this.btnNum3.TabIndex = 68;
             this.btnNum3.Text = "3";
             this.btnNum3.UseMnemonic = false;
-            this.btnNum3.UseVisualStyleBackColor = true;
+            this.btnNum3.UseVisualStyleBackColor = false;
             // 
             // btnNum2
             // 
+            this.btnNum2.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum2.Location = new System.Drawing.Point(444, 78);
             this.btnNum2.Margin = new System.Windows.Forms.Padding(0);
@@ -813,10 +864,11 @@
             this.btnNum2.TabIndex = 67;
             this.btnNum2.Text = "2";
             this.btnNum2.UseMnemonic = false;
-            this.btnNum2.UseVisualStyleBackColor = true;
+            this.btnNum2.UseVisualStyleBackColor = false;
             // 
             // btnNum1
             // 
+            this.btnNum1.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum1.Location = new System.Drawing.Point(420, 78);
             this.btnNum1.Margin = new System.Windows.Forms.Padding(0);
@@ -825,10 +877,11 @@
             this.btnNum1.TabIndex = 66;
             this.btnNum1.Text = "1";
             this.btnNum1.UseMnemonic = false;
-            this.btnNum1.UseVisualStyleBackColor = true;
+            this.btnNum1.UseVisualStyleBackColor = false;
             // 
             // btnNum0
             // 
+            this.btnNum0.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum0.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNum0.Location = new System.Drawing.Point(420, 102);
             this.btnNum0.Margin = new System.Windows.Forms.Padding(0);
@@ -837,10 +890,11 @@
             this.btnNum0.TabIndex = 71;
             this.btnNum0.Text = "0";
             this.btnNum0.UseMnemonic = false;
-            this.btnNum0.UseVisualStyleBackColor = true;
+            this.btnNum0.UseVisualStyleBackColor = false;
             // 
             // btnNumPeriod
             // 
+            this.btnNumPeriod.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNumPeriod.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNumPeriod.Location = new System.Drawing.Point(468, 102);
             this.btnNumPeriod.Margin = new System.Windows.Forms.Padding(0);
@@ -849,10 +903,11 @@
             this.btnNumPeriod.TabIndex = 72;
             this.btnNumPeriod.Text = ".";
             this.btnNumPeriod.UseMnemonic = false;
-            this.btnNumPeriod.UseVisualStyleBackColor = true;
+            this.btnNumPeriod.UseVisualStyleBackColor = false;
             // 
             // btnEnter
             // 
+            this.btnEnter.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnEnter.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEnter.Location = new System.Drawing.Point(492, 78);
             this.btnEnter.Margin = new System.Windows.Forms.Padding(0);
@@ -862,10 +917,11 @@
             this.btnEnter.Tag = "Fixed";
             this.btnEnter.Text = "⏎";
             this.btnEnter.UseMnemonic = false;
-            this.btnEnter.UseVisualStyleBackColor = true;
+            this.btnEnter.UseVisualStyleBackColor = false;
             // 
             // btnComma
             // 
+            this.btnComma.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnComma.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnComma.Location = new System.Drawing.Point(252, 78);
             this.btnComma.Margin = new System.Windows.Forms.Padding(0);
@@ -874,10 +930,11 @@
             this.btnComma.TabIndex = 62;
             this.btnComma.Text = ",";
             this.btnComma.UseMnemonic = false;
-            this.btnComma.UseVisualStyleBackColor = true;
+            this.btnComma.UseVisualStyleBackColor = false;
             // 
             // btnNumSlash
             // 
+            this.btnNumSlash.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNumSlash.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNumSlash.Location = new System.Drawing.Point(444, 6);
             this.btnNumSlash.Margin = new System.Windows.Forms.Padding(0);
@@ -886,10 +943,11 @@
             this.btnNumSlash.TabIndex = 16;
             this.btnNumSlash.Text = "/";
             this.btnNumSlash.UseMnemonic = false;
-            this.btnNumSlash.UseVisualStyleBackColor = true;
+            this.btnNumSlash.UseVisualStyleBackColor = false;
             // 
             // btnNumAsterisk
             // 
+            this.btnNumAsterisk.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNumAsterisk.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNumAsterisk.Location = new System.Drawing.Point(468, 6);
             this.btnNumAsterisk.Margin = new System.Windows.Forms.Padding(0);
@@ -898,10 +956,11 @@
             this.btnNumAsterisk.TabIndex = 17;
             this.btnNumAsterisk.Text = "*";
             this.btnNumAsterisk.UseMnemonic = false;
-            this.btnNumAsterisk.UseVisualStyleBackColor = true;
+            this.btnNumAsterisk.UseVisualStyleBackColor = false;
             // 
             // btnNumMinus
             // 
+            this.btnNumMinus.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNumMinus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNumMinus.Location = new System.Drawing.Point(492, 6);
             this.btnNumMinus.Margin = new System.Windows.Forms.Padding(0);
@@ -910,10 +969,11 @@
             this.btnNumMinus.TabIndex = 18;
             this.btnNumMinus.Text = "-";
             this.btnNumMinus.UseMnemonic = false;
-            this.btnNumMinus.UseVisualStyleBackColor = true;
+            this.btnNumMinus.UseVisualStyleBackColor = false;
             // 
             // btnNumPlus
             // 
+            this.btnNumPlus.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNumPlus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNumPlus.Location = new System.Drawing.Point(492, 30);
             this.btnNumPlus.Margin = new System.Windows.Forms.Padding(0);
@@ -922,21 +982,23 @@
             this.btnNumPlus.TabIndex = 36;
             this.btnNumPlus.Text = "+";
             this.btnNumPlus.UseMnemonic = false;
-            this.btnNumPlus.UseVisualStyleBackColor = true;
+            this.btnNumPlus.UseVisualStyleBackColor = false;
             // 
             // btnSpace
             // 
+            this.btnSpace.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnSpace.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSpace.Location = new System.Drawing.Point(128, 102);
+            this.btnSpace.Location = new System.Drawing.Point(114, 102);
             this.btnSpace.Margin = new System.Windows.Forms.Padding(0);
             this.btnSpace.Name = "btnSpace";
-            this.btnSpace.Size = new System.Drawing.Size(144, 24);
+            this.btnSpace.Size = new System.Drawing.Size(156, 24);
             this.btnSpace.TabIndex = 70;
             this.btnSpace.UseMnemonic = false;
-            this.btnSpace.UseVisualStyleBackColor = true;
+            this.btnSpace.UseVisualStyleBackColor = false;
             // 
             // btnTopLeft
             // 
+            this.btnTopLeft.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnTopLeft.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTopLeft.Location = new System.Drawing.Point(6, 6);
             this.btnTopLeft.Margin = new System.Windows.Forms.Padding(0);
@@ -944,10 +1006,11 @@
             this.btnTopLeft.Size = new System.Drawing.Size(24, 24);
             this.btnTopLeft.TabIndex = 0;
             this.btnTopLeft.UseMnemonic = false;
-            this.btnTopLeft.UseVisualStyleBackColor = true;
+            this.btnTopLeft.UseVisualStyleBackColor = false;
             // 
             // btnReturn
             // 
+            this.btnReturn.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnReturn.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnReturn.Location = new System.Drawing.Point(360, 30);
             this.btnReturn.Margin = new System.Windows.Forms.Padding(0);
@@ -957,10 +1020,11 @@
             this.btnReturn.Tag = "Fixed";
             this.btnReturn.Text = "⏎";
             this.btnReturn.UseMnemonic = false;
-            this.btnReturn.UseVisualStyleBackColor = true;
+            this.btnReturn.UseVisualStyleBackColor = false;
             // 
             // btnNumTopLeft
             // 
+            this.btnNumTopLeft.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNumTopLeft.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNumTopLeft.Location = new System.Drawing.Point(420, 6);
             this.btnNumTopLeft.Margin = new System.Windows.Forms.Padding(0);
@@ -968,10 +1032,11 @@
             this.btnNumTopLeft.Size = new System.Drawing.Size(24, 24);
             this.btnNumTopLeft.TabIndex = 15;
             this.btnNumTopLeft.UseMnemonic = false;
-            this.btnNumTopLeft.UseVisualStyleBackColor = true;
+            this.btnNumTopLeft.UseVisualStyleBackColor = false;
             // 
             // btnSemicolon
             // 
+            this.btnSemicolon.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnSemicolon.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSemicolon.Location = new System.Drawing.Point(288, 54);
             this.btnSemicolon.Margin = new System.Windows.Forms.Padding(0);
@@ -980,10 +1045,11 @@
             this.btnSemicolon.TabIndex = 47;
             this.btnSemicolon.Text = ";";
             this.btnSemicolon.UseMnemonic = false;
-            this.btnSemicolon.UseVisualStyleBackColor = true;
+            this.btnSemicolon.UseVisualStyleBackColor = false;
             // 
             // btnApostrophe
             // 
+            this.btnApostrophe.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnApostrophe.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnApostrophe.Location = new System.Drawing.Point(312, 54);
             this.btnApostrophe.Margin = new System.Windows.Forms.Padding(0);
@@ -992,76 +1058,73 @@
             this.btnApostrophe.TabIndex = 48;
             this.btnApostrophe.Text = "\'";
             this.btnApostrophe.UseMnemonic = false;
-            this.btnApostrophe.UseVisualStyleBackColor = true;
+            this.btnApostrophe.UseVisualStyleBackColor = false;
             // 
-            // PopupMenu
+            // btnGreek
             // 
-            this.PopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.PopupLowercase,
-            this.PopupUppercase,
-            this.PopupGreekLower,
-            this.PopupGreekUpper,
-            this.PopupMathematical,
-            this.PopupSubscript,
-            this.PopupSuperLower,
-            this.PopupSuperUpper});
-            this.PopupMenu.Name = "PopupMenu";
-            this.PopupMenu.Size = new System.Drawing.Size(192, 180);
+            this.btnGreek.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.btnGreek.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGreek.Location = new System.Drawing.Point(6, 102);
+            this.btnGreek.Margin = new System.Windows.Forms.Padding(0);
+            this.btnGreek.Name = "btnGreek";
+            this.btnGreek.Size = new System.Drawing.Size(54, 24);
+            this.btnGreek.TabIndex = 73;
+            this.btnGreek.Tag = "Fixed";
+            this.btnGreek.Text = "Greek";
+            this.btnGreek.UseMnemonic = false;
+            this.btnGreek.UseVisualStyleBackColor = false;
             // 
-            // PopupLowercase
+            // btnMaths
             // 
-            this.PopupLowercase.Name = "PopupLowercase";
-            this.PopupLowercase.Size = new System.Drawing.Size(191, 22);
-            this.PopupLowercase.Text = "Lowercase";
+            this.btnMaths.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.btnMaths.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMaths.Location = new System.Drawing.Point(60, 102);
+            this.btnMaths.Margin = new System.Windows.Forms.Padding(0);
+            this.btnMaths.Name = "btnMaths";
+            this.btnMaths.Size = new System.Drawing.Size(54, 24);
+            this.btnMaths.TabIndex = 74;
+            this.btnMaths.Tag = "Fixed";
+            this.btnMaths.Text = "Maths";
+            this.btnMaths.UseMnemonic = false;
+            this.btnMaths.UseVisualStyleBackColor = false;
             // 
-            // PopupUppercase
+            // btnSuperscript
             // 
-            this.PopupUppercase.Name = "PopupUppercase";
-            this.PopupUppercase.Size = new System.Drawing.Size(191, 22);
-            this.PopupUppercase.Text = "Uppercase";
+            this.btnSuperscript.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.btnSuperscript.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSuperscript.Location = new System.Drawing.Point(342, 102);
+            this.btnSuperscript.Margin = new System.Windows.Forms.Padding(0);
+            this.btnSuperscript.Name = "btnSuperscript";
+            this.btnSuperscript.Size = new System.Drawing.Size(72, 24);
+            this.btnSuperscript.TabIndex = 75;
+            this.btnSuperscript.Tag = "Fixed";
+            this.btnSuperscript.Text = "Superscript";
+            this.btnSuperscript.UseMnemonic = false;
+            this.btnSuperscript.UseVisualStyleBackColor = false;
             // 
-            // PopupGreekLower
+            // btnSubscript
             // 
-            this.PopupGreekLower.Name = "PopupGreekLower";
-            this.PopupGreekLower.Size = new System.Drawing.Size(191, 22);
-            this.PopupGreekLower.Text = "Greek Lowercase";
-            // 
-            // PopupGreekUpper
-            // 
-            this.PopupGreekUpper.Name = "PopupGreekUpper";
-            this.PopupGreekUpper.Size = new System.Drawing.Size(191, 22);
-            this.PopupGreekUpper.Text = "Greek Uppercase";
-            // 
-            // PopupMathematical
-            // 
-            this.PopupMathematical.Name = "PopupMathematical";
-            this.PopupMathematical.Size = new System.Drawing.Size(191, 22);
-            this.PopupMathematical.Text = "Mathematical";
-            // 
-            // PopupSubscript
-            // 
-            this.PopupSubscript.Name = "PopupSubscript";
-            this.PopupSubscript.Size = new System.Drawing.Size(191, 22);
-            this.PopupSubscript.Text = "Subscript";
-            // 
-            // PopupSuperLower
-            // 
-            this.PopupSuperLower.Name = "PopupSuperLower";
-            this.PopupSuperLower.Size = new System.Drawing.Size(191, 22);
-            this.PopupSuperLower.Text = "Superscript Lowercase";
-            // 
-            // PopupSuperUpper
-            // 
-            this.PopupSuperUpper.Name = "PopupSuperUpper";
-            this.PopupSuperUpper.Size = new System.Drawing.Size(191, 22);
-            this.PopupSuperUpper.Text = "Superscript Uppercase";
+            this.btnSubscript.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.btnSubscript.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSubscript.Location = new System.Drawing.Point(270, 102);
+            this.btnSubscript.Margin = new System.Windows.Forms.Padding(0);
+            this.btnSubscript.Name = "btnSubscript";
+            this.btnSubscript.Size = new System.Drawing.Size(72, 24);
+            this.btnSubscript.TabIndex = 76;
+            this.btnSubscript.Tag = "Fixed";
+            this.btnSubscript.Text = "Subscript";
+            this.btnSubscript.UseMnemonic = false;
+            this.btnSubscript.UseVisualStyleBackColor = false;
             // 
             // Mathboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(523, 133);
-            this.ContextMenuStrip = this.PopupMenu;
+            this.Controls.Add(this.btnSubscript);
+            this.Controls.Add(this.btnSuperscript);
+            this.Controls.Add(this.btnMaths);
+            this.Controls.Add(this.btnGreek);
             this.Controls.Add(this.btnTopLeft);
             this.Controls.Add(this.btnBackTick);
             this.Controls.Add(this.btn1);
@@ -1099,7 +1162,7 @@
             this.Controls.Add(this.btnNum8);
             this.Controls.Add(this.btnNum9);
             this.Controls.Add(this.btnNumPlus);
-            this.Controls.Add(this.btnCapsLock);
+            this.Controls.Add(this.btnShiftLock);
             this.Controls.Add(this.btnA);
             this.Controls.Add(this.btnS);
             this.Controls.Add(this.btnD);
@@ -1139,7 +1202,6 @@
             this.KeyPreview = true;
             this.Name = "Mathboard";
             this.Text = "Mathematical Keyboard";
-            this.PopupMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1192,7 +1254,7 @@
         public System.Windows.Forms.Button bynLeftBracket;
         public System.Windows.Forms.Button btnRightBracket;
         public System.Windows.Forms.Button btnBackspace;
-        public System.Windows.Forms.Button btnCapsLock;
+        public System.Windows.Forms.Button btnShiftLock;
         public System.Windows.Forms.Button btnLshift;
         public System.Windows.Forms.Button btnTab;
         public System.Windows.Forms.Button btnRshift;
@@ -1219,14 +1281,9 @@
         public System.Windows.Forms.Button btnNumTopLeft;
         public System.Windows.Forms.Button btnSemicolon;
         public System.Windows.Forms.Button btnApostrophe;
-        public System.Windows.Forms.ContextMenuStrip PopupMenu;
-        public System.Windows.Forms.ToolStripMenuItem PopupLowercase;
-        public System.Windows.Forms.ToolStripMenuItem PopupUppercase;
-        public System.Windows.Forms.ToolStripMenuItem PopupGreekLower;
-        public System.Windows.Forms.ToolStripMenuItem PopupGreekUpper;
-        public System.Windows.Forms.ToolStripMenuItem PopupSubscript;
-        public System.Windows.Forms.ToolStripMenuItem PopupSuperLower;
-        public System.Windows.Forms.ToolStripMenuItem PopupSuperUpper;
-        public System.Windows.Forms.ToolStripMenuItem PopupMathematical;
+        public System.Windows.Forms.Button btnGreek;
+        public System.Windows.Forms.Button btnMaths;
+        public System.Windows.Forms.Button btnSuperscript;
+        public System.Windows.Forms.Button btnSubscript;
     }
 }
