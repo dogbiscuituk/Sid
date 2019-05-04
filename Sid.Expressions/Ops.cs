@@ -6,10 +6,12 @@
     public static class Ops
     {
         public const string
-            ImpliedProduct = "i*",
-            SquareRoot = "(√)",
-            SuperscriptPower = "s^",
+            UnaryPlus = "(+)",
             UnaryMinus = "(-)",
-            UnaryPlus = "(+)";
+            SquareRoot = "(√)",
+            CubeRoot = "(∛)",
+            FourthRoot = "(∜)",
+            ImpliedProduct = "i*",
+            SuperscriptPower = "s^";
     }
 }

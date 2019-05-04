@@ -77,7 +77,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Views\KeyboardMode.cs" />
     <Compile Include="Views\PropertiesDialog.cs">
       <SubType>Form</SubType>
     </Compile>

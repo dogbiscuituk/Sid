@@ -1,4 +1,4 @@
-﻿namespace Sid.Expressions
+﻿namespace Sid.Expressions // √∛∜
 {
     using System;
     using System.Collections.Generic;
@@ -94,6 +94,10 @@
                         return (cValue == 0.0 ? 1.0 : 0.0).Constant();
                     case Ops.SquareRoot:
                         return Math.Sqrt(cValue).Constant();
+                    case Ops.CubeRoot:
+                        return Math.Pow(cValue, 1.0 / 3.0).Constant();
+                    case Ops.FourthRoot:
+                        return Math.Pow(cValue, 0.25).Constant();
                 }
             }
             switch (op)
@@ -102,6 +106,10 @@
                     return operand;
                 case Ops.SquareRoot:
                     return MakeFunction("Sqrt", operand);
+                case Ops.CubeRoot:
+                    return operand.Power(1.0 / 3.0);
+                case Ops.FourthRoot:
+                    return operand.Power(0.25);
             }
             return Expression.MakeUnary(op.GetExpressionType(), operand, null);
         }
@@ -151,15 +159,19 @@
                     case "<":
                     case ">":
                     case "≮":
-                    case "≥":
-                    case ">=":
                     case "≯":
                     case "≤":
+                    case "≥":
                     case "<=":
+                    case ">=":
+                    case "≰":
+                    case "≱":
                     case "+":
                     case "-":
                     case "*":
+                    case "×":
                     case "/":
+                    case "÷":
                     case "^":
                         ParseOperator(op.ToString());
                         if (op == ")")
@@ -255,6 +267,8 @@
                 case '!':
                 case '~':
                 case '√':
+                case '∛':
+                case '∜':
                     ParseUnary(token);
                     ParseOperand();
                     break;
@@ -297,6 +311,12 @@
                                 break;
                             case Ops.SquareRoot:
                                 operand = MakeFunction("Sqrt", operand);
+                                break;
+                            case Ops.CubeRoot:
+                                operand = operand.Power(1.0 / 3.0);
+                                break;
+                            case Ops.FourthRoot:
+                                operand = operand.Power(0.25);
                                 break;
                             default:
                                 try
@@ -394,7 +414,7 @@
         private string PeekToken()
         {
             var nextChar = PeekChar();
-            if ("()?:≠≤≥≮≯+-*/^~√'".IndexOf(nextChar) >= 0)
+           if ("()?:≠≤≥≮≯≰≱+-*/^~√∛∜'".IndexOf(nextChar) >= 0)
                 return nextChar.ToString();
             switch (nextChar)
             {

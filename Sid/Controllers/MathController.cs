@@ -10,7 +10,10 @@
 
     public class MathController
     {
-        public MathController() { View = new Mathboard(); }
+        public MathController()
+        {
+            View = new Mathboard();
+        }
 
         #region Properties
 
@@ -46,6 +49,8 @@
                     View.KeyDown += View_KeyDown;
                     View.KeyPress += View_KeyPress;
                     View.KeyUp += View_KeyUp;
+
+                    InitKeyboardMode();
                 }
             }
         }
@@ -69,6 +74,25 @@
                     InitKeyboardMode();
                 }
             }
+        }
+
+        private readonly List<Button> CustomKeys = new List<Button>();
+
+        #endregion
+
+        #region Show/Hide
+
+        public void Show(IWin32Window owner, Control sender)
+        {
+            if (!View.Visible)
+                View.Show(owner);
+            else
+                View.BringToFront();
+        }
+
+        public void Hide()
+        {
+            View.Close();
         }
 
         #endregion
@@ -120,6 +144,8 @@
             }
         }
 
+        private string GetKeyMap(KeyboardMode mode) => KeyMaps[(int)mode];
+
         private void InitKeyboardMode()
         {
             var mode = GetKeyboardMode();
@@ -128,78 +154,12 @@
             for (var index = 0; index < CustomKeys.Count; index++)
                 CustomKeys[index].Text = map[index].ToString().AmpersandEscape();
         }
-
-        #endregion
-
-        private void ViewButton_Click(object sender, System.EventArgs e)
-        {
-            var text = ((Control)sender).Text;
-            if (text != string.Empty)
-                PassThrough(text[0]);
-        }
-
-        private void PassThrough(char c) =>
-            System.Diagnostics.Debug.Write(c);
-
-        private void View_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (e.CloseReason != CloseReason.UserClosing)
-                return;
-            e.Cancel = true;
-            View.Hide();
-        }
-
-        private void View_KeyUp(object sender, KeyEventArgs e) { }
-        //    System.Diagnostics.Debug.WriteLine($"Key Up. KeyCode = {e.KeyCode}, KeyData = {e.KeyData}.");
-
-        private void View_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            //System.Diagnostics.Debug.WriteLine($"Key Press. KeyChar = {e.KeyChar}.");
-            PassThrough(e.KeyChar);
-        }
-
-        private void View_KeyDown(object sender, KeyEventArgs e) { }
-        //    System.Diagnostics.Debug.WriteLine($"Key Down. KeyCode = {e.KeyCode}, KeyData = {e.KeyData}.");
-
-        private void LoadKeys()
-        {
-            var keys = View.Controls.OfType<Button>().Where(p => p.Tag == null);
-            CustomKeys.AddRange(keys);
-            foreach (var key in keys)
-                key.Click += ViewButton_Click;
-        }
-
-        private void UnloadKeys()
-        {
-            foreach (var key in CustomKeys)
-                key.Click -= ViewButton_Click;
-            CustomKeys.Clear();
-        }
-
-        private readonly List<Button> CustomKeys = new List<Button>();
-
-        public void Show(IWin32Window owner, Control sender)
-        {
-            if (!View.Visible)
-                View.Show(owner);
-            else
-                View.BringToFront();
-        }
-
-        public void Hide()
-        {
-            View.Close();
-        }
-
-        private string GetKeyMap(KeyboardMode mode) => KeyMaps[(int)mode];
-
         // Greek keyboard based on https://en.wikipedia.org/wiki/Keyboard_layout#/media/File:KB_Greek.svg
-
         private const string Lowercase = @" `1234567890-= /*-qwertyuiop[]789+asdfghjkl;'#456\zxcvbnm,./123 0.";
         private const string Uppercase = @" ¬!""£$%^&*()_+ /*-QWERTYUIOP{}789+ASDFGHJKL:@~456|ZXCVBNM<>?123 0.";
         private const string GreekLower = @" `1234567890-= /*- ςερτυθιοπ[]789+ασδφγηξκλ;'#456\ζχψωβνμ,./123 0.";
         private const string GreekUpper = @" ¬!""£$%^&*()_+ /*-  ΕΡΤΥΘΙΟΠ{}789+ΑΣΔΦΓΗΞΚΛ:@~456|ΖΧΨΩΒΝΜ<>?123 0.";
-        private const string Mathematical = @" `1234567890-= /*-qwertyuiop[]789+asdfghjkl;'#456\zxcvbnm,./123 0.";
+        private const string Mathematical = @" ` √∛∜    ≮≯-≠ ÷×-qwertyuiop≰≱789+asdfghjkl;'#456\zxcvbnm≤≥/123 0.";
         private const string Subscript = @"ᵦᵧᵩᵪᵨ     ₍₎₋₌   ₋  ₑᵣₜ ᵤᵢₒₚ  ₇₈₉₊ₐₛ   ₕⱼₖₗ   ₄₅₆  ₓ ᵥ ₙₘ   ₁₂₃ ₀ ";
         private const string SuperLower = @"ᵝᵞᵠᵡᵅᵟᵋᶿᶥᶲ⁽⁾⁻⁼   ⁻ ʷᵉʳᵗʸᵘⁱᵒᵖ  ⁷⁸⁹⁺ᵃˢᵈᶠᵍʰʲᵏˡ   ⁴⁵⁶ ᶻˣᶜᵛᵇⁿᵐ   ¹²³ ⁰ ";
         private const string SuperUpper = @"          ⁽⁾⁻⁼   ⁻ ᵂᴱᴿᵀ ᵁᴵᴼᴾ  ⁷⁸⁹⁺ᴬ ᴰ ᴳᴴᴶᴷᴸ   ⁴⁵⁶    ⱽᴮᴺᴹ   ¹²³ ⁰ ";
@@ -230,6 +190,69 @@
             "Superscript Uppercase"
         };
 
+
+        #endregion
+
+        private void ViewButton_Click(object sender, System.EventArgs e)
+        {
+            var text = ((Control)sender).Text;
+            if (text != string.Empty)
+                PassThrough(text[0]);
+            State &= ~KeyStates.Shift;
+        }
+
+        private void PassThrough(char c) =>
+            System.Diagnostics.Debug.Write(c);
+
+        private void View_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason != CloseReason.UserClosing)
+                return;
+            e.Cancel = true;
+            View.Hide();
+        }
+
+        private Keys LastKeyDownCode;
+
+        private void View_KeyDown(object sender, KeyEventArgs e) =>
+            LastKeyDownCode = e.KeyCode;
+
+        private void View_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == LastKeyDownCode)
+                switch (e.KeyCode)
+                {
+                    case Keys.ShiftKey:
+                        State ^= KeyStates.Shift;
+                        break;
+                    case Keys.CapsLock:
+                        State ^= KeyStates.ShiftLock;
+                        break;
+                }
+        }
+
+        private void View_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            PassThrough(e.KeyChar);
+        }
+
+        private void LoadKeys()
+        {
+            var keys = View.Controls.OfType<Button>().Where(p => p.Tag == null);
+            CustomKeys.AddRange(keys);
+            foreach (var key in keys)
+                key.Click += ViewButton_Click;
+        }
+
+        private void UnloadKeys()
+        {
+            foreach (var key in CustomKeys)
+                key.Click -= ViewButton_Click;
+            CustomKeys.Clear();
+        }
+
+        #region Private Enumerations
+
         [Flags]
         private enum KeyStates
         {
@@ -256,5 +279,7 @@
             SuperLower,
             SuperUpper
         }
+
+        #endregion
     }
 }

@@ -55,17 +55,20 @@
                 case "!=":
                 case "<":
                 case ">":
-                case "≮":
-                case "≥":
-                case ">=":
-                case "≯":
-                case "":
                 case "≤":
+                case "≥":
                 case "<=":
+                case ">=":
+                case "≮":
+                case "≯":
+                case "≰":
+                case "≱":
                 case "+":
                 case "-":
                 case "*":
+                case "×":
                 case "/":
+                case "÷":
                 case "^":
                     return OperandTypes.Double;
             }
@@ -93,8 +96,10 @@
                 case "!=":
                     return ExpressionType.NotEqual;
                 case "<":
+                case "≱":
                     return ExpressionType.LessThan;
                 case ">":
+                case "≰":
                     return ExpressionType.GreaterThan;
                 case "≯":
                 case "≤":
@@ -109,9 +114,11 @@
                 case "-":
                     return ExpressionType.Subtract;
                 case "*":
+                case "×":
                 case "i*":
                     return ExpressionType.Multiply;
                 case "/":
+                case "÷":
                     return ExpressionType.Divide;
                 case "^":
                 case "s^":
@@ -169,17 +176,21 @@
                 case "<":
                 case ">":
                 case "≮":
-                case "≥":
-                case ">=":
                 case "≯":
                 case "≤":
+                case "≥":
                 case "<=":
+                case ">=":
+                case "≰":
+                case "≱":
                     return Precedence.Relational;
                 case "+":
                 case "-":
                     return Precedence.Additive;
                 case "*":
+                case "×":
                 case "/":
+                case "÷":
                     return Precedence.Multiplicative;
                 case "^":
                     return Precedence.Exponential;
