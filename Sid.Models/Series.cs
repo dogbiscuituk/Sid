@@ -171,7 +171,7 @@
                     pen.DashStyle = DashStyle.Dash;
                     var paint = Utility.MakeColour(FillColour, FillTransparencyPercent);
                     using (var brush = new SolidBrush(paint))
-                        PointLists.ForEach(p => FillArea(g, pen, brush, p));
+                        PointLists.ForEach(p => FillArea(g, pen, brush, p, plotType));
                 }
             else
                 using (var pen = new Pen(PenColour, penWidth))
@@ -192,7 +192,7 @@
                 switch (plotType)
                 {
                     case PlotType.Polar:
-                        var a = x = x1 + step * w / StepCount;
+                        var a = step * Math.PI / StepCount;
                         var r = (float)Func(a, time);
                         x = (float)(r * Math.Cos(a));
                         y = (float)(r * Math.Sin(a));
@@ -220,19 +220,27 @@
             return Task.FromResult(result);
         }
 
-        private void FillArea(Graphics g, Pen pen, Brush brush, List<PointF> p)
+        private void FillArea(Graphics g, Pen pen, Brush brush, List<PointF> p, PlotType plotType)
         {
             var n = p.Count;
-            var points = new PointF[n + 2];
-            p.CopyTo(points);
-            points[n] = new PointF(points[n - 1].X, 0);
-            points[n + 1] = new PointF(points[0].X, 0);
-            g.FillPolygon(brush, points);
-            // Draw vertical asymptotes iff X extremes are not Limits.
-            if (points[n].X < Limits.Right)
-                g.DrawLine(pen, points[n - 1], points[n]);
-            if (points[0].X > Limits.Left)
-                g.DrawLine(pen, points[n + 1], points[0]);
+            switch (plotType)
+            {
+                case PlotType.Cartesian:
+                    var points = new PointF[n + 2];
+                    p.CopyTo(points);
+                    points[n] = new PointF(points[n - 1].X, 0);
+                    points[n + 1] = new PointF(points[0].X, 0);
+                    g.FillPolygon(brush, points);
+                    // Draw vertical asymptotes iff X extremes are not Limits.
+                    if (points[n].X < Limits.Right)
+                        g.DrawLine(pen, points[n - 1], points[n]);
+                    if (points[0].X > Limits.Left)
+                        g.DrawLine(pen, points[n + 1], points[0]);
+                    break;
+                case PlotType.Polar:
+                    g.FillPolygon(brush, p.ToArray());
+                    break;
+            }
         }
 
         private void InvalidatePoints() => PointLists.Clear();

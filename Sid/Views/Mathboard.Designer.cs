@@ -123,6 +123,7 @@
             this.btnQ.Size = new System.Drawing.Size(24, 24);
             this.btnQ.TabIndex = 20;
             this.btnQ.Text = "q";
+            this.btnQ.UseMnemonic = false;
             this.btnQ.UseVisualStyleBackColor = true;
             // 
             // btnW
@@ -134,6 +135,7 @@
             this.btnW.Size = new System.Drawing.Size(24, 24);
             this.btnW.TabIndex = 21;
             this.btnW.Text = "w";
+            this.btnW.UseMnemonic = false;
             this.btnW.UseVisualStyleBackColor = true;
             // 
             // btnE
@@ -145,6 +147,7 @@
             this.btnE.Size = new System.Drawing.Size(24, 24);
             this.btnE.TabIndex = 22;
             this.btnE.Text = "e";
+            this.btnE.UseMnemonic = false;
             this.btnE.UseVisualStyleBackColor = true;
             // 
             // btnR
@@ -156,6 +159,7 @@
             this.btnR.Size = new System.Drawing.Size(24, 24);
             this.btnR.TabIndex = 23;
             this.btnR.Text = "r";
+            this.btnR.UseMnemonic = false;
             this.btnR.UseVisualStyleBackColor = true;
             // 
             // btnT
@@ -167,6 +171,7 @@
             this.btnT.Size = new System.Drawing.Size(24, 24);
             this.btnT.TabIndex = 24;
             this.btnT.Text = "t";
+            this.btnT.UseMnemonic = false;
             this.btnT.UseVisualStyleBackColor = true;
             // 
             // btnY
@@ -178,6 +183,7 @@
             this.btnY.Size = new System.Drawing.Size(24, 24);
             this.btnY.TabIndex = 25;
             this.btnY.Text = "y";
+            this.btnY.UseMnemonic = false;
             this.btnY.UseVisualStyleBackColor = true;
             // 
             // btnU
@@ -189,6 +195,7 @@
             this.btnU.Size = new System.Drawing.Size(24, 24);
             this.btnU.TabIndex = 26;
             this.btnU.Text = "u";
+            this.btnU.UseMnemonic = false;
             this.btnU.UseVisualStyleBackColor = true;
             // 
             // btnI
@@ -200,6 +207,7 @@
             this.btnI.Size = new System.Drawing.Size(24, 24);
             this.btnI.TabIndex = 27;
             this.btnI.Text = "i";
+            this.btnI.UseMnemonic = false;
             this.btnI.UseVisualStyleBackColor = true;
             // 
             // btnO
@@ -211,6 +219,7 @@
             this.btnO.Size = new System.Drawing.Size(24, 24);
             this.btnO.TabIndex = 28;
             this.btnO.Text = "o";
+            this.btnO.UseMnemonic = false;
             this.btnO.UseVisualStyleBackColor = true;
             // 
             // btnP
@@ -222,6 +231,7 @@
             this.btnP.Size = new System.Drawing.Size(24, 24);
             this.btnP.TabIndex = 29;
             this.btnP.Text = "p";
+            this.btnP.UseMnemonic = false;
             this.btnP.UseVisualStyleBackColor = true;
             // 
             // btnA
@@ -233,6 +243,7 @@
             this.btnA.Size = new System.Drawing.Size(24, 24);
             this.btnA.TabIndex = 38;
             this.btnA.Text = "a";
+            this.btnA.UseMnemonic = false;
             this.btnA.UseVisualStyleBackColor = true;
             // 
             // btnS
@@ -244,6 +255,7 @@
             this.btnS.Size = new System.Drawing.Size(24, 24);
             this.btnS.TabIndex = 39;
             this.btnS.Text = "s";
+            this.btnS.UseMnemonic = false;
             this.btnS.UseVisualStyleBackColor = true;
             // 
             // btnD
@@ -255,6 +267,7 @@
             this.btnD.Size = new System.Drawing.Size(24, 24);
             this.btnD.TabIndex = 40;
             this.btnD.Text = "d";
+            this.btnD.UseMnemonic = false;
             this.btnD.UseVisualStyleBackColor = true;
             // 
             // btnF
@@ -266,6 +279,7 @@
             this.btnF.Size = new System.Drawing.Size(24, 24);
             this.btnF.TabIndex = 41;
             this.btnF.Text = "f";
+            this.btnF.UseMnemonic = false;
             this.btnF.UseVisualStyleBackColor = true;
             // 
             // btnG
@@ -277,6 +291,7 @@
             this.btnG.Size = new System.Drawing.Size(24, 24);
             this.btnG.TabIndex = 42;
             this.btnG.Text = "g";
+            this.btnG.UseMnemonic = false;
             this.btnG.UseVisualStyleBackColor = true;
             // 
             // btnH
@@ -288,6 +303,7 @@
             this.btnH.Size = new System.Drawing.Size(24, 24);
             this.btnH.TabIndex = 43;
             this.btnH.Text = "h";
+            this.btnH.UseMnemonic = false;
             this.btnH.UseVisualStyleBackColor = true;
             // 
             // btnJ
@@ -299,6 +315,7 @@
             this.btnJ.Size = new System.Drawing.Size(24, 24);
             this.btnJ.TabIndex = 44;
             this.btnJ.Text = "j";
+            this.btnJ.UseMnemonic = false;
             this.btnJ.UseVisualStyleBackColor = true;
             // 
             // btnK
@@ -310,6 +327,7 @@
             this.btnK.Size = new System.Drawing.Size(24, 24);
             this.btnK.TabIndex = 45;
             this.btnK.Text = "k";
+            this.btnK.UseMnemonic = false;
             this.btnK.UseVisualStyleBackColor = true;
             // 
             // btnL
@@ -321,6 +339,7 @@
             this.btnL.Size = new System.Drawing.Size(24, 24);
             this.btnL.TabIndex = 46;
             this.btnL.Text = "l";
+            this.btnL.UseMnemonic = false;
             this.btnL.UseVisualStyleBackColor = true;
             // 
             // btnZ
@@ -332,6 +351,7 @@
             this.btnZ.Size = new System.Drawing.Size(24, 24);
             this.btnZ.TabIndex = 55;
             this.btnZ.Text = "z";
+            this.btnZ.UseMnemonic = false;
             this.btnZ.UseVisualStyleBackColor = true;
             // 
             // btnX
@@ -343,6 +363,7 @@
             this.btnX.Size = new System.Drawing.Size(24, 24);
             this.btnX.TabIndex = 56;
             this.btnX.Text = "x";
+            this.btnX.UseMnemonic = false;
             this.btnX.UseVisualStyleBackColor = true;
             // 
             // btnC
@@ -354,6 +375,7 @@
             this.btnC.Size = new System.Drawing.Size(24, 24);
             this.btnC.TabIndex = 57;
             this.btnC.Text = "c";
+            this.btnC.UseMnemonic = false;
             this.btnC.UseVisualStyleBackColor = true;
             // 
             // btnV
@@ -365,6 +387,7 @@
             this.btnV.Size = new System.Drawing.Size(24, 24);
             this.btnV.TabIndex = 58;
             this.btnV.Text = "v";
+            this.btnV.UseMnemonic = false;
             this.btnV.UseVisualStyleBackColor = true;
             // 
             // btnB
@@ -376,6 +399,7 @@
             this.btnB.Size = new System.Drawing.Size(24, 24);
             this.btnB.TabIndex = 59;
             this.btnB.Text = "b";
+            this.btnB.UseMnemonic = false;
             this.btnB.UseVisualStyleBackColor = true;
             // 
             // btnN
@@ -387,6 +411,7 @@
             this.btnN.Size = new System.Drawing.Size(24, 24);
             this.btnN.TabIndex = 60;
             this.btnN.Text = "n";
+            this.btnN.UseMnemonic = false;
             this.btnN.UseVisualStyleBackColor = true;
             // 
             // btnM
@@ -398,6 +423,7 @@
             this.btnM.Size = new System.Drawing.Size(24, 24);
             this.btnM.TabIndex = 61;
             this.btnM.Text = "m";
+            this.btnM.UseMnemonic = false;
             this.btnM.UseVisualStyleBackColor = true;
             // 
             // btn1
@@ -409,6 +435,7 @@
             this.btn1.Size = new System.Drawing.Size(24, 24);
             this.btn1.TabIndex = 2;
             this.btn1.Text = "1";
+            this.btn1.UseMnemonic = false;
             this.btn1.UseVisualStyleBackColor = true;
             // 
             // btn2
@@ -420,6 +447,7 @@
             this.btn2.Size = new System.Drawing.Size(24, 24);
             this.btn2.TabIndex = 3;
             this.btn2.Text = "2";
+            this.btn2.UseMnemonic = false;
             this.btn2.UseVisualStyleBackColor = true;
             // 
             // btn3
@@ -431,6 +459,7 @@
             this.btn3.Size = new System.Drawing.Size(24, 24);
             this.btn3.TabIndex = 4;
             this.btn3.Text = "3";
+            this.btn3.UseMnemonic = false;
             this.btn3.UseVisualStyleBackColor = true;
             // 
             // btn4
@@ -442,6 +471,7 @@
             this.btn4.Size = new System.Drawing.Size(24, 24);
             this.btn4.TabIndex = 5;
             this.btn4.Text = "4";
+            this.btn4.UseMnemonic = false;
             this.btn4.UseVisualStyleBackColor = true;
             // 
             // btn5
@@ -453,6 +483,7 @@
             this.btn5.Size = new System.Drawing.Size(24, 24);
             this.btn5.TabIndex = 6;
             this.btn5.Text = "5";
+            this.btn5.UseMnemonic = false;
             this.btn5.UseVisualStyleBackColor = true;
             // 
             // btn6
@@ -464,6 +495,7 @@
             this.btn6.Size = new System.Drawing.Size(24, 24);
             this.btn6.TabIndex = 7;
             this.btn6.Text = "6";
+            this.btn6.UseMnemonic = false;
             this.btn6.UseVisualStyleBackColor = true;
             // 
             // btn7
@@ -475,6 +507,7 @@
             this.btn7.Size = new System.Drawing.Size(24, 24);
             this.btn7.TabIndex = 8;
             this.btn7.Text = "7";
+            this.btn7.UseMnemonic = false;
             this.btn7.UseVisualStyleBackColor = true;
             // 
             // btn8
@@ -486,6 +519,7 @@
             this.btn8.Size = new System.Drawing.Size(24, 24);
             this.btn8.TabIndex = 9;
             this.btn8.Text = "8";
+            this.btn8.UseMnemonic = false;
             this.btn8.UseVisualStyleBackColor = true;
             // 
             // btn9
@@ -497,6 +531,7 @@
             this.btn9.Size = new System.Drawing.Size(24, 24);
             this.btn9.TabIndex = 10;
             this.btn9.Text = "9";
+            this.btn9.UseMnemonic = false;
             this.btn9.UseVisualStyleBackColor = true;
             // 
             // btn0
@@ -508,6 +543,7 @@
             this.btn0.Size = new System.Drawing.Size(24, 24);
             this.btn0.TabIndex = 11;
             this.btn0.Text = "0";
+            this.btn0.UseMnemonic = false;
             this.btn0.UseVisualStyleBackColor = true;
             // 
             // btnMinus
@@ -519,6 +555,7 @@
             this.btnMinus.Size = new System.Drawing.Size(24, 24);
             this.btnMinus.TabIndex = 12;
             this.btnMinus.Text = "-";
+            this.btnMinus.UseMnemonic = false;
             this.btnMinus.UseVisualStyleBackColor = true;
             // 
             // btnEqual
@@ -530,6 +567,7 @@
             this.btnEqual.Size = new System.Drawing.Size(24, 24);
             this.btnEqual.TabIndex = 13;
             this.btnEqual.Text = "=";
+            this.btnEqual.UseMnemonic = false;
             this.btnEqual.UseVisualStyleBackColor = true;
             // 
             // btnBackTick
@@ -541,6 +579,7 @@
             this.btnBackTick.Size = new System.Drawing.Size(24, 24);
             this.btnBackTick.TabIndex = 1;
             this.btnBackTick.Text = "`";
+            this.btnBackTick.UseMnemonic = false;
             this.btnBackTick.UseVisualStyleBackColor = true;
             // 
             // btnBackslash
@@ -552,6 +591,7 @@
             this.btnBackslash.Size = new System.Drawing.Size(24, 24);
             this.btnBackslash.TabIndex = 54;
             this.btnBackslash.Text = "\\";
+            this.btnBackslash.UseMnemonic = false;
             this.btnBackslash.UseVisualStyleBackColor = true;
             // 
             // btnPeriod
@@ -563,6 +603,7 @@
             this.btnPeriod.Size = new System.Drawing.Size(24, 24);
             this.btnPeriod.TabIndex = 63;
             this.btnPeriod.Text = ".";
+            this.btnPeriod.UseMnemonic = false;
             this.btnPeriod.UseVisualStyleBackColor = true;
             // 
             // btnSlash
@@ -574,6 +615,7 @@
             this.btnSlash.Size = new System.Drawing.Size(24, 24);
             this.btnSlash.TabIndex = 64;
             this.btnSlash.Text = "/";
+            this.btnSlash.UseMnemonic = false;
             this.btnSlash.UseVisualStyleBackColor = true;
             // 
             // btnHash
@@ -585,6 +627,7 @@
             this.btnHash.Size = new System.Drawing.Size(24, 24);
             this.btnHash.TabIndex = 49;
             this.btnHash.Text = "#";
+            this.btnHash.UseMnemonic = false;
             this.btnHash.UseVisualStyleBackColor = true;
             // 
             // bynLeftBracket
@@ -596,6 +639,7 @@
             this.bynLeftBracket.Size = new System.Drawing.Size(24, 24);
             this.bynLeftBracket.TabIndex = 30;
             this.bynLeftBracket.Text = "[";
+            this.bynLeftBracket.UseMnemonic = false;
             this.bynLeftBracket.UseVisualStyleBackColor = true;
             // 
             // btnRightBracket
@@ -607,6 +651,7 @@
             this.btnRightBracket.Size = new System.Drawing.Size(24, 24);
             this.btnRightBracket.TabIndex = 31;
             this.btnRightBracket.Text = "]";
+            this.btnRightBracket.UseMnemonic = false;
             this.btnRightBracket.UseVisualStyleBackColor = true;
             // 
             // btnBackspace
@@ -619,6 +664,7 @@
             this.btnBackspace.TabIndex = 14;
             this.btnBackspace.Tag = "Fixed";
             this.btnBackspace.Text = "Backspace";
+            this.btnBackspace.UseMnemonic = false;
             this.btnBackspace.UseVisualStyleBackColor = true;
             // 
             // btnCapsLock
@@ -631,6 +677,7 @@
             this.btnCapsLock.TabIndex = 37;
             this.btnCapsLock.Tag = "Fixed";
             this.btnCapsLock.Text = "Shift Lock";
+            this.btnCapsLock.UseMnemonic = false;
             this.btnCapsLock.UseVisualStyleBackColor = true;
             // 
             // btnLshift
@@ -643,6 +690,7 @@
             this.btnLshift.TabIndex = 53;
             this.btnLshift.Tag = "Fixed";
             this.btnLshift.Text = "Shift";
+            this.btnLshift.UseMnemonic = false;
             this.btnLshift.UseVisualStyleBackColor = true;
             // 
             // btnTab
@@ -655,6 +703,7 @@
             this.btnTab.TabIndex = 19;
             this.btnTab.Tag = "Fixed";
             this.btnTab.Text = "Tab";
+            this.btnTab.UseMnemonic = false;
             this.btnTab.UseVisualStyleBackColor = true;
             // 
             // btnRshift
@@ -667,6 +716,7 @@
             this.btnRshift.TabIndex = 65;
             this.btnRshift.Tag = "Fixed";
             this.btnRshift.Text = "Shift";
+            this.btnRshift.UseMnemonic = false;
             this.btnRshift.UseVisualStyleBackColor = true;
             // 
             // btnNum9
@@ -678,6 +728,7 @@
             this.btnNum9.Size = new System.Drawing.Size(24, 24);
             this.btnNum9.TabIndex = 35;
             this.btnNum9.Text = "9";
+            this.btnNum9.UseMnemonic = false;
             this.btnNum9.UseVisualStyleBackColor = true;
             // 
             // btnNum8
@@ -689,6 +740,7 @@
             this.btnNum8.Size = new System.Drawing.Size(24, 24);
             this.btnNum8.TabIndex = 34;
             this.btnNum8.Text = "8";
+            this.btnNum8.UseMnemonic = false;
             this.btnNum8.UseVisualStyleBackColor = true;
             // 
             // btnNum7
@@ -700,6 +752,7 @@
             this.btnNum7.Size = new System.Drawing.Size(24, 24);
             this.btnNum7.TabIndex = 33;
             this.btnNum7.Text = "7";
+            this.btnNum7.UseMnemonic = false;
             this.btnNum7.UseVisualStyleBackColor = true;
             // 
             // btnNum6
@@ -711,6 +764,7 @@
             this.btnNum6.Size = new System.Drawing.Size(24, 24);
             this.btnNum6.TabIndex = 52;
             this.btnNum6.Text = "6";
+            this.btnNum6.UseMnemonic = false;
             this.btnNum6.UseVisualStyleBackColor = true;
             // 
             // btnNum5
@@ -722,6 +776,7 @@
             this.btnNum5.Size = new System.Drawing.Size(24, 24);
             this.btnNum5.TabIndex = 51;
             this.btnNum5.Text = "5";
+            this.btnNum5.UseMnemonic = false;
             this.btnNum5.UseVisualStyleBackColor = true;
             // 
             // btnNum4
@@ -733,6 +788,7 @@
             this.btnNum4.Size = new System.Drawing.Size(24, 24);
             this.btnNum4.TabIndex = 50;
             this.btnNum4.Text = "4";
+            this.btnNum4.UseMnemonic = false;
             this.btnNum4.UseVisualStyleBackColor = true;
             // 
             // btnNum3
@@ -744,6 +800,7 @@
             this.btnNum3.Size = new System.Drawing.Size(24, 24);
             this.btnNum3.TabIndex = 68;
             this.btnNum3.Text = "3";
+            this.btnNum3.UseMnemonic = false;
             this.btnNum3.UseVisualStyleBackColor = true;
             // 
             // btnNum2
@@ -755,6 +812,7 @@
             this.btnNum2.Size = new System.Drawing.Size(24, 24);
             this.btnNum2.TabIndex = 67;
             this.btnNum2.Text = "2";
+            this.btnNum2.UseMnemonic = false;
             this.btnNum2.UseVisualStyleBackColor = true;
             // 
             // btnNum1
@@ -766,6 +824,7 @@
             this.btnNum1.Size = new System.Drawing.Size(24, 24);
             this.btnNum1.TabIndex = 66;
             this.btnNum1.Text = "1";
+            this.btnNum1.UseMnemonic = false;
             this.btnNum1.UseVisualStyleBackColor = true;
             // 
             // btnNum0
@@ -777,6 +836,7 @@
             this.btnNum0.Size = new System.Drawing.Size(48, 24);
             this.btnNum0.TabIndex = 71;
             this.btnNum0.Text = "0";
+            this.btnNum0.UseMnemonic = false;
             this.btnNum0.UseVisualStyleBackColor = true;
             // 
             // btnNumPeriod
@@ -788,6 +848,7 @@
             this.btnNumPeriod.Size = new System.Drawing.Size(24, 24);
             this.btnNumPeriod.TabIndex = 72;
             this.btnNumPeriod.Text = ".";
+            this.btnNumPeriod.UseMnemonic = false;
             this.btnNumPeriod.UseVisualStyleBackColor = true;
             // 
             // btnEnter
@@ -800,6 +861,7 @@
             this.btnEnter.TabIndex = 69;
             this.btnEnter.Tag = "Fixed";
             this.btnEnter.Text = "⏎";
+            this.btnEnter.UseMnemonic = false;
             this.btnEnter.UseVisualStyleBackColor = true;
             // 
             // btnComma
@@ -811,6 +873,7 @@
             this.btnComma.Size = new System.Drawing.Size(24, 24);
             this.btnComma.TabIndex = 62;
             this.btnComma.Text = ",";
+            this.btnComma.UseMnemonic = false;
             this.btnComma.UseVisualStyleBackColor = true;
             // 
             // btnNumSlash
@@ -822,6 +885,7 @@
             this.btnNumSlash.Size = new System.Drawing.Size(24, 24);
             this.btnNumSlash.TabIndex = 16;
             this.btnNumSlash.Text = "/";
+            this.btnNumSlash.UseMnemonic = false;
             this.btnNumSlash.UseVisualStyleBackColor = true;
             // 
             // btnNumAsterisk
@@ -833,6 +897,7 @@
             this.btnNumAsterisk.Size = new System.Drawing.Size(24, 24);
             this.btnNumAsterisk.TabIndex = 17;
             this.btnNumAsterisk.Text = "*";
+            this.btnNumAsterisk.UseMnemonic = false;
             this.btnNumAsterisk.UseVisualStyleBackColor = true;
             // 
             // btnNumMinus
@@ -844,6 +909,7 @@
             this.btnNumMinus.Size = new System.Drawing.Size(24, 24);
             this.btnNumMinus.TabIndex = 18;
             this.btnNumMinus.Text = "-";
+            this.btnNumMinus.UseMnemonic = false;
             this.btnNumMinus.UseVisualStyleBackColor = true;
             // 
             // btnNumPlus
@@ -855,6 +921,7 @@
             this.btnNumPlus.Size = new System.Drawing.Size(24, 48);
             this.btnNumPlus.TabIndex = 36;
             this.btnNumPlus.Text = "+";
+            this.btnNumPlus.UseMnemonic = false;
             this.btnNumPlus.UseVisualStyleBackColor = true;
             // 
             // btnSpace
@@ -865,6 +932,7 @@
             this.btnSpace.Name = "btnSpace";
             this.btnSpace.Size = new System.Drawing.Size(144, 24);
             this.btnSpace.TabIndex = 70;
+            this.btnSpace.UseMnemonic = false;
             this.btnSpace.UseVisualStyleBackColor = true;
             // 
             // btnTopLeft
@@ -875,6 +943,7 @@
             this.btnTopLeft.Name = "btnTopLeft";
             this.btnTopLeft.Size = new System.Drawing.Size(24, 24);
             this.btnTopLeft.TabIndex = 0;
+            this.btnTopLeft.UseMnemonic = false;
             this.btnTopLeft.UseVisualStyleBackColor = true;
             // 
             // btnReturn
@@ -887,6 +956,7 @@
             this.btnReturn.TabIndex = 32;
             this.btnReturn.Tag = "Fixed";
             this.btnReturn.Text = "⏎";
+            this.btnReturn.UseMnemonic = false;
             this.btnReturn.UseVisualStyleBackColor = true;
             // 
             // btnNumTopLeft
@@ -897,6 +967,7 @@
             this.btnNumTopLeft.Name = "btnNumTopLeft";
             this.btnNumTopLeft.Size = new System.Drawing.Size(24, 24);
             this.btnNumTopLeft.TabIndex = 15;
+            this.btnNumTopLeft.UseMnemonic = false;
             this.btnNumTopLeft.UseVisualStyleBackColor = true;
             // 
             // btnSemicolon
@@ -908,6 +979,7 @@
             this.btnSemicolon.Size = new System.Drawing.Size(24, 24);
             this.btnSemicolon.TabIndex = 47;
             this.btnSemicolon.Text = ";";
+            this.btnSemicolon.UseMnemonic = false;
             this.btnSemicolon.UseVisualStyleBackColor = true;
             // 
             // btnApostrophe
@@ -919,6 +991,7 @@
             this.btnApostrophe.Size = new System.Drawing.Size(24, 24);
             this.btnApostrophe.TabIndex = 48;
             this.btnApostrophe.Text = "\'";
+            this.btnApostrophe.UseMnemonic = false;
             this.btnApostrophe.UseVisualStyleBackColor = true;
             // 
             // PopupMenu
@@ -933,7 +1006,7 @@
             this.PopupSuperLower,
             this.PopupSuperUpper});
             this.PopupMenu.Name = "PopupMenu";
-            this.PopupMenu.Size = new System.Drawing.Size(192, 202);
+            this.PopupMenu.Size = new System.Drawing.Size(192, 180);
             // 
             // PopupLowercase
             // 
@@ -971,15 +1044,15 @@
             this.PopupSubscript.Size = new System.Drawing.Size(191, 22);
             this.PopupSubscript.Text = "Subscript";
             // 
-            // PopupSuperLowercase
+            // PopupSuperLower
             // 
-            this.PopupSuperLower.Name = "PopupSuperLowercase";
+            this.PopupSuperLower.Name = "PopupSuperLower";
             this.PopupSuperLower.Size = new System.Drawing.Size(191, 22);
             this.PopupSuperLower.Text = "Superscript Lowercase";
             // 
-            // PopupSuperUppercase
+            // PopupSuperUpper
             // 
-            this.PopupSuperUpper.Name = "PopupSuperUppercase";
+            this.PopupSuperUpper.Name = "PopupSuperUpper";
             this.PopupSuperUpper.Size = new System.Drawing.Size(191, 22);
             this.PopupSuperUpper.Text = "Superscript Uppercase";
             // 

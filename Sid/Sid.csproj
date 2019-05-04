@@ -58,7 +58,7 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\MruController.cs" />
     <Compile Include="Controllers\SdiController.cs" />
-    <Compile Include="Controllers\MathboardController.cs" />
+    <Compile Include="Controllers\MathController.cs" />
     <Compile Include="Views\AppForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,7 +77,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Views\KeyboardModes.cs" />
+    <Compile Include="Views\KeyboardMode.cs" />
     <Compile Include="Views\PropertiesDialog.cs">
       <SubType>Form</SubType>
     </Compile>

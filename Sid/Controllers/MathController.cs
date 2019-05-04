@@ -3,11 +3,12 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
+    using Sid.Expressions;
     using Sid.Views;
 
-    public class MathboardController
+    public class MathController
     {
-        public MathboardController()
+        public MathController()
         {
             View = new Mathboard();
         }
@@ -56,13 +57,13 @@
 
         private void ViewButton_Click(object sender, System.EventArgs e)
         {
-            PassThrough(((Control)sender).Text[0]);
+            var text = ((Control)sender).Text;
+            if (text != string.Empty)
+                PassThrough(text[0]);
         }
 
-        private void PassThrough(char c)
-        {
+        private void PassThrough(char c) =>
             System.Diagnostics.Debug.Write(c);
-        }
 
         private void View_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -72,35 +73,32 @@
             View.Hide();
         }
 
-        private void View_KeyUp(object sender, KeyEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine($"Key Up. KeyCode = {e.KeyCode}, KeyData = {e.KeyData}.");
-        }
+        private void View_KeyUp(object sender, KeyEventArgs e) { }
+        //    System.Diagnostics.Debug.WriteLine($"Key Up. KeyCode = {e.KeyCode}, KeyData = {e.KeyData}.");
 
         private void View_KeyPress(object sender, KeyPressEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine($"Key Press. KeyChar = {e.KeyChar}.");
+            //System.Diagnostics.Debug.WriteLine($"Key Press. KeyChar = {e.KeyChar}.");
             PassThrough(e.KeyChar);
         }
 
-        private void View_KeyDown(object sender, KeyEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine($"Key Down. KeyCode = {e.KeyCode}, KeyData = {e.KeyData}.");
-        }
+        private void View_KeyDown(object sender, KeyEventArgs e) { }
+        //    System.Diagnostics.Debug.WriteLine($"Key Down. KeyCode = {e.KeyCode}, KeyData = {e.KeyData}.");
 
-        private void PopupLowercase_Click(object sender, System.EventArgs e) => InitKeys(Lowercase);
-        private void PopupUppercase_Click(object sender, System.EventArgs e) => InitKeys(Uppercase);
-        private void PopupGreekLower_Click(object sender, System.EventArgs e) => InitKeys(GreekLower);
-        private void PopupGreekUpper_Click(object sender, System.EventArgs e) => InitKeys(GreekUpper);
-        private void PopupMathematical_Click(object sender, System.EventArgs e) => InitKeys(Mathematical);
-        private void PopupSubscript_Click(object sender, System.EventArgs e) => InitKeys(Subscript);
-        private void PopupSuperLower_Click(object sender, System.EventArgs e) => InitKeys(SuperLower);
-        private void PopupSuperUpper_Click(object sender, System.EventArgs e) => InitKeys(SuperUpper);
+        private void PopupLowercase_Click(object sender, System.EventArgs e) => InitKeys(KeyboardMode.LowerCase);
+        private void PopupUppercase_Click(object sender, System.EventArgs e) => InitKeys(KeyboardMode.UpperCase);
+        private void PopupGreekLower_Click(object sender, System.EventArgs e) => InitKeys(KeyboardMode.GreekLower);
+        private void PopupGreekUpper_Click(object sender, System.EventArgs e) => InitKeys(KeyboardMode.GreekUpper);
+        private void PopupMathematical_Click(object sender, System.EventArgs e) => InitKeys(KeyboardMode.Mathematical);
+        private void PopupSubscript_Click(object sender, System.EventArgs e) => InitKeys(KeyboardMode.Subscript);
+        private void PopupSuperLower_Click(object sender, System.EventArgs e) => InitKeys(KeyboardMode.SuperLower);
+        private void PopupSuperUpper_Click(object sender, System.EventArgs e) => InitKeys(KeyboardMode.SuperUpper);
 
-        private void InitKeys(string keys)
+        private void InitKeys(KeyboardMode mode)
         {
+            var map = GetKeyMap(mode);
             for (var index = 0; index < CustomKeys.Count; index++)
-                CustomKeys[index].Text = keys[index].ToString();
+                CustomKeys[index].Text = map[index].ToString().AmpersandEscape();
         }
 
         private void LoadKeys()
@@ -133,30 +131,27 @@
             View.Close();
         }
 
-        private string GetKeys(KeyboardModes mode)
-        {
-            switch (mode)
-            {
-                case KeyboardModes.Normal:
-                    return "";
-                case KeyboardModes.Shift:
-                    return "";
-            }
-            return string.Empty;
-        }
+        private string GetKeyMap(KeyboardMode mode) => KeyMaps[(int)mode];
 
         private const string Lowercase = @" `1234567890-= /*-qwertyuiop[]789+asdfghjkl;'#456\zxcvbnm,./123 0.";
         private const string Uppercase = @" ¬!""£$%^&*()_+ /*-QWERTYUIOP{}789+ASDFGHJKL:@~456|ZXCVBNM<>?123 0.";
         private const string GreekLower = @" `1234567890-= /*-qwertyuiop[]789+asdfghjkl;'#456\zxcvbnm,./123 0.";
-
         private const string GreekUpper = @" ¬!""£$%^&*()_+ /*-QWΕΡΤΥΘΙΟΠ{}789+ΑΣΔΦΓΗΞΚΛ:@~456|ΖΧΨΩΒΝΜ<>?123 0.";
-
         private const string Mathematical = @" `1234567890-= /*-qwertyuiop[]789+asdfghjkl;'#456\zxcvbnm,./123 0.";
         private const string Subscript = @"ᵦᵧᵩᵪᵨ     ₍₎₋₌   ₋  ₑᵣₜ ᵤᵢₒₚ  ₇₈₉₊ₐₛ   ₕⱼₖₗ   ₄₅₆  ₓ ᵥ ₙₘ   ₁₂₃ ₀ ";
         private const string SuperLower = @"ᵝᵞᵠᵡᵅᵟᵋᶿᶥᶲ⁽⁾⁻⁼   ⁻ ʷᵉʳᵗʸᵘⁱᵒᵖ  ⁷⁸⁹⁺ᵃˢᵈᶠᵍʰʲᵏˡ   ⁴⁵⁶ ᶻˣᶜᵛᵇⁿᵐ   ¹²³ ⁰ ";
         private const string SuperUpper = @"          ⁽⁾⁻⁼   ⁻ ᵂᴱᴿᵀ ᵁᴵᴼᴾ  ⁷⁸⁹⁺ᴬ ᴰ ᴳᴴᴶᴷᴸ   ⁴⁵⁶    ⱽᴮᴺᴹ   ¹²³ ⁰ ";
 
-        string xxx = "ABDEHIKLMNOPRSTXYZ";
-        string xxy = "               ,";
+        private static readonly string[] KeyMaps = new[]
+        {
+            Lowercase,
+            Uppercase,
+            GreekLower,
+            GreekUpper,
+            Mathematical,
+            Subscript,
+            SuperLower,
+            SuperUpper
+        };
     }
 }
