@@ -56,11 +56,9 @@
             }
         }
 
-        private void TextBox_TextChanged(object sender, EventArgs e) =>
-            ActiveComboBox.Text = View.TextBox.Text;
-
         private AppController Parent;
         private ComboBox ActiveComboBox { get; set; }
+        private readonly List<Button> CustomKeys = new List<Button>();
 
         private KeyStates _state;
         private KeyStates State
@@ -84,8 +82,6 @@
             }
         }
 
-        private readonly List<Button> CustomKeys = new List<Button>();
-
         #endregion
 
         #region Show/Hide
@@ -93,47 +89,26 @@
         public void ShowDialog(IWin32Window owner, KeyView sender)
         {
             ActiveComboBox = sender.cbFunction;
+            var location = sender.PointToScreen(sender.Location);
+            location.Y += 20;
+            View.Location = location;
             View.ShowDialog(owner);
         }
 
-        public void Hide()
+        private void View_FormClosing(object sender, FormClosingEventArgs e)
         {
-            View.Close();
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                View.Hide();
+            }
         }
 
         #endregion
 
         #region Modes
 
-        private void InitBackColour(Control control, KeyStates state) =>
-            control.BackColor = Color.FromKnownColor(
-                (State & state) == 0 ? KnownColor.ControlLight : KnownColor.Window);
-
-        private void BtnShift_Click(object sender, System.EventArgs e) =>
-            State = State & ~KeyStates.ShiftLock ^ KeyStates.Shift;
-
-
-        private void BtnShiftLock_Click(object sender, System.EventArgs e) =>
-            State = State & ~KeyStates.Shift ^ KeyStates.ShiftLock;
-
-        private void BtnGreek_Click(object sender, System.EventArgs e) =>
-            ToggleLanguage(KeyStates.Greek);
-
-        private void BtnMaths_Click(object sender, EventArgs e) =>
-            ToggleLanguage(KeyStates.Mathematical);
-
-        private void BtnSubscript_Click(object sender, EventArgs e) =>
-            ToggleLanguage(KeyStates.Subscript);
-
-        private void BtnSuperscript_Click(object sender, EventArgs e) =>
-            ToggleLanguage(KeyStates.Superscript);
-
-        private void ToggleLanguage(KeyStates state)
-        {
-            State = State & (~KeyStates.Languages | state) ^ state;
-        }
-
-        private KeyboardMode GetKeyboardMode()
+        private KeyboardMode GetMode()
         {
             var shift = (State & KeyStates.Shifted) != 0;
             switch (State & KeyStates.Languages)
@@ -151,17 +126,24 @@
             }
         }
 
-        private string GetKeyMap(KeyboardMode mode) => KeyMaps[(int)mode];
+        private string GetKeyMap(KeyboardMode mode) => Modes[(int)mode];
 
         private void InitKeyboardMode()
         {
-            var mode = GetKeyboardMode();
+            var mode = GetMode();
             View.Text = GetModeDescription(mode);
             var map = GetKeyMap(mode);
             for (var index = 0; index < CustomKeys.Count; index++)
-                CustomKeys[index].Text = map[index].ToString().AmpersandEscape();
+            {
+                var key = CustomKeys[index];
+                var c = map[index];
+                key.Text = c.ToString().AmpersandEscape();
+                View.ToolTip.SetToolTip(key, $"{char.GetUnicodeCategory(c)} '{c}'");
+            }
         }
+
         // Greek keyboard based on https://en.wikipedia.org/wiki/Keyboard_layout#/media/File:KB_Greek.svg
+
         private const string Lowercase = @" `1234567890-= /*-qwertyuiop[]789+asdfghjkl;'#456\zxcvbnm,./123 0.";
         private const string Uppercase = @" ¬!""£$%^&*()_+ /*-QWERTYUIOP{}789+ASDFGHJKL:@~456|ZXCVBNM<>?123 0.";
         private const string GreekLower = @" `1234567890-= /*- ςερτυθιοπ[]789+ασδφγηξκλ;'#456\ζχψωβνμ,./123 0.";
@@ -171,7 +153,7 @@
         private const string SuperLower = @"ᵝᵞᵠᵡᵅᵟᵋᶿᶥᶲ⁽⁾⁻⁼   ⁻ ʷᵉʳᵗʸᵘⁱᵒᵖ  ⁷⁸⁹⁺ᵃˢᵈᶠᵍʰʲᵏˡ   ⁴⁵⁶ ᶻˣᶜᵛᵇⁿᵐ   ¹²³ ⁰ ";
         private const string SuperUpper = @"          ⁽⁾⁻⁼   ⁻ ᵂᴱᴿᵀ ᵁᴵᴼᴾ  ⁷⁸⁹⁺ᴬ ᴰ ᴳᴴᴶᴷᴸ   ⁴⁵⁶    ⱽᴮᴺᴹ   ¹²³ ⁰ ";
 
-        private static readonly string[] KeyMaps = new[]
+        private static readonly string[] Modes = new[]
         {
             Lowercase,
             Uppercase,
@@ -197,58 +179,40 @@
             "Superscript Uppercase"
         };
 
+        #endregion
+
+        #region States
+
+        private void BtnShift_Click(object sender, System.EventArgs e) =>
+            State = State & ~KeyStates.ShiftLock ^ KeyStates.Shift;
+
+        private void BtnShiftLock_Click(object sender, System.EventArgs e) =>
+            State = State & ~KeyStates.Shift ^ KeyStates.ShiftLock;
+
+        private void BtnGreek_Click(object sender, System.EventArgs e) =>
+            ToggleLanguage(KeyStates.Greek);
+
+        private void BtnMaths_Click(object sender, EventArgs e) =>
+            ToggleLanguage(KeyStates.Mathematical);
+
+        private void BtnSubscript_Click(object sender, EventArgs e) =>
+            ToggleLanguage(KeyStates.Subscript);
+
+        private void BtnSuperscript_Click(object sender, EventArgs e) =>
+            ToggleLanguage(KeyStates.Superscript);
+
+        private void InitBackColour(Control control, KeyStates state) =>
+            control.BackColor = Color.FromKnownColor(
+                (State & state) == 0 ? KnownColor.ControlLight : KnownColor.Window);
+
+        private void ToggleLanguage(KeyStates state) =>
+            State = State & (~KeyStates.Languages | state) ^ state;
 
         #endregion
 
-        private void ViewButton_Click(object sender, System.EventArgs e)
-        {
-            var text = ((Control)sender).Text;
-            if (text != string.Empty)
-                PassThrough(text[0]);
-            State &= ~KeyStates.Shift;
-            FocusTextBox();
-        }
+        #region Keystrokes
 
         private void FocusTextBox() => View.TextBox.Focus();
-
-        private void PassThrough(char c)
-        {
-            View.TextBox.SelectedText = c.ToString();
-        }
-
-        private void View_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (e.CloseReason != CloseReason.UserClosing)
-                return;
-            e.Cancel = true;
-            View.Hide();
-        }
-
-        /*
-        private Keys LastKeyDownCode;
-
-        private void View_KeyDown(object sender, KeyEventArgs e) =>
-            LastKeyDownCode = e.KeyCode;
-
-        private void View_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == LastKeyDownCode)
-                switch (e.KeyCode)
-                {
-                    case Keys.ShiftKey:
-                        State ^= KeyStates.Shift;
-                        break;
-                    case Keys.CapsLock:
-                        State ^= KeyStates.ShiftLock;
-                        break;
-                }
-        }
-
-        private void View_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            PassThrough(e.KeyChar);
-        }
-        */
 
         private void LoadKeys()
         {
@@ -258,12 +222,31 @@
                 key.Click += ViewButton_Click;
         }
 
+        private void PassThrough(char c)
+        {
+            View.TextBox.SelectedText = c.ToString();
+        }
+
+        private void TextBox_TextChanged(object sender, EventArgs e) =>
+            ActiveComboBox.Text = View.TextBox.Text;
+
         private void UnloadKeys()
         {
             foreach (var key in CustomKeys)
                 key.Click -= ViewButton_Click;
             CustomKeys.Clear();
         }
+
+        private void ViewButton_Click(object sender, System.EventArgs e)
+        {
+            var text = ((Control)sender).Text;
+            if (text != string.Empty)
+                PassThrough(text[0]);
+            State &= ~(KeyStates.Shift | KeyStates.Languages);
+            FocusTextBox();
+        }
+
+        #endregion
 
         #region Private Enumerations
 

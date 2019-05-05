@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnQ = new System.Windows.Forms.Button();
             this.btnW = new System.Windows.Forms.Button();
             this.btnE = new System.Windows.Forms.Button();
@@ -106,7 +107,8 @@
             this.btnSuperscript = new System.Windows.Forms.Button();
             this.btnSubscript = new System.Windows.Forms.Button();
             this.TextBox = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // btnQ
@@ -1133,23 +1135,24 @@
             this.TextBox.Size = new System.Drawing.Size(408, 20);
             this.TextBox.TabIndex = 0;
             // 
-            // button3
+            // btnClose
             // 
-            this.button3.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button3.Location = new System.Drawing.Point(450, 11);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(72, 23);
-            this.button3.TabIndex = 3;
-            this.button3.Tag = "Fixed";
-            this.button3.Text = "Close";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnClose.Location = new System.Drawing.Point(450, 11);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(72, 23);
+            this.btnClose.TabIndex = 3;
+            this.btnClose.Tag = "Fixed";
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
             // 
             // Mathboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(534, 169);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.TextBox);
             this.Controls.Add(this.btnSubscript);
             this.Controls.Add(this.btnSuperscript);
@@ -1231,6 +1234,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.KeyPreview = true;
             this.Name = "Mathboard";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1315,7 +1319,8 @@
         public System.Windows.Forms.Button btnMaths;
         public System.Windows.Forms.Button btnSuperscript;
         public System.Windows.Forms.Button btnSubscript;
-        public System.Windows.Forms.Button button3;
+        public System.Windows.Forms.Button btnClose;
         public System.Windows.Forms.TextBox TextBox;
+        public System.Windows.Forms.ToolTip ToolTip;
     }
 }
