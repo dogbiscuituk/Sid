@@ -56,7 +56,7 @@
         }
 
         private AppController Parent;
-        private ComboBox ActiveComboBox { get; set; }
+        private Control ActiveControl { get; set; }
         private readonly List<Button> CustomKeys = new List<Button>();
 
         private KeyStates _state;
@@ -85,10 +85,11 @@
 
         #region Show/Hide
 
-        public void ShowDialog(IWin32Window owner, KeyView sender)
+        public void ShowDialog(IWin32Window owner, Control sender, Point location)
         {
-            ActiveComboBox = sender.cbFunction;
-            View.Location = sender.PointToScreen(new Point(0, 20));
+            ActiveControl = sender;
+            View.TextBox.Text = ActiveControl.Text;
+            View.Location = location;
             View.ShowDialog(owner);
         }
 
@@ -209,7 +210,7 @@
         }
 
         private void TextBox_TextChanged(object sender, EventArgs e) =>
-            ActiveComboBox.Text = View.TextBox.Text;
+            ActiveControl.Text = View.TextBox.Text;
 
         private void UnloadKeys()
         {

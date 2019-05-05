@@ -127,7 +127,10 @@
         #region Key Management
 
         private void BtnDetails_Click(object sender, System.EventArgs e) =>
-            MathController.ShowDialog(AppController.View, View);
+            MathController.ShowDialog(
+                AppController.View,
+                View.cbFunction,
+                View.PointToScreen(new Point(0, 20)));
 
         private void BtnRemove_Click(object sender, System.EventArgs e) =>
             Parent.RemoveKey(View);
