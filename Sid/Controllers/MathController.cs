@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
-    using System.Text;
     using System.Windows.Forms;
     using Sid.Expressions;
     using Sid.Views;
@@ -51,7 +50,7 @@
                     View.btnMaths.Click += BtnMaths_Click;
                     View.btnSubscript.Click += BtnSubscript_Click;
                     View.btnSuperscript.Click += BtnSuperscript_Click;
-                    InitKeyboardMode();
+                    InitKeys();
                 }
             }
         }
@@ -77,7 +76,7 @@
                     InitBackColour(View.btnMaths, KeyStates.Mathematical);
                     InitBackColour(View.btnSubscript, KeyStates.Subscript);
                     InitBackColour(View.btnSuperscript, KeyStates.Superscript);
-                    InitKeyboardMode();
+                    InitKeys();
                 }
             }
         }
@@ -89,9 +88,7 @@
         public void ShowDialog(IWin32Window owner, KeyView sender)
         {
             ActiveComboBox = sender.cbFunction;
-            var location = sender.PointToScreen(sender.Location);
-            location.Y += 20;
-            View.Location = location;
+            View.Location = sender.PointToScreen(new Point(0, 20));
             View.ShowDialog(owner);
         }
 
@@ -106,33 +103,33 @@
 
         #endregion
 
-        #region Modes
+        #region Keyboards
 
-        private KeyboardMode GetMode()
+        private KeyboardType GetKeyboardType()
         {
             var shift = (State & KeyStates.Shifted) != 0;
             switch (State & KeyStates.Languages)
             {
                 case KeyStates.Greek:
-                    return shift ? KeyboardMode.GreekUpper : KeyboardMode.GreekLower;
+                    return shift ? KeyboardType.GreekUpper : KeyboardType.GreekLower;
                 case KeyStates.Mathematical:
-                    return KeyboardMode.Mathematical;
+                    return KeyboardType.Mathematical;
                 case KeyStates.Subscript:
-                    return KeyboardMode.Subscript;
+                    return KeyboardType.Subscript;
                 case KeyStates.Superscript:
-                    return shift ? KeyboardMode.SuperUpper : KeyboardMode.SuperLower;
+                    return shift ? KeyboardType.SuperUpper : KeyboardType.SuperLower;
                 default:
-                    return shift ? KeyboardMode.LatinUpper : KeyboardMode.LatinLower;
+                    return shift ? KeyboardType.LatinUpper : KeyboardType.LatinLower;
             }
         }
 
-        private string GetKeyMap(KeyboardMode mode) => Modes[(int)mode];
+        private string GetKeys(KeyboardType type) => Keyboards[(int)type].Keys;
 
-        private void InitKeyboardMode()
+        private void InitKeys()
         {
-            var mode = GetMode();
-            View.Text = GetModeDescription(mode);
-            var map = GetKeyMap(mode);
+            var type = GetKeyboardType();
+            View.Text = GetKeyboardName(type);
+            var map = GetKeys(type);
             for (var index = 0; index < CustomKeys.Count; index++)
             {
                 var key = CustomKeys[index];
@@ -142,42 +139,22 @@
             }
         }
 
-        // Greek keyboard based on https://en.wikipedia.org/wiki/Keyboard_layout#/media/File:KB_Greek.svg
-
-        private const string Lowercase = @" `1234567890-= /*-qwertyuiop[]789+asdfghjkl;'#456\zxcvbnm,./123 0.";
-        private const string Uppercase = @" ¬!""£$%^&*()_+ /*-QWERTYUIOP{}789+ASDFGHJKL:@~456|ZXCVBNM<>?123 0.";
-        private const string GreekLower = @" `1234567890-= /*- ςερτυθιοπ[]789+ασδφγηξκλ;'#456\ζχψωβνμ,./123 0.";
-        private const string GreekUpper = @" ¬!""£$%^&*()_+ /*-  ΕΡΤΥΘΙΟΠ{}789+ΑΣΔΦΓΗΞΚΛ:@~456|ΖΧΨΩΒΝΜ<>?123 0.";
-        private const string Mathematical = @" ` √∛∜    ≮≯-≠ ÷×-qwertyuiop≰≱789+asdfghjkl;'#456\zxcvbnm≤≥/123 0.";
-        private const string Subscript = @"ᵦᵧᵩᵪᵨ     ₍₎₋₌   ₋  ₑᵣₜ ᵤᵢₒₚ  ₇₈₉₊ₐₛ   ₕⱼₖₗ   ₄₅₆  ₓ ᵥ ₙₘ   ₁₂₃ ₀ ";
-        private const string SuperLower = @"ᵝᵞᵠᵡᵅᵟᵋᶿᶥᶲ⁽⁾⁻⁼   ⁻ ʷᵉʳᵗʸᵘⁱᵒᵖ  ⁷⁸⁹⁺ᵃˢᵈᶠᵍʰʲᵏˡ   ⁴⁵⁶ ᶻˣᶜᵛᵇⁿᵐ   ¹²³ ⁰ ";
-        private const string SuperUpper = @"          ⁽⁾⁻⁼   ⁻ ᵂᴱᴿᵀ ᵁᴵᴼᴾ  ⁷⁸⁹⁺ᴬ ᴰ ᴳᴴᴶᴷᴸ   ⁴⁵⁶    ⱽᴮᴺᴹ   ¹²³ ⁰ ";
-
-        private static readonly string[] Modes = new[]
+        /// <summary>
+        /// Greek keyboard based on https://en.wikipedia.org/wiki/Keyboard_layout#/media/File:KB_Greek.svg
+        /// </summary>
+        private readonly Keyboard[] Keyboards =
         {
-            Lowercase,
-            Uppercase,
-            GreekLower,
-            GreekUpper,
-            Mathematical,
-            Subscript,
-            SuperLower,
-            SuperUpper
+            new Keyboard{Keys = @" `1234567890-= /*-qwertyuiop[]789+asdfghjkl;'#456\zxcvbnm,./123 0.", Name = "Latin Lowercase"},
+            new Keyboard{Keys = @" ¬!""£$%^&*()_+ /*-QWERTYUIOP{}789+ASDFGHJKL:@~456|ZXCVBNM<>?123 0.", Name = "Latin Uppercase"},
+            new Keyboard{Keys = @" `1234567890-= /*- ςερτυθιοπ[]789+ασδφγηξκλ;'#456\ζχψωβνμ,./123 0.", Name = "Greek Lowercase"},
+            new Keyboard{Keys = @" ¬!""£$%^&*()_+ /*-  ΕΡΤΥΘΙΟΠ{}789+ΑΣΔΦΓΗΞΚΛ:@~456|ΖΧΨΩΒΝΜ<>?123 0.", Name = "Greek Uppercase"},
+            new Keyboard{Keys = @" ` √∛∜    ≮≯-≠ ÷×-qwertyuiop≰≱789+asdfghjkl;'#456\zxcvbnm≤≥/123 0.", Name = "Mathematical"},
+            new Keyboard{Keys = @"ᵦᵧᵩᵪᵨ     ₍₎₋₌   ₋  ₑᵣₜ ᵤᵢₒₚ  ₇₈₉₊ₐₛ   ₕⱼₖₗ   ₄₅₆  ₓ ᵥ ₙₘ   ₁₂₃ ₀ ", Name = "Subscript"},
+            new Keyboard{Keys = @"ᵝᵞᵠᵡᵅᵟᵋᶿᶥᶲ⁽⁾⁻⁼   ⁻ ʷᵉʳᵗʸᵘⁱᵒᵖ  ⁷⁸⁹⁺ᵃˢᵈᶠᵍʰʲᵏˡ   ⁴⁵⁶ ᶻˣᶜᵛᵇⁿᵐ   ¹²³ ⁰ ", Name = "Superscript Lowercase"},
+            new Keyboard{Keys = @"          ⁽⁾⁻⁼   ⁻ ᵂᴱᴿᵀ ᵁᴵᴼᴾ  ⁷⁸⁹⁺ᴬ ᴰ ᴳᴴᴶᴷᴸ   ⁴⁵⁶    ⱽᴮᴺᴹ   ¹²³ ⁰ ", Name = "Superscript Uppercase"}
         };
 
-        private string GetModeDescription(KeyboardMode mode) => ModeDescriptions[(int)mode];
-
-        private static readonly string[] ModeDescriptions = new[]
-        {
-            "Latin Lowercase",
-            "Latin Uppercase",
-            "Greek Lowercase",
-            "Greek Uppercase",
-            "Mathematical",
-            "Subscript",
-            "Superscript Lowercase",
-            "Superscript Uppercase"
-        };
+        private string GetKeyboardName(KeyboardType type) => Keyboards[(int)type].Name;
 
         #endregion
 
@@ -214,17 +191,21 @@
 
         private void FocusTextBox() => View.TextBox.Focus();
 
+        private void Key_Press(object sender, System.EventArgs e)
+        {
+            var text = ((Control)sender).Text;
+            if (text != string.Empty)
+                View.TextBox.SelectedText = text;
+            State &= ~(KeyStates.Shift | KeyStates.Languages);
+            FocusTextBox();
+        }
+
         private void LoadKeys()
         {
             var keys = View.Controls.OfType<Button>().Where(p => p.Tag == null);
             CustomKeys.AddRange(keys);
             foreach (var key in keys)
-                key.Click += ViewButton_Click;
-        }
-
-        private void PassThrough(char c)
-        {
-            View.TextBox.SelectedText = c.ToString();
+                key.Click += Key_Press;
         }
 
         private void TextBox_TextChanged(object sender, EventArgs e) =>
@@ -233,22 +214,27 @@
         private void UnloadKeys()
         {
             foreach (var key in CustomKeys)
-                key.Click -= ViewButton_Click;
+                key.Click -= Key_Press;
             CustomKeys.Clear();
-        }
-
-        private void ViewButton_Click(object sender, System.EventArgs e)
-        {
-            var text = ((Control)sender).Text;
-            if (text != string.Empty)
-                PassThrough(text[0]);
-            State &= ~(KeyStates.Shift | KeyStates.Languages);
-            FocusTextBox();
         }
 
         #endregion
 
-        #region Private Enumerations
+        #region Private Types
+
+        private struct Keyboard { public string Name, Keys; }
+
+        public enum KeyboardType
+        {
+            LatinLower,
+            LatinUpper,
+            GreekLower,
+            GreekUpper,
+            Mathematical,
+            Subscript,
+            SuperLower,
+            SuperUpper
+        }
 
         [Flags]
         private enum KeyStates
@@ -262,19 +248,6 @@
             Subscript = 0x10,
             Superscript = 0x20,
             Languages = Greek | Mathematical | Subscript | Superscript
-        }
-
-        [Flags]
-        public enum KeyboardMode
-        {
-            LatinLower,
-            LatinUpper,
-            GreekLower,
-            GreekUpper,
-            Mathematical,
-            Subscript,
-            SuperLower,
-            SuperUpper
         }
 
         #endregion
