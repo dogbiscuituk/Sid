@@ -5,8 +5,8 @@
 
     public static partial class Expressions
     {
-        public static ParameterExpression x = Expression.Variable(typeof(double));
-        public static ParameterExpression t = Expression.Variable(typeof(double));
+        public static ParameterExpression x = Expression.Variable(typeof(double), "x");
+        public static ParameterExpression t = Expression.Variable(typeof(double), "t");
 
         public static ConstantExpression Constant(this double c) => Expression.Constant(c);
 
@@ -132,13 +132,13 @@
         {
             switch (e)
             {
-                case ConstantExpression c: // d(c)/dx = 0
+                case ConstantExpression c:            // d(c)/dx = 0
                     return Constant(0);
-                case ParameterExpression p: // d(x)/dx = 1
-                    return p == x ? Constant(1) : Constant(0);
-                case MethodCallExpression m:
+                case ParameterExpression p:           // d(x)/dx = 1
+                    return p.Name == "x" ? Constant(1) : Constant(0);
+                case MethodCallExpression m:          // Use the Chain Rule
                     var a = m.Arguments[0];
-                    return DifferentiateFunction(m.Method.Name, a).Times(D(a)); // Chain Rule
+                    return DifferentiateFunction(m.Method.Name, a).Times(D(a));
                 case UnaryExpression u:
                     var v = D(u.Operand);
                     return u.NodeType == ExpressionType.UnaryPlus ? v : Negate(v);

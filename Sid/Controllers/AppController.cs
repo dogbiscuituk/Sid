@@ -12,7 +12,6 @@
     {
         public AppController()
         {
-            Expressions.TestAll();
             View = new AppForm();
             Model = new Model();
             Model.Cleared += Model_Cleared;

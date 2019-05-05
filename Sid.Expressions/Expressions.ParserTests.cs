@@ -51,6 +51,8 @@
             TestParse("-x", "-x");
             TestParse("X+1", "(x+1)");
             TestParse("((x+1))", "(x+1)");
+            TestParse("x+2t", "(x+(2*t))");
+            TestParse("t+2x", "(t+(2*x))");
             TestParse("x+x*x^x/x-x", "((x+((x*(x^x))/x))-x)");
             TestParse("3*x+x/5", "((3*x)+(x/5))");
             TestParse("x-2-x", "((x-2)-x)");                             // Subtraction is left associative
@@ -88,7 +90,7 @@
             TestParse("x<2 ? x<1 ? 0 : 1 : x>3 ? 3 : 2", "IIF((x<2),IIF((x<1),0,1),IIF((x>3),3,2))");
             TestParse("0<x<1", "((0<x)And(x<1))");
             TestParse("0<x<2x<1", "(((0<x)And(x<(2*x)))And((2*x)<1))");
-            TestParse("t*x", "(x*t)");
+            TestParse("t*x", "(t*x)");
             TestParse("x⁴-4x³*t+6x²*t²-4x*t³+t⁴)", "(((((x^4)-((4*(x^3))*t))+((6*(x^2))*(t^2)))-((4*x)*(t^3)))+(t^4))");
             TestParse("(x⁴-4x³*t+6x²*t²-4x*t³+t⁴)'", "(((((x^3)*4)-(((x^2)*12)*t))+((x*12)*(t^2)))-((t^3)*4))");
         }
