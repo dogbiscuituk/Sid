@@ -87,6 +87,19 @@
         [JsonIgnore]
         public Expression Expression { get; private set; }
 
+        private Expression _proxy;
+        [JsonIgnore]
+        public Expression Proxy
+        {
+            get => _proxy;
+            set
+            {
+                _proxy = value;
+                Func = Proxy.AsFunction();
+                InvalidatePoints();
+            }
+        }
+
         private string _formula = string.Empty;
         public string Formula
         {
@@ -147,8 +160,7 @@
 
         private List<List<PointF>> PointLists = new List<List<PointF>>();
 
-        public async void Draw(Graphics g, RectangleF limits, float penWidth,
-            bool fill, double time, PlotType plotType, Expression proxy = null)
+        public async void Draw(Graphics g, RectangleF limits, float penWidth, bool fill, double time, PlotType plotType)
         {
             if (fill && (FillColour == Color.Transparent || FillTransparencyPercent == 100))
                 return; // Not just an optimisation; omits vertical asymptotes too.
@@ -162,7 +174,7 @@
                 Limits = limits;
                 LastTime = time;
                 LastPlotType = plotType;
-                var pointLists = await ComputePointsAsync(limits, time, plotType, proxy);
+                var pointLists = await ComputePointsAsync(limits, time, plotType);
                 PointLists.AddRange(pointLists);
                 pointLists.Clear();
             }
@@ -179,7 +191,7 @@
                     PointLists.ForEach(p => g.DrawLines(pen, p.ToArray()));
         }
 
-        private Task<List<List<PointF>>> ComputePointsAsync(RectangleF limits, double time, PlotType plotType, Expression proxy)
+        private Task<List<List<PointF>>> ComputePointsAsync(RectangleF limits, double time, PlotType plotType)
         {
             var result = new List<List<PointF>>();
             List<PointF> points = null;
@@ -188,24 +200,19 @@
                 w = Limits.Width, h = 8 * Limits.Height;
             var skip = true;
             float x, y;
-
-            var func = Func;
-            if (proxy != null)
-                func = proxy.AsFunction();
-
             for (var step = 0; step <= StepCount; step++)
             {
                 switch (plotType)
                 {
                     case PlotType.Polar:
                         var a = step * Math.PI / StepCount;
-                        var r = (float)func(a, time);
+                        var r = (float)Func(a, time);
                         x = (float)(r * Math.Cos(a));
                         y = (float)(r * Math.Sin(a));
                         break;
                     default:
                         x = x1 + step * w / StepCount;
-                        y = (float)func(x, time);
+                        y = (float)Func(x, time);
                         break;
                 }
                 if (float.IsInfinity(y) || float.IsNaN(y) || y < y1 - h || y > y2 + h)

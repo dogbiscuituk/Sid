@@ -312,18 +312,6 @@
 
         public void InitProxies()
         {
-            if (!Circular())
-            {
-                Proxies.Clear();
-                Proxies.AddRange(Series.Select(p => GetProxy(p.Expression, Expressions.x, Expressions.t)));
-            }
-        }
-
-        private List<Expression> Proxies = new List<Expression>();
-
-        private bool Circular()
-        {
-            var result = false;
             var count = Series.Count;
             var hit = new bool[count, count];
             for (int row = 0; row < count; row++)
@@ -333,10 +321,7 @@
                 {
                     var col = int.Parse(match.Groups[1].Value);
                     if (col >= 0 && col < count)
-                    {
                         hit[row, col] = true;
-                        result |= row == col;
-                    }
                 }
             }
             bool somethingChanged;
@@ -351,12 +336,13 @@
                                 {
                                     somethingChanged = true;
                                     hit[r, col] = true;
-                                    result |= r == col;
                                 }
             }
             while (somethingChanged);
-            System.Diagnostics.Debug.WriteLine($"Circular() returned {result}.");
-            return result;
+            for (int index = 0; index < count; index++)
+                Series[index].Proxy = hit[index, index]
+                    ? Expression.Default(typeof(void))
+                    : GetProxy(Series[index].Expression, Expressions.x, Expressions.t);
         }
 
         private Expression GetProxy(Expression e, Expression x, Expression t)
@@ -398,18 +384,11 @@
             using (var brush = new SolidBrush(PaperColour))
                 g.FillRectangle(brush, Limits);
             var penWidth = (Size.Width / r.Width + Size.Height / r.Height);
-
             InitProxies();
-
             for (var call = 1; call <= 2; call++)
             {
                 bool fill = call == 1;
-                for (int index = 0; index < Series.Count; index++)
-                {
-                    var series = Series[index];
-                    if (series.Visible)
-                        series.Draw(g, Limits, penWidth, fill, time, PlotType, Proxies[index]);
-                }
+                Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, fill, time, PlotType); });
                 if (fill)
                     DrawGrid(g, penWidth);
             }

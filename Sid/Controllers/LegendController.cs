@@ -214,6 +214,7 @@
 
         private bool Validate()
         {
+            Graph.InitProxies();
             CanCancel = true;
             var ok = View.ValidateChildren();
             CanCancel = false;
