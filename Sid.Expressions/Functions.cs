@@ -1,6 +1,8 @@
 ﻿namespace Sid.Expressions
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Several math functions are either absent from System.Math (Asec, Sech, Asech,
@@ -70,6 +72,21 @@
             for (var n = 0; n < 10; v += erf_a[n] * u, n++, u *= t) ;
             return (1 - t * Math.Exp(v - x * x)) * Math.Sign(x);
         }
+
+        #endregion
+
+        #region User Defined Functions
+
+        /// <summary>
+        /// Placeholder in expressions, to be replaced with a switch expression
+        /// which refers to all other series in the graph at render time.
+        /// </summary>
+        /// <param name="index">The index of the referred series.</param>
+        /// <param name="x">The usual input parameter.</param>
+        /// <param name="t">The time input parameter.</param>
+        /// <returns>Zero. However the replacement switch expression will instead
+        /// return the value of the selected series at the specified x and t.</returns>
+        public static double Udf(int index, double x, double t) => 0;
 
         #endregion
     }

@@ -30,7 +30,6 @@
         public static void TestParserFailure()
         {
             TestParseFail("x~2", "Unexpected token '~', input='x~2', index=1");
-            TestParseFail("x+123,456", "Unexpected character ',', input='x+123,456', index=5");
             TestParseFail("x+1$2", "Unexpected character '$', input='x+1$2', index=3");
             TestParseFail("x+1e999", "Numerical overflow '1e999', input='x+1e999', index=2");
             TestParseFail("x+.", "Invalid number format '.', input='x+.', index=2");
@@ -93,6 +92,12 @@
             TestParse("t*x", "(t*x)");
             TestParse("x⁴-4x³*t+6x²*t²-4x*t³+t⁴)", "(((((x^4)-((4*(x^3))*t))+((6*(x^2))*(t^2)))-((4*x)*(t^3)))+(t^4))");
             TestParse("(x⁴-4x³*t+6x²*t²-4x*t³+t⁴)'", "(((((x^3)*4)-(((x^2)*12)*t))+((x*12)*(t^2)))-((t^3)*4))");
+            TestParse("f1(x)", "Udf(1,x,0)");
+            TestParse("f1(x+1)", "Udf(1,(x+1),0)");
+            TestParse("f1(f2(f3(x)))", "Udf(1,Udf(2,Udf(3,x,0),0),0)");
+            TestParse("f1(f2(x)+f3(x))", "Udf(1,(Udf(2,x,0)+Udf(3,x,0)),0)");
+            TestParse("f1(x,t)", "Udf(1,x,t)");
+            TestParse("f1(f2(x+1),f3(x+2,t+3))", "Udf(1,Udf(2,(x+1),0),Udf(3,(x+2),(t+3)))");
         }
     }
 }

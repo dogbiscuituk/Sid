@@ -5,7 +5,10 @@
     using System.ComponentModel;
     using System.Drawing;
     using System.Drawing.Drawing2D;
+    using System.Linq;
+    using System.Linq.Expressions;
     using Newtonsoft.Json;
+    using Sid.Expressions;
 
     [Serializable]
     public class Graph : INotifyPropertyChanged
@@ -304,6 +307,43 @@
 
         #endregion
 
+        #region Composition
+
+        private List<Expression> Proxies = new List<Expression>();
+
+        private void Fixup()
+        {
+            Proxies.Clear();
+            Proxies.AddRange(Series.Select(p => Fixup(p.Expression, Expressions.x, Expressions.t)));
+            return;
+        }
+
+        private Expression Fixup(Expression e, Expression x, Expression t)
+        {
+            if (e == Expressions.x)
+                return x == Expressions.x ? x : Fixup(x, Expressions.x, Expressions.t);
+            if (e == Expressions.t)
+                return t == Expressions.t ? t : Fixup(t, Expressions.x, Expressions.t);
+            if (e == Expressions.t) return Fixup(t, Expressions.x, Expressions.t);
+            if (e is UnaryExpression u)
+                return Expression.MakeUnary(u.NodeType, Fixup(u.Operand, x, t), u.Type);
+            if (e is MethodCallExpression m)
+            {
+                var methodName = m.Method.Name;
+                if (methodName == "Udf")
+                    return Fixup(
+                        Series[(int)((ConstantExpression)m.Arguments[0]).Value].Expression,
+                        m.Arguments[1],
+                        m.Arguments[2]);
+                return methodName.Function(Fixup(m.Arguments[0], x, t));
+            }
+            if (e is BinaryExpression b)
+                return Expression.MakeBinary(b.NodeType, Fixup(b.Left, x, t), Fixup(b.Right, x, t));
+            return e;
+        }
+
+        #endregion
+
         #region Drawing
 
         public void Draw(Graphics g, Rectangle r, double time)
@@ -317,6 +357,9 @@
             using (var brush = new SolidBrush(PaperColour))
                 g.FillRectangle(brush, Limits);
             var penWidth = (Size.Width / r.Width + Size.Height / r.Height);
+
+            Fixup();
+
             Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, true, time, PlotType); });
             DrawGrid(g, penWidth);
             Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, false, time, PlotType); });

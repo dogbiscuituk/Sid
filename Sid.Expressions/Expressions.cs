@@ -9,6 +9,7 @@
         public static ParameterExpression t = Expression.Variable(typeof(double), "t");
 
         public static ConstantExpression Constant(this double c) => Expression.Constant(c);
+        public static ConstantExpression Constant(this int c) => Expression.Constant((double)c);
 
         public static string AsString(this Expression e) =>
             e.ToString().Replace(" ", "").Replace("Param_0", "x").Replace("Param_1", "t");
@@ -83,8 +84,13 @@
         public static BinaryExpression Squared(this Expression e) => e.Power(2);
         public static BinaryExpression Cubed(this Expression e) => e.Power(3);
 
-        public static MethodCallExpression Function(string functionName, Expression e) =>
-            Expression.Call(typeof(Functions).GetMethod(functionName, new[] { typeof(double) }), e);
+        public static MethodCallExpression Function(this string functionName, Expression e) =>
+            Expression.Call(typeof(Functions).GetMethod(functionName,
+                new[] { typeof(double) }), e);
+
+        public static MethodCallExpression Function(this string functionName, Expression index, Expression e1, Expression e2) =>
+            Expression.Call(typeof(Functions).GetMethod(functionName,
+                new[] { typeof(int), typeof(double), typeof(double) }), index, e1, e2);
 
         public static MethodCallExpression Abs(this Expression e) => Function("Abs", e);
         public static MethodCallExpression Acos(this Expression e) => Function("Acos", e);

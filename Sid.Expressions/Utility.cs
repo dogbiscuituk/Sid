@@ -48,6 +48,7 @@
                 case "|":
                 case "&":
                     return OperandTypes.Boolean;
+                case ",":
                 case "=":
                 case "==":
                 case "≠":
@@ -79,6 +80,11 @@
         {
             switch (op)
             {
+                case ",":
+                    // Since there is no comma operator in System.Linq.Expressions,
+                    // we spoof parameter lists by co-opting the otherwise unused
+                    // Modulo node type. This will be replaced later in processing.
+                    return ExpressionType.Modulo;
                 case "?":
                 case ":":
                     return ExpressionType.Conditional;
@@ -156,6 +162,8 @@
             {
                 case ")":
                     return Precedence.Assignment;
+                case ",":
+                    return Precedence.Sequential;
                 case "?":
                 case ":":
                     return Precedence.Ternary;

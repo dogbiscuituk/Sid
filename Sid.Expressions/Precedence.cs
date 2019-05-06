@@ -6,6 +6,7 @@
     public enum Precedence
     {
         Assignment,     // End of expression
+        Sequential,     // f1(x,t)
         Ternary,        // x<0 ? -x : +x
         LogicalOr,      // x<1 || x>2
         LogicalAnd,     // x>1 && x<2

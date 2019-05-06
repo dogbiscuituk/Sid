@@ -1,4 +1,4 @@
-﻿namespace Sid.Expressions // √∛∜
+﻿namespace Sid.Expressions
 {
     using System;
     using System.Collections.Generic;
@@ -10,6 +10,11 @@
     {
         #region Public interface
 
+        /// <summary>
+        /// Convert the string representation of an expression to a System.Linq.Expressions equivalent.
+        /// </summary>
+        /// <param name="formula">The string representation of an expression.</param>
+        /// <returns>A System.Linq.Expressions.Expression equivalent to the input string./returns>
         public Expression Parse(string formula)
         {
             if (formula == string.Empty)
@@ -25,6 +30,14 @@
             return Operands.Peek();
         }
 
+        /// <summary>
+        /// Convert the string representation of an expression to a System.Linq.Expressions equivalent.
+        /// A return value indicates whether the conversion succeeded.
+        /// </summary>
+        /// <param name="formula">The string representation of an expression.</param>
+        /// <param name="result">On success, a System.Linq.Expressions.Expression equivalent to the input string.
+        /// On failure, an exception (usually System.FormatException) detailing the reason for the failure.</param>
+        /// <returns>True if the conversion succeeded, otherwise false.</returns>
         public bool TryParse(string formula, out object result)
         {
             try
@@ -74,6 +87,22 @@
         private Expression MakeFunction(string f, Expression operand)
         {
             f = $"{char.ToUpper(f[0])}{f.ToLower().Substring(1)}";
+            if (Regex.Match(f, @"^F\d+$").Success)
+            {
+                var index = Expression.Constant(int.Parse(f.Substring(1)));
+                Expression left, right;
+                if (operand is BinaryExpression b && b.NodeType == ExpressionType.Modulo)
+                {
+                    left = b.Left;
+                    right = b.Right;
+                }
+                else
+                {
+                    left = operand;
+                    right = 0.0.Constant();
+                }
+                return Expressions.Function("Udf", index, left, right);
+            }
             var result = Expressions.Function(f, operand);
             if (operand is ConstantExpression c)
                 return result.AsDouble((double)c.Value).Constant();
@@ -145,6 +174,7 @@
                 switch (op)
                 {
                     case ")":
+                    case ",":
                     case "?":
                     case ":":
                     case "||":
@@ -173,7 +203,7 @@
                     case "/":
                     case "÷":
                     case "^":
-                        ParseOperator(op.ToString());
+                        ParseOperator(op);
                         if (op == ")")
                             return;
                         break;
@@ -183,8 +213,7 @@
                     case "$" when Index == Formula.Length + 2: // End of input (normal)
                         return;
                     case "$" when Index < Formula.Length + 2: // End of input (unexpected)
-                        throw new FormatException(
-                            $"Unexpected end of text, input='{Formula}', index={Index}");
+                        throw new FormatException($"Unexpected end of text, input='{Formula}', index={Index}");
                     default:
                         switch (op[0])
                         {
@@ -414,7 +443,7 @@
         private string PeekToken()
         {
             var nextChar = PeekChar();
-           if ("()?:≠≤≥≮≯≰≱+-*/^~√∛∜'".IndexOf(nextChar) >= 0)
+            if ("()?:≠≤≥≮≯≰≱+-*/^~√∛∜',".IndexOf(nextChar) >= 0)
                 return nextChar.ToString();
             switch (nextChar)
             {
