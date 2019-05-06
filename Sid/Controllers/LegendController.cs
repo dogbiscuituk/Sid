@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.Linq.Expressions;
     using System.Windows.Forms;
     using Sid.Expressions;
     using Sid.Models;
@@ -100,7 +101,7 @@
             Legend.Visible = true;
             const int margin = 0, keyHeight = 21, maxKeys = 17;
             var scroll = Keys.Count > maxKeys;
-            int w = 412 + (scroll ? SystemInformation.VerticalScrollBarWidth : 0),
+            int w = 424 + (scroll ? SystemInformation.VerticalScrollBarWidth : 0),
                 h = Math.Min(Keys.Count, maxKeys) * keyHeight,
                 x = Client.Width - w, y = Client.Height - h;
             for (int index = 0, top = 0; index < Keys.Count; index++, top += keyHeight)
@@ -164,7 +165,7 @@
                 child.FillTransparencyPercent = series.FillTransparencyPercent;
             }
             var index = Keys.Count;
-            child.TraceLabel = $"f{Keys.Count.ToString().ToSubscript()}";
+            child.TraceLabel = $"f{Keys.Count.ToString()}=";
             child.View.cbFunction.Validating += CbFunction_Validating;
             Keys.Add(child.View);
             AfterKeyChange();

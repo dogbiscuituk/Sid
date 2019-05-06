@@ -32,13 +32,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KeyView));
             this.cbFunction = new System.Windows.Forms.ComboBox();
             this.btnRemove = new System.Windows.Forms.Button();
+            this.ImageList = new System.Windows.Forms.ImageList(this.components);
             this.cbPenColour = new System.Windows.Forms.ComboBox();
             this.cbFillColour = new System.Windows.Forms.ComboBox();
             this.cbVisible = new System.Windows.Forms.CheckBox();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.seTransparency = new System.Windows.Forms.NumericUpDown();
             this.btnDetails = new System.Windows.Forms.Button();
-            this.ImageList = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,7 +49,7 @@
             this.cbFunction.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbFunction.FormattingEnabled = true;
             this.cbFunction.ItemHeight = 16;
-            this.cbFunction.Location = new System.Drawing.Point(34, 0);
+            this.cbFunction.Location = new System.Drawing.Point(46, 0);
             this.cbFunction.Margin = new System.Windows.Forms.Padding(0);
             this.cbFunction.Name = "cbFunction";
             this.cbFunction.Size = new System.Drawing.Size(149, 22);
@@ -62,13 +62,21 @@
             this.btnRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemove.ImageIndex = 1;
             this.btnRemove.ImageList = this.ImageList;
-            this.btnRemove.Location = new System.Drawing.Point(388, 0);
+            this.btnRemove.Location = new System.Drawing.Point(400, 0);
             this.btnRemove.Margin = new System.Windows.Forms.Padding(0);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(18, 18);
             this.btnRemove.TabIndex = 4;
             this.ToolTip.SetToolTip(this.btnRemove, "Delete this trace from the graph");
             this.btnRemove.UseVisualStyleBackColor = true;
+            // 
+            // ImageList
+            // 
+            this.ImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ImageList.ImageStream")));
+            this.ImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.ImageList.Images.SetKeyName(0, "close.png");
+            this.ImageList.Images.SetKeyName(1, "delete.png");
+            this.ImageList.Images.SetKeyName(2, "info.png");
             // 
             // cbPenColour
             // 
@@ -79,7 +87,7 @@
             this.cbPenColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbPenColour.FormattingEnabled = true;
             this.cbPenColour.ItemHeight = 16;
-            this.cbPenColour.Location = new System.Drawing.Point(199, 0);
+            this.cbPenColour.Location = new System.Drawing.Point(211, 0);
             this.cbPenColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbPenColour.Name = "cbPenColour";
             this.cbPenColour.Size = new System.Drawing.Size(64, 22);
@@ -95,7 +103,7 @@
             this.cbFillColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbFillColour.FormattingEnabled = true;
             this.cbFillColour.ItemHeight = 16;
-            this.cbFillColour.Location = new System.Drawing.Point(262, 0);
+            this.cbFillColour.Location = new System.Drawing.Point(274, 0);
             this.cbFillColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbFillColour.Name = "cbFillColour";
             this.cbFillColour.Size = new System.Drawing.Size(64, 22);
@@ -129,7 +137,7 @@
             0,
             0,
             0});
-            this.seTransparency.Location = new System.Drawing.Point(326, 3);
+            this.seTransparency.Location = new System.Drawing.Point(338, 3);
             this.seTransparency.Margin = new System.Windows.Forms.Padding(0);
             this.seTransparency.Name = "seTransparency";
             this.seTransparency.ReadOnly = true;
@@ -145,7 +153,7 @@
             this.btnDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDetails.ImageIndex = 2;
             this.btnDetails.ImageList = this.ImageList;
-            this.btnDetails.Location = new System.Drawing.Point(368, 0);
+            this.btnDetails.Location = new System.Drawing.Point(380, 0);
             this.btnDetails.Margin = new System.Windows.Forms.Padding(0);
             this.btnDetails.Name = "btnDetails";
             this.btnDetails.Size = new System.Drawing.Size(18, 18);
@@ -153,14 +161,6 @@
             this.btnDetails.Text = "...";
             this.ToolTip.SetToolTip(this.btnDetails, "Show more details");
             this.btnDetails.UseVisualStyleBackColor = true;
-            // 
-            // ImageList
-            // 
-            this.ImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ImageList.ImageStream")));
-            this.ImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.ImageList.Images.SetKeyName(0, "close.png");
-            this.ImageList.Images.SetKeyName(1, "delete.png");
-            this.ImageList.Images.SetKeyName(2, "info.png");
             // 
             // KeyView
             // 
@@ -176,7 +176,7 @@
             this.Controls.Add(this.cbVisible);
             this.Name = "KeyView";
             this.Padding = new System.Windows.Forms.Padding(1);
-            this.Size = new System.Drawing.Size(406, 22);
+            this.Size = new System.Drawing.Size(418, 22);
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).EndInit();
             this.ResumeLayout(false);
 

@@ -388,7 +388,7 @@
             for (var call = 1; call <= 2; call++)
             {
                 bool fill = call == 1;
-                Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, fill, time, PlotType); });
+                Series.ForEach(s => { if (s.Visible) s.DrawAsync(g, Limits, penWidth, fill, time, PlotType); });
                 if (fill)
                     DrawGrid(g, penWidth);
             }

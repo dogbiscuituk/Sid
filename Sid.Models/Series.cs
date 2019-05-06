@@ -160,7 +160,7 @@
 
         private List<List<PointF>> PointLists = new List<List<PointF>>();
 
-        public async void Draw(Graphics g, RectangleF limits, float penWidth, bool fill, double time, PlotType plotType)
+        public async void DrawAsync(Graphics g, RectangleF limits, float penWidth, bool fill, double time, PlotType plotType)
         {
             if (fill && (FillColour == Color.Transparent || FillTransparencyPercent == 100))
                 return; // Not just an optimisation; omits vertical asymptotes too.
