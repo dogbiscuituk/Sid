@@ -87,9 +87,10 @@
         private Expression MakeFunction(string f, Expression operand)
         {
             f = $"{char.ToUpper(f[0])}{f.ToLower().Substring(1)}";
-            if (Regex.Match(f, @"^F\d+$").Success)
+            var match = Regex.Match(f, @"^F(\d+)$");
+            if (match.Success)
             {
-                var index = Expression.Constant(int.Parse(f.Substring(1)));
+                var index = Expression.Constant(int.Parse(match.Groups[1].Value));
                 Expression left, right;
                 if (operand is BinaryExpression b && b.NodeType == ExpressionType.Modulo)
                 {
@@ -148,15 +149,8 @@
         #region Match methods
 
         private string MatchFunction() => MatchRegex(@"^[\p{Lu}\p{Ll}\d]+").ToLower();
-
         private string MatchNumber() => MatchRegex(@"^\d*\.?\d*([eE][+-]?\d+)?");
-
-        private string MatchRegex(string pattern)
-        {
-            var match = Regex.Match(Formula.Substring(Index), pattern);
-            return Formula.Substring(Index + match.Index, match.Length);
-        }
-
+        private string MatchRegex(string pattern) => Regex.Match(Formula.Substring(Index), pattern).Value;
         private string MatchSubscript() => MatchRegex($"^[{Utility.Subscripts}]+");
         private string MatchSuperscript() => MatchRegex($"^[{Utility.Superscripts}]+");
 

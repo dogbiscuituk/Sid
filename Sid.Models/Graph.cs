@@ -7,6 +7,7 @@
     using System.Drawing.Drawing2D;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Text.RegularExpressions;
     using Newtonsoft.Json;
     using Sid.Expressions;
 
@@ -307,38 +308,67 @@
 
         #endregion
 
-        #region Composition
+        #region Proxies
+
+        public void InitProxies()
+        {
+            if (!Circular())
+            {
+                Proxies.Clear();
+                Proxies.AddRange(Series.Select(p => GetProxy(p.Expression, Expressions.x, Expressions.t)));
+            }
+        }
 
         private List<Expression> Proxies = new List<Expression>();
 
-        private void Fixup()
+        private bool Circular()
         {
-            Proxies.Clear();
-            Proxies.AddRange(Series.Select(p => Fixup(p.Expression, Expressions.x, Expressions.t)));
-            return;
+            List<List<int>> hitLists = new List<List<int>>();
+            foreach (var series in Series)
+            {
+                var hits = new List<int>();
+                hitLists.Add(hits);
+                var matches = Regex.Matches(series.Formula, @"[fF](\d+)\(");
+                if (matches.Count > 0)
+                    hits.AddRange(matches.Cast<Match>().Select(p => int.Parse(p.Groups[1].Value)));
+            }
+            var somethingChanged = false;
+            do
+            {
+                for (var row = 0; row < hitLists.Count; row++)
+                    foreach (var hit in hitLists[row])
+                        foreach (var hitList in hitLists)
+                            if (hitList.Contains(row) && !hitList.Contains(hit))
+                            {
+                                hitList.Add(hit);
+                                somethingChanged = true;
+                            }
+            }
+            while (somethingChanged);
+            return false;
         }
 
-        private Expression Fixup(Expression e, Expression x, Expression t)
+        private Expression GetProxy(Expression e, Expression x, Expression t)
         {
             if (e == Expressions.x)
-                return x == Expressions.x ? x : Fixup(x, Expressions.x, Expressions.t);
+                return x == Expressions.x ? x : GetProxy(x, Expressions.x, Expressions.t);
             if (e == Expressions.t)
-                return t == Expressions.t ? t : Fixup(t, Expressions.x, Expressions.t);
-            if (e == Expressions.t) return Fixup(t, Expressions.x, Expressions.t);
+                return t == Expressions.t ? t : GetProxy(t, Expressions.x, Expressions.t);
+            if (e == Expressions.t) return GetProxy(t, Expressions.x, Expressions.t);
             if (e is UnaryExpression u)
-                return Expression.MakeUnary(u.NodeType, Fixup(u.Operand, x, t), u.Type);
+                return Expression.MakeUnary(u.NodeType, GetProxy(u.Operand, x, t), u.Type);
             if (e is MethodCallExpression m)
             {
                 var methodName = m.Method.Name;
                 if (methodName == "Udf")
-                    return Fixup(
+                    return GetProxy(
                         Series[(int)((ConstantExpression)m.Arguments[0]).Value].Expression,
                         m.Arguments[1],
                         m.Arguments[2]);
-                return methodName.Function(Fixup(m.Arguments[0], x, t));
+                return methodName.Function(GetProxy(m.Arguments[0], x, t));
             }
             if (e is BinaryExpression b)
-                return Expression.MakeBinary(b.NodeType, Fixup(b.Left, x, t), Fixup(b.Right, x, t));
+                return Expression.MakeBinary(b.NodeType, GetProxy(b.Left, x, t), GetProxy(b.Right, x, t));
             return e;
         }
 
@@ -348,8 +378,6 @@
 
         public void Draw(Graphics g, Rectangle r, double time)
         {
-            // && (LastTime == time || !Expression.UsesTime())
-
             if (r.Width == 0 || r.Height == 0)
                 return; // Nothing to draw!
             g.SmoothingMode = SmoothingMode.AntiAlias;
@@ -358,11 +386,20 @@
                 g.FillRectangle(brush, Limits);
             var penWidth = (Size.Width / r.Width + Size.Height / r.Height);
 
-            Fixup();
+            InitProxies();
 
-            Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, true, time, PlotType); });
-            DrawGrid(g, penWidth);
-            Series.ForEach(s => { if (s.Visible) s.Draw(g, Limits, penWidth, false, time, PlotType); });
+            for (var call = 1; call <= 2; call++)
+            {
+                bool fill = call == 1;
+                for (int index = 0; index < Series.Count; index++)
+                {
+                    var series = Series[index];
+                    if (series.Visible)
+                        series.Draw(g, Limits, penWidth, fill, time, PlotType, Proxies[index]);
+                }
+                if (fill)
+                    DrawGrid(g, penWidth);
+            }
         }
 
         private void DrawGrid(Graphics g, float penWidth)
