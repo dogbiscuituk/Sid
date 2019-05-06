@@ -216,7 +216,6 @@
         {
             CanCancel = true;
             var ok = View.ValidateChildren();
-            Graph.InitProxies();
             CanCancel = false;
             return ok;
         }

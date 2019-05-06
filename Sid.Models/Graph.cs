@@ -323,29 +323,40 @@
 
         private bool Circular()
         {
-            List<List<int>> hitLists = new List<List<int>>();
-            foreach (var series in Series)
+            var result = false;
+            var count = Series.Count;
+            var hit = new bool[count, count];
+            for (int row = 0; row < count; row++)
             {
-                var hits = new List<int>();
-                hitLists.Add(hits);
-                var matches = Regex.Matches(series.Formula, @"[fF](\d+)\(");
-                if (matches.Count > 0)
-                    hits.AddRange(matches.Cast<Match>().Select(p => int.Parse(p.Groups[1].Value)));
+                var matches = Regex.Matches(Series[row].Formula, @"[fF](\d+)");
+                foreach (Match match in matches)
+                {
+                    var col = int.Parse(match.Groups[1].Value);
+                    if (col >= 0 && col < count)
+                    {
+                        hit[row, col] = true;
+                        result |= row == col;
+                    }
+                }
             }
-            var somethingChanged = false;
+            bool somethingChanged;
             do
             {
-                for (var row = 0; row < hitLists.Count; row++)
-                    foreach (var hit in hitLists[row])
-                        foreach (var hitList in hitLists)
-                            if (hitList.Contains(row) && !hitList.Contains(hit))
-                            {
-                                hitList.Add(hit);
-                                somethingChanged = true;
-                            }
+                somethingChanged = false;
+                for (int row = 0; row < count; row++)
+                    for (int col = 0; col < count; col++)
+                        if (hit[row, col])
+                            for (var r = 0; r < count; r++)
+                                if (r != row && hit[r, row] && !hit[r, col])
+                                {
+                                    somethingChanged = true;
+                                    hit[r, col] = true;
+                                    result |= r == col;
+                                }
             }
             while (somethingChanged);
-            return false;
+            System.Diagnostics.Debug.WriteLine($"Circular() returned {result}.");
+            return result;
         }
 
         private Expression GetProxy(Expression e, Expression x, Expression t)
@@ -361,10 +372,12 @@
             {
                 var methodName = m.Method.Name;
                 if (methodName == "Udf")
-                    return GetProxy(
-                        Series[(int)((ConstantExpression)m.Arguments[0]).Value].Expression,
-                        m.Arguments[1],
-                        m.Arguments[2]);
+                {
+                    var index = (int)((ConstantExpression)m.Arguments[0]).Value;
+                    return index < 0 || index >= Series.Count
+                        ? Expression.Default(typeof(void))
+                        : GetProxy(Series[index].Expression, m.Arguments[1], m.Arguments[2]);
+                }
                 return methodName.Function(GetProxy(m.Arguments[0], x, t));
             }
             if (e is BinaryExpression b)
