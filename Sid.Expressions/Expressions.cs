@@ -5,27 +5,44 @@
 
     public static partial class Expressions
     {
+        #region Parameters
+
         public static ParameterExpression x = Expression.Variable(typeof(double), "x");
         public static ParameterExpression t = Expression.Variable(typeof(double), "t");
 
+        #endregion
+
+        #region Constants
+
         public static ConstantExpression Constant(this double c) => Expression.Constant(c);
         public static ConstantExpression Constant(this int c) => Expression.Constant((double)c);
+        public static ConstantExpression Constant(ExpressionType nodeType, double c, double d) =>
+            Constant(Apply(nodeType, c, d));
 
-        public static string AsString(this Expression e) =>
-            e.ToString().Replace(" ", "").Replace("Param_0", "x").Replace("Param_1", "t");
-
-        public static Func<double, double, double> AsFunction(this Expression e)
+        public static double Apply(ExpressionType nodeType, double c, double d)
         {
-            if (e is DefaultExpression && e.Type == typeof(void))
-                return (x, t) => double.NaN;
-            return Expression.Lambda<Func<double, double, double>>(e.ToDouble(), x, t).Compile();
+            switch (nodeType)
+            {
+                case ExpressionType.Add: return c + d;
+                case ExpressionType.Subtract: return c - d;
+                case ExpressionType.Multiply: return c * d;
+                case ExpressionType.Divide:
+                    if (d == 0)
+                        throw new DivideByZeroException();
+                    return c / d;
+                case ExpressionType.Power:
+                    if (c == 0 && d == 0)
+                        throw new InvalidOperationException();
+                    return Math.Pow(c, d);
+            }
+            throw new InvalidOperationException();
         }
 
-        public static double AsDouble(this Expression e, double x, double t = 0) => AsFunction(e)(x, t);
+        #endregion
 
-        public static ConstantExpression e = Math.PI.Constant();
+        #region Unary & Binary Expressions
 
-        public static Expression Parse(this string formula) => new Parser().Parse(formula);
+        public static UnaryExpression Negate(this Expression e) => Expression.Negate(e);
 
         public static BinaryExpression Plus(this Expression f, Expression g) => Expression.Add(f, g);
         public static BinaryExpression Minus(this Expression f, Expression g) => Expression.Subtract(f, g);
@@ -79,10 +96,13 @@
         public static BinaryExpression LessThanOrEqual(this int f, Expression g) => Expression.LessThanOrEqual(Constant(f), g);
         public static BinaryExpression GreaterThanOrEqual(this int f, Expression g) => Expression.GreaterThanOrEqual(Constant(f), g);
 
-        public static UnaryExpression Negate(this Expression e) => Expression.Negate(e);
         public static BinaryExpression Reciprocal(this Expression e) => e.Power(-1);
         public static BinaryExpression Squared(this Expression e) => e.Power(2);
         public static BinaryExpression Cubed(this Expression e) => e.Power(3);
+
+        #endregion
+
+        #region Functions
 
         public static MethodCallExpression Function(this string functionName, Expression e) =>
             Expression.Call(typeof(Functions).GetMethod(functionName,
@@ -128,11 +148,62 @@
         public static MethodCallExpression Tan(this Expression e) => Function("Tan", e);
         public static MethodCallExpression Tanh(this Expression e) => Function("Tanh", e);
 
-        public static Expression Call(this Expression e, Func<double, double> func)
+        #endregion
+
+        #region Conversion
+
+        public static double AsDouble(this Expression e, double x, double t = 0) => AsFunction(e)(x, t);
+
+        public static Func<double, double, double> AsFunction(this Expression e)
         {
-            Expression<Func<double, double>> f = x => func(x);
-            return f;
+            if (e is DefaultExpression && e.Type == typeof(void))
+                return (x, t) => double.NaN;
+            return Expression.Lambda<Func<double, double, double>>(e.ToDouble(), x, t).Compile();
         }
+
+        /// <summary>
+        /// Rewrite an expression, possibly containing encoded references to other expressions in a given array.
+        /// Since expressions are immutable, this is done by duplicating the original structure, and replacing
+        /// any such references with similarly decoded versions of expressions in the original array. References,
+        /// aka User Defined Functions, have the form "Udf(index, x, t)", where "index" is the position of the
+        /// referred expression in the array.
+        /// </summary>
+        /// <param name="e">The expression to be rewritten.</param>
+        /// <param name="ex">The expression representing the "x" parameter.</param>
+        /// <param name="et">The expression representing the "t" parameter.</param>
+        /// <param name="refs">The array of expressions available for referencing.</param>
+        /// <returns>The input expression, rewritten with references replaced by the referred expressions.</returns>
+        public static Expression AsProxy(this Expression e, Expression ex, Expression et, Expression[] refs)
+        {
+            if (e == x) return ex == x ? ex : ex.AsProxy(x, t, refs);
+            if (e == t) return et == t ? et : et.AsProxy(x, t, refs);
+            if (e is UnaryExpression u)
+                return Expression.MakeUnary(u.NodeType, u.Operand.AsProxy(ex, et, refs), u.Type);
+            if (e is MethodCallExpression m)
+            {
+                var methodName = m.Method.Name;
+                if (methodName == "Udf")
+                {
+                    var index = (int)((ConstantExpression)m.Arguments[0]).Value;
+                    return index < 0 || index >= refs.Length
+                        ? Expression.Default(typeof(void))
+                        : refs[index].AsProxy(m.Arguments[1], m.Arguments[2], refs);
+                }
+                return methodName.Function(m.Arguments[0].AsProxy(ex, et, refs));
+            }
+            if (e is BinaryExpression b)
+                return Expression.MakeBinary(b.NodeType, b.Left.AsProxy(ex, et, refs), b.Right.AsProxy(ex, et, refs));
+            return e;
+        }
+
+        public static string AsString(this Expression e) =>
+            e.ToString().Replace(" ", "").Replace("Param_0", "x").Replace("Param_1", "t");
+
+        public static Expression Parse(this string formula) => new Parser().Parse(formula);
+
+        #endregion
+
+        #region Differentiation
 
         public static Expression D(this Expression e)
         {
@@ -208,6 +279,10 @@
         }
 
         public static Expression Differentiate(this Expression e) => Simplify(D(e));
+
+        #endregion
+
+        #region Simplification
 
         public static Expression Simplify(this Expression e)
         {
@@ -330,26 +405,6 @@
             throw new InvalidOperationException();
         }
 
-        public static ConstantExpression Constant(ExpressionType nodeType, double c, double d) =>
-            Constant(Apply(nodeType, c, d));
-
-        public static double Apply(ExpressionType nodeType, double c, double d)
-        {
-            switch (nodeType)
-            {
-                case ExpressionType.Add: return c + d;
-                case ExpressionType.Subtract: return c - d;
-                case ExpressionType.Multiply: return c * d;
-                case ExpressionType.Divide:
-                    if (d == 0)
-                        throw new DivideByZeroException();
-                    return c / d;
-                case ExpressionType.Power:
-                    if (c == 0 && d == 0)
-                        throw new InvalidOperationException();
-                    return Math.Pow(c, d);
-            }
-            throw new InvalidOperationException();
-        }
+        #endregion
     }
 }

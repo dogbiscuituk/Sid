@@ -308,71 +308,6 @@
 
         #endregion
 
-        #region Proxies
-
-        public void InitProxies()
-        {
-            var count = Series.Count;
-            var hit = new bool[count, count];
-            for (int row = 0; row < count; row++)
-            {
-                var matches = Regex.Matches(Series[row].Formula, @"[fF](\d+)");
-                foreach (Match match in matches)
-                {
-                    var col = int.Parse(match.Groups[1].Value);
-                    if (col >= 0 && col < count)
-                        hit[row, col] = true;
-                }
-            }
-            bool somethingChanged;
-            do
-            {
-                somethingChanged = false;
-                for (int row = 0; row < count; row++)
-                    for (int col = 0; col < count; col++)
-                        if (hit[row, col])
-                            for (var r = 0; r < count; r++)
-                                if (r != row && hit[r, row] && !hit[r, col])
-                                {
-                                    somethingChanged = true;
-                                    hit[r, col] = true;
-                                }
-            }
-            while (somethingChanged);
-            for (int index = 0; index < count; index++)
-                Series[index].Proxy = hit[index, index]
-                    ? Expression.Default(typeof(void))
-                    : GetProxy(Series[index].Expression, Expressions.x, Expressions.t);
-        }
-
-        private Expression GetProxy(Expression e, Expression x, Expression t)
-        {
-            if (e == Expressions.x)
-                return x == Expressions.x ? x : GetProxy(x, Expressions.x, Expressions.t);
-            if (e == Expressions.t)
-                return t == Expressions.t ? t : GetProxy(t, Expressions.x, Expressions.t);
-            if (e == Expressions.t) return GetProxy(t, Expressions.x, Expressions.t);
-            if (e is UnaryExpression u)
-                return Expression.MakeUnary(u.NodeType, GetProxy(u.Operand, x, t), u.Type);
-            if (e is MethodCallExpression m)
-            {
-                var methodName = m.Method.Name;
-                if (methodName == "Udf")
-                {
-                    var index = (int)((ConstantExpression)m.Arguments[0]).Value;
-                    return index < 0 || index >= Series.Count
-                        ? Expression.Default(typeof(void))
-                        : GetProxy(Series[index].Expression, m.Arguments[1], m.Arguments[2]);
-                }
-                return methodName.Function(GetProxy(m.Arguments[0], x, t));
-            }
-            if (e is BinaryExpression b)
-                return Expression.MakeBinary(b.NodeType, GetProxy(b.Left, x, t), GetProxy(b.Right, x, t));
-            return e;
-        }
-
-        #endregion
-
         #region Drawing
 
         public void Draw(Graphics g, Rectangle r, double time)
@@ -486,6 +421,42 @@
                 new PointF(r.Left, r.Bottom),
                 new PointF(r.Right, r.Bottom), r.Location
             });
+        }
+
+        public void InitProxies()
+        {
+            var count = Series.Count;
+            var hit = new bool[count, count];
+            for (int row = 0; row < count; row++)
+            {
+                var matches = Regex.Matches(Series[row].Formula, @"[fF](\d+)");
+                foreach (Match match in matches)
+                {
+                    var col = int.Parse(match.Groups[1].Value);
+                    if (col >= 0 && col < count)
+                        hit[row, col] = true;
+                }
+            }
+            bool somethingChanged;
+            do
+            {
+                somethingChanged = false;
+                for (int row = 0; row < count; row++)
+                    for (int col = 0; col < count; col++)
+                        if (hit[row, col])
+                            for (var r = 0; r < count; r++)
+                                if (r != row && hit[r, row] && !hit[r, col])
+                                {
+                                    somethingChanged = true;
+                                    hit[r, col] = true;
+                                }
+            }
+            while (somethingChanged);
+            var refs = Series.Select(p => p.Expression).ToArray();
+            for (int index = 0; index < count; index++)
+                Series[index].Proxy = hit[index, index]
+                    ? Expression.Default(typeof(void))
+                    : Series[index].Expression.AsProxy(Expressions.x, Expressions.t, refs);
         }
 
         public PointF ScreenToGraph(Point p, Rectangle r)
