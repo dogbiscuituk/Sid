@@ -226,7 +226,7 @@ Version: {Application.ProductVersion}",
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            if (propertyName == "Model.Graph.FillColour")
+            if (propertyName == "Model.Graph.PaperColour")
                 InitPaper();
             if (propertyName == "Model.Graph.PlotType")
                 AdjustPictureBox();
@@ -355,7 +355,7 @@ Version: {Application.ProductVersion}",
                 View.ToolTip.SetToolTip(PictureBox, toolTip);
         }
 
-        private void InitPaper() => ClientPanel.BackColor = Graph.FillColour;
+        private void InitPaper() => ClientPanel.BackColor = Graph.PaperColour;
         private void InvalidatePictureBox() => PictureBox.Invalidate();
 
         private static void MoveMenuItems(ToolStrip source, ToolStrip target)

@@ -51,6 +51,7 @@
     <Compile Include="GridPass.cs" />
     <Compile Include="GridPhase.cs" />
     <Compile Include="Model.cs" />
+    <Compile Include="Optimization.cs" />
     <Compile Include="PlotType.cs" />
     <Compile Include="PolarPointF.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

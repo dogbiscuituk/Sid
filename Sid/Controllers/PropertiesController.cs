@@ -1,7 +1,9 @@
 ﻿namespace Sid.Controllers
 {
     using System;
+    using System.ComponentModel;
     using System.Windows.Forms;
+    using Sid.Expressions;
     using Sid.Models;
     using Sid.Views;
 
@@ -11,7 +13,7 @@
         {
             Model = model;
             View = new PropertiesDialog();
-            InitPlotTypes();
+            InitEnumControls();
         }
 
         #region Properties
@@ -19,6 +21,7 @@
         private CheckedListBox ClbElements { get => View.ElementCheckboxes; }
         private Model Model { get; set; }
         private Graph Graph { get => Model.Graph; }
+        private ComboBox.ObjectCollection Optimizations { get => View.cbOptimization.Items; }
         private ComboBox.ObjectCollection PlotTypes { get => View.cbPlotType.Items; }
         private bool Loading, Updating;
 
@@ -160,10 +163,12 @@
             Graph.Elements = graphElements;
         }
 
-        private void InitPlotTypes()
+        private void InitEnumControls()
         {
+            Optimizations.Clear();
+            Optimizations.AddRange(typeof(Optimization).GetDescriptions());
             PlotTypes.Clear();
-            PlotTypes.AddRange(Enum.GetNames(typeof(PlotType)));
+            PlotTypes.AddRange(typeof(PlotType).GetDescriptions());
         }
 
         #endregion
@@ -174,6 +179,7 @@
         {
             Loading = true;
             ElementsRead();
+            View.cbOptimization.SelectedIndex = (int)Graph.Optimization;
             View.cbStepCount.Text = Graph.StepCount.ToString();
             View.cbPlotType.SelectedIndex = (int)Graph.PlotType;
             View.cbDomainGraphWidth.Checked = Graph.DomainGraphWidth;
@@ -197,6 +203,7 @@
         private void GraphWrite()
         {
             ElementsWrite();
+            Graph.Optimization = (Optimization)View.cbOptimization.SelectedIndex;
             Graph.StepCount = int.Parse(View.cbStepCount.Text);
             Graph.PlotType = (PlotType)View.cbPlotType.SelectedIndex;
             Graph.DomainGraphWidth = View.cbDomainGraphWidth.Checked;

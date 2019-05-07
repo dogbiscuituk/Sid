@@ -2,9 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Drawing;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Reflection;
     using System.Text;
 
     public static class Utility
@@ -34,6 +36,17 @@
 
         public static Color MakeColour(Color baseColour, int transparencyPerCent) =>
             Color.FromArgb(AlphaFromTransparencyPercent(transparencyPerCent), baseColour);
+
+        #endregion
+
+        #region Enums
+
+        public static string[] GetDescriptions(this Type enumType) => enumType
+            .GetFields()
+            .Select(p => p.GetCustomAttribute<DescriptionAttribute>())
+            .OfType<DescriptionAttribute>()
+            .Select(p => p.Description)
+            .ToArray();
 
         #endregion
 

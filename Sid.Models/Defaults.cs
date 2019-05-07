@@ -30,6 +30,9 @@
         public const Elements
             GraphElements = Elements.All;
 
+        public const Optimization
+            GraphOptimization = Optimization.Default;
+
         public const PlotType
             GraphPlotType = PlotType.Cartesian;
 

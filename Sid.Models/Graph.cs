@@ -5,6 +5,7 @@
     using System.ComponentModel;
     using System.Drawing;
     using System.Drawing.Drawing2D;
+    using System.Drawing.Text;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
@@ -126,6 +127,20 @@
                 {
                     _limitColour = value;
                     OnPropertyChanged("LimitColour");
+                }
+            }
+        }
+
+        private Optimization _optimization;
+        public Optimization Optimization
+        {
+            get => _optimization;
+            set
+            {
+                if (Optimization != value)
+                {
+                    _optimization = value;
+                    OnPropertyChanged("Optimization");
                 }
             }
         }
@@ -306,6 +321,8 @@
                 {
                     _stepCount = value;
                     OnPropertyChanged("StepCount");
+                    foreach (var series in Series)
+                        series.StepCount = StepCount;
                 }
             }
         }
@@ -345,6 +362,8 @@
             _penColour = Defaults.GraphPenColour;
             // Elements
             _elements = Defaults.GraphElements;
+            //Optimization
+            _optimization = Optimization.Default;
             // PlotType
             _plotType = Defaults.GraphPlotType;
             // PointF
@@ -398,10 +417,22 @@
         {
             if (r.Width == 0 || r.Height == 0)
                 return; // Nothing to draw!
-            g.SmoothingMode = SmoothingMode.AntiAlias;
+            switch (Optimization)
+            {
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    g.CompositingQuality = CompositingQuality.HighQuality;
+                    g.SmoothingMode = SmoothingMode.HighQuality;
+                    g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    break;
+                    g.InterpolationMode = InterpolationMode.Low;
+                    g.CompositingQuality = CompositingQuality.HighSpeed;
+                    g.SmoothingMode = SmoothingMode.HighSpeed;
+                    g.TextRenderingHint = TextRenderingHint.SystemDefault;
+                    g.PixelOffsetMode = PixelOffsetMode.HighSpeed;
+                    break;
+            }
             g.Transform = GetMatrix(r);
-            using (var brush = new SolidBrush(PaperColour))
-                g.FillRectangle(brush, Limits);
             var penWidth = (Size.Width / r.Width + Size.Height / r.Height);
             InitProxies();
             var stopwatch = new System.Diagnostics.Stopwatch();
