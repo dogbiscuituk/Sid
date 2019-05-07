@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Defaults.cs" />
+    <Compile Include="Domain.cs" />
     <Compile Include="Elements.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="GridPass.cs" />
@@ -66,6 +67,9 @@
       <Project>{091b2974-e44b-49c4-a3aa-355fc2558fef}</Project>
       <Name>Sid.Expressions</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="INotifyPropertyChanged.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

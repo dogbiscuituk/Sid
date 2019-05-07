@@ -1,7 +1,6 @@
 ﻿namespace Sid.Controllers
 {
     using System;
-    using System.ComponentModel;
     using System.Windows.Forms;
     using Sid.Expressions;
     using Sid.Models;
@@ -33,9 +32,16 @@
             {
                 if (View != null)
                 {
+                    View.cbOptimization.SelectedValueChanged -= PlotTypeChanged;
                     View.cbStepCount.SelectedValueChanged -= LiveUpdate;
                     View.cbPlotType.SelectedValueChanged -= PlotTypeChanged;
                     View.cbDomainGraphWidth.CheckedChanged -= DomainGraphWidthChanged;
+                    View.rbDegrees.CheckedChanged -= LiveUpdate;
+                    View.rbRadians.CheckedChanged -= LiveUpdate;
+                    View.seDomainMinCartesian.ValueChanged -= LiveUpdate;
+                    View.seDomainMaxCartesian.ValueChanged -= LiveUpdate;
+                    View.seDomainMinPolar.ValueChanged -= LiveUpdate;
+                    View.seDomainMaxPolar.ValueChanged -= LiveUpdate;
                     ColourController.Clear();
                     View.FormClosing -= View_FormClosing;
                     ClbElements.ItemCheck -= ClbElements_ItemCheck;
@@ -44,9 +50,16 @@
                 _view = value;
                 if (View != null)
                 {
+                    View.cbOptimization.SelectedValueChanged += PlotTypeChanged;
                     View.cbStepCount.SelectedValueChanged += LiveUpdate;
                     View.cbPlotType.SelectedValueChanged += PlotTypeChanged;
                     View.cbDomainGraphWidth.CheckedChanged += DomainGraphWidthChanged;
+                    View.rbDegrees.CheckedChanged += LiveUpdate;
+                    View.rbRadians.CheckedChanged += LiveUpdate;
+                    View.seDomainMinCartesian.ValueChanged += LiveUpdate;
+                    View.seDomainMaxCartesian.ValueChanged += LiveUpdate;
+                    View.seDomainMinPolar.ValueChanged += LiveUpdate;
+                    View.seDomainMaxPolar.ValueChanged += LiveUpdate;
                     AddControls(View.cbAxisColour, View.cbGridColour, View.cbPenColour,
                         View.cbLimitColour, View.cbPaperColour, View.cbFillColour);
                     View.FormClosing += View_FormClosing;
@@ -185,8 +198,8 @@
             View.cbDomainGraphWidth.Checked = Graph.DomainGraphWidth;
             View.seDomainMinCartesian.Value = (decimal)Graph.DomainMinCartesian;
             View.seDomainMaxCartesian.Value = (decimal)Graph.DomainMaxCartesian;
-            View.rbDegrees.Checked = Graph.GraphDomainPolarDegrees;
-            View.rbRadians.Checked = !Graph.GraphDomainPolarDegrees;
+            View.rbDegrees.Checked = Graph.DomainPolarDegrees;
+            View.rbRadians.Checked = !Graph.DomainPolarDegrees;
             View.seDomainMinPolar.Value = (decimal)Graph.DomainMinPolar;
             View.seDomainMaxPolar.Value = (decimal)Graph.DomainMaxPolar;
             ColourController.SetColour(View.cbAxisColour, Graph.AxisColour);
@@ -209,7 +222,7 @@
             Graph.DomainGraphWidth = View.cbDomainGraphWidth.Checked;
             Graph.DomainMinCartesian = (float)View.seDomainMinCartesian.Value;
             Graph.DomainMaxCartesian = (float)View.seDomainMaxCartesian.Value;
-            Graph.GraphDomainPolarDegrees = View.rbDegrees.Checked;
+            Graph.DomainPolarDegrees = View.rbDegrees.Checked;
             Graph.DomainMinPolar = (float)View.seDomainMinPolar.Value;
             Graph.DomainMaxPolar = (float)View.seDomainMaxPolar.Value;
             Graph.AxisColour = ColourController.GetColour(View.cbAxisColour);
@@ -242,6 +255,7 @@
         {
             View.seDomainMinCartesian.Enabled = View.seDomainMaxCartesian.Enabled =
                 !View.cbDomainGraphWidth.Checked;
+            LiveUpdate(sender, e);
         }
 
         #endregion

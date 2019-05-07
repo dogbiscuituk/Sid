@@ -226,10 +226,15 @@ Version: {Application.ProductVersion}",
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            if (propertyName == "Model.Graph.PaperColour")
-                InitPaper();
-            if (propertyName == "Model.Graph.PlotType")
-                AdjustPictureBox();
+            switch (propertyName)
+            {
+                case "Model.Graph.PaperColour":
+                    InitPaper();
+                    break;
+                case "Model.Graph.PlotType":
+                    AdjustPictureBox();
+                    break;
+            }
             InvalidatePictureBox();
         }
 

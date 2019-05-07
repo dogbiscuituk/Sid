@@ -159,86 +159,83 @@
             }
         }
 
-        private bool _domainGraphWidth;
+        [JsonIgnore]
+        private Domain _domain;
+
         public bool DomainGraphWidth
         {
-            get => _domainGraphWidth;
+            get => _domain.UseGraphWidth;
             set
             {
                 if (DomainGraphWidth != value)
                 {
-                    _domainGraphWidth = value;
+                    _domain.UseGraphWidth = value;
                     OnPropertyChanged("DomainGraphWidth");
                 }
             }
         }
 
-        private float _domainMinCartesian;
         public float DomainMinCartesian
         {
-            get => _domainMinCartesian;
+            get => _domain.MinCartesian;
             set
             {
                 if (DomainMinCartesian != value)
                 {
-                    _domainMinCartesian = value;
+                    _domain.MinCartesian = value;
                     OnPropertyChanged("DomainMinCartesian");
                 }
             }
         }
 
-        private float _domainMaxCartesian;
         public float DomainMaxCartesian
         {
-            get => _domainMaxCartesian;
+            get => _domain.MaxCartesian;
             set
             {
                 if (DomainMaxCartesian != value)
                 {
-                    _domainMaxCartesian = value;
+                    _domain.MaxCartesian = value;
                     OnPropertyChanged("DomainMaxCartesian");
                 }
             }
         }
 
-        private float _domainMinPolar;
         public float DomainMinPolar
         {
-            get => _domainMinPolar;
+            get => _domain.MinPolar;
             set
             {
                 if (DomainMinPolar != value)
                 {
-                    _domainMinPolar = value;
+                    _domain.MinPolar = value;
                     OnPropertyChanged("DomainMinPolar");
                 }
             }
         }
 
-        private float _domainMaxPolar;
         public float DomainMaxPolar
         {
-            get => _domainMaxPolar;
+            get => _domain.MaxPolar;
             set
             {
                 if (DomainMaxPolar != value)
                 {
-                    _domainMaxPolar = value;
+                    _domain.MaxPolar = value;
                     OnPropertyChanged("DomainMaxPolar");
                 }
             }
         }
 
-        private bool _graphDomainPolarDegrees;
-        public bool GraphDomainPolarDegrees
+        public bool DomainPolarDegrees
         {
-            get => _graphDomainPolarDegrees;
+            get => _domain.PolarDegrees;
             set
             {
-                if (GraphDomainPolarDegrees != value)
+                if (DomainPolarDegrees != value)
                 {
-                    _graphDomainPolarDegrees = value;
-                    OnPropertyChanged("GraphDomainPolarDegrees");
+                    _domain.PolarDegrees = value;
+                    OnPropertyChanged("DomainPolarDegrees");
                 }
             }
         }
@@ -342,17 +339,17 @@
         private void RestoreDefaults()
         {
             // bool
-            _domainGraphWidth = Defaults.GraphDomainGraphWidth;
-            _graphDomainPolarDegrees = Defaults.GraphDomainPolarDegrees;
+            _domain.UseGraphWidth = Defaults.GraphDomainGraphWidth;
+            _domain.PolarDegrees = Defaults.GraphDomainPolarDegrees;
             // int
             _fillTransparencyPercent = Defaults.GraphFillTransparencyPercent;
             _paperTransparencyPercent = Defaults.GraphPaperTransparencyPercent;
             _stepCount = Defaults.GraphStepCount;
             // float
-            _domainMaxCartesian = Defaults.GraphDomainMaxCartesian;
-            _domainMaxPolar = Defaults.GraphDomainMaxPolar;
-            _domainMinCartesian = Defaults.GraphDomainMinCartesian;
-            _domainMinPolar = Defaults.GraphDomainMinPolar;
+            _domain.MaxCartesian = Defaults.GraphDomainMaxCartesian;
+            _domain.MaxPolar = Defaults.GraphDomainMaxPolar;
+            _domain.MinCartesian = Defaults.GraphDomainMinCartesian;
+            _domain.MinPolar = Defaults.GraphDomainMinPolar;
             // Color
             _axisColour = Defaults.GraphAxisColour;
             _fillColour = Defaults.GraphFillColour;
@@ -437,17 +434,17 @@
             g.Transform = GetMatrix(r);
             var penWidth = (Size.Width / r.Width + Size.Height / r.Height);
             InitProxies();
-            var stopwatch = new System.Diagnostics.Stopwatch();
-            stopwatch.Start();
             for (var call = 1; call <= 2; call++)
             {
                 bool fill = call == 1;
-                Series.ForEach(s => { if (s.Visible) s.DrawAsync(g, Limits, penWidth, fill, time, PlotType); });
+                Series.ForEach(s => 
+                {
+                    if (s.Visible)
+                        s.DrawAsync(g, _domain, Limits, penWidth, fill, time, PlotType);
+                });
                 if (fill)
                     DrawGrid(g, penWidth);
             }
-            stopwatch.Stop();
-            System.Diagnostics.Debug.WriteLine($"Graph.Draw took {stopwatch.Elapsed}");
         }
 
         private void DrawGrid(Graphics g, float penWidth)

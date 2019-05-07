@@ -53,6 +53,8 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnClose = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.cbOptimization = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.rbRadians = new System.Windows.Forms.RadioButton();
             this.rbDegrees = new System.Windows.Forms.RadioButton();
             this.seDomainMaxCartesian = new System.Windows.Forms.NumericUpDown();
@@ -66,8 +68,6 @@
             this.cbStepCount = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.ElementCheckboxes = new System.Windows.Forms.CheckedListBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.cbOptimization = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sePaperTransparency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seFillTransparency)).BeginInit();
@@ -449,6 +449,26 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Grid Elements";
             // 
+            // cbOptimization
+            // 
+            this.cbOptimization.BackColor = System.Drawing.SystemColors.Control;
+            this.cbOptimization.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbOptimization.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbOptimization.Location = new System.Drawing.Point(245, 81);
+            this.cbOptimization.Name = "cbOptimization";
+            this.cbOptimization.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.cbOptimization.Size = new System.Drawing.Size(120, 21);
+            this.cbOptimization.TabIndex = 2;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 84);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(67, 13);
+            this.label9.TabIndex = 1;
+            this.label9.Text = "Optimization:";
+            // 
             // rbRadians
             // 
             this.rbRadians.AutoSize = true;
@@ -654,26 +674,6 @@
             this.ElementCheckboxes.Name = "ElementCheckboxes";
             this.ElementCheckboxes.Size = new System.Drawing.Size(365, 60);
             this.ElementCheckboxes.TabIndex = 0;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 84);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(67, 13);
-            this.label9.TabIndex = 1;
-            this.label9.Text = "Optimization:";
-            // 
-            // cbOptimization
-            // 
-            this.cbOptimization.BackColor = System.Drawing.SystemColors.Control;
-            this.cbOptimization.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbOptimization.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbOptimization.Location = new System.Drawing.Point(245, 81);
-            this.cbOptimization.Name = "cbOptimization";
-            this.cbOptimization.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.cbOptimization.Size = new System.Drawing.Size(120, 21);
-            this.cbOptimization.TabIndex = 2;
             // 
             // PropertiesDialog
             // 

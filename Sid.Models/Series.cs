@@ -152,6 +152,7 @@
         }
 
         private PlotType LastPlotType = (PlotType)(-1);
+        private Domain LastDomain;
         private double LastTime = -1;
 
         #endregion
@@ -160,21 +161,28 @@
 
         private List<List<PointF>> PointLists = new List<List<PointF>>();
 
-        public async void DrawAsync(Graphics g, RectangleF limits, float penWidth, bool fill, double time, PlotType plotType)
+        // Method DrawAsync is made asynchronous purely as a programming exercise.
+        // All drawing must take place on the main Windows UI thread, and no time
+        // is saved by multithreading the ComputePointsAsync() point computations.
+
+        public async void DrawAsync(Graphics g, Domain domain, RectangleF limits,
+            float penWidth, bool fill, double time, PlotType plotType)
         {
             if (fill && (FillColour == Color.Transparent || FillTransparencyPercent == 100))
                 return; // Not just an optimisation; omits vertical asymptotes too.
             if (Func == null
+                || LastDomain != domain
                 || Limits != limits
                 || LastTime != time && Expression.UsesTime()
                 || LastPlotType != plotType
                 || !PointLists.Any())
             {
                 InvalidatePoints();
+                LastDomain = domain;
                 Limits = limits;
                 LastTime = time;
                 LastPlotType = plotType;
-                var pointLists = await ComputePointsAsync(limits, time, plotType);
+                var pointLists = await ComputePointsAsync(domain, limits, time, plotType);
                 PointLists.AddRange(pointLists);
                 pointLists.Clear();
             }
@@ -191,15 +199,28 @@
                     PointLists.ForEach(p => g.DrawLines(pen, p.ToArray()));
         }
 
-        private Task<List<List<PointF>>> ComputePointsAsync(RectangleF limits, double time, PlotType plotType)
+        private Task<List<List<PointF>>> ComputePointsAsync(
+            Domain domain, RectangleF limits, double time, PlotType plotType)
         {
-            var stopwatch = new System.Diagnostics.Stopwatch();
-            stopwatch.Start();
             var result = new List<List<PointF>>();
             List<PointF> points = null;
-            float
-                x1 = Limits.Left, y1 = Limits.Top, y2 = Limits.Bottom,
-                w = Limits.Width, h = 8 * Limits.Height;
+            float start, length;
+            if (plotType == PlotType.Polar)
+            {
+                start = domain.MinRadians;
+                length = domain.MaxRadians - start;
+
+            }
+            else if (domain.UseGraphWidth)
+            {
+                start = Limits.Left;
+                length = Limits.Width;
+            }
+            else
+            {
+                start = domain.MinCartesian;
+                length = domain.MaxCartesian;
+            }
             var skip = true;
             float x, y;
             for (var step = 0; step <= StepCount; step++)
@@ -207,17 +228,17 @@
                 switch (plotType)
                 {
                     case PlotType.Polar:
-                        var a = step * Math.PI / StepCount;
-                        var r = (float)Func(a, time);
-                        x = (float)(r * Math.Cos(a));
-                        y = (float)(r * Math.Sin(a));
+                        var θ = start + step * length / StepCount;
+                        var r = (float)Func(θ, time);
+                        x = (float)(r * Math.Cos(θ));
+                        y = (float)(r * Math.Sin(θ));
                         break;
                     default:
-                        x = x1 + step * w / StepCount;
+                        x = start + step * length / StepCount;
                         y = (float)Func(x, time);
                         break;
                 }
-                if (float.IsInfinity(y) || float.IsNaN(y) || y < y1 - h || y > y2 + h)
+                if (float.IsInfinity(y) || float.IsNaN(y))
                     skip = true;
                 else
                 {
@@ -232,8 +253,6 @@
             }
             // Every segment of the trace must include at least 2 points.
             result.RemoveAll(p => p.Count < 2);
-            stopwatch.Stop();
-            System.Diagnostics.Debug.WriteLine($"ComputePointsAsync took {stopwatch.Elapsed}");
             return Task.FromResult(result);
         }
 

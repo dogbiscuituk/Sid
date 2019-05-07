@@ -66,14 +66,14 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void Graph_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
-            OnPropertyChanged($"Graph.{e.PropertyName}");
-
         protected virtual void OnPropertyChanged(string propertyName)
         {
             Modified = true;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public void Graph_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
+            OnPropertyChanged($"Graph.{e.PropertyName}");
 
         #endregion
     }

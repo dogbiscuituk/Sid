@@ -1,0 +1,51 @@
+﻿            =============================================================================
+            DOCUMENTATION of the IMPLEMENTATION of INotifyPropertyChanged in this PROJECT
+            =============================================================================
+
+Classes Model, Graph and Series form a hierarchy in which each uses the INotifyPropertyChanged event
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+to notify its immediate superior of changes to its properties, via this "chain of command":
+
+    Series -> Graph -> Model -> AppController,
+
+where "AppController" is a custom class in the app-level project, and does not itself implement this
+interface. The default method of raising the PropertyChanged event is via the method
+
+    protected virtual void OnPropertyChanged(string propertyName) =>
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+which appears in the Series, Graph and Model classes. The Model has a variant, which first sets its
+Modified flag (aka the "dirty bit", part of the File|Save logic). Additionally, the PropertyChanged
+events in each of these classes accepts a delegate which bubbles up the event to its superior along
+the chain of command, modifying the property name to include path information. So, Graph plugs into
+each of its series like this:
+
+    series.PropertyChanged += Series_PropertyChanged;
+
+    public void Series_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
+        OnPropertyChanged($"Series[{Series.IndexOf((Series)sender)}].{e.PropertyName}");
+
+Thus the Graph forwards a Series.PropertyChanged event, with a property name such as "PenColour", to
+the Model as a Graph.PropertyChanged event with property name "Series[0].PenColour". Similarly, the
+Model plugs into the Graph's communications like this:
+
+    Graph.PropertyChanged += Graph_PropertyChanged
+
+    public void Graph_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
+        OnPropertyChanged($"Graph.{e.PropertyName}");
+
+The Model eventually gets wind of the original Series.PropertyChanged event, with the property name
+now modified into "Graph.Series[0].PenColour". Finally, the AppController plugs into the Model:
+
+    Model.PropertyChanged += Model_PropertyChanged;
+
+    private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
+        OnPropertyChanged($"Model.{e.PropertyName}");
+
+The AppController has such an OnPropertyChanged method, but unlike the earlier classes in the chain,
+it doesn't invoke a further delegate. Instead it just performs certain update actions based upon the
+property path passed to it (which by now might have become "Model.Graph.Series[0].PenColour"), such
+as changing the displayed background colour, adjusting the display aspect ratio, or invalidating the
+whole display.
