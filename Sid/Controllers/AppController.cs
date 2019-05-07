@@ -88,12 +88,10 @@
                     View.FileExit.Click -= FileExit_Click;
                     View.GraphProperties.Click -= GraphProperties_Click;
                     View.ViewCoordinatesTooltip.Click -= ViewCoordinatesTooltip_Click;
-                    View.ZoomMenu.DropDownOpening -= ZoomMenu_DropDownOpening;
                     View.ZoomIn.Click -= ZoomIn_Click;
                     View.ZoomOut.Click -= ZoomOut_Click;
                     View.ZoomReset.Click -= ZoomReset_Click;
                     View.ZoomFullScreen.Click -= ZoomFullScreen_Click;
-                    View.ZoomIsotropic.Click -= ZoomIsotropic_Click;
                     View.ScrollLeft.Click -= ScrollLeft_Click;
                     View.ScrollRight.Click -= ScrollRight_Click;
                     View.ScrollUp.Click -= ScrollUp_Click;
@@ -125,11 +123,9 @@
                     View.FileExit.Click += FileExit_Click;
                     View.GraphProperties.Click += GraphProperties_Click;
                     View.ViewCoordinatesTooltip.Click += ViewCoordinatesTooltip_Click;
-                    View.ZoomMenu.DropDownOpening += ZoomMenu_DropDownOpening;
                     View.ZoomIn.Click += ZoomIn_Click;
                     View.ZoomOut.Click += ZoomOut_Click;
                     View.ZoomReset.Click += ZoomReset_Click;
-                    View.ZoomIsotropic.Click += ZoomIsotropic_Click;
                     View.ZoomFullScreen.Click += ZoomFullScreen_Click;
                     View.ScrollLeft.Click += ScrollLeft_Click;
                     View.ScrollRight.Click += ScrollRight_Click;
@@ -165,11 +161,9 @@
         private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
         private void GraphProperties_Click(object sender, EventArgs e) => PropertiesController.Show(View);
-        private void ZoomMenu_DropDownOpening(object sender, EventArgs e) => View.ZoomIsotropic.Checked = Graph.Isotropic;
         private void ZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
         private void ZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
         private void ZoomReset_Click(object sender, EventArgs e) => ZoomReset();
-        private void ZoomIsotropic_Click(object sender, EventArgs e) => Graph.Isotropic = !Graph.Isotropic;
         private void ZoomFullScreen_Click(object sender, EventArgs e) => ToggleFullScreen();
         private void ScrollLeft_Click(object sender, EventArgs e) => Scroll(-0.1, 0);
         private void ScrollRight_Click(object sender, EventArgs e) => Scroll(0.1, 0);
@@ -234,7 +228,7 @@ Version: {Application.ProductVersion}",
         {
             if (propertyName == "Model.Graph.FillColour")
                 InitPaper();
-            if (propertyName == "Model.Graph.Isotropic")
+            if (propertyName == "Model.Graph.PlotType")
                 AdjustPictureBox();
             InvalidatePictureBox();
         }
@@ -279,7 +273,7 @@ Version: {Application.ProductVersion}",
         }
 
         private void PictureBox_MouseLeave(object sender, EventArgs e) =>
-            UpdateMouseCoordinates(string.Empty);
+            UpdateMouseCoordinates(PointF.Empty);
 
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
@@ -336,7 +330,7 @@ Version: {Application.ProductVersion}",
         {
             int cW = ClientPanel.ClientSize.Width, cH = ClientPanel.ClientSize.Height;
             var r = new Rectangle(0, 0, cW, cH);
-            if (Graph.Isotropic)
+            if (Graph.PlotType != PlotType.Anisotropic)
             {
                 float gW = Graph.Size.Width, gH = Graph.Size.Height;
                 if (gW > gH * cW / cH)
@@ -355,7 +349,12 @@ Version: {Application.ProductVersion}",
             PictureBox.SetBounds(r.X, r.Y, r.Width, r.Height);
         }
 
-        private void InitCoordinatesToolTip(string text) => View.ToolTip.SetToolTip(PictureBox, text);
+        private void InitCoordinatesToolTip(string toolTip)
+        {
+            if (View.ToolTip.GetToolTip(PictureBox) != toolTip)
+                View.ToolTip.SetToolTip(PictureBox, toolTip);
+        }
+
         private void InitPaper() => ClientPanel.BackColor = Graph.FillColour;
         private void InvalidatePictureBox() => PictureBox.Invalidate();
 
@@ -375,14 +374,16 @@ Version: {Application.ProductVersion}",
 
         private void UpdateMouseCoordinates(MouseEventArgs e)
         {
-            UpdateMouseCoordinates(ScreenToGraph(e.Location).ToString());
+            UpdateMouseCoordinates(ScreenToGraph(e.Location));
         }
 
-        private void UpdateMouseCoordinates(string coords)
+        private void UpdateMouseCoordinates(PointF p)
         {
-            View.XYlabel.Text = coords;
+            string xy = p.ToString(), rθ = new PolarPointF(p).ToString();
+            View.XYlabel.Text = xy;
+            View.Rϴlabel.Text = rθ;
             if (ShowCoordinatesTooltip)
-                InitCoordinatesToolTip(coords);
+                InitCoordinatesToolTip($"{xy}\n{rθ}");
         }
 
         #endregion

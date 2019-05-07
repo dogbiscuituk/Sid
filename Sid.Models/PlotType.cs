@@ -3,6 +3,7 @@
     public enum PlotType
     {
         Cartesian,
-        Polar
+        Polar,
+        Anisotropic
     }
 }

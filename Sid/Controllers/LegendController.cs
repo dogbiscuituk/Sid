@@ -165,7 +165,7 @@
                 child.FillTransparencyPercent = series.FillTransparencyPercent;
             }
             var index = Keys.Count;
-            child.TraceLabel = $"f{Keys.Count.ToString()}=";
+            child.TraceLabel = $"f{Keys.Count.ToString()}";
             child.View.cbFunction.Validating += CbFunction_Validating;
             Keys.Add(child.View);
             AfterKeyChange();

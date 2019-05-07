@@ -31,7 +31,8 @@
                 if (View != null)
                 {
                     View.cbStepCount.SelectedValueChanged -= LiveUpdate;
-                    View.cbPlotType.SelectedValueChanged -= LiveUpdate;
+                    View.cbPlotType.SelectedValueChanged -= PlotTypeChanged;
+                    View.cbDomainGraphWidth.CheckedChanged -= DomainGraphWidthChanged;
                     ColourController.Clear();
                     View.FormClosing -= View_FormClosing;
                     ClbElements.ItemCheck -= ClbElements_ItemCheck;
@@ -41,7 +42,8 @@
                 if (View != null)
                 {
                     View.cbStepCount.SelectedValueChanged += LiveUpdate;
-                    View.cbPlotType.SelectedValueChanged += LiveUpdate;
+                    View.cbPlotType.SelectedValueChanged += PlotTypeChanged;
+                    View.cbDomainGraphWidth.CheckedChanged += DomainGraphWidthChanged;
                     AddControls(View.cbAxisColour, View.cbGridColour, View.cbPenColour,
                         View.cbLimitColour, View.cbPaperColour, View.cbFillColour);
                     View.FormClosing += View_FormClosing;
@@ -171,8 +173,16 @@
         private void GraphRead()
         {
             Loading = true;
+            ElementsRead();
             View.cbStepCount.Text = Graph.StepCount.ToString();
             View.cbPlotType.SelectedIndex = (int)Graph.PlotType;
+            View.cbDomainGraphWidth.Checked = Graph.DomainGraphWidth;
+            View.seDomainMinCartesian.Value = (decimal)Graph.DomainMinCartesian;
+            View.seDomainMaxCartesian.Value = (decimal)Graph.DomainMaxCartesian;
+            View.rbDegrees.Checked = Graph.GraphDomainPolarDegrees;
+            View.rbRadians.Checked = !Graph.GraphDomainPolarDegrees;
+            View.seDomainMinPolar.Value = (decimal)Graph.DomainMinPolar;
+            View.seDomainMaxPolar.Value = (decimal)Graph.DomainMaxPolar;
             ColourController.SetColour(View.cbAxisColour, Graph.AxisColour);
             ColourController.SetColour(View.cbGridColour, Graph.GridColour);
             ColourController.SetColour(View.cbPenColour, Graph.PenColour);
@@ -181,14 +191,20 @@
             ColourController.SetColour(View.cbFillColour, Graph.FillColour);
             View.sePaperTransparency.Value = Graph.PaperTransparencyPercent;
             View.seFillTransparency.Value = Graph.FillTransparencyPercent;
-            ElementsRead();
             Loading = false;
         }
 
         private void GraphWrite()
         {
+            ElementsWrite();
             Graph.StepCount = int.Parse(View.cbStepCount.Text);
             Graph.PlotType = (PlotType)View.cbPlotType.SelectedIndex;
+            Graph.DomainGraphWidth = View.cbDomainGraphWidth.Checked;
+            Graph.DomainMinCartesian = (float)View.seDomainMinCartesian.Value;
+            Graph.DomainMaxCartesian = (float)View.seDomainMaxCartesian.Value;
+            Graph.GraphDomainPolarDegrees = View.rbDegrees.Checked;
+            Graph.DomainMinPolar = (float)View.seDomainMinPolar.Value;
+            Graph.DomainMaxPolar = (float)View.seDomainMaxPolar.Value;
             Graph.AxisColour = ColourController.GetColour(View.cbAxisColour);
             Graph.GridColour = ColourController.GetColour(View.cbGridColour);
             Graph.PenColour = ColourController.GetColour(View.cbPenColour);
@@ -197,13 +213,28 @@
             Graph.FillColour = ColourController.GetColour(View.cbFillColour);
             Graph.PaperTransparencyPercent = (int)View.sePaperTransparency.Value;
             Graph.FillTransparencyPercent = (int)View.seFillTransparency.Value;
-            ElementsWrite();
         }
 
         public void LiveUpdate(object sender, EventArgs e)
         {
             if (!Loading)
                 GraphWrite();
+        }
+
+        public void PlotTypeChanged(object sender, EventArgs e)
+        {
+            var polar = (PlotType)View.cbPlotType.SelectedIndex == PlotType.Polar;
+            View.cbDomainGraphWidth.Visible = View.seDomainMinCartesian.Visible =
+                View.seDomainMaxCartesian.Visible = !polar;
+            View.seDomainMinPolar.Visible = View.seDomainMaxPolar.Visible = 
+                View.rbDegrees.Visible = View.rbRadians.Visible = polar;
+            LiveUpdate(sender, e);
+        }
+
+        private void DomainGraphWidthChanged(object sender, EventArgs e)
+        {
+            View.seDomainMinCartesian.Enabled = View.seDomainMaxCartesian.Enabled =
+                !View.cbDomainGraphWidth.Checked;
         }
 
         #endregion

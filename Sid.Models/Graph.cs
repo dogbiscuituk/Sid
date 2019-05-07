@@ -18,7 +18,7 @@
 
         #region Properties
 
-        private Color _paperColour = Defaults.GraphPaperColour;
+        private Color _paperColour;
         public Color PaperColour
         {
             get => _paperColour;
@@ -32,7 +32,7 @@
             }
         }
 
-        private int _paperTransparencyPercent = Defaults.GraphPaperTransparencyPercent;
+        private int _paperTransparencyPercent;
         public int PaperTransparencyPercent
         {
             get => _paperTransparencyPercent;
@@ -46,7 +46,7 @@
             }
         }
 
-        private Color _axisColour = Defaults.GraphAxisColour;
+        private Color _axisColour;
         public Color AxisColour
         {
             get => _axisColour;
@@ -60,7 +60,7 @@
             }
         }
 
-        private Color _gridColour = Defaults.GraphGridColour;
+        private Color _gridColour;
         public Color GridColour
         {
             get => _gridColour;
@@ -74,7 +74,7 @@
             }
         }
 
-        private Color _penColour = Defaults.GraphPenColour;
+        private Color _penColour;
         public Color PenColour
         {
             get => _penColour;
@@ -88,7 +88,7 @@
             }
         }
 
-        private Color _fillColour = Defaults.GraphFillColour;
+        private Color _fillColour;
         public Color FillColour
         {
             get => _fillColour;
@@ -102,7 +102,7 @@
             }
         }
 
-        private int _fillTransparencyPercent = Defaults.GraphFillTransparencyPercent;
+        private int _fillTransparencyPercent;
         public int FillTransparencyPercent
         {
             get => _fillTransparencyPercent;
@@ -116,7 +116,7 @@
             }
         }
 
-        private Color _limitColour = Defaults.GraphLimitColour;
+        private Color _limitColour;
         public Color LimitColour
         {
             get => _limitColour;
@@ -144,7 +144,91 @@
             }
         }
 
-        private PointF _location, _originalLocation = Defaults.GraphLocation;
+        private bool _domainGraphWidth;
+        public bool DomainGraphWidth
+        {
+            get => _domainGraphWidth;
+            set
+            {
+                if (DomainGraphWidth != value)
+                {
+                    _domainGraphWidth = value;
+                    OnPropertyChanged("DomainGraphWidth");
+                }
+            }
+        }
+
+        private float _domainMinCartesian;
+        public float DomainMinCartesian
+        {
+            get => _domainMinCartesian;
+            set
+            {
+                if (DomainMinCartesian != value)
+                {
+                    _domainMinCartesian = value;
+                    OnPropertyChanged("DomainMinCartesian");
+                }
+            }
+        }
+
+        private float _domainMaxCartesian;
+        public float DomainMaxCartesian
+        {
+            get => _domainMaxCartesian;
+            set
+            {
+                if (DomainMaxCartesian != value)
+                {
+                    _domainMaxCartesian = value;
+                    OnPropertyChanged("DomainMaxCartesian");
+                }
+            }
+        }
+
+        private float _domainMinPolar;
+        public float DomainMinPolar
+        {
+            get => _domainMinPolar;
+            set
+            {
+                if (DomainMinPolar != value)
+                {
+                    _domainMinPolar = value;
+                    OnPropertyChanged("DomainMinPolar");
+                }
+            }
+        }
+
+        private float _domainMaxPolar;
+        public float DomainMaxPolar
+        {
+            get => _domainMaxPolar;
+            set
+            {
+                if (DomainMaxPolar != value)
+                {
+                    _domainMaxPolar = value;
+                    OnPropertyChanged("DomainMaxPolar");
+                }
+            }
+        }
+
+        private bool _graphDomainPolarDegrees;
+        public bool GraphDomainPolarDegrees
+        {
+            get => _graphDomainPolarDegrees;
+            set
+            {
+                if (GraphDomainPolarDegrees != value)
+                {
+                    _graphDomainPolarDegrees = value;
+                    OnPropertyChanged("GraphDomainPolarDegrees");
+                }
+            }
+        }
+
+        private PointF _location, _originalLocation;
         public PointF Location
         {
             get => _location;
@@ -158,7 +242,7 @@
             }
         }
 
-        private SizeF _size, _originalSize = Defaults.GraphSize;
+        private SizeF _size, _originalSize;
         public SizeF Size
         {
             get => _size;
@@ -172,24 +256,10 @@
             }
         }
 
-        private bool _isotropic = Defaults.GraphIsotropic;
-        public bool Isotropic
-        {
-            get => _isotropic;
-            set
-            {
-                if (Isotropic != value)
-                {
-                    _isotropic = value;
-                    OnPropertyChanged("Isotropic");
-                }
-            }
-        }
-
         [JsonIgnore]
         public RectangleF Limits { get => new RectangleF(Location, Size); }
 
-        private Elements _elements = Defaults.GraphElements;
+        private Elements _elements;
         public Elements Elements
         {
             get => _elements;
@@ -203,7 +273,7 @@
             }
         }
 
-        private TickStyles _tickStyles = Defaults.GraphTickStyles;
+        private TickStyles _tickStyles;
         public TickStyles TickStyles
         {
             get => _tickStyles;
@@ -226,7 +296,7 @@
         private bool ShowHlines { get => (Elements & Elements.HorizontalGridLines) != 0; }
         private bool ShowVlines { get => (Elements & Elements.VerticalGridLines) != 0; }
 
-        private int _stepCount = Defaults.GraphStepCount;
+        private int _stepCount;
         public int StepCount
         {
             get => _stepCount;
@@ -254,21 +324,35 @@
 
         private void RestoreDefaults()
         {
-            ZoomReset();
-            AxisColour = Defaults.GraphAxisColour;
-            FillColour = Defaults.GraphFillColour;
-            GridColour = Defaults.GraphGridColour;
-            LimitColour = Defaults.GraphLimitColour;
-            PaperColour = Defaults.GraphPaperColour;
-            PenColour = Defaults.GraphPenColour;
-            StepCount = Defaults.GraphStepCount;
-            FillTransparencyPercent = Defaults.GraphFillTransparencyPercent;
-            PaperTransparencyPercent = Defaults.GraphPaperTransparencyPercent;
-            Location = Defaults.GraphLocation;
-            Size = Defaults.GraphSize;
-            Isotropic = Defaults.GraphIsotropic;
-            Elements = Defaults.GraphElements;
-            TickStyles = Defaults.GraphTickStyles;
+            // bool
+            _domainGraphWidth = Defaults.GraphDomainGraphWidth;
+            _graphDomainPolarDegrees = Defaults.GraphDomainPolarDegrees;
+            // int
+            _fillTransparencyPercent = Defaults.GraphFillTransparencyPercent;
+            _paperTransparencyPercent = Defaults.GraphPaperTransparencyPercent;
+            _stepCount = Defaults.GraphStepCount;
+            // float
+            _domainMaxCartesian = Defaults.GraphDomainMaxCartesian;
+            _domainMaxPolar = Defaults.GraphDomainMaxPolar;
+            _domainMinCartesian = Defaults.GraphDomainMinCartesian;
+            _domainMinPolar = Defaults.GraphDomainMinPolar;
+            // Color
+            _axisColour = Defaults.GraphAxisColour;
+            _fillColour = Defaults.GraphFillColour;
+            _gridColour = Defaults.GraphGridColour;
+            _limitColour = Defaults.GraphLimitColour;
+            _paperColour = Defaults.GraphPaperColour;
+            _penColour = Defaults.GraphPenColour;
+            // Elements
+            _elements = Defaults.GraphElements;
+            // PlotType
+            _plotType = Defaults.GraphPlotType;
+            // PointF
+            _location = _originalLocation = Defaults.GraphLocation;
+            // SizeF
+            _size = _originalSize = Defaults.GraphSize;
+            // TickStyles
+            _tickStyles = Defaults.GraphTickStyles;
         }
 
         #endregion
@@ -320,6 +404,8 @@
                 g.FillRectangle(brush, Limits);
             var penWidth = (Size.Width / r.Width + Size.Height / r.Height);
             InitProxies();
+            var stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
             for (var call = 1; call <= 2; call++)
             {
                 bool fill = call == 1;
@@ -327,6 +413,8 @@
                 if (fill)
                     DrawGrid(g, penWidth);
             }
+            stopwatch.Stop();
+            System.Diagnostics.Debug.WriteLine($"Graph.Draw took {stopwatch.Elapsed}");
         }
 
         private void DrawGrid(Graphics g, float penWidth)
@@ -348,7 +436,7 @@
                     var vertical = gridPhase == GridPhase.VerticalLines || gridPhase == GridPhase.Yaxis;
                     if (gridPhase == GridPhase.HorizontalLines || gridPhase == GridPhase.VerticalLines)
                     {
-                        var log = Isotropic || vertical ? logX : logY;
+                        var log = PlotType != PlotType.Anisotropic || vertical ? logX : logY;
                         var order = Math.Floor(log);
                         var scale = log - order;
                         double increment = scale < 0.3 ? 2 : scale < 0.7 ? 5 : 10;

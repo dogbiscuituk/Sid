@@ -193,6 +193,8 @@
 
         private Task<List<List<PointF>>> ComputePointsAsync(RectangleF limits, double time, PlotType plotType)
         {
+            var stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
             var result = new List<List<PointF>>();
             List<PointF> points = null;
             float
@@ -230,6 +232,8 @@
             }
             // Every segment of the trace must include at least 2 points.
             result.RemoveAll(p => p.Count < 2);
+            stopwatch.Stop();
+            System.Diagnostics.Debug.WriteLine($"ComputePointsAsync took {stopwatch.Elapsed}");
             return Task.FromResult(result);
         }
 
@@ -239,6 +243,7 @@
             switch (plotType)
             {
                 case PlotType.Cartesian:
+                case PlotType.Anisotropic:
                     var points = new PointF[n + 2];
                     p.CopyTo(points);
                     points[n] = new PointF(points[n - 1].X, 0);
