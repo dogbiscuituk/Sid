@@ -419,12 +419,14 @@
                 return; // Nothing to draw!
             switch (Optimization)
             {
+                case Optimization.HighQuality:
                     g.InterpolationMode = InterpolationMode.HighQualityBicubic;
                     g.CompositingQuality = CompositingQuality.HighQuality;
                     g.SmoothingMode = SmoothingMode.HighQuality;
                     g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
                     g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                     break;
+                case Optimization.HighSpeed:
                     g.InterpolationMode = InterpolationMode.Low;
                     g.CompositingQuality = CompositingQuality.HighSpeed;
                     g.SmoothingMode = SmoothingMode.HighSpeed;
