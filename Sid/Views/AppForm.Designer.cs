@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppForm));
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,6 +45,21 @@
             this.GraphAddNewFunction = new System.Windows.Forms.ToolStripMenuItem();
             this.GraphProperties = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.ZoomMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.ZoomIn = new System.Windows.Forms.ToolStripMenuItem();
+            this.ZoomOut = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
+            this.ZoomReset = new System.Windows.Forms.ToolStripMenuItem();
+            this.ZoomIsotropic = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
+            this.ZoomFullScreen = new System.Windows.Forms.ToolStripMenuItem();
+            this.ScrollMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.ScrollLeft = new System.Windows.Forms.ToolStripMenuItem();
+            this.ScrollRight = new System.Windows.Forms.ToolStripMenuItem();
+            this.ScrollUp = new System.Windows.Forms.ToolStripMenuItem();
+            this.ScrollDown = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
+            this.ScrollCentre = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewLegend = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewLegendTopLeft = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewLegendTopRight = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,26 +85,30 @@
             this.ClientPanel = new System.Windows.Forms.Panel();
             this.LegendPanel = new System.Windows.Forms.Panel();
             this.PictureBox = new System.Windows.Forms.PictureBox();
-            this.ZoomMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.ZoomIn = new System.Windows.Forms.ToolStripMenuItem();
-            this.ZoomOut = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
-            this.ZoomReset = new System.Windows.Forms.ToolStripMenuItem();
-            this.ZoomIsotropic = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
-            this.ZoomFullScreen = new System.Windows.Forms.ToolStripMenuItem();
-            this.ScrollMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.ScrollLeft = new System.Windows.Forms.ToolStripMenuItem();
-            this.ScrollRight = new System.Windows.Forms.ToolStripMenuItem();
-            this.ScrollUp = new System.Windows.Forms.ToolStripMenuItem();
-            this.ScrollDown = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
-            this.ScrollCentre = new System.Windows.Forms.ToolStripMenuItem();
+            this.GraphType = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
+            this.GraphTypeCartesian = new System.Windows.Forms.ToolStripMenuItem();
+            this.GraphTypePolar = new System.Windows.Forms.ToolStripMenuItem();
+            this.GraphTypeAnisotropic = new System.Windows.Forms.ToolStripMenuItem();
+            this.Toolbar = new System.Windows.Forms.ToolStrip();
+            this.tbNew = new System.Windows.Forms.ToolStripButton();
+            this.tbOpen = new System.Windows.Forms.ToolStripButton();
+            this.tbSave = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tbAdd = new System.Windows.Forms.ToolStripButton();
+            this.tbCartesian = new System.Windows.Forms.ToolStripButton();
+            this.tbPolar = new System.Windows.Forms.ToolStripButton();
+            this.tbAnisotropic = new System.Windows.Forms.ToolStripButton();
+            this.tbProperties = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tbTimer = new System.Windows.Forms.ToolStripButton();
+            this.ToolbarImages = new System.Windows.Forms.ImageList(this.components);
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.ClientPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
+            this.Toolbar.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainMenu
@@ -174,6 +194,8 @@
             // 
             this.GraphMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.GraphAddNewFunction,
+            this.GraphType,
+            this.toolStripMenuItem5,
             this.GraphProperties});
             this.GraphMenu.Name = "GraphMenu";
             this.GraphMenu.Size = new System.Drawing.Size(51, 20);
@@ -203,6 +225,126 @@
             this.ViewMenu.Name = "ViewMenu";
             this.ViewMenu.Size = new System.Drawing.Size(44, 20);
             this.ViewMenu.Text = "&View";
+            // 
+            // ZoomMenu
+            // 
+            this.ZoomMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ZoomIn,
+            this.ZoomOut,
+            this.toolStripMenuItem7,
+            this.ZoomReset,
+            this.ZoomIsotropic,
+            this.toolStripMenuItem8,
+            this.ZoomFullScreen});
+            this.ZoomMenu.Name = "ZoomMenu";
+            this.ZoomMenu.Size = new System.Drawing.Size(183, 22);
+            this.ZoomMenu.Text = "&Zoom";
+            // 
+            // ZoomIn
+            // 
+            this.ZoomIn.Name = "ZoomIn";
+            this.ZoomIn.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.PageUp)));
+            this.ZoomIn.Size = new System.Drawing.Size(180, 22);
+            this.ZoomIn.Text = "&In";
+            this.ZoomIn.ToolTipText = "Graphs can also be zoomed using the mouse wheel";
+            // 
+            // ZoomOut
+            // 
+            this.ZoomOut.Name = "ZoomOut";
+            this.ZoomOut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Next)));
+            this.ZoomOut.Size = new System.Drawing.Size(180, 22);
+            this.ZoomOut.Text = "&Out";
+            this.ZoomOut.ToolTipText = "Graphs can also be zoomed using the mouse wheel";
+            // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(177, 6);
+            // 
+            // ZoomReset
+            // 
+            this.ZoomReset.Name = "ZoomReset";
+            this.ZoomReset.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.End)));
+            this.ZoomReset.Size = new System.Drawing.Size(180, 22);
+            this.ZoomReset.Text = "&Reset";
+            this.ZoomReset.ToolTipText = "To the viewport when the graph was created or last saved";
+            // 
+            // ZoomIsotropic
+            // 
+            this.ZoomIsotropic.Name = "ZoomIsotropic";
+            this.ZoomIsotropic.Size = new System.Drawing.Size(180, 22);
+            this.ZoomIsotropic.Text = "I&sotropic";
+            this.ZoomIsotropic.ToolTipText = "The Graph is isotropic when its X and Y scales are equal";
+            // 
+            // toolStripMenuItem8
+            // 
+            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(177, 6);
+            // 
+            // ZoomFullScreen
+            // 
+            this.ZoomFullScreen.Name = "ZoomFullScreen";
+            this.ZoomFullScreen.ShortcutKeys = System.Windows.Forms.Keys.F11;
+            this.ZoomFullScreen.Size = new System.Drawing.Size(180, 22);
+            this.ZoomFullScreen.Text = "&Full Screen";
+            // 
+            // ScrollMenu
+            // 
+            this.ScrollMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ScrollLeft,
+            this.ScrollRight,
+            this.ScrollUp,
+            this.ScrollDown,
+            this.toolStripMenuItem6,
+            this.ScrollCentre});
+            this.ScrollMenu.Name = "ScrollMenu";
+            this.ScrollMenu.Size = new System.Drawing.Size(183, 22);
+            this.ScrollMenu.Text = "&Scroll";
+            // 
+            // ScrollLeft
+            // 
+            this.ScrollLeft.Name = "ScrollLeft";
+            this.ScrollLeft.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Left)));
+            this.ScrollLeft.Size = new System.Drawing.Size(180, 22);
+            this.ScrollLeft.Text = "&Left";
+            this.ScrollLeft.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
+            // 
+            // ScrollRight
+            // 
+            this.ScrollRight.Name = "ScrollRight";
+            this.ScrollRight.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Right)));
+            this.ScrollRight.Size = new System.Drawing.Size(180, 22);
+            this.ScrollRight.Text = "&Right";
+            this.ScrollRight.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
+            // 
+            // ScrollUp
+            // 
+            this.ScrollUp.Name = "ScrollUp";
+            this.ScrollUp.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Up)));
+            this.ScrollUp.Size = new System.Drawing.Size(180, 22);
+            this.ScrollUp.Text = "&Up";
+            this.ScrollUp.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
+            // 
+            // ScrollDown
+            // 
+            this.ScrollDown.Name = "ScrollDown";
+            this.ScrollDown.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Down)));
+            this.ScrollDown.Size = new System.Drawing.Size(180, 22);
+            this.ScrollDown.Text = "&Down";
+            this.ScrollDown.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
+            // 
+            // toolStripMenuItem6
+            // 
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(177, 6);
+            // 
+            // ScrollCentre
+            // 
+            this.ScrollCentre.Name = "ScrollCentre";
+            this.ScrollCentre.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Home)));
+            this.ScrollCentre.Size = new System.Drawing.Size(180, 22);
+            this.ScrollCentre.Text = "&Centre";
+            this.ScrollCentre.ToolTipText = "Return the origin (0,0) to the centre of the display area";
             // 
             // ViewLegend
             // 
@@ -327,7 +469,7 @@
             // HelpAbout
             // 
             this.HelpAbout.Name = "HelpAbout";
-            this.HelpAbout.Size = new System.Drawing.Size(107, 22);
+            this.HelpAbout.Size = new System.Drawing.Size(180, 22);
             this.HelpAbout.Text = "&About";
             this.HelpAbout.ToolTipText = "Show version information";
             // 
@@ -350,9 +492,9 @@
             this.XYlabel.Name = "XYlabel";
             this.XYlabel.Size = new System.Drawing.Size(200, 17);
             this.XYlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            //
+            // 
             // Rϴlabel
-            //
+            // 
             this.Rϴlabel.AutoSize = false;
             this.Rϴlabel.Name = "Rϴlabel";
             this.Rϴlabel.Size = new System.Drawing.Size(200, 17);
@@ -391,7 +533,7 @@
             this.ClientPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ClientPanel.Location = new System.Drawing.Point(0, 24);
             this.ClientPanel.Name = "ClientPanel";
-            this.ClientPanel.Size = new System.Drawing.Size(944, 455);
+            this.ClientPanel.Size = new System.Drawing.Size(913, 455);
             this.ClientPanel.TabIndex = 6;
             // 
             // LegendPanel
@@ -411,125 +553,172 @@
             this.PictureBox.TabIndex = 3;
             this.PictureBox.TabStop = false;
             // 
-            // ZoomMenu
+            // GraphType
             // 
-            this.ZoomMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ZoomIn,
-            this.ZoomOut,
-            this.toolStripMenuItem7,
-            this.ZoomReset,
-            this.ZoomIsotropic,
-            this.toolStripMenuItem8,
-            this.ZoomFullScreen});
-            this.ZoomMenu.Name = "ZoomMenu";
-            this.ZoomMenu.Size = new System.Drawing.Size(183, 22);
-            this.ZoomMenu.Text = "&Zoom";
+            this.GraphType.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.GraphTypeCartesian,
+            this.GraphTypePolar,
+            this.GraphTypeAnisotropic});
+            this.GraphType.Name = "GraphType";
+            this.GraphType.Size = new System.Drawing.Size(201, 22);
+            this.GraphType.Text = "&Type";
             // 
-            // ZoomIn
+            // toolStripMenuItem5
             // 
-            this.ZoomIn.Name = "ZoomIn";
-            this.ZoomIn.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.PageUp)));
-            this.ZoomIn.Size = new System.Drawing.Size(180, 22);
-            this.ZoomIn.Text = "&In";
-            this.ZoomIn.ToolTipText = "Graphs can also be zoomed using the mouse wheel";
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(198, 6);
             // 
-            // ZoomOut
+            // GraphTypeCartesian
             // 
-            this.ZoomOut.Name = "ZoomOut";
-            this.ZoomOut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Next)));
-            this.ZoomOut.Size = new System.Drawing.Size(180, 22);
-            this.ZoomOut.Text = "&Out";
-            this.ZoomOut.ToolTipText = "Graphs can also be zoomed using the mouse wheel";
+            this.GraphTypeCartesian.Name = "GraphTypeCartesian";
+            this.GraphTypeCartesian.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.C)));
+            this.GraphTypeCartesian.Size = new System.Drawing.Size(254, 22);
+            this.GraphTypeCartesian.Text = "&Cartesian - isotropic";
             // 
-            // toolStripMenuItem7
+            // GraphTypePolar
             // 
-            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(177, 6);
+            this.GraphTypePolar.Name = "GraphTypePolar";
+            this.GraphTypePolar.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.P)));
+            this.GraphTypePolar.Size = new System.Drawing.Size(254, 22);
+            this.GraphTypePolar.Text = "&Polar - isotropic";
             // 
-            // ZoomReset
+            // GraphTypeAnisotropic
             // 
-            this.ZoomReset.Name = "ZoomReset";
-            this.ZoomReset.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.End)));
-            this.ZoomReset.Size = new System.Drawing.Size(180, 22);
-            this.ZoomReset.Text = "&Reset";
-            this.ZoomReset.ToolTipText = "To the viewport when the graph was created or last saved";
+            this.GraphTypeAnisotropic.Name = "GraphTypeAnisotropic";
+            this.GraphTypeAnisotropic.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.A)));
+            this.GraphTypeAnisotropic.Size = new System.Drawing.Size(254, 22);
+            this.GraphTypeAnisotropic.Text = "&Anisotropic";
             // 
-            // ZoomIsotropic
+            // Toolbar
             // 
-            this.ZoomIsotropic.Name = "ZoomIsotropic";
-            this.ZoomIsotropic.Size = new System.Drawing.Size(180, 22);
-            this.ZoomIsotropic.Text = "I&sotropic";
-            this.ZoomIsotropic.ToolTipText = "The Graph is isotropic when its X and Y scales are equal";
+            this.Toolbar.Dock = System.Windows.Forms.DockStyle.Right;
+            this.Toolbar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.Toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbNew,
+            this.tbOpen,
+            this.tbSave,
+            this.toolStripSeparator1,
+            this.tbAdd,
+            this.tbCartesian,
+            this.tbPolar,
+            this.tbAnisotropic,
+            this.tbProperties,
+            this.toolStripSeparator2,
+            this.tbTimer});
+            this.Toolbar.Location = new System.Drawing.Point(913, 24);
+            this.Toolbar.Name = "Toolbar";
+            this.Toolbar.Padding = new System.Windows.Forms.Padding(0);
+            this.Toolbar.Size = new System.Drawing.Size(31, 455);
+            this.Toolbar.TabIndex = 11;
             // 
-            // toolStripMenuItem8
+            // tbNew
             // 
-            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(177, 6);
+            this.tbNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbNew.Image = ((System.Drawing.Image)(resources.GetObject("tbNew.Image")));
+            this.tbNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbNew.Name = "tbNew";
+            this.tbNew.Size = new System.Drawing.Size(30, 20);
+            this.tbNew.Text = "toolStripButton1";
+            this.tbNew.ToolTipText = "Create a new file";
             // 
-            // ZoomFullScreen
+            // tbOpen
             // 
-            this.ZoomFullScreen.Name = "ZoomFullScreen";
-            this.ZoomFullScreen.ShortcutKeys = System.Windows.Forms.Keys.F11;
-            this.ZoomFullScreen.Size = new System.Drawing.Size(180, 22);
-            this.ZoomFullScreen.Text = "&Full Screen";
+            this.tbOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbOpen.Image = ((System.Drawing.Image)(resources.GetObject("tbOpen.Image")));
+            this.tbOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbOpen.Name = "tbOpen";
+            this.tbOpen.Size = new System.Drawing.Size(30, 20);
+            this.tbOpen.Text = "toolStripButton2";
+            this.tbOpen.ToolTipText = "Open an existing file";
             // 
-            // ScrollMenu
+            // tbSave
             // 
-            this.ScrollMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ScrollLeft,
-            this.ScrollRight,
-            this.ScrollUp,
-            this.ScrollDown,
-            this.toolStripMenuItem6,
-            this.ScrollCentre});
-            this.ScrollMenu.Name = "ScrollMenu";
-            this.ScrollMenu.Size = new System.Drawing.Size(183, 22);
-            this.ScrollMenu.Text = "&Scroll";
+            this.tbSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbSave.Image = ((System.Drawing.Image)(resources.GetObject("tbSave.Image")));
+            this.tbSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbSave.Name = "tbSave";
+            this.tbSave.Size = new System.Drawing.Size(30, 20);
+            this.tbSave.Text = "toolStripButton3";
+            this.tbSave.ToolTipText = "Save to file";
             // 
-            // ScrollLeft
+            // toolStripSeparator1
             // 
-            this.ScrollLeft.Name = "ScrollLeft";
-            this.ScrollLeft.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Left)));
-            this.ScrollLeft.Size = new System.Drawing.Size(180, 22);
-            this.ScrollLeft.Text = "&Left";
-            this.ScrollLeft.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(30, 6);
             // 
-            // ScrollRight
+            // tbAdd
             // 
-            this.ScrollRight.Name = "ScrollRight";
-            this.ScrollRight.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Right)));
-            this.ScrollRight.Size = new System.Drawing.Size(180, 22);
-            this.ScrollRight.Text = "&Right";
-            this.ScrollRight.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
+            this.tbAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbAdd.Image = ((System.Drawing.Image)(resources.GetObject("tbAdd.Image")));
+            this.tbAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbAdd.Name = "tbAdd";
+            this.tbAdd.Size = new System.Drawing.Size(30, 20);
+            this.tbAdd.Text = "toolStripButton1";
+            this.tbAdd.ToolTipText = "Add a new function";
             // 
-            // ScrollUp
+            // tbCartesian
             // 
-            this.ScrollUp.Name = "ScrollUp";
-            this.ScrollUp.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Up)));
-            this.ScrollUp.Size = new System.Drawing.Size(180, 22);
-            this.ScrollUp.Text = "&Up";
-            this.ScrollUp.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
+            this.tbCartesian.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbCartesian.Image = ((System.Drawing.Image)(resources.GetObject("tbCartesian.Image")));
+            this.tbCartesian.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbCartesian.Name = "tbCartesian";
+            this.tbCartesian.Size = new System.Drawing.Size(30, 20);
+            this.tbCartesian.Text = "toolStripButton2";
+            this.tbCartesian.ToolTipText = "Cartesian (rectangular) plot";
             // 
-            // ScrollDown
+            // tbPolar
             // 
-            this.ScrollDown.Name = "ScrollDown";
-            this.ScrollDown.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Down)));
-            this.ScrollDown.Size = new System.Drawing.Size(180, 22);
-            this.ScrollDown.Text = "&Down";
-            this.ScrollDown.ToolTipText = "Graphs can also be scrolled by dragging with the left mouse button";
+            this.tbPolar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbPolar.Image = ((System.Drawing.Image)(resources.GetObject("tbPolar.Image")));
+            this.tbPolar.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbPolar.Name = "tbPolar";
+            this.tbPolar.Size = new System.Drawing.Size(30, 20);
+            this.tbPolar.Text = "toolStripButton3";
+            this.tbPolar.ToolTipText = "Polar plot";
             // 
-            // toolStripMenuItem6
+            // tbAnisotropic
             // 
-            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(177, 6);
+            this.tbAnisotropic.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbAnisotropic.Image = ((System.Drawing.Image)(resources.GetObject("tbAnisotropic.Image")));
+            this.tbAnisotropic.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbAnisotropic.Name = "tbAnisotropic";
+            this.tbAnisotropic.Size = new System.Drawing.Size(30, 20);
+            this.tbAnisotropic.Text = "toolStripButton4";
+            this.tbAnisotropic.ToolTipText = "Anisotropic plot";
             // 
-            // ScrollCentre
+            // tbProperties
             // 
-            this.ScrollCentre.Name = "ScrollCentre";
-            this.ScrollCentre.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Home)));
-            this.ScrollCentre.Size = new System.Drawing.Size(180, 22);
-            this.ScrollCentre.Text = "&Centre";
-            this.ScrollCentre.ToolTipText = "Return the origin (0,0) to the centre of the display area";
+            this.tbProperties.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbProperties.Image = ((System.Drawing.Image)(resources.GetObject("tbProperties.Image")));
+            this.tbProperties.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbProperties.Name = "tbProperties";
+            this.tbProperties.Size = new System.Drawing.Size(30, 20);
+            this.tbProperties.Text = "toolStripButton5";
+            this.tbProperties.ToolTipText = "Graph properties";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(30, 6);
+            // 
+            // tbTimer
+            // 
+            this.tbTimer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbTimer.Image = ((System.Drawing.Image)(resources.GetObject("tbTimer.Image")));
+            this.tbTimer.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbTimer.Name = "tbTimer";
+            this.tbTimer.Size = new System.Drawing.Size(30, 20);
+            this.tbTimer.Text = "toolStripButton1";
+            this.tbTimer.ToolTipText = "Timer";
+            // 
+            // ToolbarImages
+            // 
+            this.ToolbarImages.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.ToolbarImages.ImageSize = new System.Drawing.Size(16, 16);
+            this.ToolbarImages.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // AppForm
             // 
@@ -538,6 +727,7 @@
             this.ClientSize = new System.Drawing.Size(944, 501);
             this.ContextMenuStrip = this.PopupMenu;
             this.Controls.Add(this.ClientPanel);
+            this.Controls.Add(this.Toolbar);
             this.Controls.Add(this.StatusBar);
             this.Controls.Add(this.MainMenu);
             this.MainMenuStrip = this.MainMenu;
@@ -551,6 +741,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).EndInit();
             this.ClientPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
+            this.Toolbar.ResumeLayout(false);
+            this.Toolbar.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -612,5 +804,23 @@
         public System.Windows.Forms.ToolStripMenuItem ScrollDown;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
         public System.Windows.Forms.ToolStripMenuItem ScrollCentre;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
+        public System.Windows.Forms.ToolStripMenuItem GraphType;
+        public System.Windows.Forms.ToolStripMenuItem GraphTypeCartesian;
+        public System.Windows.Forms.ToolStripMenuItem GraphTypePolar;
+        public System.Windows.Forms.ToolStripMenuItem GraphTypeAnisotropic;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ImageList ToolbarImages;
+        public System.Windows.Forms.ToolStrip Toolbar;
+        public System.Windows.Forms.ToolStripButton tbNew;
+        public System.Windows.Forms.ToolStripButton tbOpen;
+        public System.Windows.Forms.ToolStripButton tbSave;
+        public System.Windows.Forms.ToolStripButton tbAdd;
+        public System.Windows.Forms.ToolStripButton tbCartesian;
+        public System.Windows.Forms.ToolStripButton tbPolar;
+        public System.Windows.Forms.ToolStripButton tbAnisotropic;
+        public System.Windows.Forms.ToolStripButton tbProperties;
+        public System.Windows.Forms.ToolStripButton tbTimer;
     }
 }

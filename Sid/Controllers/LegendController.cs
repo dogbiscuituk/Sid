@@ -27,6 +27,7 @@
             {
                 if (View != null)
                 {
+                    // Main Menu
                     View.GraphAddNewFunction.Click -= GraphAddNewFunction_Click;
                     View.ViewLegend.DropDownOpening -= ViewLegend_DropDownOpening;
                     View.ViewLegendTopLeft.Click -= ViewLegendTopLeft_Click;
@@ -34,10 +35,13 @@
                     View.ViewLegendBottomLeft.Click -= ViewLegendBottomLeft_Click;
                     View.ViewLegendBottomRight.Click -= ViewLegendBottomRight_Click;
                     View.ViewLegendHide.Click -= ViewLegendHide_Click;
+                    // Toolbar
+                    View.tbAdd.Click -= GraphAddNewFunction_Click;
                 }
                 _view = value;
                 if (View != null)
                 {
+                    // Main Menu
                     View.GraphAddNewFunction.Click += GraphAddNewFunction_Click;
                     View.ViewLegend.DropDownOpening += ViewLegend_DropDownOpening;
                     View.ViewLegendTopLeft.Click += ViewLegendTopLeft_Click;
@@ -45,6 +49,8 @@
                     View.ViewLegendBottomLeft.Click += ViewLegendBottomLeft_Click;
                     View.ViewLegendBottomRight.Click += ViewLegendBottomRight_Click;
                     View.ViewLegendHide.Click += ViewLegendHide_Click;
+                    // Toolbar
+                    View.tbAdd.Click += GraphAddNewFunction_Click;
                 }
             }
         }

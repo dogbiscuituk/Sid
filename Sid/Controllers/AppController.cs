@@ -76,16 +76,23 @@
             {
                 if (View != null)
                 {
+                    // Clock
                     Clock.Stop();
                     Clock.Tick -= Clock_Tick;
+                    // Form
                     View.FormClosing -= View_FormClosing;
                     View.Resize -= View_Resize;
+                    // Main Menu
                     View.FileMenu.DropDownOpening -= FileMenu_DropDownOpening;
                     View.FileNew.Click -= FileNew_Click;
                     View.FileOpen.Click -= FileOpen_Click;
                     View.FileSave.Click -= FileSave_Click;
                     View.FileSaveAs.Click -= FileSaveAs_Click;
                     View.FileExit.Click -= FileExit_Click;
+                    View.GraphType.DropDownOpening -= GraphType_DropDownOpening;
+                    View.GraphTypeCartesian.Click -= GraphTypeCartesian_Click;
+                    View.GraphTypePolar.Click -= GraphTypePolar_Click;
+                    View.GraphTypeAnisotropic.Click -= GraphTypeAnisotropic_Click;
                     View.GraphProperties.Click -= GraphProperties_Click;
                     View.ViewCoordinatesTooltip.Click -= ViewCoordinatesTooltip_Click;
                     View.ZoomIn.Click -= ZoomIn_Click;
@@ -102,6 +109,16 @@
                     View.TimerReset.Click -= TimerReset_Click;
                     View.TimerInterval.SelectedIndexChanged -= TimerInterval_SelectedIndexChanged;
                     View.HelpAbout.Click -= HelpAbout_Click;
+                    // Toolbar
+                    View.tbNew.Click -= FileNew_Click;
+                    View.tbOpen.Click -= FileOpen_Click;
+                    View.tbSave.Click -= FileSave_Click;
+                    View.tbCartesian.Click -= GraphTypeCartesian_Click;
+                    View.tbPolar.Click -= GraphTypePolar_Click;
+                    View.tbAnisotropic.Click -= GraphTypeAnisotropic_Click;
+                    View.tbProperties.Click -= GraphProperties_Click;
+                    View.tbTimer.Click -= TimerRunPause_Click;
+                    // PictureBox
                     PictureBox.MouseDown -= PictureBox_MouseDown;
                     PictureBox.MouseLeave -= PictureBox_MouseLeave;
                     PictureBox.MouseMove -= PictureBox_MouseMove;
@@ -113,14 +130,20 @@
                 _view = value;
                 if (View != null)
                 {
+                    // Form
                     View.FormClosing += View_FormClosing;
                     View.Resize += View_Resize;
+                    // Main Menu
                     View.FileMenu.DropDownOpening += FileMenu_DropDownOpening;
                     View.FileNew.Click += FileNew_Click;
                     View.FileOpen.Click += FileOpen_Click;
                     View.FileSave.Click += FileSave_Click;
                     View.FileSaveAs.Click += FileSaveAs_Click;
                     View.FileExit.Click += FileExit_Click;
+                    View.GraphType.DropDownOpening += GraphType_DropDownOpening;
+                    View.GraphTypeCartesian.Click += GraphTypeCartesian_Click;
+                    View.GraphTypePolar.Click += GraphTypePolar_Click;
+                    View.GraphTypeAnisotropic.Click += GraphTypeAnisotropic_Click;
                     View.GraphProperties.Click += GraphProperties_Click;
                     View.ViewCoordinatesTooltip.Click += ViewCoordinatesTooltip_Click;
                     View.ZoomIn.Click += ZoomIn_Click;
@@ -137,6 +160,16 @@
                     View.TimerReset.Click += TimerReset_Click;
                     View.TimerInterval.SelectedIndexChanged += TimerInterval_SelectedIndexChanged;
                     View.HelpAbout.Click += HelpAbout_Click;
+                    // Toolbar
+                    View.tbNew.Click += FileNew_Click;
+                    View.tbOpen.Click += FileOpen_Click;
+                    View.tbSave.Click += FileSave_Click;
+                    View.tbCartesian.Click += GraphTypeCartesian_Click;
+                    View.tbPolar.Click += GraphTypePolar_Click;
+                    View.tbAnisotropic.Click += GraphTypeAnisotropic_Click;
+                    View.tbProperties.Click += GraphProperties_Click;
+                    View.tbTimer.Click += TimerRunPause_Click;
+                    // PictureBox
                     PictureBox.MouseDown += PictureBox_MouseDown;
                     PictureBox.MouseLeave += PictureBox_MouseLeave;
                     PictureBox.MouseMove += PictureBox_MouseMove;
@@ -144,6 +177,7 @@
                     PictureBox.MouseWheel += PictureBox_MouseWheel;
                     PictureBox.Paint += PictureBox_Paint;
                     PictureBox.Resize += PictureBox_Resize;
+                    // Clock
                     Clock = new Clock { Sync = View };
                     Clock.Tick += Clock_Tick;
                 }
@@ -160,6 +194,10 @@
         private void FileSave_Click(object sender, EventArgs e) => JsonController.Save();
         private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
+        private void GraphType_DropDownOpening(object sender, EventArgs e) => InitGraphTypeMenu();
+        private void GraphTypeCartesian_Click(object sender, EventArgs e) => Graph.PlotType = PlotType.Cartesian;
+        private void GraphTypePolar_Click(object sender, EventArgs e) => Graph.PlotType = PlotType.Polar;
+        private void GraphTypeAnisotropic_Click(object sender, EventArgs e) => Graph.PlotType = PlotType.Anisotropic;
         private void GraphProperties_Click(object sender, EventArgs e) => PropertiesController.Show(View);
         private void ZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
         private void ZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
@@ -189,6 +227,16 @@
         private void ViewCoordinatesTooltip_Click(object sender, EventArgs e) => ToggleCoordinatesTooltip();
         private void HelpAbout_Click(object sender, EventArgs e) => ShowVersionInfo();
 
+        private int Get_ms() => Get_ms(View.TimerInterval.SelectedItem);
+        private int Get_ms(object item) => int.Parse(item.ToString());
+
+        private void InitGraphTypeMenu()
+        {
+            View.GraphTypeCartesian.Checked = Graph.PlotType == PlotType.Cartesian;
+            View.GraphTypePolar.Checked = Graph.PlotType == PlotType.Polar;
+            View.GraphTypeAnisotropic.Checked = Graph.PlotType == PlotType.Anisotropic;
+        }
+
         private void ShowVersionInfo()
         {
             MessageBox.Show(
@@ -197,9 +245,6 @@ Product Name: {Application.ProductName}
 Version: {Application.ProductVersion}",
                 $"About {Application.ProductName}");
         }
-
-        private int Get_ms() => Get_ms(View.TimerInterval.SelectedItem);
-        private int Get_ms(object item) => int.Parse(item.ToString());
 
         #endregion
 
@@ -314,8 +359,7 @@ Version: {Application.ProductVersion}",
         private void AdjustFullScreen()
         {
             var normal = !FullScreen;
-            View.MainMenuStrip.Visible = normal;
-            View.StatusBar.Visible = normal;
+            View.MainMenuStrip.Visible = View.Toolbar.Visible = View.StatusBar.Visible = normal;
             if (FullScreen)
             {
                 View.FormBorderStyle = FormBorderStyle.None;
