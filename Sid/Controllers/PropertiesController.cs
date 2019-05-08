@@ -20,6 +20,7 @@
         private CheckedListBox ClbElements { get => View.ElementCheckboxes; }
         private Model Model { get; set; }
         private Graph Graph { get => Model.Graph; }
+        private CheckedListBox.ObjectCollection ElementItems { get => View.ElementCheckboxes.Items; }
         private ComboBox.ObjectCollection Optimizations { get => View.cbOptimization.Items; }
         private ComboBox.ObjectCollection PlotTypes { get => View.cbPlotType.Items; }
         private bool Loading, Updating;
@@ -244,6 +245,8 @@
         public void PlotTypeChanged(object sender, EventArgs e)
         {
             var polar = (PlotType)View.cbPlotType.SelectedIndex == PlotType.Polar;
+            ElementItems[1] = polar ? "Radial grid lines" : "Horizontal grid lines";
+            ElementItems[5] = polar ? "Tangential grid lines" : "Vertical grid lines";
             View.cbDomainGraphWidth.Visible = View.seDomainMinCartesian.Visible =
                 View.seDomainMaxCartesian.Visible = !polar;
             View.seDomainMinPolar.Visible = View.seDomainMaxPolar.Visible = 

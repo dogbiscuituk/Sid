@@ -299,14 +299,14 @@
             }
         }
 
-        private bool ShowXaxis { get => (Elements & Elements.Xaxis) != 0; }
-        private bool ShowYaxis { get => (Elements & Elements.Yaxis) != 0; }
-        private bool ShowXcal { get => (Elements & Elements.Xcalibration) != 0; }
-        private bool ShowYcal { get => (Elements & Elements.Ycalibration) != 0; }
-        private bool ShowXticks { get => (Elements & Elements.Xticks) != 0; }
-        private bool ShowYticks { get => (Elements & Elements.Yticks) != 0; }
-        private bool ShowHlines { get => (Elements & Elements.HorizontalGridLines) != 0; }
-        private bool ShowVlines { get => (Elements & Elements.VerticalGridLines) != 0; }
+        private bool Xaxis { get => (Elements & Elements.Xaxis) != 0; }
+        private bool Yaxis { get => (Elements & Elements.Yaxis) != 0; }
+        private bool Xcal { get => (Elements & Elements.Xcalibration) != 0; }
+        private bool Ycal { get => (Elements & Elements.Ycalibration) != 0; }
+        private bool Xticks { get => (Elements & Elements.Xticks) != 0; }
+        private bool Yticks { get => (Elements & Elements.Yticks) != 0; }
+        private bool Hlines { get => (Elements & Elements.HorizontalGridLines) != 0; }
+        private bool Vlines { get => (Elements & Elements.VerticalGridLines) != 0; }
 
         private int _stepCount;
         public int StepCount
@@ -412,23 +412,7 @@
 
         public void Draw(Graphics g, Rectangle r, double time)
         {
-            switch (Optimization)
-            {
-                case Optimization.HighQuality:
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    g.CompositingQuality = CompositingQuality.HighQuality;
-                    g.SmoothingMode = SmoothingMode.HighQuality;
-                    g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                    break;
-                case Optimization.HighSpeed:
-                    g.InterpolationMode = InterpolationMode.Low;
-                    g.CompositingQuality = CompositingQuality.HighSpeed;
-                    g.SmoothingMode = SmoothingMode.HighSpeed;
-                    g.TextRenderingHint = TextRenderingHint.SystemDefault;
-                    g.PixelOffsetMode = PixelOffsetMode.HighSpeed;
-                    break;
-            }
+            InitOptimization(g);
             g.Transform = GetMatrix(r);
             var penWidth = (Size.Width / r.Width + Size.Height / r.Height);
             InitProxies();
@@ -443,100 +427,6 @@
                 if (fill)
                     DrawGrid(g, penWidth);
             }
-        }
-
-        private void DrawGrid(Graphics g, float penWidth)
-        {
-            var limits = Limits;
-            float x1 = limits.X, y1 = limits.Bottom, x2 = limits.Right, y2 = limits.Top;
-            using (Pen gridPen = new Pen(GridColour, penWidth) { DashStyle = DashStyle.Dot },
-                axisPen = new Pen(AxisColour, penWidth))
-            using (var font = new Font("Arial", 5 * penWidth))
-            using (var format = new StringFormat(StringFormat.GenericTypographic) { Alignment = StringAlignment.Far })
-            {
-                var brush = Brushes.DarkGray;
-                double
-                    logX = Math.Log10(Math.Abs(x2 - x1)),
-                    logY = Math.Log10(Math.Abs(y2 - y1));
-                for (var phase = 0; phase < 4; phase++)
-                {
-                    var gridPhase = (GridPhase)phase;
-                    var vertical = gridPhase == GridPhase.VerticalLines || gridPhase == GridPhase.Yaxis;
-                    if (gridPhase == GridPhase.HorizontalLines || gridPhase == GridPhase.VerticalLines)
-                    {
-                        var log = PlotType != PlotType.Anisotropic || vertical ? logX : logY;
-                        var order = Math.Floor(log);
-                        var scale = log - order;
-                        double increment = scale < 0.3 ? 2 : scale < 0.7 ? 5 : 10;
-                        BumpDown(ref increment);
-                        BumpDown(ref increment);
-                        for (var pass = 0; pass < 3; pass++)
-                        {
-                            var gridPass = (GridPass)pass;
-                            var dy = increment * Math.Pow(10, order - 1);
-                            for (var y = 0.0; y <= Math.Max(Math.Abs(y1), Math.Abs(y2)); y += dy)
-                            {
-                                var pen = gridPass == GridPass.Ticks ? axisPen : gridPen;
-                                DrawGridLine(g, pen, font, brush, x1, x2, (float)y, format, vertical, gridPass);
-                                if (y != 0.0)
-                                    DrawGridLine(g, pen, font, brush, x1, x2, -(float)y, format, vertical, gridPass);
-                            }
-                            BumpUp(ref increment);
-                        }
-                    }
-                    else
-                        DrawGridLine(g, axisPen, font, brush, x1, x2, 0, format, vertical, GridPass.Axes);
-                    var t = x1; x1 = y1; y1 = t;
-                    t = x2; x2 = y2; y2 = t;
-                }
-            }
-        }
-
-        private void BumpDown(ref double value) => value = value == 5 ? 2 : value / 2;
-        private void BumpUp(ref double value) => value = value == 2 ? 5 : value * 2;
-
-        private void DrawGridLine(Graphics g, Pen pen, Font font, Brush brush,
-            float x1, float x2, float y, StringFormat format, bool vertical, GridPass gridPass)
-        {
-            if (gridPass == GridPass.Ticks)
-            {
-                var tickSize = font.Size;
-                x1 = (TickStyles & TickStyles.Positive) != 0 ? tickSize : 0;
-                x2 = (TickStyles & TickStyles.Negative) != 0 ? tickSize : 0;
-            }
-            float x = 0, y1 = y, y2 = y, z = -y;
-            if (vertical)
-            {
-                var t = x; x = y; y = t;
-                t = x1; x1 = y1; y1 = t;
-                t = x2; x2 = y2; y2 = t;
-                z = -z;
-            }
-            switch (gridPass)
-            {
-                case GridPass.Axes when vertical && ShowYaxis || !vertical && ShowXaxis:
-                case GridPass.Lines when vertical && ShowVlines || !vertical && ShowHlines:
-                    g.DrawLine(pen, x1, y1, x2, y2);
-                    break;
-                case GridPass.Calibration when vertical && ShowXcal || !vertical && ShowYcal:
-                    g.ScaleTransform(1, -1);
-                    g.DrawString(z.ToString(), font, brush, x - pen.Width, y + pen.Width, format);
-                    g.ScaleTransform(1, -1);
-                    break;
-                case GridPass.Ticks:
-                    if (vertical && ShowXticks || !vertical && ShowYticks)
-                        g.DrawLine(pen, x1, y1, x2, y2);
-                    break;
-            }
-        }
-
-        private Matrix GetMatrix(Rectangle r)
-        {
-            return new Matrix(Limits, new[]
-            {
-                new PointF(r.Left, r.Bottom),
-                new PointF(r.Right, r.Bottom), r.Location
-            });
         }
 
         public void InitProxies()
@@ -582,6 +472,123 @@
             matrix.Invert();
             matrix.TransformPoints(points);
             return points[0];
+        }
+
+        private void BumpDown(ref double value) => value = value == 5 ? 2 : value / 2;
+        private void BumpUp(ref double value) => value = value == 2 ? 5 : value * 2;
+
+        private void DrawGrid(Graphics g, float penWidth)
+        {
+            var limits = Limits;
+            float x1 = limits.X, y1 = limits.Bottom, x2 = limits.Right, y2 = limits.Top;
+            using (Pen gridPen = new Pen(GridColour, penWidth) { DashStyle = DashStyle.Dot },
+                axisPen = new Pen(AxisColour, penWidth))
+            using (var font = new Font("Arial", 5 * penWidth))
+            using (var format = new StringFormat(StringFormat.GenericTypographic) {
+                Alignment = StringAlignment.Far })
+            {
+                var brush = Brushes.DarkGray;
+                double
+                    logX = Math.Log10(Math.Abs(x2 - x1)),
+                    logY = Math.Log10(Math.Abs(y2 - y1));
+                for (var phase = (GridPhase)0; (int)phase < 4; phase++)
+                {
+                    var vertical = phase == GridPhase.VerticalLines || phase == GridPhase.Yaxis;
+                    if (phase == GridPhase.HorizontalLines || phase == GridPhase.VerticalLines)
+                    {
+                        var log = PlotType != PlotType.Anisotropic || vertical ? logX : logY;
+                        var order = Math.Floor(log);
+                        var scale = log - order;
+                        double increment = scale < 0.3 ? 2 : scale < 0.7 ? 5 : 10;
+                        BumpDown(ref increment);
+                        BumpDown(ref increment);
+                        for (var pass = (GridPass)0; (int)pass < 3; pass++)
+                        {
+                            var dy = increment * Math.Pow(10, order - 1);
+                            for (var y = 0.0; y <= Math.Max(Math.Abs(y1), Math.Abs(y2)); y += dy)
+                            {
+                                var pen = pass == GridPass.Ticks ? axisPen : gridPen;
+                                DrawGridLine(g, pen, font, brush, x1, x2, (float)y, format, vertical, pass);
+                                if (y != 0.0)
+                                    DrawGridLine(g, pen, font, brush, x1, x2, -(float)y, format, vertical, pass);
+                            }
+                            BumpUp(ref increment);
+                        }
+                    }
+                    else
+                        DrawGridLine(g, axisPen, font, brush, x1, x2, 0, format, vertical, GridPass.Axes);
+                    var t = x1; x1 = y1; y1 = t;
+                    t = x2; x2 = y2; y2 = t;
+                }
+            }
+        }
+
+        private void DrawGridLine(Graphics g, Pen pen, Font font, Brush brush,
+            float x1, float x2, float y, StringFormat format, bool v, GridPass pass)
+        {
+            if (pass == GridPass.Ticks)
+            {
+                var tickSize = font.Size;
+                x1 = (TickStyles & TickStyles.Positive) != 0 ? tickSize : 0;
+                x2 = (TickStyles & TickStyles.Negative) != 0 ? tickSize : 0;
+            }
+            float x = 0, y1 = y, y2 = y, z = -y;
+            if (v)
+            {
+                var t = x; x = y; y = t;
+                t = x1; x1 = y1; y1 = t;
+                t = x2; x2 = y2; y2 = t;
+                z = -z;
+            }
+            switch (pass)
+            {
+                case GridPass.Axes when v && Yaxis || !v && Xaxis:
+                case GridPass.Lines when (v && Vlines || !v && Hlines) && PlotType != PlotType.Polar:
+                    g.DrawLine(pen, x1, y1, x2, y2);
+                    break;
+                case GridPass.Lines when v && Vlines && PlotType == PlotType.Polar:
+                    g.DrawEllipse(pen, -x1, -x1, 2 * x1, 2 * x1);
+                    break;
+                case GridPass.Calibration when v && Xcal || !v && Ycal:
+                    g.ScaleTransform(1, -1);
+                    g.DrawString(z.ToString(), font, brush, x - pen.Width, y + pen.Width, format);
+                    g.ScaleTransform(1, -1);
+                    break;
+                case GridPass.Ticks:
+                    if (v && Xticks || !v && Yticks)
+                        g.DrawLine(pen, x1, y1, x2, y2);
+                    break;
+            }
+        }
+
+        private Matrix GetMatrix(Rectangle r)
+        {
+            return new Matrix(Limits, new[]
+            {
+                new PointF(r.Left, r.Bottom),
+                new PointF(r.Right, r.Bottom), r.Location
+            });
+        }
+
+        private void InitOptimization(Graphics g)
+        {
+            switch (Optimization)
+            {
+                case Optimization.HighQuality:
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    g.CompositingQuality = CompositingQuality.HighQuality;
+                    g.SmoothingMode = SmoothingMode.HighQuality;
+                    g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    return;
+                case Optimization.HighSpeed:
+                    g.InterpolationMode = InterpolationMode.Low;
+                    g.CompositingQuality = CompositingQuality.HighSpeed;
+                    g.SmoothingMode = SmoothingMode.HighSpeed;
+                    g.TextRenderingHint = TextRenderingHint.SystemDefault;
+                    g.PixelOffsetMode = PixelOffsetMode.HighSpeed;
+                    return;
+            }
         }
 
         #endregion
