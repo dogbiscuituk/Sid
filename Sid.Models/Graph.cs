@@ -481,24 +481,22 @@
         {
             var limits = Limits;
             float x1 = limits.X, y1 = limits.Bottom, x2 = limits.Right, y2 = limits.Top;
+            var log = Math.Log10(Math.Abs(x2 - x1));
+            var order = Math.Floor(log);
+            var scale = log - order;
             using (Pen gridPen = new Pen(GridColour, penWidth) { DashStyle = DashStyle.Dot },
                 axisPen = new Pen(AxisColour, penWidth))
             using (var font = new Font("Arial", 5 * penWidth))
             using (var format = new StringFormat(StringFormat.GenericTypographic) {
                 Alignment = StringAlignment.Far })
             {
+
                 var brush = Brushes.DarkGray;
-                double
-                    logX = Math.Log10(Math.Abs(x2 - x1)),
-                    logY = Math.Log10(Math.Abs(y2 - y1));
                 for (var phase = (GridPhase)0; (int)phase < 4; phase++)
                 {
                     var vertical = phase == GridPhase.VerticalLines || phase == GridPhase.Yaxis;
                     if (phase == GridPhase.HorizontalLines || phase == GridPhase.VerticalLines)
                     {
-                        var log = PlotType != PlotType.Anisotropic || vertical ? logX : logY;
-                        var order = Math.Floor(log);
-                        var scale = log - order;
                         double increment = scale < 0.3 ? 2 : scale < 0.7 ? 5 : 10;
                         BumpDown(ref increment);
                         BumpDown(ref increment);

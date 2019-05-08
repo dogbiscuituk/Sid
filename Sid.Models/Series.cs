@@ -262,7 +262,6 @@
             switch (plotType)
             {
                 case PlotType.Cartesian:
-                case PlotType.Anisotropic:
                     var points = new PointF[n + 2];
                     p.CopyTo(points);
                     points[n] = new PointF(points[n - 1].X, 0);

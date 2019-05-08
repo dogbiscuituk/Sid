@@ -4,11 +4,9 @@
 
     public enum PlotType
     {
-        [Description("Cartesian - isotropic")]
+        [Description("Cartesian")]
         Cartesian,
-        [Description("Polar - isotropic")]
-        Polar,
-        [Description("Anisotropic")]
-        Anisotropic
+        [Description("Polar")]
+        Polar
     }
 }

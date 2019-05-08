@@ -94,7 +94,6 @@
                     View.FileExit.Click -= FileExit_Click;
                     View.GraphTypeCartesian.Click -= GraphTypeCartesian_Click;
                     View.GraphTypePolar.Click -= GraphTypePolar_Click;
-                    View.GraphTypeAnisotropic.Click -= GraphTypeAnisotropic_Click;
                     View.GraphProperties.Click -= GraphProperties_Click;
                     View.ViewCoordinatesTooltip.Click -= ViewCoordinatesTooltip_Click;
                     View.ZoomIn.Click -= ZoomIn_Click;
@@ -116,7 +115,6 @@
                     View.tbSave.Click -= FileSaveAs_Click;
                     View.tbCartesian.Click -= GraphTypeCartesian_Click;
                     View.tbPolar.Click -= GraphTypePolar_Click;
-                    View.tbAnisotropic.Click -= GraphTypeAnisotropic_Click;
                     View.tbProperties.Click -= GraphProperties_Click;
                     View.tbTimer.Click -= TimerRunPause_Click;
                     // PictureBox
@@ -143,7 +141,6 @@
                     View.FileExit.Click += FileExit_Click;
                     View.GraphTypeCartesian.Click += GraphTypeCartesian_Click;
                     View.GraphTypePolar.Click += GraphTypePolar_Click;
-                    View.GraphTypeAnisotropic.Click += GraphTypeAnisotropic_Click;
                     View.GraphProperties.Click += GraphProperties_Click;
                     View.ViewCoordinatesTooltip.Click += ViewCoordinatesTooltip_Click;
                     View.ZoomIn.Click += ZoomIn_Click;
@@ -165,7 +162,6 @@
                     View.tbSave.Click += FileSaveAs_Click;
                     View.tbCartesian.Click += GraphTypeCartesian_Click;
                     View.tbPolar.Click += GraphTypePolar_Click;
-                    View.tbAnisotropic.Click += GraphTypeAnisotropic_Click;
                     View.tbProperties.Click += GraphProperties_Click;
                     View.tbTimer.Click += TimerRunPause_Click;
                     // PictureBox
@@ -195,7 +191,6 @@
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
         private void GraphTypeCartesian_Click(object sender, EventArgs e) => Graph.PlotType = PlotType.Cartesian;
         private void GraphTypePolar_Click(object sender, EventArgs e) => Graph.PlotType = PlotType.Polar;
-        private void GraphTypeAnisotropic_Click(object sender, EventArgs e) => Graph.PlotType = PlotType.Anisotropic;
         private void GraphProperties_Click(object sender, EventArgs e) => PropertiesController.Show(View);
         private void ZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
         private void ZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
@@ -278,8 +273,6 @@ Version: {Application.ProductVersion}",
                 View.tbCartesian.Checked = Graph.PlotType == PlotType.Cartesian;
             View.GraphTypePolar.Checked =
                 View.tbPolar.Checked = Graph.PlotType == PlotType.Polar;
-            View.GraphTypeAnisotropic.Checked =
-                View.tbAnisotropic.Checked = Graph.PlotType == PlotType.Anisotropic;
         }
 
         #endregion
@@ -399,21 +392,18 @@ Version: {Application.ProductVersion}",
         {
             int cW = ClientPanel.ClientSize.Width, cH = ClientPanel.ClientSize.Height;
             var r = new Rectangle(0, 0, cW, cH);
-            if (Graph.PlotType != PlotType.Anisotropic)
+            float gW = Graph.Size.Width, gH = Graph.Size.Height;
+            if (gW > gH * cW / cH)
             {
-                float gW = Graph.Size.Width, gH = Graph.Size.Height;
-                if (gW > gH * cW / cH)
-                {
-                    var h = gH * cW / gW;
-                    r.Y = (int)Math.Round((cH - h) / 2);
-                    r.Height = (int)(Math.Round(h));
-                }
-                else
-                {
-                    var w = gW * cH / gH;
-                    r.X = (int)Math.Round((cW - w) / 2);
-                    r.Width = (int)(Math.Round(w));
-                }
+                var h = gH * cW / gW;
+                r.Y = (int)Math.Round((cH - h) / 2);
+                r.Height = (int)(Math.Round(h));
+            }
+            else
+            {
+                var w = gW * cH / gH;
+                r.X = (int)Math.Round((cW - w) / 2);
+                r.Width = (int)(Math.Round(w));
             }
             PictureBox.SetBounds(r.X, r.Y, r.Width, r.Height);
         }
