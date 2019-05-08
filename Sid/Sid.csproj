@@ -132,5 +132,35 @@
       <DependentUpon>Mathboard.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\Add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\Anisotropic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\Cartesian.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\New.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\Open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\Polar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\Properties.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\Save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\Settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\Timer.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

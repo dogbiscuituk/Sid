@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppForm));
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -94,16 +93,12 @@
             this.tbNew = new System.Windows.Forms.ToolStripButton();
             this.tbOpen = new System.Windows.Forms.ToolStripButton();
             this.tbSave = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tbAdd = new System.Windows.Forms.ToolStripButton();
             this.tbCartesian = new System.Windows.Forms.ToolStripButton();
             this.tbPolar = new System.Windows.Forms.ToolStripButton();
             this.tbAnisotropic = new System.Windows.Forms.ToolStripButton();
             this.tbProperties = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.tbTimer = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.tbTimer = new System.Windows.Forms.ToolStripSplitButton();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
@@ -143,6 +138,7 @@
             // 
             // FileNew
             // 
+            this.FileNew.Image = global::Sid.Properties.Resources.New;
             this.FileNew.Name = "FileNew";
             this.FileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.FileNew.Size = new System.Drawing.Size(180, 22);
@@ -150,6 +146,7 @@
             // 
             // FileOpen
             // 
+            this.FileOpen.Image = global::Sid.Properties.Resources.Open;
             this.FileOpen.Name = "FileOpen";
             this.FileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.FileOpen.Size = new System.Drawing.Size(180, 22);
@@ -168,6 +165,7 @@
             // 
             // FileSave
             // 
+            this.FileSave.Image = global::Sid.Properties.Resources.Save;
             this.FileSave.Name = "FileSave";
             this.FileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.FileSave.Size = new System.Drawing.Size(180, 22);
@@ -204,6 +202,7 @@
             // 
             // GraphAddNewFunction
             // 
+            this.GraphAddNewFunction.Image = global::Sid.Properties.Resources.Add;
             this.GraphAddNewFunction.Name = "GraphAddNewFunction";
             this.GraphAddNewFunction.ShortcutKeys = System.Windows.Forms.Keys.F2;
             this.GraphAddNewFunction.Size = new System.Drawing.Size(201, 22);
@@ -211,6 +210,7 @@
             // 
             // GraphProperties
             // 
+            this.GraphProperties.Image = global::Sid.Properties.Resources.Properties;
             this.GraphProperties.Name = "GraphProperties";
             this.GraphProperties.ShortcutKeys = System.Windows.Forms.Keys.F3;
             this.GraphProperties.Size = new System.Drawing.Size(201, 22);
@@ -416,6 +416,7 @@
             // 
             // TimerRunPause
             // 
+            this.TimerRunPause.Image = global::Sid.Properties.Resources.Timer;
             this.TimerRunPause.Name = "TimerRunPause";
             this.TimerRunPause.ShortcutKeys = System.Windows.Forms.Keys.F9;
             this.TimerRunPause.Size = new System.Drawing.Size(181, 22);
@@ -534,7 +535,7 @@
             this.ClientPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ClientPanel.Location = new System.Drawing.Point(0, 24);
             this.ClientPanel.Name = "ClientPanel";
-            this.ClientPanel.Size = new System.Drawing.Size(921, 455);
+            this.ClientPanel.Size = new System.Drawing.Size(912, 455);
             this.ClientPanel.TabIndex = 6;
             // 
             // LegendPanel
@@ -571,6 +572,7 @@
             // 
             // GraphTypeCartesian
             // 
+            this.GraphTypeCartesian.Image = global::Sid.Properties.Resources.Cartesian;
             this.GraphTypeCartesian.Name = "GraphTypeCartesian";
             this.GraphTypeCartesian.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.C)));
@@ -579,6 +581,7 @@
             // 
             // GraphTypePolar
             // 
+            this.GraphTypePolar.Image = global::Sid.Properties.Resources.Polar;
             this.GraphTypePolar.Name = "GraphTypePolar";
             this.GraphTypePolar.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.P)));
@@ -587,6 +590,7 @@
             // 
             // GraphTypeAnisotropic
             // 
+            this.GraphTypeAnisotropic.Image = global::Sid.Properties.Resources.Anisotropic;
             this.GraphTypeAnisotropic.Name = "GraphTypeAnisotropic";
             this.GraphTypeAnisotropic.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.A)));
@@ -601,133 +605,106 @@
             this.tbNew,
             this.tbOpen,
             this.tbSave,
-            this.toolStripSeparator1,
             this.tbAdd,
-            this.toolStripSeparator3,
             this.tbCartesian,
             this.tbPolar,
             this.tbAnisotropic,
-            this.toolStripSeparator4,
             this.tbProperties,
-            this.toolStripSeparator2,
             this.tbTimer});
-            this.Toolbar.Location = new System.Drawing.Point(921, 24);
+            this.Toolbar.Location = new System.Drawing.Point(912, 24);
             this.Toolbar.Name = "Toolbar";
             this.Toolbar.Padding = new System.Windows.Forms.Padding(0);
-            this.Toolbar.Size = new System.Drawing.Size(23, 455);
+            this.Toolbar.Size = new System.Drawing.Size(32, 455);
             this.Toolbar.TabIndex = 11;
             // 
             // tbNew
             // 
             this.tbNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbNew.Image = ((System.Drawing.Image)(resources.GetObject("tbNew.Image")));
+            this.tbNew.Image = global::Sid.Properties.Resources.New;
             this.tbNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbNew.Name = "tbNew";
-            this.tbNew.Size = new System.Drawing.Size(22, 20);
+            this.tbNew.Size = new System.Drawing.Size(31, 20);
             this.tbNew.Text = "toolStripButton1";
             this.tbNew.ToolTipText = "Create a new file";
             // 
             // tbOpen
             // 
             this.tbOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbOpen.Image = ((System.Drawing.Image)(resources.GetObject("tbOpen.Image")));
+            this.tbOpen.Image = global::Sid.Properties.Resources.Open;
             this.tbOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbOpen.Name = "tbOpen";
-            this.tbOpen.Size = new System.Drawing.Size(30, 20);
+            this.tbOpen.Size = new System.Drawing.Size(31, 20);
             this.tbOpen.Text = "toolStripButton2";
             this.tbOpen.ToolTipText = "Open an existing file";
             // 
             // tbSave
             // 
             this.tbSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbSave.Image = ((System.Drawing.Image)(resources.GetObject("tbSave.Image")));
+            this.tbSave.Image = global::Sid.Properties.Resources.Save;
             this.tbSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbSave.Name = "tbSave";
-            this.tbSave.Size = new System.Drawing.Size(30, 20);
+            this.tbSave.Size = new System.Drawing.Size(31, 20);
             this.tbSave.Text = "toolStripButton3";
             this.tbSave.ToolTipText = "Save to file";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(30, 6);
             // 
             // tbAdd
             // 
             this.tbAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbAdd.Image = ((System.Drawing.Image)(resources.GetObject("tbAdd.Image")));
+            this.tbAdd.Image = global::Sid.Properties.Resources.Add;
             this.tbAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbAdd.Name = "tbAdd";
-            this.tbAdd.Size = new System.Drawing.Size(30, 20);
+            this.tbAdd.Size = new System.Drawing.Size(31, 20);
             this.tbAdd.Text = "toolStripButton1";
             this.tbAdd.ToolTipText = "Add a new function";
             // 
             // tbCartesian
             // 
-            this.tbCartesian.Checked = true;
-            this.tbCartesian.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tbCartesian.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbCartesian.Image = ((System.Drawing.Image)(resources.GetObject("tbCartesian.Image")));
+            this.tbCartesian.Image = global::Sid.Properties.Resources.Cartesian;
             this.tbCartesian.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbCartesian.Name = "tbCartesian";
-            this.tbCartesian.Size = new System.Drawing.Size(30, 20);
+            this.tbCartesian.Size = new System.Drawing.Size(31, 20);
             this.tbCartesian.Text = "toolStripButton2";
             this.tbCartesian.ToolTipText = "Cartesian (rectangular) plot";
             // 
             // tbPolar
             // 
             this.tbPolar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbPolar.Image = ((System.Drawing.Image)(resources.GetObject("tbPolar.Image")));
+            this.tbPolar.Image = global::Sid.Properties.Resources.Polar;
             this.tbPolar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbPolar.Name = "tbPolar";
-            this.tbPolar.Size = new System.Drawing.Size(30, 20);
+            this.tbPolar.Size = new System.Drawing.Size(31, 20);
             this.tbPolar.Text = "toolStripButton3";
             this.tbPolar.ToolTipText = "Polar plot";
             // 
             // tbAnisotropic
             // 
             this.tbAnisotropic.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbAnisotropic.Image = ((System.Drawing.Image)(resources.GetObject("tbAnisotropic.Image")));
+            this.tbAnisotropic.Image = global::Sid.Properties.Resources.Anisotropic;
             this.tbAnisotropic.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbAnisotropic.Name = "tbAnisotropic";
-            this.tbAnisotropic.Size = new System.Drawing.Size(22, 20);
+            this.tbAnisotropic.Size = new System.Drawing.Size(31, 20);
             this.tbAnisotropic.Text = "toolStripButton4";
             this.tbAnisotropic.ToolTipText = "Anisotropic plot";
             // 
             // tbProperties
             // 
             this.tbProperties.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbProperties.Image = ((System.Drawing.Image)(resources.GetObject("tbProperties.Image")));
+            this.tbProperties.Image = global::Sid.Properties.Resources.Properties;
             this.tbProperties.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbProperties.Name = "tbProperties";
-            this.tbProperties.Size = new System.Drawing.Size(22, 20);
+            this.tbProperties.Size = new System.Drawing.Size(31, 20);
             this.tbProperties.Text = "toolStripButton5";
             this.tbProperties.ToolTipText = "Graph properties";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(30, 6);
             // 
             // tbTimer
             // 
             this.tbTimer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbTimer.Image = ((System.Drawing.Image)(resources.GetObject("tbTimer.Image")));
+            this.tbTimer.Image = global::Sid.Properties.Resources.Timer;
             this.tbTimer.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbTimer.Name = "tbTimer";
-            this.tbTimer.Size = new System.Drawing.Size(22, 20);
-            this.tbTimer.Text = "toolStripButton1";
-            this.tbTimer.ToolTipText = "Timer";
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(22, 6);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(22, 6);
+            this.tbTimer.Size = new System.Drawing.Size(31, 20);
+            this.tbTimer.Text = "toolStripSplitButton1";
             // 
             // AppForm
             // 
@@ -818,8 +795,6 @@
         public System.Windows.Forms.ToolStripMenuItem GraphTypeCartesian;
         public System.Windows.Forms.ToolStripMenuItem GraphTypePolar;
         public System.Windows.Forms.ToolStripMenuItem GraphTypeAnisotropic;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         public System.Windows.Forms.ToolStrip Toolbar;
         public System.Windows.Forms.ToolStripButton tbNew;
         public System.Windows.Forms.ToolStripButton tbOpen;
@@ -829,8 +804,6 @@
         public System.Windows.Forms.ToolStripButton tbPolar;
         public System.Windows.Forms.ToolStripButton tbAnisotropic;
         public System.Windows.Forms.ToolStripButton tbProperties;
-        public System.Windows.Forms.ToolStripButton tbTimer;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        public System.Windows.Forms.ToolStripSplitButton tbTimer;
     }
 }
