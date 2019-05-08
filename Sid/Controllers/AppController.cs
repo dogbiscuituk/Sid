@@ -27,6 +27,7 @@
             LegendController = new LegendController(this);
             AdjustPictureBox();
             UpdateCaption();
+            UpdatePlotTypeUI();
         }
 
         #region Properties
@@ -89,7 +90,6 @@
                     View.FileSave.Click -= FileSave_Click;
                     View.FileSaveAs.Click -= FileSaveAs_Click;
                     View.FileExit.Click -= FileExit_Click;
-                    View.GraphType.DropDownOpening -= GraphType_DropDownOpening;
                     View.GraphTypeCartesian.Click -= GraphTypeCartesian_Click;
                     View.GraphTypePolar.Click -= GraphTypePolar_Click;
                     View.GraphTypeAnisotropic.Click -= GraphTypeAnisotropic_Click;
@@ -140,7 +140,6 @@
                     View.FileSave.Click += FileSave_Click;
                     View.FileSaveAs.Click += FileSaveAs_Click;
                     View.FileExit.Click += FileExit_Click;
-                    View.GraphType.DropDownOpening += GraphType_DropDownOpening;
                     View.GraphTypeCartesian.Click += GraphTypeCartesian_Click;
                     View.GraphTypePolar.Click += GraphTypePolar_Click;
                     View.GraphTypeAnisotropic.Click += GraphTypeAnisotropic_Click;
@@ -194,7 +193,6 @@
         private void FileSave_Click(object sender, EventArgs e) => JsonController.Save();
         private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
-        private void GraphType_DropDownOpening(object sender, EventArgs e) => InitGraphTypeMenu();
         private void GraphTypeCartesian_Click(object sender, EventArgs e) => Graph.PlotType = PlotType.Cartesian;
         private void GraphTypePolar_Click(object sender, EventArgs e) => Graph.PlotType = PlotType.Polar;
         private void GraphTypeAnisotropic_Click(object sender, EventArgs e) => Graph.PlotType = PlotType.Anisotropic;
@@ -229,13 +227,6 @@
 
         private int Get_ms() => Get_ms(View.TimerInterval.SelectedItem);
         private int Get_ms(object item) => int.Parse(item.ToString());
-
-        private void InitGraphTypeMenu()
-        {
-            View.GraphTypeCartesian.Checked = Graph.PlotType == PlotType.Cartesian;
-            View.GraphTypePolar.Checked = Graph.PlotType == PlotType.Polar;
-            View.GraphTypeAnisotropic.Checked = Graph.PlotType == PlotType.Anisotropic;
-        }
 
         private void ShowVersionInfo()
         {
@@ -278,9 +269,20 @@ Version: {Application.ProductVersion}",
                     break;
                 case "Model.Graph.PlotType":
                     AdjustPictureBox();
+                    UpdatePlotTypeUI();
                     break;
             }
             InvalidatePictureBox();
+        }
+
+        private void UpdatePlotTypeUI()
+        {
+            View.GraphTypeCartesian.Checked =
+                View.tbCartesian.Checked = Graph.PlotType == PlotType.Cartesian;
+            View.GraphTypePolar.Checked =
+                View.tbPolar.Checked = Graph.PlotType == PlotType.Polar;
+            View.GraphTypeAnisotropic.Checked =
+                View.tbAnisotropic.Checked = Graph.PlotType == PlotType.Anisotropic;
         }
 
         #endregion
@@ -332,7 +334,7 @@ Version: {Application.ProductVersion}",
                     PictureBox.Left - MouseDownAt.X + e.X,
                     PictureBox.Top - MouseDownAt.Y + e.Y);
             else
-                UpdateMouseCoordinates(e);
+                UpdateMouseCoordinates(ScreenToGraph(e.Location));
         }
 
         private void PictureBox_MouseUp(object sender, MouseEventArgs e)
@@ -420,11 +422,6 @@ Version: {Application.ProductVersion}",
         private PointF ScreenToGraph(Point p) => Graph.ScreenToGraph(p, PictureBox.ClientRectangle);
         private void ToggleCoordinatesTooltip() => ShowCoordinatesTooltip = !ShowCoordinatesTooltip;
         private void ToggleFullScreen() => FullScreen = !FullScreen;
-
-        private void UpdateMouseCoordinates(MouseEventArgs e)
-        {
-            UpdateMouseCoordinates(ScreenToGraph(e.Location));
-        }
 
         private void UpdateMouseCoordinates(PointF p)
         {
