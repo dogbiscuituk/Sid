@@ -47,9 +47,7 @@
             this.ZoomMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ZoomIn = new System.Windows.Forms.ToolStripMenuItem();
             this.ZoomOut = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
             this.ZoomReset = new System.Windows.Forms.ToolStripMenuItem();
-            this.ZoomIsotropic = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
             this.ZoomFullScreen = new System.Windows.Forms.ToolStripMenuItem();
             this.ScrollMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,8 +68,6 @@
             this.TimerMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.TimerRunPause = new System.Windows.Forms.ToolStripMenuItem();
             this.TimerReset = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-            this.TimerInterval = new System.Windows.Forms.ToolStripComboBox();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
@@ -99,6 +95,7 @@
             this.tbAnisotropic = new System.Windows.Forms.ToolStripButton();
             this.tbProperties = new System.Windows.Forms.ToolStripButton();
             this.tbTimer = new System.Windows.Forms.ToolStripSplitButton();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
@@ -222,6 +219,7 @@
             this.ZoomMenu,
             this.ScrollMenu,
             this.ViewLegend,
+            this.toolStripMenuItem7,
             this.ViewCoordinatesTooltip});
             this.ViewMenu.Name = "ViewMenu";
             this.ViewMenu.Size = new System.Drawing.Size(44, 20);
@@ -232,9 +230,7 @@
             this.ZoomMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ZoomIn,
             this.ZoomOut,
-            this.toolStripMenuItem7,
             this.ZoomReset,
-            this.ZoomIsotropic,
             this.toolStripMenuItem8,
             this.ZoomFullScreen});
             this.ZoomMenu.Name = "ZoomMenu";
@@ -257,11 +253,6 @@
             this.ZoomOut.Text = "&Out";
             this.ZoomOut.ToolTipText = "Graphs can also be zoomed using the mouse wheel";
             // 
-            // toolStripMenuItem7
-            // 
-            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(177, 6);
-            // 
             // ZoomReset
             // 
             this.ZoomReset.Name = "ZoomReset";
@@ -269,13 +260,6 @@
             this.ZoomReset.Size = new System.Drawing.Size(180, 22);
             this.ZoomReset.Text = "&Reset";
             this.ZoomReset.ToolTipText = "To the viewport when the graph was created or last saved";
-            // 
-            // ZoomIsotropic
-            // 
-            this.ZoomIsotropic.Name = "ZoomIsotropic";
-            this.ZoomIsotropic.Size = new System.Drawing.Size(180, 22);
-            this.ZoomIsotropic.Text = "I&sotropic";
-            this.ZoomIsotropic.ToolTipText = "The Graph is isotropic when its X and Y scales are equal";
             // 
             // toolStripMenuItem8
             // 
@@ -407,9 +391,7 @@
             // 
             this.TimerMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TimerRunPause,
-            this.TimerReset,
-            this.toolStripMenuItem3,
-            this.TimerInterval});
+            this.TimerReset});
             this.TimerMenu.Name = "TimerMenu";
             this.TimerMenu.Size = new System.Drawing.Size(50, 20);
             this.TimerMenu.Text = "&Timer";
@@ -428,37 +410,6 @@
             this.TimerReset.ShortcutKeys = System.Windows.Forms.Keys.F8;
             this.TimerReset.Size = new System.Drawing.Size(181, 22);
             this.TimerReset.Text = "R&eset";
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(178, 6);
-            // 
-            // TimerInterval
-            // 
-            this.TimerInterval.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.TimerInterval.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.TimerInterval.Items.AddRange(new object[] {
-            "25",
-            "30",
-            "40",
-            "50",
-            "60",
-            "75",
-            "100",
-            "120",
-            "150",
-            "200",
-            "250",
-            "300",
-            "400",
-            "500",
-            "600",
-            "750",
-            "1000"});
-            this.TimerInterval.Name = "TimerInterval";
-            this.TimerInterval.Size = new System.Drawing.Size(121, 23);
-            this.TimerInterval.ToolTipText = "Timer Interval (ms)";
             // 
             // HelpMenu
             // 
@@ -624,7 +575,6 @@
             this.tbNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbNew.Name = "tbNew";
             this.tbNew.Size = new System.Drawing.Size(31, 20);
-            this.tbNew.Text = "toolStripButton1";
             this.tbNew.ToolTipText = "Create a new file";
             // 
             // tbOpen
@@ -634,7 +584,6 @@
             this.tbOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbOpen.Name = "tbOpen";
             this.tbOpen.Size = new System.Drawing.Size(31, 20);
-            this.tbOpen.Text = "toolStripButton2";
             this.tbOpen.ToolTipText = "Open an existing file";
             // 
             // tbSave
@@ -644,7 +593,6 @@
             this.tbSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbSave.Name = "tbSave";
             this.tbSave.Size = new System.Drawing.Size(31, 20);
-            this.tbSave.Text = "toolStripButton3";
             this.tbSave.ToolTipText = "Save to file";
             // 
             // tbAdd
@@ -654,7 +602,6 @@
             this.tbAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbAdd.Name = "tbAdd";
             this.tbAdd.Size = new System.Drawing.Size(31, 20);
-            this.tbAdd.Text = "toolStripButton1";
             this.tbAdd.ToolTipText = "Add a new function";
             // 
             // tbCartesian
@@ -664,7 +611,6 @@
             this.tbCartesian.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbCartesian.Name = "tbCartesian";
             this.tbCartesian.Size = new System.Drawing.Size(31, 20);
-            this.tbCartesian.Text = "toolStripButton2";
             this.tbCartesian.ToolTipText = "Cartesian (rectangular) plot";
             // 
             // tbPolar
@@ -674,7 +620,6 @@
             this.tbPolar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbPolar.Name = "tbPolar";
             this.tbPolar.Size = new System.Drawing.Size(31, 20);
-            this.tbPolar.Text = "toolStripButton3";
             this.tbPolar.ToolTipText = "Polar plot";
             // 
             // tbAnisotropic
@@ -684,7 +629,6 @@
             this.tbAnisotropic.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbAnisotropic.Name = "tbAnisotropic";
             this.tbAnisotropic.Size = new System.Drawing.Size(31, 20);
-            this.tbAnisotropic.Text = "toolStripButton4";
             this.tbAnisotropic.ToolTipText = "Anisotropic plot";
             // 
             // tbProperties
@@ -694,7 +638,6 @@
             this.tbProperties.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbProperties.Name = "tbProperties";
             this.tbProperties.Size = new System.Drawing.Size(31, 20);
-            this.tbProperties.Text = "toolStripButton5";
             this.tbProperties.ToolTipText = "Graph properties";
             // 
             // tbTimer
@@ -704,7 +647,12 @@
             this.tbTimer.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbTimer.Name = "tbTimer";
             this.tbTimer.Size = new System.Drawing.Size(31, 20);
-            this.tbTimer.Text = "toolStripSplitButton1";
+            this.tbTimer.ToolTipText = "Timer";
+            // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(180, 6);
             // 
             // AppForm
             // 
@@ -769,18 +717,14 @@
         public System.Windows.Forms.ToolStripStatusLabel XYlabel;
         public System.Windows.Forms.ToolStripStatusLabel Rϴlabel;
         public System.Windows.Forms.ToolStripMenuItem GraphProperties;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         public System.Windows.Forms.ToolStripMenuItem TimerMenu;
         public System.Windows.Forms.ToolStripMenuItem TimerRunPause;
         public System.Windows.Forms.ToolStripMenuItem TimerReset;
-        public System.Windows.Forms.ToolStripComboBox TimerInterval;
         public System.Windows.Forms.ToolStripStatusLabel Tlabel;
         public System.Windows.Forms.ToolStripMenuItem ZoomMenu;
         public System.Windows.Forms.ToolStripMenuItem ZoomIn;
         public System.Windows.Forms.ToolStripMenuItem ZoomOut;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
         public System.Windows.Forms.ToolStripMenuItem ZoomReset;
-        public System.Windows.Forms.ToolStripMenuItem ZoomIsotropic;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
         public System.Windows.Forms.ToolStripMenuItem ZoomFullScreen;
         public System.Windows.Forms.ToolStripMenuItem ScrollMenu;
@@ -805,5 +749,6 @@
         public System.Windows.Forms.ToolStripButton tbAnisotropic;
         public System.Windows.Forms.ToolStripButton tbProperties;
         public System.Windows.Forms.ToolStripSplitButton tbTimer;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
     }
 }

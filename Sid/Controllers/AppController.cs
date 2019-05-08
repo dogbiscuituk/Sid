@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Drawing;
     using System.Windows.Forms;
     using Sid.Expressions;
@@ -25,9 +26,10 @@
             JsonController.FileSaving += JsonController_FileSaving;
             JsonController.FileSaved += JsonController_FileSaved;
             LegendController = new LegendController(this);
-            AdjustPictureBox();
             UpdateCaption();
+            InitToolbar();
             UpdatePlotTypeUI();
+            AdjustPictureBox();
         }
 
         #region Properties
@@ -107,12 +109,11 @@
                     View.TimerMenu.DropDownOpening -= TimerMenu_DropDownOpening;
                     View.TimerRunPause.Click -= TimerRunPause_Click;
                     View.TimerReset.Click -= TimerReset_Click;
-                    View.TimerInterval.SelectedIndexChanged -= TimerInterval_SelectedIndexChanged;
                     View.HelpAbout.Click -= HelpAbout_Click;
                     // Toolbar
                     View.tbNew.Click -= FileNew_Click;
                     View.tbOpen.Click -= FileOpen_Click;
-                    View.tbSave.Click -= FileSave_Click;
+                    View.tbSave.Click -= FileSaveAs_Click;
                     View.tbCartesian.Click -= GraphTypeCartesian_Click;
                     View.tbPolar.Click -= GraphTypePolar_Click;
                     View.tbAnisotropic.Click -= GraphTypeAnisotropic_Click;
@@ -157,12 +158,11 @@
                     View.TimerMenu.DropDownOpening += TimerMenu_DropDownOpening;
                     View.TimerRunPause.Click += TimerRunPause_Click;
                     View.TimerReset.Click += TimerReset_Click;
-                    View.TimerInterval.SelectedIndexChanged += TimerInterval_SelectedIndexChanged;
                     View.HelpAbout.Click += HelpAbout_Click;
                     // Toolbar
                     View.tbNew.Click += FileNew_Click;
                     View.tbOpen.Click += FileOpen_Click;
-                    View.tbSave.Click += FileSave_Click;
+                    View.tbSave.Click += FileSaveAs_Click;
                     View.tbCartesian.Click += GraphTypeCartesian_Click;
                     View.tbPolar.Click += GraphTypePolar_Click;
                     View.tbAnisotropic.Click += GraphTypeAnisotropic_Click;
@@ -207,11 +207,8 @@
         private void ScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1);
         private void ScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
 
-        private void TimerMenu_DropDownOpening(object sender, EventArgs e)
-        {
+        private void TimerMenu_DropDownOpening(object sender, EventArgs e) =>
             View.TimerRunPause.Checked = Clock.Running;
-            View.TimerInterval.SelectedIndex = View.TimerInterval.Items.IndexOf(Clock.Tick_ms.ToString());
-        }
 
         private void TimerRunPause_Click(object sender, EventArgs e) => Clock.Running = !Clock.Running;
         private void TimerReset_Click(object sender, EventArgs e)
@@ -220,13 +217,8 @@
             UpdateTlabel();
         }
 
-        private void TimerInterval_SelectedIndexChanged(object sender, EventArgs e) => Clock.Tick_ms = Get_ms();
-
         private void ViewCoordinatesTooltip_Click(object sender, EventArgs e) => ToggleCoordinatesTooltip();
         private void HelpAbout_Click(object sender, EventArgs e) => ShowVersionInfo();
-
-        private int Get_ms() => Get_ms(View.TimerInterval.SelectedItem);
-        private int Get_ms(object item) => int.Parse(item.ToString());
 
         private void ShowVersionInfo()
         {
@@ -275,6 +267,11 @@ Version: {Application.ProductVersion}",
             InvalidatePictureBox();
         }
 
+        private void InitToolbar()
+        {
+            
+        }
+
         private void UpdatePlotTypeUI()
         {
             View.GraphTypeCartesian.Checked =
@@ -289,8 +286,11 @@ Version: {Application.ProductVersion}",
 
         #region Clock
 
+        private double Tick_ms = 100;
+
         private void Clock_Tick(object sender, EventArgs e)
         {
+            Clock.Tick_ms = Tick_ms;
             UpdateTlabel();
             InvalidatePictureBox();
         }
@@ -353,8 +353,26 @@ Version: {Application.ProductVersion}",
             Zoom((float)Math.Pow(e.Delta > 0 ? 10.0 / 11.0 : 11.0 / 10.0,
                 Math.Abs(e.Delta / SystemInformation.MouseWheelScrollDelta)));
 
-        private void PictureBox_Paint(object sender, PaintEventArgs e) =>
-            Graph.Draw(e.Graphics, PictureBox.ClientRectangle, Clock.SecondsElapsed);
+        private void PictureBox_Paint(object sender, PaintEventArgs e)
+        {
+            var r = PictureBox.ClientRectangle;
+            if (r.Width == 0 || r.Height == 0)
+                return; // Nothing to draw!
+            Stopwatch stopwatch = null;
+            if (Clock.Running)
+            {
+                stopwatch = new Stopwatch();
+                stopwatch.Start();
+            }
+            Graph.Draw(e.Graphics, r, Clock.SecondsElapsed);
+            if (stopwatch != null)
+            {
+                stopwatch.Stop();
+                // That Graph.Draw() operation took ms = stopwatch.ElapsedMilliseconds.
+                // Add 10% & round up to multiple of 10ms to get the time to next Draw.
+                Tick_ms = 10 * Math.Ceiling((stopwatch.ElapsedMilliseconds * 1.1) / 10);
+            }
+        }
 
         private void PictureBox_Resize(object sender, EventArgs e) => InvalidatePictureBox();
 

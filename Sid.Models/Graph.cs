@@ -412,8 +412,6 @@
 
         public void Draw(Graphics g, Rectangle r, double time)
         {
-            if (r.Width == 0 || r.Height == 0)
-                return; // Nothing to draw!
             switch (Optimization)
             {
                 case Optimization.HighQuality:
