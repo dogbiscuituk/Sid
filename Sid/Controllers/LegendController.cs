@@ -110,6 +110,7 @@
             int w = 424 + (scroll ? SystemInformation.VerticalScrollBarWidth : 0),
                 h = Math.Min(Keys.Count, maxKeys) * keyHeight,
                 x = Client.Width - w, y = Client.Height - h;
+            Legend.AutoScrollPosition = new Point(0, 0);
             for (int index = 0, top = 0; index < Keys.Count; index++, top += keyHeight)
                 Keys[index].Location = new Point(0, top);
             var anchor = AlignToAnchor(LegendAlignment);
