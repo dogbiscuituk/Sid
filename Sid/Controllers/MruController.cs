@@ -1,4 +1,4 @@
-﻿namespace Sid.Controllers
+﻿namespace ToyGraf.Controllers
 {
     using System;
     using System.Drawing;
@@ -6,8 +6,8 @@
     using System.Linq;
     using System.Windows.Forms;
     using Win32 = Microsoft.Win32;
-    using Sid.Expressions;
-    using Sid.Models;
+    using ToyGraf.Expressions;
+    using ToyGraf.Models;
 
     /// <summary>
     /// "Most Recently Used" Controller.

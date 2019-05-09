@@ -1,4 +1,4 @@
-﻿namespace Sid.Expressions
+﻿namespace ToyGraf.Expressions
 {
     using System;
     using System.Collections.Generic;

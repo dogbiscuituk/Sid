@@ -1,4 +1,4 @@
-﻿namespace Sid.Expressions
+﻿namespace ToyGraf.Expressions
 {
     /// <summary>
     /// Encodings to avoid ambiguity while processing certain operators.

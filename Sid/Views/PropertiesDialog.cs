@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Sid.Views
+namespace ToyGraf.Views
 {
     public partial class PropertiesDialog : Form
     {

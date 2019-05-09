@@ -1,4 +1,4 @@
-﻿namespace Sid.Views
+﻿namespace ToyGraf.Views
 {
     partial class PropertiesDialog
     {

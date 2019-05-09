@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sid.Models
+namespace ToyGraf.Models
 {
     [Flags]
     public enum Elements

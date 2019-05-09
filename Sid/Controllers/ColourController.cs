@@ -1,6 +1,6 @@
-﻿namespace Sid.Controllers
+﻿namespace ToyGraf.Controllers
 {
-    using Sid.Expressions;
+    using ToyGraf.Expressions;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Drawing2D;

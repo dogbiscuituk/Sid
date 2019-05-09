@@ -1,4 +1,4 @@
-﻿namespace Sid.Models
+﻿namespace ToyGraf.Models
 {
     public enum GridPhase
     {

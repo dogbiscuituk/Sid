@@ -1,4 +1,4 @@
-﻿namespace Sid.Models
+﻿namespace ToyGraf.Models
 {
     using System;
     using System.ComponentModel;

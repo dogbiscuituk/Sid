@@ -1,4 +1,4 @@
-﻿namespace Sid.Models
+﻿namespace ToyGraf.Models
 {
     using System;
     using System.Drawing;
@@ -21,6 +21,6 @@
             (float)(R * Math.Cos(ϴ)),
             (float)(R * Math.Sin(ϴ)));
 
-        public override string ToString() => $"{{R = {R}, ϴ = {ϴ}}}";
+        public override string ToString() => $"{{R={R}, ϴ={ϴ}}}";
     }
 }

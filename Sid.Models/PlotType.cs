@@ -1,14 +1,12 @@
-﻿namespace Sid.Models
+﻿namespace ToyGraf.Models
 {
     using System.ComponentModel;
 
     public enum PlotType
     {
-        [Description("Cartesian - isotropic")]
+        [Description("Cartesian")]
         Cartesian,
-        [Description("Polar - isotropic")]
-        Polar,
-        [Description("Anisotropic")]
-        Anisotropic
+        [Description("Polar")]
+        Polar
     }
 }
