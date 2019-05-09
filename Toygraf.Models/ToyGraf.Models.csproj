@@ -66,7 +66,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sid.Expressions\ToyGraf.Expressions.csproj">
+    <ProjectReference Include="..\Toygraf.Expressions\ToyGraf.Expressions.csproj">
       <Project>{091b2974-e44b-49c4-a3aa-355fc2558fef}</Project>
       <Name>ToyGraf.Expressions</Name>
     </ProjectReference>

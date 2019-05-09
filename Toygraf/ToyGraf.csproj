@@ -105,11 +105,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sid.Expressions\ToyGraf.Expressions.csproj">
+    <ProjectReference Include="..\Toygraf.Expressions\ToyGraf.Expressions.csproj">
       <Project>{091b2974-e44b-49c4-a3aa-355fc2558fef}</Project>
       <Name>ToyGraf.Expressions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sid.Models\ToyGraf.Models.csproj">
+    <ProjectReference Include="..\Toygraf.Models\ToyGraf.Models.csproj">
       <Project>{5e25750f-2037-4653-adbe-2c6bfe23bde3}</Project>
       <Name>ToyGraf.Models</Name>
     </ProjectReference>
