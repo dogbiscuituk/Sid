@@ -218,11 +218,13 @@
 
         private void ShowVersionInfo()
         {
+            Assembly self = Assembly.GetExecutingAssembly();
             MessageBox.Show(
-                $@"Company Name: {Application.CompanyName}
-Product Name: {Application.ProductName}
-Version: {Application.ProductVersion}",
-                $"About ToyGraf");
+                $@"{self.GetCustomAttribute<AssemblyDescriptionAttribute>().Description}
+by {Application.CompanyName}
+version {Application.ProductVersion}
+{self.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright}",
+                $"About {Application.ProductName}");
         }
 
         #endregion
