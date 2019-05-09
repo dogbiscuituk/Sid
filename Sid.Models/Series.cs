@@ -87,6 +87,7 @@
         [JsonIgnore]
         public Expression Expression { get; private set; }
 
+        [NonSerialized]
         private Expression _proxy;
         [JsonIgnore]
         public Expression Proxy
@@ -120,6 +121,7 @@
         [JsonIgnore]
         public Func<double, double, double> Func { get; private set; }
 
+        [NonSerialized]
         private Viewport Viewport;
 
         private int _stepCount;
@@ -151,9 +153,9 @@
             }
         }
 
-        private PlotType LastPlotType = (PlotType)(-1);
-        private Domain LastDomain;
-        private double LastTime = -1;
+        [NonSerialized] private PlotType LastPlotType = (PlotType)(-1);
+        [NonSerialized] private Domain LastDomain;
+        [NonSerialized] private double LastTime = -1;
 
         #endregion
 
@@ -287,7 +289,7 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged(string propertyName) =>
+        protected void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         #endregion

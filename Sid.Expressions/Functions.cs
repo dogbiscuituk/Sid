@@ -1,8 +1,6 @@
 ﻿namespace ToyGraf.Expressions
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Several math functions are either absent from System.Math (Asec, Sech, Asech,

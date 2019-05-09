@@ -39,5 +39,10 @@
             u.Centre == v.Centre && u.Width == v.Width && u._ratio == v._ratio;
 
         public static bool operator !=(Viewport u, Viewport v) => !(u == v);
+
+        public override bool Equals(object obj) => obj is Viewport v && this == v;
+
+        public override int GetHashCode() =>
+            Centre.GetHashCode() ^ Width.GetHashCode() ^ _ratio.GetHashCode();
     }
 }

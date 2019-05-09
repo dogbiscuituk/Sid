@@ -40,7 +40,7 @@
             }
         }
 
-        protected virtual void OnModifiedChanged() =>
+        protected void OnModifiedChanged() =>
             ModifiedChanged?.Invoke(this, EventArgs.Empty);
 
         public event EventHandler ModifiedChanged;
@@ -57,7 +57,7 @@
             OnClear();
         }
 
-        protected virtual void OnClear() =>
+        protected void OnClear() =>
             Cleared?.Invoke(this, EventArgs.Empty);
 
         #endregion
@@ -66,7 +66,7 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged(string propertyName)
+        protected void OnPropertyChanged(string propertyName)
         {
             Modified = true;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

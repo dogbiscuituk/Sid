@@ -250,7 +250,7 @@ version {Application.ProductVersion}
             View.ModifiedLabel.Visible = Model.Modified;
         }
 
-        protected virtual void OnPropertyChanged(string propertyName)
+        protected void OnPropertyChanged(string propertyName)
         {
             switch (propertyName)
             {

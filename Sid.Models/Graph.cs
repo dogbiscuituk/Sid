@@ -159,7 +159,7 @@
             }
         }
 
-        [JsonIgnore]
+        [JsonIgnore, NonSerialized]
         private Domain _domain;
 
         public bool DomainGraphWidth
@@ -268,7 +268,7 @@
             }
         }
 
-        [JsonIgnore]
+        [JsonIgnore, NonSerialized]
         public Viewport Viewport = new Viewport(new PointF(0, 0), 20);
 
         private Elements _elements;
@@ -525,7 +525,7 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged(string propertyName) =>
+        protected void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         public void Series_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
