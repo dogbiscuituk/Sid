@@ -240,36 +240,36 @@
             }
         }
 
-        private PointF _centre, _originalCentre;
+        private PointF _originalCentre;
         public PointF Centre
         {
-            get => _centre;
+            get => Viewport.Centre;
             set
             {
                 if (Centre != value)
                 {
-                    _centre = value;
+                    Viewport.Centre = value;
                     OnPropertyChanged("Centre");
                 }
             }
         }
 
-        private float _width, _originalWidth;
+        private float _originalWidth;
         public float Width
         {
-            get => _width;
+            get => Viewport.Width;
             set
             {
                 if (Width != value)
                 {
-                    _width = value;
+                    Viewport.Width = value;
                     OnPropertyChanged("Width");
                 }
             }
         }
 
         [JsonIgnore]
-        public Viewport Viewport { get => new Viewport(Centre, Width); }
+        public Viewport Viewport = new Viewport(new PointF(0, 0), 20);
 
         private Elements _elements;
         public Elements Elements
@@ -355,11 +355,13 @@
             // PlotType
             _plotType = Defaults.GraphPlotType;
             // PointF
-            _centre = _originalCentre = Defaults.GraphCentre;
+             _originalCentre = Defaults.GraphViewport.Centre;
             // SizeF
-            _width = _originalWidth = Defaults.GraphWidth;
+            _originalWidth = Defaults.GraphViewport.Width;
             // TickStyles
             _tickStyles = Defaults.GraphTickStyles;
+            // Viewport
+            Viewport = Defaults.GraphViewport;
         }
 
         #endregion
@@ -468,7 +470,8 @@
 
         private Matrix GetMatrix(Rectangle r)
         {
-            return new Matrix(Viewport.Limitz, new[]
+            Viewport.SetRatio(r.Size);
+            return new Matrix(Viewport.Limits, new[]
             {
                 new PointF(r.Left, r.Bottom),
                 new PointF(r.Right, r.Bottom), r.Location

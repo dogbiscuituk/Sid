@@ -17,8 +17,7 @@
             GraphDomainMaxCartesian = +10,
             GraphDomainMaxPolar = 180,
             GraphDomainMinCartesian = -10,
-            GraphDomainMinPolar = 0,
-            GraphWidth = 20;
+            GraphDomainMinPolar = 0;
 
         public static readonly Color
             GraphAxisColour = Color.DarkGray,
@@ -37,10 +36,10 @@
         public const PlotType
             GraphPlotType = PlotType.Cartesian;
 
-        public static readonly PointF
-            GraphCentre = new PointF(0, 0);
-
         public const TickStyles
             GraphTickStyles = TickStyles.Positive;
+
+        public static readonly Viewport
+            GraphViewport = new Viewport(new PointF(0, 0), 20);
     }
 }

@@ -358,17 +358,24 @@ Version: {Application.ProductVersion}",
                 stopwatch = new Stopwatch();
                 stopwatch.Start();
             }
-            Graph.Draw(e.Graphics, r, Clock.SecondsElapsed);
-            if (stopwatch != null)
+            try
             {
-                stopwatch.Stop();
-                // That Graph.Draw() operation took ms = stopwatch.ElapsedMilliseconds.
-                // Add 10% & round up to multiple of 10ms to get the time to next Draw.
-                double
-                    t = 10 * Math.Ceiling(stopwatch.ElapsedMilliseconds * 0.11),
-                    fps = 2000 / (t + Tick_ms);
-                Tick_ms = t;
-                View.FPSlabel.Text = string.Format("FPS={0:f1}", fps);
+                Graph.Draw(e.Graphics, r, Clock.SecondsElapsed);
+                if (stopwatch != null)
+                {
+                    stopwatch.Stop();
+                    // That Graph.Draw() operation took ms = stopwatch.ElapsedMilliseconds.
+                    // Add 10% & round up to multiple of 10ms to get the time to next Draw.
+                    double
+                        t = 10 * Math.Ceiling(stopwatch.ElapsedMilliseconds * 0.11),
+                        fps = 2000 / (t + Tick_ms);
+                    Tick_ms = t;
+                    View.FPSlabel.Text = string.Format("FPS={0:f1}", fps);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(View, ex.GetType().ToString(), ex.Message, MessageBoxButtons.OK);
             }
         }
 

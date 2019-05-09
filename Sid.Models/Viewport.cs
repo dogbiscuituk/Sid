@@ -28,7 +28,7 @@
         public float Top => Centre.Y - Height / 2;
         public float Right => Centre.X + Width / 2;
         public float Bottom => Centre.Y + Height / 2;
-        public RectangleF Limitz => new RectangleF(Left, Top, Width, Height);
+        public RectangleF Limits => new RectangleF(Left, Top, Width, Height);
 
         private float _ratio;
 
