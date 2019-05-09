@@ -42,8 +42,8 @@
                     }
                     else
                         DrawLine(g, info, axisPen, font, brush, x1, x2, 0, format, GridPass.Axes);
-                    var t = x1; x1 = y1; y1 = t;
-                    t = x2; x2 = y2; y2 = t;
+                    Swap(ref x1, ref y1);
+                    Swap(ref x2, ref y2);
                 }
             }
         }
@@ -63,9 +63,9 @@
             float x = 0, y1 = y, y2 = y, z = -y;
             if (info.Vertical)
             {
-                var t = x; x = y; y = t;
-                t = x1; x1 = y1; y1 = t;
-                t = x2; x2 = y2; y2 = t;
+                Swap(ref x, ref y);
+                Swap(ref x1, ref y1);
+                Swap(ref x2, ref y2);
                 z = -z;
             }
             switch (pass)
@@ -88,5 +88,7 @@
                     break;
             }
         }
+
+        private static void Swap(ref float x, ref float y) { var t = x; x = y; y = t; }
     }
 }

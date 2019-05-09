@@ -1,12 +1,18 @@
 ﻿namespace ToyGraf.Expressions
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     partial class Expressions
     {
-
-        public static void TestParse(string input, string output) =>
-            Check(output, new Parser().Parse(input).AsString());
+        public static void TestParse(string input, string expected)
+        {
+            var expressions = input.Split(';').Select(p => new Parser().Parse(p)).ToArray();
+            var proxies = expressions.Select(p => p.AsProxy(x, t, expressions));
+            var actual = proxies.Select(p => p.AsString()).Aggregate((s, t) => $"{s};{t}");
+            Check(expected, actual);
+        }
 
         public static void TestParseFail(string input, string error)
         {
@@ -92,12 +98,10 @@
             TestParse("t*x", "(t*x)");
             TestParse("x⁴-4x³*t+6x²*t²-4x*t³+t⁴)", "(((((x^4)-((4*(x^3))*t))+((6*(x^2))*(t^2)))-((4*x)*(t^3)))+(t^4))");
             TestParse("(x⁴-4x³*t+6x²*t²-4x*t³+t⁴)'", "(((((x^3)*4)-(((x^2)*12)*t))+((x*12)*(t^2)))-((t^3)*4))");
-            TestParse("f1(x)", "Udf(1,x,0)");
-            TestParse("f1(x+1)", "Udf(1,(x+1),0)");
-            TestParse("f1(f2(f3(x)))", "Udf(1,Udf(2,Udf(3,x,0),0),0)");
-            TestParse("f1(f2(x)+f3(x))", "Udf(1,(Udf(2,x,0)+Udf(3,x,0)),0)");
-            TestParse("f1(x,t)", "Udf(1,x,t)");
-            TestParse("f1(f2(x+1),f3(x+2,t+3))", "Udf(1,Udf(2,(x+1),0),Udf(3,(x+2),(t+3)))");
+            TestParse("sin x;f0(x)", "Sin(x);Sin(x)");
+            TestParse("sin x;(f0(x))'", "Sin(x);Cos(x)");
+            TestParse("sin(x+t);cos(x-t);f0(x,t)+f1(x,t)", "Sin((x+t));Cos((x-t));(Sin((x+t))+Cos((x-t)))");
+            TestParse("(x+t)^3;(x-t)^5;(f0(x,t))'+(f1(x,t))''", "((x+t)^3);((x-t)^5);((((x+t)^2)*3)+(((x-t)^3)*20))");
         }
     }
 }

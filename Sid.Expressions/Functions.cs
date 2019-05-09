@@ -78,15 +78,16 @@
         #region User Defined Functions
 
         /// <summary>
-        /// Placeholder in expressions, to be replaced with a switch expression
-        /// which refers to all other series in the graph at render time.
+        /// Placeholder in expressions, to be replaced with another expression
+        /// from somewhere in the graph at render time.
         /// </summary>
-        /// <param name="index">The index of the referred series.</param>
+        /// <param name="index">The index of the referred expression.</param>
+        /// <param name="ticks">The number of times to differentiate.</param>
         /// <param name="x">The usual input parameter.</param>
         /// <param name="t">The time input parameter.</param>
-        /// <returns>Zero. However the replacement switch expression will instead
-        /// return the value of the selected series at the specified x and t.</returns>
-        public static double Udf(int index, double x, double t) => 0;
+        /// <returns>Zero. However the replacement expression will instead
+        /// return the value of the selected expression at specified x and t.</returns>
+        public static double Udf(int index, int ticks, double x, double t) => 0;
 
         #endregion
     }

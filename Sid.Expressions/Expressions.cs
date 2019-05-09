@@ -108,9 +108,10 @@
             Expression.Call(typeof(Functions).GetMethod(functionName,
                 new[] { typeof(double) }), e);
 
-        public static MethodCallExpression Function(this string functionName, Expression index, Expression e1, Expression e2) =>
+        public static MethodCallExpression Function(this string functionName,
+            Expression index, Expression ticks, Expression e1, Expression e2) =>
             Expression.Call(typeof(Functions).GetMethod(functionName,
-                new[] { typeof(int), typeof(double), typeof(double) }), index, e1, e2);
+                new[] { typeof(int), typeof(int), typeof(double), typeof(double) }), index, ticks, e1, e2);
 
         public static MethodCallExpression Abs(this Expression e) => Function("Abs", e);
         public static MethodCallExpression Acos(this Expression e) => Function("Acos", e);
@@ -185,9 +186,12 @@
                 if (methodName == "Udf")
                 {
                     var index = (int)((ConstantExpression)m.Arguments[0]).Value;
-                    return index < 0 || index >= refs.Length
-                        ? Expression.Default(typeof(void))
-                        : refs[index].AsProxy(m.Arguments[1], m.Arguments[2], refs);
+                    if (index < 0 || index >= refs.Length)
+                        return Expression.Default(typeof(void));
+                    var result = refs[index].AsProxy(m.Arguments[2], m.Arguments[3], refs);
+                    for (var ticks = 0; ticks < (int)((ConstantExpression)m.Arguments[1]).Value; ticks++)
+                        result = Differentiate(result);
+                    return result;
                 }
                 return methodName.Function(m.Arguments[0].AsProxy(ex, et, refs));
             }
@@ -205,6 +209,8 @@
 
         #region Differentiation
 
+        public static Expression Differentiate(this Expression e) => Simplify(D(e));
+
         public static Expression D(this Expression e)
         {
             switch (e)
@@ -214,8 +220,17 @@
                 case ParameterExpression p:           // d(x)/dx = 1
                     return p.Name == "x" ? Constant(1) : Constant(0);
                 case MethodCallExpression m:          // Use the Chain Rule
-                    var a = m.Arguments[0];
-                    return DifferentiateFunction(m.Method.Name, a).Times(D(a));
+                    var methodName = m.Method.Name;
+                    if (methodName == "Udf")
+                    {
+                        var index = m.Arguments[0];
+                        var ticks = Expression.Constant((int)((ConstantExpression)m.Arguments[1]).Value + 1);
+                        var fx = m.Arguments[2];
+                        var ft = m.Arguments[3];
+                        return Function("Udf", index, ticks, fx, ft).Times(D(fx));
+                    }
+                    var gx = m.Arguments[0];
+                    return DifferentiateFunction(methodName, gx).Times(D(gx));
                 case UnaryExpression u:
                     var v = D(u.Operand);
                     return u.NodeType == ExpressionType.UnaryPlus ? v : Negate(v);
@@ -278,8 +293,6 @@
             throw new InvalidOperationException();
         }
 
-        public static Expression Differentiate(this Expression e) => Simplify(D(e));
-
         #endregion
 
         #region Simplification
@@ -300,13 +313,17 @@
 
         public static Expression SimplifyMethodCall(MethodCallExpression m)
         {
+            var methodName = m.Method.Name;
+            if (methodName == "Udf")
+                return Function("Udf",
+                    m.Arguments[0], m.Arguments[1], m.Arguments[2].Simplify(), m.Arguments[3]);
             var operand = Simplify(m.Arguments[0]);
             if (operand is ConstantExpression ce)
             {
                 var c = (double)ce.Value;
                 return Constant(Function(m.Method.Name, x).AsDouble(c));
             }
-            return Function(m.Method.Name, operand);
+            return Function(methodName, operand);
         }
 
         public static Expression SimplifyUnary(UnaryExpression u)

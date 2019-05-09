@@ -102,7 +102,7 @@
                     left = operand;
                     right = 0.0.Constant();
                 }
-                return Expressions.Function("Udf", index, left, right);
+                return Expressions.Function("Udf", index, Expression.Constant(0), left, right);
             }
             var result = Expressions.Function(f, operand);
             if (operand is ConstantExpression c)
