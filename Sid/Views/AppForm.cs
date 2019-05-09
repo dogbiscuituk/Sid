@@ -1,4 +1,4 @@
-﻿namespace Sid.Views
+﻿namespace ToyGraf.Views
 {
     using System.Windows.Forms;
 

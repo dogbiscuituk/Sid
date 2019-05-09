@@ -1,4 +1,4 @@
-﻿namespace Sid.Models
+﻿namespace ToyGraf.Models
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +9,7 @@
     using System.Linq.Expressions;
     using System.Threading.Tasks;
     using Newtonsoft.Json;
-    using Sid.Expressions;
+    using ToyGraf.Expressions;
 
     [Serializable]
     public class Series: INotifyPropertyChanged
@@ -120,7 +120,7 @@
         [JsonIgnore]
         public Func<double, double, double> Func { get; private set; }
 
-        private RectangleF Limits;
+        private Viewport Viewport;
 
         private int _stepCount;
         public int StepCount
@@ -165,24 +165,24 @@
         // All drawing must take place on the main Windows UI thread, and no time
         // is saved by multithreading the ComputePointsAsync() point computations.
 
-        public async void DrawAsync(Graphics g, Domain domain, RectangleF limits,
+        public async void DrawAsync(Graphics g, Domain domain, Viewport viewport,
             float penWidth, bool fill, double time, PlotType plotType)
         {
             if (fill && (FillColour == Color.Transparent || FillTransparencyPercent == 100))
                 return; // Not just an optimisation; omits vertical asymptotes too.
             if (Func == null
                 || LastDomain != domain
-                || Limits != limits
+                || Viewport != viewport
                 || LastTime != time && Expression.UsesTime()
                 || LastPlotType != plotType
                 || !PointLists.Any())
             {
                 InvalidatePoints();
                 LastDomain = domain;
-                Limits = limits;
+                Viewport = viewport;
                 LastTime = time;
                 LastPlotType = plotType;
-                var pointLists = await ComputePointsAsync(domain, limits, time, plotType);
+                var pointLists = await ComputePointsAsync(domain, viewport, time, plotType);
                 PointLists.AddRange(pointLists);
                 pointLists.Clear();
             }
@@ -200,7 +200,7 @@
         }
 
         private Task<List<List<PointF>>> ComputePointsAsync(
-            Domain domain, RectangleF limits, double time, PlotType plotType)
+            Domain domain, Viewport viewport, double time, PlotType plotType)
         {
             var result = new List<List<PointF>>();
             List<PointF> points = null;
@@ -213,8 +213,8 @@
             }
             else if (domain.UseGraphWidth)
             {
-                start = Limits.Left;
-                length = Limits.Width;
+                start = Viewport.Left;
+                length = Viewport.Width;
             }
             else
             {
@@ -268,9 +268,9 @@
                     points[n + 1] = new PointF(points[0].X, 0);
                     g.FillPolygon(brush, points);
                     // Draw vertical asymptotes iff X extremes are not Limits.
-                    if (points[n].X < Limits.Right)
+                    if (points[n].X < Viewport.Right)
                         g.DrawLine(pen, points[n - 1], points[n]);
-                    if (points[0].X > Limits.Left)
+                    if (points[0].X > Viewport.Left)
                         g.DrawLine(pen, points[n + 1], points[0]);
                     break;
                 case PlotType.Polar:

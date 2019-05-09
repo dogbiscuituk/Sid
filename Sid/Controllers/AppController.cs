@@ -1,13 +1,14 @@
-﻿namespace Sid.Controllers
+﻿namespace ToyGraf.Controllers
 {
     using System;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Drawing;
+    using System.Reflection;
     using System.Windows.Forms;
-    using Sid.Expressions;
-    using Sid.Models;
-    using Sid.Views;
+    using ToyGraf.Expressions;
+    using ToyGraf.Models;
+    using ToyGraf.Views;
 
     public class AppController
     {
@@ -196,10 +197,10 @@
         private void ZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
         private void ZoomReset_Click(object sender, EventArgs e) => ZoomReset();
         private void ZoomFullScreen_Click(object sender, EventArgs e) => ToggleFullScreen();
-        private void ScrollLeft_Click(object sender, EventArgs e) => Scroll(-0.1, 0);
-        private void ScrollRight_Click(object sender, EventArgs e) => Scroll(0.1, 0);
-        private void ScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1);
-        private void ScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1);
+        private void ScrollLeft_Click(object sender, EventArgs e) => Scroll(-0.1f, 0);
+        private void ScrollRight_Click(object sender, EventArgs e) => Scroll(0.1f, 0);
+        private void ScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1f);
+        private void ScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1f);
         private void ScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
 
         private void TimerMenu_DropDownOpening(object sender, EventArgs e) =>
@@ -290,7 +291,7 @@ Version: {Application.ProductVersion}",
 
         private void UpdateTlabel()
         {
-            View.Tlabel.Text = $"T={Clock.SecondsElapsed}";
+            View.Tlabel.Text = string.Format("T={0:f1}", Clock.SecondsElapsed);
         }
 
         #endregion
@@ -363,11 +364,19 @@ Version: {Application.ProductVersion}",
                 stopwatch.Stop();
                 // That Graph.Draw() operation took ms = stopwatch.ElapsedMilliseconds.
                 // Add 10% & round up to multiple of 10ms to get the time to next Draw.
-                Tick_ms = 10 * Math.Ceiling((stopwatch.ElapsedMilliseconds * 1.1) / 10);
+                double
+                    t = 10 * Math.Ceiling(stopwatch.ElapsedMilliseconds * 0.11),
+                    fps = 2000 / (t + Tick_ms);
+                Tick_ms = t;
+                View.FPSlabel.Text = string.Format("FPS={0:f1}", fps);
             }
         }
 
-        private void PictureBox_Resize(object sender, EventArgs e) => InvalidatePictureBox();
+        private void PictureBox_Resize(object sender, EventArgs e)
+        {
+            Graph.Viewport.SetRatio(PictureBox.Height / PictureBox.Width);
+            InvalidatePictureBox();
+        }
 
         private void AdjustFullScreen()
         {
@@ -388,25 +397,7 @@ Version: {Application.ProductVersion}",
             }
         }
 
-        private void AdjustPictureBox()
-        {
-            int cW = ClientPanel.ClientSize.Width, cH = ClientPanel.ClientSize.Height;
-            var r = new Rectangle(0, 0, cW, cH);
-            float gW = Graph.Size.Width, gH = Graph.Size.Height;
-            if (gW > gH * cW / cH)
-            {
-                var h = gH * cW / gW;
-                r.Y = (int)Math.Round((cH - h) / 2);
-                r.Height = (int)(Math.Round(h));
-            }
-            else
-            {
-                var w = gW * cH / gH;
-                r.X = (int)Math.Round((cW - w) / 2);
-                r.Width = (int)(Math.Round(w));
-            }
-            PictureBox.SetBounds(r.X, r.Y, r.Width, r.Height);
-        }
+        private void AdjustPictureBox() => PictureBox.Bounds = ClientPanel.ClientRectangle;
 
         private void InitCoordinatesToolTip(string toolTip)
         {
@@ -444,7 +435,7 @@ Version: {Application.ProductVersion}",
 
         #region Scroll & Zoom
 
-        private void Scroll(double xFactor, double yFactor) => Graph.Scroll(xFactor, yFactor);
+        private void Scroll(float xFactor, float yFactor) => Graph.Scroll(xFactor, yFactor);
         private void ScrollBy(float xDelta, float yDelta) => Graph.ScrollBy(xDelta, yDelta);
         private void ScrollTo(float x, float y) => Graph.ScrollTo(x, y);
         private void Zoom(float factor) => Graph.Zoom(factor);

@@ -1,4 +1,4 @@
-﻿namespace Sid.Models
+﻿namespace ToyGraf.Models
 {
     using System.Drawing;
 
@@ -17,7 +17,8 @@
             GraphDomainMaxCartesian = +10,
             GraphDomainMaxPolar = 180,
             GraphDomainMinCartesian = -10,
-            GraphDomainMinPolar = 0;
+            GraphDomainMinPolar = 0,
+            GraphWidth = 20;
 
         public static readonly Color
             GraphAxisColour = Color.DarkGray,
@@ -37,10 +38,7 @@
             GraphPlotType = PlotType.Cartesian;
 
         public static readonly PointF
-            GraphLocation = new PointF(-10, -5);
-
-        public static readonly SizeF
-            GraphSize = new SizeF(20, 10);
+            GraphCentre = new PointF(0, 0);
 
         public const TickStyles
             GraphTickStyles = TickStyles.Positive;

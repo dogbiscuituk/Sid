@@ -1,4 +1,4 @@
-﻿namespace Sid.Models
+﻿namespace ToyGraf.Models
 {
     using System;
     using System.Collections.Generic;
@@ -10,7 +10,7 @@
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
     using Newtonsoft.Json;
-    using Sid.Expressions;
+    using ToyGraf.Expressions;
 
     [Serializable]
     public class Graph : INotifyPropertyChanged
@@ -240,36 +240,36 @@
             }
         }
 
-        private PointF _location, _originalLocation;
-        public PointF Location
+        private PointF _centre, _originalCentre;
+        public PointF Centre
         {
-            get => _location;
+            get => _centre;
             set
             {
-                if (Location != value)
+                if (Centre != value)
                 {
-                    _location = value;
-                    OnPropertyChanged("Location");
+                    _centre = value;
+                    OnPropertyChanged("Centre");
                 }
             }
         }
 
-        private SizeF _size, _originalSize;
-        public SizeF Size
+        private float _width, _originalWidth;
+        public float Width
         {
-            get => _size;
+            get => _width;
             set
             {
-                if (Size != value)
+                if (Width != value)
                 {
-                    _size = value;
-                    OnPropertyChanged("Size");
+                    _width = value;
+                    OnPropertyChanged("Width");
                 }
             }
         }
 
         [JsonIgnore]
-        public RectangleF Limits { get => new RectangleF(Location, Size); }
+        public Viewport Viewport { get => new Viewport(Centre, Width); }
 
         private Elements _elements;
         public Elements Elements
@@ -298,15 +298,6 @@
                 }
             }
         }
-
-        private bool Xaxis { get => (Elements & Elements.Xaxis) != 0; }
-        private bool Yaxis { get => (Elements & Elements.Yaxis) != 0; }
-        private bool Xcal { get => (Elements & Elements.Xcalibration) != 0; }
-        private bool Ycal { get => (Elements & Elements.Ycalibration) != 0; }
-        private bool Xticks { get => (Elements & Elements.Xticks) != 0; }
-        private bool Yticks { get => (Elements & Elements.Yticks) != 0; }
-        private bool Hlines { get => (Elements & Elements.HorizontalGridLines) != 0; }
-        private bool Vlines { get => (Elements & Elements.VerticalGridLines) != 0; }
 
         private int _stepCount;
         public int StepCount
@@ -364,9 +355,9 @@
             // PlotType
             _plotType = Defaults.GraphPlotType;
             // PointF
-            _location = _originalLocation = Defaults.GraphLocation;
+            _centre = _originalCentre = Defaults.GraphCentre;
             // SizeF
-            _size = _originalSize = Defaults.GraphSize;
+            _width = _originalWidth = Defaults.GraphWidth;
             // TickStyles
             _tickStyles = Defaults.GraphTickStyles;
         }
@@ -414,7 +405,8 @@
         {
             InitOptimization(g);
             g.Transform = GetMatrix(r);
-            var penWidth = (Size.Width / r.Width + Size.Height / r.Height);
+            Viewport.SetRatio(r.Size);
+            var penWidth = (Width / r.Width + Viewport.Height / r.Height);
             InitProxies();
             for (var call = 1; call <= 2; call++)
             {
@@ -422,10 +414,10 @@
                 Series.ForEach(s => 
                 {
                     if (s.Visible)
-                        s.DrawAsync(g, _domain, Limits, penWidth, fill, time, PlotType);
+                        s.DrawAsync(g, _domain, Viewport, penWidth, fill, time, PlotType);
                 });
                 if (fill)
-                    DrawGrid(g, penWidth);
+                    Grid.Draw(g, new GridInfo(PlotType, Viewport, AxisColour, GridColour, penWidth, Elements, TickStyles));
             }
         }
 
@@ -474,94 +466,9 @@
             return points[0];
         }
 
-        private void BumpDown(ref double value) => value = value == 5 ? 2 : value / 2;
-        private void BumpUp(ref double value) => value = value == 2 ? 5 : value * 2;
-
-        private void DrawGrid(Graphics g, float penWidth)
-        {
-            var limits = Limits;
-            float x1 = limits.X, y1 = limits.Bottom, x2 = limits.Right, y2 = limits.Top;
-            var log = Math.Log10(Math.Abs(x2 - x1));
-            var order = Math.Floor(log);
-            var scale = log - order;
-            using (Pen gridPen = new Pen(GridColour, penWidth) { DashStyle = DashStyle.Dot },
-                axisPen = new Pen(AxisColour, penWidth))
-            using (var font = new Font("Arial", 5 * penWidth))
-            using (var format = new StringFormat(StringFormat.GenericTypographic) {
-                Alignment = StringAlignment.Far })
-            {
-
-                var brush = Brushes.DarkGray;
-                for (var phase = (GridPhase)0; (int)phase < 4; phase++)
-                {
-                    var vertical = phase == GridPhase.VerticalLines || phase == GridPhase.Yaxis;
-                    if (phase == GridPhase.HorizontalLines || phase == GridPhase.VerticalLines)
-                    {
-                        double increment = scale < 0.3 ? 2 : scale < 0.7 ? 5 : 10;
-                        BumpDown(ref increment);
-                        BumpDown(ref increment);
-                        for (var pass = (GridPass)0; (int)pass < 3; pass++)
-                        {
-                            var dy = increment * Math.Pow(10, order - 1);
-                            for (var y = 0.0; y <= Math.Max(Math.Abs(y1), Math.Abs(y2)); y += dy)
-                            {
-                                var pen = pass == GridPass.Ticks ? axisPen : gridPen;
-                                DrawGridLine(g, pen, font, brush, x1, x2, (float)y, format, vertical, pass);
-                                if (y != 0.0)
-                                    DrawGridLine(g, pen, font, brush, x1, x2, -(float)y, format, vertical, pass);
-                            }
-                            BumpUp(ref increment);
-                        }
-                    }
-                    else
-                        DrawGridLine(g, axisPen, font, brush, x1, x2, 0, format, vertical, GridPass.Axes);
-                    var t = x1; x1 = y1; y1 = t;
-                    t = x2; x2 = y2; y2 = t;
-                }
-            }
-        }
-
-        private void DrawGridLine(Graphics g, Pen pen, Font font, Brush brush,
-            float x1, float x2, float y, StringFormat format, bool v, GridPass pass)
-        {
-            if (pass == GridPass.Ticks)
-            {
-                var tickSize = font.Size;
-                x1 = (TickStyles & TickStyles.Positive) != 0 ? tickSize : 0;
-                x2 = (TickStyles & TickStyles.Negative) != 0 ? tickSize : 0;
-            }
-            float x = 0, y1 = y, y2 = y, z = -y;
-            if (v)
-            {
-                var t = x; x = y; y = t;
-                t = x1; x1 = y1; y1 = t;
-                t = x2; x2 = y2; y2 = t;
-                z = -z;
-            }
-            switch (pass)
-            {
-                case GridPass.Axes when v && Yaxis || !v && Xaxis:
-                case GridPass.Lines when (v && Vlines || !v && Hlines) && PlotType != PlotType.Polar:
-                    g.DrawLine(pen, x1, y1, x2, y2);
-                    break;
-                case GridPass.Lines when v && Vlines && PlotType == PlotType.Polar:
-                    g.DrawEllipse(pen, -x1, -x1, 2 * x1, 2 * x1);
-                    break;
-                case GridPass.Calibration when v && Xcal || !v && Ycal:
-                    g.ScaleTransform(1, -1);
-                    g.DrawString(z.ToString(), font, brush, x - pen.Width, y + pen.Width, format);
-                    g.ScaleTransform(1, -1);
-                    break;
-                case GridPass.Ticks:
-                    if (v && Xticks || !v && Yticks)
-                        g.DrawLine(pen, x1, y1, x2, y2);
-                    break;
-            }
-        }
-
         private Matrix GetMatrix(Rectangle r)
         {
-            return new Matrix(Limits, new[]
+            return new Matrix(Viewport.Limitz, new[]
             {
                 new PointF(r.Left, r.Bottom),
                 new PointF(r.Right, r.Bottom), r.Location
@@ -593,33 +500,21 @@
 
         #region Scroll & Zoom
 
-        public void Scroll(double xFactor, double yFactor)
+        public void Scroll(float xFactor, float yFactor)
         {
-            Location = new PointF(
-                (float)(Location.X + Size.Width * xFactor),
-                (float)(Location.Y + Size.Height * yFactor));
+            Centre = new PointF(
+                Centre.X + Width * xFactor,
+                Centre.Y + Width * yFactor);
         }
 
         public void ScrollBy(float xDelta, float yDelta) =>
-            Location = new PointF(Location.X + xDelta, Location.Y + yDelta);
+            Centre = new PointF(Centre.X + xDelta, Centre.Y + yDelta);
 
-        public void ScrollTo(float x, float y) =>
-            Location = new PointF(x - Size.Width / 2, y - Size.Height / 2);
+        public void ScrollTo(float x, float y) => Centre = new PointF(x, y);
+        public void Zoom(float factor) => Width *= factor;
 
-        public void Zoom(double factor) => Zoom(factor, factor);
-
-        public void Zoom(double xFactor, double yFactor)
-        {
-            Location = new PointF(
-                (float)(Location.X - Size.Width * (xFactor - 1) / 2),
-                (float)(Location.Y - Size.Height * (yFactor - 1) / 2));
-            Size = new SizeF(
-                (float)(Size.Width * xFactor),
-                (float)(Size.Height * yFactor));
-        }
-
-        public void ZoomReset() { Location = _originalLocation; Size = _originalSize; }
-        public void ZoomSet() { _originalLocation = Location; _originalSize = Size; }
+        public void ZoomReset() { Centre = _originalCentre; Width = _originalWidth; }
+        public void ZoomSet() { _originalCentre = Centre; _originalWidth = Width; }
 
         #endregion
 

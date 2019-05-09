@@ -1,13 +1,13 @@
-﻿namespace Sid.Controllers
+﻿namespace ToyGraf.Controllers
 {
     using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq.Expressions;
     using System.Windows.Forms;
-    using Sid.Expressions;
-    using Sid.Models;
-    using Sid.Views;
+    using ToyGraf.Expressions;
+    using ToyGraf.Models;
+    using ToyGraf.Views;
 
     public class LegendController
     {

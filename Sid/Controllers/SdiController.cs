@@ -1,10 +1,10 @@
-﻿namespace Sid.Controllers
+﻿namespace ToyGraf.Controllers
 {
     using System;
     using System.ComponentModel;
     using System.IO;
     using System.Windows.Forms;
-    using Sid.Models;
+    using ToyGraf.Models;
 
     /// <summary>
     /// "Single Document Interface" Controller.

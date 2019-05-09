@@ -1,8 +1,8 @@
-﻿namespace Sid
+﻿namespace ToyGraf
 {
     using System;
     using System.Windows.Forms;
-    using Sid.Controllers;
+    using ToyGraf.Controllers;
 
     static class Program
     {

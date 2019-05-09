@@ -1,10 +1,10 @@
-﻿namespace Sid.Controllers
+﻿namespace ToyGraf.Controllers
 {
     using System.Collections.Generic;
     using System.IO;
     using System.Windows.Forms;
     using Newtonsoft.Json;
-    using Sid.Models;
+    using ToyGraf.Models;
 
     /// <summary>
     /// Extend SdiController to provide concrete I/O methods using Json data format.

@@ -1,10 +1,10 @@
-﻿namespace Sid.Controllers
+﻿namespace ToyGraf.Controllers
 {
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
-    using Sid.Expressions;
-    using Sid.Views;
+    using ToyGraf.Expressions;
+    using ToyGraf.Views;
 
     public class KeyController
     {

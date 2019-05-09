@@ -1,4 +1,4 @@
-﻿namespace Sid.Expressions
+﻿namespace ToyGraf.Expressions
 {
     /// <summary>
     /// The precedence levels attributed to operators.

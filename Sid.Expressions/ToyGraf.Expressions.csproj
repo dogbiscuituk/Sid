@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5E25750F-2037-4653-ADBE-2C6BFE23BDE3}</ProjectGuid>
+    <ProjectGuid>{091B2974-E44B-49C4-A3AA-355FC2558FEF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sid.Models</RootNamespace>
-    <AssemblyName>Sid.Models</AssemblyName>
+    <RootNamespace>ToyGraf.Expressions</RootNamespace>
+    <AssemblyName>ToyGraf.Expressions</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,9 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -45,32 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Defaults.cs" />
-    <Compile Include="Domain.cs" />
-    <Compile Include="Elements.cs" />
-    <Compile Include="Graph.cs" />
-    <Compile Include="GridPass.cs" />
-    <Compile Include="GridPhase.cs" />
-    <Compile Include="Model.cs" />
-    <Compile Include="Optimization.cs" />
-    <Compile Include="PlotType.cs" />
-    <Compile Include="PolarPointF.cs" />
+    <Compile Include="Clock.cs" />
+    <Compile Include="Expressions.cs" />
+    <Compile Include="Expressions.ParserTests.cs" />
+    <Compile Include="Expressions.Tests.cs" />
+    <Compile Include="Functions.cs" />
+    <Compile Include="OperandTypes.cs" />
+    <Compile Include="Parser.cs" />
+    <Compile Include="Precedence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Series.cs" />
-    <Compile Include="TickStyles.cs" />
-    <Compile Include="Viewport.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Sid.Expressions\Sid.Expressions.csproj">
-      <Project>{091b2974-e44b-49c4-a3aa-355fc2558fef}</Project>
-      <Name>Sid.Expressions</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="INotifyPropertyChanged.txt" />
+    <Compile Include="Ops.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
