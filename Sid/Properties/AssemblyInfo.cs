@@ -9,8 +9,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("John M Kerr")]
-[assembly: AssemblyProduct("Graph Utility for Derivatives")]
-[assembly: AssemblyCopyright("Copyright © John M Kerr 2015")]
+[assembly: AssemblyProduct("ToyGraf")]
+[assembly: AssemblyCopyright("Copyright © John M Kerr 1982-2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

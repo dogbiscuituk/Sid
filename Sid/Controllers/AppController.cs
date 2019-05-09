@@ -222,7 +222,7 @@
                 $@"Company Name: {Application.CompanyName}
 Product Name: {Application.ProductName}
 Version: {Application.ProductVersion}",
-                $"About {Application.ProductName}");
+                $"About ToyGraf");
         }
 
         #endregion
