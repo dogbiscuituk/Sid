@@ -1,3 +1,10 @@
 Report20190507-1329 Start
 Report20190507-1347 Turn off wallpaper
 Report20190507-1354 Trial run with axes+grid etc turned off.
+
+Technologies to evaluate:
+
+GDI+ Path objects
+DirectX
+WPF
+

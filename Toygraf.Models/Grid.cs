@@ -26,7 +26,7 @@
                         maY = Math.Max(Math.Abs(y1), Math.Abs(y2));
                     info.Vertical = phase == GridPhase.VerticalWires || phase == GridPhase.Yaxis;
                     if ((phase & GridPhase.Xaxis) != 0)
-                        DrawWire(g, info, axisPen, font, brush, x1, x2, 0, format, GridPass.Axes);
+                        DrawWire(g, axisPen, font, brush, format, info, GridPass.Axes, x1, x2, 0);
                     else
                     {
                         double increment = scale < 0.3 ? 2 : scale < 0.7 ? 5 : 10;
@@ -50,9 +50,9 @@
                             for (var y = 0.0; y <= ymax; y += dy)
                             {
                                 var pen = pass == GridPass.Ticks ? axisPen : gridPen;
-                                DrawWire(g, info, pen, font, brush, x0, x2, (float)y, format, pass);
+                                DrawWire(g, pen, font, brush, format, info, pass, x0, x2, (float)y);
                                 if (y != 0.0)
-                                    DrawWire(g, info, pen, font, brush, x0, x2, -(float)y, format, pass);
+                                    DrawWire(g, pen, font, brush, format, info, pass, x0, x2, -(float)y);
                             }
                             BumpUp(ref increment);
                         }
@@ -65,8 +65,8 @@
         private static void BumpDown(ref double value) => value = value == 5 ? 2 : value / 2;
         private static void BumpUp(ref double value) => value = value == 2 ? 5 : value * 2;
 
-        private static void DrawWire(Graphics g, GridInfo info, Pen pen, Font font, Brush brush,
-            float x1, float x2, float y, StringFormat format, GridPass pass)
+        private static void DrawWire(Graphics g, Pen pen, Font font, Brush brush, StringFormat format,
+            GridInfo info, GridPass pass, float x1, float x2, float y)
         {
             if (pass == GridPass.Ticks)
             {
@@ -89,55 +89,73 @@
                     g.DrawLine(pen, x1, y1, x2, y2);
                     break;
                 case GridPass.Wires when info.Hwires && info.Polar:
-                    var θ = y * Math.PI / 180;
-                    double sin = Math.Sin(θ), cos = Math.Cos(θ);
-                    float x0 = (float)(x1 * cos), y0 = (float)(x1 * sin);
-                    g.DrawLine(pen, -x0, -y0, +x0, +y0);
+                    DrawRadialWire(g, pen, x1, y);
                     break;
                 case GridPass.Wires when info.Vwires && info.Polar:
-                    var vp = info.Viewport;
-                    if (vp.Left > x1 || vp.Right < -x1 || vp.Top > x1 || vp.Bottom < -x1)
-                        break;
-                    int region =
-                        (vp.Left > 0 ? 0 : vp.Right > 0 ? 1 : 2) + 
-                        (vp.Top > 0 ? 0 : vp.Bottom > 0 ? 3 : 6);
-                    PointF[,] corners = {
-                        { vp.BottomLeft, vp.TopRight },
-                        { vp.TopLeft, vp.TopRight },
-                        { vp.TopLeft, vp.BottomRight },
-                        { vp.BottomLeft, vp.TopLeft },
-                        { vp.Centre, vp.Centre },
-                        { vp.TopRight, vp.BottomRight },
-                        { vp.BottomRight, vp.TopLeft },
-                        { vp.BottomRight, vp.BottomLeft },
-                        { vp.TopRight, vp.BottomLeft } };
-                    var p1 = corners[region, 0];
-                    if (p1 == vp.Centre)
-                    {
-                        g.DrawEllipse(pen, -x1, -x1, 2 * x1, 2 * x1);
-                        break;
-                    }
-                    var p2 = corners[region, 1];
-                    double
-                        start = Math.Atan2(p1.Y, p1.X) * 180 / Math.PI,
-                        sweep = Math.Atan2(p2.Y, p2.X) * 180 / Math.PI - start;
-                    if (start < 0) start += 2 * Math.PI;
-                    if (sweep < 0) sweep += 2 * Math.PI;
-
-                    System.Diagnostics.Debug.WriteLine($"start = {start}, sweep = {sweep}");
-
-                    g.DrawArc(pen, -x1, -x1, 2 * x1, 2 * x1, (float)start, (float)sweep);
+                    DrawCircularWire(g,pen, info, x1);
                     break;
                 case GridPass.Calibration when info.Calibration:
-                    g.ScaleTransform(1, -1);
-                    g.DrawString(z.ToString(), font, brush, x - pen.Width, y + pen.Width, format);
-                    g.ScaleTransform(1, -1);
+                    DrawCalibration(g, pen, brush, font, format, x, y, z);
                     break;
                 case GridPass.Ticks:
                     if (info.Ticks)
                         g.DrawLine(pen, x1, y1, x2, y2);
                     break;
             }
+        }
+
+        private static void DrawCalibration(
+            Graphics g, Pen pen, Brush brush, Font font, StringFormat format,
+            float x, float y, float z)
+        {
+            g.ScaleTransform(1, -1);
+            g.DrawString(z.ToString(), font, brush, x - pen.Width, y + pen.Width, format);
+            g.ScaleTransform(1, -1);
+        }
+
+        private static void DrawCircularWire(Graphics g, Pen pen, GridInfo info, float r)
+        {
+            var vp = info.Viewport;
+            // If the circle's bounding square lies wholly outside the viewport,
+            // then there's nothing to draw!
+            if (vp.Left > r || vp.Right < -r || vp.Top > r || vp.Bottom < -r)
+                return;
+            // If the circle's centre lies outside the viewport,
+            // then we can draw an arc instead of a full circle.
+            int region =
+                (vp.Left > 0 ? 0 : vp.Right > 0 ? 1 : 2) +
+                (vp.Top > 0 ? 0 : vp.Bottom > 0 ? 3 : 6);
+            PointF[,] corners = {
+                { vp.TopRight, vp.BottomLeft },
+                { vp.TopRight, vp.TopLeft },
+                { vp.BottomRight, vp.TopLeft },
+                { vp.TopLeft, vp.BottomLeft },
+                { vp.Centre, vp.Centre },
+                { vp.BottomRight, vp.TopRight },
+                { vp.TopLeft, vp.BottomRight },
+                { vp.BottomLeft, vp.BottomRight },
+                { vp.BottomLeft, vp.TopRight } };
+            var p1 = corners[region, 0];
+            if (p1 == vp.Centre) // Full circle required!
+                g.DrawEllipse(pen, -r, -r, 2 * r, 2 * r);
+            else // An arc will suffice.
+            {
+                var p2 = corners[region, 1];
+                double
+                    start = Math.Atan2(p1.Y, p1.X) * 180 / Math.PI,
+                    sweep = Math.Atan2(p2.Y, p2.X) * 180 / Math.PI - start;
+                if (sweep < 0) sweep += 360;
+                g.DrawArc(pen, -r, -r, 2 * r, 2 * r, (float)start, (float)sweep);
+            }
+        }
+
+        private static void DrawRadialWire(Graphics g, Pen pen, float x, float y)
+        {
+            var θ = y * Math.PI / 180;
+            double sin = Math.Sin(θ), cos = Math.Cos(θ);
+            y = (float)(x * sin);
+            x = (float)(x * cos);
+            g.DrawLine(pen, -x, -y, +x, +y);
         }
 
         private static void Swap(ref float x, ref float y) { var t = x; x = y; y = t; }
