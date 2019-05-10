@@ -8,8 +8,8 @@
     {
         public static void Draw(Graphics g, GridInfo info)
         {
-            var limits = info.Viewport;
-            float x1 = limits.Left, y1 = limits.Bottom, x2 = limits.Right, y2 = limits.Top;
+            var vp = info.Viewport;
+            float x1 = vp.Left, y1 = vp.Bottom, x2 = vp.Right, y2 = vp.Top;
             var log = Math.Log10(Math.Abs(x2 - x1));
             var order = Math.Floor(log);
             var scale = log - order;
@@ -89,13 +89,44 @@
                     g.DrawLine(pen, x1, y1, x2, y2);
                     break;
                 case GridPass.Wires when info.Hwires && info.Polar:
-                    var rad = y * Math.PI / 180;
-                    double sin = Math.Sin(rad), cos = Math.Cos(rad);
+                    var θ = y * Math.PI / 180;
+                    double sin = Math.Sin(θ), cos = Math.Cos(θ);
                     float x0 = (float)(x1 * cos), y0 = (float)(x1 * sin);
                     g.DrawLine(pen, -x0, -y0, +x0, +y0);
                     break;
                 case GridPass.Wires when info.Vwires && info.Polar:
-                    g.DrawEllipse(pen, -x1, -x1, 2 * x1, 2 * x1);
+                    var vp = info.Viewport;
+                    if (vp.Left > x1 || vp.Right < -x1 || vp.Top > x1 || vp.Bottom < -x1)
+                        break;
+                    int region =
+                        (vp.Left > 0 ? 0 : vp.Right > 0 ? 1 : 2) + 
+                        (vp.Top > 0 ? 0 : vp.Bottom > 0 ? 3 : 6);
+                    PointF[,] corners = {
+                        { vp.BottomLeft, vp.TopRight },
+                        { vp.TopLeft, vp.TopRight },
+                        { vp.TopLeft, vp.BottomRight },
+                        { vp.BottomLeft, vp.TopLeft },
+                        { vp.Centre, vp.Centre },
+                        { vp.TopRight, vp.BottomRight },
+                        { vp.BottomRight, vp.TopLeft },
+                        { vp.BottomRight, vp.BottomLeft },
+                        { vp.TopRight, vp.BottomLeft } };
+                    var p1 = corners[region, 0];
+                    if (p1 == vp.Centre)
+                    {
+                        g.DrawEllipse(pen, -x1, -x1, 2 * x1, 2 * x1);
+                        break;
+                    }
+                    var p2 = corners[region, 1];
+                    double
+                        start = Math.Atan2(p1.Y, p1.X) * 180 / Math.PI,
+                        sweep = Math.Atan2(p2.Y, p2.X) * 180 / Math.PI - start;
+                    if (start < 0) start += 2 * Math.PI;
+                    if (sweep < 0) sweep += 2 * Math.PI;
+
+                    System.Diagnostics.Debug.WriteLine($"start = {start}, sweep = {sweep}");
+
+                    g.DrawArc(pen, -x1, -x1, 2 * x1, 2 * x1, (float)start, (float)sweep);
                     break;
                 case GridPass.Calibration when info.Calibration:
                     g.ScaleTransform(1, -1);

@@ -30,6 +30,11 @@
         public float Bottom => Centre.Y + Height / 2;
         public RectangleF Limits => new RectangleF(Left, Top, Width, Height);
 
+        public PointF BottomLeft { get => new PointF(Left, Bottom); }
+        public PointF BottomRight { get => new PointF(Right, Bottom); }
+        public PointF TopLeft { get => new PointF(Left, Top); }
+        public PointF TopRight { get => new PointF(Right, Top); }
+
         private float _ratio;
 
         public void SetRatio(float ratio) { _ratio = ratio; }
