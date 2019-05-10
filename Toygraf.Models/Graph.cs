@@ -269,7 +269,7 @@
         }
 
         [JsonIgnore, NonSerialized]
-        public Viewport Viewport = new Viewport(new PointF(0, 0), 20);
+        public Viewport Viewport = Defaults.GraphViewport;
 
         private Elements _elements;
         public Elements Elements

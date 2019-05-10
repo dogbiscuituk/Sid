@@ -40,6 +40,6 @@
             GraphTickStyles = TickStyles.Positive;
 
         public static readonly Viewport
-            GraphViewport = new Viewport(new PointF(0, 0), 20);
+            GraphViewport = new Viewport(new PointF(0, 0), 22);
     }
 }
