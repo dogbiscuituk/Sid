@@ -112,7 +112,6 @@
                     Expression = new Parser().Parse(value);
                     Func = Expression.AsFunction();
                     _formula = value;
-                    InvalidatePoints();
                     OnPropertyChanged("Formula");
                 }
             }
@@ -281,7 +280,7 @@
             }
         }
 
-        private void InvalidatePoints() => PointLists.Clear();
+        public void InvalidatePoints() => PointLists.Clear();
 
         #endregion
 

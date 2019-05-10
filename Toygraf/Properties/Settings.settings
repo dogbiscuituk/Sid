@@ -1,9 +1,12 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Sid.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ToyGraf.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
+    <Setting Name="KnownColorSortOrder" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Hue,Saturation</Value>
+    </Setting>
     <Setting Name="GraphFilter" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Sid Graph Files|*.sidgx|All Files (*.*)|*.*</Value>
+      <Value Profile="(Default)">ToyGraf Graph Files (*.tgg)|*.tgg|ToyGraf Templates (*.tgt)|*.tgt|All Files (*.*)|*.*</Value>
     </Setting>
   </Settings>
 </SettingsFile>

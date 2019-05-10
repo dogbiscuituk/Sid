@@ -13,12 +13,13 @@
             var log = Math.Log10(Math.Abs(x2 - x1));
             var order = Math.Floor(log);
             var scale = log - order;
-            using (Pen gridPen = new Pen(info.GridColour, info.PenWidth) { DashStyle = DashStyle.Dot },
+            using (Pen
+                gridPen = new Pen(info.GridColour, info.PenWidth) { DashStyle = DashStyle.Dot },
                 axisPen = new Pen(info.AxisColour, info.PenWidth))
+            using (var brush = new SolidBrush(info.AxisColour))
             using (var font = new Font("Arial", 5 * info.PenWidth))
             using (var format = new StringFormat(StringFormat.GenericTypographic) { Alignment = StringAlignment.Far })
             {
-                var brush = Brushes.DarkGray;
                 for (var phase = (GridPhase)0; (int)phase < 4; phase++)
                 {
                     info.Vertical = phase == GridPhase.VerticalLines || phase == GridPhase.Yaxis;

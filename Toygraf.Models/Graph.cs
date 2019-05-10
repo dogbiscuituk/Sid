@@ -459,6 +459,8 @@
                     : Series[index].Expression.AsProxy(Expressions.x, Expressions.t, refs);
         }
 
+        private void InvalidatePoints() => Series.ForEach(p => p.InvalidatePoints());
+
         public PointF ScreenToGraph(Point p, Rectangle r)
         {
             var points = new[] { new PointF(p.X, p.Y) };

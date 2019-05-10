@@ -25,7 +25,17 @@ namespace ToyGraf.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ToyGraf Graph Files|*.sidgx|All Files (*.*)|*.*")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Hue,Saturation")]
+        public string KnownColorSortOrder {
+            get {
+                return ((string)(this["KnownColorSortOrder"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ToyGraf Graph Files (*.tgg)|*.tgg|ToyGraf Templates (*.tgt)|*.tgt|All Files (*.*)" +
+            "|*.*")]
         public string GraphFilter {
             get {
                 return ((string)(this["GraphFilter"]));
