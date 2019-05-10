@@ -31,9 +31,9 @@
         public bool Yaxis { get => Vertical && (Elements & Elements.Yaxis) != 0; }
         public bool Axis { get => Xaxis || Yaxis; }
 
-        public bool Hlines { get => !Vertical && (Elements & Elements.HorizontalGridLines) != 0; }
-        public bool Vlines { get => Vertical && (Elements & Elements.VerticalGridLines) != 0; }
-        public bool Lines { get => Hlines || Vlines; }
+        public bool Hwires { get => !Vertical && (Elements & Elements.HorizontalWires) != 0; }
+        public bool Vwires { get => Vertical && (Elements & Elements.VerticalWires) != 0; }
+        public bool Wires { get => Hwires || Vwires; }
 
         public bool Xticks { get => Vertical && (Elements & Elements.Xticks) != 0; }
         public bool Yticks { get => !Vertical && (Elements & Elements.Yticks) != 0; }

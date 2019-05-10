@@ -2,8 +2,8 @@
 {
     public enum GridPhase
     {
-        HorizontalLines,
-        VerticalLines,
+        HorizontalWires,
+        VerticalWires,
         Xaxis,
         Yaxis
     }

@@ -245,8 +245,8 @@
         public void PlotTypeChanged(object sender, EventArgs e)
         {
             var polar = (PlotType)View.cbPlotType.SelectedIndex == PlotType.Polar;
-            ElementItems[1] = polar ? "Radial grid lines" : "Horizontal grid lines";
-            ElementItems[5] = polar ? "Tangential grid lines" : "Vertical grid lines";
+            ElementItems[1] = polar ? "Radial grid wires" : "Horizontal grid wires";
+            ElementItems[5] = polar ? "Circular grid wires" : "Vertical grid wires";
             View.cbDomainGraphWidth.Visible = View.seDomainMinCartesian.Visible =
                 View.seDomainMaxCartesian.Visible = !polar;
             View.seDomainMinPolar.Visible = View.seDomainMaxPolar.Visible = 

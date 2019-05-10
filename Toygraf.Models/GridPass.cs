@@ -2,7 +2,7 @@
 {
     public enum GridPass
     {
-        Lines,
+        Wires,
         Ticks,
         Calibration,
         Axes
