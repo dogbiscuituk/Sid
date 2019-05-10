@@ -116,12 +116,32 @@
         private static void DrawCircularWire(Graphics g, Pen pen, GridInfo info, float r)
         {
             var vp = info.Viewport;
-            // If the circle's bounding square lies wholly outside the viewport,
-            // then there's nothing to draw!
+
+            // If the circle's bounding square lies wholly outside the viewport, there's nothing to draw!
+
             if (vp.Left > r || vp.Right < -r || vp.Top > r || vp.Bottom < -r)
                 return;
-            // If the circle's centre lies outside the viewport,
-            // then we can draw an arc instead of a full circle.
+
+            /*
+               If the circle's centre lies outside the viewport, we can draw an arc instead of a full circle.
+               This is well worth doing, as GDI+ is slow at "drawing" clipped circles.
+
+               Partition the coordinate space into nine regions: three in the X direction (left, centre, right),
+               times three in the Y direction (top, middle, bottom). Note the inversion of the Y axis caused by
+               the use of conventional mathematical, rather than computer graphic, axes.
+
+               left centre right               If the circle's centre is inside the viewport, corresponding to
+                                               the central region numbered 4 here, we must draw the full circle.
+                 6  |  7  |  8    bottom       If it's outside, the shadow of the viewport as seen from the
+               -----+-----+-----               centre of the circle is bounded by two of the viewport corners
+                 3  |  4  |  5    middle       (possibly adjacent, possibly opposite). Which two corners? That
+               -----+-----+-----               depends on the region, as detailed in the array of point pairs
+                 0  |  1  |  2    top          "PointF[,] corners" shown below.
+
+               Once we have these two corners, we have the starting and finishing angles of our arc: these are
+               just the arctangents of the corners' coordinates.
+            */
+
             int region =
                 (vp.Left > 0 ? 0 : vp.Right > 0 ? 1 : 2) +
                 (vp.Top > 0 ? 0 : vp.Bottom > 0 ? 3 : 6);
