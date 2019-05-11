@@ -6,6 +6,9 @@
 
     public static class Grid
     {
+        private enum GridPhase { Hline, Vline, Xaxis, Yaxis }
+        private enum GridPass { GridWires, AxisTicks, Numbering, AxisWires }
+
         /// <summary>
         /// Draw all components of a rectangular or polar grid. In rendering order these are the grid "wires"
         /// (orthogonal lines in the rectangular case, arcs and radial spokes in the polar), axis tick marks,
@@ -13,20 +16,20 @@
         /// eight stages, controlled by the enumerations GridPhase and GridPass, in the sequence shown in the
         /// table below.
         /// 
-        ///  Stage  GridPhase      GridPass     What is rendered?
-        /// -------------------------------------------------------------------------------------------------
-        ///    1    DomainMarks    GridWires    Horizontal dotted lines (Cartesian) or radial spokes (Polar).
-        ///    2    DomainMarks    AxisTicks    Ticks along the Y axis.
-        ///    3    DomainMarks    Numbering    Numbers on the Y axis.
-        ///    4    RangeMarks     GridWires    Vertical dotted lines (Cartesian) or circular arcs (Polar).
-        ///    5    RangeMarks     AxisTicks    Ticks along the X axis.
-        ///    6    RangeMarks     Numbering    Numbers on the X axis.
-        ///    7    Xaxis          AxisWires    The X axis.
-        ///    8    Yaxis          AxisWires    The Y axis.
-        /// -------------------------------------------------------------------------------------------------
+        ///  Stage  Phase      Pass       What is rendered?
+        /// -------------------------------------------------------------------------------------------
+        ///    1    Hline    GridWires    Horizontal dotted lines (Cartesian) or radial spokes (Polar).
+        ///    2    Hline    AxisTicks    Ticks along the Y axis.
+        ///    3    Hline    Numbering    Numbers on the Y axis.
+        ///    4    Vline    GridWires    Vertical dotted lines (Cartesian) or circular arcs (Polar).
+        ///    5    Vline    AxisTicks    Ticks along the X axis.
+        ///    6    Vline    Numbering    Numbers on the X axis.
+        ///    7    Xaxis    AxisWires    The X axis.
+        ///    8    Yaxis    AxisWires    The Y axis.
+        /// -------------------------------------------------------------------------------------------
         /// </summary>
         /// <param name="g">The GDI+ output Graphics object.</param>
-        /// <param name="info">A struct containing iscellaneous information about the Grid being drawn.</param>
+        /// <param name="info">A struct of miscellaneous information about the Grid.</param>
         public static void DrawGrid(this Graphics g, GridInfo info)
         {
             var vp = info.Viewport;
@@ -43,9 +46,9 @@
                 for (var phase = (GridPhase)0; (int)phase < 4; phase++)
                 {
                     double
-                        maX = Math.Max(Math.Abs(x1), Math.Abs(x2)),
-                        maY = Math.Max(Math.Abs(y1), Math.Abs(y2));
-                    info.Vertical = phase == GridPhase.DomainMarks || phase == GridPhase.Yaxis;
+                        maxAbsX = Math.Max(Math.Abs(x1), Math.Abs(x2)),
+                        maxAbsY = Math.Max(Math.Abs(y1), Math.Abs(y2));
+                    info.Vertical = phase == GridPhase.Vline || phase == GridPhase.Yaxis;
                     if ((phase & GridPhase.Xaxis) != 0)
                         DrawWire(g, axisPen, font, brush, format, info, GridPass.AxisWires, x1, x2, 0);
                     else
@@ -57,11 +60,11 @@
                         {
                             var x0 = x1;
                             var dy = increment * Math.Pow(10, order - 1);
-                            var ymax = maY;
+                            var ymax = maxAbsY;
                             if (info.Polar)
                             {
-                                ymax = Math.Sqrt(maX * maX + maY * maY);
-                                if (phase == GridPhase.RangeMarks && pass == GridPass.GridWires)
+                                ymax = Math.Sqrt(maxAbsX * maxAbsX + maxAbsY * maxAbsY);
+                                if (phase == GridPhase.Hline && pass == GridPass.GridWires)
                                 {
                                     x0 = (float)ymax;
                                     dy = 10;
