@@ -6,6 +6,27 @@
 
     public static class Grid
     {
+        /// <summary>
+        /// Draw all components of a rectangular or polar grid. In rendering order these are the grid "wires"
+        /// (orthogonal lines in the rectangular case, arcs and radial spokes in the polar), axis tick marks,
+        /// axis numbering (calibration), and the axes themselves. The rendering process comprises a total of
+        /// eight stages, controlled by the enumerations GridPhase and GridPass, in the sequence shown in the
+        /// table below.
+        /// 
+        ///  Stage  GridPhase      GridPass     What is rendered?
+        /// -------------------------------------------------------------------------------------------------
+        ///    1    DomainMarks    GridWires    Horizontal dotted lines (Cartesian) or radial spokes (Polar).
+        ///    2    DomainMarks    AxisTicks    Ticks along the Y axis.
+        ///    3    DomainMarks    Numbering    Numbers on the Y axis.
+        ///    4    RangeMarks     GridWires    Vertical dotted lines (Cartesian) or circular arcs (Polar).
+        ///    5    RangeMarks     AxisTicks    Ticks along the X axis.
+        ///    6    RangeMarks     Numbering    Numbers on the X axis.
+        ///    7    Xaxis          AxisWires    The X axis.
+        ///    8    Yaxis          AxisWires    The Y axis.
+        /// -------------------------------------------------------------------------------------------------
+        /// </summary>
+        /// <param name="g">The GDI+ output Graphics object.</param>
+        /// <param name="info">A struct containing iscellaneous information about the Grid being drawn.</param>
         public static void DrawGrid(this Graphics g, GridInfo info)
         {
             var vp = info.Viewport;
@@ -24,9 +45,9 @@
                     double
                         maX = Math.Max(Math.Abs(x1), Math.Abs(x2)),
                         maY = Math.Max(Math.Abs(y1), Math.Abs(y2));
-                    info.Vertical = phase == GridPhase.VerticalWires || phase == GridPhase.Yaxis;
+                    info.Vertical = phase == GridPhase.DomainMarks || phase == GridPhase.Yaxis;
                     if ((phase & GridPhase.Xaxis) != 0)
-                        DrawWire(g, axisPen, font, brush, format, info, GridPass.Axes, x1, x2, 0);
+                        DrawWire(g, axisPen, font, brush, format, info, GridPass.AxisWires, x1, x2, 0);
                     else
                     {
                         double increment = scale < 0.3 ? 2 : scale < 0.7 ? 5 : 10;
@@ -40,7 +61,7 @@
                             if (info.Polar)
                             {
                                 ymax = Math.Sqrt(maX * maX + maY * maY);
-                                if (phase == GridPhase.HorizontalWires && pass == GridPass.Wires)
+                                if (phase == GridPhase.RangeMarks && pass == GridPass.GridWires)
                                 {
                                     x0 = (float)ymax;
                                     dy = 10;
@@ -49,7 +70,7 @@
                             }
                             for (var y = 0.0; y <= ymax; y += dy)
                             {
-                                var pen = pass == GridPass.Ticks ? axisPen : gridPen;
+                                var pen = pass == GridPass.AxisTicks ? axisPen : gridPen;
                                 DrawWire(g, pen, font, brush, format, info, pass, x0, x2, (float)y);
                                 if (y != 0.0)
                                     DrawWire(g, pen, font, brush, format, info, pass, x0, x2, -(float)y);
@@ -74,7 +95,7 @@
             var clip =
                 !info.Vertical && (y < vp.Top || y > vp.Bottom) ||
                 info.Vertical && (y < vp.Left || y > vp.Right);
-            if (pass == GridPass.Ticks)
+            if (pass == GridPass.AxisTicks)
             {
                 var tickSize = font.Size;
                 x1 = info.TickPositive ? tickSize : 0;
@@ -90,19 +111,21 @@
             }
             switch (pass)
             {
-                case GridPass.Axes when info.Axis:
-                case GridPass.Wires when info.Wires && !info.Polar:
-                case GridPass.Ticks when info.Ticks:
+                case GridPass.AxisWires when info.Axis:
+                case GridPass.GridWires when info.Wires && !info.Polar:
+                case GridPass.AxisTicks when info.Ticks:
                     if (!clip)
                         g.DrawLine(pen, x1, y1, x2, y2);
                     break;
-                case GridPass.Wires when info.Hwires && info.Polar:
-                    DrawWireSpoke(g, pen, x1, y);
+                case GridPass.GridWires when info.Hwires && info.Polar:
+                    if (y >= 0)
+                        DrawWireSpoke(g, pen, x1, y);
                     break;
-                case GridPass.Wires when info.Vwires && info.Polar:
-                    DrawWireArc(g,pen, info, x1);
+                case GridPass.GridWires when info.Vwires && info.Polar:
+                    if (x1 >= 0)
+                        DrawWireArc(g,pen, info, x1);
                     break;
-                case GridPass.Calibration when info.Calibration:
+                case GridPass.Numbering when info.Calibration:
                     DrawWireCalibration(g, pen, brush, font, format, x, y, z);
                     break;
             }
