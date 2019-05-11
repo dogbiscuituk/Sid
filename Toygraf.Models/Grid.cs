@@ -68,6 +68,10 @@
         private static void DrawWire(Graphics g, Pen pen, Font font, Brush brush, StringFormat format,
             GridInfo info, GridPass pass, float x1, float x2, float y)
         {
+            var vp = info.Viewport;
+            if (!info.Vertical && (y < vp.Top|| y > vp.Bottom) ||
+                (info.Vertical && (y < vp.Left || y > vp.Right)))
+                return;
             if (pass == GridPass.Ticks)
             {
                 var tickSize = font.Size;
@@ -104,8 +108,7 @@
             }
         }
 
-        private static void DrawCalibration(
-            Graphics g, Pen pen, Brush brush, Font font, StringFormat format,
+        private static void DrawCalibration(Graphics g, Pen pen, Brush brush, Font font, StringFormat format,
             float x, float y, float z)
         {
             g.ScaleTransform(1, -1);
