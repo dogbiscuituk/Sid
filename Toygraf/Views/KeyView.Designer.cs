@@ -47,12 +47,13 @@
             this.cbFunction.BackColor = System.Drawing.SystemColors.Control;
             this.cbFunction.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbFunction.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbFunction.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbFunction.FormattingEnabled = true;
             this.cbFunction.ItemHeight = 16;
-            this.cbFunction.Location = new System.Drawing.Point(46, 0);
+            this.cbFunction.Location = new System.Drawing.Point(54, 0);
             this.cbFunction.Margin = new System.Windows.Forms.Padding(0);
             this.cbFunction.Name = "cbFunction";
-            this.cbFunction.Size = new System.Drawing.Size(149, 22);
+            this.cbFunction.Size = new System.Drawing.Size(173, 22);
             this.cbFunction.TabIndex = 0;
             this.ToolTip.SetToolTip(this.cbFunction, "Formula for points on this trace");
             // 
@@ -62,10 +63,10 @@
             this.btnRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemove.ImageIndex = 1;
             this.btnRemove.ImageList = this.ImageList;
-            this.btnRemove.Location = new System.Drawing.Point(400, 0);
+            this.btnRemove.Location = new System.Drawing.Point(467, 0);
             this.btnRemove.Margin = new System.Windows.Forms.Padding(0);
             this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(18, 18);
+            this.btnRemove.Size = new System.Drawing.Size(21, 21);
             this.btnRemove.TabIndex = 4;
             this.ToolTip.SetToolTip(this.btnRemove, "Delete this trace from the graph");
             this.btnRemove.UseVisualStyleBackColor = true;
@@ -87,10 +88,10 @@
             this.cbPenColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbPenColour.FormattingEnabled = true;
             this.cbPenColour.ItemHeight = 16;
-            this.cbPenColour.Location = new System.Drawing.Point(211, 0);
+            this.cbPenColour.Location = new System.Drawing.Point(246, 0);
             this.cbPenColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbPenColour.Name = "cbPenColour";
-            this.cbPenColour.Size = new System.Drawing.Size(64, 22);
+            this.cbPenColour.Size = new System.Drawing.Size(74, 22);
             this.cbPenColour.TabIndex = 1;
             this.ToolTip.SetToolTip(this.cbPenColour, "Pen colour used to draw this trace");
             // 
@@ -103,10 +104,10 @@
             this.cbFillColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbFillColour.FormattingEnabled = true;
             this.cbFillColour.ItemHeight = 16;
-            this.cbFillColour.Location = new System.Drawing.Point(274, 0);
+            this.cbFillColour.Location = new System.Drawing.Point(320, 0);
             this.cbFillColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbFillColour.Name = "cbFillColour";
-            this.cbFillColour.Size = new System.Drawing.Size(64, 22);
+            this.cbFillColour.Size = new System.Drawing.Size(74, 22);
             this.cbFillColour.TabIndex = 2;
             this.ToolTip.SetToolTip(this.cbFillColour, "Fill colour (area under this trace)");
             // 
@@ -119,10 +120,10 @@
             this.cbVisible.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.Control;
             this.cbVisible.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
             this.cbVisible.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbVisible.Location = new System.Drawing.Point(4, 1);
+            this.cbVisible.Location = new System.Drawing.Point(5, 1);
             this.cbVisible.Margin = new System.Windows.Forms.Padding(0);
             this.cbVisible.Name = "cbVisible";
-            this.cbVisible.Size = new System.Drawing.Size(64, 17);
+            this.cbVisible.Size = new System.Drawing.Size(75, 20);
             this.cbVisible.TabIndex = 5;
             this.cbVisible.Text = "f";
             this.ToolTip.SetToolTip(this.cbVisible, "Show or hide this trace");
@@ -137,11 +138,11 @@
             0,
             0,
             0});
-            this.seTransparency.Location = new System.Drawing.Point(338, 3);
+            this.seTransparency.Location = new System.Drawing.Point(394, 3);
             this.seTransparency.Margin = new System.Windows.Forms.Padding(0);
             this.seTransparency.Name = "seTransparency";
             this.seTransparency.ReadOnly = true;
-            this.seTransparency.Size = new System.Drawing.Size(38, 16);
+            this.seTransparency.Size = new System.Drawing.Size(44, 19);
             this.seTransparency.TabIndex = 3;
             this.seTransparency.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.ToolTip.SetToolTip(this.seTransparency, "Fill transparency (%)");
@@ -150,13 +151,13 @@
             // 
             this.btnDetails.FlatAppearance.BorderSize = 0;
             this.btnDetails.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDetails.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDetails.ImageIndex = 2;
             this.btnDetails.ImageList = this.ImageList;
-            this.btnDetails.Location = new System.Drawing.Point(380, 0);
+            this.btnDetails.Location = new System.Drawing.Point(443, 0);
             this.btnDetails.Margin = new System.Windows.Forms.Padding(0);
             this.btnDetails.Name = "btnDetails";
-            this.btnDetails.Size = new System.Drawing.Size(18, 18);
+            this.btnDetails.Size = new System.Drawing.Size(21, 21);
             this.btnDetails.TabIndex = 6;
             this.btnDetails.Text = "...";
             this.ToolTip.SetToolTip(this.btnDetails, "Show more details");
@@ -164,8 +165,9 @@
             // 
             // KeyView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Transparent;
             this.Controls.Add(this.btnDetails);
             this.Controls.Add(this.seTransparency);
@@ -174,9 +176,10 @@
             this.Controls.Add(this.cbPenColour);
             this.Controls.Add(this.cbFillColour);
             this.Controls.Add(this.cbVisible);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "KeyView";
             this.Padding = new System.Windows.Forms.Padding(1);
-            this.Size = new System.Drawing.Size(418, 22);
+            this.Size = new System.Drawing.Size(489, 23);
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).EndInit();
             this.ResumeLayout(false);
 

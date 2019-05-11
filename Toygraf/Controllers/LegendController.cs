@@ -105,14 +105,19 @@
         private void AdjustLegend()
         {
             Legend.Visible = true;
-            const int margin = 0, keyHeight = 21, maxKeys = 17;
+            const int margin = 0, keyHeight = 23, maxKeys = 17;
             var scroll = Keys.Count > maxKeys;
-            int w = 424 + (scroll ? SystemInformation.VerticalScrollBarWidth : 0),
+            int w = 489 + (scroll ? SystemInformation.VerticalScrollBarWidth : 0),
                 h = Math.Min(Keys.Count, maxKeys) * keyHeight,
                 x = Client.Width - w, y = Client.Height - h;
             Legend.AutoScrollPosition = new Point(0, 0);
-            for (int index = 0, top = 0; index < Keys.Count; index++, top += keyHeight)
-                Keys[index].Location = new Point(0, top);
+            int index = 0, top = 0;
+            foreach (KeyView key in Keys)
+            {
+                key.Location = new Point(0, top);
+                key.cbVisible.Text = $"f{index++}";
+                top += keyHeight;
+            }
             var anchor = AlignToAnchor(LegendAlignment);
             switch (LegendAlignment)
             {
@@ -172,7 +177,6 @@
                 child.FillTransparencyPercent = series.FillTransparencyPercent;
             }
             var index = Keys.Count;
-            child.TraceLabel = $"f{Keys.Count.ToString()}";
             child.View.cbFunction.Validating += CbFunction_Validating;
             Keys.Add(child.View);
             AfterKeyChange();
