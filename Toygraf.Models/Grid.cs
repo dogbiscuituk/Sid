@@ -62,6 +62,8 @@
                 }
         }
 
+        private const float piOver180 = (float)Math.PI / 180;
+
         private static void BumpDown(ref double value) => value = value == 5 ? 2 : value / 2;
         private static void BumpUp(ref double value) => value = value == 2 ? 5 : value * 2;
 
@@ -69,9 +71,9 @@
             GridInfo info, GridPass pass, float x1, float x2, float y)
         {
             var vp = info.Viewport;
-            if (!info.Vertical && (y < vp.Top|| y > vp.Bottom) ||
-                (info.Vertical && (y < vp.Left || y > vp.Right)))
-                return;
+            var clip =
+                !info.Vertical && (y < vp.Top || y > vp.Bottom) ||
+                info.Vertical && (y < vp.Left || y > vp.Right);
             if (pass == GridPass.Ticks)
             {
                 var tickSize = font.Size;
@@ -90,33 +92,23 @@
             {
                 case GridPass.Axes when info.Axis:
                 case GridPass.Wires when info.Wires && !info.Polar:
-                    g.DrawLine(pen, x1, y1, x2, y2);
+                case GridPass.Ticks when info.Ticks:
+                    if (!clip)
+                        g.DrawLine(pen, x1, y1, x2, y2);
                     break;
                 case GridPass.Wires when info.Hwires && info.Polar:
-                    DrawRadialWire(g, pen, x1, y);
+                    DrawWireSpoke(g, pen, x1, y);
                     break;
                 case GridPass.Wires when info.Vwires && info.Polar:
-                    DrawCircularWire(g,pen, info, x1);
+                    DrawWireArc(g,pen, info, x1);
                     break;
                 case GridPass.Calibration when info.Calibration:
-                    DrawCalibration(g, pen, brush, font, format, x, y, z);
-                    break;
-                case GridPass.Ticks:
-                    if (info.Ticks)
-                        g.DrawLine(pen, x1, y1, x2, y2);
+                    DrawWireCalibration(g, pen, brush, font, format, x, y, z);
                     break;
             }
         }
 
-        private static void DrawCalibration(Graphics g, Pen pen, Brush brush, Font font, StringFormat format,
-            float x, float y, float z)
-        {
-            g.ScaleTransform(1, -1);
-            g.DrawString(z.ToString(), font, brush, x - pen.Width, y + pen.Width, format);
-            g.ScaleTransform(1, -1);
-        }
-
-        private static void DrawCircularWire(Graphics g, Pen pen, GridInfo info, float r)
+        private static void DrawWireArc(Graphics g, Pen pen, GridInfo info, float r)
         {
             var vp = info.Viewport;
 
@@ -127,11 +119,11 @@
 
             /*
                If the circle's centre lies outside the viewport, we can draw an arc instead of a full circle.
-               This is well worth doing, as GDI+ is slow at "drawing" clipped circles.
+               This is worth doing because GDI+ is slow at "drawing" clipped circles.
 
                Partition the coordinate space into nine regions: three in the X direction (left, centre, right),
-               times three in the Y direction (top, middle, bottom). Note the inversion of the Y axis caused by
-               the use of conventional mathematical, rather than computer graphic, axes.
+               times three in the Y direction (top, middle, bottom). The inversion of the Y axis is necessitated
+               by the use throughout of conventional mathematical (rather than computer graphic) axes.
 
                left centre right               If the circle's centre is inside the viewport, corresponding to
                                                the central region numbered 4 here, we must draw the full circle.
@@ -139,9 +131,9 @@
                -----+-----+-----               centre of the circle is bounded by two of the viewport corners
                  3  |  4  |  5    middle       (possibly adjacent, possibly opposite). Which two corners? That
                -----+-----+-----               depends on the region, as detailed in the array of point pairs
-                 0  |  1  |  2    top          "PointF[,] corners" shown below.
+                 0  |  1  |  2    top          "PointF[,] corners" in code below.
 
-               Once we have these two corners, we have the starting and finishing angles of our arc: these are
+               Once we have those two corners, we have the starting and finishing angles of our arc: these are
                just the arctangents of the corners' coordinates.
             */
 
@@ -165,16 +157,26 @@
             {
                 var p2 = corners[region, 1];
                 double
-                    start = Math.Atan2(p1.Y, p1.X) * 180 / Math.PI,
-                    sweep = Math.Atan2(p2.Y, p2.X) * 180 / Math.PI - start;
-                if (sweep < 0) sweep += 360;
-                g.DrawArc(pen, -r, -r, 2 * r, 2 * r, (float)start, (float)sweep);
+                    startDegrees = Math.Atan2(p1.Y, p1.X) / piOver180,
+                    sweepDegrees = Math.Atan2(p2.Y, p2.X) / piOver180 - startDegrees;
+                if (sweepDegrees < 0) sweepDegrees += 360;
+                g.DrawArc(pen, -r, -r, 2 * r, 2 * r, (float)startDegrees, (float)sweepDegrees);
             }
         }
 
-        private static void DrawRadialWire(Graphics g, Pen pen, float x, float y)
+        private static void DrawWireCalibration(Graphics g, Pen pen, Brush brush, Font font,
+            StringFormat format, float x, float y, float z)
         {
-            var θ = y * Math.PI / 180;
+            // The temporary inversion of the Y axis is necessitated by the use
+            // of conventional mathematical (rather than computer graphic) axes.
+            g.ScaleTransform(1, -1);
+            g.DrawString(z.ToString(), font, brush, x - pen.Width, y + pen.Width, format);
+            g.ScaleTransform(1, -1);
+        }
+
+        private static void DrawWireSpoke(Graphics g, Pen pen, float x, float y)
+        {
+            var θ = y * piOver180;
             double sin = Math.Sin(θ), cos = Math.Cos(θ);
             y = (float)(x * sin);
             x = (float)(x * cos);
