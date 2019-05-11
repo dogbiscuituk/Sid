@@ -50,6 +50,7 @@
         private bool Dragging;
         private Point MouseDownAt;
         private FormWindowState PriorWindowState;
+        private bool PriorLegendVisible;
 
         private bool FullScreen
         {
@@ -390,9 +391,13 @@ version {Application.ProductVersion}
         private void AdjustFullScreen()
         {
             var normal = !FullScreen;
-            View.MainMenuStrip.Visible = View.Toolbar.Visible = View.StatusBar.Visible = normal;
+            View.MainMenuStrip.Visible =
+                View.Toolbar.Visible =
+                View.StatusBar.Visible = normal;
             if (FullScreen)
             {
+                PriorLegendVisible = View.LegendPanel.Visible;
+                View.LegendPanel.Visible = false;
                 View.FormBorderStyle = FormBorderStyle.None;
                 PriorWindowState = View.WindowState;
                 View.WindowState = FormWindowState.Maximized;
@@ -400,6 +405,7 @@ version {Application.ProductVersion}
             }
             else
             {
+                View.LegendPanel.Visible = PriorLegendVisible;
                 View.FormBorderStyle = FormBorderStyle.Sizable;
                 View.WindowState = PriorWindowState;
                 MoveMenuItems(View.PopupMenu, View.MainMenu);

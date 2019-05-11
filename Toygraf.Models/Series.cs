@@ -197,7 +197,7 @@
                 }
             else
                 using (var pen = new Pen(PenColour, penWidth))
-                    PointLists.ForEach(p => g.DrawLines(pen, p.ToArray()));
+                    PointLists.ForEach(p => g.DrawCurve(pen, p.ToArray()));
         }
 
         private Task<List<List<PointF>>> ComputePointsAsync(
