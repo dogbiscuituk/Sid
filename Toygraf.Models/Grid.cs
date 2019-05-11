@@ -6,7 +6,7 @@
 
     public static class Grid
     {
-        public static void Draw(Graphics g, GridInfo info)
+        public static void DrawGrid(this Graphics g, GridInfo info)
         {
             var vp = info.Viewport;
             float x1 = vp.Left, y1 = vp.Bottom, x2 = vp.Right, y2 = vp.Top;
@@ -108,50 +108,43 @@
             }
         }
 
+        /// <summary>
+        /// Draw a circular arc (or possibly a full or clipped circle) as part of a polar grid.
+        /// 
+        /// If the circle's centre lies outside the viewport, we can draw an arc instead of a full circle.
+        /// This is worth doing because GDI+ is slow at "drawing" clipped circles.
+        ///
+        /// Partition the coordinate space into nine regions: three in the X direction (left, centre, right),
+        /// times three in the Y direction (top, middle, bottom). The inversion of the Y axis is necessitated
+        /// by the use throughout of conventional mathematical (rather than computer graphic) axes.
+        ///
+        /// left centre right               If the circle's centre is inside the viewport, corresponding to
+        ///                                 the central region numbered 4 here, we must draw the full circle.
+        ///   6  |  7  |  8    bottom       If it's outside, the shadow of the viewport as seen from the
+        /// -----+-----+-----               centre of the circle is bounded by two of the viewport corners
+        ///   3  |  4  |  5    middle       (possibly adjacent, possibly opposite). Which two corners? That
+        /// -----+-----+-----               depends on the region, as detailed in the array of point pairs
+        ///   0  |  1  |  2    top          "PointF[,] corners" in code.
+        ///
+        /// Once we have those two corners, we have the starting and finishing angles of our arc: these are
+        /// just the arctangents of the corners' coordinates.
+        /// </summary>
+        /// <param name="g">The GDI+ output Graphics object.</param>
+        /// <param name="pen">The pen used to draw the grid.</param>
+        /// <param name="info">A struct containing iscellaneous information about the Grid being drawn.</param>
+        /// <param name="r">The radius of the arc.</param>
         private static void DrawWireArc(Graphics g, Pen pen, GridInfo info, float r)
         {
             var vp = info.Viewport;
-
-            // If the circle's bounding square lies wholly outside the viewport, there's nothing to draw!
-
             if (vp.Left > r || vp.Right < -r || vp.Top > r || vp.Bottom < -r)
-                return;
-
-            /*
-               If the circle's centre lies outside the viewport, we can draw an arc instead of a full circle.
-               This is worth doing because GDI+ is slow at "drawing" clipped circles.
-
-               Partition the coordinate space into nine regions: three in the X direction (left, centre, right),
-               times three in the Y direction (top, middle, bottom). The inversion of the Y axis is necessitated
-               by the use throughout of conventional mathematical (rather than computer graphic) axes.
-
-               left centre right               If the circle's centre is inside the viewport, corresponding to
-                                               the central region numbered 4 here, we must draw the full circle.
-                 6  |  7  |  8    bottom       If it's outside, the shadow of the viewport as seen from the
-               -----+-----+-----               centre of the circle is bounded by two of the viewport corners
-                 3  |  4  |  5    middle       (possibly adjacent, possibly opposite). Which two corners? That
-               -----+-----+-----               depends on the region, as detailed in the array of point pairs
-                 0  |  1  |  2    top          "PointF[,] corners" in code below.
-
-               Once we have those two corners, we have the starting and finishing angles of our arc: these are
-               just the arctangents of the corners' coordinates.
-            */
-
-            int region =
-                (vp.Left > 0 ? 0 : vp.Right > 0 ? 1 : 2) +
-                (vp.Top > 0 ? 0 : vp.Bottom > 0 ? 3 : 6);
+                return; // Nothing to draw if circle's bounding square is wholly outside viewport.
+            int region = (vp.Left > 0 ? 0 : vp.Right > 0 ? 1 : 2) + (vp.Top > 0 ? 0 : vp.Bottom > 0 ? 3 : 6);
             PointF[,] corners = {
-                { vp.TopRight, vp.BottomLeft },
-                { vp.TopRight, vp.TopLeft },
-                { vp.BottomRight, vp.TopLeft },
-                { vp.TopLeft, vp.BottomLeft },
-                { vp.Centre, vp.Centre },
-                { vp.BottomRight, vp.TopRight },
-                { vp.TopLeft, vp.BottomRight },
-                { vp.BottomLeft, vp.BottomRight },
-                { vp.BottomLeft, vp.TopRight } };
+                { vp.TopRight, vp.BottomLeft }, { vp.TopRight, vp.TopLeft }, { vp.BottomRight, vp.TopLeft },
+                { vp.TopLeft, vp.BottomLeft }, { vp.Centre, vp.Centre }, { vp.BottomRight, vp.TopRight },
+                { vp.TopLeft, vp.BottomRight }, { vp.BottomLeft, vp.BottomRight }, { vp.BottomLeft, vp.TopRight } };
             var p1 = corners[region, 0];
-            if (p1 == vp.Centre) // Full circle required!
+            if (p1 == vp.Centre) // Full circle required.
                 g.DrawEllipse(pen, -r, -r, 2 * r, 2 * r);
             else // An arc will suffice.
             {
@@ -174,12 +167,10 @@
             g.ScaleTransform(1, -1);
         }
 
-        private static void DrawWireSpoke(Graphics g, Pen pen, float x, float y)
+        private static void DrawWireSpoke(Graphics g, Pen pen, float r, float θ)
         {
-            var θ = y * piOver180;
-            double sin = Math.Sin(θ), cos = Math.Cos(θ);
-            y = (float)(x * sin);
-            x = (float)(x * cos);
+            θ *= piOver180; // Convert degrees to radians.
+            float x = (float)(r * Math.Cos(θ)), y = (float)(r * Math.Sin(θ));
             g.DrawLine(pen, -x, -y, +x, +y);
         }
 

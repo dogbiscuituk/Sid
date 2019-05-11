@@ -351,7 +351,7 @@
             // Elements
             _elements = Defaults.GraphElements;
             //Optimization
-            _optimization = Optimization.Default;
+            _optimization = Defaults.GraphOptimization;
             // PlotType
             _plotType = Defaults.GraphPlotType;
             // PointF
@@ -419,7 +419,7 @@
                         s.DrawAsync(g, _domain, Viewport, penWidth, fill, time, PlotType);
                 });
                 if (fill)
-                    Grid.Draw(g, new GridInfo(PlotType, Viewport, AxisColour, GridColour, penWidth, Elements, TickStyles));
+                    g.DrawGrid(new GridInfo(PlotType, Viewport, AxisColour, GridColour, penWidth, Elements, TickStyles));
             }
         }
 
@@ -484,20 +484,27 @@
         {
             switch (Optimization)
             {
-                case Optimization.HighQuality:
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    g.CompositingQuality = CompositingQuality.HighQuality;
-                    g.SmoothingMode = SmoothingMode.HighQuality;
-                    g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                    return;
                 case Optimization.HighSpeed:
                     g.InterpolationMode = InterpolationMode.Low;
                     g.CompositingQuality = CompositingQuality.HighSpeed;
                     g.SmoothingMode = SmoothingMode.HighSpeed;
                     g.TextRenderingHint = TextRenderingHint.SystemDefault;
                     g.PixelOffsetMode = PixelOffsetMode.HighSpeed;
-                    return;
+                    break;
+                case Optimization.HighQuality:
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    g.CompositingQuality = CompositingQuality.HighQuality;
+                    g.SmoothingMode = SmoothingMode.HighQuality;
+                    g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    break;
+                default:
+                    g.InterpolationMode = InterpolationMode.Bilinear;
+                    g.CompositingQuality = CompositingQuality.Default;
+                    g.SmoothingMode = SmoothingMode.None;
+                    g.TextRenderingHint = TextRenderingHint.SystemDefault;
+                    g.PixelOffsetMode = PixelOffsetMode.Default;
+                    break;
             }
         }
 
