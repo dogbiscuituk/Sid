@@ -64,7 +64,7 @@
                                 if (phase == GridPhase.Hline && pass == GridPass.GridWires)
                                 {
                                     x0 = (float)ymax;
-                                    dy = 10;
+                                    dy = 5;
                                     ymax = 180 - dy;
                                 }
                             }
@@ -197,18 +197,20 @@
             var radians = degrees * piOver180;
             double c = Math.Cos(radians), s = Math.Sin(radians);
             float x = (float)(r * c), y = (float)(r * s);
-            var major = degrees % 30 == 0;
+            var major = degrees % 15 == 0;
             pen.DashStyle = major ? DashStyle.Dash : DashStyle.Dot;
             g.DrawLine(pen, -x, -y, +x, +y);
             if (!major || (info.Elements & Elements.Calibration) == 0)
                 return;
-            var pw = 10 * pen.Width;
+            var pw = 12 * pen.Width;
             var intercepts = info.Viewport.GetIntercepts(radians, pw);
-            string[] rads = new[] { "0", "π/6", "π/3", "π/2", "2π/3", "5π/6", "π" };
+            string[] rads = new[] {
+                "0", "π/12", "π/6", "π/4", "π/3", "5π/12", "π/2",
+                "7π/12", "2π/3", "3π/4", "5π/6", "11π/12", "π" };
             foreach (PointF p in intercepts)
             {
                 var d = p.Y == 0 && p.X < 0 ? 180 : p.Y >= 0 ? (int)degrees : (int)degrees - 180;
-                var label = info.Domain.PolarDegrees ? $"{d}°" : d >= 0 ? rads[d / 30] : $"-{rads[-d / 30]}";
+                var label = info.Domain.PolarDegrees ? $"{d}°" : d >= 0 ? rads[d / 15] : $"-{rads[-d / 15]}";
                 if (p.X < 0)
                     d -= 180;
                 g.TranslateTransform(p.X, p.Y);

@@ -267,7 +267,7 @@
                     p.CopyTo(points);
                     points[n] = new PointF(points[n - 1].X, 0);
                     points[n + 1] = new PointF(points[0].X, 0);
-                    g.FillPolygon(brush, points);
+                    g.FillClosedCurve(brush, points); //  FillPolygon(brush, points);
                     // Draw vertical asymptotes iff X extremes are not Limits.
                     if (points[n].X < Viewport.Right)
                         g.DrawLine(pen, points[n - 1], points[n]);
