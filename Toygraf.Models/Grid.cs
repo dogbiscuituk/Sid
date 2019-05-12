@@ -100,7 +100,7 @@
                 info.Vertical && (y < vp.Left || y > vp.Right);
             if (pass == GridPass.AxisTicks)
             {
-                var tickSize = font.Size;
+                var tickSize = font.Size / 2;
                 x1 = info.TickPositive ? tickSize : 0;
                 x2 = info.TickNegative ? -tickSize : 0;
             }

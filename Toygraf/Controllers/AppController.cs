@@ -28,7 +28,6 @@
             JsonController.FileSaved += JsonController_FileSaved;
             LegendController = new LegendController(this);
             UpdateCaption();
-            InitToolbar();
             UpdatePlotTypeUI();
             AdjustPictureBox();
         }
@@ -264,11 +263,6 @@ version {Application.ProductVersion}
                     break;
             }
             InvalidatePictureBox();
-        }
-
-        private void InitToolbar()
-        {
-            
         }
 
         private void UpdatePlotTypeUI()
