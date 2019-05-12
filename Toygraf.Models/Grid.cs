@@ -102,7 +102,7 @@
             {
                 var tickSize = font.Size;
                 x1 = info.TickPositive ? tickSize : 0;
-                x2 = info.TickNegative ? tickSize : 0;
+                x2 = info.TickNegative ? -tickSize : 0;
             }
             float x = 0, y1 = y, y2 = y, z = -y;
             if (info.Vertical)
@@ -186,6 +186,8 @@
         private static void DrawWireCalibration(this Graphics g, Pen pen, Brush brush, Font font,
             StringFormat format, float x, float y, string label)
         {
+            format.Alignment = StringAlignment.Far;
+            format.LineAlignment = StringAlignment.Near;
             g.DrawWireString(label, font, brush, x - pen.Width, y + pen.Width, format);
         }
 
@@ -193,17 +195,29 @@
             StringFormat format, GridInfo info, float r, float degrees)
         {
             var radians = degrees * piOver180;
-            float x = (float)(r * Math.Cos(radians)), y = (float)(r * Math.Sin(radians));
+            double c = Math.Cos(radians), s = Math.Sin(radians);
+            float x = (float)(r * c), y = (float)(r * s);
+            var major = degrees % 30 == 0;
+            pen.DashStyle = major ? DashStyle.Dash : DashStyle.Dot;
             g.DrawLine(pen, -x, -y, +x, +y);
-            if (degrees % 30 != 0)
+            if (!major || (info.Elements & Elements.Calibration) == 0)
                 return;
-            var pw = pen.Width * 15;
+            var pw = 10 * pen.Width;
             var intercepts = info.Viewport.GetIntercepts(radians, pw);
+            string[] rads = new[] { "0", "π/6", "π/3", "π/2", "2π/3", "5π/6", "π" };
             foreach (PointF p in intercepts)
             {
-                var d = p.Y == 0 && p.X < 0 ? 180 : p.Y >= 0 ? degrees : degrees - 180;
-                var angle = info.Domain.PolarDegrees ? $"{d}°" : $"{d/30}π/6";
-                g.DrawWireString(angle, font, brush, p.X, -p.Y, format);
+                var d = p.Y == 0 && p.X < 0 ? 180 : p.Y >= 0 ? (int)degrees : (int)degrees - 180;
+                var label = info.Domain.PolarDegrees ? $"{d}°" : d >= 0 ? rads[d / 30] : $"-{rads[-d / 30]}";
+                if (p.X < 0)
+                    d -= 180;
+                g.TranslateTransform(p.X, p.Y);
+                g.RotateTransform(d);
+                format.Alignment = StringAlignment.Center;
+                format.LineAlignment = StringAlignment.Far;
+                g.DrawWireString(label, font, brush, 0, 0, format);
+                g.RotateTransform(-d);
+                g.TranslateTransform(-p.X, -p.Y);
             }
         }
 

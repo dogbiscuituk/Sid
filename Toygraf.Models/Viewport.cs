@@ -44,21 +44,19 @@
 
         public PointF[] GetIntercepts(float radians, float margin)
         {
-            var limits = Limits;
-            float
-                m = (float)Math.Tan(radians),
-                left = Left + margin,
-                top = Top + margin,
-                right = Right - margin,
-                bottom = Bottom - margin;
+            var r = Limits;
+            r.Inflate(-margin, -margin);
+            float m = (float)Math.Tan(radians);
             var result = new List<PointF>()
             {
-                new PointF(left, left * m),
-                new PointF(top / m, top),
-                new PointF(right, right * m),
-                new PointF(bottom / m, bottom)
+                new PointF(r.Left, r.Left * m),
+                new PointF(r.Top / m, r.Top),
+                new PointF(r.Right, r.Right * m),
+                new PointF(r.Bottom / m, r.Bottom)
             };
-            result.RemoveAll(p => !limits.Contains(p));
+            margin /= 1000;
+            r.Inflate(margin, margin);
+            result.RemoveAll(p => !r.Contains(p));
             return result.ToArray();
         }
 

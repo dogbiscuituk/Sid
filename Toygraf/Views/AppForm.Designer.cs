@@ -531,7 +531,7 @@
             this.ClientPanel.Controls.Add(this.LegendPanel);
             this.ClientPanel.Controls.Add(this.PictureBox);
             this.ClientPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ClientPanel.Location = new System.Drawing.Point(0, 24);
+            this.ClientPanel.Location = new System.Drawing.Point(32, 24);
             this.ClientPanel.Name = "ClientPanel";
             this.ClientPanel.Size = new System.Drawing.Size(912, 455);
             this.ClientPanel.TabIndex = 6;
@@ -555,7 +555,7 @@
             // 
             // Toolbar
             // 
-            this.Toolbar.Dock = System.Windows.Forms.DockStyle.Right;
+            this.Toolbar.Dock = System.Windows.Forms.DockStyle.Left;
             this.Toolbar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.Toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbNew,
@@ -566,7 +566,7 @@
             this.tbPolar,
             this.tbProperties,
             this.tbTimer});
-            this.Toolbar.Location = new System.Drawing.Point(912, 24);
+            this.Toolbar.Location = new System.Drawing.Point(0, 24);
             this.Toolbar.Name = "Toolbar";
             this.Toolbar.Padding = new System.Windows.Forms.Padding(0);
             this.Toolbar.Size = new System.Drawing.Size(32, 455);

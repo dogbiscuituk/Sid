@@ -20,7 +20,7 @@
             GraphDomainMinPolar = 0;
 
         public static readonly Color
-            GraphAxisColour = Color.DarkGray,
+            GraphAxisColour = Color.Black,
             GraphFillColour = Color.Transparent,
             GraphGridColour = Color.LightGray,
             GraphLimitColour = Color.DarkGray,
@@ -37,7 +37,7 @@
             GraphPlotType = PlotType.Cartesian;
 
         public const TickStyles
-            GraphTickStyles = TickStyles.Positive;
+            GraphTickStyles = TickStyles.Negative;
 
         public static readonly Viewport
             GraphViewport = new Viewport(new PointF(0, 0), 22);
