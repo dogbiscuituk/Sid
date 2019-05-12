@@ -10,19 +10,19 @@
         /// Draw all components of a rectangular or polar grid. In rendering order these are the grid "wires"
         /// (orthogonal lines in the rectangular case, arcs and radial spokes in the polar), axis tick marks,
         /// axis numbering (calibration), and the axes themselves. The rendering process comprises a total of
-        /// eight stages, controlled by the enumerations GridPhase and GridPass, in the sequence shown in the
+        /// eight stages, controlled by the enumerations GridPass and GridPhase, in the sequence shown in the
         /// table below.
         /// 
-        ///  Stage  Phase      Pass       What is rendered?
+        ///  Stage    Pass       Phase    What is rendered?
         /// -------------------------------------------------------------------------------------------
-        ///    1    Hline    GridWires    Horizontal dotted lines (Cartesian) or radial spokes (Polar).
-        ///    2    Hline    AxisTicks    Ticks along the Y axis.
-        ///    3    Hline    Numbering    Numbers on the Y axis.
-        ///    4    Vline    GridWires    Vertical dotted lines (Cartesian) or circular arcs (Polar).
-        ///    5    Vline    AxisTicks    Ticks along the X axis.
-        ///    6    Vline    Numbering    Numbers on the X axis.
-        ///    7    Xaxis    AxisWires    The X axis.
-        ///    8    Yaxis    AxisWires    The Y axis.
+        ///    1    GridWires    Hline    Horizontal dotted lines (Cartesian) or radial spokes (Polar).
+        ///    2    GridWires    Vline    Vertical dotted lines (Cartesian) or circular arcs (Polar).
+        ///    3    AxisTicks    Hline    Ticks along the Y axis.
+        ///    4    AxisTicks    Vline    Ticks along the X axis.
+        ///    5    Numbering    Hline    Numbers on the Y axis.
+        ///    6    Numbering    Vline    Numbers on the X axis.
+        ///    7    AxisWires    Xaxis    The X axis.
+        ///    8    AxisWires    Yaxis    The Y axis.
         /// -------------------------------------------------------------------------------------------
         /// </summary>
         /// <param name="g">The GDI+ output Graphics object.</param>
@@ -34,56 +34,66 @@
             var log = Math.Log10(Math.Abs(x2 - x1));
             var order = Math.Floor(log);
             var scale = log - order;
+            var power = Math.Pow(10, order - 1);
             using (Pen
                 gridPen = new Pen(info.GridColour, info.PenWidth) { DashStyle = DashStyle.Dot },
                 axisPen = new Pen(info.AxisColour, info.PenWidth))
             using (var brush = new SolidBrush(info.AxisColour))
             using (var font = new Font("Arial", 5 * info.PenWidth))
             using (var format = new StringFormat(StringFormat.GenericTypographic) { Alignment = StringAlignment.Far })
-                for (var phase = (GridPhase)0; (int)phase < 4; phase++)
+            {
+                double incmin = scale < 0.3 ? 2 : scale < 0.7 ? 5 : 10;
+                var incmax = incmin;
+                BumpDown(ref incmin);
+                BumpDown(ref incmin);
+                for (var pass = (GridPass)0; (int)pass < 4; pass++)
                 {
-                    double
-                        maxAbsX = Math.Max(Math.Abs(x1), Math.Abs(x2)),
-                        maxAbsY = Math.Max(Math.Abs(y1), Math.Abs(y2));
-                    info.Vertical = phase == GridPhase.Vline || phase == GridPhase.Yaxis;
-                    if ((phase & GridPhase.Xaxis) != 0)
-                        g.DrawWire(axisPen, font, brush, format, info, GridPass.AxisWires, x1, x2, 0);
-                    else
+                    for (var phase = (GridPhase)0; (int)phase < 2; phase++)
                     {
-                        double increment = scale < 0.3 ? 2 : scale < 0.7 ? 5 : 10;
-                        BumpDown(ref increment);
-                        BumpDown(ref increment);
-                        for (var pass = (GridPass)0; (int)pass < 3; pass++)
+                        double
+                            maxAbsX = Math.Max(Math.Abs(x1), Math.Abs(x2)),
+                            maxAbsY = Math.Max(Math.Abs(y1), Math.Abs(y2));
+                        info.Vertical = phase == GridPhase.Yaxis || phase == GridPhase.Yaxis;
+                        switch (pass)
                         {
-                            var x0 = x1;
-                            var dy = increment * Math.Pow(10, order - 1);
-                            var ymax = maxAbsY;
-                            if (info.Polar)
-                            {
-                                ymax = Math.Sqrt(maxAbsX * maxAbsX + maxAbsY * maxAbsY);
-                                if (phase == GridPhase.Hline && pass == GridPass.GridWires)
+                            case GridPass.GridWires:
+                            case GridPass.AxisTicks:
+                            case GridPass.Numbering:
+                                float xa = x1, xb = x2;
+                                var dy = incmin * power;
+                                var ymax = maxAbsY;
+                                if (info.Polar)
                                 {
-                                    x0 = (float)ymax;
-                                    dy = 5;
-                                    ymax = 180 - dy;
+                                    ymax = Math.Sqrt(maxAbsX * maxAbsX + maxAbsY * maxAbsY);
+                                    if (phase == GridPhase.Xaxis && pass == GridPass.GridWires)
+                                    {
+                                        xa = (float)ymax;
+                                        xb = (float)(incmax * power);
+                                        dy = 5;
+                                        ymax = 180 - dy;
+                                    }
                                 }
-                            }
-                            for (var y = 0.0; y <= ymax; y += dy)
-                            {
-                                var pen = pass == GridPass.AxisTicks ? axisPen : gridPen;
-                                g.DrawWire(pen, font, brush, format, info, pass, x0, x2, (float)y);
-                                if (y != 0.0)
-                                    g.DrawWire(pen, font, brush, format, info, pass, x0, x2, -(float)y);
-                            }
-                            BumpUp(ref increment);
+                                for (var y = 0.0; y <= ymax; y += dy)
+                                {
+                                    var pen = pass == GridPass.AxisTicks ? axisPen : gridPen;
+                                    g.DrawWire(pen, font, brush, format, info, pass, xa, xb, (float)y);
+                                    if (y != 0.0)
+                                        g.DrawWire(pen, font, brush, format, info, pass, xa, xb, -(float)y);
+                                }
+                                break;
+                            case GridPass.AxisWires:
+                                g.DrawWire(axisPen, font, brush, format, info, GridPass.AxisWires, x1, x2, 0);
+                                break;
                         }
+                        Swap(ref x1, ref y1);
+                        Swap(ref x2, ref y2);
                     }
-                    Swap(ref x1, ref y1);
-                    Swap(ref x2, ref y2);
+                    BumpUp(ref incmin);
                 }
+            }
         }
 
-        private enum GridPhase { Hline, Vline, Xaxis, Yaxis }
+        private enum GridPhase { Xaxis, Yaxis }
         private enum GridPass { GridWires, AxisTicks, Numbering, AxisWires }
 
         private const float piOver180 = (float)Math.PI / 180;
@@ -122,7 +132,7 @@
                     break;
                 case GridPass.GridWires when info.Hwires && info.Polar:
                     if (y >= 0)
-                        g.DrawWireSpoke(pen, brush, font, format, info, r: x1, degrees: y);
+                        g.DrawWireSpoke(pen, brush, font, format, info, r1: x1, r2: x2, degrees: y);
                     break;
                 case GridPass.GridWires when info.Vwires && info.Polar:
                     if (x1 >= 0)
@@ -192,14 +202,21 @@
         }
 
         private static void DrawWireSpoke(this Graphics g, Pen pen, Brush brush, Font font,
-            StringFormat format, GridInfo info, float r, float degrees)
+            StringFormat format, GridInfo info, float r1, float r2, float degrees)
         {
             var radians = degrees * piOver180;
             double c = Math.Cos(radians), s = Math.Sin(radians);
-            float x = (float)(r * c), y = (float)(r * s);
+            float x = (float)(r1 * c), y = (float)(r1 * s);
             var major = degrees % 15 == 0;
             pen.DashStyle = major ? DashStyle.Dash : DashStyle.Dot;
-            g.DrawLine(pen, -x, -y, +x, +y);
+            if (major)
+                g.DrawLine(pen, -x, -y, +x, +y);
+            else
+            {
+                float xc = r2 * (float)c, yc = r2 * (float)s;
+                g.DrawLine(pen, -x, -y, -xc, -yc);
+                g.DrawLine(pen, +x, +y, +xc, +yc);
+            }
             if (!major || (info.Elements & Elements.Calibration) == 0)
                 return;
             var pw = 12 * pen.Width;
@@ -213,13 +230,13 @@
                 var label = info.Domain.PolarDegrees ? $"{d}°" : d >= 0 ? rads[d / 15] : $"-{rads[-d / 15]}";
                 if (p.X < 0)
                     d -= 180;
-                g.TranslateTransform(p.X, p.Y);
-                g.RotateTransform(d);
                 format.Alignment = StringAlignment.Center;
                 format.LineAlignment = StringAlignment.Far;
-                g.DrawWireString(label, font, brush, 0, 0, format);
-                g.RotateTransform(-d);
-                g.TranslateTransform(-p.X, -p.Y);
+                g.TranslateTransform(p.X, p.Y);                     // Move origin to the point of printing.
+                g.RotateTransform(d);                               // Rotate the paper.
+                g.DrawWireString(label, font, brush, 0, 0, format); // Print the label at the new origin.
+                g.RotateTransform(-d);                              // Rotate back.
+                g.TranslateTransform(-p.X, -p.Y);                   // Return to the old origin.
             }
         }
 

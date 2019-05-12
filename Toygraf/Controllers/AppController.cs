@@ -378,7 +378,9 @@ version {Application.ProductVersion}
 
         private void PictureBox_Resize(object sender, EventArgs e)
         {
-            Graph.Viewport.SetRatio(PictureBox.Height / PictureBox.Width);
+            var w = PictureBox.Width;
+            if (w != 0)
+                Graph.Viewport.SetRatio(PictureBox.Height / w);
             InvalidatePictureBox();
         }
 
