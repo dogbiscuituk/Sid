@@ -157,7 +157,7 @@
         /// </summary>
         /// <param name="g">The GDI+ output Graphics object.</param>
         /// <param name="pen">The pen used to draw the grid.</param>
-        /// <param name="info">A struct containing iscellaneous information about the Grid being drawn.</param>
+        /// <param name="info">A struct containing miscellaneous information about the Grid being drawn.</param>
         /// <param name="r">The radius of the arc.</param>
         private static void DrawWireArc(this Graphics g, Pen pen, GridInfo info, float r)
         {
