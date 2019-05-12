@@ -6,9 +6,6 @@
 
     public static class Grid
     {
-        private enum GridPhase { Hline, Vline, Xaxis, Yaxis }
-        private enum GridPass { GridWires, AxisTicks, Numbering, AxisWires }
-
         /// <summary>
         /// Draw all components of a rectangular or polar grid. In rendering order these are the grid "wires"
         /// (orthogonal lines in the rectangular case, arcs and radial spokes in the polar), axis tick marks,
@@ -50,7 +47,7 @@
                         maxAbsY = Math.Max(Math.Abs(y1), Math.Abs(y2));
                     info.Vertical = phase == GridPhase.Vline || phase == GridPhase.Yaxis;
                     if ((phase & GridPhase.Xaxis) != 0)
-                        DrawWire(g, axisPen, font, brush, format, info, GridPass.AxisWires, x1, x2, 0);
+                        g.DrawWire(axisPen, font, brush, format, info, GridPass.AxisWires, x1, x2, 0);
                     else
                     {
                         double increment = scale < 0.3 ? 2 : scale < 0.7 ? 5 : 10;
@@ -74,9 +71,9 @@
                             for (var y = 0.0; y <= ymax; y += dy)
                             {
                                 var pen = pass == GridPass.AxisTicks ? axisPen : gridPen;
-                                DrawWire(g, pen, font, brush, format, info, pass, x0, x2, (float)y);
+                                g.DrawWire(pen, font, brush, format, info, pass, x0, x2, (float)y);
                                 if (y != 0.0)
-                                    DrawWire(g, pen, font, brush, format, info, pass, x0, x2, -(float)y);
+                                    g.DrawWire(pen, font, brush, format, info, pass, x0, x2, -(float)y);
                             }
                             BumpUp(ref increment);
                         }
@@ -86,12 +83,15 @@
                 }
         }
 
+        private enum GridPhase { Hline, Vline, Xaxis, Yaxis }
+        private enum GridPass { GridWires, AxisTicks, Numbering, AxisWires }
+
         private const float piOver180 = (float)Math.PI / 180;
 
         private static void BumpDown(ref double value) => value = value == 5 ? 2 : value / 2;
         private static void BumpUp(ref double value) => value = value == 2 ? 5 : value * 2;
 
-        private static void DrawWire(Graphics g, Pen pen, Font font, Brush brush, StringFormat format,
+        private static void DrawWire(this Graphics g, Pen pen, Font font, Brush brush, StringFormat format,
             GridInfo info, GridPass pass, float x1, float x2, float y)
         {
             var vp = info.Viewport;
@@ -122,14 +122,14 @@
                     break;
                 case GridPass.GridWires when info.Hwires && info.Polar:
                     if (y >= 0)
-                        DrawWireSpoke(g, pen, x1, y);
+                        g.DrawWireSpoke(pen, brush, font, format, info, r: x1, degrees: y);
                     break;
                 case GridPass.GridWires when info.Vwires && info.Polar:
                     if (x1 >= 0)
-                        DrawWireArc(g,pen, info, x1);
+                        g.DrawWireArc(pen, info, r: x1);
                     break;
                 case GridPass.Numbering when info.Calibration:
-                    DrawWireCalibration(g, pen, brush, font, format, x, y, z);
+                    g.DrawWireCalibration(pen, brush, font, format, x, y, label: z.ToString());
                     break;
             }
         }
@@ -159,7 +159,7 @@
         /// <param name="pen">The pen used to draw the grid.</param>
         /// <param name="info">A struct containing iscellaneous information about the Grid being drawn.</param>
         /// <param name="r">The radius of the arc.</param>
-        private static void DrawWireArc(Graphics g, Pen pen, GridInfo info, float r)
+        private static void DrawWireArc(this Graphics g, Pen pen, GridInfo info, float r)
         {
             var vp = info.Viewport;
             if (vp.Left > r || vp.Right < -r || vp.Top > r || vp.Bottom < -r)
@@ -183,21 +183,38 @@
             }
         }
 
-        private static void DrawWireCalibration(Graphics g, Pen pen, Brush brush, Font font,
-            StringFormat format, float x, float y, float z)
+        private static void DrawWireCalibration(this Graphics g, Pen pen, Brush brush, Font font,
+            StringFormat format, float x, float y, string label)
+        {
+            g.DrawWireString(label, font, brush, x - pen.Width, y + pen.Width, format);
+        }
+
+        private static void DrawWireSpoke(this Graphics g, Pen pen, Brush brush, Font font,
+            StringFormat format, GridInfo info, float r, float degrees)
+        {
+            var radians = degrees * piOver180;
+            float x = (float)(r * Math.Cos(radians)), y = (float)(r * Math.Sin(radians));
+            g.DrawLine(pen, -x, -y, +x, +y);
+            if (degrees % 30 != 0)
+                return;
+            var pw = pen.Width * 15;
+            var intercepts = info.Viewport.GetIntercepts(radians, pw);
+            foreach (PointF p in intercepts)
+            {
+                var d = p.Y == 0 && p.X < 0 ? 180 : p.Y >= 0 ? degrees : degrees - 180;
+                var angle = info.Domain.PolarDegrees ? $"{d}°" : $"{d/30}π/6";
+                g.DrawWireString(angle, font, brush, p.X, -p.Y, format);
+            }
+        }
+
+        private static void DrawWireString(this Graphics g, string s, Font font, Brush brush,
+            float x, float y, StringFormat format)
         {
             // The temporary inversion of the Y axis is necessitated by the use
             // of conventional mathematical (rather than computer graphic) axes.
             g.ScaleTransform(1, -1);
-            g.DrawString(z.ToString(), font, brush, x - pen.Width, y + pen.Width, format);
+            g.DrawString(s, font, brush, x, y, format);
             g.ScaleTransform(1, -1);
-        }
-
-        private static void DrawWireSpoke(Graphics g, Pen pen, float r, float θ)
-        {
-            θ *= piOver180; // Convert degrees to radians.
-            float x = (float)(r * Math.Cos(θ)), y = (float)(r * Math.Sin(θ));
-            g.DrawLine(pen, -x, -y, +x, +y);
         }
 
         private static void Swap(ref float x, ref float y) { var t = x; x = y; y = t; }

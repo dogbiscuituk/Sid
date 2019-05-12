@@ -5,11 +5,12 @@
 
     public struct GridInfo
     {
-        public GridInfo(PlotType plotType, Viewport viewport, Color axisColour, Color gridColour,
+        public GridInfo(PlotType plotType, Viewport viewport, Domain domain, Color axisColour, Color gridColour,
             float penWidth, Elements elements, TickStyles tickStyles, bool vertical = false)
         {
             PlotType = plotType;
             Viewport = viewport;
+            Domain = domain;
             AxisColour = axisColour;
             GridColour = gridColour;
             PenWidth = penWidth;
@@ -20,6 +21,7 @@
 
         public PlotType PlotType { get; set; }
         public Viewport Viewport { get; set; }
+        public Domain Domain { get; set; }
         public Color AxisColour { get; set; }
         public Color GridColour { get; set; }
         public float PenWidth { get; set; }

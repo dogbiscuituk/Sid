@@ -1,5 +1,7 @@
 ﻿namespace ToyGraf.Models
 {
+    using System;
+    using System.Collections.Generic;
     using System.Drawing;
 
     /// <summary>
@@ -39,6 +41,26 @@
 
         public void SetRatio(float ratio) { _ratio = ratio; }
         public void SetRatio(Size size) { _ratio = (float)size.Height / size.Width; }
+
+        public PointF[] GetIntercepts(float radians, float margin)
+        {
+            var limits = Limits;
+            float
+                m = (float)Math.Tan(radians),
+                left = Left + margin,
+                top = Top + margin,
+                right = Right - margin,
+                bottom = Bottom - margin;
+            var result = new List<PointF>()
+            {
+                new PointF(left, left * m),
+                new PointF(top / m, top),
+                new PointF(right, right * m),
+                new PointF(bottom / m, bottom)
+            };
+            result.RemoveAll(p => !limits.Contains(p));
+            return result.ToArray();
+        }
 
         public static bool operator ==(Viewport u, Viewport v) =>
             u.Centre == v.Centre && u.Width == v.Width && u._ratio == v._ratio;

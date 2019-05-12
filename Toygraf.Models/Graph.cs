@@ -419,7 +419,8 @@
                         s.DrawAsync(g, _domain, Viewport, penWidth, fill, time, PlotType);
                 });
                 if (fill)
-                    g.DrawGrid(new GridInfo(PlotType, Viewport, AxisColour, GridColour, penWidth, Elements, TickStyles));
+                    g.DrawGrid(new GridInfo(PlotType, Viewport, _domain, AxisColour, GridColour,
+                        penWidth, Elements, TickStyles));
             }
         }
 
