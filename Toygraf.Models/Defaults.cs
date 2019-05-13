@@ -11,7 +11,7 @@
         public const int
             GraphFillTransparencyPercent = 0,
             GraphPaperTransparencyPercent = 0,
-            GraphStepCount = 16000;
+            GraphStepCount = 1000;
 
         public const float
             GraphDomainMaxCartesian = +10,

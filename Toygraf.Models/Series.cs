@@ -26,7 +26,7 @@
             Formula = "0";
         }
 
-        #region Properties
+        #region Visual Properties
 
         private Color _penColour;
         public Color PenColour
@@ -84,59 +84,8 @@
             }
         }
 
-        [JsonIgnore]
-        public Expression Expression { get; private set; }
-
-        [NonSerialized]
-        private Expression _proxy;
-        [JsonIgnore]
-        public Expression Proxy
-        {
-            get => _proxy;
-            set
-            {
-                _proxy = value;
-                Func = Proxy.AsFunction();
-                InvalidatePoints();
-            }
-        }
-
-        private string _formula = string.Empty;
-        public string Formula
-        {
-            get => _formula;
-            set
-            {
-                if (Formula != value)
-                {
-                    Expression = new Parser().Parse(value);
-                    Func = Expression.AsFunction();
-                    _formula = value;
-                    OnPropertyChanged("Formula");
-                }
-            }
-        }
-
-        [JsonIgnore]
-        public Func<double, double, double> Func { get; private set; }
-
         [NonSerialized]
         private Viewport Viewport;
-
-        private int _stepCount;
-        public int StepCount
-        {
-            get => _stepCount;
-            set
-            {
-                if (StepCount != value)
-                {
-                    _stepCount = value;
-                    InvalidatePoints();
-                    OnPropertyChanged("StepCount");
-                }
-            }
-        }
 
         private bool _visible = true;
         public bool Visible
@@ -158,7 +107,90 @@
 
         #endregion
 
+        #region Formula, Expression, Proxy, Func, Derivative
+
+        private string _formula = string.Empty;
+        /// <summary>
+        /// Plain text version of the algebraic expression used by the Series.
+        /// </summary>
+        public string Formula
+        {
+            get => _formula;
+            set
+            {
+                if (Formula != value)
+                {
+                    Expression = new Parser().Parse(value);
+                    SetFunc(Expression);
+                    _formula = value;
+                    OnPropertyChanged("Formula");
+                }
+            }
+        }
+
+        /// <summary>
+        /// A tokenised representation of the algebraic expression used by the Series.
+        /// This is obtained by sending the Formula to the Parser.Parse() method.
+        /// </summary>
+        [JsonIgnore]
+        public Expression Expression { get; private set; }
+
+        [NonSerialized]
+        private Expression _proxy;
+
+        /// <summary>
+        /// The System.Linq.Expressions representation of the algebraic expression used by the Series.
+        /// This is obtained from the Expression property by replacing all Udf tokens (User Defined Functions)
+        /// with calls to other Series in the Graph.
+        /// </summary>
+        [JsonIgnore]
+        public Expression Proxy
+        {
+            get => _proxy;
+            set
+            {
+                _proxy = value;
+                SetFunc(Proxy);
+                InvalidatePoints();
+            }
+        }
+
+        /// <summary>
+        /// The compiled lambda expression Func(x, t) of the algebraic expression used by the Series.
+        /// </summary>
+        [JsonIgnore]
+        public Func<double, double, double> Func { get; private set; }
+
+        /// <summary>
+        /// The first derivative of Func with respect to x. Used to detect discontinuities while plotting.
+        /// </summary>
+        [JsonIgnore]
+        public Func<double, double, double> Derivative { get; private set; }
+
+        private void SetFunc(Expression e)
+        {
+            Func = e.AsFunction();
+            Derivative = e.Differentiate().AsFunction();
+        }
+
+        #endregion
+
         #region Drawing
+
+        private int _stepCount;
+        public int StepCount
+        {
+            get => _stepCount;
+            set
+            {
+                if (StepCount != value)
+                {
+                    _stepCount = value;
+                    InvalidatePoints();
+                    OnPropertyChanged("StepCount");
+                }
+            }
+        }
 
         private List<List<PointF>> PointLists = new List<List<PointF>>();
 
@@ -254,62 +286,87 @@
         {
             var result = new List<List<PointF>>();
             List<PointF> points = null;
-            float start, length;
+            float start, finish;
             if (plotType == PlotType.Polar)
             {
                 start = domain.MinRadians;
-                length = domain.MaxRadians - start;
-
+                finish = domain.MaxRadians;
             }
             else if (domain.UseGraphWidth)
             {
                 start = Viewport.Left;
-                length = Viewport.Width;
+                finish = Viewport.Right;
             }
             else
             {
                 start = domain.MinCartesian;
-                length = domain.MaxCartesian;
+                finish = domain.MaxCartesian;
             }
+            double step = (finish - start) / StepCount;
+            double dx = step;
+            var previousPoint = PointF.Empty;
             var skip = true;
-            double x, y;
-            for (var step = 0; step <= StepCount; step++)
+            for (double x = start; x <= finish; x += dx)
             {
-                switch (plotType)
+                var pts = GetPoints(previousPoint, x, time);
+                foreach (var p in pts)
                 {
-                    case PlotType.Polar:
-                        var θ = start + step * length / StepCount;
-                        var r = GetY(θ, time);
-                        x = (float)(r * Math.Cos(θ));
-                        y = (float)(r * Math.Sin(θ));
-                        break;
-                    default:
-                        x = start + step * length / StepCount;
-                        y = GetY(x, time);
-                        break;
-                }
-                if (double.IsInfinity(y) || double.IsNaN(y))
-                    skip = true;
-                else
-                {
-                    if (skip)
+                    var q = p;
+                    if (plotType == PlotType.Polar)
                     {
-                        skip = false;
-                        points = new List<PointF>();
-                        result.Add(points);
+                        var a = q.X;
+                        q.X = (float)(q.Y * Math.Cos(a));
+                        q.Y = (float)(q.Y * Math.Sin(a));
                     }
-                    points.Add(new PointF((float)x, (float)y));
+                    if (q.IsEmpty || float.IsInfinity(q.Y) || float.IsNaN(q.Y))
+                    {
+                        previousPoint = PointF.Empty;
+                        skip = true;
+                    }
+                    else
+                    {
+                        if (skip)
+                        {
+                            skip = false;
+                            points = new List<PointF>();
+                            result.Add(points);
+                        }
+                        points.Add(q);
+                        previousPoint = q;
+                    }
                 }
+                var slope = Derivative(x, time);
+                dx = step / Math.Min(Math.Sqrt(1 + slope * slope), 10);
             }
             // Every segment of the trace must include at least 2 points.
             result.RemoveAll(p => p.Count < 2);
             return Task.FromResult(result);
         }
 
-        private double GetY(double x, double t)
+        private IEnumerable<PointF> GetPoints(PointF previousPoint, double x, double t)
         {
-            try { return Func(x, t); }
-            catch { return double.NaN; }
+            var p = new PointF((float)x, 0);
+            double y = 0;
+            try
+            {
+                y = Func(x, t);
+                p.Y = (float)y;
+            }
+            catch
+            {
+                p = PointF.Empty;
+            }
+            if (!p.IsEmpty && !previousPoint.IsEmpty)
+            {
+                double
+                    slope1 = Math.Atan2(y - previousPoint.Y, x - previousPoint.X),
+                    slope2 = Math.Atan(Derivative(x, t));
+                // If these two gradients differ by much, say > 90 degrees, then
+                // there's almost certainly a discontinuity here; send back a break.
+                if (Math.Abs(slope2 - slope1) > Math.PI / 2)
+                    yield return PointF.Empty;
+            }
+            yield return new PointF((float)x, (float)y);
         }
 
         public void InvalidatePoints() => PointLists.Clear();
