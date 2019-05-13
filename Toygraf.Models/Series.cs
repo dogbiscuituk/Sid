@@ -234,15 +234,19 @@
 
         private void DrawSection(Graphics g, Pen pen, PointF[] points, FitType fitType)
         {
-            switch (fitType)
+            try
             {
-                case FitType.StraightLines:
-                    g.DrawLines(pen, points);
-                    break;
-                case FitType.CardinalSplines:
-                    g.DrawCurve(pen, points);
-                    break;
+                switch (fitType)
+                {
+                    case FitType.StraightLines:
+                        g.DrawLines(pen, points);
+                        break;
+                    case FitType.CardinalSplines:
+                        g.DrawCurve(pen, points);
+                        break;
+                }
             }
+            catch (OverflowException) { }
         }
 
         private void FillArea(Graphics g, Pen pen, Brush brush, List<PointF> p, PlotType plotType, FitType fitType)
@@ -270,15 +274,19 @@
 
         private void FillSection(Graphics g, Brush brush, PointF[] points, FitType fitType)
         {
-            switch (fitType)
+            try
             {
-                case FitType.StraightLines:
-                    g.FillPolygon(brush, points);
-                    break;
-                case FitType.CardinalSplines:
-                    g.FillClosedCurve(brush, points);
-                    break;
+                switch (fitType)
+                {
+                    case FitType.StraightLines:
+                        g.FillPolygon(brush, points);
+                        break;
+                    case FitType.CardinalSplines:
+                        g.FillClosedCurve(brush, points);
+                        break;
+                }
             }
+            catch (OverflowException) { }
         }
 
         private Task<List<List<PointF>>> ComputePointsAsync(
@@ -358,15 +366,23 @@
             }
             if (!p.IsEmpty && !previousPoint.IsEmpty)
             {
+                float x1 = previousPoint.X, y1 = previousPoint.Y;
                 double
-                    slope1 = Math.Atan2(y - previousPoint.Y, x - previousPoint.X),
+                    slope1 = Math.Atan2(y - y1, x - x1),
                     slope2 = Math.Atan(Derivative(x, t));
                 // If these two gradients differ by much, say > 90 degrees, then
                 // there's almost certainly a discontinuity here; send back a break.
                 if (Math.Abs(slope2 - slope1) > Math.PI / 2)
                     yield return PointF.Empty;
+                else if (Math.Sign(y) != Math.Sign(y1))
+                {
+                    var xm = (float)(x1 - y1 * (x - x1) / (y - y1));
+                    yield return new PointF(xm, 0);
+                    yield return PointF.Empty;
+                    yield return new PointF(xm, 0);
+                }
             }
-            yield return new PointF((float)x, (float)y);
+            yield return p;
         }
 
         public void InvalidatePoints() => PointLists.Clear();
