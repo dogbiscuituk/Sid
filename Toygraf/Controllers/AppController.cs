@@ -117,6 +117,7 @@
                     View.tbCartesian.Click -= GraphTypeCartesian_Click;
                     View.tbPolar.Click -= GraphTypePolar_Click;
                     View.tbProperties.Click -= GraphProperties_Click;
+                    View.tbFullScreen.Click -= ZoomFullScreen_Click;
                     View.tbTimer.Click -= TimerRunPause_Click;
                     // PictureBox
                     PictureBox.MouseDown -= PictureBox_MouseDown;
@@ -164,6 +165,7 @@
                     View.tbCartesian.Click += GraphTypeCartesian_Click;
                     View.tbPolar.Click += GraphTypePolar_Click;
                     View.tbProperties.Click += GraphProperties_Click;
+                    View.tbFullScreen.Click += ZoomFullScreen_Click;
                     View.tbTimer.Click += TimerRunPause_Click;
                     // PictureBox
                     PictureBox.MouseDown += PictureBox_MouseDown;

@@ -162,5 +162,8 @@
   <ItemGroup>
     <None Include="Icons\Timer.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\FullScreen.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

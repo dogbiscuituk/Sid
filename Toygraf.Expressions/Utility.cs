@@ -52,6 +52,10 @@
 
         #region Expressions
 
+        public const double piOver180 = Math.PI / 180;
+
+        public static double DegreesToRadians(this double degrees) => degrees * piOver180;
+
         public static OperandTypes GetBinaryOperandTypes(this string op)
         {
             switch (op)
@@ -275,6 +279,8 @@
             }
             return false;
         }
+
+        public static double RadiansToDegrees(this double radians) => radians / piOver180;
 
         public static Expression ToBoolean(this Expression e)
         {

@@ -158,6 +158,14 @@
 
         #region Parse methods
 
+        private void ParseDegree()
+        {
+            if (!(Operands.Pop() is ConstantExpression c))
+                throw new FormatException($"Unexpected token '°', input='{Formula}', index={Index}");
+            Operands.Push(((double)c.Value).DegreesToRadians().Constant());
+            ReadPast("°");
+        }
+
         private void ParseExpression()
         {
             do
@@ -201,6 +209,9 @@
                         if (op == ")")
                             return;
                         break;
+                    case "°": // Postfix degree symbol => convert to radians
+                        ParseDegree();
+                        goto nextOperator;
                     case "'": // Postfix apostrophe => differentiate
                         ParseTick();
                         goto nextOperator;
@@ -437,7 +448,7 @@
         private string PeekToken()
         {
             var nextChar = PeekChar();
-            if ("()?:≠≤≥≮≯≰≱+-*/^~√∛∜',".IndexOf(nextChar) >= 0)
+            if ("()?:≠≤≥≮≯≰≱+-*/^~°√∛∜',".IndexOf(nextChar) >= 0)
                 return nextChar.ToString();
             switch (nextChar)
             {

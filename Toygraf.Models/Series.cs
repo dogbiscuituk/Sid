@@ -367,6 +367,8 @@
             if (!p.IsEmpty && !previousPoint.IsEmpty)
             {
                 float x1 = previousPoint.X, y1 = previousPoint.Y;
+                // Calculate two gradients. The first is the slope between the previous point and the cuurrent one.
+                // The second is the value of the derivative of the function at the current value of x.
                 double
                     slope1 = Math.Atan2(y - y1, x - x1),
                     slope2 = Math.Atan(Derivative(x, t));
@@ -374,12 +376,14 @@
                 // there's almost certainly a discontinuity here; send back a break.
                 if (Math.Abs(slope2 - slope1) > Math.PI / 2)
                     yield return PointF.Empty;
+                // Otherwise if there's a sign change between the two points,
+                // send a break to connect the two segments cleanly to the x-axis.
                 else if (Math.Sign(y) != Math.Sign(y1))
                 {
-                    var xm = (float)(x1 - y1 * (x - x1) / (y - y1));
-                    yield return new PointF(xm, 0);
+                    var q = new PointF((float)(x1 - y1 * (x - x1) / (y - y1)), 0);
+                    yield return q;
                     yield return PointF.Empty;
-                    yield return new PointF(xm, 0);
+                    yield return q;
                 }
             }
             yield return p;
