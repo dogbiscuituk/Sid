@@ -10,19 +10,18 @@
         /// Draw all components of a rectangular or polar grid. In rendering order these are the grid "wires"
         /// (orthogonal lines in the rectangular case, arcs and radial spokes in the polar), axis tick marks,
         /// axis numbering (calibration), and the axes themselves. The rendering process comprises a total of
-        /// eight stages, controlled by the enumerations GridPass and GridPhase, in the sequence shown in the
-        /// table below.
+        /// eight stages, by Pass and Phase, in the following sequence:
         /// 
         ///  Stage    Pass       Phase    What is rendered?
         /// -------------------------------------------------------------------------------------------
-        ///    1    GridWires    Hline    Horizontal dotted lines (Cartesian) or radial spokes (Polar).
-        ///    2    GridWires    Vline    Vertical dotted lines (Cartesian) or circular arcs (Polar).
-        ///    3    AxisTicks    Hline    Ticks along the Y axis.
-        ///    4    AxisTicks    Vline    Ticks along the X axis.
-        ///    5    Numbering    Hline    Numbers on the Y axis.
-        ///    6    Numbering    Vline    Numbers on the X axis.
-        ///    7    AxisWires    Xaxis    The X axis.
-        ///    8    AxisWires    Yaxis    The Y axis.
+        ///    1    GridWires      1      Horizontal dotted lines (Cartesian) or radial spokes (Polar).
+        ///    2        "          2      Vertical dotted lines (Cartesian) or circular arcs (Polar).
+        ///    3    AxisTicks      1      Ticks along the Y axis.
+        ///    4        "          2      Ticks along the X axis.
+        ///    5    Numbering      1      Numbers on the Y axis.
+        ///    6        "          2      Numbers on the X axis.
+        ///    7    AxisWires      1      The X axis.
+        ///    8        "          2      The Y axis.
         /// -------------------------------------------------------------------------------------------
         /// </summary>
         /// <param name="g">The GDI+ output Graphics object.</param>
@@ -46,14 +45,14 @@
                 var incmax = incmin;
                 BumpDown(ref incmin);
                 BumpDown(ref incmin);
-                for (var pass = (GridPass)0; (int)pass < 4; pass++)
+                for (var pass = (GridPass)0; (int)pass <= 3; pass++)
                 {
-                    for (var phase = (GridPhase)0; (int)phase < 2; phase++)
+                    for (var phase = 1; phase <= 2; phase++)
                     {
                         double
                             maxAbsX = Math.Max(Math.Abs(x1), Math.Abs(x2)),
                             maxAbsY = Math.Max(Math.Abs(y1), Math.Abs(y2));
-                        info.Vertical = phase == GridPhase.Yaxis || phase == GridPhase.Yaxis;
+                        info.Vertical = phase == 2;
                         switch (pass)
                         {
                             case GridPass.GridWires:
@@ -65,7 +64,7 @@
                                 if (info.Polar)
                                 {
                                     ymax = Math.Sqrt(maxAbsX * maxAbsX + maxAbsY * maxAbsY);
-                                    if (phase == GridPhase.Xaxis && pass == GridPass.GridWires)
+                                    if (phase == 1 && pass == GridPass.GridWires)
                                     {
                                         xa = (float)ymax;
                                         xb = (float)(incmax * power);
@@ -93,7 +92,6 @@
             }
         }
 
-        private enum GridPhase { Xaxis, Yaxis }
         private enum GridPass { GridWires, AxisTicks, Numbering, AxisWires }
 
         private const float piOver180 = (float)Math.PI / 180;
