@@ -53,21 +53,24 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnClose = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.cbOptimization = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.cbFitType = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.rbRadians = new System.Windows.Forms.RadioButton();
+            this.cbPlotType = new System.Windows.Forms.ComboBox();
             this.rbDegrees = new System.Windows.Forms.RadioButton();
+            this.ElementCheckboxes = new System.Windows.Forms.CheckedListBox();
+            this.cbDomainGraphWidth = new System.Windows.Forms.CheckBox();
             this.seDomainMaxCartesian = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            this.seDomainMaxPolar = new System.Windows.Forms.NumericUpDown();
             this.seDomainMinCartesian = new System.Windows.Forms.NumericUpDown();
             this.seDomainMinPolar = new System.Windows.Forms.NumericUpDown();
-            this.seDomainMaxPolar = new System.Windows.Forms.NumericUpDown();
-            this.cbDomainGraphWidth = new System.Windows.Forms.CheckBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.cbPlotType = new System.Windows.Forms.ComboBox();
+            this.cbOptimization = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.cbStepCount = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.ElementCheckboxes = new System.Windows.Forms.CheckedListBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sePaperTransparency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seFillTransparency)).BeginInit();
@@ -76,9 +79,10 @@
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seDomainMaxCartesian)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.seDomainMaxPolar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seDomainMinCartesian)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seDomainMinPolar)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.seDomainMaxPolar)).BeginInit();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -99,6 +103,7 @@
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(3);
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
@@ -106,7 +111,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(365, 79);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(370, 68);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // sePaperTransparency
@@ -119,11 +124,11 @@
             0,
             0,
             0});
-            this.sePaperTransparency.Location = new System.Drawing.Point(242, 26);
+            this.sePaperTransparency.Location = new System.Drawing.Point(245, 23);
             this.sePaperTransparency.Margin = new System.Windows.Forms.Padding(0);
             this.sePaperTransparency.Name = "sePaperTransparency";
             this.sePaperTransparency.ReadOnly = true;
-            this.sePaperTransparency.Size = new System.Drawing.Size(123, 16);
+            this.sePaperTransparency.Size = new System.Drawing.Size(122, 16);
             this.sePaperTransparency.TabIndex = 5;
             this.sePaperTransparency.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -137,7 +142,7 @@
             this.cbFillColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbFillColour.FormattingEnabled = true;
             this.cbFillColour.ItemHeight = 16;
-            this.cbFillColour.Location = new System.Drawing.Point(121, 52);
+            this.cbFillColour.Location = new System.Drawing.Point(124, 43);
             this.cbFillColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbFillColour.Name = "cbFillColour";
             this.cbFillColour.Size = new System.Drawing.Size(121, 22);
@@ -153,7 +158,7 @@
             this.cbPaperColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbPaperColour.FormattingEnabled = true;
             this.cbPaperColour.ItemHeight = 16;
-            this.cbPaperColour.Location = new System.Drawing.Point(121, 26);
+            this.cbPaperColour.Location = new System.Drawing.Point(124, 23);
             this.cbPaperColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbPaperColour.Name = "cbPaperColour";
             this.cbPaperColour.Size = new System.Drawing.Size(121, 22);
@@ -163,10 +168,10 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(245, 0);
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(248, 3);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(117, 26);
+            this.label4.Size = new System.Drawing.Size(116, 20);
             this.label4.TabIndex = 2;
             this.label4.Text = "% Transparent";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -175,10 +180,10 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(124, 0);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(127, 3);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(115, 26);
+            this.label3.Size = new System.Drawing.Size(115, 20);
             this.label3.TabIndex = 1;
             this.label3.Text = "Setting";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -187,21 +192,21 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(6, 3);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(115, 26);
+            this.label2.Size = new System.Drawing.Size(115, 20);
             this.label2.TabIndex = 0;
-            this.label2.Text = "Colour";
+            this.label2.Text = "Area";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.Location = new System.Drawing.Point(3, 26);
+            this.label7.Location = new System.Drawing.Point(6, 23);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(115, 26);
+            this.label7.Size = new System.Drawing.Size(115, 20);
             this.label7.TabIndex = 3;
             this.label7.Text = "Paper";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -210,11 +215,11 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label8.Location = new System.Drawing.Point(3, 52);
+            this.label8.Location = new System.Drawing.Point(6, 43);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(115, 27);
+            this.label8.Size = new System.Drawing.Size(115, 22);
             this.label8.TabIndex = 6;
-            this.label8.Text = "Area under a curve (default)";
+            this.label8.Text = "Below curve (default)";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // seFillTransparency
@@ -227,23 +232,24 @@
             0,
             0,
             0});
-            this.seFillTransparency.Location = new System.Drawing.Point(242, 52);
+            this.seFillTransparency.Location = new System.Drawing.Point(245, 43);
             this.seFillTransparency.Margin = new System.Windows.Forms.Padding(0);
             this.seFillTransparency.Name = "seFillTransparency";
             this.seFillTransparency.ReadOnly = true;
-            this.seFillTransparency.Size = new System.Drawing.Size(123, 16);
+            this.seFillTransparency.Size = new System.Drawing.Size(122, 16);
             this.seFillTransparency.TabIndex = 8;
             this.seFillTransparency.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.tableLayoutPanel1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 207);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Location = new System.Drawing.Point(0, 265);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(371, 98);
-            this.groupBox1.TabIndex = 1;
+            this.groupBox1.Size = new System.Drawing.Size(376, 87);
+            this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Fill Colours";
+            this.groupBox1.Text = "Fill colours";
             // 
             // tableLayoutPanel2
             // 
@@ -263,6 +269,7 @@
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.Padding = new System.Windows.Forms.Padding(3);
             this.tableLayoutPanel2.RowCount = 5;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
@@ -270,7 +277,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(239, 120);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(370, 111);
             this.tableLayoutPanel2.TabIndex = 2;
             // 
             // cbLimitColour
@@ -283,10 +290,10 @@
             this.cbLimitColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbLimitColour.FormattingEnabled = true;
             this.cbLimitColour.ItemHeight = 16;
-            this.cbLimitColour.Location = new System.Drawing.Point(119, 96);
+            this.cbLimitColour.Location = new System.Drawing.Point(184, 87);
             this.cbLimitColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbLimitColour.Name = "cbLimitColour";
-            this.cbLimitColour.Size = new System.Drawing.Size(120, 22);
+            this.cbLimitColour.Size = new System.Drawing.Size(183, 22);
             this.cbLimitColour.TabIndex = 9;
             // 
             // cbPenColour
@@ -299,19 +306,19 @@
             this.cbPenColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbPenColour.FormattingEnabled = true;
             this.cbPenColour.ItemHeight = 16;
-            this.cbPenColour.Location = new System.Drawing.Point(119, 72);
+            this.cbPenColour.Location = new System.Drawing.Point(184, 66);
             this.cbPenColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbPenColour.Name = "cbPenColour";
-            this.cbPenColour.Size = new System.Drawing.Size(120, 22);
+            this.cbPenColour.Size = new System.Drawing.Size(183, 22);
             this.cbPenColour.TabIndex = 7;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label10.Location = new System.Drawing.Point(3, 96);
+            this.label10.Location = new System.Drawing.Point(6, 87);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(113, 24);
+            this.label10.Size = new System.Drawing.Size(175, 21);
             this.label10.TabIndex = 8;
             this.label10.Text = "Limits";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -320,10 +327,10 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(122, 0);
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(187, 3);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(114, 24);
+            this.label12.Size = new System.Drawing.Size(177, 21);
             this.label12.TabIndex = 1;
             this.label12.Text = "Setting";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -332,21 +339,21 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(3, 0);
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(6, 3);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(113, 24);
+            this.label13.Size = new System.Drawing.Size(175, 21);
             this.label13.TabIndex = 0;
-            this.label13.Text = "Colour";
+            this.label13.Text = "Component";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label15
             // 
             this.label15.AutoSize = true;
             this.label15.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label15.Location = new System.Drawing.Point(3, 24);
+            this.label15.Location = new System.Drawing.Point(6, 24);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(113, 24);
+            this.label15.Size = new System.Drawing.Size(175, 21);
             this.label15.TabIndex = 2;
             this.label15.Text = "Axes";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -355,9 +362,9 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label16.Location = new System.Drawing.Point(3, 48);
+            this.label16.Location = new System.Drawing.Point(6, 45);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(113, 24);
+            this.label16.Size = new System.Drawing.Size(175, 21);
             this.label16.TabIndex = 4;
             this.label16.Text = "Grid";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -366,11 +373,11 @@
             // 
             this.label17.AutoSize = true;
             this.label17.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label17.Location = new System.Drawing.Point(3, 72);
+            this.label17.Location = new System.Drawing.Point(6, 66);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(113, 24);
+            this.label17.Size = new System.Drawing.Size(175, 21);
             this.label17.TabIndex = 6;
-            this.label17.Text = "Pen";
+            this.label17.Text = "Pen (default)";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // cbAxisColour
@@ -383,10 +390,10 @@
             this.cbAxisColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbAxisColour.FormattingEnabled = true;
             this.cbAxisColour.ItemHeight = 16;
-            this.cbAxisColour.Location = new System.Drawing.Point(119, 24);
+            this.cbAxisColour.Location = new System.Drawing.Point(184, 24);
             this.cbAxisColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbAxisColour.Name = "cbAxisColour";
-            this.cbAxisColour.Size = new System.Drawing.Size(120, 22);
+            this.cbAxisColour.Size = new System.Drawing.Size(183, 22);
             this.cbAxisColour.TabIndex = 3;
             // 
             // cbGridColour
@@ -399,103 +406,157 @@
             this.cbGridColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbGridColour.FormattingEnabled = true;
             this.cbGridColour.ItemHeight = 16;
-            this.cbGridColour.Location = new System.Drawing.Point(119, 48);
+            this.cbGridColour.Location = new System.Drawing.Point(184, 45);
             this.cbGridColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbGridColour.Name = "cbGridColour";
-            this.cbGridColour.Size = new System.Drawing.Size(120, 22);
+            this.cbGridColour.Size = new System.Drawing.Size(183, 22);
             this.cbGridColour.TabIndex = 5;
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.tableLayoutPanel2);
-            this.groupBox2.Location = new System.Drawing.Point(12, 311);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox2.Location = new System.Drawing.Point(0, 135);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(245, 139);
-            this.groupBox2.TabIndex = 2;
+            this.groupBox2.Size = new System.Drawing.Size(376, 130);
+            this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Pen Colours";
+            this.groupBox2.Text = "Line colours";
             // 
             // btnClose
             // 
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(308, 427);
+            this.btnClose.Location = new System.Drawing.Point(295, 463);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
-            this.btnClose.TabIndex = 3;
+            this.btnClose.TabIndex = 4;
             this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.cbOptimization);
-            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.rbRadians);
+            this.groupBox3.Controls.Add(this.cbPlotType);
             this.groupBox3.Controls.Add(this.rbDegrees);
+            this.groupBox3.Controls.Add(this.ElementCheckboxes);
+            this.groupBox3.Controls.Add(this.cbDomainGraphWidth);
             this.groupBox3.Controls.Add(this.seDomainMaxCartesian);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.seDomainMaxPolar);
             this.groupBox3.Controls.Add(this.seDomainMinCartesian);
             this.groupBox3.Controls.Add(this.seDomainMinPolar);
-            this.groupBox3.Controls.Add(this.seDomainMaxPolar);
-            this.groupBox3.Controls.Add(this.cbDomainGraphWidth);
-            this.groupBox3.Controls.Add(this.label6);
-            this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Controls.Add(this.cbPlotType);
-            this.groupBox3.Controls.Add(this.cbStepCount);
-            this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Controls.Add(this.ElementCheckboxes);
-            this.groupBox3.Location = new System.Drawing.Point(12, 12);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(371, 189);
+            this.groupBox3.Size = new System.Drawing.Size(376, 135);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Grid Elements";
+            this.groupBox3.Text = "Grid elements";
             // 
-            // cbOptimization
+            // label11
             // 
-            this.cbOptimization.BackColor = System.Drawing.SystemColors.Control;
-            this.cbOptimization.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbOptimization.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbOptimization.Location = new System.Drawing.Point(245, 81);
-            this.cbOptimization.Name = "cbOptimization";
-            this.cbOptimization.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.cbOptimization.Size = new System.Drawing.Size(120, 21);
-            this.cbOptimization.TabIndex = 2;
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 23);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(114, 13);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "Type of approximation:";
             // 
-            // label9
+            // cbFitType
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 84);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(67, 13);
-            this.label9.TabIndex = 1;
-            this.label9.Text = "Optimization:";
+            this.cbFitType.BackColor = System.Drawing.SystemColors.Control;
+            this.cbFitType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFitType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbFitType.Location = new System.Drawing.Point(250, 19);
+            this.cbFitType.Name = "cbFitType";
+            this.cbFitType.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.cbFitType.Size = new System.Drawing.Size(120, 21);
+            this.cbFitType.TabIndex = 1;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 23);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(65, 13);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Style of plot:";
             // 
             // rbRadians
             // 
             this.rbRadians.AutoSize = true;
-            this.rbRadians.Location = new System.Drawing.Point(160, 163);
+            this.rbRadians.Location = new System.Drawing.Point(173, 47);
             this.rbRadians.Name = "rbRadians";
             this.rbRadians.Size = new System.Drawing.Size(59, 17);
-            this.rbRadians.TabIndex = 10;
+            this.rbRadians.TabIndex = 7;
             this.rbRadians.TabStop = true;
             this.rbRadians.Text = "radians";
             this.rbRadians.UseVisualStyleBackColor = true;
             // 
+            // cbPlotType
+            // 
+            this.cbPlotType.BackColor = System.Drawing.SystemColors.Control;
+            this.cbPlotType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPlotType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbPlotType.Location = new System.Drawing.Point(250, 19);
+            this.cbPlotType.Name = "cbPlotType";
+            this.cbPlotType.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.cbPlotType.Size = new System.Drawing.Size(120, 21);
+            this.cbPlotType.TabIndex = 1;
+            // 
             // rbDegrees
             // 
             this.rbDegrees.AutoSize = true;
-            this.rbDegrees.Location = new System.Drawing.Point(73, 163);
+            this.rbDegrees.Location = new System.Drawing.Point(78, 47);
             this.rbDegrees.Name = "rbDegrees";
             this.rbDegrees.Size = new System.Drawing.Size(63, 17);
-            this.rbDegrees.TabIndex = 8;
+            this.rbDegrees.TabIndex = 5;
             this.rbDegrees.TabStop = true;
             this.rbDegrees.Text = "degrees";
             this.rbDegrees.UseVisualStyleBackColor = true;
+            // 
+            // ElementCheckboxes
+            // 
+            this.ElementCheckboxes.BackColor = System.Drawing.SystemColors.Control;
+            this.ElementCheckboxes.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ElementCheckboxes.CheckOnClick = true;
+            this.ElementCheckboxes.ColumnWidth = 116;
+            this.ElementCheckboxes.FormattingEnabled = true;
+            this.ElementCheckboxes.Items.AddRange(new object[] {
+            "X axis",
+            "Horizontal grid lines",
+            "X axis ticks",
+            "X calibration",
+            "Y axis",
+            "Vertical grid lines",
+            "Y axis ticks",
+            "Y calibration",
+            "Both axes",
+            "Full grid",
+            "X & Y ticks",
+            "Full calibration"});
+            this.ElementCheckboxes.Location = new System.Drawing.Point(6, 70);
+            this.ElementCheckboxes.MultiColumn = true;
+            this.ElementCheckboxes.Name = "ElementCheckboxes";
+            this.ElementCheckboxes.Size = new System.Drawing.Size(356, 60);
+            this.ElementCheckboxes.TabIndex = 12;
+            // 
+            // cbDomainGraphWidth
+            // 
+            this.cbDomainGraphWidth.AutoSize = true;
+            this.cbDomainGraphWidth.Location = new System.Drawing.Point(124, 48);
+            this.cbDomainGraphWidth.Name = "cbDomainGraphWidth";
+            this.cbDomainGraphWidth.Size = new System.Drawing.Size(95, 17);
+            this.cbDomainGraphWidth.TabIndex = 6;
+            this.cbDomainGraphWidth.Text = "= Graph Width";
+            this.cbDomainGraphWidth.UseVisualStyleBackColor = true;
             // 
             // seDomainMaxCartesian
             // 
             this.seDomainMaxCartesian.BackColor = System.Drawing.SystemColors.Control;
             this.seDomainMaxCartesian.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.seDomainMaxCartesian.Location = new System.Drawing.Point(305, 165);
+            this.seDomainMaxCartesian.Location = new System.Drawing.Point(310, 49);
             this.seDomainMaxCartesian.Margin = new System.Windows.Forms.Padding(0);
             this.seDomainMaxCartesian.Maximum = new decimal(new int[] {
             1000000000,
@@ -509,56 +570,23 @@
             -2147483648});
             this.seDomainMaxCartesian.Name = "seDomainMaxCartesian";
             this.seDomainMaxCartesian.Size = new System.Drawing.Size(60, 16);
-            this.seDomainMaxCartesian.TabIndex = 13;
+            this.seDomainMaxCartesian.TabIndex = 10;
             this.seDomainMaxCartesian.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // seDomainMinCartesian
+            // label6
             // 
-            this.seDomainMinCartesian.BackColor = System.Drawing.SystemColors.Control;
-            this.seDomainMinCartesian.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.seDomainMinCartesian.Location = new System.Drawing.Point(245, 165);
-            this.seDomainMinCartesian.Margin = new System.Windows.Forms.Padding(0);
-            this.seDomainMinCartesian.Maximum = new decimal(new int[] {
-            1000000000,
-            0,
-            0,
-            0});
-            this.seDomainMinCartesian.Minimum = new decimal(new int[] {
-            1000000000,
-            0,
-            0,
-            -2147483648});
-            this.seDomainMinCartesian.Name = "seDomainMinCartesian";
-            this.seDomainMinCartesian.Size = new System.Drawing.Size(60, 16);
-            this.seDomainMinCartesian.TabIndex = 11;
-            this.seDomainMinCartesian.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // seDomainMinPolar
-            // 
-            this.seDomainMinPolar.BackColor = System.Drawing.SystemColors.Control;
-            this.seDomainMinPolar.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.seDomainMinPolar.Location = new System.Drawing.Point(245, 165);
-            this.seDomainMinPolar.Margin = new System.Windows.Forms.Padding(0);
-            this.seDomainMinPolar.Maximum = new decimal(new int[] {
-            1000000000,
-            0,
-            0,
-            0});
-            this.seDomainMinPolar.Minimum = new decimal(new int[] {
-            1000000000,
-            0,
-            0,
-            -2147483648});
-            this.seDomainMinPolar.Name = "seDomainMinPolar";
-            this.seDomainMinPolar.Size = new System.Drawing.Size(60, 16);
-            this.seDomainMinPolar.TabIndex = 12;
-            this.seDomainMinPolar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 49);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(46, 13);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "Domain:";
             // 
             // seDomainMaxPolar
             // 
             this.seDomainMaxPolar.BackColor = System.Drawing.SystemColors.Control;
             this.seDomainMaxPolar.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.seDomainMaxPolar.Location = new System.Drawing.Point(305, 165);
+            this.seDomainMaxPolar.Location = new System.Drawing.Point(310, 49);
             this.seDomainMaxPolar.Margin = new System.Windows.Forms.Padding(0);
             this.seDomainMaxPolar.Maximum = new decimal(new int[] {
             1000000000,
@@ -572,47 +600,70 @@
             -2147483648});
             this.seDomainMaxPolar.Name = "seDomainMaxPolar";
             this.seDomainMaxPolar.Size = new System.Drawing.Size(60, 16);
-            this.seDomainMaxPolar.TabIndex = 14;
+            this.seDomainMaxPolar.TabIndex = 11;
             this.seDomainMaxPolar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // cbDomainGraphWidth
+            // seDomainMinCartesian
             // 
-            this.cbDomainGraphWidth.AutoSize = true;
-            this.cbDomainGraphWidth.Location = new System.Drawing.Point(122, 164);
-            this.cbDomainGraphWidth.Name = "cbDomainGraphWidth";
-            this.cbDomainGraphWidth.Size = new System.Drawing.Size(95, 17);
-            this.cbDomainGraphWidth.TabIndex = 9;
-            this.cbDomainGraphWidth.Text = "= Graph Width";
-            this.cbDomainGraphWidth.UseVisualStyleBackColor = true;
+            this.seDomainMinCartesian.BackColor = System.Drawing.SystemColors.Control;
+            this.seDomainMinCartesian.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.seDomainMinCartesian.Location = new System.Drawing.Point(250, 49);
+            this.seDomainMinCartesian.Margin = new System.Windows.Forms.Padding(0);
+            this.seDomainMinCartesian.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.seDomainMinCartesian.Minimum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            -2147483648});
+            this.seDomainMinCartesian.Name = "seDomainMinCartesian";
+            this.seDomainMinCartesian.Size = new System.Drawing.Size(60, 16);
+            this.seDomainMinCartesian.TabIndex = 8;
+            this.seDomainMinCartesian.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // label6
+            // seDomainMinPolar
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 165);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(46, 13);
-            this.label6.TabIndex = 7;
-            this.label6.Text = "Domain:";
+            this.seDomainMinPolar.BackColor = System.Drawing.SystemColors.Control;
+            this.seDomainMinPolar.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.seDomainMinPolar.Location = new System.Drawing.Point(250, 49);
+            this.seDomainMinPolar.Margin = new System.Windows.Forms.Padding(0);
+            this.seDomainMinPolar.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.seDomainMinPolar.Minimum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            -2147483648});
+            this.seDomainMinPolar.Name = "seDomainMinPolar";
+            this.seDomainMinPolar.Size = new System.Drawing.Size(60, 16);
+            this.seDomainMinPolar.TabIndex = 9;
+            this.seDomainMinPolar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // label5
+            // cbOptimization
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 138);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(66, 13);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "Type of plot:";
+            this.cbOptimization.BackColor = System.Drawing.SystemColors.Control;
+            this.cbOptimization.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbOptimization.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbOptimization.Location = new System.Drawing.Point(250, 73);
+            this.cbOptimization.Name = "cbOptimization";
+            this.cbOptimization.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.cbOptimization.Size = new System.Drawing.Size(120, 21);
+            this.cbOptimization.TabIndex = 5;
             // 
-            // cbPlotType
+            // label9
             // 
-            this.cbPlotType.BackColor = System.Drawing.SystemColors.Control;
-            this.cbPlotType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbPlotType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbPlotType.Location = new System.Drawing.Point(245, 135);
-            this.cbPlotType.Name = "cbPlotType";
-            this.cbPlotType.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.cbPlotType.Size = new System.Drawing.Size(120, 21);
-            this.cbPlotType.TabIndex = 6;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 77);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(107, 13);
+            this.label9.TabIndex = 4;
+            this.label9.Text = "Optimization strategy:";
             // 
             // cbStepCount
             // 
@@ -633,58 +684,48 @@
             "16000",
             "32000",
             "64000"});
-            this.cbStepCount.Location = new System.Drawing.Point(245, 108);
+            this.cbStepCount.Location = new System.Drawing.Point(250, 46);
             this.cbStepCount.Name = "cbStepCount";
             this.cbStepCount.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.cbStepCount.Size = new System.Drawing.Size(120, 21);
-            this.cbStepCount.TabIndex = 4;
+            this.cbStepCount.TabIndex = 3;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 111);
+            this.label1.Location = new System.Drawing.Point(6, 50);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(217, 13);
-            this.label1.TabIndex = 3;
+            this.label1.TabIndex = 2;
             this.label1.Text = "Default number of steps computed per trace:";
             // 
-            // ElementCheckboxes
+            // groupBox4
             // 
-            this.ElementCheckboxes.BackColor = System.Drawing.SystemColors.Control;
-            this.ElementCheckboxes.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.ElementCheckboxes.CheckOnClick = true;
-            this.ElementCheckboxes.ColumnWidth = 116;
-            this.ElementCheckboxes.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ElementCheckboxes.FormattingEnabled = true;
-            this.ElementCheckboxes.Items.AddRange(new object[] {
-            "X axis",
-            "Horizontal grid lines",
-            "X axis ticks",
-            "X calibration",
-            "Y axis",
-            "Vertical grid lines",
-            "Y axis ticks",
-            "Y calibration",
-            "Both axes",
-            "Full grid",
-            "X & Y ticks",
-            "Full calibration"});
-            this.ElementCheckboxes.Location = new System.Drawing.Point(3, 16);
-            this.ElementCheckboxes.MultiColumn = true;
-            this.ElementCheckboxes.Name = "ElementCheckboxes";
-            this.ElementCheckboxes.Size = new System.Drawing.Size(365, 60);
-            this.ElementCheckboxes.TabIndex = 0;
+            this.groupBox4.Controls.Add(this.cbOptimization);
+            this.groupBox4.Controls.Add(this.cbFitType);
+            this.groupBox4.Controls.Add(this.label11);
+            this.groupBox4.Controls.Add(this.cbStepCount);
+            this.groupBox4.Controls.Add(this.label9);
+            this.groupBox4.Controls.Add(this.label1);
+            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox4.Location = new System.Drawing.Point(0, 352);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(376, 100);
+            this.groupBox4.TabIndex = 3;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Quality";
             // 
             // PropertiesDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(396, 463);
+            this.ClientSize = new System.Drawing.Size(376, 492);
+            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnClose);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -701,9 +742,11 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seDomainMaxCartesian)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.seDomainMaxPolar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.seDomainMinCartesian)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.seDomainMinPolar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.seDomainMaxPolar)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -750,5 +793,8 @@
         public System.Windows.Forms.RadioButton rbDegrees;
         public System.Windows.Forms.ComboBox cbOptimization;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label11;
+        public System.Windows.Forms.ComboBox cbFitType;
+        private System.Windows.Forms.GroupBox groupBox4;
     }
 }

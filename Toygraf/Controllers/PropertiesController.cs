@@ -8,21 +8,41 @@
 
     public class PropertiesController
     {
-        public PropertiesController(Model model)
+        public PropertiesController(AppController parent)
         {
-            Model = model;
+            AppController = parent;
             View = new PropertiesDialog();
             InitEnumControls();
         }
 
         #region Properties
 
+        private AppController _appController;
+        private AppController AppController
+        {
+            get => _appController;
+            set
+            {
+                if (AppController != null)
+                    AppController.PropertyChanged -= AppController_PropertyChanged;
+                _appController = value;
+                if (AppController != null)
+                    AppController.PropertyChanged += AppController_PropertyChanged;
+            }
+        }
+
+        private void AppController_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            GraphRead();
+        }
+
         private CheckedListBox ClbElements { get => View.ElementCheckboxes; }
-        private Model Model { get; set; }
+        private Model Model { get => AppController.Model; }
         private Graph Graph { get => Model.Graph; }
         private CheckedListBox.ObjectCollection ElementItems { get => View.ElementCheckboxes.Items; }
         private ComboBox.ObjectCollection Optimizations { get => View.cbOptimization.Items; }
         private ComboBox.ObjectCollection PlotTypes { get => View.cbPlotType.Items; }
+        private ComboBox.ObjectCollection FitTypes { get => View.cbFitType.Items; }
         private bool Loading, Updating;
 
         private PropertiesDialog _view;
@@ -33,9 +53,8 @@
             {
                 if (View != null)
                 {
-                    View.cbOptimization.SelectedValueChanged -= PlotTypeChanged;
-                    View.cbStepCount.SelectedValueChanged -= LiveUpdate;
                     View.cbPlotType.SelectedValueChanged -= PlotTypeChanged;
+                    View.cbFitType.SelectedValueChanged -= LiveUpdate;
                     View.cbDomainGraphWidth.CheckedChanged -= DomainGraphWidthChanged;
                     View.rbDegrees.CheckedChanged -= LiveUpdate;
                     View.rbRadians.CheckedChanged -= LiveUpdate;
@@ -43,17 +62,18 @@
                     View.seDomainMaxCartesian.ValueChanged -= LiveUpdate;
                     View.seDomainMinPolar.ValueChanged -= LiveUpdate;
                     View.seDomainMaxPolar.ValueChanged -= LiveUpdate;
-                    ColourController.Clear();
-                    View.FormClosing -= View_FormClosing;
                     ClbElements.ItemCheck -= ClbElements_ItemCheck;
+                    ColourController.Clear();
+                    View.cbOptimization.SelectedValueChanged -= PlotTypeChanged;
+                    View.cbStepCount.SelectedValueChanged -= LiveUpdate;
                     View.btnClose.Click -= BtnClose_Click;
+                    View.FormClosing -= View_FormClosing;
                 }
                 _view = value;
                 if (View != null)
                 {
-                    View.cbOptimization.SelectedValueChanged += PlotTypeChanged;
-                    View.cbStepCount.SelectedValueChanged += LiveUpdate;
                     View.cbPlotType.SelectedValueChanged += PlotTypeChanged;
+                    View.cbFitType.SelectedValueChanged += LiveUpdate;
                     View.cbDomainGraphWidth.CheckedChanged += DomainGraphWidthChanged;
                     View.rbDegrees.CheckedChanged += LiveUpdate;
                     View.rbRadians.CheckedChanged += LiveUpdate;
@@ -61,11 +81,13 @@
                     View.seDomainMaxCartesian.ValueChanged += LiveUpdate;
                     View.seDomainMinPolar.ValueChanged += LiveUpdate;
                     View.seDomainMaxPolar.ValueChanged += LiveUpdate;
-                    AddControls(View.cbAxisColour, View.cbGridColour, View.cbPenColour,
-                        View.cbLimitColour, View.cbPaperColour, View.cbFillColour);
-                    View.FormClosing += View_FormClosing;
                     ClbElements.ItemCheck += ClbElements_ItemCheck;
+                    AddColourControls(View.cbAxisColour, View.cbGridColour, View.cbPenColour,
+                        View.cbLimitColour, View.cbPaperColour, View.cbFillColour);
+                    View.cbOptimization.SelectedValueChanged += PlotTypeChanged;
+                    View.cbStepCount.SelectedValueChanged += LiveUpdate;
                     View.btnClose.Click += BtnClose_Click;
+                    View.FormClosing += View_FormClosing;
                 }
             }
         }
@@ -104,7 +126,7 @@
 
         #region Colours
 
-        private void AddControls(params ComboBox[] controls)
+        private void AddColourControls(params ComboBox[] controls)
         {
             ColourController.AddControls(controls);
             foreach (var control in controls)
@@ -183,6 +205,8 @@
             Optimizations.AddRange(typeof(Optimization).GetDescriptions());
             PlotTypes.Clear();
             PlotTypes.AddRange(typeof(PlotType).GetDescriptions());
+            FitTypes.Clear();
+            FitTypes.AddRange(typeof(FitType).GetDescriptions());
         }
 
         #endregion
@@ -191,11 +215,12 @@
 
         private void GraphRead()
         {
+            // Disable events while reading
             Loading = true;
-            ElementsRead();
-            View.cbOptimization.SelectedIndex = (int)Graph.Optimization;
-            View.cbStepCount.Text = Graph.StepCount.ToString();
+            // Plot Type & Approximation Type
             View.cbPlotType.SelectedIndex = (int)Graph.PlotType;
+            View.cbFitType.SelectedIndex = (int)Graph.FitType;
+            // Domain
             View.cbDomainGraphWidth.Checked = Graph.DomainGraphWidth;
             View.seDomainMinCartesian.Value = (decimal)Graph.DomainMinCartesian;
             View.seDomainMaxCartesian.Value = (decimal)Graph.DomainMaxCartesian;
@@ -203,37 +228,52 @@
             View.rbRadians.Checked = !Graph.DomainPolarDegrees;
             View.seDomainMinPolar.Value = (decimal)Graph.DomainMinPolar;
             View.seDomainMaxPolar.Value = (decimal)Graph.DomainMaxPolar;
+            // Elements
+            ElementsRead();
+            // Grid Colours
             ColourController.SetColour(View.cbAxisColour, Graph.AxisColour);
             ColourController.SetColour(View.cbGridColour, Graph.GridColour);
             ColourController.SetColour(View.cbPenColour, Graph.PenColour);
             ColourController.SetColour(View.cbLimitColour, Graph.LimitColour);
+            // Fill Colours
             ColourController.SetColour(View.cbPaperColour, Graph.PaperColour);
-            ColourController.SetColour(View.cbFillColour, Graph.FillColour);
             View.sePaperTransparency.Value = Graph.PaperTransparencyPercent;
+            ColourController.SetColour(View.cbFillColour, Graph.FillColour);
             View.seFillTransparency.Value = Graph.FillTransparencyPercent;
+            // Quality
+            View.cbOptimization.SelectedIndex = (int)Graph.Optimization;
+            View.cbStepCount.Text = Graph.StepCount.ToString();
+            // Done.
             Loading = false;
         }
 
         private void GraphWrite()
         {
-            ElementsWrite();
-            Graph.Optimization = (Optimization)View.cbOptimization.SelectedIndex;
-            Graph.StepCount = int.Parse(View.cbStepCount.Text);
+            // Plot Type & Approximation Type
             Graph.PlotType = (PlotType)View.cbPlotType.SelectedIndex;
+            Graph.FitType = (FitType)View.cbFitType.SelectedIndex;
+            // Domain
             Graph.DomainGraphWidth = View.cbDomainGraphWidth.Checked;
             Graph.DomainMinCartesian = (float)View.seDomainMinCartesian.Value;
             Graph.DomainMaxCartesian = (float)View.seDomainMaxCartesian.Value;
             Graph.DomainPolarDegrees = View.rbDegrees.Checked;
             Graph.DomainMinPolar = (float)View.seDomainMinPolar.Value;
             Graph.DomainMaxPolar = (float)View.seDomainMaxPolar.Value;
+            // Elements
+            ElementsWrite();
+            // Grid Colours
             Graph.AxisColour = ColourController.GetColour(View.cbAxisColour);
             Graph.GridColour = ColourController.GetColour(View.cbGridColour);
             Graph.PenColour = ColourController.GetColour(View.cbPenColour);
             Graph.LimitColour = ColourController.GetColour(View.cbLimitColour);
+            // Fill Colours
             Graph.PaperColour = ColourController.GetColour(View.cbPaperColour);
-            Graph.FillColour = ColourController.GetColour(View.cbFillColour);
             Graph.PaperTransparencyPercent = (int)View.sePaperTransparency.Value;
+            Graph.FillColour = ColourController.GetColour(View.cbFillColour);
             Graph.FillTransparencyPercent = (int)View.seFillTransparency.Value;
+            // Quality
+            Graph.Optimization = (Optimization)View.cbOptimization.SelectedIndex;
+            Graph.StepCount = int.Parse(View.cbStepCount.Text);
         }
 
         public void LiveUpdate(object sender, EventArgs e)

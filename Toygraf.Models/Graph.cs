@@ -159,6 +159,20 @@
             }
         }
 
+        private FitType _fitType;
+        public FitType FitType
+        {
+            get => _fitType;
+            set
+            {
+                if (FitType != value)
+                {
+                    _fitType = value;
+                    OnPropertyChanged("FitType");
+                }
+            }
+        }
+
         [JsonIgnore, NonSerialized]
         private Domain _domain;
 
@@ -354,8 +368,10 @@
             _optimization = Defaults.GraphOptimization;
             // PlotType
             _plotType = Defaults.GraphPlotType;
+            // FitType
+            _fitType = Defaults.GraphFitType;
             // PointF
-             _originalCentre = Defaults.GraphViewport.Centre;
+            _originalCentre = Defaults.GraphViewport.Centre;
             // SizeF
             _originalWidth = Defaults.GraphViewport.Width;
             // TickStyles
@@ -416,7 +432,7 @@
                 Series.ForEach(s => 
                 {
                     if (s.Visible)
-                        s.DrawAsync(g, _domain, Viewport, penWidth, fill, time, PlotType);
+                        s.DrawAsync(g, _domain, Viewport, penWidth, fill, time, PlotType, FitType);
                 });
                 if (fill)
                     g.DrawGrid(new GridInfo(PlotType, Viewport, _domain, AxisColour, GridColour,

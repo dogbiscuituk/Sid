@@ -167,7 +167,7 @@
         // is saved by multithreading the ComputePointsAsync() point computations.
 
         public async void DrawAsync(Graphics g, Domain domain, Viewport viewport,
-            float penWidth, bool fill, double time, PlotType plotType)
+            float penWidth, bool fill, double time, PlotType plotType, FitType fitType)
         {
             if (fill && (FillColour == Color.Transparent || FillTransparencyPercent == 100))
                 return; // Not just an optimisation; omits vertical asymptotes too.
@@ -193,11 +193,60 @@
                     pen.DashStyle = DashStyle.Dash;
                     var paint = Utility.MakeColour(FillColour, FillTransparencyPercent);
                     using (var brush = new SolidBrush(paint))
-                        PointLists.ForEach(p => FillArea(g, pen, brush, p, plotType));
+                        PointLists.ForEach(p => FillArea(g, pen, brush, p, plotType, fitType));
                 }
             else
                 using (var pen = new Pen(PenColour, penWidth))
-                    PointLists.ForEach(p => g.DrawCurve(pen, p.ToArray()));
+                    PointLists.ForEach(p => DrawSection(g, pen, p.ToArray(), fitType));
+        }
+
+        private void DrawSection(Graphics g, Pen pen, PointF[] points, FitType fitType)
+        {
+            switch (fitType)
+            {
+                case FitType.StraightLines:
+                    g.DrawLines(pen, points);
+                    break;
+                case FitType.CardinalSplines:
+                    g.DrawCurve(pen, points);
+                    break;
+            }
+        }
+
+        private void FillArea(Graphics g, Pen pen, Brush brush, List<PointF> p, PlotType plotType, FitType fitType)
+        {
+            switch (plotType)
+            {
+                case PlotType.Cartesian:
+                    var n = p.Count;
+                    var points = new PointF[n + 2];
+                    p.CopyTo(points);
+                    points[n] = new PointF(points[n - 1].X, 0);
+                    points[n + 1] = new PointF(points[0].X, 0);
+                    FillSection(g, brush, points, fitType);
+                    // Draw vertical asymptotes iff X extremes are not Limits.
+                    if (points[n].X < Viewport.Right)
+                        g.DrawLine(pen, points[n - 1], points[n]);
+                    if (points[0].X > Viewport.Left)
+                        g.DrawLine(pen, points[n + 1], points[0]);
+                    break;
+                case PlotType.Polar:
+                    FillSection(g, brush, p.ToArray(), fitType);
+                    break;
+            }
+        }
+
+        private void FillSection(Graphics g, Brush brush, PointF[] points, FitType fitType)
+        {
+            switch (fitType)
+            {
+                case FitType.StraightLines:
+                    g.FillPolygon(brush, points);
+                    break;
+                case FitType.CardinalSplines:
+                    g.FillClosedCurve(brush, points);
+                    break;
+            }
         }
 
         private Task<List<List<PointF>>> ComputePointsAsync(
@@ -223,23 +272,23 @@
                 length = domain.MaxCartesian;
             }
             var skip = true;
-            float x, y;
+            double x, y;
             for (var step = 0; step <= StepCount; step++)
             {
                 switch (plotType)
                 {
                     case PlotType.Polar:
                         var θ = start + step * length / StepCount;
-                        var r = (float)Func(θ, time);
+                        var r = GetY(θ, time);
                         x = (float)(r * Math.Cos(θ));
                         y = (float)(r * Math.Sin(θ));
                         break;
                     default:
                         x = start + step * length / StepCount;
-                        y = (float)Func(x, time);
+                        y = GetY(x, time);
                         break;
                 }
-                if (float.IsInfinity(y) || float.IsNaN(y))
+                if (double.IsInfinity(y) || double.IsNaN(y))
                     skip = true;
                 else
                 {
@@ -249,7 +298,7 @@
                         points = new List<PointF>();
                         result.Add(points);
                     }
-                    points.Add(new PointF(x, y));
+                    points.Add(new PointF((float)x, (float)y));
                 }
             }
             // Every segment of the trace must include at least 2 points.
@@ -257,27 +306,10 @@
             return Task.FromResult(result);
         }
 
-        private void FillArea(Graphics g, Pen pen, Brush brush, List<PointF> p, PlotType plotType)
+        private double GetY(double x, double t)
         {
-            var n = p.Count;
-            switch (plotType)
-            {
-                case PlotType.Cartesian:
-                    var points = new PointF[n + 2];
-                    p.CopyTo(points);
-                    points[n] = new PointF(points[n - 1].X, 0);
-                    points[n + 1] = new PointF(points[0].X, 0);
-                    g.FillClosedCurve(brush, points); //  FillPolygon(brush, points);
-                    // Draw vertical asymptotes iff X extremes are not Limits.
-                    if (points[n].X < Viewport.Right)
-                        g.DrawLine(pen, points[n - 1], points[n]);
-                    if (points[0].X > Viewport.Left)
-                        g.DrawLine(pen, points[n + 1], points[0]);
-                    break;
-                case PlotType.Polar:
-                    g.FillPolygon(brush, p.ToArray());
-                    break;
-            }
+            try { return Func(x, t); }
+            catch { return double.NaN; }
         }
 
         public void InvalidatePoints() => PointLists.Clear();

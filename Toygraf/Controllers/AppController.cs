@@ -10,7 +10,7 @@
     using ToyGraf.Models;
     using ToyGraf.Views;
 
-    public class AppController
+    public class AppController: INotifyPropertyChanged
     {
         public AppController()
         {
@@ -19,7 +19,7 @@
             Model.Cleared += Model_Cleared;
             Model.ModifiedChanged += Model_ModifiedChanged;
             Model.PropertyChanged += Model_PropertyChanged;
-            PropertiesController = new PropertiesController(Model);
+            PropertiesController = new PropertiesController(this);
             MathController = new MathController(this);
             JsonController = new JsonController(Model, View, View.FileReopen);
             JsonController.FileLoaded += JsonController_FileLoaded;
@@ -250,21 +250,6 @@ version {Application.ProductVersion}
             View.ModifiedLabel.Visible = Model.Modified;
         }
 
-        protected void OnPropertyChanged(string propertyName)
-        {
-            switch (propertyName)
-            {
-                case "Model.Graph.PaperColour":
-                    InitPaper();
-                    break;
-                case "Model.Graph.PlotType":
-                    AdjustPictureBox();
-                    UpdatePlotTypeUI();
-                    break;
-            }
-            InvalidatePictureBox();
-        }
-
         private void UpdatePlotTypeUI()
         {
             View.GraphTypeCartesian.Checked =
@@ -355,24 +340,17 @@ version {Application.ProductVersion}
                 stopwatch = new Stopwatch();
                 stopwatch.Start();
             }
-            try
+            Graph.Draw(e.Graphics, r, Clock.SecondsElapsed);
+            if (stopwatch != null)
             {
-                Graph.Draw(e.Graphics, r, Clock.SecondsElapsed);
-                if (stopwatch != null)
-                {
-                    stopwatch.Stop();
-                    // That Graph.Draw() operation took ms = stopwatch.ElapsedMilliseconds.
-                    // Add 10% & round up to multiple of 10ms to get the time to next Draw.
-                    double
-                        t = 10 * Math.Ceiling(stopwatch.ElapsedMilliseconds * 0.11),
-                        fps = 2000 / (t + Tick_ms);
-                    Tick_ms = t;
-                    View.FPSlabel.Text = string.Format("FPS={0:f1}", fps);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(View, ex.GetType().ToString(), ex.Message, MessageBoxButtons.OK);
+                stopwatch.Stop();
+                // That Graph.Draw() operation took ms = stopwatch.ElapsedMilliseconds.
+                // Add 10% & round up to multiple of 10ms to get the time to next Draw.
+                double
+                    t = 10 * Math.Ceiling(stopwatch.ElapsedMilliseconds * 0.11),
+                    fps = 2000 / (t + Tick_ms);
+                Tick_ms = t;
+                View.FPSlabel.Text = string.Format("FPS={0:f1}", fps);
             }
         }
 
@@ -493,6 +471,28 @@ version {Application.ProductVersion}
         }
 
         private void UpdateCaption() => View.Text = JsonController.WindowCaption;
+
+        #endregion
+
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            switch (propertyName)
+            {
+                case "Model.Graph.PaperColour":
+                    InitPaper();
+                    break;
+                case "Model.Graph.PlotType":
+                    AdjustPictureBox();
+                    UpdatePlotTypeUI();
+                    break;
+            }
+            InvalidatePictureBox();
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         #endregion
     }
