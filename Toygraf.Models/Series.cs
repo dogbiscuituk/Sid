@@ -316,10 +316,12 @@
             var skip = true;
             for (double x = start; x <= finish; x += dx)
             {
-                var pts = GetPoints(previousPoint, x, time, polar);
+                var slope = Derivative(x, time);
+                var pts = GetPoints(previousPoint, x, time, slope, polar);
                 foreach (var p in pts)
                 {
                     var q = p;
+                    previousPoint = q;
                     if (polar)
                     {
                         var a = q.X;
@@ -327,10 +329,7 @@
                         q.Y = (float)(q.Y * Math.Sin(a));
                     }
                     if (q.IsEmpty || float.IsInfinity(q.Y) || float.IsNaN(q.Y))
-                    {
-                        previousPoint = PointF.Empty;
                         skip = true;
-                    }
                     else
                     {
                         if (skip)
@@ -340,10 +339,8 @@
                             result.Add(points);
                         }
                         points.Add(q);
-                        previousPoint = q;
                     }
                 }
-                var slope = Derivative(x, time);
                 dx = step / Math.Min(Math.Sqrt(1 + slope * slope), 10);
             }
             // Every segment of the trace must include at least 2 points.
@@ -351,7 +348,7 @@
             return Task.FromResult(result);
         }
 
-        private IEnumerable<PointF> GetPoints(PointF previousPoint, double x, double t, bool polar)
+        private IEnumerable<PointF> GetPoints(PointF previousPoint, double x, double t, double slope, bool polar)
         {
             var p = new PointF((float)x, 0);
             double y = 0;
@@ -367,17 +364,17 @@
             if (!p.IsEmpty && !previousPoint.IsEmpty)
             {
                 float x1 = previousPoint.X, y1 = previousPoint.Y;
-                // Calculate two gradients. The first is the slope between the previous point and the cuurrent one.
-                // The second is the value of the derivative of the function at the current value of x.
-                double
-                    slope1 = Math.Atan2(y - y1, x - x1),
-                    slope2 = Math.Atan(Derivative(x, t));
-                // If these two gradients differ by much, say > 90 degrees, then
-                // there's almost certainly a discontinuity here; send back a break.
-                if (Math.Abs(slope2 - slope1) > Math.PI / 2)
+                // Compare the supplied angle, computed from the value of the derivative,
+                // to that obtained by subtracting the current point from previous one.
+                // If these two differ by an obtuse angle, then there's almost certainly
+                // a discontinuity here; so send back a break.
+                var angle = Math.Abs(Math.Atan(slope) - Math.Atan2(y - y1, x - x1));
+                if (angle > Math.PI / 2)
                     yield return PointF.Empty;
-                // Otherwise, if in a Cartesian plot, there's a sign change between the two points,
-                // send a break to connect the two segments cleanly to the x-axis.
+                // Otherwise, in a Cartesian plot, if there's a sign change between two
+                // points, send a break to connect the two segments cleanly to the x-axis
+                // (this improves cardinal spline rendering of areas of integration, and
+                // is unnecessary in polar plots).
                 else if (!polar && Math.Sign(y) != Math.Sign(y1))
                 {
                     var q = new PointF((float)(x1 - y1 * (x - x1) / (y - y1)), 0);
