@@ -12,7 +12,9 @@
             PolarDegrees, UseGraphWidth;
 
         public float MaxDegrees { get => PolarDegrees ? MaxPolar : MaxPolar.RadiansToDegrees(); }
+        public float MaxRadians { get => PolarDegrees ? MaxPolar.DegreesToRadians() : MaxPolar; }
         public float MinDegrees { get => PolarDegrees ? MinPolar : MinPolar.RadiansToDegrees(); }
+        public float MinRadians { get => PolarDegrees ? MinPolar.DegreesToRadians() : MinPolar; }
 
         public static bool operator ==(Domain a, Domain b) =>
             a.MaxCartesian == b.MaxCartesian && a.MaxPolar == b.MaxPolar &&

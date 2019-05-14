@@ -341,7 +341,10 @@
                         points.Add(q);
                     }
                 }
-                dx = step / Math.Min(Math.Sqrt(1 + slope * slope), 10);
+                if (IsValid(slope))
+                    dx = step / Math.Min(Math.Sqrt(1 + slope * slope), 10);
+                else
+                    dx = step;
             }
             // Every segment of the trace must include at least 2 points.
             result.RemoveAll(p => p.Count < 2);
@@ -361,7 +364,7 @@
             {
                 p = PointF.Empty;
             }
-            if (!p.IsEmpty && !previousPoint.IsEmpty)
+            if (IsValid(p) && IsValid(previousPoint))
             {
                 float x1 = previousPoint.X, y1 = previousPoint.Y;
                 // Compare the supplied angle, computed from the value of the derivative,
@@ -387,6 +390,13 @@
         }
 
         public void InvalidatePoints() => PointLists.Clear();
+
+        private static bool IsInvalid(float x) => float.IsInfinity(x) || float.IsNaN(x);
+        private static bool IsInvalid(double x) => double.IsInfinity(x) || double.IsNaN(x);
+        private static bool IsInvalid(PointF p) => p.IsEmpty || IsInvalid(p.X) || IsInvalid(p.Y);
+        private static bool IsValid(float x) => !IsInvalid(x);
+        private static bool IsValid(double x) => !IsInvalid(x);
+        private static bool IsValid(PointF p) => !IsInvalid(p);
 
         #endregion
 
