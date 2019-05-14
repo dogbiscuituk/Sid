@@ -157,7 +157,7 @@
 
         public static Func<double, double, double> AsFunction(this Expression e)
         {
-            if (e is DefaultExpression && e.Type == typeof(void))
+            if (e.IsDefaultVoid())
                 return (x, t) => double.NaN;
             return Expression.Lambda<Func<double, double, double>>(e.ToDouble(), x, t).Compile();
         }
@@ -203,6 +203,8 @@
         public static string AsString(this Expression e) =>
             e.ToString().Replace(" ", "").Replace("Param_0", "x").Replace("Param_1", "t");
 
+        private static bool IsDefaultVoid(this Expression e) => e is DefaultExpression && e.Type == typeof(void);
+
         public static Expression Parse(this string formula) => new Parser().Parse(formula);
 
         #endregion
@@ -213,6 +215,8 @@
 
         public static Expression D(this Expression e)
         {
+            if (e.IsDefaultVoid())
+                return e;
             switch (e)
             {
                 case ConstantExpression c:            // d(c)/dx = 0
