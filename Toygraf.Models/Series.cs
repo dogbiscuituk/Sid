@@ -215,7 +215,7 @@
                 Viewport = viewport;
                 LastTime = time;
                 LastPlotType = plotType;
-                var pointLists = await ComputePointsAsync(domain, viewport, time, plotType);
+                var pointLists = await ComputePointsAsync(domain, viewport, time, plotType == PlotType.Polar);
                 PointLists.AddRange(pointLists);
                 pointLists.Clear();
             }
@@ -290,12 +290,12 @@
         }
 
         private Task<List<List<PointF>>> ComputePointsAsync(
-            Domain domain, Viewport viewport, double time, PlotType plotType)
+            Domain domain, Viewport viewport, double time, bool polar)
         {
             var result = new List<List<PointF>>();
             List<PointF> points = null;
             float start, finish;
-            if (plotType == PlotType.Polar)
+            if (polar)
             {
                 start = domain.MinRadians;
                 finish = domain.MaxRadians;
@@ -316,11 +316,11 @@
             var skip = true;
             for (double x = start; x <= finish; x += dx)
             {
-                var pts = GetPoints(previousPoint, x, time);
+                var pts = GetPoints(previousPoint, x, time, polar);
                 foreach (var p in pts)
                 {
                     var q = p;
-                    if (plotType == PlotType.Polar)
+                    if (polar)
                     {
                         var a = q.X;
                         q.X = (float)(q.Y * Math.Cos(a));
@@ -351,7 +351,7 @@
             return Task.FromResult(result);
         }
 
-        private IEnumerable<PointF> GetPoints(PointF previousPoint, double x, double t)
+        private IEnumerable<PointF> GetPoints(PointF previousPoint, double x, double t, bool polar)
         {
             var p = new PointF((float)x, 0);
             double y = 0;
@@ -376,9 +376,9 @@
                 // there's almost certainly a discontinuity here; send back a break.
                 if (Math.Abs(slope2 - slope1) > Math.PI / 2)
                     yield return PointF.Empty;
-                // Otherwise if there's a sign change between the two points,
+                // Otherwise, if in a Cartesian plot, there's a sign change between the two points,
                 // send a break to connect the two segments cleanly to the x-axis.
-                else if (Math.Sign(y) != Math.Sign(y1))
+                else if (!polar && Math.Sign(y) != Math.Sign(y1))
                 {
                     var q = new PointF((float)(x1 - y1 * (x - x1) / (y - y1)), 0);
                     yield return q;

@@ -70,6 +70,7 @@
             TestParse("2*(x+3*(x-4^x)-5)/6", "((2*((x+(3*(x-(4^x))))-5))/6)");
             TestParse("1/5x", "(1/(5*x))");                              // Implied products have higher precedence
             TestParse("1/2sqrt(x)", "(1/(2*Sqrt(x)))");
+            TestParse("sin(x-120°)", "Sin((x-2.0943951023932))");        // Convert degrees to radians
             TestParse("2 sin 3x", "(2*Sin((3*x)))");
             TestParse("2 sin 3x * 5 cos 7x", "((2*Sin((3*x)))*(5*Cos((7*x))))");
             TestParse("2 3", "(2*3)");
