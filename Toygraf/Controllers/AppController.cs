@@ -30,6 +30,7 @@
             UpdateCaption();
             UpdatePlotTypeUI();
             AdjustPictureBox();
+            LegendController.AdjustLegend();
         }
 
         #region Properties

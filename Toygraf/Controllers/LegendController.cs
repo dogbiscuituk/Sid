@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Drawing;
-    using System.Linq.Expressions;
     using System.Windows.Forms;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
@@ -78,34 +77,10 @@
 
         #region Alignment
 
-        private void ViewLegend_DropDownOpening(object sender, EventArgs e)
-        {
-            View.ViewLegendTopLeft.Checked = LegendAlignment == ContentAlignment.TopLeft;
-            View.ViewLegendTopRight.Checked = LegendAlignment == ContentAlignment.TopRight;
-            View.ViewLegendBottomLeft.Checked = LegendAlignment == ContentAlignment.BottomLeft;
-            View.ViewLegendBottomRight.Checked = LegendAlignment == ContentAlignment.BottomRight;
-            View.ViewLegendHide.Checked = !Legend.Visible;
-        }
-
-        private void ViewLegendTopLeft_Click(object sender, EventArgs e) =>
-            LegendAlignment = ContentAlignment.TopLeft;
-
-        private void ViewLegendTopRight_Click(object sender, EventArgs e) =>
-            LegendAlignment = ContentAlignment.TopRight;
-
-        private void ViewLegendBottomLeft_Click(object sender, EventArgs e) =>
-            LegendAlignment = ContentAlignment.BottomLeft;
-
-        private void ViewLegendBottomRight_Click(object sender, EventArgs e) =>
-            LegendAlignment = ContentAlignment.BottomRight;
-
-        private void ViewLegendHide_Click(object sender, EventArgs e) =>
-            Legend.Visible = !Legend.Visible;
-
-        private void AdjustLegend()
+        public void AdjustLegend()
         {
             Legend.Visible = true;
-            const int margin = 0, keyHeight = 23, maxKeys = 17;
+            const int margin = 0, keyHeight = 21, maxKeys = 18;
             var scroll = Keys.Count > maxKeys;
             int w = 489 + (scroll ? SystemInformation.VerticalScrollBarWidth : 0),
                 h = Math.Min(Keys.Count, maxKeys) * keyHeight,
@@ -131,6 +106,30 @@
             Legend.Size = new Size(w, h);
             Legend.SetBounds(x, y, w, h);
         }
+
+        private void ViewLegend_DropDownOpening(object sender, EventArgs e)
+        {
+            View.ViewLegendTopLeft.Checked = LegendAlignment == ContentAlignment.TopLeft;
+            View.ViewLegendTopRight.Checked = LegendAlignment == ContentAlignment.TopRight;
+            View.ViewLegendBottomLeft.Checked = LegendAlignment == ContentAlignment.BottomLeft;
+            View.ViewLegendBottomRight.Checked = LegendAlignment == ContentAlignment.BottomRight;
+            View.ViewLegendHide.Checked = !Legend.Visible;
+        }
+
+        private void ViewLegendTopLeft_Click(object sender, EventArgs e) =>
+            LegendAlignment = ContentAlignment.TopLeft;
+
+        private void ViewLegendTopRight_Click(object sender, EventArgs e) =>
+            LegendAlignment = ContentAlignment.TopRight;
+
+        private void ViewLegendBottomLeft_Click(object sender, EventArgs e) =>
+            LegendAlignment = ContentAlignment.BottomLeft;
+
+        private void ViewLegendBottomRight_Click(object sender, EventArgs e) =>
+            LegendAlignment = ContentAlignment.BottomRight;
+
+        private void ViewLegendHide_Click(object sender, EventArgs e) =>
+            Legend.Visible = !Legend.Visible;
 
         private static AnchorStyles AlignToAnchor(ContentAlignment align)
         {
