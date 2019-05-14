@@ -342,6 +342,7 @@
         }
 
         private Bitmap Grid;
+        private List<Label> Labels = new List<Label>();
         private Viewport LastViewport;
 
         private void RestoreDefaults()
@@ -445,13 +446,17 @@
                 Graphics g2 = Graphics.FromImage(Grid);
                 InitOptimization(g2);
                 g2.Transform = g.Transform;
-                g2.DrawGrid(new GridInfo(PlotType, Viewport, _domain, AxisColour, GridColour,
+                g2.DrawGrid(Labels, new GridInfo(PlotType, Viewport, _domain, AxisColour, GridColour,
                     penWidth, Elements, TickStyles));
             }
             var transform = g.Transform;
             g.ResetTransform();
             g.DrawImageUnscaled(Grid, 0, 0);
             g.MultiplyTransform(transform);
+            using (var brush = new SolidBrush(AxisColour))
+            using (var font = new Font("Arial", 5 * penWidth))
+            using (var format = new StringFormat(StringFormat.GenericTypographic) { Alignment = StringAlignment.Far })
+                Labels.ForEach(p => p.Draw(g, brush, font, format));
             Series.ForEach(s =>
             {
                 if (s.Visible) s.DrawAsync(g, _domain, Viewport, penWidth, false, time, PlotType, FitType);
@@ -494,7 +499,11 @@
                     : Series[index].Expression.AsProxy(Expressions.x, Expressions.t, refs);
         }
 
-        private void InvalidateGrid() => Grid = null;
+        private void InvalidateGrid()
+        {
+            Grid = null;
+            Labels.Clear();
+        }
 
         private void InvalidatePoints() => Series.ForEach(p => p.InvalidatePoints());
 

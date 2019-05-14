@@ -1,6 +1,7 @@
 ﻿namespace ToyGraf.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using ToyGraf.Expressions;
@@ -27,7 +28,7 @@
         /// </summary>
         /// <param name="g">The GDI+ output Graphics object.</param>
         /// <param name="info">A struct of miscellaneous information about the Grid.</param>
-        public static void DrawGrid(this Graphics g, GridInfo info)
+        public static void DrawGrid(this Graphics g, List<Label> labels, GridInfo info)
         {
             var vp = info.Viewport;
             float x1 = vp.Left, y1 = vp.Bottom, x2 = vp.Right, y2 = vp.Top;
@@ -39,7 +40,7 @@
                 gridPen = new Pen(info.GridColour, info.PenWidth) { DashStyle = DashStyle.Dot },
                 axisPen = new Pen(info.AxisColour, info.PenWidth))
             using (var brush = new SolidBrush(info.AxisColour))
-            using (var font = new Font("Arial", 5 * info.PenWidth))
+            using (var font = new Font("Courier New", 5 * info.PenWidth))
             using (var format = new StringFormat(StringFormat.GenericTypographic) { Alignment = StringAlignment.Far })
             {
                 double incmin = scale < 0.3 ? 2 : scale < 0.7 ? 5 : 10;
@@ -76,13 +77,13 @@
                                 for (var y = 0.0; y <= ymax; y += dy)
                                 {
                                     var pen = pass == GridPass.AxisTicks ? axisPen : gridPen;
-                                    g.DrawWire(pen, font, brush, format, info, pass, xa, xb, (float)y);
+                                    g.DrawWire(labels, pen, font, brush, format, info, pass, xa, xb, (float)y);
                                     if (y != 0.0)
-                                        g.DrawWire(pen, font, brush, format, info, pass, xa, xb, -(float)y);
+                                        g.DrawWire(labels, pen, font, brush, format, info, pass, xa, xb, -(float)y);
                                 }
                                 break;
                             case GridPass.AxisWires:
-                                g.DrawWire(axisPen, font, brush, format, info, GridPass.AxisWires, x1, x2, 0);
+                                g.DrawWire(labels, axisPen, font, brush, format, info, GridPass.AxisWires, x1, x2, 0);
                                 break;
                         }
                         Swap(ref x1, ref y1);
@@ -98,7 +99,7 @@
         private static void BumpDown(ref double value) => value = value == 5 ? 2 : value / 2;
         private static void BumpUp(ref double value) => value = value == 2 ? 5 : value * 2;
 
-        private static void DrawWire(this Graphics g, Pen pen, Font font, Brush brush, StringFormat format,
+        private static void DrawWire(this Graphics g, List<Label> labels, Pen pen, Font font, Brush brush, StringFormat format,
             GridInfo info, GridPass pass, float x1, float x2, float y)
         {
             var vp = info.Viewport;
@@ -129,14 +130,14 @@
                     break;
                 case GridPass.GridWires when info.Hwires && info.Polar:
                     if (y >= 0)
-                        g.DrawWireSpoke(pen, brush, font, format, info, r1: x1, r2: x2, degrees: y);
+                        g.DrawWireSpoke(labels, pen, info, r1: x1, r2: x2, degrees: y);
                     break;
                 case GridPass.GridWires when info.Vwires && info.Polar:
                     if (x1 >= 0)
-                        g.DrawWireArc(pen, info, r: x1);
+                        g.DrawWireArc(labels, pen, info, r: x1);
                     break;
                 case GridPass.Numbering when info.Calibration:
-                    g.DrawWireCalibration(pen, brush, font, format, x, y, label: z.ToString());
+                    DrawWireCalibration(labels, pen.Width, x, y, label: z.ToString());
                     break;
             }
         }
@@ -166,7 +167,7 @@
         /// <param name="pen">The pen used to draw the grid.</param>
         /// <param name="info">A struct containing miscellaneous information about the Grid being drawn.</param>
         /// <param name="r">The radius of the arc.</param>
-        private static void DrawWireArc(this Graphics g, Pen pen, GridInfo info, float r)
+        private static void DrawWireArc(this Graphics g, List<Label>labels, Pen pen, GridInfo info, float r)
         {
             var vp = info.Viewport;
             if (vp.Left > r || vp.Right < -r || vp.Top > r || vp.Bottom < -r)
@@ -190,16 +191,11 @@
             }
         }
 
-        private static void DrawWireCalibration(this Graphics g, Pen pen, Brush brush, Font font,
-            StringFormat format, float x, float y, string label)
-        {
-            format.Alignment = StringAlignment.Far;
-            format.LineAlignment = StringAlignment.Near;
-            g.DrawWireString(label, font, brush, x - pen.Width, y + pen.Width, format);
-        }
+        private static void DrawWireCalibration(List<Label> labels, float penWidth, float x, float y, string label) =>
+            labels.Add(new Label(label, x - penWidth, y + penWidth, false));
 
-        private static void DrawWireSpoke(this Graphics g, Pen pen, Brush brush, Font font,
-            StringFormat format, GridInfo info, float r1, float r2, float degrees)
+        private static void DrawWireSpoke(this Graphics g, List<Label> labels, Pen pen,
+            GridInfo info, float r1, float r2, float degrees)
         {
             var radians = degrees.DegreesToRadians();
             double c = Math.Cos(radians), s = Math.Sin(radians);
@@ -227,24 +223,8 @@
                 var label = info.Domain.PolarDegrees ? $"{d}°" : d >= 0 ? rads[d / 15] : $"-{rads[-d / 15]}";
                 if (p.X < 0)
                     d -= 180;
-                format.Alignment = StringAlignment.Center;
-                format.LineAlignment = StringAlignment.Far;
-                g.TranslateTransform(p.X, p.Y);                     // Move origin to the point of printing.
-                g.RotateTransform(d);                               // Rotate the paper.
-                g.DrawWireString(label, font, brush, 0, 0, format); // Print the label at the new origin.
-                g.RotateTransform(-d);                              // Rotate back.
-                g.TranslateTransform(-p.X, -p.Y);                   // Return to the old origin.
+                labels.Add(new Label(label, p.X, p.Y, true, d));
             }
-        }
-
-        private static void DrawWireString(this Graphics g, string s, Font font, Brush brush,
-            float x, float y, StringFormat format)
-        {
-            // The temporary inversion of the Y axis is necessitated by the use
-            // of conventional mathematical (rather than computer graphic) axes.
-            g.ScaleTransform(1, -1);
-            g.DrawString(s, font, brush, x, y, format);
-            g.ScaleTransform(1, -1);
         }
 
         private static void Swap(ref float x, ref float y) { var t = x; x = y; y = t; }

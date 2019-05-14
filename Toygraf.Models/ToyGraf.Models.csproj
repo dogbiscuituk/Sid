@@ -52,6 +52,7 @@
     <Compile Include="Graph.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="GridInfo.cs" />
+    <Compile Include="Label.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Optimization.cs" />
     <Compile Include="PlotType.cs" />
