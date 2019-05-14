@@ -192,7 +192,7 @@
         }
 
         private static void DrawWireCalibration(List<Label> labels, float penWidth, float x, float y, string label) =>
-            labels.Add(new Label(label, x - penWidth, y + penWidth, false));
+            labels.Add(new Label(label, x - penWidth, y - penWidth, false));
 
         private static void DrawWireSpoke(this Graphics g, List<Label> labels, Pen pen,
             GridInfo info, float r1, float r2, float degrees)
