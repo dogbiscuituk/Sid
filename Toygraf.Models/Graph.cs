@@ -341,6 +341,9 @@
             }
         }
 
+        private Bitmap Grid;
+        private Viewport LastViewport;
+
         private void RestoreDefaults()
         {
             // bool
@@ -424,20 +427,35 @@
             InitOptimization(g);
             g.Transform = GetMatrix(r);
             Viewport.SetRatio(r.Size);
+            if (LastViewport != Viewport)
+            {
+                InvalidateGrid();
+                LastViewport = Viewport;
+            }
             var penWidth = (Width / r.Width + Viewport.Height / r.Height);
             InitProxies();
-            for (var call = 1; call <= 2; call++)
+            Series.ForEach(s =>
             {
-                bool fill = call == 1;
-                Series.ForEach(s => 
-                {
-                    if (s.Visible)
-                        s.DrawAsync(g, _domain, Viewport, penWidth, fill, time, PlotType, FitType);
-                });
-                if (fill)
-                    g.DrawGrid(new GridInfo(PlotType, Viewport, _domain, AxisColour, GridColour,
-                        penWidth, Elements, TickStyles));
+                if (s.Visible) s.DrawAsync(g, _domain, Viewport, penWidth, true, time, PlotType, FitType);
+            });
+            if (Grid == null)
+            {
+                Grid = new Bitmap(r.Width, r.Height, g);
+                Grid.MakeTransparent();
+                Graphics g2 = Graphics.FromImage(Grid);
+                InitOptimization(g2);
+                g2.Transform = g.Transform;
+                g2.DrawGrid(new GridInfo(PlotType, Viewport, _domain, AxisColour, GridColour,
+                    penWidth, Elements, TickStyles));
             }
+            var transform = g.Transform;
+            g.ResetTransform();
+            g.DrawImageUnscaled(Grid, 0, 0);
+            g.MultiplyTransform(transform);
+            Series.ForEach(s =>
+            {
+                if (s.Visible) s.DrawAsync(g, _domain, Viewport, penWidth, false, time, PlotType, FitType);
+            });
         }
 
         public void InitProxies()
@@ -475,6 +493,8 @@
                     ? Expression.Default(typeof(void))
                     : Series[index].Expression.AsProxy(Expressions.x, Expressions.t, refs);
         }
+
+        private void InvalidateGrid() => Grid = null;
 
         private void InvalidatePoints() => Series.ForEach(p => p.InvalidatePoints());
 
@@ -551,8 +571,11 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged(string propertyName) =>
+        protected void OnPropertyChanged(string propertyName)
+        {
+            InvalidateGrid();
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public void Series_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
             OnPropertyChanged($"Series[{Series.IndexOf((Series)sender)}].{e.PropertyName}");

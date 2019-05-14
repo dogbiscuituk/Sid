@@ -54,6 +54,7 @@
 
         public const double piOver180 = Math.PI / 180;
 
+        public static float DegreesToRadians(this float degrees) => (float)(degrees * piOver180);
         public static double DegreesToRadians(this double degrees) => degrees * piOver180;
 
         public static OperandTypes GetBinaryOperandTypes(this string op)
@@ -280,6 +281,7 @@
             return false;
         }
 
+        public static float RadiansToDegrees(this float radians) => (float)(radians / piOver180);
         public static double RadiansToDegrees(this double radians) => radians / piOver180;
 
         public static Expression ToBoolean(this Expression e)

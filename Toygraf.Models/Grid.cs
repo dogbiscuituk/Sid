@@ -3,6 +3,7 @@
     using System;
     using System.Drawing;
     using System.Drawing.Drawing2D;
+    using ToyGraf.Expressions;
 
     public static class Grid
     {
@@ -94,8 +95,6 @@
 
         private enum GridPass { GridWires, AxisTicks, Numbering, AxisWires }
 
-        private const float piOver180 = (float)Math.PI / 180;
-
         private static void BumpDown(ref double value) => value = value == 5 ? 2 : value / 2;
         private static void BumpUp(ref double value) => value = value == 2 ? 5 : value * 2;
 
@@ -184,8 +183,8 @@
             {
                 var p2 = corners[region, 1];
                 double
-                    startDegrees = Math.Atan2(p1.Y, p1.X) / piOver180,
-                    sweepDegrees = Math.Atan2(p2.Y, p2.X) / piOver180 - startDegrees;
+                    startDegrees = Math.Atan2(p1.Y, p1.X).RadiansToDegrees(),
+                    sweepDegrees = Math.Atan2(p2.Y, p2.X).RadiansToDegrees() - startDegrees;
                 if (sweepDegrees < 0) sweepDegrees += 360;
                 g.DrawArc(pen, -r, -r, 2 * r, 2 * r, (float)startDegrees, (float)sweepDegrees);
             }
@@ -202,7 +201,7 @@
         private static void DrawWireSpoke(this Graphics g, Pen pen, Brush brush, Font font,
             StringFormat format, GridInfo info, float r1, float r2, float degrees)
         {
-            var radians = degrees * piOver180;
+            var radians = degrees.DegreesToRadians();
             double c = Math.Cos(radians), s = Math.Sin(radians);
             float x = (float)(r1 * c), y = (float)(r1 * s);
             var major = degrees % 15 == 0;

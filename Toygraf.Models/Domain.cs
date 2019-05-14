@@ -1,6 +1,7 @@
 ﻿namespace ToyGraf.Models
 {
     using System;
+    using ToyGraf.Expressions;
 
     public struct Domain
     {
@@ -10,12 +11,8 @@
         public bool
             PolarDegrees, UseGraphWidth;
 
-        private const float piOver180 = (float)Math.PI / 180;
-
-        public float MaxDegrees { get => MaxPolar / (PolarDegrees ? 1 : piOver180); }
-        public float MaxRadians { get => MaxPolar * (PolarDegrees ? piOver180 : 1); }
-        public float MinDegrees { get => MinPolar / (PolarDegrees ? 1 : piOver180); }
-        public float MinRadians { get => MinPolar * (PolarDegrees ? piOver180 : 1); }
+        public float MaxDegrees { get => PolarDegrees ? MaxPolar : MaxPolar.RadiansToDegrees(); }
+        public float MinDegrees { get => PolarDegrees ? MinPolar : MinPolar.RadiansToDegrees(); }
 
         public static bool operator ==(Domain a, Domain b) =>
             a.MaxCartesian == b.MaxCartesian && a.MaxPolar == b.MaxPolar &&

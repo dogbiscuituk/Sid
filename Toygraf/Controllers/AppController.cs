@@ -334,8 +334,6 @@ version {Application.ProductVersion}
         private void PictureBox_Paint(object sender, PaintEventArgs e)
         {
             var r = PictureBox.ClientRectangle;
-            if (r.Width == 0 || r.Height == 0)
-                return; // Nothing to draw!
             Stopwatch stopwatch = null;
             if (Clock.Running)
             {
