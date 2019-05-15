@@ -59,7 +59,7 @@
             using (var fill = new SolidBrush(colour))
                 e.Graphics.FillRectangle(fill, r);
             var brush = IsBright(colour) ? Brushes.Black : Brushes.White;
-            e.Graphics.DrawString(colourName, e.Font, brush, r.X + 1, r.Y + 1);
+            e.Graphics.DrawString(colourName, e.Font, brush, r.X + 1, r.Y - 1);
             if (selected)
                 using (var pen = new Pen(brush))
                 {
@@ -75,7 +75,7 @@
         /// <param name="colour">The sample colour.</param>
         /// <returns>True if the sample colour's Luma value is above 0.5, otherwise False.</returns>
         private static bool IsBright(Color colour) =>
-            0.2126 * colour.R + 0.7152 * colour.G + 0.0722 * colour.B > 127.5;
+            (0.2126 * colour.R + 0.7152 * colour.G + 0.0722 * colour.B) / 255 > 0.5;
 
         #endregion
     }

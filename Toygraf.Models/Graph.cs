@@ -341,6 +341,8 @@
             }
         }
 
+        private bool _proxiesValid;
+
         private Bitmap Grid;
         private List<Label> Labels = new List<Label>();
 
@@ -436,7 +438,7 @@
                 LastViewport = Viewport;
             }
             var penWidth = (Width / r.Width + Viewport.Height / r.Height);
-            InitProxies();
+            ValidateProxies();
             Series.ForEach(s =>
             {
                 if (s.Visible) s.DrawAsync(g, _domain, Viewport, penWidth, true, time, PlotType, FitType);
@@ -465,7 +467,7 @@
             });
         }
 
-        public void InitProxies()
+        private void InitProxies()
         {
             var count = Series.Count;
             var hit = new bool[count, count];
@@ -500,17 +502,21 @@
                 Series[index].Proxy = hit[index, index]
                     ? Expression.Default(typeof(void))
                     : Series[index].Expression.AsProxy(Expressions.x, Expressions.t, refs);
-                System.Diagnostics.Debug.WriteLine($"f{index}: {Series[index].Proxy.AsString()}");
             }
         }
 
-        private void InvalidateGrid()
-        {
-            DisposeGrid();
-            Labels.Clear();
-        }
-
+        private void InvalidateGrid() { DisposeGrid(); Labels.Clear(); }
         private void InvalidatePoints() => Series.ForEach(p => p.InvalidatePoints());
+        public void InvalidateProxies() => _proxiesValid = false;
+
+        public void ValidateProxies()
+        {
+            if (!_proxiesValid)
+            {
+                InitProxies();
+                _proxiesValid = true;
+            }
+        }
 
         public PointF ScreenToGraph(Point p, Rectangle r)
         {
@@ -615,8 +621,13 @@
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void Series_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
+        public void Series_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine($"Property changed: {e.PropertyName}");
+            if (e.PropertyName == "Formula")
+                InvalidateProxies();
             OnPropertyChanged($"Series[{Series.IndexOf((Series)sender)}].{e.PropertyName}");
+        }
 
         #endregion
     }
