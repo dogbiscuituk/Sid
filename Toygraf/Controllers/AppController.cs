@@ -211,12 +211,7 @@
             View.TimerRunPause.Checked = Clock.Running;
 
         private void TimerRunPause_Click(object sender, EventArgs e) => Clock.Running = !Clock.Running;
-        private void TimerReset_Click(object sender, EventArgs e)
-        {
-            Clock.Reset();
-            UpdateTlabel();
-        }
-
+        private void TimerReset_Click(object sender, EventArgs e) => ClockReset();
         private void ViewCoordinatesTooltip_Click(object sender, EventArgs e) => ToggleCoordinatesTooltip();
         private void HelpAbout_Click(object sender, EventArgs e) => ShowVersionInfo();
 
@@ -236,12 +231,7 @@ version {Application.ProductVersion}
         #region Model
 
         private void Model_Cleared(object sender, EventArgs e) => ModelCleared();
-
-        private void Model_ClockTick(object sender, EventArgs e)
-        {
-            InvalidatePictureBox();
-        }
-
+        private void Model_ClockTick(object sender, EventArgs e) => InvalidatePictureBox();
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
         private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
             OnPropertyChanged($"Model.{e.PropertyName}");
@@ -273,18 +263,23 @@ version {Application.ProductVersion}
         private void Clock_Tick(object sender, EventArgs e)
         {
             Clock.Tick_ms = Tick_ms;
-            UpdateTlabel();
+            UpdateLabels();
             InvalidatePictureBox();
         }
 
-        private void UpdateTlabel()
+        private void ClockReset()
         {
-            var sec = Clock.SecondsElapsed;
-            TickTimes[TickIndex++] = sec;
-            if (TickIndex >= TickTimes.Length)
-                TickIndex = 0;
-            View.Tlabel.Text = string.Format("T={0:f1}", sec);
+            Clock.Reset();
+            Array.ForEach(TickTimes, p => p = 0);
+            UpdateLabels();
+        }
+
+        private void UpdateLabels()
+        {
+            var tickTime = Clock.SecondsElapsed;
+            TickTimes[TickIndex = (TickIndex + 1) % TickTimes.Length] = tickTime;
             var fps = (TickTimes.Length - 1) / (TickTimes.Max() - TickTimes.Min());
+            View.Tlabel.Text = string.Format("T={0:f1}", tickTime);
             View.FPSlabel.Text = string.Format("FPS={0:f1}", fps);
         }
 
