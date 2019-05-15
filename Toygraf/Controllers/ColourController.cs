@@ -1,11 +1,11 @@
 ﻿namespace ToyGraf.Controllers
 {
-    using ToyGraf.Expressions;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Linq;
     using System.Windows.Forms;
+    using ToyGraf.Expressions;
 
     public class ColourController
     {

@@ -4,7 +4,6 @@
     using System.Linq;
     using System.Windows.Forms;
     using ToyGraf.Expressions;
-    using ToyGraf.Models;
     using ToyGraf.Views;
 
     public class KeyController
@@ -54,7 +53,6 @@
 
         private AppController AppController { get => Parent.Parent; }
         private LegendController Parent;
-        private Series Series;
         private ColourController ColourController = new ColourController();
         private MathController MathController { get => AppController.MathController; }
         private ComboBox FunctionBox { get => View.cbFunction; }
