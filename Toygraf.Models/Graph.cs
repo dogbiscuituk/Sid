@@ -496,9 +496,12 @@
             while (somethingChanged);
             var refs = Series.Select(p => p.Expression).ToArray();
             for (int index = 0; index < count; index++)
+            {
                 Series[index].Proxy = hit[index, index]
                     ? Expression.Default(typeof(void))
                     : Series[index].Expression.AsProxy(Expressions.x, Expressions.t, refs);
+                System.Diagnostics.Debug.WriteLine($"f{index}: {Series[index].Proxy.AsString()}");
+            }
         }
 
         private void InvalidateGrid()

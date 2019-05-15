@@ -279,8 +279,8 @@ version {Application.ProductVersion}
             var tickTime = Clock.SecondsElapsed;
             TickTimes[TickIndex = (TickIndex + 1) % TickTimes.Length] = tickTime;
             var fps = (TickTimes.Length - 1) / (TickTimes.Max() - TickTimes.Min());
-            View.Tlabel.Text = string.Format("T={0:f1}", tickTime);
-            View.FPSlabel.Text = string.Format("FPS={0:f1}", fps);
+            View.Tlabel.Text = string.Format("t={0:f1}", tickTime);
+            View.FPSlabel.Text = string.Format("fps={0:f1}", fps);
         }
 
         #endregion
@@ -417,7 +417,9 @@ version {Application.ProductVersion}
 
         private void UpdateMouseCoordinates(PointF p)
         {
-            string xy = p.ToString(), rθ = new PolarPointF(p).ToString();
+            string
+                xy = $"{{x={p.X}, y={p.Y}}}",
+                rθ = new PolarPointF(p).ToString(Graph.DomainPolarDegrees);
             View.XYlabel.Text = xy;
             View.Rϴlabel.Text = rθ;
             if (ShowCoordinatesTooltip)

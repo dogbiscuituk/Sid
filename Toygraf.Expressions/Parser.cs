@@ -63,89 +63,6 @@
 
         #endregion
 
-        #region Make methods
-
-        private Expression MakeBinary(string op, Expression left, Expression right)
-        {
-            switch (op.GetBinaryOperandTypes())
-            {
-                case OperandTypes.Boolean:
-                    left = left.ToBoolean();
-                    right = right.ToBoolean();
-                    break;
-                case OperandTypes.Double:
-                    left = left.ToDouble();
-                    right = right.ToDouble();
-                    break;
-            }
-            return Expression.MakeBinary(op.GetExpressionType(), left, right);
-        }
-
-        private Expression MakeConditional(Expression test, Expression then, Expression otherwise) =>
-            Expression.Condition(test.ToBoolean(), then, otherwise);
-
-        private Expression MakeFunction(string f, Expression operand)
-        {
-            f = $"{char.ToUpper(f[0])}{f.ToLower().Substring(1)}";
-            var match = Regex.Match(f, @"^F(\d+)$");
-            if (match.Success)
-            {
-                var index = Expression.Constant(int.Parse(match.Groups[1].Value));
-                Expression left, right;
-                if (operand is BinaryExpression b && b.NodeType == ExpressionType.Modulo)
-                {
-                    left = b.Left;
-                    right = b.Right;
-                }
-                else
-                {
-                    left = operand;
-                    right = 0.0.Constant();
-                }
-                return Expressions.Function("Udf", index, Expression.Constant(0), left, right);
-            }
-            var result = Expressions.Function(f, operand);
-            if (operand is ConstantExpression c)
-                return result.AsDouble((double)c.Value).Constant();
-            return result;
-        }
-
-        private Expression MakeUnary(string op, Expression operand)
-        {
-            if (operand is ConstantExpression c)
-            {
-                var cValue = (double)c.Value;
-                switch (op)
-                {
-                    case Ops.UnaryMinus:
-                        return (-cValue).Constant();
-                    case "!":
-                    case "~":
-                        return (cValue == 0.0 ? 1.0 : 0.0).Constant();
-                    case Ops.SquareRoot:
-                        return Math.Sqrt(cValue).Constant();
-                    case Ops.CubeRoot:
-                        return Math.Pow(cValue, 1.0 / 3.0).Constant();
-                    case Ops.FourthRoot:
-                        return Math.Pow(cValue, 0.25).Constant();
-                }
-            }
-            switch (op)
-            {
-                case Ops.UnaryPlus:
-                    return operand;
-                case Ops.SquareRoot:
-                    return MakeFunction("Sqrt", operand);
-                case Ops.CubeRoot:
-                    return operand.Power(1.0 / 3.0);
-                case Ops.FourthRoot:
-                    return operand.Power(0.25);
-            }
-            return Expression.MakeUnary(op.GetExpressionType(), operand, null);
-        }
-
-        #endregion
-
         #region Match methods
 
         private string MatchFunction() => MatchRegex(@"^[\p{Lu}\p{Ll}\d]+").ToLower();
@@ -341,10 +258,10 @@
                             case Ops.UnaryMinus:
                             case "!":
                             case "~":
-                                operand = MakeUnary(oldOp, operand);
+                                operand = oldOp.MakeUnary(operand);
                                 break;
                             case Ops.SquareRoot:
-                                operand = MakeFunction("Sqrt", operand);
+                                operand = "Sqrt".MakeFunction(operand);
                                 break;
                             case Ops.CubeRoot:
                                 operand = operand.Power(1.0 / 3.0);
@@ -355,7 +272,7 @@
                             default:
                                 try
                                 {
-                                    operand = MakeFunction(oldOp, operand);
+                                    operand = oldOp.MakeFunction(operand);
                                 }
                                 catch (ArgumentNullException)
                                 {
@@ -374,17 +291,17 @@
                                 throw new FormatException($"Missing '?', input='{Formula}'");
                             Operators.Pop(); // Discard '?'
                             var then = Operands.Pop();
-                            operand = MakeConditional(Operands.Pop(), then, operand);
+                            operand = Operands.Pop().MakeConditional(then, operand);
                         }
                         else
                         {
                             var left = Operands.Pop();
 
                             if (oldOp.GetPrecedence() == Precedence.Relational && left.IsRelational())
-                                operand = MakeBinary("&", left, 
-                                    MakeBinary(oldOp, left.GetRightmostRelation(), operand));
+                                operand = "&".MakeBinary(left, 
+                                    oldOp.MakeBinary(left.GetRightmostRelation(), operand));
                             else
-                                operand = MakeBinary(oldOp, left, operand);
+                                operand = oldOp.MakeBinary(left, operand);
                         }
                     }
                     Operands.Push(operand);

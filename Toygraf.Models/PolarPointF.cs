@@ -2,6 +2,7 @@
 {
     using System;
     using System.Drawing;
+    using ToyGraf.Expressions;
 
     public struct PolarPointF
     {
@@ -21,6 +22,8 @@
             (float)(R * Math.Cos(ϴ)),
             (float)(R * Math.Sin(ϴ)));
 
-        public override string ToString() => $"{{R={R}, ϴ={ϴ}}}";
+        public string ToString(bool degrees) => degrees
+            ? $"{{r={R}, θ={ϴ.RadiansToDegrees()}°}}"
+            : $"{{r={R}, θ={ϴ}}}";
     }
 }

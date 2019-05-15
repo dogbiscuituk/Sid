@@ -45,7 +45,6 @@
             this.GraphType = new System.Windows.Forms.ToolStripMenuItem();
             this.GraphTypeCartesian = new System.Windows.Forms.ToolStripMenuItem();
             this.GraphTypePolar = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.GraphProperties = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ZoomMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -191,7 +190,6 @@
             this.GraphMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.GraphAddNewFunction,
             this.GraphType,
-            this.toolStripMenuItem5,
             this.GraphProperties});
             this.GraphMenu.Name = "GraphMenu";
             this.GraphMenu.Size = new System.Drawing.Size(51, 20);
@@ -212,7 +210,7 @@
             this.GraphTypePolar});
             this.GraphType.Name = "GraphType";
             this.GraphType.Size = new System.Drawing.Size(201, 22);
-            this.GraphType.Text = "&Type";
+            this.GraphType.Text = "&Plot Type";
             // 
             // GraphTypeCartesian
             // 
@@ -220,8 +218,8 @@
             this.GraphTypeCartesian.Name = "GraphTypeCartesian";
             this.GraphTypeCartesian.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.C)));
-            this.GraphTypeCartesian.Size = new System.Drawing.Size(254, 22);
-            this.GraphTypeCartesian.Text = "&Cartesian - isotropic";
+            this.GraphTypeCartesian.Size = new System.Drawing.Size(197, 22);
+            this.GraphTypeCartesian.Text = "&Cartesian";
             // 
             // GraphTypePolar
             // 
@@ -229,13 +227,8 @@
             this.GraphTypePolar.Name = "GraphTypePolar";
             this.GraphTypePolar.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.P)));
-            this.GraphTypePolar.Size = new System.Drawing.Size(254, 22);
-            this.GraphTypePolar.Text = "&Polar - isotropic";
-            // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(198, 6);
+            this.GraphTypePolar.Size = new System.Drawing.Size(197, 22);
+            this.GraphTypePolar.Text = "&Polar";
             // 
             // GraphProperties
             // 
@@ -243,7 +236,7 @@
             this.GraphProperties.Name = "GraphProperties";
             this.GraphProperties.ShortcutKeys = System.Windows.Forms.Keys.F3;
             this.GraphProperties.Size = new System.Drawing.Size(201, 22);
-            this.GraphProperties.Text = "&Properties...";
+            this.GraphProperties.Text = "Pr&operties...";
             // 
             // ViewMenu
             // 
@@ -483,7 +476,7 @@
             this.XYlabel.AutoSize = false;
             this.XYlabel.Name = "XYlabel";
             this.XYlabel.Size = new System.Drawing.Size(192, 17);
-            this.XYlabel.Text = "{X=0, Y=0}";
+            this.XYlabel.Text = "{x=0, y=0}";
             this.XYlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Rϴlabel
@@ -491,7 +484,7 @@
             this.Rϴlabel.AutoSize = false;
             this.Rϴlabel.Name = "Rϴlabel";
             this.Rϴlabel.Size = new System.Drawing.Size(192, 17);
-            this.Rϴlabel.Text = "{R=0, Θ=0}";
+            this.Rϴlabel.Text = "{r=0, θ=0}";
             this.Rϴlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Tlabel
@@ -499,7 +492,7 @@
             this.Tlabel.AutoSize = false;
             this.Tlabel.Name = "Tlabel";
             this.Tlabel.Size = new System.Drawing.Size(64, 17);
-            this.Tlabel.Text = "T=0";
+            this.Tlabel.Text = "t=0";
             this.Tlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // FPSlabel
@@ -507,7 +500,7 @@
             this.FPSlabel.AutoSize = false;
             this.FPSlabel.Name = "FPSlabel";
             this.FPSlabel.Size = new System.Drawing.Size(64, 17);
-            this.FPSlabel.Text = "FPS=0";
+            this.FPSlabel.Text = "fps=0";
             this.FPSlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // ModifiedLabel
@@ -549,7 +542,7 @@
             // 
             // PictureBox
             // 
-            this.PictureBox.Location = new System.Drawing.Point(34, 34);
+            this.PictureBox.Location = new System.Drawing.Point(19, 19);
             this.PictureBox.Name = "PictureBox";
             this.PictureBox.Size = new System.Drawing.Size(16, 16);
             this.PictureBox.TabIndex = 3;
@@ -736,7 +729,6 @@
         public System.Windows.Forms.ToolStripMenuItem ScrollDown;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
         public System.Windows.Forms.ToolStripMenuItem ScrollCentre;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         public System.Windows.Forms.ToolStripMenuItem GraphType;
         public System.Windows.Forms.ToolStripMenuItem GraphTypeCartesian;
         public System.Windows.Forms.ToolStripMenuItem GraphTypePolar;
