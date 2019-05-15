@@ -149,15 +149,16 @@
         ///
         /// Partition the coordinate space into nine regions: three in the X direction (left, centre, right),
         /// times three in the Y direction (top, middle, bottom). The inversion of the Y axis is necessitated
-        /// by the use throughout of conventional mathematical (rather than computer graphic) axes.
+        /// by the use throughout of conventional mathematical (rather than computer graphic) axes. So yes,
+        /// the "bottom" region is at the top, etc.
         ///
         /// left centre right               If the circle's centre is inside the viewport, corresponding to
         ///                                 the central region numbered 4 here, we must draw the full circle.
         ///   6  |  7  |  8    bottom       If it's outside, the shadow of the viewport as seen from the
         /// -----+-----+-----               centre of the circle is bounded by two of the viewport corners
         ///   3  |  4  |  5    middle       (possibly adjacent, possibly opposite). Which two corners? That
-        /// -----+-----+-----               depends on the region, as detailed in the array of point pairs
-        ///   0  |  1  |  2    top          "PointF[,] corners" in code.
+        /// -----+-----+-----               depends on the region, as detailed by the array of point pairs
+        ///   0  |  1  |  2    top          "PointF[,] corners" in the code.
         ///
         /// Once we have those two corners, we have the starting and finishing angles of our arc: these are
         /// just the arctangents of the corners' coordinates.

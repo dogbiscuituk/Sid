@@ -203,9 +203,9 @@
         public static string AsString(this Expression e) =>
             e.ToString().Replace(" ", "").Replace("Param_0", "x").Replace("Param_1", "t");
 
-        private static bool IsDefaultVoid(this Expression e) => e is DefaultExpression && e.Type == typeof(void);
-
         public static Expression Parse(this string formula) => new Parser().Parse(formula);
+
+        private static bool IsDefaultVoid(this Expression e) => e is DefaultExpression && e.Type == typeof(void);
 
         #endregion
 
@@ -213,7 +213,7 @@
 
         public static Expression Differentiate(this Expression e) => Simplify(D(e));
 
-        public static Expression D(this Expression e)
+        private static Expression D(this Expression e)
         {
             if (e.IsDefaultVoid())
                 return e;
@@ -253,9 +253,13 @@
                         case ExpressionType.Power:    // (f^g)' = (f^g)*(f'g÷f+g'Ln(f)) = (f'g+fg'Ln(f))f^(g-1)
                             return D(f).Times(g).Plus(f.Times(D(g)).Times(Ln(f))).Times(f.Power(g.Minus(1)));
                     }
-                    break;
+                    return Constant(0);               // Logical/Equality/Relational
+                case ConditionalExpression ce:        // (e?f:g)' = e?f':g'
+                    return Expression.Condition(ce.Test, D(ce.IfTrue), D(ce.IfFalse));
+                default:
+                    return Constant(0);
             }
-            throw new InvalidOperationException();
+            throw new FormatException($"Unable to differentiate expression {e.AsString()}.");
         }
 
         private static Expression DifferentiateFunction(string methodName, Expression x)
@@ -294,7 +298,7 @@
                 case "Tanh": return Sech(x).Squared();                                       // d(tanh x)/dx = sech²x
                 default: return Constant(0);
             }
-            throw new InvalidOperationException();
+            throw new FormatException($"Unable to differentiate function {methodName}({x.AsString()}).");
         }
 
         #endregion
