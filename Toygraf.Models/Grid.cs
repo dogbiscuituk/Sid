@@ -112,13 +112,12 @@
                 x1 = info.TickPositive ? tickSize : 0;
                 x2 = info.TickNegative ? -tickSize : 0;
             }
-            float x = 0, y1 = y, y2 = y, z = -y;
+            float x = 0, y1 = y, y2 = y, z = y;
             if (info.Vertical)
             {
                 Swap(ref x, ref y);
                 Swap(ref x1, ref y1);
                 Swap(ref x2, ref y2);
-                z = -z;
             }
             switch (pass)
             {

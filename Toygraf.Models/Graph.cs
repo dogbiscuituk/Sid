@@ -13,7 +13,7 @@
     using ToyGraf.Expressions;
 
     [Serializable]
-    public class Graph : INotifyPropertyChanged
+    public class Graph : IDisposable, INotifyPropertyChanged
     {
         public Graph() { RestoreDefaults(); }
 
@@ -343,6 +343,8 @@
 
         private Bitmap Grid;
         private List<Label> Labels = new List<Label>();
+
+        [NonSerialized]
         private Viewport LastViewport;
 
         private void RestoreDefaults()
@@ -443,7 +445,7 @@
             {
                 Grid = new Bitmap(r.Width, r.Height, g);
                 Grid.MakeTransparent();
-                Graphics g2 = Graphics.FromImage(Grid);
+                var g2 = Graphics.FromImage(Grid);
                 InitOptimization(g2);
                 g2.Transform = g.Transform;
                 g2.DrawGrid(Labels, new GridInfo(PlotType, Viewport, _domain, AxisColour, GridColour,
@@ -501,7 +503,7 @@
 
         private void InvalidateGrid()
         {
-            Grid = null;
+            DisposeGrid();
             Labels.Clear();
         }
 
@@ -573,6 +575,30 @@
 
         public void ZoomReset() { Centre = _originalCentre; Width = _originalWidth; }
         public void ZoomSet() { _originalCentre = Centre; _originalWidth = Width; }
+
+        #endregion
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            DisposeGrid();
+        }
+
+        private void DisposeGrid()
+        {
+            if (Grid != null)
+            {
+                Grid.Dispose();
+                Grid = null;
+            }
+        }
 
         #endregion
 

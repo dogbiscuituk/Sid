@@ -246,7 +246,10 @@
                         break;
                 }
             }
-            catch (OverflowException) { }
+            catch (OverflowException)
+            {
+                System.Diagnostics.Debug.WriteLine($"OverflowException in Series.DrawSection.");
+            }
         }
 
         private void FillArea(Graphics g, Pen pen, Brush brush, List<PointF> p, PlotType plotType, FitType fitType)
@@ -286,7 +289,10 @@
                         break;
                 }
             }
-            catch (OverflowException) { }
+            catch (OverflowException)
+            {
+                System.Diagnostics.Debug.WriteLine($"OverflowException in Series.FillSection.");
+            }
         }
 
         private Task<List<List<PointF>>> ComputePointsAsync(
