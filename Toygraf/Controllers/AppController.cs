@@ -4,6 +4,7 @@
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Drawing;
+    using System.Linq;
     using System.Reflection;
     using System.Windows.Forms;
     using ToyGraf.Expressions;
@@ -266,6 +267,8 @@ version {Application.ProductVersion}
         #region Clock
 
         private double Tick_ms = 100;
+        private double[] TickTimes = new double[64];
+        private int TickIndex;
 
         private void Clock_Tick(object sender, EventArgs e)
         {
@@ -276,7 +279,13 @@ version {Application.ProductVersion}
 
         private void UpdateTlabel()
         {
-            View.Tlabel.Text = string.Format("T={0:f1}", Clock.SecondsElapsed);
+            var sec = Clock.SecondsElapsed;
+            TickTimes[TickIndex++] = sec;
+            if (TickIndex >= TickTimes.Length)
+                TickIndex = 0;
+            View.Tlabel.Text = string.Format("T={0:f1}", sec);
+            var fps = (TickTimes.Length - 1) / (TickTimes.Max() - TickTimes.Min());
+            View.FPSlabel.Text = string.Format("FPS={0:f1}", fps);
         }
 
         #endregion
@@ -351,7 +360,6 @@ version {Application.ProductVersion}
                     t = 10 * Math.Ceiling(stopwatch.ElapsedMilliseconds * 0.11),
                     fps = 2000 / (t + Tick_ms);
                 Tick_ms = t;
-                View.FPSlabel.Text = string.Format("FPS={0:f1}", fps);
             }
         }
 
