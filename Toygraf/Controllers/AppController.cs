@@ -28,7 +28,7 @@
             JsonController.FileSaving += JsonController_FileSaving;
             JsonController.FileSaved += JsonController_FileSaved;
             LegendController = new LegendController(this);
-            UpdateCaption();
+            ModifiedChanged();
             AdjustPictureBox();
             LegendController.AdjustLegend();
             UpdateUI();
@@ -89,7 +89,6 @@
                     View.FormClosing -= View_FormClosing;
                     View.Resize -= View_Resize;
                     // Main Menu
-                    View.FileMenu.DropDownOpening -= FileMenu_DropDownOpening;
                     View.FileNew.Click -= FileNew_Click;
                     View.FileOpen.Click -= FileOpen_Click;
                     View.FileSave.Click -= FileSave_Click;
@@ -137,7 +136,6 @@
                     View.FormClosing += View_FormClosing;
                     View.Resize += View_Resize;
                     // Main Menu
-                    View.FileMenu.DropDownOpening += FileMenu_DropDownOpening;
                     View.FileNew.Click += FileNew_Click;
                     View.FileOpen.Click += FileOpen_Click;
                     View.FileSave.Click += FileSave_Click;
@@ -188,7 +186,6 @@
 
         #region Menus
 
-        public void FileMenu_DropDownOpening(object sender, EventArgs e) => View.FileSave.Enabled = Model.Modified;
         private void FileNew_Click(object sender, EventArgs e) => NewFile();
         private void FileOpen_Click(object sender, EventArgs e) => OpenFile();
         private void FileSave_Click(object sender, EventArgs e) => JsonController.Save();
@@ -241,6 +238,7 @@ version {Application.ProductVersion}
         private void ModifiedChanged()
         {
             UpdateCaption();
+            View.FileSave.Enabled = Model.Modified;
             View.ModifiedLabel.Visible = Model.Modified;
         }
 
@@ -487,7 +485,7 @@ version {Application.ProductVersion}
         }
 
         private void OpenFile() { JsonController.Open(); }
-        private void UpdateCaption() => View.Text = JsonController.WindowCaption;
+        private void UpdateCaption() { View.Text = JsonController.WindowCaption; }
 
         #endregion
 
