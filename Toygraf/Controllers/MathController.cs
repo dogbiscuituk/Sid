@@ -14,12 +14,13 @@
         {
             Parent = parent;
             View = new Mathboard();
+            InitFunctionNames();
         }
 
         #region Properties
 
         private Mathboard _view;
-        private Mathboard View
+        public Mathboard View
         {
             get => _view;
             set
@@ -28,7 +29,7 @@
                 {
                     UnloadKeys();
                     View.FormClosing -= View_FormClosing;
-                    View.TextBox.TextChanged -= TextBox_TextChanged;
+                    View.FunctionBox.TextChanged -= TextBox_TextChanged;
                     View.btnLshift.Click -= BtnShift_Click;
                     View.btnRshift.Click -= BtnShift_Click;
                     View.btnShiftLock.Click -= BtnShiftLock_Click;
@@ -42,7 +43,7 @@
                 {
                     LoadKeys();
                     View.FormClosing += View_FormClosing;
-                    View.TextBox.TextChanged += TextBox_TextChanged;
+                    View.FunctionBox.TextChanged += TextBox_TextChanged;
                     View.btnLshift.Click += BtnShift_Click;
                     View.btnRshift.Click += BtnShift_Click;
                     View.btnShiftLock.Click += BtnShiftLock_Click;
@@ -58,6 +59,8 @@
         private AppController Parent;
         private Control ActiveControl { get; set; }
         private readonly List<Button> CustomKeys = new List<Button>();
+        private ComboBox FunctionBox { get => View.FunctionBox; }
+        private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
 
         private KeyStates _state;
         private KeyStates State
@@ -88,7 +91,7 @@
         public void ShowDialog(IWin32Window owner, Control sender, Point location)
         {
             ActiveControl = sender;
-            View.TextBox.Text = ActiveControl.Text;
+            View.FunctionBox.Text = ActiveControl.Text;
             View.Location = location;
             View.ShowDialog(owner);
         }
@@ -190,13 +193,13 @@
 
         #region Keystrokes
 
-        private void FocusTextBox() => View.TextBox.Focus();
+        private void FocusTextBox() => View.FunctionBox.Focus();
 
         private void Key_Press(object sender, System.EventArgs e)
         {
             var text = ((Control)sender).Text;
             if (text != string.Empty)
-                View.TextBox.SelectedText = text;
+                View.FunctionBox.SelectedText = text;
             State &= ~(KeyStates.Shift | KeyStates.Languages);
             FocusTextBox();
         }
@@ -209,14 +212,30 @@
                 key.Click += Key_Press;
         }
 
-        private void TextBox_TextChanged(object sender, EventArgs e) =>
-            ActiveControl.Text = View.TextBox.Text;
-
         private void UnloadKeys()
         {
             foreach (var key in CustomKeys)
                 key.Click -= Key_Press;
             CustomKeys.Clear();
+        }
+
+        #endregion
+
+        #region Functions
+
+        private void InitFunctionNames()
+        {
+            Functions.Clear();
+            Functions.Add(string.Empty);
+            Functions.AddRange(Utility.FunctionNames.Select(f => $"{f}(x)").ToArray());
+        }
+
+        private void TextBox_TextChanged(object sender, EventArgs e)
+        {
+            var function = FunctionBox.Text;
+            if (!string.IsNullOrWhiteSpace(function) && !Functions.Contains(function))
+                Functions[0] = function;
+            ActiveControl.Text = function;
         }
 
         #endregion

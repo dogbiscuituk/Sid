@@ -105,7 +105,7 @@
             this.btnMaths = new System.Windows.Forms.Button();
             this.btnSuperscript = new System.Windows.Forms.Button();
             this.btnSubscript = new System.Windows.Forms.Button();
-            this.TextBox = new System.Windows.Forms.TextBox();
+            this.FunctionBox = new System.Windows.Forms.ComboBox();
             this.btnClose = new System.Windows.Forms.Button();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
@@ -1122,12 +1122,12 @@
             this.btnSubscript.UseMnemonic = false;
             this.btnSubscript.UseVisualStyleBackColor = false;
             // 
-            // TextBox
+            // FunctionBox
             // 
-            this.TextBox.Location = new System.Drawing.Point(12, 12);
-            this.TextBox.Name = "TextBox";
-            this.TextBox.Size = new System.Drawing.Size(354, 20);
-            this.TextBox.TabIndex = 0;
+            this.FunctionBox.Location = new System.Drawing.Point(12, 12);
+            this.FunctionBox.Name = "FunctionBox";
+            this.FunctionBox.Size = new System.Drawing.Size(354, 20);
+            this.FunctionBox.TabIndex = 0;
             // 
             // btnClose
             // 
@@ -1147,7 +1147,7 @@
             this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(478, 170);
             this.Controls.Add(this.btnClose);
-            this.Controls.Add(this.TextBox);
+            this.Controls.Add(this.FunctionBox);
             this.Controls.Add(this.btnSubscript);
             this.Controls.Add(this.btnSuperscript);
             this.Controls.Add(this.btnMaths);
@@ -1312,7 +1312,7 @@
         public System.Windows.Forms.Button btnSuperscript;
         public System.Windows.Forms.Button btnSubscript;
         public System.Windows.Forms.Button btnClose;
-        public System.Windows.Forms.TextBox TextBox;
+        public System.Windows.Forms.ComboBox FunctionBox;
         public System.Windows.Forms.ToolTip ToolTip;
     }
 }
