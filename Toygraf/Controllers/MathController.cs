@@ -29,7 +29,9 @@
                 {
                     UnloadKeys();
                     View.FormClosing -= View_FormClosing;
-                    View.FunctionBox.TextChanged -= TextBox_TextChanged;
+                    FunctionBox.KeyUp -= FunctionBox_KeyUp;
+                    FunctionBox.MouseUp -= FunctionBox_MouseUp; ;
+                    FunctionBox.TextChanged -= FunctionBox_TextChanged;
                     View.btnLshift.Click -= BtnShift_Click;
                     View.btnRshift.Click -= BtnShift_Click;
                     View.btnShiftLock.Click -= BtnShiftLock_Click;
@@ -43,7 +45,9 @@
                 {
                     LoadKeys();
                     View.FormClosing += View_FormClosing;
-                    View.FunctionBox.TextChanged += TextBox_TextChanged;
+                    FunctionBox.KeyUp += FunctionBox_KeyUp;
+                    FunctionBox.MouseUp += FunctionBox_MouseUp; ;
+                    FunctionBox.TextChanged += FunctionBox_TextChanged;
                     View.btnLshift.Click += BtnShift_Click;
                     View.btnRshift.Click += BtnShift_Click;
                     View.btnShiftLock.Click += BtnShiftLock_Click;
@@ -61,6 +65,7 @@
         private readonly List<Button> CustomKeys = new List<Button>();
         private ComboBox FunctionBox { get => View.FunctionBox; }
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
+        private int SelStart, SelLength;
 
         private KeyStates _state;
         private KeyStates State
@@ -68,7 +73,7 @@
             get => _state;
             set
             {
-                FocusTextBox();
+                FocusFunctionBox();
                 if (State != value)
                 {
                     _state = value;
@@ -76,9 +81,9 @@
                     InitBackColour(View.btnRshift, KeyStates.Shift);
                     InitBackColour(View.btnShiftLock, KeyStates.ShiftLock);
                     InitBackColour(View.btnGreek, KeyStates.Greek);
-                    InitBackColour(View.btnMaths, KeyStates.Mathematical);
-                    InitBackColour(View.btnSubscript, KeyStates.Subscript);
-                    InitBackColour(View.btnSuperscript, KeyStates.Superscript);
+                    InitBackColour(View.btnMaths, KeyStates.Maths);
+                    InitBackColour(View.btnSubscript, KeyStates.Subs);
+                    InitBackColour(View.btnSuperscript, KeyStates.Super);
                     InitKeys();
                 }
             }
@@ -91,7 +96,7 @@
         public void ShowDialog(IWin32Window owner, Control sender, Point location)
         {
             ActiveControl = sender;
-            View.FunctionBox.Text = ActiveControl.Text;
+            FunctionBox.Text = ActiveControl.Text;
             View.Location = location;
             View.ShowDialog(owner);
         }
@@ -116,11 +121,11 @@
             {
                 case KeyStates.Greek:
                     return shift ? KeyboardType.GreekUpper : KeyboardType.GreekLower;
-                case KeyStates.Mathematical:
+                case KeyStates.Maths:
                     return shift ? KeyboardType.MathsUpper : KeyboardType.MathsLower;
-                case KeyStates.Subscript:
+                case KeyStates.Subs:
                     return KeyboardType.Subscript;
-                case KeyStates.Superscript:
+                case KeyStates.Super:
                     return shift ? KeyboardType.SuperUpper : KeyboardType.SuperLower;
                 default:
                     return shift ? KeyboardType.LatinUpper : KeyboardType.LatinLower;
@@ -165,23 +170,23 @@
 
         #region States
 
-        private void BtnShift_Click(object sender, System.EventArgs e) =>
+        private void BtnShift_Click(object sender, EventArgs e) =>
             State = State & ~KeyStates.ShiftLock ^ KeyStates.Shift;
 
-        private void BtnShiftLock_Click(object sender, System.EventArgs e) =>
+        private void BtnShiftLock_Click(object sender, EventArgs e) =>
             State = State & ~KeyStates.Shift ^ KeyStates.ShiftLock;
 
-        private void BtnGreek_Click(object sender, System.EventArgs e) =>
+        private void BtnGreek_Click(object sender, EventArgs e) =>
             ToggleLanguage(KeyStates.Greek);
 
         private void BtnMaths_Click(object sender, EventArgs e) =>
-            ToggleLanguage(KeyStates.Mathematical);
+            ToggleLanguage(KeyStates.Maths);
 
         private void BtnSubscript_Click(object sender, EventArgs e) =>
-            ToggleLanguage(KeyStates.Subscript);
+            ToggleLanguage(KeyStates.Subs);
 
         private void BtnSuperscript_Click(object sender, EventArgs e) =>
-            ToggleLanguage(KeyStates.Superscript);
+            ToggleLanguage(KeyStates.Super);
 
         private void InitBackColour(Control control, KeyStates state) =>
             control.BackColor = Color.FromKnownColor(
@@ -194,15 +199,25 @@
 
         #region Keystrokes
 
-        private void FocusTextBox() => View.FunctionBox.Focus();
+        private void FunctionBox_MouseUp(object sender, MouseEventArgs e) => SaveSelection();
+        private void FunctionBox_KeyUp(object sender, KeyEventArgs e) => SaveSelection();
 
-        private void Key_Press(object sender, System.EventArgs e)
+        private void FocusFunctionBox()
+        {
+            FunctionBox.Focus();
+            LoadSelection();
+        }
+
+        private void Key_Press(object sender, EventArgs e)
         {
             var text = ((Control)sender).Text;
             if (text != string.Empty)
-                View.FunctionBox.SelectedText = text;
+            {
+                FocusFunctionBox();
+                FunctionBox.SelectedText = text;
+                SaveSelection();
+            }
             State &= ~(KeyStates.Shift | KeyStates.Languages);
-            FocusTextBox();
         }
 
         private void LoadKeys()
@@ -231,12 +246,24 @@
             Functions.AddRange(Utility.FunctionNames.Select(f => $"{f}(x)").ToArray());
         }
 
-        private void TextBox_TextChanged(object sender, EventArgs e)
+        private void FunctionBox_TextChanged(object sender, EventArgs e)
         {
             var function = FunctionBox.Text;
             if (!string.IsNullOrWhiteSpace(function) && !Functions.Contains(function))
                 Functions[0] = function;
             ActiveControl.Text = function;
+        }
+
+        private void LoadSelection()
+        {
+            FunctionBox.SelectionStart = SelStart;
+            FunctionBox.SelectionLength = SelLength;
+        }
+
+        private void SaveSelection()
+        {
+            SelStart = FunctionBox.SelectionStart;
+            SelLength = FunctionBox.SelectionLength;
         }
 
         #endregion
@@ -247,15 +274,11 @@
 
         public enum KeyboardType
         {
-            LatinLower,
-            LatinUpper,
-            GreekLower,
-            GreekUpper,
-            MathsLower,
-            MathsUpper,
+            LatinLower, LatinUpper,
+            GreekLower, GreekUpper,
+            MathsLower, MathsUpper,
             Subscript,
-            SuperLower,
-            SuperUpper
+            SuperLower, SuperUpper
         }
 
         [Flags]
@@ -266,10 +289,10 @@
             ShiftLock = 0x02,
             Shifted = Shift | ShiftLock,
             Greek = 0x04,
-            Mathematical = 0x08,
-            Subscript = 0x10,
-            Superscript = 0x20,
-            Languages = Greek | Mathematical | Subscript | Superscript
+            Maths = 0x08,
+            Subs = 0x10,
+            Super = 0x20,
+            Languages = Greek | Maths | Subs | Super
         }
 
         #endregion
