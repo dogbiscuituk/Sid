@@ -2,9 +2,9 @@
 
 namespace ToyGraf.Views
 {
-    public partial class Mathboard : Form
+    public partial class KeyboardDialog : Form
     {
-        public Mathboard()
+        public KeyboardDialog()
         {
             InitializeComponent();
         }

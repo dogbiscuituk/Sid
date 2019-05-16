@@ -1,6 +1,6 @@
 ﻿namespace ToyGraf.Views
 {
-    partial class Mathboard
+    partial class KeyboardDialog
     {
         /// <summary>
         /// Required designer variable.

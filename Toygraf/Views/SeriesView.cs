@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    public partial class KeyView : UserControl
+    public partial class SeriesView : UserControl
     {
-        public KeyView()
+        public SeriesView()
         {
             InitializeComponent();
         }

@@ -54,11 +54,11 @@
     <Compile Include="Controllers\PropertiesController.cs" />
     <Compile Include="Controllers\JsonController.cs" />
     <Compile Include="Controllers\LegendController.cs" />
-    <Compile Include="Controllers\KeyController.cs" />
+    <Compile Include="Controllers\SeriesController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\MruController.cs" />
     <Compile Include="Controllers\SdiController.cs" />
-    <Compile Include="Controllers\MathController.cs" />
+    <Compile Include="Controllers\KeyboardController.cs" />
     <Compile Include="Views\AppForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,17 +83,17 @@
     <Compile Include="Views\PropertiesDialog.Designer.cs">
       <DependentUpon>PropertiesDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\KeyView.cs">
+    <Compile Include="Views\SeriesView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\KeyView.Designer.cs">
-      <DependentUpon>KeyView.cs</DependentUpon>
+    <Compile Include="Views\SeriesView.Designer.cs">
+      <DependentUpon>SeriesView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Mathboard.cs">
+    <Compile Include="Views\KeyboardDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\Mathboard.Designer.cs">
-      <DependentUpon>Mathboard.cs</DependentUpon>
+    <Compile Include="Views\KeyboardDialog.Designer.cs">
+      <DependentUpon>KeyboardDialog.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -125,11 +125,11 @@
     <EmbeddedResource Include="Views\PropertiesDialog.resx">
       <DependentUpon>PropertiesDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\KeyView.resx">
-      <DependentUpon>KeyView.cs</DependentUpon>
+    <EmbeddedResource Include="Views\SeriesView.resx">
+      <DependentUpon>SeriesView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Mathboard.resx">
-      <DependentUpon>Mathboard.cs</DependentUpon>
+    <EmbeddedResource Include="Views\KeyboardDialog.resx">
+      <DependentUpon>KeyboardDialog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

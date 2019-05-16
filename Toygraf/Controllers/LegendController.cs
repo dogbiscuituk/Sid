@@ -54,14 +54,14 @@
             }
         }
 
-        public List<KeyController> Children = new List<KeyController>();
+        public List<SeriesController> Children = new List<SeriesController>();
 
         public AppController Parent;
         private bool CanCancel, Loading = true;
         private Graph Graph { get => Parent.Graph; }
         private Panel Client { get => View.ClientPanel; }
         private Panel Legend { get => View.LegendPanel; }
-        private Control.ControlCollection Keys { get => Legend.Controls; }
+        private Control.ControlCollection SeriesViews { get => Legend.Controls; }
         private ContentAlignment _legendAlignment = ContentAlignment.TopLeft;
         private ContentAlignment LegendAlignment
         {
@@ -80,18 +80,18 @@
         public void AdjustLegend()
         {
             Legend.Visible = true;
-            const int margin = 0, keyHeight = 23, maxKeys = 20;
-            var scroll = Keys.Count > maxKeys;
+            const int margin = 0, rowHeight = 23, maxRows = 20;
+            var scroll = SeriesViews.Count > maxRows;
             int w = 489 + (scroll ? SystemInformation.VerticalScrollBarWidth : 0),
-                h = Keys.Count > 0 ? Math.Min(Keys.Count, maxKeys) * keyHeight + 2 : 0,
+                h = SeriesViews.Count > 0 ? Math.Min(SeriesViews.Count, maxRows) * rowHeight + 2 : 0,
                 x = Client.Width - w, y = Client.Height - h;
             Legend.AutoScrollPosition = new Point(0, 0);
             int index = 0, top = 0;
-            foreach (KeyView key in Keys)
+            foreach (SeriesView seriesView in SeriesViews)
             {
-                key.Location = new Point(0, top);
-                key.Label.Text = $"f{index++}";
-                top += keyHeight;
+                seriesView.Location = new Point(0, top);
+                seriesView.Label.Text = $"f{index++}";
+                top += rowHeight;
             }
             var anchor = AlignToAnchor(LegendAlignment);
             switch (LegendAlignment)
@@ -149,15 +149,15 @@
 
         #endregion
 
-        #region Key Management
+        #region SeriesView Management
 
         private void GraphAddNewFunction_Click(object sender, EventArgs e) =>
-            AddNewKey(null);
+            AddNewSeriesView(null);
 
-        private void AddNewKey(Series series)
+        private void AddNewSeriesView(Series series)
         {
             Loading = true;
-            var child = new KeyController(this);
+            var child = new SeriesController(this);
             Children.Add(child);
             if (series == null)
             {
@@ -175,40 +175,40 @@
                 child.FillColour = series.FillColour;
                 child.FillTransparencyPercent = series.FillTransparencyPercent;
             }
-            var index = Keys.Count;
+            var index = SeriesViews.Count;
             child.View.cbFunction.Validating += CbFunction_Validating;
-            Keys.Add(child.View);
-            AfterKeyChange();
+            SeriesViews.Add(child.View);
+            AfterChange();
             Loading = false;
             child.View.cbFunction.Focus();
         }
 
-        private void AfterKeyChange()
+        private void AfterChange()
         {
             AdjustLegend();
             if (!Loading)
                 GraphWrite();
         }
 
-        private void RemoveAllKeys()
+        private void RemoveAllSeriesViews()
         {
             View.StatusBar.Focus();
-            Keys.Clear();
+            SeriesViews.Clear();
             Children.Clear();
-            AfterKeyChange();
+            AfterChange();
         }
 
-        public void RemoveKey(KeyView key)
+        public void RemoveSeriesView(SeriesView seriesView)
         {
-            RemoveKeyAt(Keys.IndexOf(key));
+            RemoveSeriesViewAt(SeriesViews.IndexOf(seriesView));
         }
 
-        private void RemoveKeyAt(int index)
+        private void RemoveSeriesViewAt(int index)
         {
             View.StatusBar.Focus();
-            Keys.RemoveAt(index);
+            SeriesViews.RemoveAt(index);
             Children.RemoveAt(index);
-            AfterKeyChange();
+            AfterChange();
         }
 
         #endregion
@@ -239,9 +239,9 @@
         public void GraphRead()
         {
             Loading = true;
-            RemoveAllKeys();
+            RemoveAllSeriesViews();
             foreach (Series series in Graph.Series)
-                AddNewKey(series);
+                AddNewSeriesView(series);
             Validate();
             Loading = false;
         }

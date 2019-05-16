@@ -458,7 +458,11 @@
             });
         }
 
-        public List<Expression> GetProxies() => Series.Select(p => p.Proxy).ToList();
+        public List<Expression> GetProxies()
+        {
+            ValidateProxies();
+            return Series.Select(p => p.Proxy).ToList();
+        }
 
         private void InitProxies()
         {
@@ -500,7 +504,11 @@
 
         public void InvalidateGrid() { DisposeGrid(); Labels.Clear(); }
         private void InvalidatePoints() => Series.ForEach(p => p.InvalidatePoints());
-        public void InvalidateProxies() => _proxiesValid = false;
+        public void InvalidateProxies()
+        {
+            System.Diagnostics.Debug.WriteLine("InvalidateProxies()");
+            _proxiesValid = false;
+        }
 
         private void ValidateGrid(Graphics g, Rectangle r, float penWidth)
         {
@@ -511,8 +519,8 @@
                 var g2 = Graphics.FromImage(Grid);
                 InitOptimization(g2);
                 g2.Transform = g.Transform;
-                g2.DrawGrid(Labels, new GridInfo(PlotType, Viewport, _domain, AxisColour, GridColour,
-                    penWidth, Elements, TickStyles));
+                g2.DrawGrid(Labels, new GridInfo(PlotType, Viewport, _domain,
+                    AxisColour, GridColour, penWidth, Elements, TickStyles));
             }
         }
 
@@ -520,6 +528,7 @@
         {
             if (!_proxiesValid)
             {
+                System.Diagnostics.Debug.WriteLine("ValidateProxies()");
                 InitProxies();
                 _proxiesValid = true;
             }

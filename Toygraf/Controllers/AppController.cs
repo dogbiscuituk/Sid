@@ -21,7 +21,7 @@
             Model.ModifiedChanged += Model_ModifiedChanged;
             Model.PropertyChanged += Model_PropertyChanged;
             PropertiesController = new PropertiesController(this);
-            MathController = new MathController(this);
+            MathController = new KeyboardController(this);
             JsonController = new JsonController(Model, View, View.FileReopen);
             JsonController.FileLoaded += JsonController_FileLoaded;
             JsonController.FilePathChanged += JsonController_FilePathChanged;
@@ -38,7 +38,7 @@
 
         public readonly Model Model;
         public readonly PropertiesController PropertiesController;
-        public readonly MathController MathController;
+        public readonly KeyboardController MathController;
         public readonly JsonController JsonController;
         public readonly LegendController LegendController;
 

@@ -7,19 +7,19 @@
     using ToyGraf.Models;
     using ToyGraf.Views;
 
-    public class KeyController
+    public class SeriesController
     {
-        public KeyController(LegendController parent)
+        public SeriesController(LegendController parent)
         {
             Parent = parent;
-            View = new KeyView();
+            View = new SeriesView();
             InitFunctionNames();
         }
 
         #region Properties
 
-        public KeyView _view;
-        public KeyView View
+        public SeriesView _view;
+        public SeriesView View
         {
             get => _view;
             set
@@ -55,7 +55,7 @@
         private AppController AppController { get => Parent.Parent; }
         private LegendController Parent;
         private ColourController ColourController = new ColourController();
-        private MathController MathController { get => AppController.MathController; }
+        private KeyboardController MathController { get => AppController.MathController; }
         private ComboBox FunctionBox { get => View.cbFunction; }
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
         private Graph Graph { get => Parent.Parent.Graph; }
@@ -125,7 +125,7 @@
 
         #endregion
 
-        #region Key Management
+        #region SeriesView Management
 
         private void BtnDetails_Click(object sender, System.EventArgs e)
         {
@@ -137,7 +137,7 @@
         }
 
         private void BtnRemove_Click(object sender, System.EventArgs e) =>
-            Parent.RemoveKey(View);
+            Parent.RemoveSeriesView(View);
 
         #endregion
     }

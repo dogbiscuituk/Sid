@@ -9,19 +9,19 @@
     using ToyGraf.Models;
     using ToyGraf.Views;
 
-    public class MathController
+    public class KeyboardController
     {
-        public MathController(AppController parent)
+        public KeyboardController(AppController parent)
         {
             Parent = parent;
-            View = new Mathboard();
+            View = new KeyboardDialog();
             InitFunctionNames();
         }
 
         #region Properties
 
-        private Mathboard _view;
-        public Mathboard View
+        private KeyboardDialog _view;
+        public KeyboardDialog View
         {
             get => _view;
             set
@@ -98,13 +98,13 @@
 
         private LegendController LegendController { get => Parent.LegendController; }
         private Panel Legend { get => LegendController.View.LegendPanel; }
-        private Control.ControlCollection Keys { get => Legend.Controls; }
+        private Control.ControlCollection SeriesViews { get => Legend.Controls; }
 
         public void ShowDialog(IWin32Window owner, Control sender, Point location, Graph graph)
         {
             ActiveControl = sender;
             Graph = graph;
-            Index = Keys.IndexOf(sender.Parent);
+            Index = SeriesViews.IndexOf(sender.Parent);
             FunctionBox.Text = ActiveControl.Text;
             View.Location = location;
             View.ShowDialog(owner);
@@ -262,6 +262,10 @@
                 Functions[0] = function;
             ActiveControl.Text = function;
             var proxies = Graph.GetProxies().ToArray();
+
+            foreach (var proxy in proxies)
+                System.Diagnostics.Debug.WriteLine(proxy.AsString());
+
             View.tbProxy.Text = Index >= 0 && Index < proxies.Length
                 ? proxies[Index].AsString()
                 : string.Empty;
