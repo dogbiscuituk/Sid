@@ -317,6 +317,32 @@
             return false;
         }
 
+        public static double VulgarFractionToDouble(this char fraction)
+        {
+            switch (fraction)
+            {
+                case '½': return 0.5;
+                case '⅓': return 1.0 / 3;
+                case '⅔': return 2.0 / 3;
+                case '¼': return 0.25;
+                case '¾': return 0.75;
+                case '⅕': return 0.2;
+                case '⅖': return 0.4;
+                case '⅗': return 0.6;
+                case '⅘': return 0.8;
+                case '⅙': return 1.0 / 6;
+                case '⅚': return 5.0 / 6;
+                case '⅐': return 1.0 / 7;
+                case '⅛': return 0.125;
+                case '⅜': return 0.375;
+                case '⅝': return 0.625;
+                case '⅞': return 0.875;
+                case '⅑': return 1.0 / 9;
+                case '⅒': return 0.1;
+            }
+            return 0;
+        }
+
         #endregion
 
         #region Functions

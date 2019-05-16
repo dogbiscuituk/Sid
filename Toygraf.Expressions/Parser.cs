@@ -80,7 +80,7 @@
             if (!(Operands.Pop() is ConstantExpression c))
                 throw new FormatException($"Unexpected token '°', input='{Formula}', index={Index}");
             Operands.Push(((double)c.Value).DegreesToRadians().Constant());
-            ReadPast("°");
+            ReadPast('°');
         }
 
         private void ParseExpression()
@@ -230,6 +230,9 @@
                         ParseOperand();
                     }
                     break;
+                case char c when char.IsNumber(c):
+                    ParseVulgarFraction(c);
+                    break;
                 default:
                     throw new FormatException(
                         $"Missing operand, input='{Formula}', index={Index}");
@@ -341,13 +344,19 @@
         private void ParseTick()
         {
             Operands.Push(Operands.Pop().Differentiate());
-            ReadPast("'");
+            ReadPast('\'');
         }
 
         private void ParseUnary(string unary)
         {
             Operators.Push($"({unary})");
             ReadPast(unary);
+        }
+
+        private void ParseVulgarFraction(char c)
+        {
+            Operands.Push(c.VulgarFractionToDouble().Constant());
+            ReadPast(c);
         }
 
         #endregion
@@ -376,6 +385,8 @@
                     return MatchSuperscript();
                 case char c when char.IsLetter(c):
                     return MatchFunction();
+                case char c when char.IsNumber(c):
+                    return nextChar.ToString();
             }
             if ("|&=<>!".IndexOf(nextChar) >= 0)
             {
@@ -397,6 +408,7 @@
                 $"Unexpected character '{nextChar}', input='{Formula}', index={Index}");
         }
 
+        private void ReadPast(char c) => Index++;
         private void ReadPast(string token) => Index += token.Length;
 
         #endregion

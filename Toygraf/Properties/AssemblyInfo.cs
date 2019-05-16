@@ -11,8 +11,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("ToyGraf")]
 [assembly: AssemblyCopyright(@"Copyright © John M Kerr 1982-2015
 
-Originally written in Microsoft Extended BASIC & Motorola 6809E
-machine code for the Mettoy Dragon 32 Colour Computer")]
+Originally written in Microsoft Extended BASIC
+and Motorola 6809E machine code for the Mettoy
+Dragon 32 Colour Computer")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -34,5 +35,5 @@ machine code for the Mettoy Dragon 32 Colour Computer")]
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.170.1")]
-[assembly: AssemblyFileVersion("1.0.170.1")]
+[assembly: AssemblyVersion("1.0.171.1")]
+[assembly: AssemblyFileVersion("1.0.171.1")]
