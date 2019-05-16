@@ -492,7 +492,7 @@
             this.Tlabel.AutoSize = false;
             this.Tlabel.Name = "Tlabel";
             this.Tlabel.Size = new System.Drawing.Size(64, 17);
-            this.Tlabel.Text = "t=0";
+            this.Tlabel.Text = "t=0.0";
             this.Tlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // FPSlabel
@@ -500,7 +500,7 @@
             this.FPSlabel.AutoSize = false;
             this.FPSlabel.Name = "FPSlabel";
             this.FPSlabel.Size = new System.Drawing.Size(64, 17);
-            this.FPSlabel.Text = "fps=0";
+            this.FPSlabel.Text = "fps=0.0";
             this.FPSlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // ModifiedLabel

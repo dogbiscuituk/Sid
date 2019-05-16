@@ -257,30 +257,38 @@ version {Application.ProductVersion}
         #region Clock
 
         private double Tick_ms = 100;
-        private double[] TickTimes = new double[64];
-        private int TickIndex;
+        private double[] Ticks = new double[64];
+        private int TickCount, TickIndex;
 
         private void Clock_Tick(object sender, EventArgs e)
         {
             Clock.Tick_ms = Tick_ms;
             UpdateLabels();
-            InvalidatePictureBox();
         }
 
         private void ClockReset()
         {
             Clock.Reset();
-            Array.ForEach(TickTimes, p => p = 0);
+            TickCount = 0;
+            TickIndex = 0;
+            Array.ForEach(Ticks, p => p = 0);
             UpdateLabels();
         }
 
         private void UpdateLabels()
         {
-            var tickTime = Clock.SecondsElapsed;
-            TickTimes[TickIndex = (TickIndex + 1) % TickTimes.Length] = tickTime;
-            var fps = (TickTimes.Length - 1) / (TickTimes.Max() - TickTimes.Min());
-            View.Tlabel.Text = string.Format("t={0:f1}", tickTime);
+            var tick = Clock.SecondsElapsed;
+            View.Tlabel.Text = string.Format("t={0:f1}", tick);
+            Ticks[TickIndex = (TickIndex + 1) % Ticks.Length] = tick;
+            if (TickCount < Ticks.Length - 1) TickCount++;
+            var fps = 0.0;
+            if (TickCount > 1)
+            {
+                var ticks = Ticks.Take(TickCount);
+                fps = TickCount / (ticks.Max() - ticks.Min());
+            }
             View.FPSlabel.Text = string.Format("fps={0:f1}", fps);
+            InvalidatePictureBox();
         }
 
         #endregion
