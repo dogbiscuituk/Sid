@@ -29,9 +29,9 @@
             JsonController.FileSaved += JsonController_FileSaved;
             LegendController = new LegendController(this);
             UpdateCaption();
-            UpdatePlotTypeUI();
             AdjustPictureBox();
             LegendController.AdjustLegend();
+            UpdateUI();
         }
 
         #region Properties
@@ -244,12 +244,13 @@ version {Application.ProductVersion}
             View.ModifiedLabel.Visible = Model.Modified;
         }
 
-        private void UpdatePlotTypeUI()
+        private void UpdateUI()
         {
             View.GraphTypeCartesian.Checked =
                 View.tbCartesian.Checked = Graph.PlotType == PlotType.Cartesian;
             View.GraphTypePolar.Checked =
                 View.tbPolar.Checked = Graph.PlotType == PlotType.Polar;
+            LegendController.GraphRead();
         }
 
         #endregion
@@ -467,7 +468,7 @@ version {Application.ProductVersion}
         {
             Graph.ZoomSet();
             InitPaper();
-            LegendController.GraphRead();
+            UpdateUI();
         }
 
         private void FileSaved() => Graph.ZoomSet();
@@ -475,15 +476,10 @@ version {Application.ProductVersion}
         private void NewFile()
         {
             JsonController.Clear();
-            LegendController.GraphRead();
+            UpdateUI();
         }
 
-        private void OpenFile()
-        {
-            JsonController.Open();
-            LegendController.GraphRead();
-        }
-
+        private void OpenFile() { JsonController.Open(); }
         private void UpdateCaption() => View.Text = JsonController.WindowCaption;
 
         #endregion
@@ -501,7 +497,7 @@ version {Application.ProductVersion}
                     break;
                 case "Model.Graph.PlotType":
                     AdjustPictureBox();
-                    UpdatePlotTypeUI();
+                    UpdateUI();
                     break;
             }
             InvalidatePictureBox();
