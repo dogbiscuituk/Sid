@@ -71,8 +71,5 @@
       <Name>ToyGraf.Expressions</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="INotifyPropertyChanged.txt" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

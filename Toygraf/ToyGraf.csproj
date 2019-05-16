@@ -165,5 +165,8 @@
   <ItemGroup>
     <None Include="Icons\FullScreen.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Controllers\INotifyPropertyChanged.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
