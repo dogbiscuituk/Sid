@@ -30,7 +30,7 @@
                     UnloadKeys();
                     View.FormClosing -= View_FormClosing;
                     FunctionBox.KeyUp -= FunctionBox_KeyUp;
-                    FunctionBox.MouseUp -= FunctionBox_MouseUp; ;
+                    FunctionBox.MouseUp -= FunctionBox_MouseUp;
                     FunctionBox.TextChanged -= FunctionBox_TextChanged;
                     View.btnLshift.Click -= BtnShift_Click;
                     View.btnRshift.Click -= BtnShift_Click;
@@ -46,7 +46,7 @@
                     LoadKeys();
                     View.FormClosing += View_FormClosing;
                     FunctionBox.KeyUp += FunctionBox_KeyUp;
-                    FunctionBox.MouseUp += FunctionBox_MouseUp; ;
+                    FunctionBox.MouseUp += FunctionBox_MouseUp;
                     FunctionBox.TextChanged += FunctionBox_TextChanged;
                     View.btnLshift.Click += BtnShift_Click;
                     View.btnRshift.Click += BtnShift_Click;

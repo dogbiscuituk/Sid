@@ -1,0 +1,28 @@
+﻿              =========================================================================
+              DOCUMENTATION of the IMPLEMENTATION of CACHE INVALIDATION in this PROJECT
+              =========================================================================
+
+Several levels of cache invalidation are used in this project, to control and enhance the efficiency
+of graphical operations. GDI+ is notorious for slow speed, deriving no help whatsoever from hardware
+(GPU) acceleration, so such measures are essential.
+
+1: The PictureBox
+
+    Q. What invalidates the PictureBox?
+    A. A call to AppController.InvalidatePictureBox().
+    Q. What re-validates the PictureBox?
+    A. A call to Graph.Draw() in response to a PictureBox.Paint event.
+
+2: The Grid
+
+    Q. What invalidates the Grid?
+    A. Almost any change to non-series related Graph properties.
+    Q. What re-validates the Grid?
+    A. A call to Graph.ValidateGrid().
+
+3: Proxies
+
+    Q. What invalidates the proxies?
+    A. Changing the Formula property of any Series in the Graph invalidates all of its proxies.
+    Q. What re-validates the proxies?
+    A. A call to Graph.ValidateProxies().

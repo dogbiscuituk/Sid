@@ -437,22 +437,13 @@
                 InvalidateGrid();
                 LastViewport = Viewport;
             }
-            var penWidth = (Width / r.Width + Viewport.Height / r.Height);
+            var penWidth = Width / r.Width + Viewport.Height / r.Height;
             ValidateProxies();
             Series.ForEach(s =>
             {
                 if (s.Visible) s.DrawAsync(g, _domain, Viewport, penWidth, true, time, PlotType, FitType);
             });
-            if (Grid == null)
-            {
-                Grid = new Bitmap(r.Width, r.Height, g);
-                Grid.MakeTransparent();
-                var g2 = Graphics.FromImage(Grid);
-                InitOptimization(g2);
-                g2.Transform = g.Transform;
-                g2.DrawGrid(Labels, new GridInfo(PlotType, Viewport, _domain, AxisColour, GridColour,
-                    penWidth, Elements, TickStyles));
-            }
+            ValidateGrid(g, r, penWidth);
             var transform = g.Transform;
             g.ResetTransform();
             g.DrawImageUnscaled(Grid, 0, 0);
@@ -505,9 +496,23 @@
             }
         }
 
-        private void InvalidateGrid() { DisposeGrid(); Labels.Clear(); }
+        public void InvalidateGrid() { DisposeGrid(); Labels.Clear(); }
         private void InvalidatePoints() => Series.ForEach(p => p.InvalidatePoints());
         public void InvalidateProxies() => _proxiesValid = false;
+
+        private void ValidateGrid(Graphics g, Rectangle r, float penWidth)
+        {
+            if (Grid == null)
+            {
+                Grid = new Bitmap(r.Width, r.Height, g);
+                Grid.MakeTransparent();
+                var g2 = Graphics.FromImage(Grid);
+                InitOptimization(g2);
+                g2.Transform = g.Transform;
+                g2.DrawGrid(Labels, new GridInfo(PlotType, Viewport, _domain, AxisColour, GridColour,
+                    penWidth, Elements, TickStyles));
+            }
+        }
 
         public void ValidateProxies()
         {

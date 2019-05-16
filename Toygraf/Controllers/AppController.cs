@@ -244,12 +244,17 @@ version {Application.ProductVersion}
             View.ModifiedLabel.Visible = Model.Modified;
         }
 
-        private void UpdateUI()
+        private void UpdatePlotType()
         {
             View.GraphTypeCartesian.Checked =
                 View.tbCartesian.Checked = Graph.PlotType == PlotType.Cartesian;
             View.GraphTypePolar.Checked =
                 View.tbPolar.Checked = Graph.PlotType == PlotType.Polar;
+        }
+
+        private void UpdateUI()
+        {
+            UpdatePlotType();
             LegendController.GraphRead();
         }
 
@@ -476,6 +481,8 @@ version {Application.ProductVersion}
         private void NewFile()
         {
             JsonController.Clear();
+            Graph.InvalidateGrid();
+            InvalidatePictureBox();
             UpdateUI();
         }
 
@@ -497,7 +504,7 @@ version {Application.ProductVersion}
                     break;
                 case "Model.Graph.PlotType":
                     AdjustPictureBox();
-                    UpdateUI();
+                    UpdatePlotType();
                     break;
             }
             InvalidatePictureBox();

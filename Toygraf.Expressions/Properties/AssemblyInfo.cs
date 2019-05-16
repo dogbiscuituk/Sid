@@ -12,8 +12,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright(@"Copyright © John M Kerr 1982-2015
 
 Originally written in Microsoft Extended BASIC
-and Motorola 6809E machine code for the Mettoy
-Dragon 32 Colour Computer")]
+and Motorola 6809E machine code for the
+Mettoy Dragon 32 Colour Computer")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -35,5 +35,5 @@ Dragon 32 Colour Computer")]
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("9.2.175.1")]
-[assembly: AssemblyFileVersion("9.2.175.1")]
+[assembly: AssemblyVersion("9.2.176.1")]
+[assembly: AssemblyFileVersion("9.2.176.1")]
