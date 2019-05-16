@@ -8,5 +8,10 @@ namespace ToyGraf.Views
         {
             InitializeComponent();
         }
+
+        private void cbPlotType_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }

@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Windows.Forms;
     using ToyGraf.Expressions;
+    using ToyGraf.Models;
     using ToyGraf.Views;
 
     public class MathController
@@ -60,11 +61,13 @@
             }
         }
 
-        private AppController Parent;
+        private readonly AppController Parent;
         private Control ActiveControl { get; set; }
         private readonly List<Button> CustomKeys = new List<Button>();
         private ComboBox FunctionBox { get => View.FunctionBox; }
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
+        private Graph Graph;
+        private int Index;
         private int SelStart, SelLength;
 
         private KeyStates _state;
@@ -93,9 +96,15 @@
 
         #region Show/Hide
 
-        public void ShowDialog(IWin32Window owner, Control sender, Point location)
+        private LegendController LegendController { get => Parent.LegendController; }
+        private Panel Legend { get => LegendController.View.LegendPanel; }
+        private Control.ControlCollection Keys { get => Legend.Controls; }
+
+        public void ShowDialog(IWin32Window owner, Control sender, Point location, Graph graph)
         {
             ActiveControl = sender;
+            Graph = graph;
+            Index = Keys.IndexOf(sender.Parent);
             FunctionBox.Text = ActiveControl.Text;
             View.Location = location;
             View.ShowDialog(owner);
@@ -252,6 +261,10 @@
             if (!string.IsNullOrWhiteSpace(function) && !Functions.Contains(function))
                 Functions[0] = function;
             ActiveControl.Text = function;
+            var proxies = Graph.GetProxies().ToArray();
+            View.tbProxy.Text = Index >= 0 && Index < proxies.Length
+                ? proxies[Index].AsString()
+                : string.Empty;
         }
 
         private void LoadSelection()

@@ -40,7 +40,7 @@
                 gridPen = new Pen(info.GridColour, info.PenWidth) { DashStyle = DashStyle.Dot },
                 axisPen = new Pen(info.AxisColour, info.PenWidth))
             using (var brush = new SolidBrush(info.AxisColour))
-            using (var font = new Font("Courier New", 5 * info.PenWidth))
+            using (var font = new Font("Segoe UI", 5 * info.PenWidth))
             using (var format = new StringFormat(StringFormat.GenericTypographic) { Alignment = StringAlignment.Far })
             {
                 double incmin = scale < 0.3 ? 2 : scale < 0.7 ? 5 : 10;

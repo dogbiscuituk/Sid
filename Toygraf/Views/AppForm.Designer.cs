@@ -113,7 +113,8 @@
             this.HelpMenu});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(944, 24);
+            this.MainMenu.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.MainMenu.Size = new System.Drawing.Size(1101, 24);
             this.MainMenu.TabIndex = 1;
             this.MainMenu.Text = "Main Menu";
             // 
@@ -432,14 +433,14 @@
             this.TimerRunPause.Image = global::ToyGraf.Properties.Resources.Timer;
             this.TimerRunPause.Name = "TimerRunPause";
             this.TimerRunPause.ShortcutKeys = System.Windows.Forms.Keys.F9;
-            this.TimerRunPause.Size = new System.Drawing.Size(150, 22);
+            this.TimerRunPause.Size = new System.Drawing.Size(180, 22);
             this.TimerRunPause.Text = "&Run/Pause";
             // 
             // TimerReset
             // 
             this.TimerReset.Name = "TimerReset";
             this.TimerReset.ShortcutKeys = System.Windows.Forms.Keys.F8;
-            this.TimerReset.Size = new System.Drawing.Size(150, 22);
+            this.TimerReset.Size = new System.Drawing.Size(180, 22);
             this.TimerReset.Text = "R&eset";
             // 
             // HelpMenu
@@ -465,9 +466,10 @@
             this.Tlabel,
             this.FPSlabel,
             this.ModifiedLabel});
-            this.StatusBar.Location = new System.Drawing.Point(0, 479);
+            this.StatusBar.Location = new System.Drawing.Point(0, 553);
             this.StatusBar.Name = "StatusBar";
-            this.StatusBar.Size = new System.Drawing.Size(944, 22);
+            this.StatusBar.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+            this.StatusBar.Size = new System.Drawing.Size(1101, 25);
             this.StatusBar.TabIndex = 2;
             this.StatusBar.Text = "statusStrip1";
             // 
@@ -528,7 +530,7 @@
             this.ClientPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ClientPanel.Location = new System.Drawing.Point(23, 24);
             this.ClientPanel.Name = "ClientPanel";
-            this.ClientPanel.Size = new System.Drawing.Size(921, 455);
+            this.ClientPanel.Size = new System.Drawing.Size(1078, 529);
             this.ClientPanel.TabIndex = 6;
             // 
             // LegendPanel
@@ -537,14 +539,14 @@
             this.LegendPanel.Location = new System.Drawing.Point(0, 0);
             this.LegendPanel.Margin = new System.Windows.Forms.Padding(0);
             this.LegendPanel.Name = "LegendPanel";
-            this.LegendPanel.Size = new System.Drawing.Size(16, 16);
+            this.LegendPanel.Size = new System.Drawing.Size(19, 18);
             this.LegendPanel.TabIndex = 9;
             // 
             // PictureBox
             // 
-            this.PictureBox.Location = new System.Drawing.Point(19, 19);
+            this.PictureBox.Location = new System.Drawing.Point(22, 22);
             this.PictureBox.Name = "PictureBox";
-            this.PictureBox.Size = new System.Drawing.Size(16, 16);
+            this.PictureBox.Size = new System.Drawing.Size(19, 18);
             this.PictureBox.TabIndex = 3;
             this.PictureBox.TabStop = false;
             // 
@@ -565,7 +567,7 @@
             this.Toolbar.Location = new System.Drawing.Point(0, 24);
             this.Toolbar.Name = "Toolbar";
             this.Toolbar.Padding = new System.Windows.Forms.Padding(0);
-            this.Toolbar.Size = new System.Drawing.Size(23, 455);
+            this.Toolbar.Size = new System.Drawing.Size(23, 529);
             this.Toolbar.TabIndex = 11;
             // 
             // tbNew
@@ -651,16 +653,17 @@
             // 
             // AppForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(944, 501);
+            this.ClientSize = new System.Drawing.Size(1101, 578);
             this.ContextMenuStrip = this.PopupMenu;
             this.Controls.Add(this.ClientPanel);
             this.Controls.Add(this.Toolbar);
             this.Controls.Add(this.StatusBar);
             this.Controls.Add(this.MainMenu);
+            this.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this.MainMenu;
-            this.MinimumSize = new System.Drawing.Size(640, 480);
+            this.MinimumSize = new System.Drawing.Size(744, 548);
             this.Name = "AppForm";
             this.Text = "ToyGraf";
             this.MainMenu.ResumeLayout(false);

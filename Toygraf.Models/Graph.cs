@@ -458,6 +458,8 @@
             });
         }
 
+        public List<Expression> GetProxies() => Series.Select(p => p.Proxy).ToList();
+
         private void InitProxies()
         {
             var count = Series.Count;

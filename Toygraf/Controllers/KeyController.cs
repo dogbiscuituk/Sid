@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Windows.Forms;
     using ToyGraf.Expressions;
+    using ToyGraf.Models;
     using ToyGraf.Views;
 
     public class KeyController
@@ -57,6 +58,7 @@
         private MathController MathController { get => AppController.MathController; }
         private ComboBox FunctionBox { get => View.cbFunction; }
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
+        private Graph Graph { get => Parent.Parent.Graph; }
 
         public bool TraceVisible
         {
@@ -66,8 +68,8 @@
 
         public string TraceLabel
         {
-            get => View.cbVisible.Text;
-            set => View.cbVisible.Text = value;
+            get => View.Label.Text;
+            set => View.Label.Text = value;
         }
 
         public string Formula
@@ -100,11 +102,10 @@
 
         private void FunctionBox_DrawItem(object sender, DrawItemEventArgs e)
         {
-            var r = e.Bounds;
             var functionName = ((ComboBox)sender).Items[e.Index].ToString();
             e.DrawBackground();
             using (var brush = new SolidBrush(e.ForeColor))
-                e.Graphics.DrawString(functionName, e.Font, brush, r);
+                e.Graphics.DrawString(functionName, e.Font, brush, e.Bounds);
         }
 
         private void FunctionBox_TextChanged(object sender, System.EventArgs e)
@@ -132,7 +133,7 @@
                 h2 = Screen.FromControl(View).Bounds.Height;
             var p = View.PointToScreen(new Point(0, h));
             if (p.Y + h1 > h2) p.Y -= h + h1;
-            MathController.ShowDialog(AppController.View, View.cbFunction, p);
+            MathController.ShowDialog(AppController.View, View.cbFunction, p, Graph);
         }
 
         private void BtnRemove_Click(object sender, System.EventArgs e) =>

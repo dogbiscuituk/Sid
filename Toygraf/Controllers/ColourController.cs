@@ -59,7 +59,7 @@
             using (var fill = new SolidBrush(colour))
                 e.Graphics.FillRectangle(fill, r);
             var brush = IsBright(colour) ? Brushes.Black : Brushes.White;
-            e.Graphics.DrawString(colourName, e.Font, brush, r.X + 1, r.Y - 1);
+            e.Graphics.DrawString(colourName, e.Font, brush, r.X + 1, r.Y);
             if (selected)
                 using (var pen = new Pen(brush))
                 {

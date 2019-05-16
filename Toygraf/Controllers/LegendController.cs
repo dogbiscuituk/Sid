@@ -80,17 +80,17 @@
         public void AdjustLegend()
         {
             Legend.Visible = true;
-            const int margin = 0, keyHeight = 21, maxKeys = 18;
+            const int margin = 0, keyHeight = 23, maxKeys = 20;
             var scroll = Keys.Count > maxKeys;
             int w = 489 + (scroll ? SystemInformation.VerticalScrollBarWidth : 0),
-                h = Math.Min(Keys.Count, maxKeys) * keyHeight,
+                h = Keys.Count > 0 ? Math.Min(Keys.Count, maxKeys) * keyHeight + 2 : 0,
                 x = Client.Width - w, y = Client.Height - h;
             Legend.AutoScrollPosition = new Point(0, 0);
             int index = 0, top = 0;
             foreach (KeyView key in Keys)
             {
                 key.Location = new Point(0, top);
-                key.cbVisible.Text = $"f{index++}";
+                key.Label.Text = $"f{index++}";
                 top += keyHeight;
             }
             var anchor = AlignToAnchor(LegendAlignment);
