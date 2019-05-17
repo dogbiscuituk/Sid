@@ -57,41 +57,39 @@
         public static float DegreesToRadians(this float degrees) => (float)(degrees * piOver180);
         public static double DegreesToRadians(this double degrees) => degrees * piOver180;
 
-        public static OperandTypes GetBinaryOperandTypes(this string op)
+        public static OperandTypes GetBinaryOperandTypes(this ExpressionType nodeType)
         {
-            switch (op)
+            switch (nodeType)
             {
-                case "||":
-                case "&&":
-                case "|":
-                case "&":
+                case ExpressionType.Or:
+                case ExpressionType.And:
+                case ExpressionType.AndAlso:
+                case ExpressionType.OrElse:
+                case ExpressionType.ExclusiveOr:
                     return OperandTypes.Boolean;
-                case ",":
-                case "=":
-                case "==":
-                case "≠":
-                case "<>":
-                case "!=":
-                case "<":
-                case ">":
-                case "≤":
-                case "≥":
-                case "<=":
-                case ">=":
-                case "≮":
-                case "≯":
-                case "≰":
-                case "≱":
-                case "+":
-                case "-":
-                case "*":
-                case "×":
-                case "/":
-                case "÷":
-                case "^":
+                case ExpressionType.Equal:
+                case ExpressionType.NotEqual:
+                case ExpressionType.LessThan:
+                case ExpressionType.LessThanOrEqual:
+                case ExpressionType.GreaterThan:
+                case ExpressionType.GreaterThanOrEqual:
+                case ExpressionType.Add:
+                case ExpressionType.Subtract:
+                case ExpressionType.Multiply:
+                case ExpressionType.Divide:
+                case ExpressionType.Power:
+                // Since there is no comma operator in System.Linq.Expressions,
+                // we spoof parameter lists by co-opting the otherwise unused
+                // Modulo node type. This will be replaced later in processing.
+                case ExpressionType.Modulo:
                     return OperandTypes.Double;
             }
             return OperandTypes.Unknown;
+        }
+
+        public static OperandTypes GetBinaryOperandTypes(this string op)
+        {
+            return GetBinaryOperandTypes(op.GetExpressionType());
         }
 
         public static ExpressionType GetExpressionType(this string op)

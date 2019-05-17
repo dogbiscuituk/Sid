@@ -15,6 +15,7 @@
 
         #region Constants
 
+        public static Expression DefaultVoid = Expression.Default(typeof(void));
         public static ConstantExpression Constant(this double c) => Expression.Constant(c);
         public static ConstantExpression Constant(this int c) => Expression.Constant((double)c);
         public static ConstantExpression Constant(ExpressionType nodeType, double c, double d) =>
@@ -188,7 +189,7 @@
                 {
                     var index = (int)((ConstantExpression)m.Arguments[0]).Value;
                     if (index < 0 || index >= refs.Length)
-                        return Expression.Default(typeof(void));
+                        return DefaultVoid;
                     var result = refs[index].AsProxy(m.Arguments[2], m.Arguments[3], refs);
                     for (var ticks = 0; ticks < (int)((ConstantExpression)m.Arguments[1]).Value; ticks++)
                         result = Differentiate(result);
@@ -197,7 +198,7 @@
                 return methodName.Function(m.Arguments[0].AsProxy(ex, et, refs));
             }
             if (e is BinaryExpression b)
-                return Expression.MakeBinary(b.NodeType, b.Left.AsProxy(ex, et, refs), b.Right.AsProxy(ex, et, refs));
+                return MakeBinary(b.NodeType, b.Left.AsProxy(ex, et, refs), b.Right.AsProxy(ex, et, refs));
             return e;
         }
 
@@ -213,10 +214,16 @@
 
         #region Make methods
 
-        public static BinaryExpression MakeBinary(
-            this string op, Expression left, Expression right)
+        public static Expression MakeBinary(
+            this string op, Expression left, Expression right) =>
+            MakeBinary(op.GetExpressionType(), left, right);
+
+        public static Expression MakeBinary(
+            this ExpressionType nodeType, Expression left, Expression right)
         {
-            switch (op.GetBinaryOperandTypes())
+            if (left.IsDefaultVoid() || right.IsDefaultVoid())
+                return DefaultVoid;
+            switch (nodeType.GetBinaryOperandTypes())
             {
                 case OperandTypes.Boolean:
                     left = left.ToBoolean();
@@ -227,7 +234,7 @@
                     right = right.ToDouble();
                     break;
             }
-            return Expression.MakeBinary(op.GetExpressionType(), left, right);
+            return Expression.MakeBinary(nodeType, left, right);
         }
 
         public static Expression MakeConditional(

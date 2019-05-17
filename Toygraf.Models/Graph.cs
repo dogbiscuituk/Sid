@@ -159,16 +159,16 @@
             }
         }
 
-        private FitType _fitType;
-        public FitType FitType
+        private Interpolation _interpolation;
+        public Interpolation Interpolation
         {
-            get => _fitType;
+            get => _interpolation;
             set
             {
-                if (FitType != value)
+                if (Interpolation != value)
                 {
-                    _fitType = value;
-                    OnPropertyChanged("FitType");
+                    _interpolation = value;
+                    OnPropertyChanged("Interpolation");
                 }
             }
         }
@@ -376,8 +376,8 @@
             _optimization = Defaults.GraphOptimization;
             // PlotType
             _plotType = Defaults.GraphPlotType;
-            // FitType
-            _fitType = Defaults.GraphFitType;
+            // Interpolation
+            _interpolation = Defaults.GraphInterpolation;
             // PointF
             _originalCentre = Defaults.GraphViewport.Centre;
             // SizeF
@@ -441,7 +441,7 @@
             ValidateProxies();
             Series.ForEach(s =>
             {
-                if (s.Visible) s.DrawAsync(g, _domain, Viewport, penWidth, true, time, PlotType, FitType);
+                if (s.Visible) s.DrawAsync(g, _domain, Viewport, penWidth, true, time, PlotType, Interpolation);
             });
             ValidateGrid(g, r, penWidth);
             var transform = g.Transform;
@@ -454,7 +454,7 @@
                 Labels.ForEach(p => p.Draw(g, brush, font, format));
             Series.ForEach(s =>
             {
-                if (s.Visible) s.DrawAsync(g, _domain, Viewport, penWidth, false, time, PlotType, FitType);
+                if (s.Visible) s.DrawAsync(g, _domain, Viewport, penWidth, false, time, PlotType, Interpolation);
             });
         }
 
@@ -497,7 +497,7 @@
             for (int index = 0; index < count; index++)
             {
                 Series[index].Proxy = hit[index, index]
-                    ? Expression.Default(typeof(void))
+                    ? Expressions.DefaultVoid
                     : Series[index].Expression.AsProxy(Expressions.x, Expressions.t, refs);
             }
         }

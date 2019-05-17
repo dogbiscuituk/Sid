@@ -107,6 +107,7 @@
             Index = SeriesViews.IndexOf(sender.Parent);
             FunctionBox.Text = ActiveControl.Text;
             View.Location = location;
+            System.Diagnostics.Debug.WriteLine($"Loaded with Index={Index}");
             View.ShowDialog(owner);
         }
 

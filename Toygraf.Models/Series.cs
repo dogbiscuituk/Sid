@@ -199,7 +199,7 @@
         // is saved by multithreading the ComputePointsAsync() point computations.
 
         public async void DrawAsync(Graphics g, Domain domain, Viewport viewport,
-            float penWidth, bool fill, double time, PlotType plotType, FitType fitType)
+            float penWidth, bool fill, double time, PlotType plotType, Interpolation interpolation)
         {
             if (fill && (FillColour == Color.Transparent || FillTransparencyPercent == 100))
                 return; // Not just an optimisation; omits vertical asymptotes too.
@@ -225,23 +225,23 @@
                     pen.DashStyle = DashStyle.Dash;
                     var paint = Utility.MakeColour(FillColour, FillTransparencyPercent);
                     using (var brush = new SolidBrush(paint))
-                        PointLists.ForEach(p => FillArea(g, pen, brush, p, plotType, fitType));
+                        PointLists.ForEach(p => FillArea(g, pen, brush, p, plotType, interpolation));
                 }
             else
                 using (var pen = new Pen(PenColour, penWidth))
-                    PointLists.ForEach(p => DrawSection(g, pen, p.ToArray(), fitType));
+                    PointLists.ForEach(p => DrawSection(g, pen, p.ToArray(), interpolation));
         }
 
-        private void DrawSection(Graphics g, Pen pen, PointF[] points, FitType fitType)
+        private void DrawSection(Graphics g, Pen pen, PointF[] points, Interpolation interpolation)
         {
             try
             {
-                switch (fitType)
+                switch (interpolation)
                 {
-                    case FitType.StraightLines:
+                    case Interpolation.Linear:
                         g.DrawLines(pen, points);
                         break;
-                    case FitType.CardinalSplines:
+                    case Interpolation.CardinalSpline:
                         g.DrawCurve(pen, points);
                         break;
                 }
@@ -252,7 +252,7 @@
             }
         }
 
-        private void FillArea(Graphics g, Pen pen, Brush brush, List<PointF> p, PlotType plotType, FitType fitType)
+        private void FillArea(Graphics g, Pen pen, Brush brush, List<PointF> p, PlotType plotType, Interpolation interpolation)
         {
             switch (plotType)
             {
@@ -262,7 +262,7 @@
                     p.CopyTo(points);
                     points[n] = new PointF(points[n - 1].X, 0);
                     points[n + 1] = new PointF(points[0].X, 0);
-                    FillSection(g, brush, points, fitType);
+                    FillSection(g, brush, points, interpolation);
                     // Draw vertical asymptotes iff X extremes are not Limits.
                     if (points[n].X < Viewport.Right)
                         g.DrawLine(pen, points[n - 1], points[n]);
@@ -270,21 +270,21 @@
                         g.DrawLine(pen, points[n + 1], points[0]);
                     break;
                 case PlotType.Polar:
-                    FillSection(g, brush, p.ToArray(), fitType);
+                    FillSection(g, brush, p.ToArray(), interpolation);
                     break;
             }
         }
 
-        private void FillSection(Graphics g, Brush brush, PointF[] points, FitType fitType)
+        private void FillSection(Graphics g, Brush brush, PointF[] points, Interpolation interpolation)
         {
             try
             {
-                switch (fitType)
+                switch (interpolation)
                 {
-                    case FitType.StraightLines:
+                    case Interpolation.Linear:
                         g.FillPolygon(brush, points);
                         break;
-                    case FitType.CardinalSplines:
+                    case Interpolation.CardinalSpline:
                         g.FillClosedCurve(brush, points);
                         break;
                 }

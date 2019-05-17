@@ -36,8 +36,8 @@
         public const PlotType
             GraphPlotType = PlotType.Cartesian;
 
-        public const FitType
-            GraphFitType = FitType.StraightLines;
+        public const Interpolation
+            GraphInterpolation = Interpolation.Linear;
 
         public const TickStyles
             GraphTickStyles = TickStyles.Negative;

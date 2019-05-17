@@ -65,7 +65,7 @@
             this.seDomainMinCartesian = new System.Windows.Forms.NumericUpDown();
             this.seDomainMinPolar = new System.Windows.Forms.NumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
-            this.cbFitType = new System.Windows.Forms.ComboBox();
+            this.cbInterpolation = new System.Windows.Forms.ComboBox();
             this.cbOptimization = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.cbStepCount = new System.Windows.Forms.ComboBox();
@@ -457,7 +457,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 21);
+            this.label5.Location = new System.Drawing.Point(9, 21);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(85, 19);
             this.label5.TabIndex = 0;
@@ -631,20 +631,20 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(7, 27);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(148, 19);
+            this.label11.Size = new System.Drawing.Size(138, 19);
             this.label11.TabIndex = 0;
-            this.label11.Text = "Type of approximation:";
+            this.label11.Text = "Type of interpolation:";
             // 
-            // cbFitType
+            // cbInterpolation
             // 
-            this.cbFitType.BackColor = System.Drawing.SystemColors.Control;
-            this.cbFitType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFitType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbFitType.Location = new System.Drawing.Point(317, 24);
-            this.cbFitType.Name = "cbFitType";
-            this.cbFitType.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.cbFitType.Size = new System.Drawing.Size(139, 25);
-            this.cbFitType.TabIndex = 1;
+            this.cbInterpolation.BackColor = System.Drawing.SystemColors.Control;
+            this.cbInterpolation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbInterpolation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbInterpolation.Location = new System.Drawing.Point(317, 24);
+            this.cbInterpolation.Name = "cbInterpolation";
+            this.cbInterpolation.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.cbInterpolation.Size = new System.Drawing.Size(139, 25);
+            this.cbInterpolation.TabIndex = 1;
             // 
             // cbOptimization
             // 
@@ -703,7 +703,7 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.cbOptimization);
-            this.groupBox4.Controls.Add(this.cbFitType);
+            this.groupBox4.Controls.Add(this.cbInterpolation);
             this.groupBox4.Controls.Add(this.label11);
             this.groupBox4.Controls.Add(this.cbStepCount);
             this.groupBox4.Controls.Add(this.label9);
@@ -796,7 +796,7 @@
         public System.Windows.Forms.ComboBox cbOptimization;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label11;
-        public System.Windows.Forms.ComboBox cbFitType;
+        public System.Windows.Forms.ComboBox cbInterpolation;
         private System.Windows.Forms.GroupBox groupBox4;
     }
 }

@@ -48,7 +48,7 @@
     <Compile Include="Defaults.cs" />
     <Compile Include="Domain.cs" />
     <Compile Include="Elements.cs" />
-    <Compile Include="FitType.cs" />
+    <Compile Include="Interpolation.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="GridInfo.cs" />

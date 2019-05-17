@@ -42,7 +42,7 @@
         private CheckedListBox.ObjectCollection ElementItems { get => View.ElementCheckboxes.Items; }
         private ComboBox.ObjectCollection Optimizations { get => View.cbOptimization.Items; }
         private ComboBox.ObjectCollection PlotTypes { get => View.cbPlotType.Items; }
-        private ComboBox.ObjectCollection FitTypes { get => View.cbFitType.Items; }
+        private ComboBox.ObjectCollection Interpolations { get => View.cbInterpolation.Items; }
         private bool Loading, Updating;
 
         private PropertiesDialog _view;
@@ -54,7 +54,7 @@
                 if (View != null)
                 {
                     View.cbPlotType.SelectedValueChanged -= PlotTypeChanged;
-                    View.cbFitType.SelectedValueChanged -= LiveUpdate;
+                    View.cbInterpolation.SelectedValueChanged -= LiveUpdate;
                     View.cbDomainGraphWidth.CheckedChanged -= DomainGraphWidthChanged;
                     View.rbDegrees.CheckedChanged -= LiveUpdate;
                     View.rbRadians.CheckedChanged -= LiveUpdate;
@@ -73,7 +73,7 @@
                 if (View != null)
                 {
                     View.cbPlotType.SelectedValueChanged += PlotTypeChanged;
-                    View.cbFitType.SelectedValueChanged += LiveUpdate;
+                    View.cbInterpolation.SelectedValueChanged += LiveUpdate;
                     View.cbDomainGraphWidth.CheckedChanged += DomainGraphWidthChanged;
                     View.rbDegrees.CheckedChanged += LiveUpdate;
                     View.rbRadians.CheckedChanged += LiveUpdate;
@@ -205,8 +205,8 @@
             Optimizations.AddRange(typeof(Optimization).GetDescriptions());
             PlotTypes.Clear();
             PlotTypes.AddRange(typeof(PlotType).GetDescriptions());
-            FitTypes.Clear();
-            FitTypes.AddRange(typeof(FitType).GetDescriptions());
+            Interpolations.Clear();
+            Interpolations.AddRange(typeof(Interpolation).GetDescriptions());
         }
 
         #endregion
@@ -219,7 +219,7 @@
             Loading = true;
             // Plot Type & Approximation Type
             View.cbPlotType.SelectedIndex = (int)Graph.PlotType;
-            View.cbFitType.SelectedIndex = (int)Graph.FitType;
+            View.cbInterpolation.SelectedIndex = (int)Graph.Interpolation;
             // Domain
             View.cbDomainGraphWidth.Checked = Graph.DomainGraphWidth;
             View.seDomainMinCartesian.Value = (decimal)Graph.DomainMinCartesian;
@@ -251,7 +251,7 @@
         {
             // Plot Type & Approximation Type
             Graph.PlotType = (PlotType)View.cbPlotType.SelectedIndex;
-            Graph.FitType = (FitType)View.cbFitType.SelectedIndex;
+            Graph.Interpolation = (Interpolation)View.cbInterpolation.SelectedIndex;
             // Domain
             Graph.DomainGraphWidth = View.cbDomainGraphWidth.Checked;
             Graph.DomainMinCartesian = (float)View.seDomainMinCartesian.Value;

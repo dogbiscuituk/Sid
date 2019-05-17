@@ -23,7 +23,7 @@
                 case UnaryExpression ue:
                     var v = I(ue.Operand);
                     return ue.NodeType == ExpressionType.UnaryPlus ? v : Negate(v);
-                case BinaryExpression be:
+                /*case BinaryExpression be:
                     Expression f = be.Left, g = be.Right;
                     switch (be.NodeType)
                     {
@@ -37,7 +37,7 @@
                             return IntegrateByParts(MakeBinary(
                                 "*", be.Left, be.Right.Reciprocal()));
                     }
-                    return NI(e);
+                    return NI(e);*/
                 case ConditionalExpression cond:      // ∫(e?f:g)dx = e ? ∫f dx : ∫g dx
                     return MakeConditional(cond.Test, I(cond.IfTrue), I(cond.IfFalse));
             }
