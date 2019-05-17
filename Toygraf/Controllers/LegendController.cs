@@ -151,6 +151,13 @@
 
         #region SeriesView Management
 
+        public int IndexOf(SeriesController child) => Children.IndexOf(child);
+
+        public void RemoveSeriesView(SeriesView seriesView)
+        {
+            RemoveSeriesViewAt(SeriesViews.IndexOf(seriesView));
+        }
+
         private void GraphAddNewFunction_Click(object sender, EventArgs e) =>
             AddNewSeriesView(null);
 
@@ -196,11 +203,6 @@
             SeriesViews.Clear();
             Children.Clear();
             AfterChange();
-        }
-
-        public void RemoveSeriesView(SeriesView seriesView)
-        {
-            RemoveSeriesViewAt(SeriesViews.IndexOf(seriesView));
         }
 
         private void RemoveSeriesViewAt(int index)

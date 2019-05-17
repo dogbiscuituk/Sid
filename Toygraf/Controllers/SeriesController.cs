@@ -133,7 +133,7 @@
                 h2 = Screen.FromControl(View).Bounds.Height;
             var p = View.PointToScreen(new Point(0, h));
             if (p.Y + h1 > h2) p.Y -= h + h1;
-            MathController.ShowDialog(AppController.View, View.cbFunction, p, Graph);
+            MathController.ShowDialog(AppController.View, p, Graph, Parent.IndexOf(this));
         }
 
         private void BtnRemove_Click(object sender, System.EventArgs e) =>

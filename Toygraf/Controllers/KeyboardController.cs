@@ -30,6 +30,7 @@
                 {
                     UnloadKeys();
                     View.FormClosing -= View_FormClosing;
+                    View.seIndex.ValueChanged -= IndexValueChanged;
                     FunctionBox.KeyUp -= FunctionBox_KeyUp;
                     FunctionBox.MouseUp -= FunctionBox_MouseUp;
                     FunctionBox.TextChanged -= FunctionBox_TextChanged;
@@ -46,6 +47,7 @@
                 {
                     LoadKeys();
                     View.FormClosing += View_FormClosing;
+                    View.seIndex.ValueChanged += IndexValueChanged;
                     FunctionBox.KeyUp += FunctionBox_KeyUp;
                     FunctionBox.MouseUp += FunctionBox_MouseUp;
                     FunctionBox.TextChanged += FunctionBox_TextChanged;
@@ -62,12 +64,17 @@
         }
 
         private readonly AppController Parent;
-        private Control ActiveControl { get; set; }
         private readonly List<Button> CustomKeys = new List<Button>();
         private ComboBox FunctionBox { get => View.FunctionBox; }
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
         private Graph Graph;
-        private int Index;
+
+        private int Index
+        {
+            get => GetIndex();
+            set => SetIndex(value);
+        }
+
         private int SelStart, SelLength;
 
         private KeyStates _state;
@@ -97,18 +104,39 @@
         #region Show/Hide
 
         private LegendController LegendController { get => Parent.LegendController; }
-        private Panel Legend { get => LegendController.View.LegendPanel; }
-        private Control.ControlCollection SeriesViews { get => Legend.Controls; }
+        private List<SeriesController> SeriesControllers => LegendController.Children;
+        private SeriesController SeriesController => SeriesControllers[Index];
+        private SeriesView SeriesView => SeriesController.View;
+        private Control ActiveControl => SeriesView.cbFunction;
 
-        public void ShowDialog(IWin32Window owner, Control sender, Point location, Graph graph)
+        public void ShowDialog(IWin32Window owner, Point location, Graph graph, int index)
         {
-            ActiveControl = sender;
             Graph = graph;
-            Index = SeriesViews.IndexOf(sender.Parent);
-            FunctionBox.Text = ActiveControl.Text;
+            View.seIndex.Maximum = SeriesControllers.Count - 1;
+            Index = index;
             View.Location = location;
-            System.Diagnostics.Debug.WriteLine($"Loaded with Index={Index}");
             View.ShowDialog(owner);
+        }
+
+        private void IndexValueChanged(object sender, EventArgs e)
+        {
+            View.IndexLabel.Text = $"f{Index}";
+            FocusFunctionBox();
+            LoadSeries();
+        }
+
+        private int GetIndex() => (int)(View.seIndex.Maximum - View.seIndex.Value);
+
+        private void SetIndex(int index)
+        {
+            View.seIndex.Value = View.seIndex.Maximum - index;
+            LoadSeries();
+        }
+
+        private void LoadSeries()
+        {
+            View.cbVisible.Checked = SeriesView.cbVisible.Checked;
+            FunctionBox.Text = ActiveControl.Text;
         }
 
         private void View_FormClosing(object sender, FormClosingEventArgs e)
