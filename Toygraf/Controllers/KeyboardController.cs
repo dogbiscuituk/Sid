@@ -30,6 +30,7 @@
                 {
                     UnloadKeys();
                     View.FormClosing -= View_FormClosing;
+                    View.cbVisible.CheckedChanged -= VisibleChanged;
                     View.seIndex.ValueChanged -= IndexValueChanged;
                     FunctionBox.KeyUp -= FunctionBox_KeyUp;
                     FunctionBox.MouseUp -= FunctionBox_MouseUp;
@@ -47,6 +48,7 @@
                 {
                     LoadKeys();
                     View.FormClosing += View_FormClosing;
+                    View.cbVisible.CheckedChanged += VisibleChanged;
                     View.seIndex.ValueChanged += IndexValueChanged;
                     FunctionBox.KeyUp += FunctionBox_KeyUp;
                     FunctionBox.MouseUp += FunctionBox_MouseUp;
@@ -124,6 +126,9 @@
             FocusFunctionBox();
             LoadSeries();
         }
+
+        private void VisibleChanged(object sender, EventArgs e) =>
+            SeriesView.cbVisible.Checked = View.cbVisible.Checked;
 
         private int GetIndex() => (int)(View.seIndex.Maximum - View.seIndex.Value);
 

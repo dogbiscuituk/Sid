@@ -374,37 +374,38 @@
             // ViewLegendTopLeft
             // 
             this.ViewLegendTopLeft.Name = "ViewLegendTopLeft";
-            this.ViewLegendTopLeft.Size = new System.Drawing.Size(145, 22);
+            this.ViewLegendTopLeft.Size = new System.Drawing.Size(180, 22);
             this.ViewLegendTopLeft.Tag = "";
             this.ViewLegendTopLeft.Text = "&Top Left";
             // 
             // ViewLegendTopRight
             // 
             this.ViewLegendTopRight.Name = "ViewLegendTopRight";
-            this.ViewLegendTopRight.Size = new System.Drawing.Size(145, 22);
+            this.ViewLegendTopRight.Size = new System.Drawing.Size(180, 22);
             this.ViewLegendTopRight.Text = "Top &Right";
             // 
             // ViewLegendBottomLeft
             // 
             this.ViewLegendBottomLeft.Name = "ViewLegendBottomLeft";
-            this.ViewLegendBottomLeft.Size = new System.Drawing.Size(145, 22);
+            this.ViewLegendBottomLeft.Size = new System.Drawing.Size(180, 22);
             this.ViewLegendBottomLeft.Text = "&Bottom Left";
             // 
             // ViewLegendBottomRight
             // 
             this.ViewLegendBottomRight.Name = "ViewLegendBottomRight";
-            this.ViewLegendBottomRight.Size = new System.Drawing.Size(145, 22);
+            this.ViewLegendBottomRight.Size = new System.Drawing.Size(180, 22);
             this.ViewLegendBottomRight.Text = "Botto&m Right";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(142, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(177, 6);
             // 
             // ViewLegendHide
             // 
             this.ViewLegendHide.Name = "ViewLegendHide";
-            this.ViewLegendHide.Size = new System.Drawing.Size(145, 22);
+            this.ViewLegendHide.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this.ViewLegendHide.Size = new System.Drawing.Size(180, 22);
             this.ViewLegendHide.Text = "&Hide";
             // 
             // toolStripMenuItem7
@@ -433,14 +434,14 @@
             this.TimerRunPause.Image = global::ToyGraf.Properties.Resources.Timer;
             this.TimerRunPause.Name = "TimerRunPause";
             this.TimerRunPause.ShortcutKeys = System.Windows.Forms.Keys.F9;
-            this.TimerRunPause.Size = new System.Drawing.Size(180, 22);
+            this.TimerRunPause.Size = new System.Drawing.Size(150, 22);
             this.TimerRunPause.Text = "&Run/Pause";
             // 
             // TimerReset
             // 
             this.TimerReset.Name = "TimerReset";
             this.TimerReset.ShortcutKeys = System.Windows.Forms.Keys.F8;
-            this.TimerReset.Size = new System.Drawing.Size(180, 22);
+            this.TimerReset.Size = new System.Drawing.Size(150, 22);
             this.TimerReset.Text = "R&eset";
             // 
             // HelpMenu
@@ -477,7 +478,7 @@
             // 
             this.XYlabel.AutoSize = false;
             this.XYlabel.Name = "XYlabel";
-            this.XYlabel.Size = new System.Drawing.Size(192, 17);
+            this.XYlabel.Size = new System.Drawing.Size(192, 20);
             this.XYlabel.Text = "{x=0, y=0}";
             this.XYlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -485,7 +486,7 @@
             // 
             this.Rϴlabel.AutoSize = false;
             this.Rϴlabel.Name = "Rϴlabel";
-            this.Rϴlabel.Size = new System.Drawing.Size(192, 17);
+            this.Rϴlabel.Size = new System.Drawing.Size(192, 20);
             this.Rϴlabel.Text = "{r=0, θ=0}";
             this.Rϴlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -493,7 +494,7 @@
             // 
             this.Tlabel.AutoSize = false;
             this.Tlabel.Name = "Tlabel";
-            this.Tlabel.Size = new System.Drawing.Size(64, 17);
+            this.Tlabel.Size = new System.Drawing.Size(64, 20);
             this.Tlabel.Text = "t=0.0";
             this.Tlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -501,14 +502,14 @@
             // 
             this.FPSlabel.AutoSize = false;
             this.FPSlabel.Name = "FPSlabel";
-            this.FPSlabel.Size = new System.Drawing.Size(64, 17);
+            this.FPSlabel.Size = new System.Drawing.Size(64, 20);
             this.FPSlabel.Text = "fps=0.0";
             this.FPSlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // ModifiedLabel
             // 
             this.ModifiedLabel.Name = "ModifiedLabel";
-            this.ModifiedLabel.Size = new System.Drawing.Size(55, 17);
+            this.ModifiedLabel.Size = new System.Drawing.Size(55, 20);
             this.ModifiedLabel.Text = "Modified";
             this.ModifiedLabel.Visible = false;
             // 
@@ -653,7 +654,7 @@
             // 
             // AppForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1101, 578);
             this.ContextMenuStrip = this.PopupMenu;
