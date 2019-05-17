@@ -35,5 +35,5 @@ Mettoy Dragon 32 Colour Computer")]
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("9.2.183.1")]
-[assembly: AssemblyFileVersion("9.2.183.1")]
+[assembly: AssemblyVersion("9.2.184.1")]
+[assembly: AssemblyFileVersion("9.2.184.1")]

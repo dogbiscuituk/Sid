@@ -100,7 +100,7 @@
 				key.DeleteValue(name);
 		}
 
-		protected virtual void Reopen(ToolStripItem menuItem)
+		public virtual void Reopen(ToolStripItem menuItem)
 		{
 		}
 

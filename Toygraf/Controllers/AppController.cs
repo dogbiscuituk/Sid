@@ -91,6 +91,7 @@
                     // Main Menu
                     View.FileNew.Click -= FileNew_Click;
                     View.FileOpen.Click -= FileOpen_Click;
+                    View.tbOpen.DropDownOpening -= TbOpen_DropDownOpening;
                     View.FileSave.Click -= FileSave_Click;
                     View.FileSaveAs.Click -= FileSaveAs_Click;
                     View.FileExit.Click -= FileExit_Click;
@@ -113,7 +114,7 @@
                     View.HelpAbout.Click -= HelpAbout_Click;
                     // Toolbar
                     View.tbNew.Click -= FileNew_Click;
-                    View.tbOpen.Click -= FileOpen_Click;
+                    View.tbOpen.ButtonClick -= FileOpen_Click;
                     View.tbSave.Click -= FileSaveAs_Click;
                     View.tbCartesian.Click -= GraphTypeCartesian_Click;
                     View.tbPolar.Click -= GraphTypePolar_Click;
@@ -138,6 +139,7 @@
                     // Main Menu
                     View.FileNew.Click += FileNew_Click;
                     View.FileOpen.Click += FileOpen_Click;
+                    View.tbOpen.DropDownOpening += TbOpen_DropDownOpening;
                     View.FileSave.Click += FileSave_Click;
                     View.FileSaveAs.Click += FileSaveAs_Click;
                     View.FileExit.Click += FileExit_Click;
@@ -160,7 +162,7 @@
                     View.HelpAbout.Click += HelpAbout_Click;
                     // Toolbar
                     View.tbNew.Click += FileNew_Click;
-                    View.tbOpen.Click += FileOpen_Click;
+                    View.tbOpen.ButtonClick += FileOpen_Click;
                     View.tbSave.Click += FileSaveAs_Click;
                     View.tbCartesian.Click += GraphTypeCartesian_Click;
                     View.tbPolar.Click += GraphTypePolar_Click;
@@ -221,6 +223,17 @@ by {Application.CompanyName}
 version {Application.ProductVersion}
 {self.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright}",
                 $"About {Application.ProductName}");
+        }
+
+        private void TbOpen_DropDownOpening(object sender, EventArgs e)
+        {
+            View.tbOpen.DropDownItems.Clear();
+            foreach (var item in View.FileReopen
+                .DropDownItems.OfType<ToolStripItem>()
+                .Where(p => p.ToolTipText != null))
+                View.tbOpen.DropDownItems.Add(item.Text, item.Image,
+                    (object sender2, EventArgs e2) => JsonController.Reopen((ToolStripItem)sender2))
+                    .ToolTipText = item.ToolTipText;
         }
 
         #endregion

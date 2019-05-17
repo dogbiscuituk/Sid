@@ -87,7 +87,7 @@
             this.PictureBox = new System.Windows.Forms.PictureBox();
             this.Toolbar = new System.Windows.Forms.ToolStrip();
             this.tbNew = new System.Windows.Forms.ToolStripButton();
-            this.tbOpen = new System.Windows.Forms.ToolStripButton();
+            this.tbOpen = new System.Windows.Forms.ToolStripSplitButton();
             this.tbSave = new System.Windows.Forms.ToolStripButton();
             this.tbAdd = new System.Windows.Forms.ToolStripButton();
             this.tbCartesian = new System.Windows.Forms.ToolStripButton();
@@ -374,38 +374,38 @@
             // ViewLegendTopLeft
             // 
             this.ViewLegendTopLeft.Name = "ViewLegendTopLeft";
-            this.ViewLegendTopLeft.Size = new System.Drawing.Size(180, 22);
+            this.ViewLegendTopLeft.Size = new System.Drawing.Size(145, 22);
             this.ViewLegendTopLeft.Tag = "";
             this.ViewLegendTopLeft.Text = "&Top Left";
             // 
             // ViewLegendTopRight
             // 
             this.ViewLegendTopRight.Name = "ViewLegendTopRight";
-            this.ViewLegendTopRight.Size = new System.Drawing.Size(180, 22);
+            this.ViewLegendTopRight.Size = new System.Drawing.Size(145, 22);
             this.ViewLegendTopRight.Text = "Top &Right";
             // 
             // ViewLegendBottomLeft
             // 
             this.ViewLegendBottomLeft.Name = "ViewLegendBottomLeft";
-            this.ViewLegendBottomLeft.Size = new System.Drawing.Size(180, 22);
+            this.ViewLegendBottomLeft.Size = new System.Drawing.Size(145, 22);
             this.ViewLegendBottomLeft.Text = "&Bottom Left";
             // 
             // ViewLegendBottomRight
             // 
             this.ViewLegendBottomRight.Name = "ViewLegendBottomRight";
-            this.ViewLegendBottomRight.Size = new System.Drawing.Size(180, 22);
+            this.ViewLegendBottomRight.Size = new System.Drawing.Size(145, 22);
             this.ViewLegendBottomRight.Text = "Botto&m Right";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(142, 6);
             // 
             // ViewLegendHide
             // 
             this.ViewLegendHide.Name = "ViewLegendHide";
             this.ViewLegendHide.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
-            this.ViewLegendHide.Size = new System.Drawing.Size(180, 22);
+            this.ViewLegendHide.Size = new System.Drawing.Size(145, 22);
             this.ViewLegendHide.Text = "&Hide";
             // 
             // toolStripMenuItem7
@@ -529,9 +529,9 @@
             this.ClientPanel.Controls.Add(this.LegendPanel);
             this.ClientPanel.Controls.Add(this.PictureBox);
             this.ClientPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ClientPanel.Location = new System.Drawing.Point(23, 24);
+            this.ClientPanel.Location = new System.Drawing.Point(32, 24);
             this.ClientPanel.Name = "ClientPanel";
-            this.ClientPanel.Size = new System.Drawing.Size(1078, 529);
+            this.ClientPanel.Size = new System.Drawing.Size(1069, 529);
             this.ClientPanel.TabIndex = 6;
             // 
             // LegendPanel
@@ -568,7 +568,7 @@
             this.Toolbar.Location = new System.Drawing.Point(0, 24);
             this.Toolbar.Name = "Toolbar";
             this.Toolbar.Padding = new System.Windows.Forms.Padding(0);
-            this.Toolbar.Size = new System.Drawing.Size(23, 529);
+            this.Toolbar.Size = new System.Drawing.Size(32, 529);
             this.Toolbar.TabIndex = 11;
             // 
             // tbNew
@@ -577,7 +577,7 @@
             this.tbNew.Image = global::ToyGraf.Properties.Resources.New;
             this.tbNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbNew.Name = "tbNew";
-            this.tbNew.Size = new System.Drawing.Size(22, 20);
+            this.tbNew.Size = new System.Drawing.Size(31, 20);
             this.tbNew.ToolTipText = "Create a new file (Ctrl+N)";
             // 
             // tbOpen
@@ -586,7 +586,7 @@
             this.tbOpen.Image = global::ToyGraf.Properties.Resources.Open;
             this.tbOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbOpen.Name = "tbOpen";
-            this.tbOpen.Size = new System.Drawing.Size(22, 20);
+            this.tbOpen.Size = new System.Drawing.Size(31, 20);
             this.tbOpen.ToolTipText = "Open an existing file (Ctrl+O)";
             // 
             // tbSave
@@ -595,7 +595,7 @@
             this.tbSave.Image = global::ToyGraf.Properties.Resources.Save;
             this.tbSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbSave.Name = "tbSave";
-            this.tbSave.Size = new System.Drawing.Size(22, 20);
+            this.tbSave.Size = new System.Drawing.Size(31, 20);
             this.tbSave.ToolTipText = "Save to file (Ctrl+S)";
             // 
             // tbAdd
@@ -604,7 +604,7 @@
             this.tbAdd.Image = global::ToyGraf.Properties.Resources.Add;
             this.tbAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbAdd.Name = "tbAdd";
-            this.tbAdd.Size = new System.Drawing.Size(22, 20);
+            this.tbAdd.Size = new System.Drawing.Size(31, 20);
             this.tbAdd.ToolTipText = "Add a new function (F2)";
             // 
             // tbCartesian
@@ -613,7 +613,7 @@
             this.tbCartesian.Image = global::ToyGraf.Properties.Resources.Cartesian;
             this.tbCartesian.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbCartesian.Name = "tbCartesian";
-            this.tbCartesian.Size = new System.Drawing.Size(22, 20);
+            this.tbCartesian.Size = new System.Drawing.Size(31, 20);
             this.tbCartesian.ToolTipText = "Graph type = Cartesian (Ctrl+Shift+C)";
             // 
             // tbPolar
@@ -622,7 +622,7 @@
             this.tbPolar.Image = global::ToyGraf.Properties.Resources.Polar;
             this.tbPolar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbPolar.Name = "tbPolar";
-            this.tbPolar.Size = new System.Drawing.Size(22, 20);
+            this.tbPolar.Size = new System.Drawing.Size(31, 20);
             this.tbPolar.ToolTipText = "Graph type = Polar (Ctrl+Shift+P)";
             // 
             // tbProperties
@@ -631,7 +631,7 @@
             this.tbProperties.Image = global::ToyGraf.Properties.Resources.Properties;
             this.tbProperties.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbProperties.Name = "tbProperties";
-            this.tbProperties.Size = new System.Drawing.Size(22, 20);
+            this.tbProperties.Size = new System.Drawing.Size(31, 20);
             this.tbProperties.ToolTipText = "Graph properties (F3)";
             // 
             // tbFullScreen
@@ -640,7 +640,7 @@
             this.tbFullScreen.Image = global::ToyGraf.Properties.Resources.FullScreen;
             this.tbFullScreen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbFullScreen.Name = "tbFullScreen";
-            this.tbFullScreen.Size = new System.Drawing.Size(22, 20);
+            this.tbFullScreen.Size = new System.Drawing.Size(31, 20);
             this.tbFullScreen.ToolTipText = "Full screen (F11)";
             // 
             // tbTimer
@@ -649,7 +649,7 @@
             this.tbTimer.Image = global::ToyGraf.Properties.Resources.Timer;
             this.tbTimer.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbTimer.Name = "tbTimer";
-            this.tbTimer.Size = new System.Drawing.Size(22, 20);
+            this.tbTimer.Size = new System.Drawing.Size(31, 20);
             this.tbTimer.ToolTipText = "Timer run/pause (F9)";
             // 
             // AppForm
@@ -738,7 +738,7 @@
         public System.Windows.Forms.ToolStripMenuItem GraphTypePolar;
         public System.Windows.Forms.ToolStrip Toolbar;
         public System.Windows.Forms.ToolStripButton tbNew;
-        public System.Windows.Forms.ToolStripButton tbOpen;
+        public System.Windows.Forms.ToolStripSplitButton tbOpen;
         public System.Windows.Forms.ToolStripButton tbSave;
         public System.Windows.Forms.ToolStripButton tbAdd;
         public System.Windows.Forms.ToolStripButton tbCartesian;

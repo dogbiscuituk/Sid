@@ -135,7 +135,7 @@
 
 		protected abstract bool LoadFromStream(Stream stream, string format);
 
-		protected override void Reopen(ToolStripItem menuItem)
+		public override void Reopen(ToolStripItem menuItem)
 		{
 			var filePath = menuItem.ToolTipText;
 			if (File.Exists(filePath))
