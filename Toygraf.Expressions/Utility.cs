@@ -13,19 +13,42 @@
     {
         #region Colours
 
-        private static IEnumerable<string> _nonSystemColourNames = null;
-        public static IEnumerable<string> NonSystemColourNames
-        {
-            get
+        public static IEnumerable<string> GetNonSystemColourNames(string orderByColourProperties) =>
+            Enum.GetValues(typeof(KnownColor))
+            .Cast<KnownColor>()
+            .Select(Color.FromKnownColor)
+            .Where(c => !c.IsSystemColor)
+            .OrderByColourProperties(orderByColourProperties)
+            .Select(c => c.Name);
+
+        private static readonly Dictionary<string, Func<Color, float>> ColourOrders =
+            new Dictionary<string, Func<Color, float>>
             {
-                if (_nonSystemColourNames == null)
-                    _nonSystemColourNames =
-                        Enum.GetValues(typeof(KnownColor)).Cast<KnownColor>()
-                        .Select(Color.FromKnownColor).Where(c => !c.IsSystemColor)
-                        .OrderBy(c => c.GetHue()).ThenBy(c => c.GetSaturation())
-                        .Select(c => c.Name);
-                return _nonSystemColourNames;
+                { "Alpha", c => c.A },
+                { "Red", c => c.R },
+                { "Green", c=> c.G },
+                { "Blue", c => c.B },
+                { "Hue", c => c.GetHue() },
+                { "Saturation", c => c.GetSaturation() },
+                { "Brightness", c => c.GetBrightness() }
+            };
+
+        private static IEnumerable<Color> OrderByColourProperties(
+            this IEnumerable<Color> colours, string colourProperties)
+        {
+            IOrderedEnumerable<Color> result = null;
+            var first = true;
+            foreach (var colourProperty in colourProperties.Split(',')
+                .Select(p => p.Trim().ToTitleCase()))
+            {
+                var colourOrder = ColourOrders[colourProperty];
+                result =
+                    first
+                    ? colours.OrderBy(colourOrder)
+                    : result.ThenBy(colourOrder);
+                first = false;
             }
+            return result;
         }
 
         public static int AlphaFromTransparencyPercent(int transparencyPercent) =>
@@ -370,6 +393,11 @@
         /// <param name="s">The string obtained from a menu caption</param>
         /// <returns>The input string with all escaped (doubled) ampersands unescaped</returns>
         public static string AmpersandUnescape(this string s) => s.Replace("&&", "&");
+
+        public static string ToTitleCase(this string s) =>
+            s == string.Empty
+            ? string.Empty
+            : $"{char.ToUpper(s[0])}{s.ToLower().Substring(1)}";
 
         #endregion
 

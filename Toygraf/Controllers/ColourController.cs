@@ -15,7 +15,8 @@
 
         public readonly List<ComboBox> Controls = new List<ComboBox>();
 
-        private static readonly string[] colourNames = Utility.NonSystemColourNames.ToArray();
+        private static readonly string[] NonSystemColourNames =
+            Utility.GetNonSystemColourNames(Properties.Settings.Default.KnownColorSortOrder).ToArray();
 
         #endregion
 
@@ -26,7 +27,7 @@
             Controls.AddRange(controls);
             foreach (var control in controls)
             {
-                control.Items.AddRange(colourNames);
+                control.Items.AddRange(NonSystemColourNames);
                 control.DrawItem += Control_DrawItem;
             }
         }

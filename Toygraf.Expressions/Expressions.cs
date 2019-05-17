@@ -243,7 +243,7 @@
 
         public static Expression MakeFunction(this string f, Expression operand)
         {
-            f = $"{char.ToUpper(f[0])}{f.ToLower().Substring(1)}";
+            f = f.ToTitleCase();
             var match = Regex.Match(f, @"^F(\d+)$");
             if (match.Success)
             {
