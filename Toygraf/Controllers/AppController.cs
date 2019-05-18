@@ -425,7 +425,8 @@ version {Application.ProductVersion}
             var normal = !FullScreen;
             View.MainMenuStrip.Visible =
                 View.Toolbar.Visible =
-                View.StatusBar.Visible = normal;
+                View.TimeTrackBar.Visible =
+                View.StatusBar.Visible =normal;
             if (FullScreen)
             {
                 PriorLegendVisible = View.LegendPanel.Visible;
