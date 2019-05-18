@@ -202,7 +202,7 @@
             float penWidth, bool fill, double time, PlotType plotType, Interpolation interpolation)
         {
             if (fill && (FillColour == Color.Transparent || FillTransparencyPercent == 100))
-                return; // Not just an optimisation; omits vertical asymptotes too.
+                return;
             if (Func == null
                 || LastDomain != domain
                 || Viewport != viewport
@@ -225,75 +225,20 @@
                     pen.DashStyle = DashStyle.Dash;
                     var paint = Utility.MakeColour(FillColour, FillTransparencyPercent);
                     using (var brush = new SolidBrush(paint))
-                        PointLists.ForEach(p => FillArea(g, pen, brush, p, plotType, interpolation));
+                        PointLists.ForEach(p => FillSection(g, brush, plotType, interpolation, p));
                 }
             else
                 using (var pen = new Pen(PenColour, penWidth))
-                    PointLists.ForEach(p => DrawSection(g, pen, p.ToArray(), interpolation));
+                    PointLists.ForEach(p => DrawSection(g, pen, interpolation, p));
         }
 
-        private void DrawSection(Graphics g, Pen pen, PointF[] points, Interpolation interpolation)
-        {
-            try
-            {
-                switch (interpolation)
-                {
-                    case Interpolation.Linear:
-                        g.DrawLines(pen, points);
-                        break;
-                    case Interpolation.CardinalSpline:
-                        g.DrawCurve(pen, points);
-                        break;
-                }
-            }
-            catch (OverflowException)
-            {
-                System.Diagnostics.Debug.WriteLine($"OverflowException in Series.DrawSection.");
-            }
-        }
+        private void DrawSection(Graphics g, Pen pen,
+            Interpolation interpolation, List<PointF> points) =>
+            new SeriesDrawer().Draw(g, pen, interpolation, points);
 
-        private void FillArea(Graphics g, Pen pen, Brush brush, List<PointF> p, PlotType plotType, Interpolation interpolation)
-        {
-            switch (plotType)
-            {
-                case PlotType.Cartesian:
-                    var n = p.Count;
-                    var points = new PointF[n + 2];
-                    p.CopyTo(points);
-                    points[n] = new PointF(points[n - 1].X, 0);
-                    points[n + 1] = new PointF(points[0].X, 0);
-                    FillSection(g, brush, points, interpolation);
-                    // Draw vertical asymptotes iff X extremes are not Limits.
-                    if (points[n].X < Viewport.Right)
-                        g.DrawLine(pen, points[n - 1], points[n]);
-                    if (points[0].X > Viewport.Left)
-                        g.DrawLine(pen, points[n + 1], points[0]);
-                    break;
-                case PlotType.Polar:
-                    FillSection(g, brush, p.ToArray(), interpolation);
-                    break;
-            }
-        }
-
-        private void FillSection(Graphics g, Brush brush, PointF[] points, Interpolation interpolation)
-        {
-            try
-            {
-                switch (interpolation)
-                {
-                    case Interpolation.Linear:
-                        g.FillPolygon(brush, points);
-                        break;
-                    case Interpolation.CardinalSpline:
-                        g.FillClosedCurve(brush, points);
-                        break;
-                }
-            }
-            catch (OverflowException)
-            {
-                System.Diagnostics.Debug.WriteLine($"OverflowException in Series.FillSection.");
-            }
-        }
+        private void FillSection(Graphics g, Brush brush, PlotType plotType,
+            Interpolation interpolation, List<PointF> points) =>
+            new SeriesDrawer().Fill(g, brush, plotType, interpolation, points);
 
         private Task<List<List<PointF>>> ComputePointsAsync(
             Domain domain, Viewport viewport, double time, bool polar)

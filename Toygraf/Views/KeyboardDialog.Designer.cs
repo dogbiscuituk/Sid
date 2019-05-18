@@ -1134,6 +1134,7 @@
             this.FunctionBox.Name = "FunctionBox";
             this.FunctionBox.Size = new System.Drawing.Size(451, 25);
             this.FunctionBox.TabIndex = 0;
+            this.ToolTip.SetToolTip(this.FunctionBox, "Formula for points on this trace");
             // 
             // btnClose
             // 
@@ -1158,6 +1159,7 @@
             this.tbProxy.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tbProxy.Size = new System.Drawing.Size(413, 33);
             this.tbProxy.TabIndex = 81;
+            this.ToolTip.SetToolTip(this.tbProxy, "Preview of the final algebraic expression");
             // 
             // seIndex
             // 
@@ -1193,6 +1195,7 @@
             this.cbVisible.Name = "cbVisible";
             this.cbVisible.Size = new System.Drawing.Size(15, 14);
             this.cbVisible.TabIndex = 84;
+            this.ToolTip.SetToolTip(this.cbVisible, "Show or hide this trace");
             this.cbVisible.UseVisualStyleBackColor = true;
             // 
             // KeyboardDialog
