@@ -43,6 +43,7 @@
                     {
                         Checked = m.Checked,
                         Enabled = m.Enabled,
+                        Font = m.Font,
                         ShortcutKeyDisplayString = m.ShortcutKeyDisplayString,
                         Tag = m.Tag,
                         ToolTipText = m.ToolTipText

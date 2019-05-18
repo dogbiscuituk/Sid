@@ -92,7 +92,6 @@
                     // Main Menu
                     View.FileNew.Click -= FileNew_Click;
                     View.FileOpen.Click -= FileOpen_Click;
-                    View.tbOpen.DropDownOpening -= TbOpen_DropDownOpening;
                     View.FileSave.Click -= FileSave_Click;
                     View.FileSaveAs.Click -= FileSaveAs_Click;
                     View.FileExit.Click -= FileExit_Click;
@@ -112,18 +111,27 @@
                     View.TimerMenu.DropDownOpening -= TimerMenu_DropDownOpening;
                     View.TimerRunPause.Click -= TimerRunPause_Click;
                     View.TimerReset.Click -= TimerReset_Click;
+                    View.TimerFast10.Click -= TimerSpeed_Click;
+                    View.TimerFast5.Click -= TimerSpeed_Click;
+                    View.TimerFast2.Click -= TimerSpeed_Click;
+                    View.TimerNormalSpeed.Click -= TimerSpeed_Click;
+                    View.TimerSlow2.Click -= TimerSpeed_Click;
+                    View.TimerSlow5.Click -= TimerSpeed_Click;
+                    View.TimerSlow10.Click -= TimerSpeed_Click;
                     View.HelpAbout.Click -= HelpAbout_Click;
                     // PopupMenu
                     View.PopupMenu.Opening -= PopupMenu_Opening;
                     // Toolbar
                     View.tbNew.Click -= FileNew_Click;
                     View.tbOpen.ButtonClick -= FileOpen_Click;
+                    View.tbOpen.DropDownOpening -= TbOpen_DropDownOpening;
                     View.tbSave.Click -= FileSaveAs_Click;
                     View.tbCartesian.Click -= GraphTypeCartesian_Click;
                     View.tbPolar.Click -= GraphTypePolar_Click;
                     View.tbProperties.Click -= GraphProperties_Click;
                     View.tbFullScreen.Click -= ZoomFullScreen_Click;
-                    View.tbTimer.Click -= TimerRunPause_Click;
+                    View.tbTimer.ButtonClick -= TimerRunPause_Click;
+                    View.tbTimer.DropDownOpening -= TbTimer_DropDownOpening;
                     // PictureBox
                     PictureBox.MouseDown -= PictureBox_MouseDown;
                     PictureBox.MouseLeave -= PictureBox_MouseLeave;
@@ -142,7 +150,6 @@
                     // Main Menu
                     View.FileNew.Click += FileNew_Click;
                     View.FileOpen.Click += FileOpen_Click;
-                    View.tbOpen.DropDownOpening += TbOpen_DropDownOpening;
                     View.FileSave.Click += FileSave_Click;
                     View.FileSaveAs.Click += FileSaveAs_Click;
                     View.FileExit.Click += FileExit_Click;
@@ -162,18 +169,27 @@
                     View.TimerMenu.DropDownOpening += TimerMenu_DropDownOpening;
                     View.TimerRunPause.Click += TimerRunPause_Click;
                     View.TimerReset.Click += TimerReset_Click;
+                    View.TimerFast10.Click += TimerSpeed_Click;
+                    View.TimerFast5.Click += TimerSpeed_Click;
+                    View.TimerFast2.Click += TimerSpeed_Click;
+                    View.TimerNormalSpeed.Click += TimerSpeed_Click;
+                    View.TimerSlow2.Click += TimerSpeed_Click;
+                    View.TimerSlow5.Click += TimerSpeed_Click;
+                    View.TimerSlow10.Click += TimerSpeed_Click;
                     View.HelpAbout.Click += HelpAbout_Click;
                     // PopupMenu
                     View.PopupMenu.Opening += PopupMenu_Opening;
                     // Toolbar
                     View.tbNew.Click += FileNew_Click;
                     View.tbOpen.ButtonClick += FileOpen_Click;
+                    View.tbOpen.DropDownOpening += TbOpen_DropDownOpening;
                     View.tbSave.Click += FileSaveAs_Click;
                     View.tbCartesian.Click += GraphTypeCartesian_Click;
                     View.tbPolar.Click += GraphTypePolar_Click;
                     View.tbProperties.Click += GraphProperties_Click;
                     View.tbFullScreen.Click += ZoomFullScreen_Click;
-                    View.tbTimer.Click += TimerRunPause_Click;
+                    View.tbTimer.ButtonClick += TimerRunPause_Click;
+                    View.tbTimer.DropDownOpening += TbTimer_DropDownOpening;
                     // PictureBox
                     PictureBox.MouseDown += PictureBox_MouseDown;
                     PictureBox.MouseLeave += PictureBox_MouseLeave;
@@ -213,6 +229,24 @@
 
         private void TimerRunPause_Click(object sender, EventArgs e) => Clock.Running = !Clock.Running;
         private void TimerReset_Click(object sender, EventArgs e) => ClockReset();
+
+        private void TimerSpeed_Click(object sender, EventArgs e)
+        {
+            var menuItem = (ToolStripMenuItem)sender;
+            TimeMultiplier = float.Parse(menuItem.Text.Substring(2));
+            foreach (var item in new[]
+            {
+                View.TimerFast10,
+                View.TimerFast5,
+                View.TimerFast2,
+                View.TimerNormalSpeed,
+                View.TimerSlow2,
+                View.TimerSlow5,
+                View.TimerSlow10
+            })
+                item.Checked = item.Text == menuItem.Text;
+        }
+
         private void ViewCoordinatesTooltip_Click(object sender, EventArgs e) => ToggleCoordinatesTooltip();
         private void HelpAbout_Click(object sender, EventArgs e) => ShowVersionInfo();
 
@@ -235,6 +269,9 @@ version {Application.ProductVersion}
 
         private void TbOpen_DropDownOpening(object sender, EventArgs e) =>
             View.FileReopen.CloneTo(View.tbOpen);
+
+        private void TbTimer_DropDownOpening(object sender, EventArgs e) =>
+            View.TimerMenu.CloneTo(View.tbTimer);
 
         #endregion
 
@@ -277,6 +314,22 @@ version {Application.ProductVersion}
         private double[] Ticks = new double[64];
         private int TickCount, TickIndex;
 
+        private float _timeMultiplier = 1;
+        private float TimeMultiplier
+        {
+            get => _timeMultiplier;
+            set
+            {
+                if (TimeMultiplier != value)
+                {
+                    var running = Clock.Running;
+                    ClockReset();
+                    _timeMultiplier = value;
+                    Clock.Running = running;
+                }
+            }
+        }
+
         private void Clock_Tick(object sender, EventArgs e)
         {
             Clock.Tick_ms = Tick_ms;
@@ -295,7 +348,7 @@ version {Application.ProductVersion}
         private void UpdateLabels()
         {
             var tick = Clock.SecondsElapsed;
-            View.Tlabel.Text = string.Format("t={0:f1}", tick);
+            View.Tlabel.Text = string.Format("t={0:f1}", tick * TimeMultiplier);
             Ticks[TickIndex = (TickIndex + 1) % Ticks.Length] = tick;
             if (TickCount < Ticks.Length - 1) TickCount++;
             var fps = 0.0;
@@ -370,7 +423,7 @@ version {Application.ProductVersion}
                 stopwatch = new Stopwatch();
                 stopwatch.Start();
             }
-            Graph.Draw(e.Graphics, r, Clock.SecondsElapsed);
+            Graph.Draw(e.Graphics, r, Clock.SecondsElapsed * TimeMultiplier);
             if (stopwatch != null)
             {
                 stopwatch.Stop();
