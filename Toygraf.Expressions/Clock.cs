@@ -21,9 +21,10 @@
 
         private bool _running;
         private DateTime _startedAt;
-        private TimeSpan _timeElapsed;
+        private TimeSpan _realTimeElapsed, _virtualTimeElapsed;
         private int _suspendCount;
         private Timer Timer;
+        private float _virtualTimeFactor = 1;
 
         #endregion
 
@@ -40,7 +41,9 @@
                     if (Running)
                     {
                         Timer.Enabled = false;
-                        _timeElapsed += now - _startedAt;
+                        var elapsed = now - _startedAt;
+                        _realTimeElapsed += elapsed;
+                        _virtualTimeElapsed += TimeSpan.FromSeconds((now - _startedAt).TotalSeconds * VirtualTimeFactor);
                     }
                     _running = value;
                     if (Running)
@@ -52,7 +55,8 @@
             }
         }
 
-        public double SecondsElapsed => TimeElapsed.TotalSeconds;
+        public double RealSecondsElapsed => RealTimeElapsed.TotalSeconds;
+        public double VirtualSecondsElapsed => VirtualTimeElapsed.TotalSeconds;
 
         public ISynchronizeInvoke Sync
         {
@@ -66,8 +70,30 @@
             set => Timer.Interval = value;
         }
 
-        public TimeSpan TimeElapsed =>
-            Running ? _timeElapsed + (DateTime.Now - _startedAt) : _timeElapsed;
+        public TimeSpan RealTimeElapsed => Running
+            ? _realTimeElapsed + (DateTime.Now - _startedAt)
+            : _realTimeElapsed;
+
+        public TimeSpan VirtualTimeElapsed => Running
+            ? _virtualTimeElapsed + TimeSpan.FromSeconds(
+                (DateTime.Now - _startedAt).TotalSeconds * VirtualTimeFactor)
+            : _virtualTimeElapsed;
+
+        public float VirtualTimeFactor
+        {
+            get => _virtualTimeFactor;
+            set
+            {
+                if (VirtualTimeFactor != value)
+                {
+                    var running = Running;
+                    Stop();
+                    _virtualTimeFactor = value;
+                    if (running)
+                        Start();
+                }
+            }
+        }
 
         #endregion
 
@@ -76,7 +102,9 @@
         public void Reset()
         {
             Running = false;
-            _timeElapsed = TimeSpan.Zero;
+            _realTimeElapsed = TimeSpan.Zero;
+            _virtualTimeElapsed = TimeSpan.Zero;
+            _virtualTimeFactor = 1;
         }
 
         public void Resume()

@@ -73,13 +73,13 @@
             this.TimerRunPause = new System.Windows.Forms.ToolStripMenuItem();
             this.TimerReset = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-            this.TimerFast10 = new System.Windows.Forms.ToolStripMenuItem();
-            this.TimerFast5 = new System.Windows.Forms.ToolStripMenuItem();
-            this.TimerFast2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.TimerNormalSpeed = new System.Windows.Forms.ToolStripMenuItem();
-            this.TimerSlow2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.TimerSlow5 = new System.Windows.Forms.ToolStripMenuItem();
             this.TimerSlow10 = new System.Windows.Forms.ToolStripMenuItem();
+            this.TimerSlow5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.TimerSlow2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.TimerNormalSpeed = new System.Windows.Forms.ToolStripMenuItem();
+            this.TimerFast2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.TimerFast5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.TimerFast10 = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
@@ -103,12 +103,14 @@
             this.tbProperties = new System.Windows.Forms.ToolStripButton();
             this.tbFullScreen = new System.Windows.Forms.ToolStripButton();
             this.tbTimer = new System.Windows.Forms.ToolStripSplitButton();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.ClientPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
             this.Toolbar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // MainMenu
@@ -480,23 +482,23 @@
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
             this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
             // 
-            // TimerFast10
+            // TimerSlow10
             // 
-            this.TimerFast10.Name = "TimerFast10";
-            this.TimerFast10.Size = new System.Drawing.Size(180, 22);
-            this.TimerFast10.Text = "× 10";
+            this.TimerSlow10.Name = "TimerSlow10";
+            this.TimerSlow10.Size = new System.Drawing.Size(180, 22);
+            this.TimerSlow10.Text = "× 0.1";
             // 
-            // TimerFast5
+            // TimerSlow5
             // 
-            this.TimerFast5.Name = "TimerFast5";
-            this.TimerFast5.Size = new System.Drawing.Size(180, 22);
-            this.TimerFast5.Text = "× 5";
+            this.TimerSlow5.Name = "TimerSlow5";
+            this.TimerSlow5.Size = new System.Drawing.Size(180, 22);
+            this.TimerSlow5.Text = "× 0.2";
             // 
-            // TimerFast2
+            // TimerSlow2
             // 
-            this.TimerFast2.Name = "TimerFast2";
-            this.TimerFast2.Size = new System.Drawing.Size(180, 22);
-            this.TimerFast2.Text = "× 2";
+            this.TimerSlow2.Name = "TimerSlow2";
+            this.TimerSlow2.Size = new System.Drawing.Size(180, 22);
+            this.TimerSlow2.Text = "× 0.5";
             // 
             // TimerNormalSpeed
             // 
@@ -507,23 +509,23 @@
             this.TimerNormalSpeed.Size = new System.Drawing.Size(180, 22);
             this.TimerNormalSpeed.Text = "× 1";
             // 
-            // TimerSlow2
+            // TimerFast2
             // 
-            this.TimerSlow2.Name = "TimerSlow2";
-            this.TimerSlow2.Size = new System.Drawing.Size(180, 22);
-            this.TimerSlow2.Text = "× 0.5";
+            this.TimerFast2.Name = "TimerFast2";
+            this.TimerFast2.Size = new System.Drawing.Size(180, 22);
+            this.TimerFast2.Text = "× 2";
             // 
-            // TimerSlow5
+            // TimerFast5
             // 
-            this.TimerSlow5.Name = "TimerSlow5";
-            this.TimerSlow5.Size = new System.Drawing.Size(180, 22);
-            this.TimerSlow5.Text = "× 0.2";
+            this.TimerFast5.Name = "TimerFast5";
+            this.TimerFast5.Size = new System.Drawing.Size(180, 22);
+            this.TimerFast5.Text = "× 5";
             // 
-            // TimerSlow10
+            // TimerFast10
             // 
-            this.TimerSlow10.Name = "TimerSlow10";
-            this.TimerSlow10.Size = new System.Drawing.Size(180, 22);
-            this.TimerSlow10.Text = "× 0.1";
+            this.TimerFast10.Name = "TimerFast10";
+            this.TimerFast10.Size = new System.Drawing.Size(180, 22);
+            this.TimerFast10.Text = "× 10";
             // 
             // HelpMenu
             // 
@@ -536,7 +538,7 @@
             // HelpAbout
             // 
             this.HelpAbout.Name = "HelpAbout";
-            this.HelpAbout.Size = new System.Drawing.Size(107, 22);
+            this.HelpAbout.Size = new System.Drawing.Size(180, 22);
             this.HelpAbout.Text = "&About";
             this.HelpAbout.ToolTipText = "Show version information";
             // 
@@ -733,12 +735,22 @@
             this.tbTimer.Size = new System.Drawing.Size(31, 20);
             this.tbTimer.ToolTipText = "Timer run/pause (F9)";
             // 
+            // trackBar1
+            // 
+            this.trackBar1.AutoSize = false;
+            this.trackBar1.Location = new System.Drawing.Point(2, 232);
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBar1.Size = new System.Drawing.Size(24, 104);
+            this.trackBar1.TabIndex = 10;
+            // 
             // AppForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1101, 578);
             this.ContextMenuStrip = this.PopupMenu;
+            this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.ClientPanel);
             this.Controls.Add(this.Toolbar);
             this.Controls.Add(this.StatusBar);
@@ -757,6 +769,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
             this.Toolbar.ResumeLayout(false);
             this.Toolbar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -837,5 +850,6 @@
         public System.Windows.Forms.ToolStripMenuItem TimerSlow2;
         public System.Windows.Forms.ToolStripMenuItem TimerSlow5;
         public System.Windows.Forms.ToolStripMenuItem TimerSlow10;
+        private System.Windows.Forms.TrackBar trackBar1;
     }
 }

@@ -233,7 +233,7 @@
         private void TimerSpeed_Click(object sender, EventArgs e)
         {
             var menuItem = (ToolStripMenuItem)sender;
-            TimeMultiplier = float.Parse(menuItem.Text.Substring(2));
+            Clock.VirtualTimeFactor = float.Parse(menuItem.Text.Substring(2));
             foreach (var item in new[]
             {
                 View.TimerFast10,
@@ -314,22 +314,6 @@ version {Application.ProductVersion}
         private double[] Ticks = new double[64];
         private int TickCount, TickIndex;
 
-        private float _timeMultiplier = 1;
-        private float TimeMultiplier
-        {
-            get => _timeMultiplier;
-            set
-            {
-                if (TimeMultiplier != value)
-                {
-                    var running = Clock.Running;
-                    ClockReset();
-                    _timeMultiplier = value;
-                    Clock.Running = running;
-                }
-            }
-        }
-
         private void Clock_Tick(object sender, EventArgs e)
         {
             Clock.Tick_ms = Tick_ms;
@@ -347,9 +331,11 @@ version {Application.ProductVersion}
 
         private void UpdateLabels()
         {
-            var tick = Clock.SecondsElapsed;
-            View.Tlabel.Text = string.Format("t={0:f1}", tick * TimeMultiplier);
-            Ticks[TickIndex = (TickIndex + 1) % Ticks.Length] = tick;
+            double
+                realSecondsElapsed = Clock.RealSecondsElapsed,
+                virtualSecondsElapsed = Clock.VirtualSecondsElapsed;
+            View.Tlabel.Text = string.Format("t={0:f1}", virtualSecondsElapsed);
+            Ticks[TickIndex = (TickIndex + 1) % Ticks.Length] = realSecondsElapsed;
             if (TickCount < Ticks.Length - 1) TickCount++;
             var fps = 0.0;
             if (TickCount > 1)
@@ -423,7 +409,7 @@ version {Application.ProductVersion}
                 stopwatch = new Stopwatch();
                 stopwatch.Start();
             }
-            Graph.Draw(e.Graphics, r, Clock.SecondsElapsed * TimeMultiplier);
+            Graph.Draw(e.Graphics, r, Clock.VirtualSecondsElapsed);
             if (stopwatch != null)
             {
                 stopwatch.Stop();
