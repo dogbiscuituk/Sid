@@ -234,11 +234,11 @@
 
         private void DrawSection(Graphics g, Pen pen,
             Interpolation interpolation, List<PointF> points) =>
-            new SeriesDrawer().Draw(g, pen, interpolation, points);
+            new Plotter().Draw(g, pen, interpolation, points);
 
         private void FillSection(Graphics g, Brush brush, PlotType plotType,
             Interpolation interpolation, List<PointF> points) =>
-            new SeriesDrawer().Fill(g, brush, plotType, interpolation, points);
+            new Plotter().Fill(g, brush, plotType, interpolation, points);
 
         private Task<List<List<PointF>>> ComputePointsAsync(
             Domain domain, Viewport viewport, double time, bool polar)

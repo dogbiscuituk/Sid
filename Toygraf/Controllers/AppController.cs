@@ -32,6 +32,7 @@
             AdjustPictureBox();
             LegendController.AdjustLegend();
             UpdateUI();
+            PopupMenu_Opening(View, new CancelEventArgs());
         }
 
         #region Properties
@@ -112,6 +113,8 @@
                     View.TimerRunPause.Click -= TimerRunPause_Click;
                     View.TimerReset.Click -= TimerReset_Click;
                     View.HelpAbout.Click -= HelpAbout_Click;
+                    // PopupMenu
+                    View.PopupMenu.Opening -= PopupMenu_Opening;
                     // Toolbar
                     View.tbNew.Click -= FileNew_Click;
                     View.tbOpen.ButtonClick -= FileOpen_Click;
@@ -160,6 +163,8 @@
                     View.TimerRunPause.Click += TimerRunPause_Click;
                     View.TimerReset.Click += TimerReset_Click;
                     View.HelpAbout.Click += HelpAbout_Click;
+                    // PopupMenu
+                    View.PopupMenu.Opening += PopupMenu_Opening;
                     // Toolbar
                     View.tbNew.Click += FileNew_Click;
                     View.tbOpen.ButtonClick += FileOpen_Click;
@@ -186,7 +191,7 @@
 
         #endregion
 
-        #region Menus
+        #region Menu events
 
         private void FileNew_Click(object sender, EventArgs e) => NewFile();
         private void FileOpen_Click(object sender, EventArgs e) => OpenFile();
@@ -206,9 +211,6 @@
         private void ScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1f);
         private void ScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
 
-        private void TimerMenu_DropDownOpening(object sender, EventArgs e) =>
-            View.TimerRunPause.Checked = Clock.Running;
-
         private void TimerRunPause_Click(object sender, EventArgs e) => Clock.Running = !Clock.Running;
         private void TimerReset_Click(object sender, EventArgs e) => ClockReset();
         private void ViewCoordinatesTooltip_Click(object sender, EventArgs e) => ToggleCoordinatesTooltip();
@@ -225,16 +227,14 @@ version {Application.ProductVersion}
                 $"About {Application.ProductName}");
         }
 
-        private void TbOpen_DropDownOpening(object sender, EventArgs e)
-        {
-            View.tbOpen.DropDownItems.Clear();
-            foreach (var item in View.FileReopen
-                .DropDownItems.OfType<ToolStripItem>()
-                .Where(p => p.ToolTipText != null))
-                View.tbOpen.DropDownItems.Add(item.Text, item.Image,
-                    (object sender2, EventArgs e2) => JsonController.Reopen((ToolStripItem)sender2))
-                    .ToolTipText = item.ToolTipText;
-        }
+        private void TimerMenu_DropDownOpening(object sender, EventArgs e) =>
+            View.TimerRunPause.Checked = Clock.Running;
+
+        private void PopupMenu_Opening(object sender, CancelEventArgs e) =>
+            View.MainMenu.CloneTo(View.PopupMenu);
+
+        private void TbOpen_DropDownOpening(object sender, EventArgs e) =>
+            View.FileReopen.CloneTo(View.tbOpen);
 
         #endregion
 
@@ -404,14 +404,12 @@ version {Application.ProductVersion}
                 View.FormBorderStyle = FormBorderStyle.None;
                 PriorWindowState = View.WindowState;
                 View.WindowState = FormWindowState.Maximized;
-                MoveMenuItems(View.MainMenu, View.PopupMenu);
             }
             else
             {
                 View.LegendPanel.Visible = PriorLegendVisible;
                 View.FormBorderStyle = FormBorderStyle.Sizable;
                 View.WindowState = PriorWindowState;
-                MoveMenuItems(View.PopupMenu, View.MainMenu);
             }
         }
 
@@ -425,16 +423,6 @@ version {Application.ProductVersion}
 
         private void InitPaper() => ClientPanel.BackColor = Graph.PaperColour;
         private void InvalidatePictureBox() => PictureBox.Invalidate();
-
-        private static void MoveMenuItems(ToolStrip source, ToolStrip target)
-        {
-            while (source.Items.Count > 0)
-            {
-                var item = source.Items[0];
-                source.Items.RemoveAt(0);
-                target.Items.Add(item);
-            }
-        }
 
         private PointF ScreenToGraph(Point p) => Graph.ScreenToGraph(p, PictureBox.ClientRectangle);
         private void ToggleCoordinatesTooltip() => ShowCoordinatesTooltip = !ShowCoordinatesTooltip;

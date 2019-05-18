@@ -5,27 +5,27 @@
     using System.Drawing;
     using System.Linq;
 
-    public class SeriesDrawer
+    public class Plotter
     {
         public void Draw(Graphics g, Pen pen, Interpolation interpolation, IEnumerable<PointF> points)
         {
             Pen = pen;
-            Draw(g, interpolation, false, points);
+            Plot(g, interpolation, false, points);
         }
 
         public void Fill(Graphics g, Brush brush, PlotType plotType, Interpolation interpolation, IEnumerable<PointF> points)
         {
             Brush = brush;
             PlotType = plotType;
-            Draw(g, interpolation, true, points);
+            Plot(g, interpolation, true, points);
         }
 
-        private void Draw(Graphics g, Interpolation interpolation, bool filling, IEnumerable<PointF> points)
+        private void Plot(Graphics g, Interpolation interpolation, bool filling, IEnumerable<PointF> points)
         {
             Graphics = g;
             Interpolation = interpolation;
             Filling = filling;
-            Draw(points);
+            Plot(points);
             Graphics = null;
             Pen = null;
             Brush = null;
@@ -38,13 +38,13 @@
         private Interpolation Interpolation;
         private bool Filling;
 
-        private void Draw(IEnumerable<PointF> points)
+        private void Plot(IEnumerable<PointF> points)
         {
-            if (!DrawPart(points))
-                DrawSplit(points);
+            if (!PlotPart(points))
+                PlotSplit(points);
         }
 
-        private void DrawSplit(IEnumerable<PointF> points)
+        private void PlotSplit(IEnumerable<PointF> points)
         {
             var n = points.Count();
             if (n < 7)
@@ -53,16 +53,16 @@
             IEnumerable<PointF>
                 left = points.Take(p + 1),
                 right = points.Skip(p).Take(n - p);
-            if (DrawPart(left))
-                DrawSplit(right);
+            if (PlotPart(left))
+                PlotSplit(right);
             else
             {
-                DrawSplit(left);
-                Draw(right);
+                PlotSplit(left);
+                Plot(right);
             }
         }
 
-        private bool DrawPart(IEnumerable<PointF> points)
+        private bool PlotPart(IEnumerable<PointF> points)
         {
             PointF[] p;
             if (Filling)
@@ -70,16 +70,14 @@
                 var n = points.Count();
                 p = new PointF[n + 2];
                 points.ToList().CopyTo(p, 1);
-                switch (PlotType)
+                float x1 = 0, x2 = 0;
+                if (PlotType == PlotType.Cartesian)
                 {
-                    case PlotType.Cartesian:
-                        p[0] = new PointF(p[1].X, 0);
-                        p[n + 1] = new PointF(p[n].X, 0);
-                        break;
-                    case PlotType.Polar:
-                        p[0] = p[n + 1] = new PointF(0, 0);
-                        break;
+                    x1 = p[1].X;
+                    x2 = p[n].X;
                 }
+                p[0] = new PointF(x1, 0);
+                p[n + 1] = new PointF(x2, 0);
             }
             else
                 p = points.ToArray();
