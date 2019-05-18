@@ -10,22 +10,21 @@
         public void Draw(Graphics g, Pen pen, Interpolation interpolation, IEnumerable<PointF> points)
         {
             Pen = pen;
-            Filling = false;
-            Draw(g, interpolation, points);
+            Draw(g, interpolation, false, points);
         }
 
         public void Fill(Graphics g, Brush brush, PlotType plotType, Interpolation interpolation, IEnumerable<PointF> points)
         {
             Brush = brush;
             PlotType = plotType;
-            Filling = true;
-            Draw(g, interpolation, points);
+            Draw(g, interpolation, true, points);
         }
 
-        private void Draw(Graphics g, Interpolation interpolation, IEnumerable<PointF> points)
+        private void Draw(Graphics g, Interpolation interpolation, bool filling, IEnumerable<PointF> points)
         {
             Graphics = g;
             Interpolation = interpolation;
+            Filling = filling;
             Draw(points);
             Graphics = null;
             Pen = null;

@@ -2,6 +2,9 @@
 {
     /// <summary>
     /// The precedence levels attributed to operators.
+    /// Note that Precedence = Fraction refers to the
+    /// Unicode Fraction Slash character, '⁄'.
+    /// 
     /// </summary>
     public enum Precedence
     {
@@ -20,6 +23,7 @@
         Unary,          // +x, -x, √x, sin x
         Implied,        // 2x
         Postfix,        // (sin x)'
-        Superscript     // x²
+        Superscript,    // x²
+        Fraction        // ⁸⁄₉
     }
 }

@@ -164,6 +164,7 @@
                     return ExpressionType.Multiply;
                 case "/":
                 case "÷":
+                case "⁄": // Unicode Fraction Slash (U+2044)
                     return ExpressionType.Divide;
                 case "^":
                 case "s^":
@@ -247,6 +248,8 @@
                     return Precedence.Postfix;
                 case Ops.SuperscriptPower:
                     return Precedence.Superscript;
+                case "⁄": // Unicode Fraction Slash (U+2044)
+                    return Precedence.Fraction;
             }
             return Precedence.Unary;
         }

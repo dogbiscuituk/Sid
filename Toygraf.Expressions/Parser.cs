@@ -120,6 +120,7 @@
                     case "*":
                     case "×":
                     case "/":
+                    case "⁄": // Unicode Fraction Slash (U+2044)
                     case "÷":
                     case "^":
                         ParseOperator(op);
@@ -204,6 +205,9 @@
                 case char c when char.IsDigit(c):
                 case '.':
                     ParseNumber(token);
+                    break;
+                case char c when c.IsSubscript():
+                    ParseSubscript(token);
                     break;
                 case char c when c.IsSuperscript():
                     ParseSuperscript(token);
@@ -335,6 +339,12 @@
             ReadPast(token);
         }
 
+        private void ParseSubscript(string subscript)
+        {
+            Operands.Push(new Parser().Parse(subscript.FromSubscript()));
+            ReadPast(subscript);
+        }
+
         private void ParseSuperscript(string superscript)
         {
             Operands.Push(new Parser().Parse(superscript.FromSuperscript()));
@@ -374,13 +384,15 @@
         private string PeekToken()
         {
             var nextChar = PeekChar();
-            if ("()?:≠≤≥≮≯≰≱+-*/^~°√∛∜',".IndexOf(nextChar) >= 0)
+            if ("()?:≠≤≥≮≯≰≱+-*/⁄^~°√∛∜',".IndexOf(nextChar) >= 0)
                 return nextChar.ToString();
             switch (nextChar)
             {
                 case char c when char.IsDigit(c):
                 case '.':
                     return MatchNumber();
+                case char c when c.IsSubscript():
+                    return MatchSubscript();
                 case char c when c.IsSuperscript():
                     return MatchSuperscript();
                 case char c when char.IsLetter(c):
