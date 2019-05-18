@@ -110,14 +110,8 @@
                     View.ScrollCentre.Click -= ScrollCentre_Click;
                     View.TimerMenu.DropDownOpening -= TimerMenu_DropDownOpening;
                     View.TimerRunPause.Click -= TimerRunPause_Click;
+                    View.TimerReverse.Click -= TimerReverse_Click;
                     View.TimerReset.Click -= TimerReset_Click;
-                    View.TimerFast10.Click -= TimerSpeed_Click;
-                    View.TimerFast5.Click -= TimerSpeed_Click;
-                    View.TimerFast2.Click -= TimerSpeed_Click;
-                    View.TimerNormalSpeed.Click -= TimerSpeed_Click;
-                    View.TimerSlow2.Click -= TimerSpeed_Click;
-                    View.TimerSlow5.Click -= TimerSpeed_Click;
-                    View.TimerSlow10.Click -= TimerSpeed_Click;
                     View.HelpAbout.Click -= HelpAbout_Click;
                     // PopupMenu
                     View.PopupMenu.Opening -= PopupMenu_Opening;
@@ -132,6 +126,7 @@
                     View.tbFullScreen.Click -= ZoomFullScreen_Click;
                     View.tbTimer.ButtonClick -= TimerRunPause_Click;
                     View.tbTimer.DropDownOpening -= TbTimer_DropDownOpening;
+                    View.TimeTrackBar.ValueChanged -= TimeTrackBar_ValueChanged;
                     // PictureBox
                     PictureBox.MouseDown -= PictureBox_MouseDown;
                     PictureBox.MouseLeave -= PictureBox_MouseLeave;
@@ -168,14 +163,8 @@
                     View.ScrollCentre.Click += ScrollCentre_Click;
                     View.TimerMenu.DropDownOpening += TimerMenu_DropDownOpening;
                     View.TimerRunPause.Click += TimerRunPause_Click;
+                    View.TimerReverse.Click += TimerReverse_Click;
                     View.TimerReset.Click += TimerReset_Click;
-                    View.TimerFast10.Click += TimerSpeed_Click;
-                    View.TimerFast5.Click += TimerSpeed_Click;
-                    View.TimerFast2.Click += TimerSpeed_Click;
-                    View.TimerNormalSpeed.Click += TimerSpeed_Click;
-                    View.TimerSlow2.Click += TimerSpeed_Click;
-                    View.TimerSlow5.Click += TimerSpeed_Click;
-                    View.TimerSlow10.Click += TimerSpeed_Click;
                     View.HelpAbout.Click += HelpAbout_Click;
                     // PopupMenu
                     View.PopupMenu.Opening += PopupMenu_Opening;
@@ -190,6 +179,7 @@
                     View.tbFullScreen.Click += ZoomFullScreen_Click;
                     View.tbTimer.ButtonClick += TimerRunPause_Click;
                     View.tbTimer.DropDownOpening += TbTimer_DropDownOpening;
+                    View.TimeTrackBar.ValueChanged += TimeTrackBar_ValueChanged;
                     // PictureBox
                     PictureBox.MouseDown += PictureBox_MouseDown;
                     PictureBox.MouseLeave += PictureBox_MouseLeave;
@@ -226,29 +216,17 @@
         private void ScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1f);
         private void ScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1f);
         private void ScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
-
+        private void TimerMenu_DropDownOpening(object sender, EventArgs e) => View.TimerRunPause.Checked = Clock.Running;
         private void TimerRunPause_Click(object sender, EventArgs e) => Clock.Running = !Clock.Running;
+        private void TimerReverse_Click(object sender, EventArgs e) => TimerReverse = !TimerReverse;
         private void TimerReset_Click(object sender, EventArgs e) => ClockReset();
-
-        private void TimerSpeed_Click(object sender, EventArgs e)
-        {
-            var menuItem = (ToolStripMenuItem)sender;
-            Clock.VirtualTimeFactor = float.Parse(menuItem.Text.Substring(2));
-            foreach (var item in new[]
-            {
-                View.TimerFast10,
-                View.TimerFast5,
-                View.TimerFast2,
-                View.TimerNormalSpeed,
-                View.TimerSlow2,
-                View.TimerSlow5,
-                View.TimerSlow10
-            })
-                item.Checked = item.Text == menuItem.Text;
-        }
-
         private void ViewCoordinatesTooltip_Click(object sender, EventArgs e) => ToggleCoordinatesTooltip();
         private void HelpAbout_Click(object sender, EventArgs e) => ShowVersionInfo();
+
+        private void PopupMenu_Opening(object sender, CancelEventArgs e) => View.MainMenu.CloneTo(View.PopupMenu);
+        private void TbOpen_DropDownOpening(object sender, EventArgs e) => View.FileReopen.CloneTo(View.tbOpen);
+        private void TbTimer_DropDownOpening(object sender, EventArgs e) => View.TimerMenu.CloneTo(View.tbTimer);
+        private void TimeTrackBar_ValueChanged(object sender, EventArgs e) => UpdateVirtualTimeFactor();
 
         private void ShowVersionInfo()
         {
@@ -261,17 +239,27 @@ version {Application.ProductVersion}
                 $"About {Application.ProductName}");
         }
 
-        private void TimerMenu_DropDownOpening(object sender, EventArgs e) =>
-            View.TimerRunPause.Checked = Clock.Running;
+        private bool TimerReverse
+        {
+            get => View.TimerReverse.Checked;
+            set
+            {
+                View.TimerReverse.Checked = value;
+                UpdateVirtualTimeFactor();
+            }
+        }
 
-        private void PopupMenu_Opening(object sender, CancelEventArgs e) =>
-            View.MainMenu.CloneTo(View.PopupMenu);
+        private int TimerSign { get => TimerReverse ? -1 : +1; }
 
-        private void TbOpen_DropDownOpening(object sender, EventArgs e) =>
-            View.FileReopen.CloneTo(View.tbOpen);
-
-        private void TbTimer_DropDownOpening(object sender, EventArgs e) =>
-            View.TimerMenu.CloneTo(View.tbTimer);
+        private void UpdateVirtualTimeFactor()
+        {
+            var value = View.TimeTrackBar.Value;
+            int factor = (1 << Math.Abs(value)) * TimerSign;
+            View.ToolTip.SetToolTip(View.TimeTrackBar, value >= 0
+                ? $"Time × {factor}"
+                : $"Time ÷ {factor}");
+            Clock.VirtualTimeFactor = value >= 0 ? factor : 1.0 / factor;
+        }
 
         #endregion
 
@@ -326,6 +314,8 @@ version {Application.ProductVersion}
             TickCount = 0;
             TickIndex = 0;
             Array.ForEach(Ticks, p => p = 0);
+            View.TimeTrackBar.Value = 0;
+            TimerReverse = false;
             UpdateLabels();
         }
 

@@ -24,7 +24,7 @@
         private TimeSpan _realTimeElapsed, _virtualTimeElapsed;
         private int _suspendCount;
         private Timer Timer;
-        private float _virtualTimeFactor = 1;
+        private double _virtualTimeFactor = 1;
 
         #endregion
 
@@ -43,7 +43,7 @@
                         Timer.Enabled = false;
                         var elapsed = now - _startedAt;
                         _realTimeElapsed += elapsed;
-                        _virtualTimeElapsed += TimeSpan.FromSeconds((now - _startedAt).TotalSeconds * VirtualTimeFactor);
+                        _virtualTimeElapsed += GetVirtualIncrement(now);
                     }
                     _running = value;
                     if (Running)
@@ -54,6 +54,9 @@
                 }
             }
         }
+
+        private TimeSpan GetVirtualIncrement(DateTime now) =>
+            TimeSpan.FromSeconds((now - _startedAt).TotalSeconds * VirtualTimeFactor);
 
         public double RealSecondsElapsed => RealTimeElapsed.TotalSeconds;
         public double VirtualSecondsElapsed => VirtualTimeElapsed.TotalSeconds;
@@ -75,11 +78,10 @@
             : _realTimeElapsed;
 
         public TimeSpan VirtualTimeElapsed => Running
-            ? _virtualTimeElapsed + TimeSpan.FromSeconds(
-                (DateTime.Now - _startedAt).TotalSeconds * VirtualTimeFactor)
+            ? _virtualTimeElapsed + GetVirtualIncrement(DateTime.Now)
             : _virtualTimeElapsed;
 
-        public float VirtualTimeFactor
+        public double VirtualTimeFactor
         {
             get => _virtualTimeFactor;
             set
