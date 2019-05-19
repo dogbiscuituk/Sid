@@ -9,11 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("John M Kerr")]
 [assembly: AssemblyProduct("ToyGraf")]
-[assembly: AssemblyCopyright(@"Copyright © John M Kerr 1982-2015
-
-Originally written in Microsoft Extended BASIC
-and Motorola 6809E machine code for the
-Mettoy Dragon 32 Colour Computer")]
+[assembly: AssemblyCopyright("© John M Kerr 1982-2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -35,5 +31,5 @@ Mettoy Dragon 32 Colour Computer")]
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("9.2.192.1")]
-[assembly: AssemblyFileVersion("9.2.192.1")]
+[assembly: AssemblyVersion("9.2.194.1")]
+[assembly: AssemblyFileVersion("9.2.194.1")]

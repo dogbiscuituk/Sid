@@ -2,12 +2,8 @@
 {
     using System;
     using System.ComponentModel;
-    using System.Diagnostics;
     using System.Drawing;
-    using System.Linq;
-    using System.Reflection;
     using System.Windows.Forms;
-    using ToyGraf.Expressions;
     using ToyGraf.Models;
     using ToyGraf.Views;
 
@@ -20,6 +16,7 @@
             Model.Cleared += Model_Cleared;
             Model.ModifiedChanged += Model_ModifiedChanged;
             Model.PropertyChanged += Model_PropertyChanged;
+            PictureBoxController = new PictureBoxController(this);
             PropertiesController = new PropertiesController(this);
             MathController = new KeyboardController(this);
             JsonController = new JsonController(Model, View, View.FileReopen);
@@ -29,7 +26,6 @@
             JsonController.FileSaved += JsonController_FileSaved;
             LegendController = new LegendController(this);
             ModifiedChanged();
-            AdjustPictureBox();
             LegendController.AdjustLegend();
             UpdateUI();
             PopupMenu_Opening(View, new CancelEventArgs());
@@ -38,19 +34,16 @@
         #region Properties
 
         public readonly Model Model;
-        public readonly PropertiesController PropertiesController;
-        public readonly KeyboardController MathController;
         public readonly JsonController JsonController;
+        public readonly KeyboardController MathController;
         public readonly LegendController LegendController;
+        public readonly PictureBoxController PictureBoxController;
+        public readonly PropertiesController PropertiesController;
 
         public Panel ClientPanel { get => View.ClientPanel; }
         public Graph Graph { get => Model.Graph; }
         public PictureBox PictureBox { get => View.PictureBox; }
 
-        private Clock Clock = new Clock();
-        private Point DragFrom;
-        private bool Dragging;
-        private Point MouseDownAt;
         private FormWindowState PriorWindowState;
         private bool PriorLegendVisible;
 
@@ -83,12 +76,8 @@
             {
                 if (View != null)
                 {
-                    // Clock
-                    Clock.Stop();
-                    Clock.Tick -= Clock_Tick;
                     // Form
                     View.FormClosing -= View_FormClosing;
-                    View.Resize -= View_Resize;
                     // Main Menu
                     View.FileNew.Click -= FileNew_Click;
                     View.FileOpen.Click -= FileOpen_Click;
@@ -127,21 +116,12 @@
                     View.tbTimer.ButtonClick -= TimerRunPause_Click;
                     View.tbTimer.DropDownOpening -= TbTimer_DropDownOpening;
                     View.TimeTrackBar.ValueChanged -= TimeTrackBar_ValueChanged;
-                    // PictureBox
-                    PictureBox.MouseDown -= PictureBox_MouseDown;
-                    PictureBox.MouseLeave -= PictureBox_MouseLeave;
-                    PictureBox.MouseMove -= PictureBox_MouseMove;
-                    PictureBox.MouseUp -= PictureBox_MouseUp;
-                    PictureBox.MouseWheel -= PictureBox_MouseWheel;
-                    PictureBox.Paint -= PictureBox_Paint;
-                    PictureBox.Resize -= PictureBox_Resize;
                 }
                 _view = value;
                 if (View != null)
                 {
                     // Form
                     View.FormClosing += View_FormClosing;
-                    View.Resize += View_Resize;
                     // Main Menu
                     View.FileNew.Click += FileNew_Click;
                     View.FileOpen.Click += FileOpen_Click;
@@ -180,17 +160,6 @@
                     View.tbTimer.ButtonClick += TimerRunPause_Click;
                     View.tbTimer.DropDownOpening += TbTimer_DropDownOpening;
                     View.TimeTrackBar.ValueChanged += TimeTrackBar_ValueChanged;
-                    // PictureBox
-                    PictureBox.MouseDown += PictureBox_MouseDown;
-                    PictureBox.MouseLeave += PictureBox_MouseLeave;
-                    PictureBox.MouseMove += PictureBox_MouseMove;
-                    PictureBox.MouseUp += PictureBox_MouseUp;
-                    PictureBox.MouseWheel += PictureBox_MouseWheel;
-                    PictureBox.Paint += PictureBox_Paint;
-                    PictureBox.Resize += PictureBox_Resize;
-                    // Clock
-                    Clock = new Clock { Sync = View };
-                    Clock.Tick += Clock_Tick;
                 }
             }
         }
@@ -216,35 +185,24 @@
         private void ScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1f);
         private void ScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1f);
         private void ScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
-        private void TimerMenu_DropDownOpening(object sender, EventArgs e) => View.TimerRunPause.Checked = Clock.Running;
-        private void TimerRunPause_Click(object sender, EventArgs e) => Clock.Running = !Clock.Running;
+        private void TimerMenu_DropDownOpening(object sender, EventArgs e) => View.TimerRunPause.Checked = PictureBoxController.Clock.Running;
+        private void TimerRunPause_Click(object sender, EventArgs e) => PictureBoxController.Clock.Running = !PictureBoxController.Clock.Running;
         private void TimerReverse_Click(object sender, EventArgs e) => TimerReverse = !TimerReverse;
-        private void TimerReset_Click(object sender, EventArgs e) => ClockReset();
+        private void TimerReset_Click(object sender, EventArgs e) => PictureBoxController.ClockReset();
         private void ViewCoordinatesTooltip_Click(object sender, EventArgs e) => ToggleCoordinatesTooltip();
-        private void HelpAbout_Click(object sender, EventArgs e) => ShowVersionInfo();
+        private void HelpAbout_Click(object sender, EventArgs e) => new AboutController().ShowDialog(View);
 
         private void PopupMenu_Opening(object sender, CancelEventArgs e) => View.MainMenu.CloneTo(View.PopupMenu);
         private void TbOpen_DropDownOpening(object sender, EventArgs e) => View.FileReopen.CloneTo(View.tbOpen);
         private void TbTimer_DropDownOpening(object sender, EventArgs e) => View.TimerMenu.CloneTo(View.tbTimer);
-        private void TimeTrackBar_ValueChanged(object sender, EventArgs e) => UpdateVirtualTimeFactor();
-
-        private void ShowVersionInfo()
-        {
-            Assembly self = Assembly.GetExecutingAssembly();
-            MessageBox.Show(
-                $@"{self.GetCustomAttribute<AssemblyDescriptionAttribute>().Description}
-by {Application.CompanyName}
-version {Application.ProductVersion}
-{self.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright}",
-                $"About {Application.ProductName}");
-        }
+        private void TimeTrackBar_ValueChanged(object sender, EventArgs e) => PictureBoxController.UpdateVirtualTimeFactor();
 
         #endregion
 
         #region Model
 
         private void Model_Cleared(object sender, EventArgs e) => ModelCleared();
-        private void Model_ClockTick(object sender, EventArgs e) => InvalidatePictureBox();
+        private void Model_ClockTick(object sender, EventArgs e) => PictureBoxController.InvalidateView();
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
         private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
             OnPropertyChanged($"Model.{e.PropertyName}");
@@ -276,149 +234,27 @@ version {Application.ProductVersion}
 
         #region Clock
 
-        private double Tick_ms = 100;
-        private double[] Ticks = new double[64];
-        private int TickCount, TickIndex;
-
-        private void Clock_Tick(object sender, EventArgs e)
-        {
-            Clock.Tick_ms = Tick_ms;
-            UpdateLabels();
-        }
-
-        private void ClockReset()
-        {
-            Clock.Reset();
-            TickCount = 0;
-            TickIndex = 0;
-            Array.ForEach(Ticks, p => p = 0);
-            View.TimeTrackBar.Value = 0;
-            TimerReverse = false;
-            UpdateLabels();
-        }
-
-        private bool TimerReverse
+        public bool TimerReverse
         {
             get => View.TimerReverse.Checked;
             set
             {
                 View.TimerReverse.Checked = value;
-                UpdateVirtualTimeFactor();
+                PictureBoxController.UpdateVirtualTimeFactor();
             }
         }
 
-        private int TimerSign { get => TimerReverse ? -1 : +1; }
+        public int TimerSign { get => TimerReverse ? -1 : +1; }
 
-        private void UpdateLabels()
+        public void UpdateLabels(double virtualSecondsElapsed, double fps)
         {
-            double
-                realSecondsElapsed = Clock.RealSecondsElapsed,
-                virtualSecondsElapsed = Clock.VirtualSecondsElapsed;
             View.Tlabel.Text = string.Format("t={0:f1}", virtualSecondsElapsed);
-            Ticks[TickIndex = (TickIndex + 1) % Ticks.Length] = realSecondsElapsed;
-            if (TickCount < Ticks.Length - 1) TickCount++;
-            var fps = 0.0;
-            if (TickCount > 1)
-            {
-                var ticks = Ticks.Take(TickCount);
-                fps = TickCount / (ticks.Max() - ticks.Min());
-            }
             View.FPSlabel.Text = string.Format("fps={0:f1}", fps);
-            InvalidatePictureBox();
-        }
-
-        private void UpdateVirtualTimeFactor()
-        {
-            var value = View.TimeTrackBar.Value;
-            int factor = (1 << Math.Abs(value)) * TimerSign;
-            Clock.VirtualTimeFactor = value >= 0 ? factor : 1.0 / factor;
-            var speed = value >= 0 ? $"time × {factor}" : $"time ÷ {factor}";
-            View.ToolTip.SetToolTip(View.TimeTrackBar, speed);
-            View.SpeedLabel.Text = speed;
         }
 
         #endregion
 
         #region PictureBox
-
-        private void View_Resize(object sender, EventArgs e) => AdjustPictureBox();
-
-        private void PictureBox_MouseDown(object sender, MouseEventArgs e)
-        {
-            switch (e.Button)
-            {
-                case MouseButtons.Left:
-                    Dragging = true;
-                    PictureBox.Cursor = Cursors.Hand;
-                    MouseDownAt = e.Location;
-                    DragFrom = PictureBox.Location;
-                    break;
-                case MouseButtons.Middle: // Click wheel
-                    ZoomReset();
-                    break;
-                case MouseButtons.Right:
-                    break;
-            }
-        }
-
-        private void PictureBox_MouseLeave(object sender, EventArgs e) =>
-            UpdateMouseCoordinates(PointF.Empty);
-
-        private void PictureBox_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (Dragging)
-                PictureBox.Location = new Point(
-                    PictureBox.Left - MouseDownAt.X + e.X,
-                    PictureBox.Top - MouseDownAt.Y + e.Y);
-            else
-                UpdateMouseCoordinates(ScreenToGraph(e.Location));
-        }
-
-        private void PictureBox_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (Dragging)
-            {
-                PointF p = ScreenToGraph(DragFrom), q = ScreenToGraph(PictureBox.Location);
-                ScrollBy(p.X - q.X, p.Y - q.Y);
-                AdjustPictureBox();
-                PictureBox.Cursor = Cursors.Default;
-                Dragging = false;
-            }
-        }
-
-        private void PictureBox_MouseWheel(object sender, MouseEventArgs e) =>
-            Zoom((float)Math.Pow(e.Delta > 0 ? 10.0 / 11.0 : 11.0 / 10.0,
-                Math.Abs(e.Delta / SystemInformation.MouseWheelScrollDelta)));
-
-        private void PictureBox_Paint(object sender, PaintEventArgs e)
-        {
-            var r = PictureBox.ClientRectangle;
-            Stopwatch stopwatch = null;
-            if (Clock.Running)
-            {
-                stopwatch = new Stopwatch();
-                stopwatch.Start();
-            }
-            Graph.Draw(e.Graphics, r, Clock.VirtualSecondsElapsed);
-            if (stopwatch != null)
-            {
-                stopwatch.Stop();
-                // That Graph.Draw() operation took ms = stopwatch.ElapsedMilliseconds.
-                // Add 10% & round up to multiple of 10ms to get the time to next Draw.
-                double
-                    t = 10 * Math.Ceiling(stopwatch.ElapsedMilliseconds * 0.11),
-                    fps = 2000 / (t + Tick_ms);
-                Tick_ms = t;
-            }
-        }
-
-        private void PictureBox_Resize(object sender, EventArgs e)
-        {
-            var w = PictureBox.Width;
-            if (w != 0)
-                Graph.Viewport.SetRatio(PictureBox.Height / w);
-            InvalidatePictureBox();
-        }
 
         private void AdjustFullScreen()
         {
@@ -443,8 +279,6 @@ version {Application.ProductVersion}
             }
         }
 
-        private void AdjustPictureBox() => PictureBox.Bounds = ClientPanel.ClientRectangle;
-
         private void InitCoordinatesToolTip(string toolTip)
         {
             if (View.ToolTip.GetToolTip(PictureBox) != toolTip)
@@ -452,13 +286,11 @@ version {Application.ProductVersion}
         }
 
         private void InitPaper() => ClientPanel.BackColor = Graph.PaperColour;
-        private void InvalidatePictureBox() => PictureBox.Invalidate();
 
-        private PointF ScreenToGraph(Point p) => Graph.ScreenToGraph(p, PictureBox.ClientRectangle);
         private void ToggleCoordinatesTooltip() => ShowCoordinatesTooltip = !ShowCoordinatesTooltip;
         private void ToggleFullScreen() => FullScreen = !FullScreen;
 
-        private void UpdateMouseCoordinates(PointF p)
+        public void UpdateMouseCoordinates(PointF p)
         {
             string
                 xy = $"{{x={p.X}, y={p.Y}}}",
@@ -473,11 +305,11 @@ version {Application.ProductVersion}
 
         #region Scroll & Zoom
 
-        private void Scroll(float xFactor, float yFactor) => Graph.Scroll(xFactor, yFactor);
-        private void ScrollBy(float xDelta, float yDelta) => Graph.ScrollBy(xDelta, yDelta);
-        private void ScrollTo(float x, float y) => Graph.ScrollTo(x, y);
-        private void Zoom(float factor) => Graph.Zoom(factor);
-        private void ZoomReset() => Graph.ZoomReset();
+        public void Scroll(float xFactor, float yFactor) => Graph.Scroll(xFactor, yFactor);
+        public void ScrollBy(float xDelta, float yDelta) => Graph.ScrollBy(xDelta, yDelta);
+        public void ScrollTo(float x, float y) => Graph.ScrollTo(x, y);
+        public void Zoom(float factor) => Graph.Zoom(factor);
+        public void ZoomReset() => Graph.ZoomReset();
 
         #endregion
 
@@ -511,7 +343,7 @@ version {Application.ProductVersion}
         {
             JsonController.Clear();
             Graph.InvalidateReticle();
-            InvalidatePictureBox();
+            PictureBoxController.InvalidateView();
             UpdateUI();
         }
 
@@ -532,11 +364,11 @@ version {Application.ProductVersion}
                     InitPaper();
                     break;
                 case "Model.Graph.PlotType":
-                    AdjustPictureBox();
+                    PictureBoxController.AdjustPictureBox();
                     UpdatePlotType();
                     break;
             }
-            InvalidatePictureBox();
+            PictureBoxController.InvalidateView();
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
