@@ -4,6 +4,7 @@
     using System.ComponentModel;
     using System.Drawing;
     using System.Windows.Forms;
+    using ToyGraf.Expressions;
     using ToyGraf.Models;
     using ToyGraf.Views;
 
@@ -16,7 +17,7 @@
             Model.Cleared += Model_Cleared;
             Model.ModifiedChanged += Model_ModifiedChanged;
             Model.PropertyChanged += Model_PropertyChanged;
-            PictureBoxController = new PictureBoxController(this);
+            GraphicsController = new GraphicsController(this);
             PropertiesController = new PropertiesController(this);
             MathController = new KeyboardController(this);
             JsonController = new JsonController(Model, View, View.FileReopen);
@@ -37,12 +38,13 @@
         public readonly JsonController JsonController;
         public readonly KeyboardController MathController;
         public readonly LegendController LegendController;
-        public readonly PictureBoxController PictureBoxController;
+        public readonly GraphicsController GraphicsController;
         public readonly PropertiesController PropertiesController;
 
         public Panel ClientPanel { get => View.ClientPanel; }
         public Graph Graph { get => Model.Graph; }
         public PictureBox PictureBox { get => View.PictureBox; }
+        private Clock Clock => GraphicsController.Clock;
 
         private FormWindowState PriorWindowState;
         private bool PriorLegendVisible;
@@ -185,24 +187,23 @@
         private void ScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1f);
         private void ScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1f);
         private void ScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
-        private void TimerMenu_DropDownOpening(object sender, EventArgs e) => View.TimerRunPause.Checked = PictureBoxController.Clock.Running;
-        private void TimerRunPause_Click(object sender, EventArgs e) => PictureBoxController.Clock.Running = !PictureBoxController.Clock.Running;
+        private void TimerMenu_DropDownOpening(object sender, EventArgs e) => View.TimerRunPause.Checked = GraphicsController.ClockRunning;
+        private void TimerRunPause_Click(object sender, EventArgs e) => GraphicsController.ToggleClock();
         private void TimerReverse_Click(object sender, EventArgs e) => TimerReverse = !TimerReverse;
-        private void TimerReset_Click(object sender, EventArgs e) => PictureBoxController.ClockReset();
+        private void TimerReset_Click(object sender, EventArgs e) => GraphicsController.ClockReset();
         private void ViewCoordinatesTooltip_Click(object sender, EventArgs e) => ToggleCoordinatesTooltip();
         private void HelpAbout_Click(object sender, EventArgs e) => new AboutController().ShowDialog(View);
 
         private void PopupMenu_Opening(object sender, CancelEventArgs e) => View.MainMenu.CloneTo(View.PopupMenu);
         private void TbOpen_DropDownOpening(object sender, EventArgs e) => View.FileReopen.CloneTo(View.tbOpen);
         private void TbTimer_DropDownOpening(object sender, EventArgs e) => View.TimerMenu.CloneTo(View.tbTimer);
-        private void TimeTrackBar_ValueChanged(object sender, EventArgs e) => PictureBoxController.UpdateVirtualTimeFactor();
+        private void TimeTrackBar_ValueChanged(object sender, EventArgs e) => GraphicsController.UpdateVirtualTimeFactor(TimerReverse);
 
         #endregion
 
         #region Model
 
         private void Model_Cleared(object sender, EventArgs e) => ModelCleared();
-        private void Model_ClockTick(object sender, EventArgs e) => PictureBoxController.InvalidateView();
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
         private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
             OnPropertyChanged($"Model.{e.PropertyName}");
@@ -240,11 +241,9 @@
             set
             {
                 View.TimerReverse.Checked = value;
-                PictureBoxController.UpdateVirtualTimeFactor();
+                GraphicsController.UpdateVirtualTimeFactor(value);
             }
         }
-
-        public int TimerSign { get => TimerReverse ? -1 : +1; }
 
         public void UpdateLabels(double virtualSecondsElapsed, double fps)
         {
@@ -343,7 +342,7 @@
         {
             JsonController.Clear();
             Graph.InvalidateReticle();
-            PictureBoxController.InvalidateView();
+            GraphicsController.InvalidateView();
             UpdateUI();
         }
 
@@ -364,11 +363,11 @@
                     InitPaper();
                     break;
                 case "Model.Graph.PlotType":
-                    PictureBoxController.AdjustPictureBox();
+                    GraphicsController.AdjustPictureBox();
                     UpdatePlotType();
                     break;
             }
-            PictureBoxController.InvalidateView();
+            GraphicsController.InvalidateView();
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 

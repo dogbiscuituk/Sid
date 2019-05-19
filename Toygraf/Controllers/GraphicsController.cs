@@ -2,25 +2,24 @@
 {
     using System;
     using System.Drawing;
-    using System.Linq;
     using System.Windows.Forms;
     using ToyGraf.Expressions;
+    using ToyGraf.Models;
 
-    public class PictureBoxController
+    public class GraphicsController
     {
-        public PictureBoxController(AppController parent)
+        public GraphicsController(AppController parent)
         {
             Parent = parent;
             View = parent.View.PictureBox;
             AdjustPictureBox();
         }
 
-        public Clock Clock = new Clock();
-        private double Tick_ms = 100;
-        private double[] Ticks = new double[64];
-        private int TickCount, TickIndex;
+        public Clock Clock;
+        public bool ClockRunning => Clock.Running;
 
         private readonly AppController Parent;
+        private Graph Graph => Parent.Graph;
         private Point DragFrom, MouseDownAt;
         private bool Dragging;
 
@@ -92,14 +91,14 @@
                     View.Left - MouseDownAt.X + e.X,
                     View.Top - MouseDownAt.Y + e.Y);
             else
-                Parent.UpdateMouseCoordinates(ScreenToGraph(e.Location));
+                Parent.UpdateMouseCoordinates(ClientToGraph(e.Location));
         }
 
         private void View_MouseUp(object sender, MouseEventArgs e)
         {
             if (Dragging)
             {
-                PointF p = ScreenToGraph(DragFrom), q = ScreenToGraph(View.Location);
+                PointF p = ClientToGraph(DragFrom), q = ClientToGraph(View.Location);
                 Parent.ScrollBy(p.X - q.X, p.Y - q.Y);
                 AdjustPictureBox();
                 View.Cursor = Cursors.Default;
@@ -120,7 +119,7 @@
                 stopwatch = new System.Diagnostics.Stopwatch();
                 stopwatch.Start();
             }
-            Parent.Graph.Draw(e.Graphics, r, Clock.VirtualSecondsElapsed);
+            Graph.Draw(e.Graphics, r, Clock.VirtualSecondsElapsed);
             if (stopwatch != null)
             {
                 stopwatch.Stop();
@@ -128,8 +127,8 @@
                 // Add 10% & round up to multiple of 10ms to get the time to next Draw.
                 double
                     t = 10 * Math.Ceiling(stopwatch.ElapsedMilliseconds * 0.11),
-                    fps = 2000 / (t + Tick_ms);
-                Tick_ms = t;
+                    fps = 2000 / (t + Clock.Interval);
+                Clock.NextInterval = t;
             }
         }
 
@@ -137,55 +136,48 @@
         {
             var w = View.Width;
             if (w != 0)
-                Parent.Graph.Viewport.SetRatio(View.Height / w);
+                Graph.Viewport.SetRatio(View.Height / w);
             InvalidateView();
         }
 
-        private void Clock_Tick(object sender, EventArgs e)
-        {
-            Clock.Tick_ms = Tick_ms;
-            UpdateRealTimeLabels();
-        }
+        private void Clock_Tick(object sender, EventArgs e) => UpdateRealTimeLabels();
 
         public void ClockReset()
         {
             Clock.Reset();
-            TickCount = 0;
-            TickIndex = 0;
-            Array.ForEach(Ticks, p => p = 0);
             Parent.View.TimeTrackBar.Value = 0;
             Parent.TimerReverse = false;
             UpdateRealTimeLabels();
         }
 
         public void InvalidateView() => View.Invalidate();
-        private PointF ScreenToGraph(Point p) => Parent.Graph.ScreenToGraph(p, View.ClientRectangle);
+
+        private Point GraphToClient(PointF p) => Graph.GraphToClient(p, View.ClientRectangle);
+        private PointF ClientToGraph(Point p) => Graph.ClientToGraph(p, View.ClientRectangle);
+
+        private Point GraphToScreen(PointF p) => View.PointToScreen(GraphToClient(p));
+        private PointF ScreenToGraph(Point p) => ClientToGraph(View.PointToClient(p));
 
         private void UpdateRealTimeLabels()
         {
-            double
-                realSecondsElapsed = Clock.RealSecondsElapsed,
-                virtualSecondsElapsed = Clock.VirtualSecondsElapsed;
-            Ticks[TickIndex = (TickIndex + 1) % Ticks.Length] = realSecondsElapsed;
-            if (TickCount < Ticks.Length - 1) TickCount++;
-            var fps = 0.0;
-            if (TickCount > 1)
-            {
-                var ticks = Ticks.Take(TickCount);
-                fps = TickCount / (ticks.Max() - ticks.Min());
-            }
-            Parent.UpdateLabels(virtualSecondsElapsed, fps);
+            Clock.UpdateFPS();
+            Parent.UpdateLabels(Clock.VirtualSecondsElapsed, Clock.FramesPerSecond);
             InvalidateView();
         }
 
-        public void UpdateVirtualTimeFactor()
+        public void UpdateVirtualTimeFactor(bool timeReverse)
         {
             var value = Parent.View.TimeTrackBar.Value;
-            int factor = (1 << Math.Abs(value)) * Parent.TimerSign;
+            int factor = (1 << Math.Abs(value)) * (timeReverse ? -1 : +1);
             Clock.VirtualTimeFactor = value >= 0 ? factor : 1.0 / factor;
             var speed = value >= 0 ? $"time × {factor}" : $"time ÷ {factor}";
             Parent.View.ToolTip.SetToolTip(Parent.View.TimeTrackBar, speed);
             Parent.View.SpeedLabel.Text = speed;
+        }
+
+        public void ToggleClock()
+        {
+            Clock.Running = !Clock.Running;
         }
     }
 }

@@ -53,7 +53,7 @@
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\ColourController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
-    <Compile Include="Controllers\PictureBoxController.cs" />
+    <Compile Include="Controllers\GraphicsController.cs" />
     <Compile Include="Controllers\PropertiesController.cs" />
     <Compile Include="Controllers\JsonController.cs" />
     <Compile Include="Controllers\LegendController.cs" />

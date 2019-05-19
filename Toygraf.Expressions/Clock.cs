@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel;
+    using System.Linq;
     using System.Timers;
 
     public class Clock
@@ -11,7 +12,7 @@
             Timer = new Timer
             {
                 AutoReset = true,
-                Interval = 50,
+                Interval = 100,
                 Enabled = false
             };
             Timer.Elapsed += Timer_Elapsed;
@@ -25,6 +26,10 @@
         private int _suspendCount;
         private Timer Timer;
         private double _virtualTimeFactor = 1;
+
+        public double NextInterval = 100;
+        private double[] Ticks = new double[64];
+        private int TickCount, TickIndex;
 
         #endregion
 
@@ -60,6 +65,7 @@
 
         public double RealSecondsElapsed => RealTimeElapsed.TotalSeconds;
         public double VirtualSecondsElapsed => VirtualTimeElapsed.TotalSeconds;
+        public double FramesPerSecond;
 
         public ISynchronizeInvoke Sync
         {
@@ -67,7 +73,7 @@
             set => Timer.SynchronizingObject = value;
         }
 
-        public double Tick_ms
+        public double Interval
         {
             get => Timer.Interval;
             set => Timer.Interval = value;
@@ -107,6 +113,9 @@
             _realTimeElapsed = TimeSpan.Zero;
             _virtualTimeElapsed = TimeSpan.Zero;
             _virtualTimeFactor = 1;
+            TickCount = 0;
+            TickIndex = 0;
+            Array.ForEach(Ticks, p => p = 0);
         }
 
         public void Resume()
@@ -133,6 +142,19 @@
             Running = false;
         }
 
+        public void UpdateFPS()
+        {
+            Ticks[TickIndex = (TickIndex + 1) % Ticks.Length] = RealSecondsElapsed;
+            if (TickCount < Ticks.Length - 1) TickCount++;
+            var fps = 0.0;
+            if (TickCount > 1)
+            {
+                var ticks = Ticks.Take(TickCount);
+                fps = TickCount / (ticks.Max() - ticks.Min());
+            }
+            FramesPerSecond = fps;
+        }
+
         #endregion
 
         #region Events
@@ -140,6 +162,7 @@
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             Tick?.Invoke(this, EventArgs.Empty);
+            Interval = NextInterval;
         }
 
         public event EventHandler<EventArgs> Tick;

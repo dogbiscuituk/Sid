@@ -534,7 +534,16 @@
             }
         }
 
-        public PointF ScreenToGraph(Point p, Rectangle r)
+        public Point GraphToClient(PointF p, Rectangle r)
+        {
+            var points = new[] { p };
+            var matrix = GetMatrix(r);
+            matrix.TransformPoints(points);
+            var q = points[0];
+            return new Point((int)Math.Round(q.X), (int)Math.Round(q.Y));
+        }
+
+        public PointF ClientToGraph(Point p, Rectangle r)
         {
             var points = new[] { new PointF(p.X, p.Y) };
             var matrix = GetMatrix(r);
