@@ -22,10 +22,10 @@
         public static readonly Color
             GraphAxisColour = Color.Black,
             GraphFillColour = Color.Transparent,
-            GraphGridColour = Color.LightGray,
             GraphLimitColour = Color.DarkGray,
             GraphPaperColour = Color.White,
-            GraphPenColour = Color.Black;
+            GraphPenColour = Color.Black,
+            GraphReticleColour = Color.LightGray;
 
         public const Elements
             GraphElements = Elements.All;

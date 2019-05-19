@@ -6,29 +6,30 @@
     using System.Drawing.Drawing2D;
     using ToyGraf.Expressions;
 
-    public static class Grid
+    public static class Reticle
     {
         /// <summary>
-        /// Draw all components of a rectangular or polar grid. In rendering order these are the grid "wires"
-        /// (orthogonal lines in the rectangular case, arcs and radial spokes in the polar), axis tick marks,
-        /// axis numbering (calibration), and the axes themselves. The rendering process comprises a total of
-        /// eight stages, by Pass and Phase, in the following sequence:
-        /// 
-        ///  Stage    Pass       Phase    What is rendered?
-        /// -------------------------------------------------------------------------------------------
-        ///    1    GridWires      1      Horizontal dotted lines (Cartesian) or radial spokes (Polar).
-        ///    2        "          2      Vertical dotted lines (Cartesian) or circular arcs (Polar).
-        ///    3    AxisTicks      1      Ticks along the Y axis.
-        ///    4        "          2      Ticks along the X axis.
-        ///    5    Numbering      1      Numbers on the Y axis.
-        ///    6        "          2      Numbers on the X axis.
-        ///    7    AxisWires      1      The X axis.
-        ///    8        "          2      The Y axis.
-        /// -------------------------------------------------------------------------------------------
+        /// Draw all components of a rectangular or polar reticle. In rendering order, these are
+        /// the reticle "wires" (orthogonal lines in the rectangular case, arcs and radial spokes
+        /// in the polar), axis tick marks, axis numbering (calibration), and the axes themselves.
+        /// The rendering process comprises a total of eight stages, by Pass and Phase, in the
+        /// following sequence:
+        ///
+        ///   Stage  Pass   Phase  What is rendered?
+        ///   ----------------------------------------------------------------------------------
+        ///     1    Lines    1    Horizontal dotted lines (Cartesian) or radial spokes (Polar).
+        ///     2      "      2    Vertical dotted lines (Cartesian) or circular arcs (Polar).
+        ///     3    Ticks    1    Ticks along the Y axis.
+        ///     4      "      2    Ticks along the X axis.
+        ///     5    Scale    1    Numbers on the Y axis.
+        ///     6      "      2    Numbers on the X axis.
+        ///     7    Axes     1    The X axis.
+        ///     8      "      2    The Y axis.
+        ///   ----------------------------------------------------------------------------------
         /// </summary>
         /// <param name="g">The GDI+ output Graphics object.</param>
-        /// <param name="info">A struct of miscellaneous information about the Grid.</param>
-        public static void DrawGrid(this Graphics g, List<Label> labels, GridInfo info)
+        /// <param name="info">A struct of miscellaneous information about the Reticle.</param>
+        public static void DrawReticle(this Graphics g, List<Label> labels, ReticleInfo info)
         {
             var vp = info.Viewport;
             float x1 = vp.Left, y1 = vp.Bottom, x2 = vp.Right, y2 = vp.Top;
@@ -37,7 +38,7 @@
             var scale = log - order;
             var power = Math.Pow(10, order - 1);
             using (Pen
-                gridPen = new Pen(info.GridColour, info.PenWidth) { DashStyle = DashStyle.Dot },
+                reticlePen = new Pen(info.ReticleColour, info.PenWidth) { DashStyle = DashStyle.Dot },
                 axisPen = new Pen(info.AxisColour, info.PenWidth))
             using (var brush = new SolidBrush(info.AxisColour))
             using (var font = new Font("Segoe UI", 5 * info.PenWidth))
@@ -47,7 +48,7 @@
                 var incmax = incmin;
                 BumpDown(ref incmin);
                 BumpDown(ref incmin);
-                for (var pass = (GridPass)0; (int)pass <= 3; pass++)
+                for (var pass = (ReticlePass)0; (int)pass <= 3; pass++)
                 {
                     for (var phase = 1; phase <= 2; phase++)
                     {
@@ -57,16 +58,16 @@
                         info.Vertical = phase == 2;
                         switch (pass)
                         {
-                            case GridPass.GridWires:
-                            case GridPass.AxisTicks:
-                            case GridPass.Numbering:
+                            case ReticlePass.Lines:
+                            case ReticlePass.Ticks:
+                            case ReticlePass.Scale:
                                 float xa = x1, xb = x2;
                                 var dy = incmin * power;
                                 var ymax = maxAbsY;
                                 if (info.Polar)
                                 {
                                     ymax = Math.Sqrt(maxAbsX * maxAbsX + maxAbsY * maxAbsY);
-                                    if (phase == 1 && pass == GridPass.GridWires)
+                                    if (phase == 1 && pass == ReticlePass.Lines)
                                     {
                                         xa = (float)ymax;
                                         xb = (float)(incmax * power);
@@ -76,14 +77,14 @@
                                 }
                                 for (var y = 0.0; y <= ymax; y += dy)
                                 {
-                                    var pen = pass == GridPass.AxisTicks ? axisPen : gridPen;
+                                    var pen = pass == ReticlePass.Ticks ? axisPen : reticlePen;
                                     g.DrawWire(labels, pen, font, brush, format, info, pass, xa, xb, (float)y);
                                     if (y != 0.0)
                                         g.DrawWire(labels, pen, font, brush, format, info, pass, xa, xb, -(float)y);
                                 }
                                 break;
-                            case GridPass.AxisWires:
-                                g.DrawWire(labels, axisPen, font, brush, format, info, GridPass.AxisWires, x1, x2, 0);
+                            case ReticlePass.Axes:
+                                g.DrawWire(labels, axisPen, font, brush, format, info, ReticlePass.Axes, x1, x2, 0);
                                 break;
                         }
                         Swap(ref x1, ref y1);
@@ -94,19 +95,19 @@
             }
         }
 
-        private enum GridPass { GridWires, AxisTicks, Numbering, AxisWires }
+        private enum ReticlePass { Lines, Ticks, Scale, Axes }
 
         private static void BumpDown(ref double value) => value = value == 5 ? 2 : value / 2;
         private static void BumpUp(ref double value) => value = value == 2 ? 5 : value * 2;
 
         private static void DrawWire(this Graphics g, List<Label> labels, Pen pen, Font font, Brush brush, StringFormat format,
-            GridInfo info, GridPass pass, float x1, float x2, float y)
+            ReticleInfo info, ReticlePass pass, float x1, float x2, float y)
         {
             var vp = info.Viewport;
             var clip =
                 !info.Vertical && (y < vp.Top || y > vp.Bottom) ||
                 info.Vertical && (y < vp.Left || y > vp.Right);
-            if (pass == GridPass.AxisTicks)
+            if (pass == ReticlePass.Ticks)
             {
                 var tickSize = font.Size / 2;
                 x1 = info.TickPositive ? tickSize : 0;
@@ -121,28 +122,28 @@
             }
             switch (pass)
             {
-                case GridPass.AxisWires when info.Axis:
-                case GridPass.GridWires when info.Wires && !info.Polar:
-                case GridPass.AxisTicks when info.Ticks:
+                case ReticlePass.Axes when info.Axis:
+                case ReticlePass.Lines when info.Wires && !info.Polar:
+                case ReticlePass.Ticks when info.Ticks:
                     if (!clip)
                         g.DrawLine(pen, x1, y1, x2, y2);
                     break;
-                case GridPass.GridWires when info.Hwires && info.Polar:
+                case ReticlePass.Lines when info.Hwires && info.Polar:
                     if (y >= 0)
                         g.DrawWireSpoke(labels, pen, info, r1: x1, r2: x2, degrees: y);
                     break;
-                case GridPass.GridWires when info.Vwires && info.Polar:
+                case ReticlePass.Lines when info.Vwires && info.Polar:
                     if (x1 >= 0)
                         g.DrawWireArc(labels, pen, info, r: x1);
                     break;
-                case GridPass.Numbering when info.Calibration:
+                case ReticlePass.Scale when info.Calibration:
                     DrawWireCalibration(labels, pen.Width, x, y, label: z.ToString());
                     break;
             }
         }
 
         /// <summary>
-        /// Draw a circular arc (or possibly a full or clipped circle) as part of a polar grid.
+        /// Draw a circular arc (or possibly a full or clipped circle) as part of a polar reticle.
         /// 
         /// If the circle's centre lies outside the viewport, we can draw an arc instead of a full circle.
         /// This is worth doing because GDI+ is slow at "drawing" clipped circles.
@@ -164,10 +165,10 @@
         /// just the arctangents of the corners' coordinates.
         /// </summary>
         /// <param name="g">The GDI+ output Graphics object.</param>
-        /// <param name="pen">The pen used to draw the grid.</param>
-        /// <param name="info">A struct containing miscellaneous information about the Grid being drawn.</param>
+        /// <param name="pen">The pen used to draw the reticle.</param>
+        /// <param name="info">A struct containing miscellaneous information about the reticle being drawn.</param>
         /// <param name="r">The radius of the arc.</param>
-        private static void DrawWireArc(this Graphics g, List<Label>labels, Pen pen, GridInfo info, float r)
+        private static void DrawWireArc(this Graphics g, List<Label>labels, Pen pen, ReticleInfo info, float r)
         {
             var vp = info.Viewport;
             if (vp.Left > r || vp.Right < -r || vp.Top > r || vp.Bottom < -r)
@@ -195,7 +196,7 @@
             labels.Add(new Label(label, x - penWidth, y - penWidth, false));
 
         private static void DrawWireSpoke(this Graphics g, List<Label> labels, Pen pen,
-            GridInfo info, float r1, float r2, float degrees)
+            ReticleInfo info, float r1, float r2, float degrees)
         {
             var radians = degrees.DegreesToRadians();
             double c = Math.Cos(radians), s = Math.Sin(radians);

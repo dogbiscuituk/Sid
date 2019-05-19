@@ -239,28 +239,6 @@ version {Application.ProductVersion}
                 $"About {Application.ProductName}");
         }
 
-        private bool TimerReverse
-        {
-            get => View.TimerReverse.Checked;
-            set
-            {
-                View.TimerReverse.Checked = value;
-                UpdateVirtualTimeFactor();
-            }
-        }
-
-        private int TimerSign { get => TimerReverse ? -1 : +1; }
-
-        private void UpdateVirtualTimeFactor()
-        {
-            var value = View.TimeTrackBar.Value;
-            int factor = (1 << Math.Abs(value)) * TimerSign;
-            View.ToolTip.SetToolTip(View.TimeTrackBar, value >= 0
-                ? $"Time × {factor}"
-                : $"Time ÷ {factor}");
-            Clock.VirtualTimeFactor = value >= 0 ? factor : 1.0 / factor;
-        }
-
         #endregion
 
         #region Model
@@ -319,6 +297,18 @@ version {Application.ProductVersion}
             UpdateLabels();
         }
 
+        private bool TimerReverse
+        {
+            get => View.TimerReverse.Checked;
+            set
+            {
+                View.TimerReverse.Checked = value;
+                UpdateVirtualTimeFactor();
+            }
+        }
+
+        private int TimerSign { get => TimerReverse ? -1 : +1; }
+
         private void UpdateLabels()
         {
             double
@@ -335,6 +325,16 @@ version {Application.ProductVersion}
             }
             View.FPSlabel.Text = string.Format("fps={0:f1}", fps);
             InvalidatePictureBox();
+        }
+
+        private void UpdateVirtualTimeFactor()
+        {
+            var value = View.TimeTrackBar.Value;
+            int factor = (1 << Math.Abs(value)) * TimerSign;
+            Clock.VirtualTimeFactor = value >= 0 ? factor : 1.0 / factor;
+            var speed = value >= 0 ? $"time × {factor}" : $"time ÷ {factor}";
+            View.ToolTip.SetToolTip(View.TimeTrackBar, speed);
+            View.SpeedLabel.Text = speed;
         }
 
         #endregion
@@ -510,7 +510,7 @@ version {Application.ProductVersion}
         private void NewFile()
         {
             JsonController.Clear();
-            Graph.InvalidateGrid();
+            Graph.InvalidateReticle();
             InvalidatePictureBox();
             UpdateUI();
         }

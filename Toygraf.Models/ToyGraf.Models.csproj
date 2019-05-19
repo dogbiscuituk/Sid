@@ -50,8 +50,8 @@
     <Compile Include="Elements.cs" />
     <Compile Include="Interpolation.cs" />
     <Compile Include="Graph.cs" />
-    <Compile Include="Grid.cs" />
-    <Compile Include="GridInfo.cs" />
+    <Compile Include="Reticle.cs" />
+    <Compile Include="ReticleInfo.cs" />
     <Compile Include="Label.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Optimization.cs" />

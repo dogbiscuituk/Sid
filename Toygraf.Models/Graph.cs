@@ -61,16 +61,16 @@
             }
         }
 
-        private Color _gridColour;
-        public Color GridColour
+        private Color _reticleColour;
+        public Color ReticleColour
         {
-            get => _gridColour;
+            get => _reticleColour;
             set
             {
-                if (GridColour != value)
+                if (ReticleColour != value)
                 {
-                    _gridColour = value;
-                    OnPropertyChanged("GridColour");
+                    _reticleColour = value;
+                    OnPropertyChanged("ReticleColour");
                 }
             }
         }
@@ -343,7 +343,7 @@
 
         private bool _proxiesValid;
 
-        private Bitmap Grid;
+        private Bitmap Reticle;
         private List<Label> Labels = new List<Label>();
 
         [NonSerialized]
@@ -366,7 +366,7 @@
             // Color
             _axisColour = Defaults.GraphAxisColour;
             _fillColour = Defaults.GraphFillColour;
-            _gridColour = Defaults.GraphGridColour;
+            _reticleColour = Defaults.GraphReticleColour;
             _limitColour = Defaults.GraphLimitColour;
             _paperColour = Defaults.GraphPaperColour;
             _penColour = Defaults.GraphPenColour;
@@ -434,7 +434,7 @@
             Viewport.SetRatio(r.Size);
             if (LastViewport != Viewport)
             {
-                InvalidateGrid();
+                InvalidateReticle();
                 LastViewport = Viewport;
             }
             var penWidth = Width / r.Width + Viewport.Height / r.Height;
@@ -443,10 +443,10 @@
             {
                 if (s.Visible) s.DrawAsync(g, _domain, Viewport, penWidth, true, time, PlotType, Interpolation);
             });
-            ValidateGrid(g, r, penWidth);
+            ValidateReticle(g, r, penWidth);
             var transform = g.Transform;
             g.ResetTransform();
-            g.DrawImageUnscaled(Grid, 0, 0);
+            g.DrawImageUnscaled(Reticle, 0, 0);
             g.MultiplyTransform(transform);
             using (var brush = new SolidBrush(AxisColour))
             using (var font = new Font("Arial", 5 * penWidth))
@@ -502,7 +502,7 @@
             }
         }
 
-        public void InvalidateGrid() { DisposeGrid(); Labels.Clear(); }
+        public void InvalidateReticle() { DisposeReticle(); Labels.Clear(); }
         private void InvalidatePoints() => Series.ForEach(p => p.InvalidatePoints());
         public void InvalidateProxies()
         {
@@ -510,17 +510,17 @@
             _proxiesValid = false;
         }
 
-        private void ValidateGrid(Graphics g, Rectangle r, float penWidth)
+        private void ValidateReticle(Graphics g, Rectangle r, float penWidth)
         {
-            if (Grid == null)
+            if (Reticle == null)
             {
-                Grid = new Bitmap(r.Width, r.Height, g);
-                Grid.MakeTransparent();
-                var g2 = Graphics.FromImage(Grid);
+                Reticle = new Bitmap(r.Width, r.Height, g);
+                Reticle.MakeTransparent();
+                var g2 = Graphics.FromImage(Reticle);
                 InitOptimization(g2);
                 g2.Transform = g.Transform;
-                g2.DrawGrid(Labels, new GridInfo(PlotType, Viewport, _domain,
-                    AxisColour, GridColour, penWidth, Elements, TickStyles));
+                g2.DrawReticle(Labels, new ReticleInfo(PlotType, Viewport, _domain,
+                    AxisColour, ReticleColour, penWidth, Elements, TickStyles));
             }
         }
 
@@ -613,15 +613,15 @@
 
         protected virtual void Dispose(bool disposing)
         {
-            DisposeGrid();
+            DisposeReticle();
         }
 
-        private void DisposeGrid()
+        private void DisposeReticle()
         {
-            if (Grid != null)
+            if (Reticle != null)
             {
-                Grid.Dispose();
-                Grid = null;
+                Reticle.Dispose();
+                Reticle = null;
             }
         }
 
@@ -633,7 +633,7 @@
 
         protected void OnPropertyChanged(string propertyName)
         {
-            InvalidateGrid();
+            InvalidateReticle();
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 

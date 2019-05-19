@@ -82,7 +82,7 @@
                     View.seDomainMinPolar.ValueChanged += LiveUpdate;
                     View.seDomainMaxPolar.ValueChanged += LiveUpdate;
                     ClbElements.ItemCheck += ClbElements_ItemCheck;
-                    AddColourControls(View.cbAxisColour, View.cbGridColour, View.cbPenColour,
+                    AddColourControls(View.cbAxisColour, View.cbReticleColour, View.cbPenColour,
                         View.cbLimitColour, View.cbPaperColour, View.cbFillColour);
                     View.cbOptimization.SelectedValueChanged += PlotTypeChanged;
                     View.cbStepCount.SelectedValueChanged += LiveUpdate;
@@ -230,9 +230,9 @@
             View.seDomainMaxPolar.Value = (decimal)Graph.DomainMaxPolar;
             // Elements
             ElementsRead();
-            // Grid Colours
+            // Reticle Colours
             ColourController.SetColour(View.cbAxisColour, Graph.AxisColour);
-            ColourController.SetColour(View.cbGridColour, Graph.GridColour);
+            ColourController.SetColour(View.cbReticleColour, Graph.ReticleColour);
             ColourController.SetColour(View.cbPenColour, Graph.PenColour);
             ColourController.SetColour(View.cbLimitColour, Graph.LimitColour);
             // Fill Colours
@@ -261,9 +261,9 @@
             Graph.DomainMaxPolar = (float)View.seDomainMaxPolar.Value;
             // Elements
             ElementsWrite();
-            // Grid Colours
+            // Reticle Colours
             Graph.AxisColour = ColourController.GetColour(View.cbAxisColour);
-            Graph.GridColour = ColourController.GetColour(View.cbGridColour);
+            Graph.ReticleColour = ColourController.GetColour(View.cbReticleColour);
             Graph.PenColour = ColourController.GetColour(View.cbPenColour);
             Graph.LimitColour = ColourController.GetColour(View.cbLimitColour);
             // Fill Colours
@@ -285,8 +285,8 @@
         public void PlotTypeChanged(object sender, EventArgs e)
         {
             var polar = (PlotType)View.cbPlotType.SelectedIndex == PlotType.Polar;
-            ElementItems[1] = polar ? "Radial grid wires" : "Horizontal grid wires";
-            ElementItems[5] = polar ? "Circular grid wires" : "Vertical grid wires";
+            ElementItems[1] = polar ? "Radial reticle" : "Horizontal reticle";
+            ElementItems[5] = polar ? "Circular reticle" : "Vertical reticle";
             View.cbDomainGraphWidth.Visible = View.seDomainMinCartesian.Visible =
                 View.seDomainMaxCartesian.Visible = !polar;
             View.seDomainMinPolar.Visible = View.seDomainMaxPolar.Visible = 

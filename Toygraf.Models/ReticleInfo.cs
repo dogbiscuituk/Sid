@@ -3,16 +3,16 @@
     using System.Drawing;
     using Newtonsoft.Json;
 
-    public struct GridInfo
+    public struct ReticleInfo
     {
-        public GridInfo(PlotType plotType, Viewport viewport, Domain domain, Color axisColour, Color gridColour,
+        public ReticleInfo(PlotType plotType, Viewport viewport, Domain domain, Color axisColour, Color reticleColour,
             float penWidth, Elements elements, TickStyles tickStyles, bool vertical = false)
         {
             PlotType = plotType;
             Viewport = viewport;
             Domain = domain;
             AxisColour = axisColour;
-            GridColour = gridColour;
+            ReticleColour = reticleColour;
             PenWidth = penWidth;
             Elements = elements;
             TickStyles = tickStyles;
@@ -23,7 +23,7 @@
         public Viewport Viewport { get; set; }
         public Domain Domain { get; set; }
         public Color AxisColour { get; set; }
-        public Color GridColour { get; set; }
+        public Color ReticleColour { get; set; }
         public float PenWidth { get; set; }
         public Elements Elements { get; set; }
         public TickStyles TickStyles { get; set; }

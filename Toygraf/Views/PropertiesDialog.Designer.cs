@@ -49,7 +49,7 @@
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.cbAxisColour = new System.Windows.Forms.ComboBox();
-            this.cbGridColour = new System.Windows.Forms.ComboBox();
+            this.cbReticleColour = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnClose = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -265,7 +265,7 @@
             this.tableLayoutPanel2.Controls.Add(this.label16, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.label17, 0, 3);
             this.tableLayoutPanel2.Controls.Add(this.cbAxisColour, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.cbGridColour, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.cbReticleColour, 1, 2);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 21);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -366,7 +366,7 @@
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(221, 23);
             this.label16.TabIndex = 4;
-            this.label16.Text = "Grid";
+            this.label16.Text = "Reticle";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label17
@@ -396,21 +396,21 @@
             this.cbAxisColour.Size = new System.Drawing.Size(229, 24);
             this.cbAxisColour.TabIndex = 3;
             // 
-            // cbGridColour
+            // cbReticleColour
             // 
-            this.cbGridColour.BackColor = System.Drawing.SystemColors.Control;
-            this.cbGridColour.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbGridColour.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cbGridColour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbGridColour.DropDownWidth = 144;
-            this.cbGridColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbGridColour.FormattingEnabled = true;
-            this.cbGridColour.ItemHeight = 18;
-            this.cbGridColour.Location = new System.Drawing.Point(230, 49);
-            this.cbGridColour.Margin = new System.Windows.Forms.Padding(0);
-            this.cbGridColour.Name = "cbGridColour";
-            this.cbGridColour.Size = new System.Drawing.Size(229, 24);
-            this.cbGridColour.TabIndex = 5;
+            this.cbReticleColour.BackColor = System.Drawing.SystemColors.Control;
+            this.cbReticleColour.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbReticleColour.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbReticleColour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbReticleColour.DropDownWidth = 144;
+            this.cbReticleColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbReticleColour.FormattingEnabled = true;
+            this.cbReticleColour.ItemHeight = 18;
+            this.cbReticleColour.Location = new System.Drawing.Point(230, 49);
+            this.cbReticleColour.Margin = new System.Windows.Forms.Padding(0);
+            this.cbReticleColour.Name = "cbReticleColour";
+            this.cbReticleColour.Size = new System.Drawing.Size(229, 24);
+            this.cbReticleColour.TabIndex = 5;
             // 
             // groupBox2
             // 
@@ -452,7 +452,7 @@
             this.groupBox3.Size = new System.Drawing.Size(468, 170);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Grid elements";
+            this.groupBox3.Text = "Reticle elements";
             // 
             // label5
             // 
@@ -506,15 +506,15 @@
             this.ElementCheckboxes.FormattingEnabled = true;
             this.ElementCheckboxes.Items.AddRange(new object[] {
             "X axis",
-            "Horizontal grid lines",
+            "Horizontal reticle",
             "X axis ticks",
             "X calibration",
             "Y axis",
-            "Vertical grid lines",
+            "Vertical reticle",
             "Y axis ticks",
             "Y calibration",
             "Both axes",
-            "Full grid",
+            "Full reticle",
             "X & Y ticks",
             "Full calibration"});
             this.ElementCheckboxes.Location = new System.Drawing.Point(6, 84);
@@ -774,7 +774,7 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
         public System.Windows.Forms.ComboBox cbAxisColour;
-        public System.Windows.Forms.ComboBox cbGridColour;
+        public System.Windows.Forms.ComboBox cbReticleColour;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.GroupBox groupBox2;
