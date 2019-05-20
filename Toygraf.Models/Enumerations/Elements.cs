@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace ToyGraf.Models
+﻿namespace ToyGraf.Models.Enumerations
 {
+    using System;
+
     [Flags]
     public enum Elements
     {

@@ -5,6 +5,8 @@
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using ToyGraf.Expressions;
+    using ToyGraf.Models.Enumerations;
+    using ToyGraf.Models.Structs;
 
     public static class Reticle
     {

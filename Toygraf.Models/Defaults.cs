@@ -1,6 +1,8 @@
 ﻿namespace ToyGraf.Models
 {
     using System.Drawing;
+    using ToyGraf.Models.Enumerations;
+    using ToyGraf.Models.Structs;
 
     public class Defaults
     {

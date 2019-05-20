@@ -1,4 +1,4 @@
-﻿namespace ToyGraf.Models
+﻿namespace ToyGraf.Models.Structs
 {
     using System;
     using ToyGraf.Expressions;

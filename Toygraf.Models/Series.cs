@@ -10,6 +10,8 @@
     using System.Threading.Tasks;
     using Newtonsoft.Json;
     using ToyGraf.Expressions;
+    using ToyGraf.Models.Enumerations;
+    using ToyGraf.Models.Structs;
 
     [Serializable]
     public class Series: INotifyPropertyChanged

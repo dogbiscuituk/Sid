@@ -1,7 +1,7 @@
-﻿using System.Windows.Forms;
-
-namespace ToyGraf.Views
+﻿namespace ToyGraf.Views
 {
+    using System.Windows.Forms;
+
     public partial class KeyboardDialog : Form
     {
         public KeyboardDialog()

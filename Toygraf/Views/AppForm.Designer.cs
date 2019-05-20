@@ -79,6 +79,7 @@
             this.StatusBar = new System.Windows.Forms.StatusStrip();
             this.XYlabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.Rϴlabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.SpeedLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.Tlabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.FPSlabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ModifiedLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -97,7 +98,14 @@
             this.tbProperties = new System.Windows.Forms.ToolStripButton();
             this.tbFullScreen = new System.Windows.Forms.ToolStripButton();
             this.tbTimer = new System.Windows.Forms.ToolStripSplitButton();
-            this.SpeedLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditUndo = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditRedo = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.EditCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditDelete = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.TimeTrackBar)).BeginInit();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
@@ -124,6 +132,7 @@
             // 
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenu,
+            this.EditMenu,
             this.GraphMenu,
             this.ViewMenu,
             this.TimerMenu,
@@ -531,6 +540,13 @@
             this.Rϴlabel.Text = "{r=0, θ=0}";
             this.Rϴlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // SpeedLabel
+            // 
+            this.SpeedLabel.AutoSize = false;
+            this.SpeedLabel.Name = "SpeedLabel";
+            this.SpeedLabel.Size = new System.Drawing.Size(64, 20);
+            this.SpeedLabel.Text = "time × 1";
+            // 
             // Tlabel
             // 
             this.Tlabel.AutoSize = false;
@@ -693,12 +709,76 @@
             this.tbTimer.Size = new System.Drawing.Size(31, 20);
             this.tbTimer.ToolTipText = "Timer run/pause (F9)";
             // 
-            // SpeedLabel
+            // EditMenu
             // 
-            this.SpeedLabel.AutoSize = false;
-            this.SpeedLabel.Name = "SpeedLabel";
-            this.SpeedLabel.Size = new System.Drawing.Size(64, 20);
-            this.SpeedLabel.Text = "time × 1";
+            this.EditMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.EditUndo,
+            this.EditRedo,
+            this.toolStripMenuItem3,
+            this.EditCut,
+            this.EditCopy,
+            this.EditPaste,
+            this.EditDelete});
+            this.EditMenu.Name = "EditMenu";
+            this.EditMenu.Size = new System.Drawing.Size(39, 20);
+            this.EditMenu.Text = "&Edit";
+            // 
+            // EditUndo
+            // 
+            this.EditUndo.Enabled = false;
+            this.EditUndo.Name = "EditUndo";
+            this.EditUndo.ShortcutKeyDisplayString = "^Z";
+            this.EditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.EditUndo.Size = new System.Drawing.Size(180, 22);
+            this.EditUndo.Text = "&Undo";
+            // 
+            // EditRedo
+            // 
+            this.EditRedo.Enabled = false;
+            this.EditRedo.Name = "EditRedo";
+            this.EditRedo.ShortcutKeyDisplayString = "^Y";
+            this.EditRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.EditRedo.Size = new System.Drawing.Size(180, 22);
+            this.EditRedo.Text = "&Redo";
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
+            // 
+            // EditCut
+            // 
+            this.EditCut.Enabled = false;
+            this.EditCut.Name = "EditCut";
+            this.EditCut.ShortcutKeyDisplayString = "^X";
+            this.EditCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.EditCut.Size = new System.Drawing.Size(180, 22);
+            this.EditCut.Text = "Cut";
+            // 
+            // EditCopy
+            // 
+            this.EditCopy.Enabled = false;
+            this.EditCopy.Name = "EditCopy";
+            this.EditCopy.ShortcutKeyDisplayString = "^C";
+            this.EditCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.EditCopy.Size = new System.Drawing.Size(180, 22);
+            this.EditCopy.Text = "Copy";
+            // 
+            // EditPaste
+            // 
+            this.EditPaste.Enabled = false;
+            this.EditPaste.Name = "EditPaste";
+            this.EditPaste.ShortcutKeyDisplayString = "^V";
+            this.EditPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.EditPaste.Size = new System.Drawing.Size(180, 22);
+            this.EditPaste.Text = "Paste";
+            // 
+            // EditDelete
+            // 
+            this.EditDelete.Enabled = false;
+            this.EditDelete.Name = "EditDelete";
+            this.EditDelete.Size = new System.Drawing.Size(180, 22);
+            this.EditDelete.Text = "Delete";
             // 
             // AppForm
             // 
@@ -801,5 +881,13 @@
         public System.Windows.Forms.TrackBar TimeTrackBar;
         public System.Windows.Forms.ToolStripMenuItem TimerReverse;
         public System.Windows.Forms.ToolStripStatusLabel SpeedLabel;
+        private System.Windows.Forms.ToolStripMenuItem EditMenu;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        public System.Windows.Forms.ToolStripMenuItem EditUndo;
+        public System.Windows.Forms.ToolStripMenuItem EditRedo;
+        public System.Windows.Forms.ToolStripMenuItem EditCut;
+        public System.Windows.Forms.ToolStripMenuItem EditCopy;
+        public System.Windows.Forms.ToolStripMenuItem EditPaste;
+        public System.Windows.Forms.ToolStripMenuItem EditDelete;
     }
 }

@@ -4,6 +4,7 @@
     using System.Windows.Forms;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
+    using ToyGraf.Models.Enumerations;
     using ToyGraf.Views;
 
     public class PropertiesController

@@ -1,7 +1,8 @@
-﻿namespace ToyGraf.Models
+﻿namespace ToyGraf.Models.Structs
 {
     using System.Drawing;
     using Newtonsoft.Json;
+    using ToyGraf.Models.Enumerations;
 
     public struct ReticleInfo
     {

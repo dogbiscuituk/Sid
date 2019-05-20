@@ -1,4 +1,4 @@
-﻿namespace ToyGraf.Models
+﻿namespace ToyGraf.Models.Enumerations
 {
     public enum TickStyles
     {

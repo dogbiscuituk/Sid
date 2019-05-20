@@ -1,4 +1,4 @@
-﻿namespace ToyGraf.Expressions
+﻿namespace ToyGraf.Expressions.Enumerations
 {
     /// <summary>
     /// The precedence levels attributed to operators.

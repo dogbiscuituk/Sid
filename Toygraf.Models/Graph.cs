@@ -11,6 +11,8 @@
     using System.Text.RegularExpressions;
     using Newtonsoft.Json;
     using ToyGraf.Expressions;
+    using ToyGraf.Models.Enumerations;
+    using ToyGraf.Models.Structs;
 
     [Serializable]
     public class Graph : IDisposable, INotifyPropertyChanged

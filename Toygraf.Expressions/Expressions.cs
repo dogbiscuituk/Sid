@@ -3,6 +3,7 @@
     using System;
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
+    using ToyGraf.Expressions.Enumerations;
 
     public static partial class Expressions
     {

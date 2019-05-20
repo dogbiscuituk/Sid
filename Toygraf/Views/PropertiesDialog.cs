@@ -1,17 +1,12 @@
-﻿using System.Windows.Forms;
-
-namespace ToyGraf.Views
+﻿namespace ToyGraf.Views
 {
+    using System.Windows.Forms;
+
     public partial class PropertiesDialog : Form
     {
         public PropertiesDialog()
         {
             InitializeComponent();
-        }
-
-        private void cbPlotType_SelectedIndexChanged(object sender, System.EventArgs e)
-        {
-
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace ToyGraf.Expressions
+﻿namespace ToyGraf.Expressions.Enumerations
 {
     public enum OperandTypes
     {

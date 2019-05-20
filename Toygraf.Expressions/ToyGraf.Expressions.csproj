@@ -49,9 +49,9 @@
     <Compile Include="Expressions.ParserTests.cs" />
     <Compile Include="Expressions.Tests.cs" />
     <Compile Include="Functions.cs" />
-    <Compile Include="OperandTypes.cs" />
+    <Compile Include="Enumerations\OperandTypes.cs" />
     <Compile Include="Parser.cs" />
-    <Compile Include="Precedence.cs" />
+    <Compile Include="Enumerations\Precedence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ops.cs" />
     <Compile Include="Utility.cs" />

@@ -484,7 +484,6 @@
             this.cbPlotType.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.cbPlotType.Size = new System.Drawing.Size(140, 25);
             this.cbPlotType.TabIndex = 1;
-            this.cbPlotType.SelectedIndexChanged += new System.EventHandler(this.cbPlotType_SelectedIndexChanged);
             // 
             // rbDegrees
             // 

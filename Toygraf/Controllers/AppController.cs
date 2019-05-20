@@ -6,6 +6,8 @@
     using System.Windows.Forms;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
+    using ToyGraf.Models.Enumerations;
+    using ToyGraf.Models.Structs;
     using ToyGraf.Views;
 
     public class AppController: INotifyPropertyChanged
@@ -13,6 +15,7 @@
         public AppController()
         {
             View = new AppForm();
+            CommandController = new CommandController(this);
             Model = new Model();
             Model.Cleared += Model_Cleared;
             Model.ModifiedChanged += Model_ModifiedChanged;
@@ -35,6 +38,7 @@
         #region Properties
 
         public readonly Model Model;
+        public readonly CommandController CommandController;
         public readonly JsonController JsonController;
         public readonly KeyboardController MathController;
         public readonly LegendController LegendController;
