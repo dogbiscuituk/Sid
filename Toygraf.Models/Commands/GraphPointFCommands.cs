@@ -5,11 +5,12 @@
 
     public class GraphPointFCommand : GraphCommand
     {
-        protected GraphPointFCommand(Func<Graph, PointF> get, Action<Graph, PointF> set) :
+        protected GraphPointFCommand(PointF value, Func<Graph, PointF> get, Action<Graph, PointF> set) :
             base()
         {
             Get = get;
             Set = set;
+            Value = value;
         }
 
         protected PointF Value;
@@ -18,17 +19,21 @@
 
         protected override void Do(Graph graph)
         {
-            var value = Get(graph);
-            Set(graph, value);
-            Value = value;
+            var p = Get(graph);
+            Set(graph, Value);
+            Value = p;
         }
+
+        public override string ToString() => $"Graph {Detail} = {Value}";
     }
 
     public class GraphCentreCommand : GraphPointFCommand
     {
-        public GraphCentreCommand() :
-            base(g => g.Centre,
-                (g, p) => g.Centre = p)
-        { }
+        public GraphCentreCommand(PointF value) :
+            base(value,
+                g => g.Centre,
+                (g, p) => g.Centre = p) { }
+
+        protected override string Detail => "centre";
     }
 }

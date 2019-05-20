@@ -6,6 +6,7 @@
         public virtual void Undo(Graph graph) => Do(graph);
 
         protected virtual void Do(Graph graph) { }
+        protected virtual string Detail { get; }
     }
 
     public class SeriesCommand : GraphCommand

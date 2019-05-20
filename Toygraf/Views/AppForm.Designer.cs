@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppForm));
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.TimeTrackBar = new System.Windows.Forms.TrackBar();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
@@ -76,6 +77,13 @@
             this.ViewLegendBottomRight = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.ViewLegendHide = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewToolbar = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewToolbarLeft = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewToolbarTop = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewToolbarRight = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewToolbarBottom = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
+            this.ViewToolbarHide = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
             this.ViewCoordinatesTooltip = new System.Windows.Forms.ToolStripMenuItem();
             this.TimerMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -106,13 +114,11 @@
             this.tbProperties = new System.Windows.Forms.ToolStripButton();
             this.tbFullScreen = new System.Windows.Forms.ToolStripButton();
             this.tbTimer = new System.Windows.Forms.ToolStripSplitButton();
-            this.ViewToolbar = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewToolbarLeft = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewToolbarTop = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewToolbarRight = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewToolbarBottom = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
-            this.ViewToolbarHide = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbUndo = new System.Windows.Forms.ToolStripSplitButton();
+            this.tbRedo = new System.Windows.Forms.ToolStripSplitButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.TimeTrackBar)).BeginInit();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
@@ -243,7 +249,7 @@
             this.EditUndo.Name = "EditUndo";
             this.EditUndo.ShortcutKeyDisplayString = "^Z";
             this.EditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.EditUndo.Size = new System.Drawing.Size(180, 22);
+            this.EditUndo.Size = new System.Drawing.Size(125, 22);
             this.EditUndo.Text = "&Undo";
             // 
             // EditRedo
@@ -252,13 +258,13 @@
             this.EditRedo.Name = "EditRedo";
             this.EditRedo.ShortcutKeyDisplayString = "^Y";
             this.EditRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.EditRedo.Size = new System.Drawing.Size(180, 22);
+            this.EditRedo.Size = new System.Drawing.Size(125, 22);
             this.EditRedo.Text = "&Redo";
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(122, 6);
             // 
             // EditCut
             // 
@@ -266,7 +272,7 @@
             this.EditCut.Name = "EditCut";
             this.EditCut.ShortcutKeyDisplayString = "^X";
             this.EditCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.EditCut.Size = new System.Drawing.Size(180, 22);
+            this.EditCut.Size = new System.Drawing.Size(125, 22);
             this.EditCut.Text = "Cut";
             // 
             // EditCopy
@@ -275,7 +281,7 @@
             this.EditCopy.Name = "EditCopy";
             this.EditCopy.ShortcutKeyDisplayString = "^C";
             this.EditCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.EditCopy.Size = new System.Drawing.Size(180, 22);
+            this.EditCopy.Size = new System.Drawing.Size(125, 22);
             this.EditCopy.Text = "Copy";
             // 
             // EditPaste
@@ -284,14 +290,14 @@
             this.EditPaste.Name = "EditPaste";
             this.EditPaste.ShortcutKeyDisplayString = "^V";
             this.EditPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.EditPaste.Size = new System.Drawing.Size(180, 22);
+            this.EditPaste.Size = new System.Drawing.Size(125, 22);
             this.EditPaste.Text = "Paste";
             // 
             // EditDelete
             // 
             this.EditDelete.Enabled = false;
             this.EditDelete.Name = "EditDelete";
-            this.EditDelete.Size = new System.Drawing.Size(180, 22);
+            this.EditDelete.Size = new System.Drawing.Size(125, 22);
             this.EditDelete.Text = "Delete";
             // 
             // GraphMenu
@@ -494,40 +500,88 @@
             // 
             this.ViewLegendTopLeft.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.ViewLegendTopLeft.Name = "ViewLegendTopLeft";
-            this.ViewLegendTopLeft.Size = new System.Drawing.Size(180, 22);
+            this.ViewLegendTopLeft.Size = new System.Drawing.Size(145, 22);
             this.ViewLegendTopLeft.Tag = "";
             this.ViewLegendTopLeft.Text = "&Top Left";
             // 
             // ViewLegendTopRight
             // 
             this.ViewLegendTopRight.Name = "ViewLegendTopRight";
-            this.ViewLegendTopRight.Size = new System.Drawing.Size(180, 22);
+            this.ViewLegendTopRight.Size = new System.Drawing.Size(145, 22);
             this.ViewLegendTopRight.Text = "Top &Right";
             // 
             // ViewLegendBottomLeft
             // 
             this.ViewLegendBottomLeft.Name = "ViewLegendBottomLeft";
-            this.ViewLegendBottomLeft.Size = new System.Drawing.Size(180, 22);
+            this.ViewLegendBottomLeft.Size = new System.Drawing.Size(145, 22);
             this.ViewLegendBottomLeft.Text = "&Bottom Left";
             // 
             // ViewLegendBottomRight
             // 
             this.ViewLegendBottomRight.Name = "ViewLegendBottomRight";
-            this.ViewLegendBottomRight.Size = new System.Drawing.Size(180, 22);
+            this.ViewLegendBottomRight.Size = new System.Drawing.Size(145, 22);
             this.ViewLegendBottomRight.Text = "Botto&m Right";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(142, 6);
             // 
             // ViewLegendHide
             // 
             this.ViewLegendHide.Name = "ViewLegendHide";
             this.ViewLegendHide.ShortcutKeyDisplayString = "^L";
             this.ViewLegendHide.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
-            this.ViewLegendHide.Size = new System.Drawing.Size(180, 22);
+            this.ViewLegendHide.Size = new System.Drawing.Size(145, 22);
             this.ViewLegendHide.Text = "&Hide";
+            // 
+            // ViewToolbar
+            // 
+            this.ViewToolbar.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ViewToolbarLeft,
+            this.ViewToolbarTop,
+            this.ViewToolbarRight,
+            this.ViewToolbarBottom,
+            this.toolStripMenuItem5,
+            this.ViewToolbarHide});
+            this.ViewToolbar.Name = "ViewToolbar";
+            this.ViewToolbar.Size = new System.Drawing.Size(183, 22);
+            this.ViewToolbar.Text = "&Toolbar";
+            // 
+            // ViewToolbarLeft
+            // 
+            this.ViewToolbarLeft.Name = "ViewToolbarLeft";
+            this.ViewToolbarLeft.Size = new System.Drawing.Size(114, 22);
+            this.ViewToolbarLeft.Text = "&Left";
+            // 
+            // ViewToolbarTop
+            // 
+            this.ViewToolbarTop.Name = "ViewToolbarTop";
+            this.ViewToolbarTop.Size = new System.Drawing.Size(114, 22);
+            this.ViewToolbarTop.Text = "&Top";
+            // 
+            // ViewToolbarRight
+            // 
+            this.ViewToolbarRight.Name = "ViewToolbarRight";
+            this.ViewToolbarRight.Size = new System.Drawing.Size(114, 22);
+            this.ViewToolbarRight.Text = "&Right";
+            // 
+            // ViewToolbarBottom
+            // 
+            this.ViewToolbarBottom.Name = "ViewToolbarBottom";
+            this.ViewToolbarBottom.Size = new System.Drawing.Size(114, 22);
+            this.ViewToolbarBottom.Text = "&Bottom";
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(111, 6);
+            // 
+            // ViewToolbarHide
+            // 
+            this.ViewToolbarHide.Name = "ViewToolbarHide";
+            this.ViewToolbarHide.Size = new System.Drawing.Size(114, 22);
+            this.ViewToolbarHide.Text = "&Hide";
             // 
             // toolStripMenuItem7
             // 
@@ -584,7 +638,7 @@
             // HelpAbout
             // 
             this.HelpAbout.Name = "HelpAbout";
-            this.HelpAbout.Size = new System.Drawing.Size(180, 22);
+            this.HelpAbout.Size = new System.Drawing.Size(107, 22);
             this.HelpAbout.Text = "&About";
             this.HelpAbout.ToolTipText = "Show version information";
             // 
@@ -697,11 +751,16 @@
             this.tbNew,
             this.tbOpen,
             this.tbSave,
+            this.toolStripSeparator1,
+            this.tbUndo,
+            this.tbRedo,
+            this.toolStripSeparator2,
             this.tbAdd,
             this.tbCartesian,
             this.tbPolar,
             this.tbProperties,
             this.tbFullScreen,
+            this.toolStripSeparator3,
             this.tbTimer});
             this.Toolbar.Location = new System.Drawing.Point(0, 24);
             this.Toolbar.Name = "Toolbar";
@@ -790,53 +849,39 @@
             this.tbTimer.Size = new System.Drawing.Size(31, 20);
             this.tbTimer.ToolTipText = "Timer run/pause (F9)";
             // 
-            // ViewToolbar
+            // tbUndo
             // 
-            this.ViewToolbar.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ViewToolbarLeft,
-            this.ViewToolbarTop,
-            this.ViewToolbarRight,
-            this.ViewToolbarBottom,
-            this.toolStripMenuItem5,
-            this.ViewToolbarHide});
-            this.ViewToolbar.Name = "ViewToolbar";
-            this.ViewToolbar.Size = new System.Drawing.Size(183, 22);
-            this.ViewToolbar.Text = "&Toolbar";
+            this.tbUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbUndo.Image = ((System.Drawing.Image)(resources.GetObject("tbUndo.Image")));
+            this.tbUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbUndo.Name = "tbUndo";
+            this.tbUndo.Size = new System.Drawing.Size(31, 20);
+            this.tbUndo.ToolTipText = "Undo (^Z)";
             // 
-            // ViewToolbarLeft
+            // tbRedo
             // 
-            this.ViewToolbarLeft.Name = "ViewToolbarLeft";
-            this.ViewToolbarLeft.Size = new System.Drawing.Size(180, 22);
-            this.ViewToolbarLeft.Text = "&Left";
+            this.tbRedo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbRedo.Image = ((System.Drawing.Image)(resources.GetObject("tbRedo.Image")));
+            this.tbRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbRedo.Name = "tbRedo";
+            this.tbRedo.Size = new System.Drawing.Size(31, 20);
+            this.tbRedo.Text = "toolStripSplitButton2";
+            this.tbRedo.ToolTipText = "Redo (^Y)";
             // 
-            // ViewToolbarTop
+            // toolStripSeparator1
             // 
-            this.ViewToolbarTop.Name = "ViewToolbarTop";
-            this.ViewToolbarTop.Size = new System.Drawing.Size(180, 22);
-            this.ViewToolbarTop.Text = "&Top";
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(31, 6);
             // 
-            // ViewToolbarRight
+            // toolStripSeparator2
             // 
-            this.ViewToolbarRight.Name = "ViewToolbarRight";
-            this.ViewToolbarRight.Size = new System.Drawing.Size(180, 22);
-            this.ViewToolbarRight.Text = "&Right";
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(31, 6);
             // 
-            // ViewToolbarBottom
+            // toolStripSeparator3
             // 
-            this.ViewToolbarBottom.Name = "ViewToolbarBottom";
-            this.ViewToolbarBottom.Size = new System.Drawing.Size(180, 22);
-            this.ViewToolbarBottom.Text = "&Bottom";
-            // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(177, 6);
-            // 
-            // ViewToolbarHide
-            // 
-            this.ViewToolbarHide.Name = "ViewToolbarHide";
-            this.ViewToolbarHide.Size = new System.Drawing.Size(180, 22);
-            this.ViewToolbarHide.Text = "&Hide";
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(31, 6);
             // 
             // AppForm
             // 
@@ -939,7 +984,6 @@
         public System.Windows.Forms.TrackBar TimeTrackBar;
         public System.Windows.Forms.ToolStripMenuItem TimerReverse;
         public System.Windows.Forms.ToolStripStatusLabel SpeedLabel;
-        private System.Windows.Forms.ToolStripMenuItem EditMenu;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         public System.Windows.Forms.ToolStripMenuItem EditUndo;
         public System.Windows.Forms.ToolStripMenuItem EditRedo;
@@ -954,5 +998,11 @@
         public System.Windows.Forms.ToolStripMenuItem ViewToolbarRight;
         public System.Windows.Forms.ToolStripMenuItem ViewToolbarBottom;
         public System.Windows.Forms.ToolStripMenuItem ViewToolbarHide;
+        public System.Windows.Forms.ToolStripMenuItem EditMenu;
+        public System.Windows.Forms.ToolStripSplitButton tbUndo;
+        public System.Windows.Forms.ToolStripSplitButton tbRedo;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }

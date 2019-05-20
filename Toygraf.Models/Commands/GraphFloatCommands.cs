@@ -4,9 +4,10 @@
 
     public class GraphFloatCommand : GraphCommand
     {
-        protected GraphFloatCommand(Func<Graph, float> get, Action<Graph, float> set) :
+        protected GraphFloatCommand(float value, Func<Graph, float> get, Action<Graph, float> set) :
             base()
         {
+            Value = value;
             Get = get;
             Set = set;
         }
@@ -17,49 +18,61 @@
 
         protected override void Do(Graph graph)
         {
-            var value = Get(graph);
-            Set(graph, value);
-            Value = value;
+            var f = Get(graph);
+            Set(graph, Value);
+            Value = f;
         }
+
+        public override string ToString() => $"Graph {Detail} = {Value}";
     }
 
     public class GraphDomainMaxCartesianCommand : GraphFloatCommand
     {
-        public GraphDomainMaxCartesianCommand() :
-            base(g => g.DomainMaxCartesian,
-                (g, f) => g.DomainMaxCartesian = f)
-        { }
+        public GraphDomainMaxCartesianCommand(float value) :
+            base(value,
+                g => g.DomainMaxCartesian,
+                (g, f) => g.DomainMaxCartesian = f) { }
+
+        protected override string Detail => $"domain max (Cartesian)";
     }
 
     public class GraphDomainMaxPolarCommand : GraphFloatCommand
     {
-        public GraphDomainMaxPolarCommand() :
-            base(g => g.DomainMaxPolar,
-                (g, f) => g.DomainMaxPolar = f)
-        { }
+        public GraphDomainMaxPolarCommand(float value) :
+            base(value,
+                g => g.DomainMaxPolar,
+                (g, f) => g.DomainMaxPolar = f) { }
+
+        protected override string Detail => $"domain max (polar)";
     }
 
     public class GraphDomainMinCartesianCommand : GraphFloatCommand
     {
-        public GraphDomainMinCartesianCommand() :
-            base(g => g.DomainMinCartesian,
-                (g, f) => g.DomainMinCartesian = f)
-        { }
+        public GraphDomainMinCartesianCommand(float value) :
+            base(value,
+                g => g.DomainMinCartesian,
+                (g, f) => g.DomainMinCartesian = f) { }
+
+        protected override string Detail => $"domain min (Cartesian)";
     }
 
     public class GraphDomainMinPolarCommand : GraphFloatCommand
     {
-        public GraphDomainMinPolarCommand() :
-            base(g => g.DomainMinPolar,
-                (g, f) => g.DomainMinPolar = f)
-        { }
+        public GraphDomainMinPolarCommand(float value) :
+            base(value,
+                g => g.DomainMinPolar,
+                (g, f) => g.DomainMinPolar = f) { }
+
+        protected override string Detail => $"domain min (polar)";
     }
 
     public class GraphWidthCommand : GraphFloatCommand
     {
-        public GraphWidthCommand() :
-            base(g => g.Width,
-                (g, f) => g.Width = f)
-        { }
+        public GraphWidthCommand(float value) :
+            base(value,
+                g => g.Width,
+                (g, f) => g.Width = f) { }
+
+        protected override string Detail => $"width";
     }
 }

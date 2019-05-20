@@ -15,7 +15,6 @@
         public AppController()
         {
             View = new AppForm();
-            CommandController = new CommandController(this);
             Model = new Model();
             Model.Cleared += Model_Cleared;
             Model.ModifiedChanged += Model_ModifiedChanged;
@@ -34,6 +33,7 @@
             LegendController.AdjustLegend();
             UpdateUI();
             PopupMenu_Opening(View, new CancelEventArgs());
+            CommandController = new CommandController(this);
         }
 
         #region Properties

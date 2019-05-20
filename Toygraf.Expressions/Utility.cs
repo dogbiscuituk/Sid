@@ -14,11 +14,20 @@
     {
         #region Colours
 
-        public static IEnumerable<string> GetNonSystemColourNames(string orderByColourProperties) =>
+        public static string GetName(this Color colour)
+        {
+            var argb = colour.ToArgb();
+            return GetColours().FirstOrDefault(c => c.ToArgb() == argb).Name;
+        }
+
+        public static IEnumerable<Color> GetColours() =>
             Enum.GetValues(typeof(KnownColor))
             .Cast<KnownColor>()
             .Select(Color.FromKnownColor)
-            .Where(c => !c.IsSystemColor)
+            .Where(c => !c.IsSystemColor);
+
+        public static IEnumerable<string> GetNonSystemColourNames(string orderByColourProperties) =>
+            GetColours()
             .OrderByColourProperties(orderByColourProperties)
             .Select(c => c.Name);
 

@@ -4,9 +4,10 @@
 
     public class SeriesStringCommand : SeriesCommand
     {
-        protected SeriesStringCommand(int index, Func<Series, string> get, Action<Series, string> set) :
+        protected SeriesStringCommand(int index, string value, Func<Series, string> get, Action<Series, string> set) :
             base(index)
         {
+            Value = value;
             Get = get;
             Set = set;
         }
@@ -17,18 +18,21 @@
 
         protected override void Do(Graph graph)
         {
-            var value = Get(graph.Series[Index]);
-            Set(graph.Series[Index], value);
-            Value = value;
+            var s = Get(graph.Series[Index]);
+            Set(graph.Series[Index], Value);
+            Value = s;
         }
+
+        public override string ToString() => $"f{Index}(x,t) {Detail} = \"{Value}\"";
     }
 
     public class SeriesFormulaCommand : SeriesStringCommand
     {
-        public SeriesFormulaCommand(int index) :
-            base(index,
+        public SeriesFormulaCommand(int index, string value) :
+            base(index, value,
                 s => s.Formula,
-                (s, n) => s.Formula = n)
-        { }
+                (s, n) => s.Formula = n) { }
+
+        protected override string Detail => "formula";
     }
 }
