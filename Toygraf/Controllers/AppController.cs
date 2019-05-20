@@ -22,6 +22,7 @@
             Model.PropertyChanged += Model_PropertyChanged;
             GraphicsController = new GraphicsController(this);
             PropertiesController = new PropertiesController(this);
+            ToolbarController = new ToolbarController(this);
             MathController = new KeyboardController(this);
             JsonController = new JsonController(Model, View, View.FileReopen);
             JsonController.FileLoaded += JsonController_FileLoaded;
@@ -39,11 +40,12 @@
 
         public readonly Model Model;
         public readonly CommandController CommandController;
+        public readonly GraphicsController GraphicsController;
         public readonly JsonController JsonController;
         public readonly KeyboardController MathController;
         public readonly LegendController LegendController;
-        public readonly GraphicsController GraphicsController;
         public readonly PropertiesController PropertiesController;
+        public readonly ToolbarController ToolbarController;
 
         public Panel ClientPanel { get => View.ClientPanel; }
         public Graph Graph { get => Model.Graph; }
