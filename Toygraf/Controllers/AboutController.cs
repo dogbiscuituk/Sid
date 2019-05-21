@@ -6,6 +6,8 @@
 
     public class AboutController
     {
+        #region Public Interface
+
         public AboutController()
         {
             View = new AboutDialog();
@@ -19,24 +21,31 @@
 
         public void ShowDialog(IWin32Window owner) => View.ShowDialog(owner);
 
+        #endregion
+
+        #region Private Properties
+
         private AboutDialog _view;
-        public AboutDialog View
+        private AboutDialog View
         {
             get => _view;
             set
             {
-                if (View != null)
-                    View.NewtonsoftLinkLabel.Click -= NewtonsoftLinkLabel_Click;
                 _view = value;
-                if (View != null)
-                    View.NewtonsoftLinkLabel.Click += NewtonsoftLinkLabel_Click;
+                View.NewtonsoftLinkLabel.Click += NewtonsoftLinkLabel_Click;
             }
         }
+
+        #endregion
+
+        #region Private Event Handlers
 
         private void NewtonsoftLinkLabel_Click(object sender, System.EventArgs e)
         {
             System.Diagnostics.Process.Start(View.NewtonsoftLinkLabel.Text);
             View.NewtonsoftLinkLabel.LinkVisited = true;
         }
+
+        #endregion
     }
 }

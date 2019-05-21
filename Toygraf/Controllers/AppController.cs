@@ -12,6 +12,8 @@
 
     public class AppController: INotifyPropertyChanged
     {
+        #region Public Interface
+
         public AppController()
         {
             View = new AppForm();
@@ -36,22 +38,70 @@
             CommandController = new CommandController(this);
         }
 
-        #region Properties
+        public AppForm View
+        {
+            get => _view;
+            set
+            {
+                _view = value;
+                // Form
+                View.FormClosing += View_FormClosing;
+                // Main Menu
+                View.FileNew.Click += FileNew_Click;
+                View.FileOpen.Click += FileOpen_Click;
+                View.FileSave.Click += FileSave_Click;
+                View.FileSaveAs.Click += FileSaveAs_Click;
+                View.FileExit.Click += FileExit_Click;
+                View.GraphProperties.Click += GraphProperties_Click;
+                View.ZoomFullScreen.Click += ZoomFullScreen_Click;
+                View.ViewCoordinatesTooltip.Click += ViewCoordinatesTooltip_Click;
+                View.HelpAbout.Click += HelpAbout_Click;
+                // PopupMenu
+                View.PopupMenu.Opening += PopupMenu_Opening;
+                // Toolbar
+                View.tbNew.Click += FileNew_Click;
+                View.tbOpen.ButtonClick += FileOpen_Click;
+                View.tbOpen.DropDownOpening += TbOpen_DropDownOpening;
+                View.tbSave.Click += FileSaveAs_Click;
+                View.tbProperties.Click += GraphProperties_Click;
+                View.tbFullScreen.Click += ZoomFullScreen_Click;
+            }
+        }
 
         public readonly Model Model;
+        public Graph Graph { get => Model.Graph; }
+
         public readonly CommandController CommandController;
-        public readonly GraphicsController GraphicsController;
-        public readonly JsonController JsonController;
         public readonly KeyboardController MathController;
         public readonly LegendController LegendController;
-        public readonly PropertiesController PropertiesController;
-        public readonly ToolbarController ToolbarController;
 
-        public Panel ClientPanel { get => View.ClientPanel; }
-        public Graph Graph { get => Model.Graph; }
-        public PictureBox PictureBox { get => View.PictureBox; }
+        public void UpdateMouseCoordinates(PointF p)
+        {
+            string
+                xy = $"{{x={p.X}, y={p.Y}}}",
+                rθ = new PolarPointF(p).ToString(Graph.DomainPolarDegrees);
+            View.XYlabel.Text = xy;
+            View.Rϴlabel.Text = rθ;
+            if (ShowCoordinatesTooltip)
+                InitCoordinatesToolTip($"{xy}\n{rθ}");
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
+        #region Private Properties
+
+        private AppForm _view;
+        private Panel ClientPanel { get => View.ClientPanel; }
+        private PictureBox PictureBox { get => View.PictureBox; }
+
+        private readonly GraphicsController GraphicsController;
+        private readonly JsonController JsonController;
+        private readonly PropertiesController PropertiesController;
+        private readonly ToolbarController ToolbarController;
+
         private Clock Clock => GraphicsController.Clock;
-
         private FormWindowState PriorWindowState;
         private bool PriorLegendVisible;
 
@@ -76,81 +126,9 @@
             }
         }
 
-        private AppForm _view;
-        public AppForm View
-        {
-            get => _view;
-            set
-            {
-                if (View != null)
-                {
-                    // Form
-                    View.FormClosing -= View_FormClosing;
-                    // Main Menu
-                    View.FileNew.Click -= FileNew_Click;
-                    View.FileOpen.Click -= FileOpen_Click;
-                    View.FileSave.Click -= FileSave_Click;
-                    View.FileSaveAs.Click -= FileSaveAs_Click;
-                    View.FileExit.Click -= FileExit_Click;
-                    View.GraphProperties.Click -= GraphProperties_Click;
-                    View.ZoomFullScreen.Click -= ZoomFullScreen_Click;
-                    View.ViewCoordinatesTooltip.Click -= ViewCoordinatesTooltip_Click;
-                    View.TimerMenu.DropDownOpening -= TimerMenu_DropDownOpening;
-                    View.TimerRunPause.Click -= TimerRunPause_Click;
-                    View.TimerReverse.Click -= TimerReverse_Click;
-                    View.TimerReset.Click -= TimerReset_Click;
-                    View.HelpAbout.Click -= HelpAbout_Click;
-                    // PopupMenu
-                    View.PopupMenu.Opening -= PopupMenu_Opening;
-                    // Toolbar
-                    View.tbNew.Click -= FileNew_Click;
-                    View.tbOpen.ButtonClick -= FileOpen_Click;
-                    View.tbOpen.DropDownOpening -= TbOpen_DropDownOpening;
-                    View.tbSave.Click -= FileSaveAs_Click;
-                    View.tbProperties.Click -= GraphProperties_Click;
-                    View.tbFullScreen.Click -= ZoomFullScreen_Click;
-                    View.tbTimer.ButtonClick -= TimerRunPause_Click;
-                    View.tbTimer.DropDownOpening -= TbTimer_DropDownOpening;
-                    View.TimeTrackBar.ValueChanged -= TimeTrackBar_ValueChanged;
-                }
-                _view = value;
-                if (View != null)
-                {
-                    // Form
-                    View.FormClosing += View_FormClosing;
-                    // Main Menu
-                    View.FileNew.Click += FileNew_Click;
-                    View.FileOpen.Click += FileOpen_Click;
-                    View.FileSave.Click += FileSave_Click;
-                    View.FileSaveAs.Click += FileSaveAs_Click;
-                    View.FileExit.Click += FileExit_Click;
-                    View.GraphProperties.Click += GraphProperties_Click;
-                    View.ZoomFullScreen.Click += ZoomFullScreen_Click;
-                    View.ViewCoordinatesTooltip.Click += ViewCoordinatesTooltip_Click;
-                    View.TimerMenu.DropDownOpening += TimerMenu_DropDownOpening;
-                    View.TimerRunPause.Click += TimerRunPause_Click;
-                    View.TimerReverse.Click += TimerReverse_Click;
-                    View.TimerReset.Click += TimerReset_Click;
-                    View.HelpAbout.Click += HelpAbout_Click;
-                    // PopupMenu
-                    View.PopupMenu.Opening += PopupMenu_Opening;
-                    // Toolbar
-                    View.tbNew.Click += FileNew_Click;
-                    View.tbOpen.ButtonClick += FileOpen_Click;
-                    View.tbOpen.DropDownOpening += TbOpen_DropDownOpening;
-                    View.tbSave.Click += FileSaveAs_Click;
-                    View.tbProperties.Click += GraphProperties_Click;
-                    View.tbFullScreen.Click += ZoomFullScreen_Click;
-                    View.tbTimer.ButtonClick += TimerRunPause_Click;
-                    View.tbTimer.DropDownOpening += TbTimer_DropDownOpening;
-                    View.TimeTrackBar.ValueChanged += TimeTrackBar_ValueChanged;
-                }
-            }
-        }
-
         #endregion
 
-        #region Menu events
+        #region Private Event Handlers
 
         private void FileNew_Click(object sender, EventArgs e) => NewFile();
         private void FileOpen_Click(object sender, EventArgs e) => OpenFile();
@@ -159,76 +137,22 @@
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
         private void GraphProperties_Click(object sender, EventArgs e) => PropertiesController.Show(View);
         private void ZoomFullScreen_Click(object sender, EventArgs e) => ToggleFullScreen();
-
-        private void TimerMenu_DropDownOpening(object sender, EventArgs e) => View.TimerRunPause.Checked = GraphicsController.ClockRunning;
-        private void TimerRunPause_Click(object sender, EventArgs e) => GraphicsController.ToggleClock();
-        private void TimerReverse_Click(object sender, EventArgs e) => TimerReverse = !TimerReverse;
-        private void TimerReset_Click(object sender, EventArgs e) => GraphicsController.ClockReset();
-
         private void ViewCoordinatesTooltip_Click(object sender, EventArgs e) => ToggleCoordinatesTooltip();
         private void HelpAbout_Click(object sender, EventArgs e) => new AboutController().ShowDialog(View);
-
         private void PopupMenu_Opening(object sender, CancelEventArgs e) => View.MainMenu.CloneTo(View.PopupMenu);
         private void TbOpen_DropDownOpening(object sender, EventArgs e) => View.FileReopen.CloneTo(View.tbOpen);
-        private void TbTimer_DropDownOpening(object sender, EventArgs e) => View.TimerMenu.CloneTo(View.tbTimer);
-
-        private void TimeTrackBar_ValueChanged(object sender, EventArgs e) => GraphicsController.UpdateVirtualTimeFactor(TimerReverse);
-
-        #endregion
-
-        #region Model
-
         private void Model_Cleared(object sender, EventArgs e) => ModelCleared();
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
-        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
-            OnPropertyChanged($"Model.{e.PropertyName}");
-
-        private void ModelCleared() => InitPaper();
-
-        private void ModifiedChanged()
-        {
-            UpdateCaption();
-            View.FileSave.Enabled = Model.Modified;
-            View.ModifiedLabel.Visible = Model.Modified;
-        }
-
-        private void UpdatePlotType()
-        {
-            View.GraphTypeCartesian.Checked =
-                View.tbCartesian.Checked = Graph.PlotType == PlotType.Cartesian;
-            View.GraphTypePolar.Checked =
-                View.tbPolar.Checked = Graph.PlotType == PlotType.Polar;
-        }
-
-        private void UpdateUI()
-        {
-            UpdatePlotType();
-            LegendController.GraphRead();
-        }
+        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e) => OnPropertyChanged($"Model.{e.PropertyName}");
+        private void JsonController_FileLoaded(object sender, EventArgs e) => FileLoaded();
+        private void JsonController_FilePathChanged(object sender, EventArgs e) => UpdateCaption();
+        private void JsonController_FileSaved(object sender, EventArgs e) => FileSaved();
+        private void JsonController_FileSaving(object sender, CancelEventArgs e) => e.Cancel = !ContinueSaving();
+        private void View_FormClosing(object sender, FormClosingEventArgs e) => e.Cancel = !JsonController.SaveIfModified();
 
         #endregion
 
-        #region Clock
-
-        public bool TimerReverse
-        {
-            get => View.TimerReverse.Checked;
-            set
-            {
-                View.TimerReverse.Checked = value;
-                GraphicsController.UpdateVirtualTimeFactor(value);
-            }
-        }
-
-        public void UpdateLabels(double virtualSecondsElapsed, double fps)
-        {
-            View.Tlabel.Text = string.Format("t={0:f1}", virtualSecondsElapsed);
-            View.FPSlabel.Text = string.Format("fps={0:f1}", fps);
-        }
-
-        #endregion
-
-        #region PictureBox
+        #region Private Methods
 
         private void AdjustFullScreen()
         {
@@ -236,7 +160,7 @@
             View.MainMenuStrip.Visible =
                 View.Toolbar.Visible =
                 View.TimeTrackBar.Visible =
-                View.StatusBar.Visible =normal;
+                View.StatusBar.Visible = normal;
             if (FullScreen)
             {
                 PriorLegendVisible = View.LegendPanel.Visible;
@@ -253,45 +177,6 @@
             }
         }
 
-        private void InitCoordinatesToolTip(string toolTip)
-        {
-            if (View.ToolTip.GetToolTip(PictureBox) != toolTip)
-                View.ToolTip.SetToolTip(PictureBox, toolTip);
-        }
-
-        private void InitPaper() => ClientPanel.BackColor = Graph.PaperColour;
-
-        private void ToggleCoordinatesTooltip() => ShowCoordinatesTooltip = !ShowCoordinatesTooltip;
-        private void ToggleFullScreen() => FullScreen = !FullScreen;
-
-        public void UpdateMouseCoordinates(PointF p)
-        {
-            string
-                xy = $"{{x={p.X}, y={p.Y}}}",
-                rθ = new PolarPointF(p).ToString(Graph.DomainPolarDegrees);
-            View.XYlabel.Text = xy;
-            View.Rϴlabel.Text = rθ;
-            if (ShowCoordinatesTooltip)
-                InitCoordinatesToolTip($"{xy}\n{rθ}");
-        }
-
-        #endregion
-
-        #region JsonController
-
-        private void JsonController_FileLoaded(object sender, EventArgs e) => FileLoaded();
-
-        private void JsonController_FilePathChanged(object sender, EventArgs e) =>
-            UpdateCaption();
-
-        private void JsonController_FileSaved(object sender, EventArgs e) => FileSaved();
-
-        private void JsonController_FileSaving(object sender, CancelEventArgs e) =>
-            e.Cancel = !ContinueSaving();
-
-        private void View_FormClosing(object sender, FormClosingEventArgs e) =>
-            e.Cancel = !JsonController.SaveIfModified();
-
         private bool ContinueSaving() => true;
 
         private void FileLoaded()
@@ -303,6 +188,22 @@
 
         private void FileSaved() => Graph.ZoomSet();
 
+        private void InitCoordinatesToolTip(string toolTip)
+        {
+            if (View.ToolTip.GetToolTip(PictureBox) != toolTip)
+                View.ToolTip.SetToolTip(PictureBox, toolTip);
+        }
+
+        private void InitPaper() => ClientPanel.BackColor = Graph.PaperColour;
+        private void ModelCleared() => InitPaper();
+
+        private void ModifiedChanged()
+        {
+            UpdateCaption();
+            View.FileSave.Enabled = Model.Modified;
+            View.ModifiedLabel.Visible = Model.Modified;
+        }
+
         private void NewFile()
         {
             JsonController.Clear();
@@ -311,16 +212,7 @@
             UpdateUI();
         }
 
-        private void OpenFile() { JsonController.Open(); }
-        private void UpdateCaption() { View.Text = JsonController.WindowCaption; }
-
-        #endregion
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
+        private void OnPropertyChanged(string propertyName)
         {
             switch (propertyName)
             {
@@ -335,6 +227,26 @@
             GraphicsController.InvalidateView();
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private void OpenFile() { JsonController.Open(); }
+
+        private void UpdatePlotType()
+        {
+            View.GraphTypeCartesian.Checked =
+                View.tbCartesian.Checked = Graph.PlotType == PlotType.Cartesian;
+            View.GraphTypePolar.Checked =
+                View.tbPolar.Checked = Graph.PlotType == PlotType.Polar;
+        }
+
+        private void UpdateUI()
+        {
+            UpdatePlotType();
+            LegendController.GraphRead();
+        }
+
+        private void ToggleCoordinatesTooltip() => ShowCoordinatesTooltip = !ShowCoordinatesTooltip;
+        private void ToggleFullScreen() => FullScreen = !FullScreen;
+        private void UpdateCaption() { View.Text = JsonController.WindowCaption; }
 
         #endregion
     }

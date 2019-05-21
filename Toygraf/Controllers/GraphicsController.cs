@@ -9,16 +9,52 @@
 
     public class GraphicsController
     {
+        #region Public Interface
+
         public GraphicsController(AppController parent)
         {
             Parent = parent;
             View = parent.View.PictureBox;
+            AppForm.TimerMenu.DropDownOpening += TimerMenu_DropDownOpening;
+            AppForm.TimerRunPause.Click += TimerRunPause_Click;
+            AppForm.TimerReverse.Click += TimerReverse_Click;
+            AppForm.TimerReset.Click += TimerReset_Click;
+            AppForm.tbTimer.ButtonClick += TimerRunPause_Click;
+            AppForm.tbTimer.DropDownOpening += TbTimer_DropDownOpening;
+            AppForm.TimeTrackBar.ValueChanged += TimeTrackBar_ValueChanged;
             AdjustPictureBox();
         }
 
         public Clock Clock;
         public bool ClockRunning => Clock.Running;
 
+        public PictureBox View
+        {
+            get => _view;
+            set
+            {
+                _view = value;
+                View.MouseDown += View_MouseDown;
+                View.MouseLeave += View_MouseLeave;
+                View.MouseMove += View_MouseMove;
+                View.MouseUp += View_MouseUp;
+                View.MouseWheel += View_MouseWheel;
+                View.Paint += View_Paint;
+                View.Parent.Resize += ParentView_Resize;
+                View.Resize += View_Resize;
+                Clock = new Clock { Sync = View };
+                Clock.Tick += Clock_Tick;
+            }
+        }
+
+        public void AdjustPictureBox() => View.Bounds = View.Parent.ClientRectangle;
+        public void InvalidateView() => View.Invalidate();
+
+        #endregion
+
+        #region Private Properties
+
+        private PictureBox _view;
         private readonly AppController Parent;
         private AppForm AppForm { get => Parent.View; }
         private CommandController CommandController { get => Parent.CommandController; }
@@ -26,45 +62,28 @@
         private Point DragFrom, MouseDownAt;
         private bool Dragging;
 
-        private PictureBox _view;
-        public PictureBox View
+        private bool TimerReverse
         {
-            get => _view;
+            get => AppForm.TimerReverse.Checked;
             set
             {
-                if (View != null)
-                {
-                    Clock.Stop();
-                    Clock.Tick -= Clock_Tick;
-                    View.MouseDown -= View_MouseDown;
-                    View.MouseLeave -= View_MouseLeave;
-                    View.MouseMove -= View_MouseMove;
-                    View.MouseUp -= View_MouseUp;
-                    View.MouseWheel -= View_MouseWheel;
-                    View.Paint -= View_Paint;
-                    View.Parent.Resize -= ParentView_Resize;
-                    View.Resize -= View_Resize;
-                }
-                _view = value;
-                if (View != null)
-                {
-                    View.MouseDown += View_MouseDown;
-                    View.MouseLeave += View_MouseLeave;
-                    View.MouseMove += View_MouseMove;
-                    View.MouseUp += View_MouseUp;
-                    View.MouseWheel += View_MouseWheel;
-                    View.Paint += View_Paint;
-                    View.Parent.Resize += ParentView_Resize;
-                    View.Resize += View_Resize;
-                    Clock = new Clock { Sync = View };
-                    Clock.Tick += Clock_Tick;
-                }
+                AppForm.TimerReverse.Checked = value;
+                UpdateVirtualTimeFactor(value);
             }
         }
 
-        private void ParentView_Resize(object sender, System.EventArgs e) => AdjustPictureBox();
+        #endregion
 
-        public void AdjustPictureBox() => View.Bounds = View.Parent.ClientRectangle;
+        #region Private Event Handlers
+
+        private void TimerMenu_DropDownOpening(object sender, EventArgs e) => AppForm.TimerRunPause.Checked = ClockRunning;
+        private void TimerRunPause_Click(object sender, EventArgs e) => ToggleClock();
+        private void TimerReverse_Click(object sender, EventArgs e) => TimerReverse = !TimerReverse;
+        private void TimerReset_Click(object sender, EventArgs e) => ClockReset();
+        private void TimeTrackBar_ValueChanged(object sender, EventArgs e) => UpdateVirtualTimeFactor(TimerReverse);
+        private void TbTimer_DropDownOpening(object sender, EventArgs e) => AppForm.TimerMenu.CloneTo(AppForm.tbTimer);
+        private void ParentView_Resize(object sender, System.EventArgs e) => AdjustPictureBox();
+        private void Clock_Tick(object sender, EventArgs e) => UpdateRealTimeLabels();
 
         private void View_MouseDown(object sender, MouseEventArgs e)
         {
@@ -84,8 +103,7 @@
             }
         }
 
-        private void View_MouseLeave(object sender, EventArgs e) =>
-            Parent.UpdateMouseCoordinates(PointF.Empty);
+        private void View_MouseLeave(object sender, EventArgs e) => Parent.UpdateMouseCoordinates(PointF.Empty);
 
         private void View_MouseMove(object sender, MouseEventArgs e)
         {
@@ -143,32 +161,33 @@
             InvalidateView();
         }
 
-        private void Clock_Tick(object sender, EventArgs e) => UpdateRealTimeLabels();
+        #endregion
 
-        public void ClockReset()
+        #region Private Methods
+
+        private PointF ClientToGraph(Point p) => Graph.ClientToGraph(p, View.ClientRectangle);
+        private Point GraphToClient(PointF p) => Graph.GraphToClient(p, View.ClientRectangle);
+        private Point GraphToScreen(PointF p) => View.PointToScreen(GraphToClient(p));
+        private PointF ScreenToGraph(Point p) => ClientToGraph(View.PointToClient(p));
+        private void ToggleClock() => Clock.Running = !Clock.Running;
+
+        private void ClockReset()
         {
             Clock.Reset();
             Parent.View.TimeTrackBar.Value = 0;
-            Parent.TimerReverse = false;
+            TimerReverse = false;
             UpdateRealTimeLabels();
         }
-
-        public void InvalidateView() => View.Invalidate();
-
-        private Point GraphToClient(PointF p) => Graph.GraphToClient(p, View.ClientRectangle);
-        private PointF ClientToGraph(Point p) => Graph.ClientToGraph(p, View.ClientRectangle);
-
-        private Point GraphToScreen(PointF p) => View.PointToScreen(GraphToClient(p));
-        private PointF ScreenToGraph(Point p) => ClientToGraph(View.PointToClient(p));
 
         private void UpdateRealTimeLabels()
         {
             Clock.UpdateFPS();
-            Parent.UpdateLabels(Clock.VirtualSecondsElapsed, Clock.FramesPerSecond);
+            AppForm.Tlabel.Text = string.Format("t={0:f1}", Clock.VirtualSecondsElapsed);
+            AppForm.FPSlabel.Text = string.Format("fps={0:f1}", Clock.FramesPerSecond);
             InvalidateView();
         }
 
-        public void UpdateVirtualTimeFactor(bool timeReverse)
+        private void UpdateVirtualTimeFactor(bool timeReverse)
         {
             var value = Parent.View.TimeTrackBar.Value;
             int factor = (1 << Math.Abs(value)) * (timeReverse ? -1 : +1);
@@ -178,9 +197,6 @@
             Parent.View.SpeedLabel.Text = speed;
         }
 
-        public void ToggleClock()
-        {
-            Clock.Running = !Clock.Running;
-        }
+        #endregion
     }
 }
