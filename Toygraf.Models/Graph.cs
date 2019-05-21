@@ -256,7 +256,7 @@
             }
         }
 
-        private PointF _originalCentre;
+        public PointF OriginalCentre { get; private set; }
         public PointF Centre
         {
             get => Viewport.Centre;
@@ -270,7 +270,7 @@
             }
         }
 
-        private float _originalWidth;
+        public float OriginalWidth { get; private set; }
         public float Width
         {
             get => Viewport.Width;
@@ -381,9 +381,9 @@
             // Interpolation
             _interpolation = Defaults.GraphInterpolation;
             // PointF
-            _originalCentre = Defaults.GraphViewport.Centre;
+            OriginalCentre = Defaults.GraphViewport.Centre;
             // SizeF
-            _originalWidth = Defaults.GraphViewport.Width;
+            OriginalWidth = Defaults.GraphViewport.Width;
             // TickStyles
             _tickStyles = Defaults.GraphTickStyles;
             // Viewport
@@ -596,21 +596,7 @@
 
         #region Scroll & Zoom
 
-        public void Scroll(float xFactor, float yFactor)
-        {
-            Centre = new PointF(
-                Centre.X + Width * xFactor,
-                Centre.Y + Width * yFactor);
-        }
-
-        public void ScrollBy(float xDelta, float yDelta) =>
-            Centre = new PointF(Centre.X + xDelta, Centre.Y + yDelta);
-
-        public void ScrollTo(float x, float y) => Centre = new PointF(x, y);
-        public void Zoom(float factor) => Width *= factor;
-
-        public void ZoomReset() { Centre = _originalCentre; Width = _originalWidth; }
-        public void ZoomSet() { _originalCentre = Centre; _originalWidth = Width; }
+        public void ZoomSet() { OriginalCentre = Centre; OriginalWidth = Width; }
 
         #endregion
 

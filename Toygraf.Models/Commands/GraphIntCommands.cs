@@ -12,7 +12,7 @@
             Set = set;
         }
 
-        protected int Value;
+        protected new int Value { get => (int)base.Value; set => base.Value = value; }
         protected Func<Graph, int> Get;
         protected Action<Graph, int> Set;
 
@@ -33,6 +33,7 @@
                 g => g.FillTransparencyPercent,
                 (g, n) => g.FillTransparencyPercent = n) { }
 
+        public override string Action => "fill colour change";
         protected override string Detail => $"fill transparency = {Value}%";
     }
 
@@ -43,6 +44,7 @@
                 g => g.PaperTransparencyPercent,
                 (g, n) => g.PaperTransparencyPercent = n) { }
 
+        public override string Action => "paper colour change";
         protected override string Detail => $"paper transparency = {Value}%";
     }
 
@@ -53,6 +55,7 @@
                 g => g.StepCount,
                 (g, n) => g.StepCount = n) { }
 
+        public override string Action => "#steps change";
         protected override string Detail => $"#steps = {Value}";
     }
 }

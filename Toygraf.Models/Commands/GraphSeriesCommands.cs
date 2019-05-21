@@ -33,6 +33,8 @@
     {
         public GraphInsertSeriesCommand(int index) : base(index) { }
 
+        public override string Action => "function add";
+
         public override void Redo(Graph graph) => InsertSeries(graph);
         public override void Undo(Graph graph) => RemoveSeries(graph);
     }
@@ -40,6 +42,8 @@
     public class GraphRemoveSeriesCommand : GraphSeriesCommand
     {
         public GraphRemoveSeriesCommand(int index) : base(index) { }
+
+        public override string Action => "function delete";
 
         public override void Redo(Graph graph) => RemoveSeries(graph);
         public override void Undo(Graph graph) => InsertSeries(graph);

@@ -182,6 +182,12 @@
   <ItemGroup>
     <Content Include="Documentation\INotifyPropertyChanged.txt" />
     <Content Include="Documentation\Cache Invalidation.txt" />
+    <None Include="Icons\Delete.png" />
+    <None Include="Icons\Paste.png" />
+    <None Include="Icons\Copy.png" />
+    <None Include="Icons\Cut.png" />
+    <None Include="Icons\Redo.png" />
+    <None Include="Icons\Undo.png" />
     <None Include="Icons\127px-Dragon_32.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

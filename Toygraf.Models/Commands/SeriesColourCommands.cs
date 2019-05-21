@@ -18,6 +18,7 @@
         public SeriesFillColourCommand(int index, Color colour) :
             base(index, colour, s => s.FillColour, (s, c) => s.FillColour = c) { }
 
+        public override string Action => "fill colour change";
         protected override string Detail => "fill";
     }
 
@@ -26,6 +27,7 @@
         public SeriesLimitColourCommand(int index, Color colour) :
             base(index, colour, s => s.LimitColour, (s, c) => s.LimitColour = c) { }
 
+        public override string Action => "limit colour change";
         protected override string Detail => "limit";
     }
 
@@ -34,6 +36,7 @@
         public SeriesPenColourCommand(int index, Color colour) :
             base(index, colour, s => s.PenColour, (s, c) => s.PenColour = c) { }
 
+        public override string Action => "pen colour change";
         protected override string Detail => "pen";
     }
 }

@@ -6,6 +6,7 @@
     using System.Windows.Forms;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
+    using ToyGraf.Models.Commands;
     using ToyGraf.Views;
 
     public class LegendController
@@ -256,11 +257,21 @@
             foreach (var child in Children)
             {
                 var series = index < count ? Graph.Series[index] : Graph.AddSeries();
-                series.Visible = child.TraceVisible;
-                series.Formula = child.Formula;
-                series.PenColour = child.PenColour;
-                series.FillColour = child.FillColour;
-                series.FillTransparencyPercent = child.FillTransparencyPercent;
+                var visible = child.TraceVisible;
+                if (series.Visible != visible)
+                    Parent.Run(new SeriesVisibleCommand(index, visible));
+                var formula = child.Formula;
+                if (series.Formula != formula)
+                    Parent.Run(new SeriesFormulaCommand(index, formula));
+                var penColour = child.PenColour;
+                if (series.PenColour != penColour)
+                    Parent.Run(new SeriesPenColourCommand(index, penColour));
+                var fillColour = child.FillColour;
+                if (series.FillColour != fillColour)
+                    Parent.Run(new SeriesFillColourCommand(index, fillColour));
+                var fillTransparencyPercent = child.FillTransparencyPercent;
+                if (series.FillTransparencyPercent != fillTransparencyPercent)
+                    Parent.Run(new SeriesFillTransparencyPercentCommand(index, fillTransparencyPercent));
                 index++;
             }
             count -= index;

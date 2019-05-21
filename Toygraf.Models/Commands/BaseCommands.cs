@@ -2,8 +2,12 @@
 {
     public class GraphCommand
     {
+        public virtual string Action => "property change";
+
         public virtual void Redo(Graph graph) => Do(graph);
         public virtual void Undo(Graph graph) => Do(graph);
+
+        protected object Value { get; set; }
 
         protected virtual void Do(Graph graph) { }
         protected virtual string Detail { get; }
@@ -17,6 +21,6 @@
             Index = index;
         }
 
-        protected int Index;
+        public int Index { get; protected set; }
     }
 }

@@ -18,6 +18,8 @@
                 s => s.Visible,
                 (s, b) => s.Visible = b) { }
 
+        public override string Action => "show/hide function";
+
         protected override string Detail => "visible";
     }
 }

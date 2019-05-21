@@ -12,7 +12,7 @@
             Set = set;
         }
 
-        protected int Value;
+        protected new int Value { get => (int)base.Value; set => base.Value = value; }
         protected Func<Series, int> Get;
         protected Action<Series, int> Set;
 
@@ -33,6 +33,7 @@
                 s => s.FillTransparencyPercent,
                 (s, n) => s.FillTransparencyPercent = n) { }
 
+        public override string Action => "fill colour change";
         protected override string Detail => $"fill transparency = {Value}%";
     }
 
@@ -43,6 +44,7 @@
                 s => s.StepCount,
                 (s, n) => s.StepCount = n) { }
 
+        public override string Action => "#steps change";
         protected override string Detail => $"#steps = {Value}";
     }
 }

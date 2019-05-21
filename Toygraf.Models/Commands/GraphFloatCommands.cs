@@ -12,7 +12,7 @@
             Set = set;
         }
 
-        protected float Value;
+        protected new float Value { get => (float)base.Value; set => base.Value = value; }
         protected Func<Graph, float> Get;
         protected Action<Graph, float> Set;
 
@@ -33,6 +33,7 @@
                 g => g.DomainMaxCartesian,
                 (g, f) => g.DomainMaxCartesian = f) { }
 
+        public override string Action => "domain edit";
         protected override string Detail => $"domain max (Cartesian)";
     }
 
@@ -43,6 +44,7 @@
                 g => g.DomainMaxPolar,
                 (g, f) => g.DomainMaxPolar = f) { }
 
+        public override string Action => "domain edit";
         protected override string Detail => $"domain max (polar)";
     }
 
@@ -53,6 +55,7 @@
                 g => g.DomainMinCartesian,
                 (g, f) => g.DomainMinCartesian = f) { }
 
+        public override string Action => "domain edit";
         protected override string Detail => $"domain min (Cartesian)";
     }
 
@@ -63,6 +66,7 @@
                 g => g.DomainMinPolar,
                 (g, f) => g.DomainMinPolar = f) { }
 
+        public override string Action => "domain edit";
         protected override string Detail => $"domain min (polar)";
     }
 
@@ -73,6 +77,7 @@
                 g => g.Width,
                 (g, f) => g.Width = f) { }
 
-        protected override string Detail => $"width";
+        public override string Action => "zoom";
+        protected override string Detail => $"zoom width";
     }
 }

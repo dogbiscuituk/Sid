@@ -6,6 +6,7 @@
     using System.Windows.Forms;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
+    using ToyGraf.Models.Commands;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Models.Structs;
     using ToyGraf.Views;
@@ -203,6 +204,7 @@
         private void PopupMenu_Opening(object sender, CancelEventArgs e) => View.MainMenu.CloneTo(View.PopupMenu);
         private void TbOpen_DropDownOpening(object sender, EventArgs e) => View.FileReopen.CloneTo(View.tbOpen);
         private void TbTimer_DropDownOpening(object sender, EventArgs e) => View.TimerMenu.CloneTo(View.tbTimer);
+
         private void TimeTrackBar_ValueChanged(object sender, EventArgs e) => GraphicsController.UpdateVirtualTimeFactor(TimerReverse);
 
         #endregion
@@ -310,11 +312,26 @@
 
         #region Scroll & Zoom
 
-        public void Scroll(float xFactor, float yFactor) => Graph.Scroll(xFactor, yFactor);
-        public void ScrollBy(float xDelta, float yDelta) => Graph.ScrollBy(xDelta, yDelta);
-        public void ScrollTo(float x, float y) => Graph.ScrollTo(x, y);
-        public void Zoom(float factor) => Graph.Zoom(factor);
-        public void ZoomReset() => Graph.ZoomReset();
+        public void Scroll(float xFactor, float yFactor) => Run(new GraphCentreCommand(
+            Graph.Centre.X + Graph.Width * xFactor,
+            Graph.Centre.Y + Graph.Width * yFactor));
+
+        public void ScrollBy(float xDelta, float yDelta) => Run(new GraphCentreCommand(
+            Graph.Centre.X + xDelta,
+            Graph.Centre.Y + yDelta));
+
+        public void ScrollTo(float x, float y) => Run(new GraphCentreCommand(x, y));
+        public void Zoom(float factor) => Run(new GraphWidthCommand(Graph.Width * factor));
+
+        public void ZoomReset() => Run(
+            new GraphCentreCommand(Graph.OriginalCentre),
+            new GraphWidthCommand(Graph.OriginalWidth));
+
+        #endregion
+
+        #region CommandController
+
+        public void Run(params GraphCommand[] commands) => CommandController.Execute(commands);
 
         #endregion
 

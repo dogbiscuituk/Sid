@@ -13,7 +13,7 @@
             Value = value;
         }
 
-        protected PointF Value;
+        protected new PointF Value { get => (PointF)base.Value; set => base.Value = value; }
         protected Func<Graph, PointF> Get;
         protected Action<Graph, PointF> Set;
 
@@ -34,6 +34,10 @@
                 g => g.Centre,
                 (g, p) => g.Centre = p) { }
 
+        public GraphCentreCommand(float x, float y) :
+            this(new PointF(x, y)) { }
+
+        public override string Action => "scroll";
         protected override string Detail => "centre";
     }
 }

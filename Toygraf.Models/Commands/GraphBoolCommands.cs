@@ -16,6 +16,7 @@
         public GraphDomainGraphWidthCommand(bool value) :
             base(value, g => g.DomainGraphWidth, (g, b) => g.DomainGraphWidth = b) { }
 
+        public override string Action => "domain edit";
         protected override string Detail => "unlimited domain";
     }
 
@@ -24,6 +25,7 @@
         public GraphDomainPolarDegreesCommand(bool value) :
             base(value, g => g.DomainPolarDegrees, (g, b) => g.DomainPolarDegrees = b) { }
 
+        public override string Action => "domain edit";
         protected override string Detail => "polar domain in degrees";
     }
 }

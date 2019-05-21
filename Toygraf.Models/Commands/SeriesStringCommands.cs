@@ -12,7 +12,7 @@
             Set = set;
         }
 
-        protected string Value;
+        protected new string Value { get => (string)base.Value; set => base.Value = value; }
         protected Func<Series, string> Get;
         protected Action<Series, string> Set;
 
@@ -33,6 +33,7 @@
                 s => s.Formula,
                 (s, n) => s.Formula = n) { }
 
+        public override string Action => "formula change";
         protected override string Detail => "formula";
     }
 }
