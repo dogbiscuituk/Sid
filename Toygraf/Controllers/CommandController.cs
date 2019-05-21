@@ -5,6 +5,7 @@
     using System.Windows.Forms;
     using ToyGraf.Models;
     using ToyGraf.Models.Commands;
+    using ToyGraf.Models.Enumerations;
     using ToyGraf.Views;
 
     public class CommandController
@@ -15,6 +16,10 @@
             View.EditUndo.Click += EditUndo_Click;
             View.EditRedo.Click += EditRedo_Click;
             View.EditGroupUndo.Click += EditGroupUndo_Click;
+            View.GraphTypeCartesian.Click += GraphTypeCartesian_Click;
+            View.tbCartesian.Click += GraphTypeCartesian_Click;
+            View.GraphTypePolar.Click += GraphTypePolar_Click;
+            View.tbPolar.Click += GraphTypePolar_Click;
             View.tbUndo.ButtonClick += EditUndo_Click;
             View.tbUndo.DropDownOpening += TbUndo_DropDownOpening;
             View.tbRedo.ButtonClick += EditRedo_Click;
@@ -30,6 +35,12 @@
         }
 
         private void EditGroupUndo_Click(object sender, EventArgs e) => GroupUndo = !GroupUndo;
+
+        private void GraphTypePolar_Click(object sender, EventArgs e) =>
+            Execute(new GraphPlotTypeCommand(PlotType.Polar));
+
+        private void GraphTypeCartesian_Click(object sender, EventArgs e) =>
+            Execute(new GraphPlotTypeCommand(PlotType.Cartesian));
 
         private void TbUndo_DropDownOpening(object sender, EventArgs e) =>
             CopyCommands(UndoStack, View.tbUndo.DropDownItems, UndoMultiple);

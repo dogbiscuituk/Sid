@@ -23,7 +23,7 @@
             Value = s;
         }
 
-        public override string ToString() => $"f{Index}(x,t) {Detail} = \"{Value}\"";
+        public override string ToString() => $"f{Index} {Detail} = \"{Value}\"";
     }
 
     public class SeriesFormulaCommand : SeriesStringCommand

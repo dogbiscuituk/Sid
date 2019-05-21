@@ -93,8 +93,6 @@
                     View.FileSave.Click -= FileSave_Click;
                     View.FileSaveAs.Click -= FileSaveAs_Click;
                     View.FileExit.Click -= FileExit_Click;
-                    View.GraphTypeCartesian.Click -= GraphTypeCartesian_Click;
-                    View.GraphTypePolar.Click -= GraphTypePolar_Click;
                     View.GraphProperties.Click -= GraphProperties_Click;
                     View.ViewCoordinatesTooltip.Click -= ViewCoordinatesTooltip_Click;
                     View.ZoomIn.Click -= ZoomIn_Click;
@@ -118,8 +116,6 @@
                     View.tbOpen.ButtonClick -= FileOpen_Click;
                     View.tbOpen.DropDownOpening -= TbOpen_DropDownOpening;
                     View.tbSave.Click -= FileSaveAs_Click;
-                    View.tbCartesian.Click -= GraphTypeCartesian_Click;
-                    View.tbPolar.Click -= GraphTypePolar_Click;
                     View.tbProperties.Click -= GraphProperties_Click;
                     View.tbFullScreen.Click -= ZoomFullScreen_Click;
                     View.tbTimer.ButtonClick -= TimerRunPause_Click;
@@ -137,8 +133,6 @@
                     View.FileSave.Click += FileSave_Click;
                     View.FileSaveAs.Click += FileSaveAs_Click;
                     View.FileExit.Click += FileExit_Click;
-                    View.GraphTypeCartesian.Click += GraphTypeCartesian_Click;
-                    View.GraphTypePolar.Click += GraphTypePolar_Click;
                     View.GraphProperties.Click += GraphProperties_Click;
                     View.ViewCoordinatesTooltip.Click += ViewCoordinatesTooltip_Click;
                     View.ZoomIn.Click += ZoomIn_Click;
@@ -162,8 +156,6 @@
                     View.tbOpen.ButtonClick += FileOpen_Click;
                     View.tbOpen.DropDownOpening += TbOpen_DropDownOpening;
                     View.tbSave.Click += FileSaveAs_Click;
-                    View.tbCartesian.Click += GraphTypeCartesian_Click;
-                    View.tbPolar.Click += GraphTypePolar_Click;
                     View.tbProperties.Click += GraphProperties_Click;
                     View.tbFullScreen.Click += ZoomFullScreen_Click;
                     View.tbTimer.ButtonClick += TimerRunPause_Click;
@@ -182,8 +174,6 @@
         private void FileSave_Click(object sender, EventArgs e) => JsonController.Save();
         private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
-        private void GraphTypeCartesian_Click(object sender, EventArgs e) => Graph.PlotType = PlotType.Cartesian;
-        private void GraphTypePolar_Click(object sender, EventArgs e) => Graph.PlotType = PlotType.Polar;
         private void GraphProperties_Click(object sender, EventArgs e) => PropertiesController.Show(View);
         private void ZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
         private void ZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);

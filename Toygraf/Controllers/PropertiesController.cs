@@ -290,28 +290,28 @@
             // Reticle Colours
             //
             var axisColour = ColourController.GetColour(View.cbAxisColour);
-            if (Graph.AxisColour != axisColour)
+            if (Graph.AxisColour.ToArgb() != axisColour.ToArgb())
                 AppController.Run(new GraphAxisColourCommand(axisColour));
             var reticleColour = ColourController.GetColour(View.cbReticleColour);
-            if (Graph.ReticleColour != reticleColour)
+            if (Graph.ReticleColour.ToArgb() != reticleColour.ToArgb())
                 AppController.Run(new GraphReticleColourCommand(reticleColour));
             var penColour = ColourController.GetColour(View.cbPenColour);
-            if (Graph.PenColour != penColour)
+            if (Graph.PenColour.ToArgb() != penColour.ToArgb())
                 AppController.Run(new GraphPenColourCommand(penColour));
             var limitColour = ColourController.GetColour(View.cbLimitColour);
-            if (Graph.LimitColour != limitColour)
+            if (Graph.LimitColour.ToArgb() != limitColour.ToArgb())
                 AppController.Run(new GraphLimitColourCommand(limitColour));
             //
             // Fill Colours
             //
             var paperColour = ColourController.GetColour(View.cbPaperColour);
-            if (Graph.PaperColour != paperColour)
+            if (Graph.PaperColour.ToArgb() != paperColour.ToArgb())
                 AppController.Run(new GraphPaperColourCommand(paperColour));
             var paperTransparencyPercent = (int)View.sePaperTransparency.Value;
             if (Graph.PaperTransparencyPercent != paperTransparencyPercent)
                 AppController.Run(new GraphPaperTransparencyPercentCommand(paperTransparencyPercent));
             var fillColour = ColourController.GetColour(View.cbFillColour);
-            if (Graph.FillColour != fillColour)
+            if (Graph.FillColour.ToArgb() != fillColour.ToArgb())
                 AppController.Run(new GraphFillColourCommand(fillColour));
             var fillTransparencyPercent = (int)View.seFillTransparency.Value;
             if (Graph.FillTransparencyPercent != fillTransparencyPercent)

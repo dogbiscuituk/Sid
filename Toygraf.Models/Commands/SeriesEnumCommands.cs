@@ -7,6 +7,6 @@
         protected SeriesEnumCommand(int index, object value, Func<Series, object> get, Action<Series, object> set) :
             base(index, (int)value, s => (int)get(s), (s, e) => set(s, e)) { }
 
-        public override string ToString() => $"f{Index}(x,t) {Detail}";
+        public override string ToString() => $"f{Index} {Detail}";
     }
 }

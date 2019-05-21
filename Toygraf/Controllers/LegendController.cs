@@ -264,10 +264,10 @@
                 if (series.Formula != formula)
                     Parent.Run(new SeriesFormulaCommand(index, formula));
                 var penColour = child.PenColour;
-                if (series.PenColour != penColour)
+                if (series.PenColour.ToArgb() != penColour.ToArgb())
                     Parent.Run(new SeriesPenColourCommand(index, penColour));
                 var fillColour = child.FillColour;
-                if (series.FillColour != fillColour)
+                if (series.FillColour.ToArgb() != fillColour.ToArgb())
                     Parent.Run(new SeriesFillColourCommand(index, fillColour));
                 var fillTransparencyPercent = child.FillTransparencyPercent;
                 if (series.FillTransparencyPercent != fillTransparencyPercent)

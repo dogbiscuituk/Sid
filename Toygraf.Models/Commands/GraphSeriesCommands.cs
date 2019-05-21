@@ -25,8 +25,8 @@
         }
 
         public override string ToString() => Series == null
-            ? $"f{Index}(x,t)"
-            : $"f{Index}(x,t) = {Series.Formula}";
+            ? $"f{Index}"
+            : $"f{Index} = {Series.Formula}";
     }
 
     public class GraphInsertSeriesCommand : GraphSeriesCommand

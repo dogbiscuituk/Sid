@@ -16,6 +16,7 @@
         public GraphElementsCommand(Elements value) :
             base(value, g => g.Elements, (g, e) => g.Elements = (Elements)e) { }
 
+        public override string Action => "reticle elements change";
         protected override string Detail => $"elements = {(Elements)Value}";
     }
 
@@ -24,6 +25,7 @@
         public GraphInterpolationCommand(Interpolation value) :
             base(value, g => g.Interpolation, (g, e) => g.Interpolation = (Interpolation)e) { }
 
+        public override string Action => "interpolation change";
         protected override string Detail => $"interpolation = {(Interpolation)Value}";
     }
 
@@ -32,6 +34,7 @@
         public GraphOptimizationCommand(Optimization value) :
             base(value, g => g.Optimization, (g, n) => g.Optimization = (Optimization)n) { }
 
+        public override string Action => "optimization change";
         protected override string Detail => $"optimization = {(Optimization)Value}";
     }
 
@@ -40,6 +43,7 @@
         public GraphPlotTypeCommand(PlotType value) :
             base(value, g => g.PlotType, (g, n) => g.PlotType = (PlotType)n) { }
 
+        public override string Action => "plot type change";
         protected override string Detail => $"plot type = {(PlotType)Value}";
     }
 
@@ -48,6 +52,7 @@
         public GraphTickStylesCommand(TickStyles value) :
             base(value, g => g.TickStyles, (g, n) => g.TickStyles = (TickStyles)n) { }
 
+        public override string Action => "tick styles change";
         protected override string Detail => $"tick style = {(TickStyles)Value}";
     }
 }

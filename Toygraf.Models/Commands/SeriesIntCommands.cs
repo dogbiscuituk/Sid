@@ -23,7 +23,7 @@
             Value = n;
         }
 
-        public override string ToString() => $"f{Index}(x,t) {Detail}";
+        public override string ToString() => $"f{Index} {Detail}";
     }
 
     public class SeriesFillTransparencyPercentCommand : SeriesIntCommand

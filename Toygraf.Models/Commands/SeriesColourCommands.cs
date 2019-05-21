@@ -10,7 +10,7 @@
             base(index, colour.ToArgb(), c => get(c).ToArgb(), (g, c) => set(g, Color.FromArgb(c))) { }
 
         public override string ToString() =>
-            $"f{Index}(x,t) {Detail} colour = {Color.FromArgb(Value).GetName()}";
+            $"f{Index} {Detail} colour = {Color.FromArgb(Value).GetName()}";
     }
 
     public class SeriesFillColourCommand : SeriesColourCommand

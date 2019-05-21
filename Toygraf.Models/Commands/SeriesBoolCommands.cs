@@ -8,7 +8,7 @@
             base(index, value ? 1 : 0, s => get(s) ? 1 : 0, (s, b) => set(s, b != 0)) { }
 
         public override string ToString() =>
-            $"f{Index}(x,t) {Detail} = {Value != 0}";
+            $"f{Index} {Detail} = {Value != 0}";
     }
 
     public class SeriesVisibleCommand : SeriesBoolCommand
