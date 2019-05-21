@@ -58,6 +58,8 @@
         public List<SeriesController> Children = new List<SeriesController>();
 
         public AppController Parent;
+
+        private CommandController CommandController { get => Parent.CommandController; }
         private bool CanCancel, Loading = true;
         private Graph Graph { get => Parent.Graph; }
         private Panel Client { get => View.ClientPanel; }
@@ -259,19 +261,19 @@
                 var series = index < count ? Graph.Series[index] : Graph.AddSeries();
                 var visible = child.TraceVisible;
                 if (series.Visible != visible)
-                    Parent.Run(new SeriesVisibleCommand(index, visible));
+                    CommandController.Run(new SeriesVisibleCommand(index, visible));
                 var formula = child.Formula;
                 if (series.Formula != formula)
-                    Parent.Run(new SeriesFormulaCommand(index, formula));
+                    CommandController.Run(new SeriesFormulaCommand(index, formula));
                 var penColour = child.PenColour;
                 if (series.PenColour.ToArgb() != penColour.ToArgb())
-                    Parent.Run(new SeriesPenColourCommand(index, penColour));
+                    CommandController.Run(new SeriesPenColourCommand(index, penColour));
                 var fillColour = child.FillColour;
                 if (series.FillColour.ToArgb() != fillColour.ToArgb())
-                    Parent.Run(new SeriesFillColourCommand(index, fillColour));
+                    CommandController.Run(new SeriesFillColourCommand(index, fillColour));
                 var fillTransparencyPercent = child.FillTransparencyPercent;
                 if (series.FillTransparencyPercent != fillTransparencyPercent)
-                    Parent.Run(new SeriesFillTransparencyPercentCommand(index, fillTransparencyPercent));
+                    CommandController.Run(new SeriesFillTransparencyPercentCommand(index, fillTransparencyPercent));
                 index++;
             }
             count -= index;

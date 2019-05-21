@@ -6,7 +6,6 @@
     using System.Windows.Forms;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
-    using ToyGraf.Models.Commands;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Models.Structs;
     using ToyGraf.Views;
@@ -94,16 +93,8 @@
                     View.FileSaveAs.Click -= FileSaveAs_Click;
                     View.FileExit.Click -= FileExit_Click;
                     View.GraphProperties.Click -= GraphProperties_Click;
-                    View.ViewCoordinatesTooltip.Click -= ViewCoordinatesTooltip_Click;
-                    View.ZoomIn.Click -= ZoomIn_Click;
-                    View.ZoomOut.Click -= ZoomOut_Click;
-                    View.ZoomReset.Click -= ZoomReset_Click;
                     View.ZoomFullScreen.Click -= ZoomFullScreen_Click;
-                    View.ScrollLeft.Click -= ScrollLeft_Click;
-                    View.ScrollRight.Click -= ScrollRight_Click;
-                    View.ScrollUp.Click -= ScrollUp_Click;
-                    View.ScrollDown.Click -= ScrollDown_Click;
-                    View.ScrollCentre.Click -= ScrollCentre_Click;
+                    View.ViewCoordinatesTooltip.Click -= ViewCoordinatesTooltip_Click;
                     View.TimerMenu.DropDownOpening -= TimerMenu_DropDownOpening;
                     View.TimerRunPause.Click -= TimerRunPause_Click;
                     View.TimerReverse.Click -= TimerReverse_Click;
@@ -134,16 +125,8 @@
                     View.FileSaveAs.Click += FileSaveAs_Click;
                     View.FileExit.Click += FileExit_Click;
                     View.GraphProperties.Click += GraphProperties_Click;
-                    View.ViewCoordinatesTooltip.Click += ViewCoordinatesTooltip_Click;
-                    View.ZoomIn.Click += ZoomIn_Click;
-                    View.ZoomOut.Click += ZoomOut_Click;
-                    View.ZoomReset.Click += ZoomReset_Click;
                     View.ZoomFullScreen.Click += ZoomFullScreen_Click;
-                    View.ScrollLeft.Click += ScrollLeft_Click;
-                    View.ScrollRight.Click += ScrollRight_Click;
-                    View.ScrollUp.Click += ScrollUp_Click;
-                    View.ScrollDown.Click += ScrollDown_Click;
-                    View.ScrollCentre.Click += ScrollCentre_Click;
+                    View.ViewCoordinatesTooltip.Click += ViewCoordinatesTooltip_Click;
                     View.TimerMenu.DropDownOpening += TimerMenu_DropDownOpening;
                     View.TimerRunPause.Click += TimerRunPause_Click;
                     View.TimerReverse.Click += TimerReverse_Click;
@@ -175,19 +158,13 @@
         private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
         private void GraphProperties_Click(object sender, EventArgs e) => PropertiesController.Show(View);
-        private void ZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
-        private void ZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);
-        private void ZoomReset_Click(object sender, EventArgs e) => ZoomReset();
         private void ZoomFullScreen_Click(object sender, EventArgs e) => ToggleFullScreen();
-        private void ScrollLeft_Click(object sender, EventArgs e) => Scroll(-0.1f, 0);
-        private void ScrollRight_Click(object sender, EventArgs e) => Scroll(0.1f, 0);
-        private void ScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1f);
-        private void ScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1f);
-        private void ScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
+
         private void TimerMenu_DropDownOpening(object sender, EventArgs e) => View.TimerRunPause.Checked = GraphicsController.ClockRunning;
         private void TimerRunPause_Click(object sender, EventArgs e) => GraphicsController.ToggleClock();
         private void TimerReverse_Click(object sender, EventArgs e) => TimerReverse = !TimerReverse;
         private void TimerReset_Click(object sender, EventArgs e) => GraphicsController.ClockReset();
+
         private void ViewCoordinatesTooltip_Click(object sender, EventArgs e) => ToggleCoordinatesTooltip();
         private void HelpAbout_Click(object sender, EventArgs e) => new AboutController().ShowDialog(View);
 
@@ -297,31 +274,6 @@
             if (ShowCoordinatesTooltip)
                 InitCoordinatesToolTip($"{xy}\n{rθ}");
         }
-
-        #endregion
-
-        #region Scroll & Zoom
-
-        public void Scroll(float xFactor, float yFactor) => Run(new GraphCentreCommand(
-            Graph.Centre.X + Graph.Width * xFactor,
-            Graph.Centre.Y + Graph.Width * yFactor));
-
-        public void ScrollBy(float xDelta, float yDelta) => Run(new GraphCentreCommand(
-            Graph.Centre.X + xDelta,
-            Graph.Centre.Y + yDelta));
-
-        public void ScrollTo(float x, float y) => Run(new GraphCentreCommand(x, y));
-        public void Zoom(float factor) => Run(new GraphWidthCommand(Graph.Width * factor));
-
-        public void ZoomReset() => Run(
-            new GraphCentreCommand(Graph.OriginalCentre),
-            new GraphWidthCommand(Graph.OriginalWidth));
-
-        #endregion
-
-        #region CommandController
-
-        public void Run(params GraphCommand[] commands) => CommandController.Execute(commands);
 
         #endregion
 

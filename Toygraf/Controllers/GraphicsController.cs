@@ -5,6 +5,7 @@
     using System.Windows.Forms;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
+    using ToyGraf.Views;
 
     public class GraphicsController
     {
@@ -19,6 +20,8 @@
         public bool ClockRunning => Clock.Running;
 
         private readonly AppController Parent;
+        private AppForm AppForm { get => Parent.View; }
+        private CommandController CommandController { get => Parent.CommandController; }
         private Graph Graph => Parent.Graph;
         private Point DragFrom, MouseDownAt;
         private bool Dragging;
@@ -74,7 +77,7 @@
                     DragFrom = View.Location;
                     break;
                 case MouseButtons.Middle: // Click wheel
-                    Parent.ZoomReset();
+                    CommandController.ZoomReset();
                     break;
                 case MouseButtons.Right:
                     break;
@@ -99,7 +102,7 @@
             if (Dragging)
             {
                 PointF p = ClientToGraph(DragFrom), q = ClientToGraph(View.Location);
-                Parent.ScrollBy(p.X - q.X, p.Y - q.Y);
+                CommandController.ScrollBy(p.X - q.X, p.Y - q.Y);
                 AdjustPictureBox();
                 View.Cursor = Cursors.Default;
                 Dragging = false;
@@ -107,7 +110,7 @@
         }
 
         private void View_MouseWheel(object sender, MouseEventArgs e) =>
-            Parent.Zoom((float)Math.Pow(e.Delta > 0 ? 10.0 / 11.0 : 11.0 / 10.0,
+            CommandController.Zoom((float)Math.Pow(e.Delta > 0 ? 10.0 / 11.0 : 11.0 / 10.0,
                 Math.Abs(e.Delta / SystemInformation.MouseWheelScrollDelta)));
 
         private void View_Paint(object sender, PaintEventArgs e)

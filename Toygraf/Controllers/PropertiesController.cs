@@ -12,7 +12,7 @@
     {
         public PropertiesController(AppController parent)
         {
-            AppController = parent;
+            Parent = parent;
             View = new PropertiesDialog();
             InitEnumControls();
         }
@@ -20,16 +20,16 @@
         #region Properties
 
         private AppController _appController;
-        private AppController AppController
+        private AppController Parent
         {
             get => _appController;
             set
             {
-                if (AppController != null)
-                    AppController.PropertyChanged -= AppController_PropertyChanged;
+                if (Parent != null)
+                    Parent.PropertyChanged -= AppController_PropertyChanged;
                 _appController = value;
-                if (AppController != null)
-                    AppController.PropertyChanged += AppController_PropertyChanged;
+                if (Parent != null)
+                    Parent.PropertyChanged += AppController_PropertyChanged;
             }
         }
 
@@ -38,8 +38,9 @@
             GraphRead();
         }
 
+        private CommandController CommandController { get => Parent.CommandController; }
         private CheckedListBox ClbElements { get => View.ElementCheckboxes; }
-        private Model Model { get => AppController.Model; }
+        private Model Model { get => Parent.Model; }
         private Graph Graph { get => Model.Graph; }
         private CheckedListBox.ObjectCollection ElementItems { get => View.ElementCheckboxes.Items; }
         private ComboBox.ObjectCollection Optimizations { get => View.cbOptimization.Items; }
@@ -199,7 +200,7 @@
                 if (GetState(index) == CheckState.Checked)
                     elements |= values[ControlToEnum(index)];
             if (Graph.Elements != elements)
-                AppController.Run(new GraphElementsCommand(elements));
+                CommandController.Run(new GraphElementsCommand(elements));
         }
 
         private void InitEnumControls()
@@ -257,31 +258,31 @@
             //
             var plotType = (PlotType)View.cbPlotType.SelectedIndex;
             if (Graph.PlotType != plotType)
-                AppController.Run(new GraphPlotTypeCommand(plotType));
+                CommandController.Run(new GraphPlotTypeCommand(plotType));
             var interpolation = (Interpolation)View.cbInterpolation.SelectedIndex;
             if (Graph.Interpolation != interpolation)
-                AppController.Run(new GraphInterpolationCommand(interpolation));
+                CommandController.Run(new GraphInterpolationCommand(interpolation));
             //
             // Domain
             //
             var domainGraphWidth = View.cbDomainGraphWidth.Checked;
             if (Graph.DomainGraphWidth != domainGraphWidth)
-                AppController.Run(new GraphDomainGraphWidthCommand(domainGraphWidth));
+                CommandController.Run(new GraphDomainGraphWidthCommand(domainGraphWidth));
             var domainMinCartesian = (float)View.seDomainMinCartesian.Value;
             if (Graph.DomainMinCartesian != domainMinCartesian)
-                AppController.Run(new GraphDomainMinCartesianCommand(domainMinCartesian));
+                CommandController.Run(new GraphDomainMinCartesianCommand(domainMinCartesian));
             var domainMaxCartesian = (float)View.seDomainMaxCartesian.Value;
             if (Graph.DomainMaxCartesian != domainMaxCartesian)
-                AppController.Run(new GraphDomainMaxCartesianCommand(domainMaxCartesian));
+                CommandController.Run(new GraphDomainMaxCartesianCommand(domainMaxCartesian));
             var domainPolarDegrees = View.rbDegrees.Checked;
             if (Graph.DomainPolarDegrees != domainPolarDegrees)
-                AppController.Run(new GraphDomainPolarDegreesCommand(domainPolarDegrees));
+                CommandController.Run(new GraphDomainPolarDegreesCommand(domainPolarDegrees));
             var domainMinPolar = (float)View.seDomainMinPolar.Value;
             if (Graph.DomainMinPolar != domainMinPolar)
-                AppController.Run(new GraphDomainMinPolarCommand(domainMinPolar));
+                CommandController.Run(new GraphDomainMinPolarCommand(domainMinPolar));
             var domainMaxPolar = (float)View.seDomainMaxPolar.Value;
             if (Graph.DomainMaxPolar != domainMaxPolar)
-                AppController.Run(new GraphDomainMaxPolarCommand(domainMaxPolar));
+                CommandController.Run(new GraphDomainMaxPolarCommand(domainMaxPolar));
             //
             // Elements
             //
@@ -291,40 +292,40 @@
             //
             var axisColour = ColourController.GetColour(View.cbAxisColour);
             if (Graph.AxisColour.ToArgb() != axisColour.ToArgb())
-                AppController.Run(new GraphAxisColourCommand(axisColour));
+                CommandController.Run(new GraphAxisColourCommand(axisColour));
             var reticleColour = ColourController.GetColour(View.cbReticleColour);
             if (Graph.ReticleColour.ToArgb() != reticleColour.ToArgb())
-                AppController.Run(new GraphReticleColourCommand(reticleColour));
+                CommandController.Run(new GraphReticleColourCommand(reticleColour));
             var penColour = ColourController.GetColour(View.cbPenColour);
             if (Graph.PenColour.ToArgb() != penColour.ToArgb())
-                AppController.Run(new GraphPenColourCommand(penColour));
+                CommandController.Run(new GraphPenColourCommand(penColour));
             var limitColour = ColourController.GetColour(View.cbLimitColour);
             if (Graph.LimitColour.ToArgb() != limitColour.ToArgb())
-                AppController.Run(new GraphLimitColourCommand(limitColour));
+                CommandController.Run(new GraphLimitColourCommand(limitColour));
             //
             // Fill Colours
             //
             var paperColour = ColourController.GetColour(View.cbPaperColour);
             if (Graph.PaperColour.ToArgb() != paperColour.ToArgb())
-                AppController.Run(new GraphPaperColourCommand(paperColour));
+                CommandController.Run(new GraphPaperColourCommand(paperColour));
             var paperTransparencyPercent = (int)View.sePaperTransparency.Value;
             if (Graph.PaperTransparencyPercent != paperTransparencyPercent)
-                AppController.Run(new GraphPaperTransparencyPercentCommand(paperTransparencyPercent));
+                CommandController.Run(new GraphPaperTransparencyPercentCommand(paperTransparencyPercent));
             var fillColour = ColourController.GetColour(View.cbFillColour);
             if (Graph.FillColour.ToArgb() != fillColour.ToArgb())
-                AppController.Run(new GraphFillColourCommand(fillColour));
+                CommandController.Run(new GraphFillColourCommand(fillColour));
             var fillTransparencyPercent = (int)View.seFillTransparency.Value;
             if (Graph.FillTransparencyPercent != fillTransparencyPercent)
-                AppController.Run(new GraphFillTransparencyPercentCommand(fillTransparencyPercent));
+                CommandController.Run(new GraphFillTransparencyPercentCommand(fillTransparencyPercent));
             //
             // Quality
             //
             var optimization = (Optimization)View.cbOptimization.SelectedIndex;
             if (Graph.Optimization != optimization)
-                AppController.Run(new GraphOptimizationCommand(optimization));
+                CommandController.Run(new GraphOptimizationCommand(optimization));
             var stepCount = int.Parse(View.cbStepCount.Text);
             if (Graph.StepCount != stepCount)
-                AppController.Run(new GraphStepCountCommand(stepCount));
+                CommandController.Run(new GraphStepCountCommand(stepCount));
         }
 
         public void LiveUpdate(object sender, EventArgs e)
