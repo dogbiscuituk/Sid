@@ -11,74 +11,33 @@
 
     public class LegendController
     {
+        #region Public Interface
+
         public LegendController(AppController parent)
         {
             Parent = parent;
             View = parent.View;
         }
 
-        #region Properties
-
-        private AppForm _view;
         public AppForm View
         {
             get => _view;
             set
             {
-                if (View != null)
-                {
-                    // Main Menu
-                    View.GraphAddNewFunction.Click -= GraphAddNewFunction_Click;
-                    View.ViewLegend.DropDownOpening -= ViewLegend_DropDownOpening;
-                    View.ViewLegendTopLeft.Click -= ViewLegendTopLeft_Click;
-                    View.ViewLegendTopRight.Click -= ViewLegendTopRight_Click;
-                    View.ViewLegendBottomLeft.Click -= ViewLegendBottomLeft_Click;
-                    View.ViewLegendBottomRight.Click -= ViewLegendBottomRight_Click;
-                    View.ViewLegendHide.Click -= ViewLegendHide_Click;
-                    // Toolbar
-                    View.tbAdd.Click -= GraphAddNewFunction_Click;
-                }
                 _view = value;
-                if (View != null)
-                {
-                    // Main Menu
-                    View.GraphAddNewFunction.Click += GraphAddNewFunction_Click;
-                    View.ViewLegend.DropDownOpening += ViewLegend_DropDownOpening;
-                    View.ViewLegendTopLeft.Click += ViewLegendTopLeft_Click;
-                    View.ViewLegendTopRight.Click += ViewLegendTopRight_Click;
-                    View.ViewLegendBottomLeft.Click += ViewLegendBottomLeft_Click;
-                    View.ViewLegendBottomRight.Click += ViewLegendBottomRight_Click;
-                    View.ViewLegendHide.Click += ViewLegendHide_Click;
-                    // Toolbar
-                    View.tbAdd.Click += GraphAddNewFunction_Click;
-                }
+                View.GraphAddNewFunction.Click += GraphAddNewFunction_Click;
+                View.tbAdd.Click += GraphAddNewFunction_Click;
+                View.ViewLegend.DropDownOpening += ViewLegend_DropDownOpening;
+                View.ViewLegendTopLeft.Click += ViewLegendTopLeft_Click;
+                View.ViewLegendTopRight.Click += ViewLegendTopRight_Click;
+                View.ViewLegendBottomLeft.Click += ViewLegendBottomLeft_Click;
+                View.ViewLegendBottomRight.Click += ViewLegendBottomRight_Click;
+                View.ViewLegendHide.Click += ViewLegendHide_Click;
             }
         }
-
-        public List<SeriesController> Children = new List<SeriesController>();
 
         public AppController Parent;
-
-        private CommandController CommandController { get => Parent.CommandController; }
-        private bool CanCancel, Loading = true;
-        private Graph Graph { get => Parent.Graph; }
-        private Panel Client { get => View.ClientPanel; }
-        private Panel Legend { get => View.LegendPanel; }
-        private Control.ControlCollection SeriesViews { get => Legend.Controls; }
-        private ContentAlignment _legendAlignment = ContentAlignment.TopLeft;
-        private ContentAlignment LegendAlignment
-        {
-            get => _legendAlignment;
-            set
-            {
-                _legendAlignment = value;
-                AdjustLegend();
-            }
-        }
-
-        #endregion
-
-        #region Alignment
+        public List<SeriesController> Children = new List<SeriesController>();
 
         public void AdjustLegend()
         {
@@ -110,6 +69,59 @@
             Legend.SetBounds(x, y, w, h);
         }
 
+        public void GraphRead()
+        {
+            Loading = true;
+            RemoveAllSeriesViews();
+            foreach (Series series in Graph.Series)
+                AddNewSeriesView(series);
+            Validate();
+            Loading = false;
+        }
+
+        public int IndexOf(SeriesController child) => Children.IndexOf(child);
+
+        public void LiveUpdate(object sender, EventArgs e)
+        {
+            if (!Loading) GraphWrite();
+        }
+
+        public void RemoveSeriesView(SeriesView seriesView) => RemoveSeriesViewAt(SeriesViews.IndexOf(seriesView));
+
+        #endregion
+
+        #region Private Properties
+
+        private AppForm _view;
+        private CommandController CommandController { get => Parent.CommandController; }
+        private bool CanCancel, Loading = true;
+        private Graph Graph { get => Parent.Graph; }
+        private Panel Client { get => View.ClientPanel; }
+        private Panel Legend { get => View.LegendPanel; }
+        private Control.ControlCollection SeriesViews { get => Legend.Controls; }
+        private ContentAlignment _legendAlignment = ContentAlignment.TopLeft;
+        private ContentAlignment LegendAlignment
+        {
+            get => _legendAlignment;
+            set
+            {
+                _legendAlignment = value;
+                AdjustLegend();
+            }
+        }
+
+        #endregion
+
+        #region Private Event Handlers
+
+        private void CbFunction_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var comboBox = (ComboBox)sender;
+            var ok = new Parser().TryParse(comboBox.Text, out object result);
+            View.ErrorProvider.SetError(comboBox, ok ? string.Empty : result.ToString());
+            e.Cancel = CanCancel && !ok;
+        }
+
         private void ViewLegend_DropDownOpening(object sender, EventArgs e)
         {
             View.ViewLegendTopLeft.Checked = LegendAlignment == ContentAlignment.TopLeft;
@@ -119,50 +131,16 @@
             View.ViewLegendHide.Checked = !Legend.Visible;
         }
 
-        private void ViewLegendTopLeft_Click(object sender, EventArgs e) =>
-            LegendAlignment = ContentAlignment.TopLeft;
-
-        private void ViewLegendTopRight_Click(object sender, EventArgs e) =>
-            LegendAlignment = ContentAlignment.TopRight;
-
-        private void ViewLegendBottomLeft_Click(object sender, EventArgs e) =>
-            LegendAlignment = ContentAlignment.BottomLeft;
-
-        private void ViewLegendBottomRight_Click(object sender, EventArgs e) =>
-            LegendAlignment = ContentAlignment.BottomRight;
-
-        private void ViewLegendHide_Click(object sender, EventArgs e) =>
-            Legend.Visible = !Legend.Visible;
-
-        private static AnchorStyles AlignToAnchor(ContentAlignment align)
-        {
-            switch (align)
-            {
-                case ContentAlignment.BottomLeft:
-                    return AnchorStyles.Bottom | AnchorStyles.Left;
-                case ContentAlignment.BottomRight:
-                    return AnchorStyles.Bottom | AnchorStyles.Right;
-                case ContentAlignment.TopLeft:
-                    return AnchorStyles.Top | AnchorStyles.Left;
-                case ContentAlignment.TopRight:
-                    return AnchorStyles.Top | AnchorStyles.Right;
-            }
-            return 0;
-        }
+        private void GraphAddNewFunction_Click(object sender, EventArgs e) => AddNewSeriesView(null);
+        private void ViewLegendBottomLeft_Click(object sender, EventArgs e) => LegendAlignment = ContentAlignment.BottomLeft;
+        private void ViewLegendBottomRight_Click(object sender, EventArgs e) => LegendAlignment = ContentAlignment.BottomRight;
+        private void ViewLegendHide_Click(object sender, EventArgs e) => Legend.Visible = !Legend.Visible;
+        private void ViewLegendTopLeft_Click(object sender, EventArgs e) => LegendAlignment = ContentAlignment.TopLeft;
+        private void ViewLegendTopRight_Click(object sender, EventArgs e) => LegendAlignment = ContentAlignment.TopRight;
 
         #endregion
 
-        #region SeriesView Management
-
-        public int IndexOf(SeriesController child) => Children.IndexOf(child);
-
-        public void RemoveSeriesView(SeriesView seriesView)
-        {
-            RemoveSeriesViewAt(SeriesViews.IndexOf(seriesView));
-        }
-
-        private void GraphAddNewFunction_Click(object sender, EventArgs e) =>
-            AddNewSeriesView(null);
+        #region Private Methods
 
         private void AddNewSeriesView(Series series)
         {
@@ -193,62 +171,27 @@
             child.View.cbFunction.Focus();
         }
 
+        private static AnchorStyles AlignToAnchor(ContentAlignment align)
+        {
+            switch (align)
+            {
+                case ContentAlignment.BottomLeft:
+                    return AnchorStyles.Bottom | AnchorStyles.Left;
+                case ContentAlignment.BottomRight:
+                    return AnchorStyles.Bottom | AnchorStyles.Right;
+                case ContentAlignment.TopLeft:
+                    return AnchorStyles.Top | AnchorStyles.Left;
+                case ContentAlignment.TopRight:
+                    return AnchorStyles.Top | AnchorStyles.Right;
+            }
+            return 0;
+        }
+
         private void AfterChange()
         {
             AdjustLegend();
             if (!Loading)
                 GraphWrite();
-        }
-
-        private void RemoveAllSeriesViews()
-        {
-            View.StatusBar.Focus();
-            SeriesViews.Clear();
-            Children.Clear();
-            AfterChange();
-        }
-
-        private void RemoveSeriesViewAt(int index)
-        {
-            View.StatusBar.Focus();
-            SeriesViews.RemoveAt(index);
-            Children.RemoveAt(index);
-            AfterChange();
-        }
-
-        #endregion
-
-        #region Validation
-
-        private void CbFunction_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            var comboBox = (ComboBox)sender;
-            var ok = new Parser().TryParse(comboBox.Text, out object result);
-            View.ErrorProvider.SetError(comboBox, ok ? string.Empty : result.ToString());
-            e.Cancel = CanCancel && !ok;
-        }
-
-        private bool Validate()
-        {
-            Graph.ValidateProxies();
-            CanCancel = true;
-            var ok = View.ValidateChildren();
-            CanCancel = false;
-            return ok;
-        }
-
-        #endregion
-
-        #region Graph Read/Write
-
-        public void GraphRead()
-        {
-            Loading = true;
-            RemoveAllSeriesViews();
-            foreach (Series series in Graph.Series)
-                AddNewSeriesView(series);
-            Validate();
-            Loading = false;
         }
 
         private void GraphWrite()
@@ -281,10 +224,29 @@
                 Graph.RemoveSeriesRange(index, count);
         }
 
-        public void LiveUpdate(object sender, EventArgs e)
+        private void RemoveAllSeriesViews()
         {
-            if (!Loading)
-                GraphWrite();
+            View.StatusBar.Focus();
+            SeriesViews.Clear();
+            Children.Clear();
+            AfterChange();
+        }
+
+        private void RemoveSeriesViewAt(int index)
+        {
+            View.StatusBar.Focus();
+            SeriesViews.RemoveAt(index);
+            Children.RemoveAt(index);
+            AfterChange();
+        }
+
+        private bool Validate()
+        {
+            Graph.ValidateProxies();
+            CanCancel = true;
+            var ok = View.ValidateChildren();
+            CanCancel = false;
+            return ok;
         }
 
         #endregion

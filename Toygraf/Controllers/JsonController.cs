@@ -13,14 +13,14 @@
     /// </summary>
     public class JsonController : SdiController
     {
+        #region Public Interface
+
         public JsonController(Model model, Control view, ToolStripDropDownItem recentMenu)
             : base(model, Properties.Settings.Default.GraphFilter, "LibraryMRU", recentMenu)
         {
             Model.PropertyChanged += Model_PropertyChanged;
             View = view;
         }
-
-        #region Public Properties
 
         public string WindowCaption
         {

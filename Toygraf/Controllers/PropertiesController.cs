@@ -10,6 +10,8 @@
 
     public class PropertiesController
     {
+        #region Public Interface
+
         public PropertiesController(AppController parent)
         {
             Parent = parent;
@@ -17,7 +19,46 @@
             InitEnumControls();
         }
 
-        #region Properties
+        public void Show(IWin32Window owner)
+        {
+            if (!View.Visible)
+            {
+                GraphRead();
+                View.Show(owner);
+            }
+            else
+                View.BringToFront();
+        }
+
+        #endregion
+
+        #region Private Properties
+
+        private PropertiesDialog _view;
+        private PropertiesDialog View
+        {
+            get => _view;
+            set
+            {
+                _view = value;
+                View.cbPlotType.SelectedValueChanged += PlotTypeChanged;
+                View.cbInterpolation.SelectedValueChanged += LiveUpdate;
+                View.cbDomainGraphWidth.CheckedChanged += DomainGraphWidthChanged;
+                View.rbDegrees.CheckedChanged += LiveUpdate;
+                View.rbRadians.CheckedChanged += LiveUpdate;
+                View.seDomainMinCartesian.ValueChanged += LiveUpdate;
+                View.seDomainMaxCartesian.ValueChanged += LiveUpdate;
+                View.seDomainMinPolar.ValueChanged += LiveUpdate;
+                View.seDomainMaxPolar.ValueChanged += LiveUpdate;
+                ClbElements.ItemCheck += ClbElements_ItemCheck;
+                AddColourControls(View.cbAxisColour, View.cbReticleColour, View.cbPenColour,
+                    View.cbLimitColour, View.cbPaperColour, View.cbFillColour);
+                View.cbOptimization.SelectedValueChanged += PlotTypeChanged;
+                View.cbStepCount.SelectedValueChanged += LiveUpdate;
+                View.btnClose.Click += BtnClose_Click;
+                View.FormClosing += View_FormClosing;
+            }
+        }
 
         private AppController _appController;
         private AppController Parent
@@ -33,121 +74,25 @@
             }
         }
 
-        private void AppController_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            GraphRead();
-        }
-
+        private ColourController ColourController = new ColourController();
         private CommandController CommandController { get => Parent.CommandController; }
+
         private CheckedListBox ClbElements { get => View.ElementCheckboxes; }
-        private Model Model { get => Parent.Model; }
-        private Graph Graph { get => Model.Graph; }
         private CheckedListBox.ObjectCollection ElementItems { get => View.ElementCheckboxes.Items; }
+        private Graph Graph { get => Model.Graph; }
+        private ComboBox.ObjectCollection Interpolations { get => View.cbInterpolation.Items; }
+        private Model Model { get => Parent.Model; }
         private ComboBox.ObjectCollection Optimizations { get => View.cbOptimization.Items; }
         private ComboBox.ObjectCollection PlotTypes { get => View.cbPlotType.Items; }
-        private ComboBox.ObjectCollection Interpolations { get => View.cbInterpolation.Items; }
+
         private bool Loading, Updating;
 
-        private PropertiesDialog _view;
-        private PropertiesDialog View
-        {
-            get => _view;
-            set
-            {
-                if (View != null)
-                {
-                    View.cbPlotType.SelectedValueChanged -= PlotTypeChanged;
-                    View.cbInterpolation.SelectedValueChanged -= LiveUpdate;
-                    View.cbDomainGraphWidth.CheckedChanged -= DomainGraphWidthChanged;
-                    View.rbDegrees.CheckedChanged -= LiveUpdate;
-                    View.rbRadians.CheckedChanged -= LiveUpdate;
-                    View.seDomainMinCartesian.ValueChanged -= LiveUpdate;
-                    View.seDomainMaxCartesian.ValueChanged -= LiveUpdate;
-                    View.seDomainMinPolar.ValueChanged -= LiveUpdate;
-                    View.seDomainMaxPolar.ValueChanged -= LiveUpdate;
-                    ClbElements.ItemCheck -= ClbElements_ItemCheck;
-                    ColourController.Clear();
-                    View.cbOptimization.SelectedValueChanged -= PlotTypeChanged;
-                    View.cbStepCount.SelectedValueChanged -= LiveUpdate;
-                    View.btnClose.Click -= BtnClose_Click;
-                    View.FormClosing -= View_FormClosing;
-                }
-                _view = value;
-                if (View != null)
-                {
-                    View.cbPlotType.SelectedValueChanged += PlotTypeChanged;
-                    View.cbInterpolation.SelectedValueChanged += LiveUpdate;
-                    View.cbDomainGraphWidth.CheckedChanged += DomainGraphWidthChanged;
-                    View.rbDegrees.CheckedChanged += LiveUpdate;
-                    View.rbRadians.CheckedChanged += LiveUpdate;
-                    View.seDomainMinCartesian.ValueChanged += LiveUpdate;
-                    View.seDomainMaxCartesian.ValueChanged += LiveUpdate;
-                    View.seDomainMinPolar.ValueChanged += LiveUpdate;
-                    View.seDomainMaxPolar.ValueChanged += LiveUpdate;
-                    ClbElements.ItemCheck += ClbElements_ItemCheck;
-                    AddColourControls(View.cbAxisColour, View.cbReticleColour, View.cbPenColour,
-                        View.cbLimitColour, View.cbPaperColour, View.cbFillColour);
-                    View.cbOptimization.SelectedValueChanged += PlotTypeChanged;
-                    View.cbStepCount.SelectedValueChanged += LiveUpdate;
-                    View.btnClose.Click += BtnClose_Click;
-                    View.FormClosing += View_FormClosing;
-                }
-            }
-        }
-
-        private ColourController ColourController = new ColourController();
-
         #endregion
 
-        #region Show/Hide
+        #region Private Event Handlers
 
-        public void Show(IWin32Window owner)
-        {
-            if (!View.Visible)
-            {
-                GraphRead();
-                View.Show(owner);
-            }
-            else
-                View.BringToFront();
-        }
-
-        private void BtnClose_Click(object sender, EventArgs e)
-        {
-            View.Hide();
-        }
-
-        private void View_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (e.CloseReason != CloseReason.UserClosing)
-                return;
-            e.Cancel = true;
-            View.Hide();
-        }
-
-        #endregion
-
-        #region Colours
-
-        private void AddColourControls(params ComboBox[] controls)
-        {
-            ColourController.AddControls(controls);
-            foreach (var control in controls)
-                control.SelectedValueChanged += Control_SelectedValueChanged;
-        }
-
-        private void Control_SelectedValueChanged(object sender, EventArgs e) => LiveUpdate(sender, e);
-
-        private void Clear()
-        {
-            foreach (var control in ColourController.Controls)
-                control.SelectedValueChanged -= Control_SelectedValueChanged;
-            ColourController.Clear();
-        }
-
-        #endregion
-
-        #region Elements
+        private void AppController_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) => GraphRead();
+        private void BtnClose_Click(object sender, EventArgs e) => View.Hide();
 
         private void ClbElements_ItemCheck(object sender, ItemCheckEventArgs e)
         {
@@ -171,9 +116,56 @@
                 View.BeginInvoke((MethodInvoker)(() => LiveUpdate(sender, e)));
         }
 
-        private Elements[] GetElementValues() => (Elements[])Enum.GetValues(typeof(Elements));
+        private void Control_SelectedValueChanged(object sender, EventArgs e) => LiveUpdate(sender, e);
+
+        private void DomainGraphWidthChanged(object sender, EventArgs e)
+        {
+            View.seDomainMinCartesian.Enabled = View.seDomainMaxCartesian.Enabled = !View.cbDomainGraphWidth.Checked;
+            LiveUpdate(sender, e);
+        }
+
+        private void LiveUpdate(object sender, EventArgs e) { if (!Loading) GraphWrite(); }
+
+        private void PlotTypeChanged(object sender, EventArgs e)
+        {
+            var polar = (PlotType)View.cbPlotType.SelectedIndex == PlotType.Polar;
+            ElementItems[1] = polar ? "Radial reticle" : "Horizontal reticle";
+            ElementItems[5] = polar ? "Circular reticle" : "Vertical reticle";
+            View.cbDomainGraphWidth.Visible = View.seDomainMinCartesian.Visible =
+                View.seDomainMaxCartesian.Visible = !polar;
+            View.seDomainMinPolar.Visible = View.seDomainMaxPolar.Visible =
+                View.rbDegrees.Visible = View.rbRadians.Visible = polar;
+            LiveUpdate(sender, e);
+        }
+
+        private void View_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason != CloseReason.UserClosing)
+                return;
+            e.Cancel = true;
+            View.Hide();
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void AddColourControls(params ComboBox[] controls)
+        {
+            ColourController.AddControls(controls);
+            foreach (var control in controls)
+                control.SelectedValueChanged += Control_SelectedValueChanged;
+        }
+
+        private void Clear()
+        {
+            foreach (var control in ColourController.Controls)
+                control.SelectedValueChanged -= Control_SelectedValueChanged;
+            ColourController.Clear();
+        }
 
         private int ControlToEnum(int index) => index < 11 ? 3 * index % 11 : 11;
+        private Elements[] GetElementValues() => (Elements[])Enum.GetValues(typeof(Elements));
         private CheckState GetState(int index) => ClbElements.GetItemCheckState(index);
         private void SetState(int index, CheckState state) => ClbElements.SetItemCheckState(index, state);
 
@@ -202,20 +194,6 @@
             if (Graph.Elements != elements)
                 CommandController.Run(new GraphElementsCommand(elements));
         }
-
-        private void InitEnumControls()
-        {
-            Optimizations.Clear();
-            Optimizations.AddRange(typeof(Optimization).GetDescriptions());
-            PlotTypes.Clear();
-            PlotTypes.AddRange(typeof(PlotType).GetDescriptions());
-            Interpolations.Clear();
-            Interpolations.AddRange(typeof(Interpolation).GetDescriptions());
-        }
-
-        #endregion
-
-        #region Graph Read/Write
 
         private void GraphRead()
         {
@@ -328,29 +306,14 @@
                 CommandController.Run(new GraphStepCountCommand(stepCount));
         }
 
-        public void LiveUpdate(object sender, EventArgs e)
+        private void InitEnumControls()
         {
-            if (!Loading)
-                GraphWrite();
-        }
-
-        public void PlotTypeChanged(object sender, EventArgs e)
-        {
-            var polar = (PlotType)View.cbPlotType.SelectedIndex == PlotType.Polar;
-            ElementItems[1] = polar ? "Radial reticle" : "Horizontal reticle";
-            ElementItems[5] = polar ? "Circular reticle" : "Vertical reticle";
-            View.cbDomainGraphWidth.Visible = View.seDomainMinCartesian.Visible =
-                View.seDomainMaxCartesian.Visible = !polar;
-            View.seDomainMinPolar.Visible = View.seDomainMaxPolar.Visible = 
-                View.rbDegrees.Visible = View.rbRadians.Visible = polar;
-            LiveUpdate(sender, e);
-        }
-
-        private void DomainGraphWidthChanged(object sender, EventArgs e)
-        {
-            View.seDomainMinCartesian.Enabled = View.seDomainMaxCartesian.Enabled =
-                !View.cbDomainGraphWidth.Checked;
-            LiveUpdate(sender, e);
+            Optimizations.Clear();
+            Optimizations.AddRange(typeof(Optimization).GetDescriptions());
+            PlotTypes.Clear();
+            PlotTypes.AddRange(typeof(PlotType).GetDescriptions());
+            Interpolations.Clear();
+            Interpolations.AddRange(typeof(Interpolation).GetDescriptions());
         }
 
         #endregion

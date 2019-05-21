@@ -22,15 +22,15 @@
             Model.ModifiedChanged += Model_ModifiedChanged;
             Model.PropertyChanged += Model_PropertyChanged;
             GraphicsController = new GraphicsController(this);
-            PropertiesController = new PropertiesController(this);
-            ToolbarController = new ToolbarController(this);
-            MathController = new KeyboardController(this);
             JsonController = new JsonController(Model, View, View.FileReopen);
             JsonController.FileLoaded += JsonController_FileLoaded;
             JsonController.FilePathChanged += JsonController_FilePathChanged;
             JsonController.FileSaving += JsonController_FileSaving;
             JsonController.FileSaved += JsonController_FileSaved;
+            KeyboardController = new KeyboardController(this);
             LegendController = new LegendController(this);
+            PropertiesController = new PropertiesController(this);
+            ToolbarController = new ToolbarController(this);
             ModifiedChanged();
             LegendController.AdjustLegend();
             UpdateUI();
@@ -72,7 +72,7 @@
         public Graph Graph { get => Model.Graph; }
 
         public readonly CommandController CommandController;
-        public readonly KeyboardController MathController;
+        public readonly KeyboardController KeyboardController;
         public readonly LegendController LegendController;
 
         public void UpdateMouseCoordinates(PointF p)

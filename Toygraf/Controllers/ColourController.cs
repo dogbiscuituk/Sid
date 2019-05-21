@@ -9,18 +9,11 @@
 
     public class ColourController
     {
+        #region Public Interface
+
         public ColourController() { }
 
-        #region Properties
-
         public readonly List<ComboBox> Controls = new List<ComboBox>();
-
-        private static readonly string[] NonSystemColourNames =
-            Utility.GetNonSystemColourNames(Properties.Settings.Default.KnownColorSortOrder).ToArray();
-
-        #endregion
-
-        #region Control Management
 
         public void AddControls(params ComboBox[] controls)
         {
@@ -39,15 +32,18 @@
             Controls.Clear();
         }
 
-        #endregion
-
-        #region Colour Management
-
         public Color GetColour(ComboBox comboBox) =>
             Color.FromName(comboBox.SelectedItem.ToString());
 
         public void SetColour(ComboBox comboBox, Color colour) =>
             comboBox.SelectedIndex = comboBox.Items.IndexOf(colour.Name);
+
+        #endregion
+
+        #region Private Implementation
+
+        private static readonly string[] NonSystemColourNames =
+            Utility.GetNonSystemColourNames(Properties.Settings.Default.KnownColorSortOrder).ToArray();
 
         private void Control_DrawItem(object sender, DrawItemEventArgs e)
         {

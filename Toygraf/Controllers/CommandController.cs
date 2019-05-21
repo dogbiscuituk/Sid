@@ -10,6 +10,8 @@
 
     public class CommandController
     {
+        #region Public Interface
+
         public CommandController(AppController parent)
         {
             Parent = parent;
@@ -47,7 +49,19 @@
             RedoStack.Clear();
         }
 
-        #region Properties
+        public void ScrollBy(float xDelta, float yDelta) => Run(new GraphCentreCommand(
+            Graph.Centre.X + xDelta,
+            Graph.Centre.Y + yDelta));
+
+        public void Zoom(float factor) => Run(new GraphWidthCommand(Graph.Width * factor));
+
+        public void ZoomReset() => Run(
+            new GraphCentreCommand(Graph.OriginalCentre),
+            new GraphWidthCommand(Graph.OriginalWidth));
+
+        #endregion
+
+        #region Private Properties
 
         private AppController Parent;
         private AppForm View => Parent.View;
@@ -58,7 +72,15 @@
         private bool CanUndo { get => UndoStack.Count > 0; }
         private bool CanRedo { get => RedoStack.Count > 0; }
 
+        private bool GroupUndo
+        {
+            get => View.EditGroupUndo.Checked;
+            set => View.EditGroupUndo.Checked = value;
+        }
+
         #endregion
+
+        #region Private Event Handlers
 
         // Edit
         private void EditUndo_Click(object sender, EventArgs e) => Undo();
@@ -79,6 +101,10 @@
         private void ScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1f);
         private void ScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1f);
         private void ScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
+
+        #endregion
+
+        #region Private Methods
 
         private void Undo() { if (CanUndo) Undo(UndoStack.Pop()); }
         private void Redo() { if (CanRedo) Redo(RedoStack.Pop()); }
@@ -131,26 +157,11 @@
             do Redo(); while (UndoStack.Peek() != peek);
         }
 
-        private bool GroupUndo
-        {
-            get => View.EditGroupUndo.Checked;
-            set => View.EditGroupUndo.Checked = value;
-        }
-
-        public void Scroll(float xFactor, float yFactor) => Run(new GraphCentreCommand(
+        private void Scroll(float xFactor, float yFactor) => Run(new GraphCentreCommand(
             Graph.Centre.X + Graph.Width * xFactor,
             Graph.Centre.Y + Graph.Width * yFactor));
 
-        public void ScrollBy(float xDelta, float yDelta) => Run(new GraphCentreCommand(
-            Graph.Centre.X + xDelta,
-            Graph.Centre.Y + yDelta));
-
-        public void ScrollTo(float x, float y) => Run(new GraphCentreCommand(x, y));
-        public void Zoom(float factor) => Run(new GraphWidthCommand(Graph.Width * factor));
-
-        public void ZoomReset() => Run(
-            new GraphCentreCommand(Graph.OriginalCentre),
-            new GraphWidthCommand(Graph.OriginalWidth));
+        private void ScrollTo(float x, float y) => Run(new GraphCentreCommand(x, y));
 
         private void UpdateUI()
         {
@@ -165,5 +176,7 @@
             View.EditPaste.Enabled = View.tbPaste.Enabled = false;
             View.EditDelete.Enabled = View.tbDelete.Enabled = false;
         }
+
+        #endregion
     }
 }

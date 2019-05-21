@@ -9,12 +9,16 @@
 
     public class SeriesController
     {
+        #region Public Interface
+
         public SeriesController(LegendController parent)
         {
             Parent = parent;
             View = new SeriesView();
             InitFunctionNames();
         }
+
+        #endregion
 
         #region Properties
 
@@ -55,7 +59,7 @@
         private AppController AppController { get => Parent.Parent; }
         private LegendController Parent;
         private ColourController ColourController = new ColourController();
-        private KeyboardController MathController { get => AppController.MathController; }
+        private KeyboardController MathController { get => AppController.KeyboardController; }
         private ComboBox FunctionBox { get => View.cbFunction; }
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
         private Graph Graph { get => Parent.Parent.Graph; }

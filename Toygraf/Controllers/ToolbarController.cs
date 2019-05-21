@@ -6,6 +6,8 @@
 
     public class ToolbarController
     {
+        #region Public Interface
+
         public ToolbarController(AppController parent)
         {
             Parent = parent;
@@ -17,12 +19,28 @@
             View.ViewToolbarHide.Click += ViewToolbarHide_Click;
         }
 
-        private void ViewToolbarHide_Click(object sender, System.EventArgs e)
-        {
-            Toolbar.Visible = TimeTrackBar.Visible = !Toolbar.Visible;
-            if (Toolbar.Visible)
-                DockToolbar(Toolbar.Dock);
-        }
+        #endregion
+
+        #region Private Properties
+
+        private AppController Parent;
+        private AppForm View => Parent.View;
+        private ToolStrip Toolbar => View.Toolbar;
+        private TrackBar TimeTrackBar => View.TimeTrackBar;
+
+        private const AnchorStyles
+            TopRight = AnchorStyles.Top | AnchorStyles.Right,
+            BottomLeft = AnchorStyles.Bottom | AnchorStyles.Left,
+            BottomRight = AnchorStyles.Bottom | AnchorStyles.Right;
+
+        #endregion
+
+        #region Private Event Handlers
+
+        private void DockToolbarBottom(object sender, System.EventArgs e) => DockToolbar(DockStyle.Bottom);
+        private void DockToolbarLeft(object sender, System.EventArgs e) => DockToolbar(DockStyle.Left);
+        private void DockToolbarRight(object sender, System.EventArgs e) => DockToolbar(DockStyle.Right);
+        private void DockToolbarTop(object sender, System.EventArgs e) => DockToolbar(DockStyle.Top);
 
         private void ViewToolbar_DropDownOpening(object sender, System.EventArgs e)
         {
@@ -35,22 +53,18 @@
             View.ViewToolbarHide.Checked = !Toolbar.Visible;
         }
 
-        private AppController Parent;
-        private AppForm View => Parent.View;
-        private ToolStrip Toolbar => View.Toolbar;
-        private TrackBar TimeTrackBar => View.TimeTrackBar;
+        private void ViewToolbarHide_Click(object sender, System.EventArgs e)
+        {
+            Toolbar.Visible = TimeTrackBar.Visible = !Toolbar.Visible;
+            if (Toolbar.Visible)
+                DockToolbar(Toolbar.Dock);
+        }
 
-        private const AnchorStyles
-            TopRight = AnchorStyles.Top | AnchorStyles.Right,
-            BottomLeft = AnchorStyles.Bottom | AnchorStyles.Left,
-            BottomRight = AnchorStyles.Bottom | AnchorStyles.Right;
+        #endregion
 
-        private void DockToolbarBottom(object sender, System.EventArgs e) => DockToolbar(DockStyle.Bottom);
-        private void DockToolbarLeft(object sender, System.EventArgs e) => DockToolbar(DockStyle.Left);
-        private void DockToolbarRight(object sender, System.EventArgs e) => DockToolbar(DockStyle.Right);
-        private void DockToolbarTop(object sender, System.EventArgs e) => DockToolbar(DockStyle.Top);
+        #region Private Methods
 
-        public void DockToolbar(DockStyle dock)
+        private void DockToolbar(DockStyle dock)
         {
             Toolbar.Dock = dock;
             switch (dock)
@@ -82,5 +96,7 @@
             TimeTrackBar.Anchor = anchor;
             TimeTrackBar.Visible = visible;
         }
+
+        #endregion
     }
 }

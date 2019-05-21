@@ -5,6 +5,8 @@
 
     public static class MenuController
     {
+        #region Public Interface
+
         /// <summary>
         /// Copy the Items from one ToolStrip to another.
         /// ToolStrip may be either a MenuStrip or a ContextMenuStrip.
@@ -23,12 +25,9 @@
         public static void CloneTo(this ToolStripDropDownItem s, ToolStripDropDownItem t) =>
             s.DropDownItems.CloneTo(t.DropDownItems);
 
-        private static void CloneTo(this ToolStripItemCollection s, ToolStripItemCollection t)
-        {
-            t.Clear();
-            foreach (ToolStripItem i in s)
-                t.Add(i.Clone());
-        }
+        #endregion
+
+        #region Private Methods
 
         private static ToolStripItem Clone(this ToolStripItem s)
         {
@@ -54,5 +53,14 @@
             }
             return null;
         }
+
+        private static void CloneTo(this ToolStripItemCollection s, ToolStripItemCollection t)
+        {
+            t.Clear();
+            foreach (ToolStripItem i in s)
+                t.Add(i.Clone());
+        }
+
+        #endregion
     }
 }
