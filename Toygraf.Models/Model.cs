@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel;
 
-    public class Model : INotifyPropertyChanged
+    public class Model
     {
         public Model()
         {

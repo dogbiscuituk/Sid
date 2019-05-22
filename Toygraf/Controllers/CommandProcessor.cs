@@ -124,16 +124,14 @@
 
         private void Undo(GraphCommand command)
         {
-            command.Undo(Graph);
-            command = command.Invert();
+            command.Do(Graph);
             RedoStack.Push(command);
             UpdateUI();
         }
 
         private void Redo(GraphCommand command)
         {
-            command.Redo(Graph);
-            command = command.Invert();
+            command.Do(Graph);
             var group = GroupUndo && CanUndo;
             if (group)
             {
@@ -175,7 +173,7 @@
             View.tbUndo.ToolTipText = CanUndo ? $"Undo {UndoAction} (^Z)" : "Undo (^Z)";
             View.EditRedo.Enabled = View.tbRedo.Enabled = CanRedo;
             View.EditRedo.Text = CanRedo ? $"&Redo {RedoAction}" : "&Redo";
-            View.tbRedo.ToolTipText = CanRedo ? $"Redo {RedoAction} (^Y)" : "Redo (^Z)";
+            View.tbRedo.ToolTipText = CanRedo ? $"Redo {RedoAction} (^Y)" : "Redo (^Y)";
             View.EditCut.Enabled = View.tbCut.Enabled = false;
             View.EditCopy.Enabled = View.tbCopy.Enabled = false;
             View.EditPaste.Enabled = View.tbPaste.Enabled = false;

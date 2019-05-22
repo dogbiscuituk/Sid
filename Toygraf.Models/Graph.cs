@@ -15,7 +15,7 @@
     using ToyGraf.Models.Structs;
 
     [Serializable]
-    public class Graph : IDisposable, INotifyPropertyChanged
+    public class Graph : IDisposable
     {
         public Graph() { RestoreDefaults(); }
 

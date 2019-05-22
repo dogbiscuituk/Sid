@@ -60,9 +60,6 @@
             }
         }
 
-        private TimeSpan GetVirtualIncrement(DateTime now) =>
-            TimeSpan.FromSeconds((now - _startedAt).TotalSeconds * VirtualTimeFactor);
-
         public double RealSecondsElapsed => RealTimeElapsed.TotalSeconds;
         public double VirtualSecondsElapsed => VirtualTimeElapsed.TotalSeconds;
         public double FramesPerSecond;
@@ -154,6 +151,9 @@
             }
             FramesPerSecond = fps;
         }
+
+        private TimeSpan GetVirtualIncrement(DateTime now) =>
+            TimeSpan.FromSeconds((now - _startedAt).TotalSeconds * VirtualTimeFactor);
 
         #endregion
 

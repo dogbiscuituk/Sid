@@ -1,17 +1,26 @@
-﻿using System;
-
-namespace ToyGraf.Models.Commands
+﻿namespace ToyGraf.Models.Commands
 {
     public class GraphCommand
     {
         public virtual string Action => "property change";
         public virtual string UndoAction => Action;
         public virtual string RedoAction => Action;
-        public virtual GraphCommand Invert() { return this; }
-        public virtual void Undo(Graph graph) => Run(graph);
-        public virtual void Redo(Graph graph) => Run(graph);
+
+        /// <summary>
+        /// Invoke the Run method of the command, then immediately invert
+        /// the command in readiness for its transfer between the Undo and
+        /// Redo stacks. Since most commands are their own inverses (they
+        /// just tell the Graph "Swap your property value with the one I'm
+        /// carrying", the Invert() method is almost always empty. See the
+        /// GraphInsertSeriesCommand and GraphDeleteSeriesCommand classes
+        /// for a notable exception to this rule.
+        /// </summary>
+        /// <param name="graph"></param>
+        public void Do(Graph graph) { Run(graph); Invert(); }
 
         protected object Value { get; set; }
+
+        protected virtual void Invert() { }
         protected virtual void Run(Graph graph) { }
         protected virtual string Detail { get; }
     }
@@ -19,6 +28,7 @@ namespace ToyGraf.Models.Commands
     public class SeriesCommand : GraphCommand
     {
         public SeriesCommand(int index) : base() { Index = index; }
+
         public int Index { get; protected set; }
     }
 }

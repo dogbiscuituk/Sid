@@ -14,7 +14,7 @@
     using ToyGraf.Models.Structs;
 
     [Serializable]
-    public class Series: INotifyPropertyChanged
+    public class Series
     {
         public Series() { }
 
