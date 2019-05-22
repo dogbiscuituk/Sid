@@ -3,9 +3,9 @@
     using System;
     using System.Windows.Forms;
 
-    public static class MenuController
+    internal static class MenuController
     {
-        #region Public Interface
+        #region Internal Interface
 
         /// <summary>
         /// Copy the Items from one ToolStrip to another.
@@ -13,7 +13,7 @@
         /// </summary>
         /// <param name="s">The source menu, contributing the Items to be copied.</param>
         /// <param name="t">The target menu, receiving the copies.</param>
-        public static void CloneTo(this ToolStrip s, ToolStrip t) => s.Items.CloneTo(t.Items);
+        internal static void CloneTo(this ToolStrip s, ToolStrip t) => s.Items.CloneTo(t.Items);
 
         /// <summary>
         /// Copy the DropDownItems from one ToolStripDropDownItem to another.
@@ -22,7 +22,7 @@
         /// </summary>
         /// <param name="s">The source parent item, contributing the DropDownItems to be copied.</param>
         /// <param name="t">The target parent item, receiving the copies.</param>
-        public static void CloneTo(this ToolStripDropDownItem s, ToolStripDropDownItem t) =>
+        internal static void CloneTo(this ToolStripDropDownItem s, ToolStripDropDownItem t) =>
             s.DropDownItems.CloneTo(t.DropDownItems);
 
         #endregion

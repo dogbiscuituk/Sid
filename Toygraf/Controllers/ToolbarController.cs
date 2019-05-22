@@ -6,9 +6,9 @@
 
     public class ToolbarController
     {
-        #region Public Interface
+        #region Internal Interface
 
-        public ToolbarController(AppController parent)
+        internal ToolbarController(AppController parent)
         {
             Parent = parent;
             View.ViewToolbar.DropDownOpening += ViewToolbar_DropDownOpening;

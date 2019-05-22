@@ -5,58 +5,78 @@
     using System.Windows.Forms;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
-    using ToyGraf.Models.Commands;
     using ToyGraf.Views;
 
-    public class SeriesController
+    internal class SeriesController
     {
-        #region Public Interface
+        #region Internal Interface
 
-        public SeriesController(LegendController parent)
+        internal SeriesController(LegendController parent)
         {
             Parent = parent;
             View = new SeriesView();
             InitFunctionNames();
         }
 
-        #endregion
-
-        #region Properties
-
-        public SeriesView _view;
-        public SeriesView View
+        internal SeriesView View
         {
             get => _view;
             set
             {
-                if (View != null)
-                {
-                    View.cbVisible.CheckedChanged -= Parent.LiveUpdate;
-                    FunctionBox.DrawItem -= FunctionBox_DrawItem;
-                    FunctionBox.TextChanged -= FunctionBox_TextChanged;
-                    View.cbPenColour.SelectedValueChanged -= Parent.LiveUpdate;
-                    View.cbFillColour.SelectedValueChanged -= Parent.LiveUpdate;
-                    View.seTransparency.ValueChanged -= Parent.LiveUpdate;
-                    View.btnDetails.Click -= BtnDetails_Click;
-                    View.btnRemove.Click -= BtnRemove_Click;
-                    ColourController.Clear();
-                }
                 _view = value;
-                if (View != null)
-                {
-                    View.cbVisible.CheckedChanged += Parent.LiveUpdate;
-                    FunctionBox.DrawItem += FunctionBox_DrawItem;
-                    FunctionBox.TextChanged += FunctionBox_TextChanged;
-                    View.cbPenColour.SelectedValueChanged += Parent.LiveUpdate;
-                    View.cbFillColour.SelectedValueChanged += Parent.LiveUpdate;
-                    View.seTransparency.ValueChanged += Parent.LiveUpdate;
-                    View.btnDetails.Click += BtnDetails_Click;
-                    View.btnRemove.Click += BtnRemove_Click;
-                    ColourController.AddControls(View.cbPenColour, View.cbFillColour);
-                }
+                View.cbVisible.CheckedChanged += Parent.LiveUpdate;
+                FunctionBox.DrawItem += FunctionBox_DrawItem;
+                FunctionBox.TextChanged += FunctionBox_TextChanged;
+                View.cbPenColour.SelectedValueChanged += Parent.LiveUpdate;
+                View.cbFillColour.SelectedValueChanged += Parent.LiveUpdate;
+                View.seTransparency.ValueChanged += Parent.LiveUpdate;
+                View.btnDetails.Click += BtnDetails_Click;
+                View.btnRemove.Click += BtnRemove_Click;
+                ColourController.AddControls(View.cbPenColour, View.cbFillColour);
             }
         }
 
+        internal bool TraceVisible
+        {
+            get => View.cbVisible.Checked;
+            set => View.cbVisible.Checked = value;
+        }
+
+        internal string TraceLabel
+        {
+            get => View.Label.Text;
+            set => View.Label.Text = value;
+        }
+
+        internal string Formula
+        {
+            get => FunctionBox.Text;
+            set => FunctionBox.Text = value;
+        }
+
+        internal Color PenColour
+        {
+            get => ColourController.GetColour(View.cbPenColour);
+            set => ColourController.SetColour(View.cbPenColour, value);
+        }
+
+        internal Color FillColour
+        {
+            get => ColourController.GetColour(View.cbFillColour);
+            set => ColourController.SetColour(View.cbFillColour, value);
+        }
+
+        internal int FillTransparencyPercent
+        {
+            get => (int)View.seTransparency.Value;
+            set => View.seTransparency.Value = value;
+        }
+
+        #endregion
+
+        #region Private Properties
+
+        private SeriesView _view;
         private AppController AppController { get => Parent.Parent; }
         private LegendController Parent;
         private ColourController ColourController = new ColourController();
@@ -67,45 +87,20 @@
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
         private Graph Graph { get => Parent.Parent.Graph; }
 
-        public bool TraceVisible
-        {
-            get => View.cbVisible.Checked;
-            set => View.cbVisible.Checked = value;
-        }
-
-        public string TraceLabel
-        {
-            get => View.Label.Text;
-            set => View.Label.Text = value;
-        }
-
-        public string Formula
-        {
-            get => FunctionBox.Text;
-            set => FunctionBox.Text = value;
-        }
-
-        public Color PenColour
-        {
-            get => ColourController.GetColour(View.cbPenColour);
-            set => ColourController.SetColour(View.cbPenColour, value);
-        }
-
-        public Color FillColour
-        {
-            get => ColourController.GetColour(View.cbFillColour);
-            set => ColourController.SetColour(View.cbFillColour, value);
-        }
-
-        public int FillTransparencyPercent
-        {
-            get => (int)View.seTransparency.Value;
-            set => View.seTransparency.Value = value;
-        }
-
         #endregion
 
-        #region Functions
+        #region Private Event Handlers
+
+        private void BtnDetails_Click(object sender, System.EventArgs e)
+        {
+            int h = View.Height, h1 = MathController.View.Height,
+                h2 = Screen.FromControl(View).Bounds.Height;
+            var p = View.PointToScreen(new Point(0, h));
+            if (p.Y + h1 > h2) p.Y -= h + h1;
+            MathController.ShowDialog(AppController.View, p, Graph, Parent.IndexOf(this));
+        }
+
+        private void BtnRemove_Click(object sender, System.EventArgs e) => Parent.RemoveSeries(Index);
 
         private void FunctionBox_DrawItem(object sender, DrawItemEventArgs e)
         {
@@ -123,28 +118,16 @@
             Parent.LiveUpdate(sender, e);
         }
 
+        #endregion
+
+        #region Private Methods
+
         private void InitFunctionNames()
         {
             Functions.Clear();
             Functions.Add(string.Empty);
             Functions.AddRange(Utility.FunctionNames.Select(f => $"{f}(x)").ToArray());
         }
-
-        #endregion
-
-        #region SeriesView Management
-
-        private void BtnDetails_Click(object sender, System.EventArgs e)
-        {
-            int h = View.Height, h1 = MathController.View.Height,
-                h2 = Screen.FromControl(View).Bounds.Height;
-            var p = View.PointToScreen(new Point(0, h));
-            if (p.Y + h1 > h2) p.Y -= h + h1;
-            MathController.ShowDialog(AppController.View, p, Graph, Parent.IndexOf(this));
-        }
-
-        private void BtnRemove_Click(object sender, System.EventArgs e) =>
-            CommandController.Run(new GraphDeleteSeriesCommand(Index));
 
         #endregion
     }

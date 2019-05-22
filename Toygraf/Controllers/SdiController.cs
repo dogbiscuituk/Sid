@@ -13,18 +13,22 @@
     /// Keep track of the document/model's "Modified" state, prompting for "Save" as necessary
     /// (for example, prior to "File|New" or "File|Open", or application closing).
     /// </summary>
-    public abstract class SdiController : MruController
+    internal abstract class SdiController : MruController
 	{
-		protected SdiController(Model model, string filter, string subKeyName, ToolStripDropDownItem recentMenu)
+        #region Protected Constructor
+
+        protected SdiController(Model model, string filter, string subKeyName, ToolStripDropDownItem recentMenu)
 			: base(model, subKeyName, recentMenu)
 		{
 			OpenFileDialog = new OpenFileDialog { Filter = filter, Title = "Select the file to open" };
 			SaveFileDialog = new SaveFileDialog { Filter = filter, Title = "Save file" };
 		}
 
-        #region Public Interface
+        #endregion
 
-        public bool Clear()
+        #region Internal Interface
+
+        internal bool Clear()
 		{
 			var result = SaveIfModified();
 			if (result)
@@ -36,16 +40,30 @@
             return result;
 		}
 
-		public bool Open() => SaveIfModified()
+        internal bool Open() => SaveIfModified()
             && OpenFileDialog.ShowDialog() == DialogResult.OK
             && LoadFromFile(OpenFileDialog.FileName);
 
-		public bool Save() => string.IsNullOrEmpty(FilePath) ? SaveAs() : SaveToFile(FilePath);
+        internal override void Reopen(ToolStripItem menuItem)
+        {
+            var filePath = menuItem.ToolTipText;
+            if (File.Exists(filePath))
+            {
+                if (SaveIfModified())
+                    LoadFromFile(filePath);
+            }
+            else if (MessageBox.Show(
+                string.Format("File \"{0}\" no longer exists. Remove from menu?", filePath),
+                "Reopen file", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                RemoveItem(filePath);
+        }
 
-		public bool SaveAs() => SaveFileDialog.ShowDialog() == DialogResult.OK
+        internal bool Save() => string.IsNullOrEmpty(FilePath) ? SaveAs() : SaveToFile(FilePath);
+
+        internal bool SaveAs() => SaveFileDialog.ShowDialog() == DialogResult.OK
             && SaveToFile(SaveFileDialog.FileName);
 
-		public bool SaveIfModified()
+        internal bool SaveIfModified()
 		{
 			if (Model.Modified)
 				switch (MessageBox.Show(
@@ -64,14 +82,13 @@
 			return true;
 		}
 
-        public event EventHandler<CancelEventArgs> FileLoading, FileSaving;
-        public event EventHandler FileLoaded, FilePathChanged, FileSaved;
+        internal event EventHandler<CancelEventArgs> FileLoading, FileSaving;
+        internal event EventHandler FileLoaded, FilePathChanged, FileSaved;
 
         #endregion
 
-        #region Properties
+        #region Protected Properties
 
-        private string _filePath = string.Empty;
 		protected string FilePath
         {
             get => _filePath;
@@ -85,12 +102,43 @@
             }
         }
 
+        #endregion
+
+        #region Private Properties
+
+        private string _filePath = string.Empty;
         private readonly OpenFileDialog OpenFileDialog;
         private readonly SaveFileDialog SaveFileDialog;
 
         #endregion
 
-        #region Event Handling
+        #region Protected Methods
+
+        protected abstract void ClearDocument();
+
+		protected abstract bool LoadFromStream(Stream stream, string format);
+
+		protected abstract bool SaveToStream(Stream stream, string format);
+
+		protected bool UseStream(Action action)
+		{
+			var result = true;
+			try
+			{
+				action();
+				Model.Modified = false;
+			}
+			catch (Exception x)
+			{
+				MessageBox.Show(
+					x.Message,
+					x.GetType().Name,
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Error);
+				result = false;
+			}
+			return result;
+		}
 
         protected virtual void OnFilePathChanged()
         {
@@ -129,49 +177,9 @@
 
         #endregion
 
-        #region Non-Public Methods
+        #region Private Methods
 
-        protected abstract void ClearDocument();
-
-		protected abstract bool LoadFromStream(Stream stream, string format);
-
-		public override void Reopen(ToolStripItem menuItem)
-		{
-			var filePath = menuItem.ToolTipText;
-			if (File.Exists(filePath))
-			{
-				if (SaveIfModified())
-					LoadFromFile(filePath);
-			}
-			else if (MessageBox.Show(
-				string.Format("File \"{0}\" no longer exists. Remove from menu?", filePath),
-				"Reopen file", MessageBoxButtons.YesNo) == DialogResult.Yes)
-				RemoveItem(filePath);
-		}
-
-		protected abstract bool SaveToStream(Stream stream, string format);
-
-		protected bool UseStream(Action action)
-		{
-			var result = true;
-			try
-			{
-				action();
-				Model.Modified = false;
-			}
-			catch (Exception x)
-			{
-				MessageBox.Show(
-					x.Message,
-					x.GetType().Name,
-					MessageBoxButtons.OK,
-					MessageBoxIcon.Error);
-				result = false;
-			}
-			return result;
-		}
-
-		private bool LoadFromFile(string filePath)
+        private bool LoadFromFile(string filePath)
 		{
 			var result = false;
 			if (OnFileLoading())

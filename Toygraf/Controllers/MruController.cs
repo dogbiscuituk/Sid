@@ -18,9 +18,9 @@
     /// Provide a "Clear" subitem to reset the content of this submenu to (empty).
     /// Note: unsafe code is used to abbreviate long paths (see CompactMenuText method).
     /// </summary>
-    public class MruController
+    internal class MruController
 	{
-        #region Non-Private Interface
+        #region Protected Constructor
 
         protected MruController(Model model, string subKeyName, ToolStripDropDownItem recentMenu)
         {
@@ -36,14 +36,23 @@
             RefreshRecentMenu();
         }
 
-        public virtual void Reopen(ToolStripItem menuItem) { }
+        #endregion
+
+        #region Internal Interface
+
+        internal virtual void Reopen(ToolStripItem menuItem) { }
 
         #endregion
 
-        #region Non-Public Properties
+        #region Protected Properties
 
         protected readonly Model Model;
-        private string SubKeyName;
+
+        #endregion
+
+        #region Private Properties
+
+        private readonly string SubKeyName;
         private ToolStripDropDownItem RecentMenu;
 
         #endregion
@@ -76,31 +85,58 @@
 
         #endregion
 
-        #region Non-Public Methods
+        #region Protected Methods
 
         protected void AddItem(string item)
-		{
-			try
-			{
-				var key = CreateSubKey();
-				if (key == null)
-					return;
-				try
-				{
-					DeleteItem(key, item);
-					key.SetValue(string.Format("{0:yyyyMMddHHmmssFF}", DateTime.Now), item);
-				}
-				finally
-				{
-					key.Close();
-				}
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.ToString());
-			}
-			RefreshRecentMenu();
-		}
+        {
+            try
+            {
+                var key = CreateSubKey();
+                if (key == null)
+                    return;
+                try
+                {
+                    DeleteItem(key, item);
+                    key.SetValue(string.Format("{0:yyyyMMddHHmmssFF}", DateTime.Now), item);
+                }
+                finally
+                {
+                    key.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            RefreshRecentMenu();
+        }
+
+        protected void RemoveItem(string item)
+        {
+            try
+            {
+                var key = OpenSubKey(true);
+                if (key == null)
+                    return;
+                try
+                {
+                    DeleteItem(key, item);
+                }
+                finally
+                {
+                    key.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            RefreshRecentMenu();
+        }
+
+        #endregion
+
+        #region Private Methods
 
         private static string CompactMenuText(string text)
         {
@@ -184,29 +220,6 @@
             }
             RecentMenu.Enabled = ok;
         }
-
-        protected void RemoveItem(string item)
-		{
-			try
-			{
-				var key = OpenSubKey(true);
-				if (key == null)
-					return;
-				try
-				{
-					DeleteItem(key, item);
-				}
-				finally
-				{
-					key.Close();
-				}
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.ToString());
-			}
-			RefreshRecentMenu();
-		}
 
         #endregion
 	}

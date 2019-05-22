@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    public partial class AboutDialog : Form
+    internal partial class AboutDialog : Form
     {
-        public AboutDialog()
+        internal AboutDialog()
         {
             InitializeComponent();
         }

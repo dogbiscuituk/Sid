@@ -9,17 +9,17 @@
     using ToyGraf.Models.Commands;
     using ToyGraf.Views;
 
-    public class LegendController
+    internal class LegendController
     {
-        #region Public Interface
+        #region Internal Interface
 
-        public LegendController(AppController parent)
+        internal LegendController(AppController parent)
         {
             Parent = parent;
             View = parent.View;
         }
 
-        public AppForm View
+        internal AppForm View
         {
             get => _view;
             set
@@ -36,10 +36,10 @@
             }
         }
 
-        public AppController Parent;
-        public List<SeriesController> Children = new List<SeriesController>();
+        internal AppController Parent;
+        internal List<SeriesController> Children = new List<SeriesController>();
 
-        public void AdjustLegend()
+        internal void AdjustLegend()
         {
             Legend.Visible = true;
             const int margin = 0, rowHeight = 23, maxRows = 20;
@@ -69,7 +69,7 @@
             Legend.SetBounds(x, y, w, h);
         }
 
-        public void GraphRead()
+        internal void GraphRead()
         {
             Loading = true;
             RemoveAllSeriesViews();
@@ -79,14 +79,19 @@
             Loading = false;
         }
 
-        public int IndexOf(SeriesController child) => Children.IndexOf(child);
+        internal int IndexOf(SeriesController child) => Children.IndexOf(child);
 
-        public void LiveUpdate(object sender, EventArgs e)
+        internal void LiveUpdate(object sender, EventArgs e)
         {
             if (!Loading) GraphWrite();
         }
 
-        public void RemoveSeriesView(SeriesView seriesView) => RemoveSeriesViewAt(SeriesViews.IndexOf(seriesView));
+        internal void RemoveSeries(int index)
+        {
+            CommandController.Run(new GraphDeleteSeriesCommand(index));
+            GraphRead();
+            AfterChange();
+        }
 
         #endregion
 
@@ -142,8 +147,13 @@
 
         #region Private Methods
 
-        private void AddNewSeries() => CommandController.Run(new GraphInsertSeriesCommand(Children.Count));
-        
+        private void AddNewSeries()
+        {
+            CommandController.Run(new GraphInsertSeriesCommand(Children.Count));
+            GraphRead();
+            AfterChange();
+        }
+
         private void AddNewSeriesView(Series series)
         {
             Loading = true;

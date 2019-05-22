@@ -3,7 +3,7 @@
             =============================================================================
 
 The classes Series, Graph, Model and AppController form a hierarchy using the INotifyPropertyChanged
-event,
+event (though not explicitly declaring the interface),
 
     public event PropertyChangedEventHandler PropertyChanged;
 

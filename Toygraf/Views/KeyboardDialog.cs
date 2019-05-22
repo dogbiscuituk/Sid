@@ -2,16 +2,11 @@
 {
     using System.Windows.Forms;
 
-    public partial class KeyboardDialog : Form
+    internal partial class KeyboardDialog : Form
     {
-        public KeyboardDialog()
+        internal KeyboardDialog()
         {
             InitializeComponent();
-        }
-
-        private void button2_Click(object sender, System.EventArgs e)
-        {
-
         }
     }
 }

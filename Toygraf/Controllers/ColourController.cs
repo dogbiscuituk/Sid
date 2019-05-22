@@ -7,15 +7,15 @@
     using System.Windows.Forms;
     using ToyGraf.Expressions;
 
-    public class ColourController
+    internal class ColourController
     {
-        #region Public Interface
+        #region Internal Interface
 
-        public ColourController() { }
+        internal ColourController() { }
 
-        public readonly List<ComboBox> Controls = new List<ComboBox>();
+        internal readonly List<ComboBox> Controls = new List<ComboBox>();
 
-        public void AddControls(params ComboBox[] controls)
+        internal void AddControls(params ComboBox[] controls)
         {
             Controls.AddRange(controls);
             foreach (var control in controls)
@@ -25,17 +25,17 @@
             }
         }
 
-        public void Clear()
+        internal void Clear()
         {
             foreach (var control in Controls)
                 control.DrawItem -= Control_DrawItem;
             Controls.Clear();
         }
 
-        public Color GetColour(ComboBox comboBox) =>
+        internal Color GetColour(ComboBox comboBox) =>
             Color.FromName(comboBox.SelectedItem.ToString());
 
-        public void SetColour(ComboBox comboBox, Color colour) =>
+        internal void SetColour(ComboBox comboBox, Color colour) =>
             comboBox.SelectedIndex = comboBox.Items.IndexOf(colour.Name);
 
         #endregion

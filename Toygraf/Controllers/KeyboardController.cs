@@ -9,18 +9,18 @@
     using ToyGraf.Models;
     using ToyGraf.Views;
 
-    public class KeyboardController
+    internal class KeyboardController
     {
-        #region Public Interface
+        #region Internal Interface
 
-        public KeyboardController(AppController parent)
+        internal KeyboardController(AppController parent)
         {
             Parent = parent;
             View = new KeyboardDialog();
             InitFunctionNames();
         }
 
-        public KeyboardDialog View
+        internal KeyboardDialog View
         {
             get => _view;
             set
@@ -44,7 +44,7 @@
             }
         }
 
-        public void ShowDialog(IWin32Window owner, Point location, Graph graph, int index)
+        internal void ShowDialog(IWin32Window owner, Point location, Graph graph, int index)
         {
             Graph = graph;
             View.seIndex.Maximum = SeriesControllers.Count - 1;

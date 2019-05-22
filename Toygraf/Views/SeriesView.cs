@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    public partial class SeriesView : UserControl
+    internal partial class SeriesView : UserControl
     {
-        public SeriesView()
+        internal SeriesView()
         {
             InitializeComponent();
         }

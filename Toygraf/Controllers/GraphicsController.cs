@@ -7,11 +7,11 @@
     using ToyGraf.Models;
     using ToyGraf.Views;
 
-    public class GraphicsController
+    internal class GraphicsController
     {
-        #region Public Interface
+        #region Internal Interface
 
-        public GraphicsController(AppController parent)
+        internal GraphicsController(AppController parent)
         {
             Parent = parent;
             View = parent.View.PictureBox;
@@ -25,10 +25,10 @@
             AdjustPictureBox();
         }
 
-        public Clock Clock;
-        public bool ClockRunning => Clock.Running;
+        internal Clock Clock;
+        internal bool ClockRunning => Clock.Running;
 
-        public PictureBox View
+        internal PictureBox View
         {
             get => _view;
             set
@@ -47,8 +47,8 @@
             }
         }
 
-        public void AdjustPictureBox() => View.Bounds = View.Parent.ClientRectangle;
-        public void InvalidateView() => View.Invalidate();
+        internal void AdjustPictureBox() => View.Bounds = View.Parent.ClientRectangle;
+        internal void InvalidateView() => View.Invalidate();
 
         #endregion
 

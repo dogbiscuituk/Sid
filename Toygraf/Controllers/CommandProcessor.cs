@@ -8,11 +8,11 @@
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Views;
 
-    public class CommandProcessor
+    internal class CommandProcessor
     {
-        #region Public Interface
+        #region Internal Interface
 
-        public CommandProcessor(AppController parent)
+        internal CommandProcessor(AppController parent)
         {
             Parent = parent;
             // Edit
@@ -42,20 +42,20 @@
             UpdateUI();
         }
 
-        public void Run(params GraphCommand[] commands)
+        internal void Run(params GraphCommand[] commands)
         {
             foreach (var command in commands)
                 Redo(command);
             RedoStack.Clear();
         }
 
-        public void ScrollBy(float xDelta, float yDelta) => Run(new GraphCentreCommand(
+        internal void ScrollBy(float xDelta, float yDelta) => Run(new GraphCentreCommand(
             Graph.Centre.X + xDelta,
             Graph.Centre.Y + yDelta));
 
-        public void Zoom(float factor) => Run(new GraphWidthCommand(Graph.Width * factor));
+        internal void Zoom(float factor) => Run(new GraphWidthCommand(Graph.Width * factor));
 
-        public void ZoomReset() => Run(
+        internal void ZoomReset() => Run(
             new GraphCentreCommand(Graph.OriginalCentre),
             new GraphWidthCommand(Graph.OriginalWidth));
 

@@ -4,11 +4,11 @@
     using System.Windows.Forms;
     using ToyGraf.Views;
 
-    public class AboutController
+    internal class AboutController
     {
-        #region Public Interface
+        #region Internal Interface
 
-        public AboutController()
+        internal AboutController()
         {
             View = new AboutDialog();
             var asm = Assembly.GetExecutingAssembly();
@@ -19,7 +19,7 @@
             View.lblCopyright.Text = asm.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
         }
 
-        public void ShowDialog(IWin32Window owner) => View.ShowDialog(owner);
+        internal void ShowDialog(IWin32Window owner) => View.ShowDialog(owner);
 
         #endregion
 

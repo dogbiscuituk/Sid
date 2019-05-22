@@ -11,18 +11,18 @@
     /// Maintain a "WindowCaption" property for the app, including the product name,
     /// current filename (if any, otherwise "(untitled)", and "Modified" flag.
     /// </summary>
-    public class JsonController : SdiController
+    internal class JsonController : SdiController
     {
-        #region Public Interface
+        #region Internal Interface
 
-        public JsonController(Model model, Control view, ToolStripDropDownItem recentMenu)
+        internal JsonController(Model model, Control view, ToolStripDropDownItem recentMenu)
             : base(model, Properties.Settings.Default.GraphFilter, "LibraryMRU", recentMenu)
         {
             Model.PropertyChanged += Model_PropertyChanged;
             View = view;
         }
 
-        public string WindowCaption
+        internal string WindowCaption
         {
             get
             {

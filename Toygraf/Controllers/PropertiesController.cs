@@ -8,18 +8,18 @@
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Views;
 
-    public class PropertiesController
+    internal class PropertiesController
     {
-        #region Public Interface
+        #region Internal Interface
 
-        public PropertiesController(AppController parent)
+        internal PropertiesController(AppController parent)
         {
             Parent = parent;
             View = new PropertiesDialog();
             InitEnumControls();
         }
 
-        public void Show(IWin32Window owner)
+        internal void Show(IWin32Window owner)
         {
             if (!View.Visible)
             {

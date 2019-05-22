@@ -10,11 +10,11 @@
     using ToyGraf.Models.Structs;
     using ToyGraf.Views;
 
-    public class AppController: INotifyPropertyChanged
+    internal class AppController
     {
-        #region Public Interface
+        #region Internal Interface
 
-        public AppController()
+        internal AppController()
         {
             View = new AppForm();
             Model = new Model();
@@ -38,7 +38,7 @@
             CommandProcessor = new CommandProcessor(this);
         }
 
-        public AppForm View
+        internal AppForm View
         {
             get => _view;
             set
@@ -64,14 +64,14 @@
             }
         }
 
-        public readonly Model Model;
-        public Graph Graph { get => Model.Graph; }
+        internal readonly Model Model;
+        internal Graph Graph { get => Model.Graph; }
 
-        public readonly CommandProcessor CommandProcessor;
-        public readonly KeyboardController KeyboardController;
-        public readonly LegendController LegendController;
+        internal readonly CommandProcessor CommandProcessor;
+        internal readonly KeyboardController KeyboardController;
+        internal readonly LegendController LegendController;
 
-        public void UpdateMouseCoordinates(PointF p)
+        internal void UpdateMouseCoordinates(PointF p)
         {
             string
                 xy = $"{{x={p.X}, y={p.Y}}}",
@@ -82,7 +82,7 @@
                 InitCoordinatesToolTip($"{xy}\n{rθ}");
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        internal event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
 
