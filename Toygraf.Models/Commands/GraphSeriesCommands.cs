@@ -14,11 +14,11 @@
     {
         public GraphSeriesCommand(int index, bool add) : base(index) { Add = add; }
 
+        public Series Series;
+        public bool Add;
         public override string UndoAction => GetAction(true);
         public override string RedoAction => GetAction(false);
         protected override string Detail => Series == null ? string.Empty : $" = {Series.Formula}";
-        private Series Series;
-        private bool Add;
 
         protected override void Invert() { Add = !Add; }
         
@@ -38,7 +38,6 @@
                     graph.Series.Insert(Index, Series);
                 else if (Index == graph.Series.Count)
                     graph.Series.Add(Series);
-                Series = null;
             }
             else
             {

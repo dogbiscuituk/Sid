@@ -12,7 +12,7 @@
             Set = set;
         }
 
-        protected new string Value { get => (string)base.Value; set => base.Value = value; }
+        public new string Value { get => (string)base.Value; set => base.Value = value; }
         protected Func<Series, string> Get;
         protected Action<Series, string> Set;
 

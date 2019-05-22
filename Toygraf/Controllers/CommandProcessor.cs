@@ -132,15 +132,21 @@
         private void Redo(GraphCommand command)
         {
             command.Do(Graph);
-            var group = GroupUndo && CanUndo;
-            if (group)
+            var canGroup = false;
+            if (GroupUndo && CanUndo)
             {
                 var prevCmd = UndoStack.Peek();
-                group = !(command is GraphSeriesCommand) && command.GetType() == prevCmd.GetType();
-                if (group && command is SeriesCommand s)
-                    group = s.Index == ((SeriesCommand)prevCmd).Index;
+                canGroup = !(command is GraphSeriesCommand) && command.GetType() == prevCmd.GetType();
+                if (canGroup && command is SeriesCommand s)
+                    canGroup = s.Index == ((SeriesCommand)prevCmd).Index;
+                else if (command is SeriesCommand sf && prevCmd is GraphSeriesCommand gs)
+                {
+                    canGroup = !gs.Add && sf.Index == gs.Index;
+                    if (canGroup && gs.Series == null)
+                        gs.Series = Graph.Series[sf.Index];
+                }
             };
-            if (!group)
+            if (!canGroup)
                 UndoStack.Push(command);
             UpdateUI();
         }
