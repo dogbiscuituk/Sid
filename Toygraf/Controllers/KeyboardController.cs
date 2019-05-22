@@ -279,7 +279,7 @@
 
         #region Private Types
 
-        private struct Keyboard { public string Name, Keys; }
+        private struct Keyboard { internal string Name, Keys; }
 
         private enum KeyboardType
         {

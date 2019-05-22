@@ -4,7 +4,7 @@
     using System.Windows.Forms;
     using ToyGraf.Views;
 
-    public class ToolbarController
+    internal class ToolbarController
     {
         #region Internal Interface
 
