@@ -189,10 +189,6 @@
                 Functions[0] = function;
             ActiveControl.Text = function;
             var proxies = Graph.GetProxies().ToArray();
-
-            foreach (var proxy in proxies)
-                System.Diagnostics.Debug.WriteLine(proxy.AsString());
-
             View.tbProxy.Text = Index >= 0 && Index < proxies.Length
                 ? proxies[Index].AsString()
                 : string.Empty;

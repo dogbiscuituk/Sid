@@ -35,7 +35,7 @@
             LegendController.AdjustLegend();
             UpdateUI();
             PopupMenu_Opening(View, new CancelEventArgs());
-            CommandController = new CommandController(this);
+            CommandProcessor = new CommandProcessor(this);
         }
 
         public AppForm View
@@ -44,34 +44,30 @@
             set
             {
                 _view = value;
-                // Form
-                View.FormClosing += View_FormClosing;
-                // Main Menu
                 View.FileNew.Click += FileNew_Click;
-                View.FileOpen.Click += FileOpen_Click;
-                View.FileSave.Click += FileSave_Click;
-                View.FileSaveAs.Click += FileSaveAs_Click;
-                View.FileExit.Click += FileExit_Click;
-                View.GraphProperties.Click += GraphProperties_Click;
-                View.ZoomFullScreen.Click += ZoomFullScreen_Click;
-                View.ViewCoordinatesTooltip.Click += ViewCoordinatesTooltip_Click;
-                View.HelpAbout.Click += HelpAbout_Click;
-                // PopupMenu
-                View.PopupMenu.Opening += PopupMenu_Opening;
-                // Toolbar
                 View.tbNew.Click += FileNew_Click;
+                View.FileOpen.Click += FileOpen_Click;
                 View.tbOpen.ButtonClick += FileOpen_Click;
                 View.tbOpen.DropDownOpening += TbOpen_DropDownOpening;
+                View.FileSave.Click += FileSave_Click;
+                View.FileSaveAs.Click += FileSaveAs_Click;
                 View.tbSave.Click += FileSaveAs_Click;
+                View.FileExit.Click += FileExit_Click;
+                View.GraphProperties.Click += GraphProperties_Click;
                 View.tbProperties.Click += GraphProperties_Click;
+                View.ZoomFullScreen.Click += ZoomFullScreen_Click;
                 View.tbFullScreen.Click += ZoomFullScreen_Click;
+                View.ViewCoordinatesTooltip.Click += ViewCoordinatesTooltip_Click;
+                View.HelpAbout.Click += HelpAbout_Click;
+                View.PopupMenu.Opening += PopupMenu_Opening;
+                View.FormClosing += View_FormClosing;
             }
         }
 
         public readonly Model Model;
         public Graph Graph { get => Model.Graph; }
 
-        public readonly CommandController CommandController;
+        public readonly CommandProcessor CommandProcessor;
         public readonly KeyboardController KeyboardController;
         public readonly LegendController LegendController;
 

@@ -52,7 +52,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\ColourController.cs" />
-    <Compile Include="Controllers\CommandController.cs" />
+    <Compile Include="Controllers\CommandProcessor.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\GraphicsController.cs" />
     <Compile Include="Controllers\PropertiesController.cs" />

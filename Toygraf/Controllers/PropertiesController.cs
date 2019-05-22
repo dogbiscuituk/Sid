@@ -75,7 +75,7 @@
         }
 
         private ColourController ColourController = new ColourController();
-        private CommandController CommandController { get => Parent.CommandController; }
+        private CommandProcessor CommandController { get => Parent.CommandProcessor; }
 
         private CheckedListBox ClbElements { get => View.ElementCheckboxes; }
         private CheckedListBox.ObjectCollection ElementItems { get => View.ElementCheckboxes.Items; }

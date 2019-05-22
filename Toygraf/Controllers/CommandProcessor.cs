@@ -8,11 +8,11 @@
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Views;
 
-    public class CommandController
+    public class CommandProcessor
     {
         #region Public Interface
 
-        public CommandController(AppController parent)
+        public CommandProcessor(AppController parent)
         {
             Parent = parent;
             // Edit
@@ -84,9 +84,9 @@
 
         // Edit
         private void EditUndo_Click(object sender, EventArgs e) => Undo();
-        private void TbUndo_DropDownOpening(object sender, EventArgs e) => CopyCommands(UndoStack, View.tbUndo.DropDownItems, UndoMultiple);
+        private void TbUndo_DropDownOpening(object sender, EventArgs e) => Copy(UndoStack, View.tbUndo, UndoMultiple);
         private void EditRedo_Click(object sender, EventArgs e) => Redo();
-        private void TbRedo_DropDownOpening(object sender, EventArgs e) => CopyCommands(RedoStack, View.tbRedo.DropDownItems, RedoMultiple);
+        private void TbRedo_DropDownOpening(object sender, EventArgs e) => Copy(RedoStack, View.tbRedo, RedoMultiple);
         private void EditGroupUndo_Click(object sender, EventArgs e) => GroupUndo = !GroupUndo;
         // Graph
         private void GraphTypePolar_Click(object sender, EventArgs e) => Run(new GraphPlotTypeCommand(PlotType.Polar));
@@ -109,11 +109,11 @@
         private void Undo() { if (CanUndo) Undo(UndoStack.Pop()); }
         private void Redo() { if (CanRedo) Redo(RedoStack.Pop()); }
 
-        private void CopyCommands(Stack<GraphCommand> stack,
-            ToolStripItemCollection items, EventHandler handler)
+        private void Copy(Stack<GraphCommand> stack, ToolStripDropDownItem item, EventHandler handler)
         {
             const int MaxItems = 20;
             var commands = stack.ToArray();
+            var items = item.DropDownItems;
             items.Clear();
             for (int n = 0; n < Math.Min(commands.Length, MaxItems); n++)
             {
@@ -125,12 +125,15 @@
         private void Undo(GraphCommand command)
         {
             command.Undo(Graph);
+            command = command.Invert();
             RedoStack.Push(command);
             UpdateUI();
         }
 
         private void Redo(GraphCommand command)
         {
+            command.Redo(Graph);
+            command = command.Invert();
             var group = GroupUndo && CanUndo;
             if (group)
             {
@@ -141,7 +144,6 @@
             };
             if (!group)
                 UndoStack.Push(command);
-            command.Redo(Graph);
             UpdateUI();
         }
 
@@ -163,14 +165,17 @@
 
         private void ScrollTo(float x, float y) => Run(new GraphCentreCommand(x, y));
 
+        private string UndoAction => UndoStack.Peek().UndoAction;
+        private string RedoAction => RedoStack.Peek().RedoAction;
+
         private void UpdateUI()
         {
             View.EditUndo.Enabled = View.tbUndo.Enabled = CanUndo;
-            View.EditUndo.Text = CanUndo ? $"&Undo {UndoStack.Peek().Action}" : "&Undo";
-            View.tbUndo.ToolTipText = CanUndo ? $"Undo {UndoStack.Peek().Action} (^Z)" : "Undo (^Z)";
+            View.EditUndo.Text = CanUndo ? $"&Undo {UndoAction}" : "&Undo";
+            View.tbUndo.ToolTipText = CanUndo ? $"Undo {UndoAction} (^Z)" : "Undo (^Z)";
             View.EditRedo.Enabled = View.tbRedo.Enabled = CanRedo;
-            View.EditRedo.Text = CanRedo ? $"&Redo {RedoStack.Peek().Action}" : "&Redo";
-            View.tbRedo.ToolTipText = CanRedo ? $"Redo {RedoStack.Peek().Action} (^Y)" : "Redo (^Z)";
+            View.EditRedo.Text = CanRedo ? $"&Redo {RedoAction}" : "&Redo";
+            View.tbRedo.ToolTipText = CanRedo ? $"Redo {RedoAction} (^Y)" : "Redo (^Z)";
             View.EditCut.Enabled = View.tbCut.Enabled = false;
             View.EditCopy.Enabled = View.tbCopy.Enabled = false;
             View.EditPaste.Enabled = View.tbPaste.Enabled = false;

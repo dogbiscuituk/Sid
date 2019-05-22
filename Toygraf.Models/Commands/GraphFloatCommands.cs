@@ -16,7 +16,7 @@
         protected Func<Graph, float> Get;
         protected Action<Graph, float> Set;
 
-        protected override void Do(Graph graph)
+        protected override void Run(Graph graph)
         {
             var f = Get(graph);
             Set(graph, Value);

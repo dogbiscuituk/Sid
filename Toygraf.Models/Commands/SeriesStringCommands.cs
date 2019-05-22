@@ -16,7 +16,7 @@
         protected Func<Series, string> Get;
         protected Action<Series, string> Set;
 
-        protected override void Do(Graph graph)
+        protected override void Run(Graph graph)
         {
             var s = Get(graph.Series[Index]);
             Set(graph.Series[Index], Value);

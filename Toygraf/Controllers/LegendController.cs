@@ -93,7 +93,7 @@
         #region Private Properties
 
         private AppForm _view;
-        private CommandController CommandController { get => Parent.CommandController; }
+        private CommandProcessor CommandController { get => Parent.CommandProcessor; }
         private bool CanCancel, Loading = true;
         private Graph Graph { get => Parent.Graph; }
         private Panel Client { get => View.ClientPanel; }
@@ -131,7 +131,7 @@
             View.ViewLegendHide.Checked = !Legend.Visible;
         }
 
-        private void GraphAddNewFunction_Click(object sender, EventArgs e) => AddNewSeriesView(null);
+        private void GraphAddNewFunction_Click(object sender, EventArgs e) => AddNewSeries();
         private void ViewLegendBottomLeft_Click(object sender, EventArgs e) => LegendAlignment = ContentAlignment.BottomLeft;
         private void ViewLegendBottomRight_Click(object sender, EventArgs e) => LegendAlignment = ContentAlignment.BottomRight;
         private void ViewLegendHide_Click(object sender, EventArgs e) => Legend.Visible = !Legend.Visible;
@@ -142,6 +142,8 @@
 
         #region Private Methods
 
+        private void AddNewSeries() => CommandController.Run(new GraphInsertSeriesCommand(Children.Count));
+        
         private void AddNewSeriesView(Series series)
         {
             Loading = true;

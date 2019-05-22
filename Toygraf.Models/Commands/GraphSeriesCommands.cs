@@ -4,7 +4,7 @@
     {
         public GraphSeriesCommand(int index) : base(index) { }
 
-        protected Series Series;
+        public Series Series;
 
         protected void InsertSeries(Graph graph)
         {
@@ -17,35 +17,39 @@
             Series = null;
         }
 
-        protected void RemoveSeries(Graph graph)
+        protected void DeleteSeries(Graph graph)
         {
             Series = graph.Series[Index];
             graph.Series.RemoveAt(Index);
             Series.InvalidatePoints();
         }
 
-        public override string ToString() => Series == null
-            ? $"f{Index}"
-            : $"f{Index} = {Series.Formula}";
+        protected override string Detail => Series == null ? $"f{Index}" : $"f{Index} = {Series.Formula}";
     }
 
     public class GraphInsertSeriesCommand : GraphSeriesCommand
     {
         public GraphInsertSeriesCommand(int index) : base(index) { }
 
-        public override string Action => "function add";
+        public override string UndoAction => "function deletion";
+        public override string RedoAction => "function addition";
 
+        public override GraphCommand Invert() => new GraphDeleteSeriesCommand(Index) { Series = Series };
+        public override void Undo(Graph graph) => DeleteSeries(graph);
         public override void Redo(Graph graph) => InsertSeries(graph);
-        public override void Undo(Graph graph) => RemoveSeries(graph);
+        public override string ToString() => $"Add function {Detail}";
     }
 
-    public class GraphRemoveSeriesCommand : GraphSeriesCommand
+    public class GraphDeleteSeriesCommand : GraphSeriesCommand
     {
-        public GraphRemoveSeriesCommand(int index) : base(index) { }
+        public GraphDeleteSeriesCommand(int index) : base(index) { }
 
-        public override string Action => "function delete";
+        public override string UndoAction => "function addition";
+        public override string RedoAction => "function deletion";
 
-        public override void Redo(Graph graph) => RemoveSeries(graph);
+        public override GraphCommand Invert() => new GraphInsertSeriesCommand(Index) { Series = Series };
         public override void Undo(Graph graph) => InsertSeries(graph);
+        public override void Redo(Graph graph) => DeleteSeries(graph);
+        public override string ToString() => $"Remove function {Detail}";
     }
 }

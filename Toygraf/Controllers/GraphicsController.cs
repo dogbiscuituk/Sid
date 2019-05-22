@@ -57,7 +57,7 @@
         private PictureBox _view;
         private readonly AppController Parent;
         private AppForm AppForm { get => Parent.View; }
-        private CommandController CommandController { get => Parent.CommandController; }
+        private CommandProcessor CommandController { get => Parent.CommandProcessor; }
         private Graph Graph => Parent.Graph;
         private Point DragFrom, MouseDownAt;
         private bool Dragging;

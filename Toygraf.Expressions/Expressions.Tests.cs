@@ -1,7 +1,6 @@
 ﻿namespace ToyGraf.Expressions
 {
     using System;
-    using System.Diagnostics;
     using System.Linq.Expressions;
 
     partial class Expressions
@@ -13,11 +12,11 @@
         {
             const string message = "Comparison failed";
             var details = $"Expected: \"{expected}\", Actual: \"{actual}\".";
-            if (actual == expected)
-                Debug.WriteLine($"OK: {actual}");
-            else
-                Debug.WriteLine($"*** {message}. {details}");
-            Debug.Assert(actual == expected, message, details);
+            //if (actual == expected)
+            //    Debug.WriteLine($"OK: {actual}");
+            //else
+            //    Debug.WriteLine($"*** {message}. {details}");
+            System.Diagnostics.Debug.Assert(actual == expected, message, details);
         }
 
         public static void TestAll()

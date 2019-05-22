@@ -5,6 +5,7 @@
     using System.Windows.Forms;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
+    using ToyGraf.Models.Commands;
     using ToyGraf.Views;
 
     public class SeriesController
@@ -59,7 +60,9 @@
         private AppController AppController { get => Parent.Parent; }
         private LegendController Parent;
         private ColourController ColourController = new ColourController();
+        private CommandProcessor CommandController { get => AppController.CommandProcessor; }
         private KeyboardController MathController { get => AppController.KeyboardController; }
+        private int Index { get => Parent.IndexOf(this); }
         private ComboBox FunctionBox { get => View.cbFunction; }
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
         private Graph Graph { get => Parent.Parent.Graph; }
@@ -141,7 +144,7 @@
         }
 
         private void BtnRemove_Click(object sender, System.EventArgs e) =>
-            Parent.RemoveSeriesView(View);
+            CommandController.Run(new GraphDeleteSeriesCommand(Index));
 
         #endregion
     }

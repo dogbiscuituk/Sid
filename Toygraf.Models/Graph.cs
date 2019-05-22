@@ -506,11 +506,7 @@
 
         public void InvalidateReticle() { DisposeReticle(); Labels.Clear(); }
         private void InvalidatePoints() => Series.ForEach(p => p.InvalidatePoints());
-        public void InvalidateProxies()
-        {
-            System.Diagnostics.Debug.WriteLine("InvalidateProxies()");
-            _proxiesValid = false;
-        }
+        public void InvalidateProxies() => _proxiesValid = false;
 
         private void ValidateReticle(Graphics g, Rectangle r, float penWidth)
         {
@@ -530,7 +526,6 @@
         {
             if (!_proxiesValid)
             {
-                System.Diagnostics.Debug.WriteLine("ValidateProxies()");
                 InitProxies();
                 _proxiesValid = true;
             }
@@ -636,7 +631,6 @@
 
         public void Series_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine($"Property changed: {e.PropertyName}");
             if (e.PropertyName == "Formula")
                 InvalidateProxies();
             OnPropertyChanged($"Series[{Series.IndexOf((Series)sender)}].{e.PropertyName}");
