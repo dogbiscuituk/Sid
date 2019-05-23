@@ -394,13 +394,24 @@
 
         #region Series Management
 
+        private Series NewSeries()
+        {
+            var series = new Series();
+            series.PropertyChanged += Series_PropertyChanged;
+            return series;
+        }
+
         public Series AddSeries()
         {
-            var series = new Series(this);
-            Series.Add(series);
-            series.PropertyChanged += Series_PropertyChanged;
-            OnPropertyChanged("Series");
+            var series = NewSeries();
+            AddSeries(series);
             return series;
+        }
+
+        public void AddSeries(Series series)
+        {
+            Series.Add(series);
+            OnPropertyChanged("Series");
         }
 
         public void Clear()
@@ -409,20 +420,32 @@
             RestoreDefaults();
         }
 
-        public void RemoveSeriesAt(int index)
+        public Series InsertSeries(int index)
         {
-            if (index < 0 || index >= Series.Count)
-                return;
-            var series = Series[index];
-            series.PropertyChanged -= Series_PropertyChanged;
-            Series.Remove(series);
+            var series = NewSeries();
+            InsertSeries(index);
+            return series;
+        }
+
+        public void InsertSeries(int index, Series series)
+        {
+            Series.Insert(index, series);
             OnPropertyChanged("Series");
+        }
+
+        public void RemoveSeries(int index)
+        {
+            if (index >= 0 && index < Series.Count)
+            {
+                Series.RemoveAt(index);
+                OnPropertyChanged("Series");
+            }
         }
 
         public void RemoveSeriesRange(int index, int count)
         {
             while (count-- > 0)
-                RemoveSeriesAt(index + count);
+                RemoveSeries(index + count);
         }
 
         #endregion

@@ -35,14 +35,14 @@
                 if (Series == null)
                     Series = new Series(graph);
                 if (Index >= 0 && Index < graph.Series.Count)
-                    graph.Series.Insert(Index, Series);
+                    graph.InsertSeries(Index, Series);
                 else if (Index == graph.Series.Count)
-                    graph.Series.Add(Series);
+                    graph.AddSeries(Series);
             }
             else
             {
                 Series = graph.Series[Index];
-                graph.Series.RemoveAt(Index);
+                graph.RemoveSeries(Index);
                 Series.InvalidatePoints();
             }
         }

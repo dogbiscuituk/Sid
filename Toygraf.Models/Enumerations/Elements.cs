@@ -6,6 +6,8 @@
     [Flags]
     public enum Elements
     {
+        [Description("None")]
+        None = 0x0000,
         [Description("X-axis")]
         Xaxis = 0x0001,
         [Description("Y-axis")]

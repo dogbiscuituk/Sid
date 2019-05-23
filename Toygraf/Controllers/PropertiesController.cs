@@ -96,20 +96,26 @@
 
         private void ClbElements_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            if (Updating || e.NewValue == e.CurrentValue)
+            System.Diagnostics.Debug.WriteLine($"In ClbElements_ItemCheck, e.Index={e.Index}, e.CurrentValue={e.CurrentValue}, e.NewValue={e.NewValue}");
+            var newValue = e.NewValue;
+            if (Updating || newValue == e.CurrentValue)
                 return;
             Updating = true;
             int index = e.Index, x = index % 4, y = x + 4, both = y + 4;
             if (index == x)
-                SetState(both, e.NewValue == ClbElements.GetItemCheckState(y) ?
-                    e.NewValue : CheckState.Indeterminate);
+                SetState(both,
+                    newValue == ClbElements.GetItemCheckState(y)
+                    ? newValue
+                    : CheckState.Indeterminate);
             else if (index == y)
-                SetState(both, e.NewValue == ClbElements.GetItemCheckState(x) ?
-                    e.NewValue : CheckState.Indeterminate);
+                SetState(both,
+                    newValue == ClbElements.GetItemCheckState(x)
+                    ? newValue
+                    : CheckState.Indeterminate);
             else
             {
-                SetState(x, e.NewValue);
-                SetState(y, e.NewValue);
+                SetState(x, newValue);
+                SetState(y, newValue);
             }
             Updating = false;
             if (!Loading)

@@ -69,29 +69,27 @@
             Legend.SetBounds(x, y, w, h);
         }
 
+        internal void AfterAddRemove()
+        {
+            GraphRead();
+            AdjustLegend();
+        }
+
         internal void GraphRead()
         {
             Loading = true;
+            Legend.SuspendLayout();
             RemoveAllSeriesViews();
             foreach (Series series in Graph.Series)
                 AddNewSeriesView(series);
+            Legend.ResumeLayout();
             Validate();
             Loading = false;
         }
 
         internal int IndexOf(SeriesController child) => Children.IndexOf(child);
-
-        internal void LiveUpdate(object sender, EventArgs e)
-        {
-            if (!Loading) GraphWrite();
-        }
-
-        internal void RemoveSeries(int index)
-        {
-            CommandController.Run(new GraphDeleteSeriesCommand(index));
-            GraphRead();
-            AfterChange();
-        }
+        internal void LiveUpdate(object sender, EventArgs e) { if (!Loading) GraphWrite(); }
+        internal void RemoveSeries(int index) => CommandController.Run(new GraphDeleteSeriesCommand(index));
 
         #endregion
 
@@ -147,12 +145,7 @@
 
         #region Private Methods
 
-        private void AddNewSeries()
-        {
-            CommandController.Run(new GraphInsertSeriesCommand(Children.Count));
-            GraphRead();
-            AfterChange();
-        }
+        private void AddNewSeries() => CommandController.Run(new GraphInsertSeriesCommand(Children.Count));
 
         private void AddNewSeriesView(Series series)
         {

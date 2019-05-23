@@ -219,6 +219,9 @@
                     GraphicsController.AdjustPictureBox();
                     UpdatePlotType();
                     break;
+                case "Model.Graph.Series":
+                    LegendController.AfterAddRemove();
+                    break;
             }
             GraphicsController.InvalidateView();
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
