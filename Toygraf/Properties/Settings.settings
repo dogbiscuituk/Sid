@@ -2,11 +2,17 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ToyGraf.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="KnownColorSortOrder" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Hue,Saturation</Value>
+    <Setting Name="KnownColorSortOrder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Hue, Saturation</Value>
     </Setting>
     <Setting Name="GraphFilter" Type="System.String" Scope="Application">
       <Value Profile="(Default)">ToyGraf Graph Files (*.tgg)|*.tgg|ToyGraf Templates (*.tgt)|*.tgt|All Files (*.*)|*.*</Value>
+    </Setting>
+    <Setting Name="MinimumWindowSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">800, 480</Value>
+    </Setting>
+    <Setting Name="Setting" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

@@ -23,12 +23,15 @@ namespace ToyGraf.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Hue,Saturation")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Hue, Saturation")]
         public string KnownColorSortOrder {
             get {
                 return ((string)(this["KnownColorSortOrder"]));
+            }
+            set {
+                this["KnownColorSortOrder"] = value;
             }
         }
         
@@ -39,6 +42,30 @@ namespace ToyGraf.Properties {
         public string GraphFilter {
             get {
                 return ((string)(this["GraphFilter"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("800, 480")]
+        public global::System.Drawing.Size MinimumWindowSize {
+            get {
+                return ((global::System.Drawing.Size)(this["MinimumWindowSize"]));
+            }
+            set {
+                this["MinimumWindowSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Setting {
+            get {
+                return ((string)(this["Setting"]));
+            }
+            set {
+                this["Setting"] = value;
             }
         }
     }

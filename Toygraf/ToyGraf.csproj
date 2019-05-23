@@ -34,6 +34,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>3ph.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -135,6 +138,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\PropertiesDialog.resx">
       <DependentUpon>PropertiesDialog.cs</DependentUpon>
@@ -182,13 +186,21 @@
   <ItemGroup>
     <Content Include="Documentation\INotifyPropertyChanged.txt" />
     <Content Include="Documentation\Cache Invalidation.txt" />
+    <Content Include="3ph.ico" />
+    <Content Include="Icons\3ph128.png" />
+    <Content Include="Icons\3ph16.png" />
+    <Content Include="Icons\3ph24.png" />
+    <Content Include="Icons\3ph256.png" />
+    <Content Include="Icons\3ph32.png" />
+    <Content Include="Icons\3ph48.png" />
+    <Content Include="Icons\3ph64.png" />
+    <Content Include="Icons\3ph96.png" />
     <None Include="Icons\Delete.png" />
     <None Include="Icons\Paste.png" />
     <None Include="Icons\Copy.png" />
     <None Include="Icons\Cut.png" />
     <None Include="Icons\Redo.png" />
     <None Include="Icons\Undo.png" />
-    <None Include="Icons\127px-Dragon_32.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

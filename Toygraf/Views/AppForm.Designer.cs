@@ -29,41 +29,28 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppForm));
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.TimeTrackBar = new System.Windows.Forms.TrackBar();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.FileNew = new System.Windows.Forms.ToolStripMenuItem();
-            this.FileOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-            this.FileSave = new System.Windows.Forms.ToolStripMenuItem();
             this.FileSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.FileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditUndo = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditRedo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-            this.EditCut = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditPaste = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
             this.EditGroupUndo = new System.Windows.Forms.ToolStripMenuItem();
             this.GraphMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.GraphAddNewFunction = new System.Windows.Forms.ToolStripMenuItem();
             this.GraphType = new System.Windows.Forms.ToolStripMenuItem();
-            this.GraphTypeCartesian = new System.Windows.Forms.ToolStripMenuItem();
-            this.GraphTypePolar = new System.Windows.Forms.ToolStripMenuItem();
-            this.GraphProperties = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ZoomMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ZoomIn = new System.Windows.Forms.ToolStripMenuItem();
             this.ZoomOut = new System.Windows.Forms.ToolStripMenuItem();
             this.ZoomReset = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
-            this.ZoomFullScreen = new System.Windows.Forms.ToolStripMenuItem();
             this.ScrollMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ScrollLeft = new System.Windows.Forms.ToolStripMenuItem();
             this.ScrollRight = new System.Windows.Forms.ToolStripMenuItem();
@@ -88,7 +75,6 @@
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
             this.ViewCoordinatesTooltip = new System.Windows.Forms.ToolStripMenuItem();
             this.TimerMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.TimerRunPause = new System.Windows.Forms.ToolStripMenuItem();
             this.TimerReverse = new System.Windows.Forms.ToolStripMenuItem();
             this.TimerReset = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -96,6 +82,7 @@
             this.StatusBar = new System.Windows.Forms.StatusStrip();
             this.XYlabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.Rϴlabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.SpeedLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.Tlabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.FPSlabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -104,34 +91,48 @@
             this.ErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.ClientPanel = new System.Windows.Forms.Panel();
             this.LegendPanel = new System.Windows.Forms.Panel();
-            this.PictureBox = new System.Windows.Forms.PictureBox();
             this.Toolbar = new System.Windows.Forms.ToolStrip();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.PictureBox = new System.Windows.Forms.PictureBox();
             this.tbNew = new System.Windows.Forms.ToolStripButton();
             this.tbOpen = new System.Windows.Forms.ToolStripSplitButton();
             this.tbSave = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tbUndo = new System.Windows.Forms.ToolStripSplitButton();
             this.tbRedo = new System.Windows.Forms.ToolStripSplitButton();
             this.tbCut = new System.Windows.Forms.ToolStripButton();
             this.tbCopy = new System.Windows.Forms.ToolStripButton();
             this.tbPaste = new System.Windows.Forms.ToolStripButton();
             this.tbDelete = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tbAdd = new System.Windows.Forms.ToolStripButton();
             this.tbCartesian = new System.Windows.Forms.ToolStripButton();
             this.tbPolar = new System.Windows.Forms.ToolStripButton();
             this.tbProperties = new System.Windows.Forms.ToolStripButton();
             this.tbFullScreen = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tbTimer = new System.Windows.Forms.ToolStripSplitButton();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.FileNew = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditUndo = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditRedo = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.GraphAddNewFunction = new System.Windows.Forms.ToolStripMenuItem();
+            this.GraphTypeCartesian = new System.Windows.Forms.ToolStripMenuItem();
+            this.GraphTypePolar = new System.Windows.Forms.ToolStripMenuItem();
+            this.GraphProperties = new System.Windows.Forms.ToolStripMenuItem();
+            this.ZoomFullScreen = new System.Windows.Forms.ToolStripMenuItem();
+            this.TimerRunPause = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.TimeTrackBar)).BeginInit();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.ClientPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
             this.Toolbar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // TimeTrackBar
@@ -178,26 +179,6 @@
             this.FileMenu.Size = new System.Drawing.Size(37, 20);
             this.FileMenu.Text = "&File";
             // 
-            // FileNew
-            // 
-            this.FileNew.Image = global::ToyGraf.Properties.Resources.New;
-            this.FileNew.ImageTransparentColor = System.Drawing.Color.White;
-            this.FileNew.Name = "FileNew";
-            this.FileNew.ShortcutKeyDisplayString = "^N";
-            this.FileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.FileNew.Size = new System.Drawing.Size(134, 22);
-            this.FileNew.Text = "&New";
-            // 
-            // FileOpen
-            // 
-            this.FileOpen.Image = global::ToyGraf.Properties.Resources.Open;
-            this.FileOpen.ImageTransparentColor = System.Drawing.Color.White;
-            this.FileOpen.Name = "FileOpen";
-            this.FileOpen.ShortcutKeyDisplayString = "^O";
-            this.FileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.FileOpen.Size = new System.Drawing.Size(134, 22);
-            this.FileOpen.Text = "&Open";
-            // 
             // FileReopen
             // 
             this.FileReopen.Name = "FileReopen";
@@ -208,16 +189,6 @@
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(131, 6);
-            // 
-            // FileSave
-            // 
-            this.FileSave.Image = global::ToyGraf.Properties.Resources.Save;
-            this.FileSave.ImageTransparentColor = System.Drawing.Color.White;
-            this.FileSave.Name = "FileSave";
-            this.FileSave.ShortcutKeyDisplayString = "^S";
-            this.FileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.FileSave.Size = new System.Drawing.Size(134, 22);
-            this.FileSave.Text = "&Save";
             // 
             // FileSaveAs
             // 
@@ -253,74 +224,10 @@
             this.EditMenu.Size = new System.Drawing.Size(39, 20);
             this.EditMenu.Text = "&Edit";
             // 
-            // EditUndo
-            // 
-            this.EditUndo.Enabled = false;
-            this.EditUndo.Image = global::ToyGraf.Properties.Resources.Undo;
-            this.EditUndo.ImageTransparentColor = System.Drawing.Color.White;
-            this.EditUndo.Name = "EditUndo";
-            this.EditUndo.ShortcutKeyDisplayString = "^Z";
-            this.EditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.EditUndo.Size = new System.Drawing.Size(139, 22);
-            this.EditUndo.Text = "&Undo";
-            // 
-            // EditRedo
-            // 
-            this.EditRedo.Enabled = false;
-            this.EditRedo.Image = global::ToyGraf.Properties.Resources.Redo;
-            this.EditRedo.ImageTransparentColor = System.Drawing.Color.White;
-            this.EditRedo.Name = "EditRedo";
-            this.EditRedo.ShortcutKeyDisplayString = "^Y";
-            this.EditRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.EditRedo.Size = new System.Drawing.Size(139, 22);
-            this.EditRedo.Text = "&Redo";
-            // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
             this.toolStripMenuItem3.Size = new System.Drawing.Size(136, 6);
-            // 
-            // EditCut
-            // 
-            this.EditCut.Enabled = false;
-            this.EditCut.Image = global::ToyGraf.Properties.Resources.Cut;
-            this.EditCut.ImageTransparentColor = System.Drawing.Color.White;
-            this.EditCut.Name = "EditCut";
-            this.EditCut.ShortcutKeyDisplayString = "^X";
-            this.EditCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.EditCut.Size = new System.Drawing.Size(139, 22);
-            this.EditCut.Text = "Cu&t";
-            // 
-            // EditCopy
-            // 
-            this.EditCopy.Enabled = false;
-            this.EditCopy.Image = global::ToyGraf.Properties.Resources.Copy;
-            this.EditCopy.ImageTransparentColor = System.Drawing.Color.White;
-            this.EditCopy.Name = "EditCopy";
-            this.EditCopy.ShortcutKeyDisplayString = "^C";
-            this.EditCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.EditCopy.Size = new System.Drawing.Size(139, 22);
-            this.EditCopy.Text = "&Copy";
-            // 
-            // EditPaste
-            // 
-            this.EditPaste.Enabled = false;
-            this.EditPaste.Image = global::ToyGraf.Properties.Resources.Paste;
-            this.EditPaste.ImageTransparentColor = System.Drawing.Color.White;
-            this.EditPaste.Name = "EditPaste";
-            this.EditPaste.ShortcutKeyDisplayString = "^V";
-            this.EditPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.EditPaste.Size = new System.Drawing.Size(139, 22);
-            this.EditPaste.Text = "&Paste";
-            // 
-            // EditDelete
-            // 
-            this.EditDelete.Enabled = false;
-            this.EditDelete.Image = global::ToyGraf.Properties.Resources.Delete;
-            this.EditDelete.ImageTransparentColor = System.Drawing.Color.White;
-            this.EditDelete.Name = "EditDelete";
-            this.EditDelete.Size = new System.Drawing.Size(139, 22);
-            this.EditDelete.Text = "&Delete";
             // 
             // toolStripMenuItem9
             // 
@@ -345,15 +252,6 @@
             this.GraphMenu.Size = new System.Drawing.Size(51, 20);
             this.GraphMenu.Text = "&Graph";
             // 
-            // GraphAddNewFunction
-            // 
-            this.GraphAddNewFunction.Image = global::ToyGraf.Properties.Resources.Add;
-            this.GraphAddNewFunction.ImageTransparentColor = System.Drawing.Color.White;
-            this.GraphAddNewFunction.Name = "GraphAddNewFunction";
-            this.GraphAddNewFunction.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.GraphAddNewFunction.Size = new System.Drawing.Size(201, 22);
-            this.GraphAddNewFunction.Text = "&Add a New Function";
-            // 
             // GraphType
             // 
             this.GraphType.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -362,37 +260,6 @@
             this.GraphType.Name = "GraphType";
             this.GraphType.Size = new System.Drawing.Size(201, 22);
             this.GraphType.Text = "&Plot Type";
-            // 
-            // GraphTypeCartesian
-            // 
-            this.GraphTypeCartesian.Image = global::ToyGraf.Properties.Resources.Cartesian;
-            this.GraphTypeCartesian.ImageTransparentColor = System.Drawing.Color.White;
-            this.GraphTypeCartesian.Name = "GraphTypeCartesian";
-            this.GraphTypeCartesian.ShortcutKeyDisplayString = "Shift+^C";
-            this.GraphTypeCartesian.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.C)));
-            this.GraphTypeCartesian.Size = new System.Drawing.Size(178, 22);
-            this.GraphTypeCartesian.Text = "&Cartesian";
-            // 
-            // GraphTypePolar
-            // 
-            this.GraphTypePolar.Image = global::ToyGraf.Properties.Resources.Polar;
-            this.GraphTypePolar.ImageTransparentColor = System.Drawing.Color.White;
-            this.GraphTypePolar.Name = "GraphTypePolar";
-            this.GraphTypePolar.ShortcutKeyDisplayString = "Shift+^P";
-            this.GraphTypePolar.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.P)));
-            this.GraphTypePolar.Size = new System.Drawing.Size(178, 22);
-            this.GraphTypePolar.Text = "&Polar";
-            // 
-            // GraphProperties
-            // 
-            this.GraphProperties.Image = global::ToyGraf.Properties.Resources.Properties;
-            this.GraphProperties.ImageTransparentColor = System.Drawing.Color.White;
-            this.GraphProperties.Name = "GraphProperties";
-            this.GraphProperties.ShortcutKeys = System.Windows.Forms.Keys.F3;
-            this.GraphProperties.Size = new System.Drawing.Size(201, 22);
-            this.GraphProperties.Text = "Pr&operties...";
             // 
             // ViewMenu
             // 
@@ -450,15 +317,6 @@
             // 
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
             this.toolStripMenuItem8.Size = new System.Drawing.Size(153, 6);
-            // 
-            // ZoomFullScreen
-            // 
-            this.ZoomFullScreen.Image = global::ToyGraf.Properties.Resources.FullScreen;
-            this.ZoomFullScreen.ImageTransparentColor = System.Drawing.Color.White;
-            this.ZoomFullScreen.Name = "ZoomFullScreen";
-            this.ZoomFullScreen.ShortcutKeys = System.Windows.Forms.Keys.F11;
-            this.ZoomFullScreen.Size = new System.Drawing.Size(156, 22);
-            this.ZoomFullScreen.Text = "&Full Screen";
             // 
             // ScrollMenu
             // 
@@ -645,15 +503,6 @@
             this.TimerMenu.Size = new System.Drawing.Size(50, 20);
             this.TimerMenu.Text = "&Timer";
             // 
-            // TimerRunPause
-            // 
-            this.TimerRunPause.Image = global::ToyGraf.Properties.Resources.Timer;
-            this.TimerRunPause.ImageTransparentColor = System.Drawing.Color.White;
-            this.TimerRunPause.Name = "TimerRunPause";
-            this.TimerRunPause.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.TimerRunPause.Size = new System.Drawing.Size(150, 22);
-            this.TimerRunPause.Text = "&Run/Pause";
-            // 
             // TimerReverse
             // 
             this.TimerReverse.Name = "TimerReverse";
@@ -717,6 +566,13 @@
             this.Rϴlabel.Text = "{r=0, θ=0}";
             this.Rϴlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.AutoSize = false;
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(100, 20);
+            this.toolStripStatusLabel1.Text = "TimeTrackBar";
+            // 
             // SpeedLabel
             // 
             this.SpeedLabel.AutoSize = false;
@@ -776,14 +632,6 @@
             this.LegendPanel.Size = new System.Drawing.Size(19, 16);
             this.LegendPanel.TabIndex = 9;
             // 
-            // PictureBox
-            // 
-            this.PictureBox.Location = new System.Drawing.Point(22, 19);
-            this.PictureBox.Name = "PictureBox";
-            this.PictureBox.Size = new System.Drawing.Size(19, 16);
-            this.PictureBox.TabIndex = 3;
-            this.PictureBox.TabStop = false;
-            // 
             // Toolbar
             // 
             this.Toolbar.Dock = System.Windows.Forms.DockStyle.Left;
@@ -813,6 +661,29 @@
             this.Toolbar.Size = new System.Drawing.Size(32, 452);
             this.Toolbar.TabIndex = 11;
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(31, 6);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(31, 6);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(31, 6);
+            // 
+            // PictureBox
+            // 
+            this.PictureBox.Location = new System.Drawing.Point(22, 19);
+            this.PictureBox.Name = "PictureBox";
+            this.PictureBox.Size = new System.Drawing.Size(19, 16);
+            this.PictureBox.TabIndex = 3;
+            this.PictureBox.TabStop = false;
+            // 
             // tbNew
             // 
             this.tbNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -839,11 +710,6 @@
             this.tbSave.Name = "tbSave";
             this.tbSave.Size = new System.Drawing.Size(31, 20);
             this.tbSave.ToolTipText = "Save to file (^S)";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(31, 6);
             // 
             // tbUndo
             // 
@@ -900,11 +766,6 @@
             this.tbDelete.Size = new System.Drawing.Size(31, 20);
             this.tbDelete.Text = "toolStripButton4";
             // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(31, 6);
-            // 
             // tbAdd
             // 
             this.tbAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -950,11 +811,6 @@
             this.tbFullScreen.Size = new System.Drawing.Size(31, 20);
             this.tbFullScreen.ToolTipText = "Full screen (F11)";
             // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(31, 6);
-            // 
             // tbTimer
             // 
             this.tbTimer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -964,12 +820,157 @@
             this.tbTimer.Size = new System.Drawing.Size(31, 20);
             this.tbTimer.ToolTipText = "Timer run/pause (F9)";
             // 
-            // toolStripStatusLabel1
+            // FileNew
             // 
-            this.toolStripStatusLabel1.AutoSize = false;
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(100, 20);
-            this.toolStripStatusLabel1.Text = "TimeTrackBar";
+            this.FileNew.Image = global::ToyGraf.Properties.Resources.New;
+            this.FileNew.ImageTransparentColor = System.Drawing.Color.White;
+            this.FileNew.Name = "FileNew";
+            this.FileNew.ShortcutKeyDisplayString = "^N";
+            this.FileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.FileNew.Size = new System.Drawing.Size(134, 22);
+            this.FileNew.Text = "&New";
+            // 
+            // FileOpen
+            // 
+            this.FileOpen.Image = global::ToyGraf.Properties.Resources.Open;
+            this.FileOpen.ImageTransparentColor = System.Drawing.Color.White;
+            this.FileOpen.Name = "FileOpen";
+            this.FileOpen.ShortcutKeyDisplayString = "^O";
+            this.FileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.FileOpen.Size = new System.Drawing.Size(134, 22);
+            this.FileOpen.Text = "&Open";
+            // 
+            // FileSave
+            // 
+            this.FileSave.Image = global::ToyGraf.Properties.Resources.Save;
+            this.FileSave.ImageTransparentColor = System.Drawing.Color.White;
+            this.FileSave.Name = "FileSave";
+            this.FileSave.ShortcutKeyDisplayString = "^S";
+            this.FileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.FileSave.Size = new System.Drawing.Size(134, 22);
+            this.FileSave.Text = "&Save";
+            // 
+            // EditUndo
+            // 
+            this.EditUndo.Enabled = false;
+            this.EditUndo.Image = global::ToyGraf.Properties.Resources.Undo;
+            this.EditUndo.ImageTransparentColor = System.Drawing.Color.White;
+            this.EditUndo.Name = "EditUndo";
+            this.EditUndo.ShortcutKeyDisplayString = "^Z";
+            this.EditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.EditUndo.Size = new System.Drawing.Size(139, 22);
+            this.EditUndo.Text = "&Undo";
+            // 
+            // EditRedo
+            // 
+            this.EditRedo.Enabled = false;
+            this.EditRedo.Image = global::ToyGraf.Properties.Resources.Redo;
+            this.EditRedo.ImageTransparentColor = System.Drawing.Color.White;
+            this.EditRedo.Name = "EditRedo";
+            this.EditRedo.ShortcutKeyDisplayString = "^Y";
+            this.EditRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.EditRedo.Size = new System.Drawing.Size(139, 22);
+            this.EditRedo.Text = "&Redo";
+            // 
+            // EditCut
+            // 
+            this.EditCut.Enabled = false;
+            this.EditCut.Image = global::ToyGraf.Properties.Resources.Cut;
+            this.EditCut.ImageTransparentColor = System.Drawing.Color.White;
+            this.EditCut.Name = "EditCut";
+            this.EditCut.ShortcutKeyDisplayString = "^X";
+            this.EditCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.EditCut.Size = new System.Drawing.Size(139, 22);
+            this.EditCut.Text = "Cu&t";
+            // 
+            // EditCopy
+            // 
+            this.EditCopy.Enabled = false;
+            this.EditCopy.Image = global::ToyGraf.Properties.Resources.Copy;
+            this.EditCopy.ImageTransparentColor = System.Drawing.Color.White;
+            this.EditCopy.Name = "EditCopy";
+            this.EditCopy.ShortcutKeyDisplayString = "^C";
+            this.EditCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.EditCopy.Size = new System.Drawing.Size(139, 22);
+            this.EditCopy.Text = "&Copy";
+            // 
+            // EditPaste
+            // 
+            this.EditPaste.Enabled = false;
+            this.EditPaste.Image = global::ToyGraf.Properties.Resources.Paste;
+            this.EditPaste.ImageTransparentColor = System.Drawing.Color.White;
+            this.EditPaste.Name = "EditPaste";
+            this.EditPaste.ShortcutKeyDisplayString = "^V";
+            this.EditPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.EditPaste.Size = new System.Drawing.Size(139, 22);
+            this.EditPaste.Text = "&Paste";
+            // 
+            // EditDelete
+            // 
+            this.EditDelete.Enabled = false;
+            this.EditDelete.Image = global::ToyGraf.Properties.Resources.Delete;
+            this.EditDelete.ImageTransparentColor = System.Drawing.Color.White;
+            this.EditDelete.Name = "EditDelete";
+            this.EditDelete.Size = new System.Drawing.Size(139, 22);
+            this.EditDelete.Text = "&Delete";
+            // 
+            // GraphAddNewFunction
+            // 
+            this.GraphAddNewFunction.Image = global::ToyGraf.Properties.Resources.Add;
+            this.GraphAddNewFunction.ImageTransparentColor = System.Drawing.Color.White;
+            this.GraphAddNewFunction.Name = "GraphAddNewFunction";
+            this.GraphAddNewFunction.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.GraphAddNewFunction.Size = new System.Drawing.Size(201, 22);
+            this.GraphAddNewFunction.Text = "&Add a New Function";
+            // 
+            // GraphTypeCartesian
+            // 
+            this.GraphTypeCartesian.Image = global::ToyGraf.Properties.Resources.Cartesian;
+            this.GraphTypeCartesian.ImageTransparentColor = System.Drawing.Color.White;
+            this.GraphTypeCartesian.Name = "GraphTypeCartesian";
+            this.GraphTypeCartesian.ShortcutKeyDisplayString = "Shift+^C";
+            this.GraphTypeCartesian.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.C)));
+            this.GraphTypeCartesian.Size = new System.Drawing.Size(178, 22);
+            this.GraphTypeCartesian.Text = "&Cartesian";
+            // 
+            // GraphTypePolar
+            // 
+            this.GraphTypePolar.Image = global::ToyGraf.Properties.Resources.Polar;
+            this.GraphTypePolar.ImageTransparentColor = System.Drawing.Color.White;
+            this.GraphTypePolar.Name = "GraphTypePolar";
+            this.GraphTypePolar.ShortcutKeyDisplayString = "Shift+^P";
+            this.GraphTypePolar.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.P)));
+            this.GraphTypePolar.Size = new System.Drawing.Size(178, 22);
+            this.GraphTypePolar.Text = "&Polar";
+            // 
+            // GraphProperties
+            // 
+            this.GraphProperties.Image = global::ToyGraf.Properties.Resources.Properties;
+            this.GraphProperties.ImageTransparentColor = System.Drawing.Color.White;
+            this.GraphProperties.Name = "GraphProperties";
+            this.GraphProperties.ShortcutKeys = System.Windows.Forms.Keys.F3;
+            this.GraphProperties.Size = new System.Drawing.Size(201, 22);
+            this.GraphProperties.Text = "Pr&operties...";
+            // 
+            // ZoomFullScreen
+            // 
+            this.ZoomFullScreen.Image = global::ToyGraf.Properties.Resources.FullScreen;
+            this.ZoomFullScreen.ImageTransparentColor = System.Drawing.Color.White;
+            this.ZoomFullScreen.Name = "ZoomFullScreen";
+            this.ZoomFullScreen.ShortcutKeys = System.Windows.Forms.Keys.F11;
+            this.ZoomFullScreen.Size = new System.Drawing.Size(156, 22);
+            this.ZoomFullScreen.Text = "&Full Screen";
+            // 
+            // TimerRunPause
+            // 
+            this.TimerRunPause.Image = global::ToyGraf.Properties.Resources.Timer;
+            this.TimerRunPause.ImageTransparentColor = System.Drawing.Color.White;
+            this.TimerRunPause.Name = "TimerRunPause";
+            this.TimerRunPause.ShortcutKeys = System.Windows.Forms.Keys.F7;
+            this.TimerRunPause.Size = new System.Drawing.Size(150, 22);
+            this.TimerRunPause.Text = "&Run/Pause";
             // 
             // AppForm
             // 
@@ -983,8 +984,8 @@
             this.Controls.Add(this.StatusBar);
             this.Controls.Add(this.MainMenu);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MainMenu;
-            this.MinimumSize = new System.Drawing.Size(800, 480);
             this.Name = "AppForm";
             this.Text = "ToyGraf";
             ((System.ComponentModel.ISupportInitialize)(this.TimeTrackBar)).EndInit();
@@ -994,9 +995,9 @@
             this.StatusBar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).EndInit();
             this.ClientPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
             this.Toolbar.ResumeLayout(false);
             this.Toolbar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

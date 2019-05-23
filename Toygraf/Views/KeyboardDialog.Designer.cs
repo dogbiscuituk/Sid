@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KeyboardDialog));
             this.btnQ = new System.Windows.Forms.Button();
             this.btnW = new System.Windows.Forms.Button();
             this.btnE = new System.Windows.Forms.Button();
@@ -1288,6 +1289,7 @@
             this.Controls.Add(this.IndexLabel);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "KeyboardDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;

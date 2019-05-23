@@ -17,6 +17,7 @@
         internal AppController()
         {
             View = new AppForm();
+            View.MinimumSize = Properties.Settings.Default.MinimumWindowSize;
             Model = new Model();
             Model.Cleared += Model_Cleared;
             Model.ModifiedChanged += Model_ModifiedChanged;
