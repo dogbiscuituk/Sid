@@ -394,9 +394,9 @@
 
         #region Series Management
 
-        private Series NewSeries()
+        internal Series NewSeries()
         {
-            var series = new Series();
+            var series = new Series(this);
             series.PropertyChanged += Series_PropertyChanged;
             return series;
         }

@@ -16,7 +16,7 @@
     [Serializable]
     public class Series
     {
-        public Series() { }
+        public Series() { Formula = "0"; }
 
         public Series(Graph graph): this()
         {
@@ -25,7 +25,6 @@
             PenColour = graph.PenColour;
             StepCount = graph.StepCount;
             FillTransparencyPercent = graph.FillTransparencyPercent;
-            Formula = "0";
         }
 
         #region Visual Properties

@@ -124,6 +124,7 @@
             this.tbFullScreen = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tbTimer = new System.Windows.Forms.ToolStripSplitButton();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.TimeTrackBar)).BeginInit();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
@@ -138,12 +139,11 @@
             this.TimeTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.TimeTrackBar.AutoSize = false;
             this.TimeTrackBar.LargeChange = 1;
-            this.TimeTrackBar.Location = new System.Drawing.Point(4, 392);
+            this.TimeTrackBar.Location = new System.Drawing.Point(385, 476);
             this.TimeTrackBar.Maximum = 5;
             this.TimeTrackBar.Minimum = -5;
             this.TimeTrackBar.Name = "TimeTrackBar";
-            this.TimeTrackBar.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.TimeTrackBar.Size = new System.Drawing.Size(24, 86);
+            this.TimeTrackBar.Size = new System.Drawing.Size(100, 25);
             this.TimeTrackBar.TabIndex = 10;
             this.ToolTip.SetToolTip(this.TimeTrackBar, "time × 1");
             // 
@@ -689,6 +689,7 @@
             this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.XYlabel,
             this.Rϴlabel,
+            this.toolStripStatusLabel1,
             this.SpeedLabel,
             this.Tlabel,
             this.FPSlabel,
@@ -744,7 +745,6 @@
             this.ModifiedLabel.Name = "ModifiedLabel";
             this.ModifiedLabel.Size = new System.Drawing.Size(55, 20);
             this.ModifiedLabel.Text = "Modified";
-            this.ModifiedLabel.Visible = false;
             // 
             // PopupMenu
             // 
@@ -964,6 +964,13 @@
             this.tbTimer.Size = new System.Drawing.Size(31, 20);
             this.tbTimer.ToolTipText = "Timer run/pause (F9)";
             // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.AutoSize = false;
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(100, 20);
+            this.toolStripStatusLabel1.Text = "TimeTrackBar";
+            // 
             // AppForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -977,7 +984,7 @@
             this.Controls.Add(this.MainMenu);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this.MainMenu;
-            this.MinimumSize = new System.Drawing.Size(960, 540);
+            this.MinimumSize = new System.Drawing.Size(800, 480);
             this.Name = "AppForm";
             this.Text = "ToyGraf";
             ((System.ComponentModel.ISupportInitialize)(this.TimeTrackBar)).EndInit();
@@ -1091,5 +1098,6 @@
         public System.Windows.Forms.ToolStripButton tbCopy;
         public System.Windows.Forms.ToolStripButton tbPaste;
         public System.Windows.Forms.ToolStripButton tbDelete;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }

@@ -206,7 +206,7 @@
             int index = 0, count = Graph.Series.Count;
             foreach (var child in Children)
             {
-                var series = index < count ? Graph.Series[index] : Graph.AddSeries();
+                var series = Graph.Series[index];
                 var visible = child.TraceVisible;
                 if (series.Visible != visible)
                     CommandController.Run(new SeriesVisibleCommand(index, visible));

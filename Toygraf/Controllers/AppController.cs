@@ -210,6 +210,8 @@
 
         private void OnPropertyChanged(string propertyName)
         {
+            //System.Diagnostics.Debug.WriteLine($"AppController.OnPropertyChanged(\"{ propertyName})\"");
+
             switch (propertyName)
             {
                 case "Model.Graph.PaperColour":

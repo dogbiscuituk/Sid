@@ -33,7 +33,7 @@
             if (Add)
             {
                 if (Series == null)
-                    Series = new Series(graph);
+                    Series = graph.NewSeries();
                 if (Index >= 0 && Index < graph.Series.Count)
                     graph.InsertSeries(Index, Series);
                 else if (Index == graph.Series.Count)
