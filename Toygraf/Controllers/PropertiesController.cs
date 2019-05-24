@@ -16,8 +16,48 @@
         {
             Parent = parent;
             View = new PropertiesDialog();
+            ElementsController = new ElementsController(this);
             InitEnumControls();
         }
+
+        internal PropertiesDialog View
+        {
+            get => _view;
+            set
+            {
+                _view = value;
+                View.cbPlotType.SelectedValueChanged += PlotTypeChanged;
+                View.cbInterpolation.SelectedValueChanged += LiveUpdate;
+                View.cbDomainGraphWidth.CheckedChanged += DomainGraphWidthChanged;
+                View.rbDegrees.CheckedChanged += LiveUpdate;
+                View.rbRadians.CheckedChanged += LiveUpdate;
+                View.seDomainMinCartesian.ValueChanged += LiveUpdate;
+                View.seDomainMaxCartesian.ValueChanged += LiveUpdate;
+                View.seDomainMinPolar.ValueChanged += LiveUpdate;
+                View.seDomainMaxPolar.ValueChanged += LiveUpdate;
+                AddColourControls(View.cbAxisColour, View.cbReticleColour, View.cbPenColour,
+                    View.cbLimitColour, View.cbPaperColour, View.cbFillColour);
+                View.cbOptimization.SelectedValueChanged += PlotTypeChanged;
+                View.cbStepCount.SelectedValueChanged += LiveUpdate;
+                View.btnClose.Click += BtnClose_Click;
+                View.FormClosing += View_FormClosing;
+            }
+        }
+
+        internal AppController Parent
+        {
+            get => _appController;
+            set
+            {
+                if (Parent != null)
+                    Parent.PropertyChanged -= AppController_PropertyChanged;
+                _appController = value;
+                if (Parent != null)
+                    Parent.PropertyChanged += AppController_PropertyChanged;
+            }
+        }
+
+        internal Graph Graph { get => Model.Graph; }
 
         internal void Show(IWin32Window owner)
         {
@@ -35,51 +75,13 @@
         #region Private Properties
 
         private PropertiesDialog _view;
-        private PropertiesDialog View
-        {
-            get => _view;
-            set
-            {
-                _view = value;
-                View.cbPlotType.SelectedValueChanged += PlotTypeChanged;
-                View.cbInterpolation.SelectedValueChanged += LiveUpdate;
-                View.cbDomainGraphWidth.CheckedChanged += DomainGraphWidthChanged;
-                View.rbDegrees.CheckedChanged += LiveUpdate;
-                View.rbRadians.CheckedChanged += LiveUpdate;
-                View.seDomainMinCartesian.ValueChanged += LiveUpdate;
-                View.seDomainMaxCartesian.ValueChanged += LiveUpdate;
-                View.seDomainMinPolar.ValueChanged += LiveUpdate;
-                View.seDomainMaxPolar.ValueChanged += LiveUpdate;
-                ClbElements.ItemCheck += ClbElements_ItemCheck;
-                AddColourControls(View.cbAxisColour, View.cbReticleColour, View.cbPenColour,
-                    View.cbLimitColour, View.cbPaperColour, View.cbFillColour);
-                View.cbOptimization.SelectedValueChanged += PlotTypeChanged;
-                View.cbStepCount.SelectedValueChanged += LiveUpdate;
-                View.btnClose.Click += BtnClose_Click;
-                View.FormClosing += View_FormClosing;
-            }
-        }
-
         private AppController _appController;
-        private AppController Parent
-        {
-            get => _appController;
-            set
-            {
-                if (Parent != null)
-                    Parent.PropertyChanged -= AppController_PropertyChanged;
-                _appController = value;
-                if (Parent != null)
-                    Parent.PropertyChanged += AppController_PropertyChanged;
-            }
-        }
 
         private ColourController ColourController = new ColourController();
         private CommandProcessor CommandController { get => Parent.CommandProcessor; }
 
-        private CheckedListBox ClbElements { get => View.ElementCheckboxes; }
+        private ElementsController ElementsController;
         private CheckedListBox.ObjectCollection ElementItems { get => View.ElementCheckboxes.Items; }
-        private Graph Graph { get => Model.Graph; }
         private ComboBox.ObjectCollection Interpolations { get => View.cbInterpolation.Items; }
         private Model Model { get => Parent.Model; }
         private ComboBox.ObjectCollection Optimizations { get => View.cbOptimization.Items; }
@@ -93,35 +95,6 @@
 
         private void AppController_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) => GraphRead();
         private void BtnClose_Click(object sender, EventArgs e) => View.Hide();
-
-        private void ClbElements_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine($"In ClbElements_ItemCheck, e.Index={e.Index}, e.CurrentValue={e.CurrentValue}, e.NewValue={e.NewValue}");
-            var newValue = e.NewValue;
-            if (Updating || newValue == e.CurrentValue)
-                return;
-            Updating = true;
-            int index = e.Index, x = index % 4, y = x + 4, both = y + 4;
-            if (index == x)
-                SetState(both,
-                    newValue == ClbElements.GetItemCheckState(y)
-                    ? newValue
-                    : CheckState.Indeterminate);
-            else if (index == y)
-                SetState(both,
-                    newValue == ClbElements.GetItemCheckState(x)
-                    ? newValue
-                    : CheckState.Indeterminate);
-            else
-            {
-                SetState(x, newValue);
-                SetState(y, newValue);
-            }
-            Updating = false;
-            if (!Loading)
-                View.BeginInvoke((MethodInvoker)(() => LiveUpdate(sender, e)));
-        }
-
         private void Control_SelectedValueChanged(object sender, EventArgs e) => LiveUpdate(sender, e);
 
         private void DomainGraphWidthChanged(object sender, EventArgs e)
@@ -170,37 +143,6 @@
             ColourController.Clear();
         }
 
-        private int ControlToEnum(int index) => index < 11 ? 3 * index % 11 : 11;
-        private Elements[] GetElementValues() => (Elements[])Enum.GetValues(typeof(Elements));
-        private CheckState GetState(int index) => ClbElements.GetItemCheckState(index);
-        private void SetState(int index, CheckState state) => ClbElements.SetItemCheckState(index, state);
-
-        private void ElementsRead()
-        {
-            var values = GetElementValues();
-            var graphElements = Graph.Elements;
-            for (var index = 0; index < ClbElements.Items.Count; index++)
-            {
-                var value = values[ControlToEnum(index)];
-                var graphValue = graphElements & value;
-                var state = graphValue == value ? CheckState.Checked
-                    : graphValue == 0 ? CheckState.Unchecked
-                    : CheckState.Indeterminate;
-                SetState(index, state);
-            }
-        }
-
-        private void ElementsWrite()
-        {
-            var values = GetElementValues();
-            Elements elements = 0;
-            for (var index = 0; index < ClbElements.Items.Count; index++)
-                if (GetState(index) == CheckState.Checked)
-                    elements |= values[ControlToEnum(index)];
-            if (Graph.Elements != elements)
-                CommandController.Run(new GraphElementsCommand(elements));
-        }
-
         private void GraphRead()
         {
             // Disable events while reading
@@ -217,7 +159,7 @@
             View.seDomainMinPolar.Value = (decimal)Graph.DomainMinPolar;
             View.seDomainMaxPolar.Value = (decimal)Graph.DomainMaxPolar;
             // Elements
-            ElementsRead();
+            ElementsController.ElementsRead();
             // Reticle Colours
             ColourController.SetColour(View.cbAxisColour, Graph.AxisColour);
             ColourController.SetColour(View.cbReticleColour, Graph.ReticleColour);
@@ -270,7 +212,7 @@
             //
             // Elements
             //
-            ElementsWrite();
+            // ElementsWrite();
             //
             // Reticle Colours
             //
