@@ -18,11 +18,15 @@
         /// <param name="graph"></param>
         public void Do(Graph graph) { Run(graph); Invert(); }
 
-        protected object Value { get; set; }
+        protected virtual string Detail { get; }
 
         protected virtual void Invert() { }
         protected virtual void Run(Graph graph) { }
-        protected virtual string Detail { get; }
+    }
+
+    public class GraphPropertyCommand : GraphCommand
+    {
+        protected object Value { get; set; }
     }
 
     public class SeriesCommand : GraphCommand
@@ -30,5 +34,12 @@
         public SeriesCommand(int index) : base() { Index = index; }
 
         public int Index { get; protected set; }
+    }
+
+    public class SeriesPropertyCommand : SeriesCommand
+    {
+        public SeriesPropertyCommand(int index) : base(index) { }
+
+        protected object Value { get; set; }
     }
 }

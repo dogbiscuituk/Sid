@@ -40,12 +40,14 @@
             this.lblVersion = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.NewtonsoftLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnOK
             // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnOK.Location = new System.Drawing.Point(318, 13);
+            this.btnOK.Location = new System.Drawing.Point(156, 146);
             this.btnOK.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(87, 26);
@@ -56,7 +58,7 @@
             // lblDescription
             // 
             this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(96, 11);
+            this.lblDescription.Location = new System.Drawing.Point(175, 11);
             this.lblDescription.Margin = new System.Windows.Forms.Padding(3);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Size = new System.Drawing.Size(67, 15);
@@ -66,7 +68,7 @@
             // lblAuthor
             // 
             this.lblAuthor.AutoSize = true;
-            this.lblAuthor.Location = new System.Drawing.Point(96, 53);
+            this.lblAuthor.Location = new System.Drawing.Point(175, 53);
             this.lblAuthor.Margin = new System.Windows.Forms.Padding(3);
             this.lblAuthor.Name = "lblAuthor";
             this.lblAuthor.Size = new System.Drawing.Size(44, 15);
@@ -76,7 +78,7 @@
             // lblCopyright
             // 
             this.lblCopyright.AutoSize = true;
-            this.lblCopyright.Location = new System.Drawing.Point(96, 74);
+            this.lblCopyright.Location = new System.Drawing.Point(175, 74);
             this.lblCopyright.Margin = new System.Windows.Forms.Padding(3);
             this.lblCopyright.Name = "lblCopyright";
             this.lblCopyright.Size = new System.Drawing.Size(60, 15);
@@ -86,7 +88,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 32);
+            this.label2.Location = new System.Drawing.Point(91, 32);
             this.label2.Margin = new System.Windows.Forms.Padding(3);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(48, 15);
@@ -96,7 +98,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 53);
+            this.label3.Location = new System.Drawing.Point(91, 53);
             this.label3.Margin = new System.Windows.Forms.Padding(3);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(47, 15);
@@ -106,7 +108,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 74);
+            this.label4.Location = new System.Drawing.Point(91, 74);
             this.label4.Margin = new System.Windows.Forms.Padding(3);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(63, 15);
@@ -116,7 +118,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 11);
+            this.label1.Location = new System.Drawing.Point(91, 11);
             this.label1.Margin = new System.Windows.Forms.Padding(3);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(70, 15);
@@ -126,7 +128,7 @@
             // lblVersion
             // 
             this.lblVersion.AutoSize = true;
-            this.lblVersion.Location = new System.Drawing.Point(96, 32);
+            this.lblVersion.Location = new System.Drawing.Point(175, 32);
             this.lblVersion.Margin = new System.Windows.Forms.Padding(3);
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(45, 15);
@@ -136,7 +138,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 95);
+            this.label5.Location = new System.Drawing.Point(122, 103);
             this.label5.Margin = new System.Windows.Forms.Padding(3);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(163, 15);
@@ -146,13 +148,22 @@
             // NewtonsoftLinkLabel
             // 
             this.NewtonsoftLinkLabel.AutoSize = true;
-            this.NewtonsoftLinkLabel.Location = new System.Drawing.Point(12, 116);
+            this.NewtonsoftLinkLabel.Location = new System.Drawing.Point(12, 124);
             this.NewtonsoftLinkLabel.Margin = new System.Windows.Forms.Padding(3);
             this.NewtonsoftLinkLabel.Name = "NewtonsoftLinkLabel";
             this.NewtonsoftLinkLabel.Size = new System.Drawing.Size(395, 15);
             this.NewtonsoftLinkLabel.TabIndex = 11;
             this.NewtonsoftLinkLabel.TabStop = true;
             this.NewtonsoftLinkLabel.Text = "https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::ToyGraf.Properties.Resources._3phase64;
+            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox1.TabIndex = 12;
+            this.pictureBox1.TabStop = false;
             // 
             // AboutDialog
             // 
@@ -161,7 +172,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.CancelButton = this.btnOK;
-            this.ClientSize = new System.Drawing.Size(417, 142);
+            this.ClientSize = new System.Drawing.Size(417, 178);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.NewtonsoftLinkLabel);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.lblVersion);
@@ -182,6 +194,7 @@
             this.Name = "AboutDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "About";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -200,5 +213,6 @@
         public System.Windows.Forms.Label lblCopyright;
         public System.Windows.Forms.Label lblVersion;
         public System.Windows.Forms.LinkLabel NewtonsoftLinkLabel;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

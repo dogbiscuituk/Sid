@@ -98,7 +98,6 @@
         private readonly PropertiesController PropertiesController;
         private readonly ToolbarController ToolbarController;
 
-        private Clock Clock => GraphicsController.Clock;
         private FormWindowState PriorWindowState;
         private bool PriorLegendVisible;
 
@@ -222,7 +221,7 @@
                     UpdatePlotType();
                     break;
                 case "Model.Graph.Series":
-                    LegendController.AfterAddRemove();
+                    LegendController.GraphRead();
                     break;
             }
             GraphicsController.InvalidateView();

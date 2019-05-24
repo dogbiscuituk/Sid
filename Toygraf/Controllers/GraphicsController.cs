@@ -65,7 +65,7 @@
         private CommandProcessor CommandController { get => Parent.CommandProcessor; }
         private Graph Graph => Parent.Graph;
         private Point DragFrom, MouseDownAt;
-        private bool Dragging;
+        private bool Dragging, EpilepsyWarningAcknowledged;
 
         #endregion
 
@@ -174,7 +174,7 @@
         private void ClockReverse()
         {
             Clock.VirtualTimeFactor = -Math.Abs(Clock.VirtualTimeFactor);
-            Clock.Start();
+            ClockStart();
             UpdateTimeFactor();
         }
 
@@ -194,7 +194,7 @@
         private void ClockForward()
         {
             Clock.VirtualTimeFactor = Math.Abs(Clock.VirtualTimeFactor);
-            Clock.Start();
+            ClockStart();
             UpdateTimeFactor();
         }
 
@@ -202,6 +202,22 @@
         {
             Clock.Accelerate();
             UpdateTimeFactor();
+        }
+
+        private void ClockStart()
+        {
+            if (!EpilepsyWarningAcknowledged)
+                EpilepsyWarningAcknowledged = MessageBox.Show(
+                    AppForm,
+                    "The Time function can be used to create fast flashing images which may cause discomfort, " +
+                    "and have the potential to trigger seizures in people with photosensitive epilepsy. " +
+                    "User discretion is advised.\n\nDo you wish to proceed?",
+                    "Warning - Photosensitive Epilepsy",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button2) == DialogResult.Yes;
+            if (EpilepsyWarningAcknowledged)
+                Clock.Start();
         }
 
         private void UpdateTimeDisplay()

@@ -3,7 +3,7 @@
     using System;
     using System.Drawing;
 
-    public class GraphPointFCommand : GraphCommand
+    public class GraphPointFCommand : GraphPropertyCommand
     {
         protected GraphPointFCommand(PointF value, Func<Graph, PointF> get, Action<Graph, PointF> set) :
             base()

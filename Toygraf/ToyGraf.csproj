@@ -190,6 +190,7 @@
     <Content Include="Icons\126_Edit_16x16_72.png" />
     <Content Include="Icons\3ph128.png" />
     <Content Include="Icons\3ph16.png" />
+    <Content Include="Icons\3ph16A.png" />
     <Content Include="Icons\3ph24.png" />
     <Content Include="Icons\3ph256.png" />
     <Content Include="Icons\3ph32.png" />

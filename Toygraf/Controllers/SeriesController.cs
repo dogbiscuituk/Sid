@@ -5,15 +5,17 @@
     using System.Windows.Forms;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
+    using ToyGraf.Models.Commands;
     using ToyGraf.Views;
 
     internal class SeriesController
     {
         #region Internal Interface
 
-        internal SeriesController(LegendController parent)
+        internal SeriesController(LegendController parent, Series series)
         {
             Parent = parent;
+            Series = series;
             View = new SeriesView();
             InitFunctionNames();
         }
@@ -24,22 +26,29 @@
             set
             {
                 _view = value;
-                View.cbVisible.CheckedChanged += Parent.LiveUpdate;
+                View.cbVisible.CheckedChanged += CbVisible_CheckedChanged;
                 FunctionBox.DrawItem += FunctionBox_DrawItem;
                 FunctionBox.TextChanged += FunctionBox_TextChanged;
-                View.cbPenColour.SelectedValueChanged += Parent.LiveUpdate;
-                View.cbFillColour.SelectedValueChanged += Parent.LiveUpdate;
-                View.seTransparency.ValueChanged += Parent.LiveUpdate;
+                View.cbPenColour.SelectedValueChanged += CbPenColour_SelectedValueChanged;
+                View.cbFillColour.SelectedValueChanged += CbFillColour_SelectedValueChanged;
+                View.seTransparency.ValueChanged += SeTransparency_ValueChanged;
                 View.btnDetails.Click += BtnDetails_Click;
                 View.btnRemove.Click += BtnRemove_Click;
                 ColourController.AddControls(View.cbPenColour, View.cbFillColour);
             }
         }
 
+        internal Series Series { get; set; }
+
         internal bool TraceVisible
         {
             get => View.cbVisible.Checked;
-            set => View.cbVisible.Checked = value;
+            set
+            {
+                View.cbVisible.Checked = value;
+                if (Series.Visible != value)
+                    CommandProcessor.Run(new SeriesVisibleCommand(Index, value));
+            }
         }
 
         internal string TraceLabel
@@ -80,8 +89,8 @@
         private AppController AppController { get => Parent.Parent; }
         private LegendController Parent;
         private ColourController ColourController = new ColourController();
-        private CommandProcessor CommandController { get => AppController.CommandProcessor; }
-        private KeyboardController MathController { get => AppController.KeyboardController; }
+        private CommandProcessor CommandProcessor { get => AppController.CommandProcessor; }
+        private KeyboardController KeyboardController { get => AppController.KeyboardController; }
         private int Index { get => Parent.IndexOf(this); }
         private ComboBox FunctionBox { get => View.cbFunction; }
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
@@ -93,14 +102,32 @@
 
         private void BtnDetails_Click(object sender, System.EventArgs e)
         {
-            int h = View.Height, h1 = MathController.View.Height,
+            int h = View.Height, h1 = KeyboardController.View.Height,
                 h2 = Screen.FromControl(View).Bounds.Height;
             var p = View.PointToScreen(new Point(0, h));
             if (p.Y + h1 > h2) p.Y -= h + h1;
-            MathController.ShowDialog(AppController.View, p, Graph, Parent.IndexOf(this));
+            KeyboardController.ShowDialog(AppController.View, p, Graph, Parent.IndexOf(this));
         }
 
         private void BtnRemove_Click(object sender, System.EventArgs e) => Parent.RemoveSeries(Index);
+
+        private void CbFillColour_SelectedValueChanged(object sender, System.EventArgs e)
+        {
+            if (!Parent.Loading)
+                CommandProcessor.Run(new SeriesFillColourCommand(Index, FillColour));
+        }
+
+        private void CbPenColour_SelectedValueChanged(object sender, System.EventArgs e)
+        {
+            if (!Parent.Loading)
+                CommandProcessor.Run(new SeriesPenColourCommand(Index, PenColour));
+        }
+
+        private void CbVisible_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (!Parent.Loading)
+                CommandProcessor.Run(new SeriesVisibleCommand(Index, TraceVisible));
+        }
 
         private void FunctionBox_DrawItem(object sender, DrawItemEventArgs e)
         {
@@ -112,10 +139,16 @@
 
         private void FunctionBox_TextChanged(object sender, System.EventArgs e)
         {
-            var function = FunctionBox.Text;
-            if (!string.IsNullOrWhiteSpace(function) && !Functions.Contains(function))
-                Functions[0] = function;
-            Parent.LiveUpdate(sender, e);
+            if (!string.IsNullOrWhiteSpace(Formula) && !Functions.Contains(Formula))
+                Functions[0] = Formula;
+            if (!Parent.Loading)
+                CommandProcessor.Run(new SeriesFormulaCommand(Index, Formula));
+        }
+
+        private void SeTransparency_ValueChanged(object sender, System.EventArgs e)
+        {
+            if (!Parent.Loading)
+                CommandProcessor.Run(new SeriesFillTransparencyPercentCommand(Index, FillTransparencyPercent));
         }
 
         #endregion

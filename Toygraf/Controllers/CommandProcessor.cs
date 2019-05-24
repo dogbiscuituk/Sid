@@ -137,9 +137,9 @@
             {
                 var prevCmd = UndoStack.Peek();
                 canGroup = !(command is GraphSeriesCommand) && command.GetType() == prevCmd.GetType();
-                if (canGroup && command is SeriesCommand s)
-                    canGroup = s.Index == ((SeriesCommand)prevCmd).Index;
-                else if (command is SeriesCommand sf && prevCmd is GraphSeriesCommand gs)
+                if (canGroup && command is SeriesPropertyCommand s)
+                    canGroup = s.Index == ((SeriesPropertyCommand)prevCmd).Index;
+                else if (command is SeriesPropertyCommand sf && prevCmd is GraphSeriesCommand gs)
                 {
                     canGroup = !gs.Add && sf.Index == gs.Index;
                     if (canGroup && gs.Series == null)
@@ -174,12 +174,15 @@
 
         private void UpdateUI()
         {
+            string
+                undo = CanUndo ? $"Undo {UndoAction}" : "Undo",
+                redo = CanRedo ? $"Redo {RedoAction}" : "Redo";
             View.EditUndo.Enabled = View.tbUndo.Enabled = CanUndo;
-            View.EditUndo.Text = CanUndo ? $"&Undo {UndoAction}" : "&Undo";
-            View.tbUndo.ToolTipText = CanUndo ? $"Undo {UndoAction} (^Z)" : "Undo (^Z)";
             View.EditRedo.Enabled = View.tbRedo.Enabled = CanRedo;
-            View.EditRedo.Text = CanRedo ? $"&Redo {RedoAction}" : "&Redo";
-            View.tbRedo.ToolTipText = CanRedo ? $"Redo {RedoAction} (^Y)" : "Redo (^Y)";
+            View.EditUndo.Text = $"&{undo}";
+            View.EditRedo.Text = $"&{redo}";
+            View.tbUndo.ToolTipText = $"{undo} (^Z)";
+            View.tbRedo.ToolTipText = $"{redo} (^Y)";
             View.EditCut.Enabled = View.tbCut.Enabled = false;
             View.EditCopy.Enabled = View.tbCopy.Enabled = false;
             View.EditPaste.Enabled = View.tbPaste.Enabled = false;

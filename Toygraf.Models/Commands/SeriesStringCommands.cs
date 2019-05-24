@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class SeriesStringCommand : SeriesCommand
+    public class SeriesStringCommand : SeriesPropertyCommand
     {
         protected SeriesStringCommand(int index, string value, Func<Series, string> get, Action<Series, string> set) :
             base(index)

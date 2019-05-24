@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class GraphFloatCommand : GraphCommand
+    public class GraphFloatCommand : GraphPropertyCommand
     {
         protected GraphFloatCommand(float value, Func<Graph, float> get, Action<Graph, float> set) :
             base()

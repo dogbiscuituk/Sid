@@ -73,6 +73,46 @@ namespace ToyGraf.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _3ph16 {
+            get {
+                object obj = ResourceManager.GetObject("3ph16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _3ph16A {
+            get {
+                object obj = ResourceManager.GetObject("3ph16A", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _3phase64 {
+            get {
+                object obj = ResourceManager.GetObject("3phase64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _3phase641 {
+            get {
+                object obj = ResourceManager.GetObject("3phase641", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap action_add_16xLG {
             get {
                 object obj = ResourceManager.GetObject("action_add_16xLG", resourceCulture);
@@ -226,6 +266,26 @@ namespace ToyGraf.Properties {
         internal static System.Drawing.Bitmap FullScreenHS {
             get {
                 object obj = ResourceManager.GetObject("FullScreenHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gear_16xLG {
+            get {
+                object obj = ResourceManager.GetObject("gear_16xLG", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LegendHS {
+            get {
+                object obj = ResourceManager.GetObject("LegendHS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
