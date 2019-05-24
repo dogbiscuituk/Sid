@@ -4,7 +4,6 @@
     using System.ComponentModel;
     using System.Drawing;
     using System.Windows.Forms;
-    using ToyGraf.Expressions;
     using ToyGraf.Models;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Models.Structs;
@@ -176,6 +175,8 @@
 
         private void FileLoaded()
         {
+            LegendController.Clear();
+            CommandProcessor.Clear();
             Graph.ZoomSet();
             InitPaper();
             UpdateUI();
@@ -201,10 +202,12 @@
 
         private void NewFile()
         {
-            JsonController.Clear();
-            Graph.InvalidateReticle();
-            GraphicsController.InvalidateView();
-            UpdateUI();
+            if (JsonController.Clear())
+            {
+                Graph.InvalidateReticle();
+                GraphicsController.InvalidateView();
+                UpdateUI();
+            }
         }
 
         private void OnPropertyChanged(string propertyName)
@@ -228,7 +231,10 @@
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void OpenFile() { JsonController.Open(); }
+        private void OpenFile()
+        {
+            JsonController.Open();
+        }
 
         private void UpdatePlotType()
         {

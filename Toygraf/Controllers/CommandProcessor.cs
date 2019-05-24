@@ -15,6 +15,8 @@
         internal CommandProcessor(AppController parent)
         {
             Parent = parent;
+            // Model
+            Parent.Model.Cleared += Model_Cleared;
             // Edit
             View.EditUndo.Click += EditUndo_Click;
             View.tbUndo.ButtonClick += EditUndo_Click;
@@ -38,7 +40,14 @@
             View.ScrollUp.Click += ScrollUp_Click;
             View.ScrollDown.Click += ScrollDown_Click;
             View.ScrollCentre.Click += ScrollCentre_Click;
-            //
+            // Done
+            UpdateUI();
+        }
+
+        internal void Clear()
+        {
+            UndoStack.Clear();
+            RedoStack.Clear();
             UpdateUI();
         }
 
@@ -47,6 +56,7 @@
             foreach (var command in commands)
                 Redo(command);
             RedoStack.Clear();
+            UpdateUI();
         }
 
         internal void ScrollBy(float xDelta, float yDelta) => Run(new GraphCentreCommand(
@@ -101,6 +111,8 @@
         private void ScrollUp_Click(object sender, EventArgs e) => Scroll(0, 0.1f);
         private void ScrollDown_Click(object sender, EventArgs e) => Scroll(0, -0.1f);
         private void ScrollCentre_Click(object sender, EventArgs e) => ScrollTo(0, 0);
+        // Model
+        private void Model_Cleared(object sender, EventArgs e) => Clear();
 
         #endregion
 

@@ -17,6 +17,9 @@
         internal LegendController(AppController parent)
         {
             Parent = parent;
+            // Model
+            Parent.Model.Cleared += Model_Cleared;
+            // View
             View = parent.View;
         }
 
@@ -73,6 +76,13 @@
             Legend.SetBounds(x, y, w, h);
         }
 
+        internal void Clear()
+        {
+            View.StatusBar.Focus();
+            SeriesViews.Clear();
+            Children.Clear();
+        }
+
         internal void GraphRead()
         {
             Loading = true;
@@ -82,9 +92,12 @@
                 if (!Graph.Series.Contains(Children[index].Series))
                     RemoveSeriesViewAt(index);
             // Next, add any Graph Series without a corresponding child.
-            foreach (var series in Graph.Series)
+            for (var index = 0; index < Graph.Series.Count; index++)
+            {
+                var series = Graph.Series[index];
                 if (Children.FirstOrDefault(p => p.Series == series) == null)
-                    AddNewSeriesView(series);
+                    InsertNewSeriesView(index, series);
+            }
             // Done.
             Legend.ResumeLayout();
             Validate();
@@ -93,7 +106,6 @@
         }
 
         internal int IndexOf(SeriesController child) => Children.IndexOf(child);
-        internal void LiveUpdate(object sender, EventArgs e) { if (!Loading) GraphWrite(); }
         internal void RemoveSeries(int index) => CommandController.Run(new GraphDeleteSeriesCommand(index));
 
         #endregion
@@ -130,6 +142,8 @@
             e.Cancel = CanCancel && !ok;
         }
 
+        private void Model_Cleared(object sender, EventArgs e) => Clear();
+
         private void ViewLegend_DropDownOpening(object sender, EventArgs e)
         {
             View.ViewLegendTopLeft.Checked = LegendAlignment == ContentAlignment.TopLeft;
@@ -158,23 +172,6 @@
 
         private void AddNewSeries() => CommandController.Run(new GraphInsertSeriesCommand(Children.Count));
 
-        private void AddNewSeriesView(Series series)
-        {
-            Loading = true;
-            var child = new SeriesController(this, series);
-            Children.Add(child);
-            child.TraceVisible = series.Visible;
-            child.Formula = series.Formula;
-            child.PenColour = series.PenColour;
-            child.FillColour = series.FillColour;
-            child.FillTransparencyPercent = series.FillTransparencyPercent;
-            var index = SeriesViews.Count;
-            child.View.cbFunction.Validating += CbFunction_Validating;
-            SeriesViews.Add(child.View);
-            Loading = false;
-            child.View.cbFunction.Focus();
-        }
-
         private static AnchorStyles AlignToAnchor(ContentAlignment align)
         {
             switch (align)
@@ -191,41 +188,22 @@
             return 0;
         }
 
-        private void GraphWrite()
+        private void InsertNewSeriesView(int index, Series series)
         {
-            if (!Validate())
-                return;
-            int index = 0, count = Graph.Series.Count;
-            foreach (var child in Children)
-            {
-                var series = Graph.Series[index];
-                var visible = child.TraceVisible;
-                if (series.Visible != visible)
-                    CommandController.Run(new SeriesVisibleCommand(index, visible));
-                var formula = child.Formula;
-                if (series.Formula != formula)
-                    CommandController.Run(new SeriesFormulaCommand(index, formula));
-                var penColour = child.PenColour;
-                if (series.PenColour.ToArgb() != penColour.ToArgb())
-                    CommandController.Run(new SeriesPenColourCommand(index, penColour));
-                var fillColour = child.FillColour;
-                if (series.FillColour.ToArgb() != fillColour.ToArgb())
-                    CommandController.Run(new SeriesFillColourCommand(index, fillColour));
-                var fillTransparencyPercent = child.FillTransparencyPercent;
-                if (series.FillTransparencyPercent != fillTransparencyPercent)
-                    CommandController.Run(new SeriesFillTransparencyPercentCommand(index, fillTransparencyPercent));
-                index++;
-            }
-            count -= index;
-            if (count > 0)
-                Graph.RemoveSeriesRange(index, count);
-        }
-
-        private void RemoveAllSeriesViews()
-        {
-            View.StatusBar.Focus();
-            SeriesViews.Clear();
-            Children.Clear();
+            Loading = true;
+            var child = new SeriesController(this, series);
+            Children.Insert(index, child);
+            child.TraceVisible = series.Visible;
+            child.Formula = series.Formula;
+            child.PenColour = series.PenColour;
+            child.FillColour = series.FillColour;
+            child.FillTransparencyPercent = series.FillTransparencyPercent;
+            //var index = SeriesViews.Count;
+            child.View.cbFunction.Validating += CbFunction_Validating;
+            SeriesViews.Add(child.View);
+            SeriesViews.SetChildIndex(child.View, index);
+            Loading = false;
+            child.View.cbFunction.Focus();
         }
 
         private void RemoveSeriesViewAt(int index)
