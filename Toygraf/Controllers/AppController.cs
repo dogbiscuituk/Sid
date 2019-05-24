@@ -156,7 +156,6 @@
             var normal = !FullScreen;
             View.MainMenuStrip.Visible =
                 View.Toolbar.Visible =
-                View.TimeTrackBar.Visible =
                 View.StatusBar.Visible = normal;
             if (FullScreen)
             {

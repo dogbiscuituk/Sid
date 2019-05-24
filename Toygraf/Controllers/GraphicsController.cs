@@ -15,13 +15,18 @@
         {
             Parent = parent;
             View = parent.View.PictureBox;
-            AppForm.TimerMenu.DropDownOpening += TimerMenu_DropDownOpening;
-            AppForm.TimerRunPause.Click += TimerRunPause_Click;
-            AppForm.TimerReverse.Click += TimerReverse_Click;
-            AppForm.TimerReset.Click += TimerReset_Click;
-            AppForm.tbTimer.ButtonClick += TimerRunPause_Click;
-            AppForm.tbTimer.DropDownOpening += TbTimer_DropDownOpening;
-            AppForm.TimeTrackBar.ValueChanged += TimeTrackBar_ValueChanged;
+            AppForm.TimeDecelerate.Click += TimeDecelerate_Click;
+            AppForm.tbDecelerate.Click += TimeDecelerate_Click;
+            AppForm.TimeReverse.Click += TimeReverse_Click;
+            AppForm.tbReverse.Click += TimeReverse_Click;
+            AppForm.TimeStop.Click += TimeStop_Click;
+            AppForm.tbStop.Click += TimeStop_Click;
+            AppForm.TimePause.Click += TimePause_Click;
+            AppForm.tbPause.Click += TimePause_Click;
+            AppForm.TimeForward.Click += TimeForward_Click;
+            AppForm.tbForward.Click += TimeForward_Click;
+            AppForm.TimeAccelerate.Click += TimeAccelerate_Click;
+            AppForm.tbAccelerate.Click += TimeAccelerate_Click;
             AdjustPictureBox();
         }
 
@@ -62,28 +67,18 @@
         private Point DragFrom, MouseDownAt;
         private bool Dragging;
 
-        private bool TimerReverse
-        {
-            get => AppForm.TimerReverse.Checked;
-            set
-            {
-                AppForm.TimerReverse.Checked = value;
-                UpdateVirtualTimeFactor(value);
-            }
-        }
-
         #endregion
 
         #region Private Event Handlers
 
-        private void TimerMenu_DropDownOpening(object sender, EventArgs e) => AppForm.TimerRunPause.Checked = ClockRunning;
-        private void TimerRunPause_Click(object sender, EventArgs e) => ToggleClock();
-        private void TimerReverse_Click(object sender, EventArgs e) => TimerReverse = !TimerReverse;
-        private void TimerReset_Click(object sender, EventArgs e) => ClockReset();
-        private void TimeTrackBar_ValueChanged(object sender, EventArgs e) => UpdateVirtualTimeFactor(TimerReverse);
-        private void TbTimer_DropDownOpening(object sender, EventArgs e) => AppForm.TimerMenu.CloneTo(AppForm.tbTimer);
+        private void Clock_Tick(object sender, EventArgs e) => UpdateTimeDisplay();
         private void ParentView_Resize(object sender, System.EventArgs e) => AdjustPictureBox();
-        private void Clock_Tick(object sender, EventArgs e) => UpdateRealTimeLabels();
+        private void TimeDecelerate_Click(object sender, EventArgs e) => ClockDecelerate();
+        private void TimeReverse_Click(object sender, EventArgs e) => ClockReverse();
+        private void TimeStop_Click(object sender, EventArgs e) => ClockStop();
+        private void TimePause_Click(object sender, EventArgs e) => ClockPause();
+        private void TimeForward_Click(object sender, EventArgs e) => ClockForward();
+        private void TimeAccelerate_Click(object sender, EventArgs e) => ClockAccelerate();
 
         private void View_MouseDown(object sender, MouseEventArgs e)
         {
@@ -169,17 +164,47 @@
         private Point GraphToClient(PointF p) => Graph.GraphToClient(p, View.ClientRectangle);
         private Point GraphToScreen(PointF p) => View.PointToScreen(GraphToClient(p));
         private PointF ScreenToGraph(Point p) => ClientToGraph(View.PointToClient(p));
-        private void ToggleClock() => Clock.Running = !Clock.Running;
 
-        private void ClockReset()
+        private void ClockDecelerate()
         {
-            Clock.Reset();
-            Parent.View.TimeTrackBar.Value = 0;
-            TimerReverse = false;
-            UpdateRealTimeLabels();
+            Clock.Decelerate();
+            UpdateTimeFactor();
         }
 
-        private void UpdateRealTimeLabels()
+        private void ClockReverse()
+        {
+            Clock.VirtualTimeFactor = -Math.Abs(Clock.VirtualTimeFactor);
+            Clock.Start();
+            UpdateTimeFactor();
+        }
+
+        private void ClockStop()
+        {
+            Clock.Reset();
+            UpdateTimeDisplay();
+            UpdateTimeFactor();
+        }
+
+        private void ClockPause()
+        {
+            Clock.Stop();
+            UpdateTimeFactor();
+        }
+
+        private void ClockForward()
+        {
+            Clock.VirtualTimeFactor = Math.Abs(Clock.VirtualTimeFactor);
+            Clock.Start();
+            UpdateTimeFactor();
+        }
+
+        private void ClockAccelerate()
+        {
+            Clock.Accelerate();
+            UpdateTimeFactor();
+        }
+
+        private void UpdateTimeDisplay()
         {
             Clock.UpdateFPS();
             AppForm.Tlabel.Text = string.Format("t={0:f1}", Clock.VirtualSecondsElapsed);
@@ -187,13 +212,24 @@
             InvalidateView();
         }
 
-        private void UpdateVirtualTimeFactor(bool timeReverse)
+        private void UpdateTimeControls()
         {
-            var value = Parent.View.TimeTrackBar.Value;
-            int factor = (1 << Math.Abs(value)) * (timeReverse ? -1 : +1);
-            Clock.VirtualTimeFactor = value >= 0 ? factor : 1.0 / factor;
-            var speed = value >= 0 ? $"time × {factor}" : $"time ÷ {factor}";
-            Parent.View.ToolTip.SetToolTip(Parent.View.TimeTrackBar, speed);
+
+        }
+
+        private void UpdateTimeFactor()
+        {
+            string speed;
+            var factor = Clock.VirtualTimeFactor;
+            if (factor == 0)
+                speed = "time × 0";
+            else
+            {
+                var divide = Math.Abs(factor) < 1;
+                if (divide)
+                    factor = 1 / factor;
+                speed = divide ? $"time ÷ {factor}" : $"time × {factor}";
+            }
             Parent.View.SpeedLabel.Text = speed;
         }
 

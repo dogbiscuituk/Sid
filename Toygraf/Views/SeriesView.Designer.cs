@@ -152,8 +152,7 @@
             this.btnDetails.FlatAppearance.BorderSize = 0;
             this.btnDetails.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDetails.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDetails.ImageIndex = 2;
-            this.btnDetails.ImageList = this.ImageList;
+            this.btnDetails.Image = global::ToyGraf.Properties.Resources._126_Edit_16x16_72;
             this.btnDetails.Location = new System.Drawing.Point(443, 1);
             this.btnDetails.Margin = new System.Windows.Forms.Padding(0);
             this.btnDetails.Name = "btnDetails";

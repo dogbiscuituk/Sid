@@ -152,6 +152,27 @@
             FramesPerSecond = fps;
         }
 
+        public void Accelerate() => VirtualTimeFactor = +Adjust(+VirtualTimeFactor);
+        public void Decelerate() => VirtualTimeFactor = -Adjust(-VirtualTimeFactor);
+
+        private static double Adjust(double factor)
+        {
+            const int limit = 32;
+            switch (factor)
+            {
+                case double f when f < -1.0 / limit:
+                    return factor / 2;
+                case -1.0 / limit:
+                    return 0;
+                case 0:
+                    return 1.0 / limit;
+                case double f when f < limit:
+                    return factor * 2;
+                default:
+                    return limit;
+            }
+        }
+
         private TimeSpan GetVirtualIncrement(DateTime now) =>
             TimeSpan.FromSeconds((now - _startedAt).TotalSeconds * VirtualTimeFactor);
 
