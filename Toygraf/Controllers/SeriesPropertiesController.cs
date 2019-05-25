@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.Drawing.Drawing2D;
     using System.Linq;
     using System.Windows.Forms;
     using ToyGraf.Expressions;
@@ -41,6 +42,8 @@
                 View.btnSubscript.Click += BtnSubscript_Click;
                 View.btnSuperscript.Click += BtnSuperscript_Click;
                 InitKeys();
+
+                InitEnumControls();
             }
         }
 
@@ -59,6 +62,7 @@
 
         private SeriesPropertiesDialog _view;
         private readonly AppController Parent;
+        private ColourController ColourController = new ColourController();
         private LegendController LegendController { get => Parent.LegendController; }
         private List<SeriesController> SeriesControllers => LegendController.Children;
         private SeriesController SeriesController => SeriesControllers[Index];
@@ -68,6 +72,8 @@
         private ComboBox FunctionBox { get => View.FunctionBox; }
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
         private Graph Graph;
+
+        private ComboBox.ObjectCollection PenStyles { get => View.cbPenStyle.Items; }
 
         private int Index
         {
@@ -190,7 +196,7 @@
             ActiveControl.Text = function;
             var proxies = Graph.GetProxies().ToArray();
             View.tbProxy.Text = Index >= 0 && Index < proxies.Length
-                ? proxies[Index].AsString()
+                ? proxies[Index]?.AsString()
                 : string.Empty;
         }
 
@@ -237,6 +243,13 @@
         private void InitBackColour(Control control, KeyStates state) =>
             control.BackColor = Color.FromKnownColor(
                 (State & state) == 0 ? KnownColor.ControlLight : KnownColor.Window);
+
+        private void InitEnumControls()
+        {
+            PenStyles.Clear();
+            var names = Enum.GetNames(typeof(DashStyle));
+            PenStyles.AddRange(names);
+        }
 
         private void InitFunctionNames()
         {

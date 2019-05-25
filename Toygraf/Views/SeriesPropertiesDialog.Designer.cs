@@ -114,29 +114,29 @@
             this.seTransparency = new System.Windows.Forms.NumericUpDown();
             this.cbPenColour = new System.Windows.Forms.ComboBox();
             this.cbFillColour = new System.Windows.Forms.ComboBox();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.cbPenStyle = new System.Windows.Forms.ComboBox();
             this.seIndex = new System.Windows.Forms.NumericUpDown();
             this.IndexLabel = new System.Windows.Forms.Label();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.tpSeriesProperties = new System.Windows.Forms.TabPage();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.tpKeyboard = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.label6 = new System.Windows.Forms.Label();
-            this.cbPenStyle = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seIndex)).BeginInit();
             this.TabControl.SuspendLayout();
             this.tpSeriesProperties.SuspendLayout();
             this.tpKeyboard.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnQ
@@ -1206,7 +1206,7 @@
             0,
             0,
             0});
-            this.seTransparency.Location = new System.Drawing.Point(243, 36);
+            this.seTransparency.Location = new System.Drawing.Point(265, 34);
             this.seTransparency.Margin = new System.Windows.Forms.Padding(0);
             this.seTransparency.Name = "seTransparency";
             this.seTransparency.ReadOnly = true;
@@ -1224,10 +1224,10 @@
             this.cbPenColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbPenColour.FormattingEnabled = true;
             this.cbPenColour.ItemHeight = 18;
-            this.cbPenColour.Location = new System.Drawing.Point(86, 9);
+            this.cbPenColour.Location = new System.Drawing.Point(75, 9);
             this.cbPenColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbPenColour.Name = "cbPenColour";
-            this.cbPenColour.Size = new System.Drawing.Size(74, 24);
+            this.cbPenColour.Size = new System.Drawing.Size(104, 24);
             this.cbPenColour.TabIndex = 4;
             this.ToolTip.SetToolTip(this.cbPenColour, "Pen colour used to draw this trace");
             // 
@@ -1240,12 +1240,46 @@
             this.cbFillColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbFillColour.FormattingEnabled = true;
             this.cbFillColour.ItemHeight = 18;
-            this.cbFillColour.Location = new System.Drawing.Point(86, 32);
+            this.cbFillColour.Location = new System.Drawing.Point(75, 32);
             this.cbFillColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbFillColour.Name = "cbFillColour";
-            this.cbFillColour.Size = new System.Drawing.Size(74, 24);
+            this.cbFillColour.Size = new System.Drawing.Size(104, 24);
             this.cbFillColour.TabIndex = 5;
             this.ToolTip.SetToolTip(this.cbFillColour, "Fill colour (area under this trace)");
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.BackColor = System.Drawing.SystemColors.Control;
+            this.numericUpDown1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.numericUpDown1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericUpDown1.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Location = new System.Drawing.Point(265, 11);
+            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(0);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.ReadOnly = true;
+            this.numericUpDown1.Size = new System.Drawing.Size(44, 21);
+            this.numericUpDown1.TabIndex = 12;
+            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.ToolTip.SetToolTip(this.numericUpDown1, "Fill transparency (%)");
+            // 
+            // cbPenStyle
+            // 
+            this.cbPenStyle.BackColor = System.Drawing.SystemColors.Control;
+            this.cbPenStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPenStyle.DropDownWidth = 144;
+            this.cbPenStyle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbPenStyle.FormattingEnabled = true;
+            this.cbPenStyle.ItemHeight = 15;
+            this.cbPenStyle.Location = new System.Drawing.Point(350, 9);
+            this.cbPenStyle.Margin = new System.Windows.Forms.Padding(0);
+            this.cbPenStyle.Name = "cbPenStyle";
+            this.cbPenStyle.Size = new System.Drawing.Size(105, 23);
+            this.cbPenStyle.TabIndex = 14;
+            this.ToolTip.SetToolTip(this.cbPenStyle, "Fill colour (area under this trace)");
             // 
             // seIndex
             // 
@@ -1306,6 +1340,60 @@
             this.tpSeriesProperties.Size = new System.Drawing.Size(458, 123);
             this.tpSeriesProperties.TabIndex = 0;
             this.tpSeriesProperties.Text = "Series Properties";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(312, 12);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(35, 15);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "Style:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(232, 12);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(30, 15);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "Size:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(312, 35);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(17, 15);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "%";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(182, 35);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(80, 15);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Transparency:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 35);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(64, 15);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Fill Colour:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 12);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(69, 15);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Pen Colour:";
             // 
             // tpKeyboard
             // 
@@ -1416,95 +1504,6 @@
             this.panel2.Size = new System.Drawing.Size(466, 37);
             this.panel2.TabIndex = 87;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 12);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(66, 15);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Pen Colour";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 35);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(61, 15);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Fill Colour";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(163, 35);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 15);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Transparency";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(290, 35);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(17, 15);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "%";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(163, 12);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(27, 15);
-            this.label5.TabIndex = 11;
-            this.label5.Text = "Size";
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.BackColor = System.Drawing.SystemColors.Control;
-            this.numericUpDown1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.numericUpDown1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDown1.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Location = new System.Drawing.Point(243, 13);
-            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(0);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.ReadOnly = true;
-            this.numericUpDown1.Size = new System.Drawing.Size(44, 21);
-            this.numericUpDown1.TabIndex = 12;
-            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.ToolTip.SetToolTip(this.numericUpDown1, "Fill transparency (%)");
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(290, 12);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(32, 15);
-            this.label6.TabIndex = 13;
-            this.label6.Text = "Style";
-            // 
-            // cbPenStyle
-            // 
-            this.cbPenStyle.BackColor = System.Drawing.SystemColors.Control;
-            this.cbPenStyle.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cbPenStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbPenStyle.DropDownWidth = 144;
-            this.cbPenStyle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbPenStyle.FormattingEnabled = true;
-            this.cbPenStyle.ItemHeight = 18;
-            this.cbPenStyle.Location = new System.Drawing.Point(325, 9);
-            this.cbPenStyle.Margin = new System.Windows.Forms.Padding(0);
-            this.cbPenStyle.Name = "cbPenStyle";
-            this.cbPenStyle.Size = new System.Drawing.Size(74, 24);
-            this.cbPenStyle.TabIndex = 14;
-            this.ToolTip.SetToolTip(this.cbPenStyle, "Fill colour (area under this trace)");
-            // 
             // SeriesPropertiesDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1521,6 +1520,7 @@
             this.Name = "SeriesPropertiesDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.seIndex)).EndInit();
             this.TabControl.ResumeLayout(false);
             this.tpSeriesProperties.ResumeLayout(false);
@@ -1530,7 +1530,6 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
 
         }
