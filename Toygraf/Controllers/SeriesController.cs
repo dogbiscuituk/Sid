@@ -141,7 +141,7 @@
         {
             if (!string.IsNullOrWhiteSpace(Formula) && !Functions.Contains(Formula))
                 Functions[0] = Formula;
-            if (!Parent.Loading)
+            if (!Parent.Loading && Parent.Validate())
                 CommandProcessor.Run(new SeriesFormulaCommand(Index, Formula));
         }
 

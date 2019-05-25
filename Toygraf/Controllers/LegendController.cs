@@ -17,9 +17,7 @@
         internal LegendController(AppController parent)
         {
             Parent = parent;
-            // Model
             Parent.Model.Cleared += Model_Cleared;
-            // View
             View = parent.View;
         }
 
@@ -107,6 +105,15 @@
 
         internal int IndexOf(SeriesController child) => Children.IndexOf(child);
         internal void RemoveSeries(int index) => CommandController.Run(new GraphDeleteSeriesCommand(index));
+
+        internal bool Validate()
+        {
+            Graph.ValidateProxies();
+            CanCancel = true;
+            var ok = View.ValidateChildren();
+            CanCancel = false;
+            return ok;
+        }
 
         #endregion
 
@@ -198,7 +205,6 @@
             child.PenColour = series.PenColour;
             child.FillColour = series.FillColour;
             child.FillTransparencyPercent = series.FillTransparencyPercent;
-            //var index = SeriesViews.Count;
             child.View.cbFunction.Validating += CbFunction_Validating;
             SeriesViews.Add(child.View);
             SeriesViews.SetChildIndex(child.View, index);
@@ -211,15 +217,6 @@
             View.StatusBar.Focus();
             SeriesViews.RemoveAt(index);
             Children.RemoveAt(index);
-        }
-
-        private bool Validate()
-        {
-            Graph.ValidateProxies();
-            CanCancel = true;
-            var ok = View.ValidateChildren();
-            CanCancel = false;
-            return ok;
         }
 
         #endregion

@@ -882,6 +882,12 @@
             this.Toolbar.Dock = System.Windows.Forms.DockStyle.Left;
             this.Toolbar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.Toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbAdd,
+            this.tbProperties,
+            this.tbCartesian,
+            this.tbPolar,
+            this.tbLegend,
+            this.toolStripSeparator2,
             this.tbNew,
             this.tbOpen,
             this.tbSave,
@@ -892,14 +898,8 @@
             this.tbCopy,
             this.tbPaste,
             this.tbDelete,
-            this.toolStripSeparator2,
-            this.tbAdd,
-            this.tbCartesian,
-            this.tbPolar,
             this.toolStripSeparator3,
-            this.tbProperties,
-            this.tbFullScreen,
-            this.tbLegend});
+            this.tbFullScreen});
             this.Toolbar.Location = new System.Drawing.Point(0, 24);
             this.Toolbar.Name = "Toolbar";
             this.Toolbar.Padding = new System.Windows.Forms.Padding(0);
