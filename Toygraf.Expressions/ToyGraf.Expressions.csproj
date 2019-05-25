@@ -42,7 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clock.cs" />
     <Compile Include="Expressions.cs" />
     <Compile Include="Expressions.Differentiation.cs" />
     <Compile Include="Expressions.Integration.cs" />

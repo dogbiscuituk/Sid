@@ -3,6 +3,7 @@
     using System;
     using System.Windows.Forms;
     using ToyGraf.Expressions;
+    using ToyGraf.Models;
     using ToyGraf.Views;
 
     internal class ClockController
@@ -26,11 +27,18 @@
             AppForm.tbAccelerate.Click += TimeAccelerate_Click;
             Clock = new Clock { Sync = Parent.View };
             Clock.Tick += Clock_Tick;
+            UpdateTimeControls();
         }
 
         internal Clock Clock;
         internal double VirtualSecondsElapsed => Clock.VirtualSecondsElapsed;
         internal bool ClockRunning => Clock.Running;
+
+        internal double VirtualTimeFactor
+        {
+            get => Clock.VirtualTimeFactor;
+            set => Clock.VirtualTimeFactor = value;
+        }
 
         internal void AfterDraw()
         {
@@ -56,14 +64,38 @@
             }
         }
 
+        internal void UpdateTimeControls()
+        {
+            if (ClockRunning && !UsesTime)
+                ClockStop();
+            AppForm.TimeAccelerate.Enabled = AppForm.tbAccelerate.Enabled = CanAccelerate;
+            AppForm.TimeDecelerate.Enabled = AppForm.tbDecelerate.Enabled = CanDecelerate;
+            AppForm.TimeForward.Enabled = AppForm.tbForward.Enabled = CanStart;
+            AppForm.TimePause.Enabled = AppForm.tbPause.Enabled = CanPause;
+            AppForm.TimeReverse.Enabled = AppForm.tbReverse.Enabled = CanReverse;
+            AppForm.TimeStop.Enabled = AppForm.tbStop.Enabled = CanStop;
+            AppForm.SpeedLabel.Enabled = AppForm.Tlabel.Enabled = AppForm.FPSlabel.Enabled = UsesTime;
+            UpdateTimeFactor();
+        }
+
         #endregion
 
         #region Private Properties
 
         private GraphicsController Parent;
+        private AppController AppController => Parent.Parent;
         private AppForm AppForm { get => Parent.AppForm; }
         private System.Diagnostics.Stopwatch Stopwatch;
         private bool EpilepsyWarningAcknowledged;
+
+        private bool CanAccelerate => UsesTime && VirtualTimeFactor < +32;
+        private bool CanDecelerate => UsesTime && VirtualTimeFactor > -32;
+        private bool CanPause => UsesTime && Clock.Running;
+        private bool CanReverse => UsesTime && (!Clock.Running || VirtualTimeFactor > 0);
+        private bool CanStart => UsesTime && (!Clock.Running || VirtualTimeFactor < 0);
+        private bool CanStop => UsesTime && Clock.Running;
+
+        private bool UsesTime => AppController.Graph.UsesTime;
 
         #endregion
 
@@ -81,43 +113,36 @@
 
         #region Private Methods
 
+        private void ClockAccelerate()
+        {
+            Clock.Accelerate();
+            UpdateTimeControls();
+        }
+
         private void ClockDecelerate()
         {
             Clock.Decelerate();
-            UpdateTimeFactor();
+            UpdateTimeControls();
         }
 
-        private void ClockReverse()
+        private void ClockForward()
         {
-            Clock.VirtualTimeFactor = -Math.Abs(Clock.VirtualTimeFactor);
+            VirtualTimeFactor = Math.Abs(VirtualTimeFactor);
             ClockStart();
-            UpdateTimeFactor();
-        }
-
-        private void ClockStop()
-        {
-            Clock.Reset();
-            UpdateTimeDisplay();
-            UpdateTimeFactor();
+            UpdateTimeControls();
         }
 
         private void ClockPause()
         {
             Clock.Stop();
-            UpdateTimeFactor();
+            UpdateTimeControls();
         }
 
-        private void ClockForward()
+        private void ClockReverse()
         {
-            Clock.VirtualTimeFactor = Math.Abs(Clock.VirtualTimeFactor);
+            VirtualTimeFactor = -Math.Abs(VirtualTimeFactor);
             ClockStart();
-            UpdateTimeFactor();
-        }
-
-        private void ClockAccelerate()
-        {
-            Clock.Accelerate();
-            UpdateTimeFactor();
+            UpdateTimeControls();
         }
 
         private void ClockStart()
@@ -136,6 +161,13 @@
                 Clock.Start();
         }
 
+        private void ClockStop()
+        {
+            Clock.Reset();
+            UpdateTimeDisplay();
+            UpdateTimeControls();
+        }
+
         private void UpdateTimeDisplay()
         {
             Clock.UpdateFPS();
@@ -144,15 +176,10 @@
             Parent.InvalidateView();
         }
 
-        private void UpdateTimeControls()
-        {
-
-        }
-
         private void UpdateTimeFactor()
         {
             string speed;
-            var factor = Clock.VirtualTimeFactor;
+            var factor = VirtualTimeFactor;
             if (factor == 0)
                 speed = "time × 0";
             else

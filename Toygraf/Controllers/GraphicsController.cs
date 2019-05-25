@@ -19,7 +19,9 @@
             AdjustPictureBox();
         }
 
+        internal readonly AppController Parent;
         internal AppForm AppForm { get => Parent.View; }
+        internal ClockController ClockController;
 
         internal PictureBox View
         {
@@ -46,8 +48,6 @@
         #region Private Properties
 
         private PictureBox _view;
-        private readonly AppController Parent;
-        private ClockController ClockController;
         private CommandProcessor CommandController { get => Parent.CommandProcessor; }
         private Graph Graph => Parent.Graph;
         private Point DragFrom, MouseDownAt;

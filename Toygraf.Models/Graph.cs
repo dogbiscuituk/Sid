@@ -348,6 +348,8 @@
         private Bitmap Reticle;
         private List<Label> Labels = new List<Label>();
 
+        public bool UsesTime => Series.Any(p => p.Visible && p.UsesTime);
+
         [NonSerialized]
         private Viewport LastViewport;
 

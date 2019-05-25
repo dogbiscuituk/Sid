@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clock.cs" />
     <Compile Include="Commands\GraphBoolCommands.cs" />
     <Compile Include="Commands\GraphColourCommands.cs" />
     <Compile Include="Commands\BaseCommands.cs" />

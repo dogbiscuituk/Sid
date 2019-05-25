@@ -93,7 +93,7 @@
             for (var index = 0; index < Graph.Series.Count; index++)
             {
                 var series = Graph.Series[index];
-                if (Children.FirstOrDefault(p => p.Series == series) == null)
+                if (!Children.Any(p => p.Series == series))
                     InsertNewSeriesView(index, series);
             }
             // Done.

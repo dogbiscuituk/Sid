@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel;
     using System.Drawing;
+    using System.Text.RegularExpressions;
     using System.Windows.Forms;
     using ToyGraf.Models;
     using ToyGraf.Models.Enumerations;
@@ -67,6 +68,7 @@
         internal readonly Model Model;
         internal Graph Graph { get => Model.Graph; }
 
+        internal ClockController ClockController => GraphicsController.ClockController;
         internal readonly CommandProcessor CommandProcessor;
         internal readonly KeyboardController KeyboardController;
         internal readonly LegendController LegendController;
@@ -212,8 +214,6 @@
 
         private void OnPropertyChanged(string propertyName)
         {
-            //System.Diagnostics.Debug.WriteLine($"AppController.OnPropertyChanged(\"{ propertyName})\"");
-
             switch (propertyName)
             {
                 case "Model.Graph.PaperColour":
@@ -224,7 +224,11 @@
                     UpdatePlotType();
                     break;
                 case "Model.Graph.Series":
+                    ClockController.UpdateTimeControls();
                     LegendController.GraphRead();
+                    break;
+                case string s when Regex.IsMatch(s, @"^Model\.Graph\.Series\[\d+\].(Formula|Visible)$"):
+                    ClockController.UpdateTimeControls();
                     break;
             }
             GraphicsController.InvalidateView();

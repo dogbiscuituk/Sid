@@ -168,6 +168,8 @@
         [JsonIgnore]
         public Func<double, double, double> Derivative { get; private set; }
 
+        public bool UsesTime => Expression.UsesTime();
+
         private void SetFunc(Expression e)
         {
             Func = e.AsFunction();
@@ -198,7 +200,6 @@
         // Method DrawAsync is made asynchronous purely as a programming exercise.
         // All drawing must take place on the main Windows UI thread, and no time
         // is saved by multithreading the ComputePointsAsync() point computations.
-
         public async void DrawAsync(Graphics g, Domain domain, Viewport viewport,
             float penWidth, bool fill, double time, PlotType plotType, Interpolation interpolation)
         {
@@ -207,7 +208,7 @@
             if (Func == null
                 || LastDomain != domain
                 || Viewport != viewport
-                || LastTime != time && Expression.UsesTime()
+                || LastTime != time && UsesTime
                 || LastPlotType != plotType
                 || !PointLists.Any())
             {

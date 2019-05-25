@@ -1,4 +1,4 @@
-﻿namespace ToyGraf.Expressions
+﻿namespace ToyGraf.Models
 {
     using System;
     using System.ComponentModel;
@@ -63,6 +63,7 @@
         public double RealSecondsElapsed => RealTimeElapsed.TotalSeconds;
         public double VirtualSecondsElapsed => VirtualTimeElapsed.TotalSeconds;
         public double FramesPerSecond;
+        public const int LimitFactor = 32;
 
         public ISynchronizeInvoke Sync
         {
@@ -157,19 +158,18 @@
 
         private static double Adjust(double factor)
         {
-            const int limit = 32;
             switch (factor)
             {
-                case double f when f < -1.0 / limit:
+                case double f when f < -1.0 / LimitFactor:
                     return factor / 2;
-                case -1.0 / limit:
+                case -1.0 / LimitFactor:
                     return 0;
                 case 0:
-                    return 1.0 / limit;
-                case double f when f < limit:
+                    return 1.0 / LimitFactor;
+                case double f when f < LimitFactor:
                     return factor * 2;
                 default:
-                    return limit;
+                    return LimitFactor;
             }
         }
 
