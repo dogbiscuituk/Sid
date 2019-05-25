@@ -235,10 +235,7 @@
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void OpenFile()
-        {
-            JsonController.Open();
-        }
+        private void OpenFile() => JsonController.Open();
 
         private void UpdatePlotType()
         {
@@ -251,6 +248,7 @@
         private void UpdateUI()
         {
             UpdatePlotType();
+            ClockController.UpdateTimeControls();
             LegendController.GraphRead();
         }
 
