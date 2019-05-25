@@ -1,6 +1,6 @@
 ﻿namespace ToyGraf.Views
 {
-    partial class KeyboardDialog
+    partial class SeriesPropertiesDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KeyboardDialog));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SeriesPropertiesDialog));
             this.btnQ = new System.Windows.Forms.Button();
             this.btnW = new System.Windows.Forms.Button();
             this.btnE = new System.Windows.Forms.Button();
@@ -111,16 +111,39 @@
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tbProxy = new System.Windows.Forms.TextBox();
             this.cbVisible = new System.Windows.Forms.CheckBox();
+            this.seTransparency = new System.Windows.Forms.NumericUpDown();
+            this.cbPenColour = new System.Windows.Forms.ComboBox();
+            this.cbFillColour = new System.Windows.Forms.ComboBox();
             this.seIndex = new System.Windows.Forms.NumericUpDown();
             this.IndexLabel = new System.Windows.Forms.Label();
+            this.TabControl = new System.Windows.Forms.TabControl();
+            this.tpSeriesProperties = new System.Windows.Forms.TabPage();
+            this.tpKeyboard = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            this.cbPenStyle = new System.Windows.Forms.ComboBox();
+            ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seIndex)).BeginInit();
+            this.TabControl.SuspendLayout();
+            this.tpSeriesProperties.SuspendLayout();
+            this.tpKeyboard.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnQ
             // 
             this.btnQ.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnQ.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnQ.Location = new System.Drawing.Point(45, 65);
+            this.btnQ.Location = new System.Drawing.Point(38, 26);
             this.btnQ.Margin = new System.Windows.Forms.Padding(0);
             this.btnQ.Name = "btnQ";
             this.btnQ.Size = new System.Drawing.Size(24, 24);
@@ -133,7 +156,7 @@
             // 
             this.btnW.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnW.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnW.Location = new System.Drawing.Point(69, 65);
+            this.btnW.Location = new System.Drawing.Point(62, 26);
             this.btnW.Margin = new System.Windows.Forms.Padding(0);
             this.btnW.Name = "btnW";
             this.btnW.Size = new System.Drawing.Size(24, 24);
@@ -146,7 +169,7 @@
             // 
             this.btnE.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnE.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnE.Location = new System.Drawing.Point(93, 65);
+            this.btnE.Location = new System.Drawing.Point(86, 26);
             this.btnE.Margin = new System.Windows.Forms.Padding(0);
             this.btnE.Name = "btnE";
             this.btnE.Size = new System.Drawing.Size(24, 24);
@@ -159,7 +182,7 @@
             // 
             this.btnR.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnR.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnR.Location = new System.Drawing.Point(117, 65);
+            this.btnR.Location = new System.Drawing.Point(110, 26);
             this.btnR.Margin = new System.Windows.Forms.Padding(0);
             this.btnR.Name = "btnR";
             this.btnR.Size = new System.Drawing.Size(24, 24);
@@ -172,7 +195,7 @@
             // 
             this.btnT.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnT.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnT.Location = new System.Drawing.Point(141, 65);
+            this.btnT.Location = new System.Drawing.Point(134, 26);
             this.btnT.Margin = new System.Windows.Forms.Padding(0);
             this.btnT.Name = "btnT";
             this.btnT.Size = new System.Drawing.Size(24, 24);
@@ -185,7 +208,7 @@
             // 
             this.btnY.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnY.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnY.Location = new System.Drawing.Point(165, 65);
+            this.btnY.Location = new System.Drawing.Point(158, 26);
             this.btnY.Margin = new System.Windows.Forms.Padding(0);
             this.btnY.Name = "btnY";
             this.btnY.Size = new System.Drawing.Size(24, 24);
@@ -198,7 +221,7 @@
             // 
             this.btnU.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnU.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnU.Location = new System.Drawing.Point(189, 65);
+            this.btnU.Location = new System.Drawing.Point(182, 26);
             this.btnU.Margin = new System.Windows.Forms.Padding(0);
             this.btnU.Name = "btnU";
             this.btnU.Size = new System.Drawing.Size(24, 24);
@@ -211,7 +234,7 @@
             // 
             this.btnI.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnI.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnI.Location = new System.Drawing.Point(213, 65);
+            this.btnI.Location = new System.Drawing.Point(206, 26);
             this.btnI.Margin = new System.Windows.Forms.Padding(0);
             this.btnI.Name = "btnI";
             this.btnI.Size = new System.Drawing.Size(24, 24);
@@ -224,7 +247,7 @@
             // 
             this.btnO.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnO.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnO.Location = new System.Drawing.Point(237, 65);
+            this.btnO.Location = new System.Drawing.Point(230, 26);
             this.btnO.Margin = new System.Windows.Forms.Padding(0);
             this.btnO.Name = "btnO";
             this.btnO.Size = new System.Drawing.Size(24, 24);
@@ -237,7 +260,7 @@
             // 
             this.btnP.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnP.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnP.Location = new System.Drawing.Point(261, 65);
+            this.btnP.Location = new System.Drawing.Point(254, 26);
             this.btnP.Margin = new System.Windows.Forms.Padding(0);
             this.btnP.Name = "btnP";
             this.btnP.Size = new System.Drawing.Size(24, 24);
@@ -250,7 +273,7 @@
             // 
             this.btnA.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnA.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnA.Location = new System.Drawing.Point(51, 89);
+            this.btnA.Location = new System.Drawing.Point(44, 50);
             this.btnA.Margin = new System.Windows.Forms.Padding(0);
             this.btnA.Name = "btnA";
             this.btnA.Size = new System.Drawing.Size(24, 24);
@@ -263,7 +286,7 @@
             // 
             this.btnS.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnS.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnS.Location = new System.Drawing.Point(75, 89);
+            this.btnS.Location = new System.Drawing.Point(68, 50);
             this.btnS.Margin = new System.Windows.Forms.Padding(0);
             this.btnS.Name = "btnS";
             this.btnS.Size = new System.Drawing.Size(24, 24);
@@ -276,7 +299,7 @@
             // 
             this.btnD.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnD.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnD.Location = new System.Drawing.Point(99, 89);
+            this.btnD.Location = new System.Drawing.Point(92, 50);
             this.btnD.Margin = new System.Windows.Forms.Padding(0);
             this.btnD.Name = "btnD";
             this.btnD.Size = new System.Drawing.Size(24, 24);
@@ -289,7 +312,7 @@
             // 
             this.btnF.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnF.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnF.Location = new System.Drawing.Point(123, 89);
+            this.btnF.Location = new System.Drawing.Point(116, 50);
             this.btnF.Margin = new System.Windows.Forms.Padding(0);
             this.btnF.Name = "btnF";
             this.btnF.Size = new System.Drawing.Size(24, 24);
@@ -302,7 +325,7 @@
             // 
             this.btnG.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnG.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnG.Location = new System.Drawing.Point(147, 89);
+            this.btnG.Location = new System.Drawing.Point(140, 50);
             this.btnG.Margin = new System.Windows.Forms.Padding(0);
             this.btnG.Name = "btnG";
             this.btnG.Size = new System.Drawing.Size(24, 24);
@@ -315,7 +338,7 @@
             // 
             this.btnH.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnH.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnH.Location = new System.Drawing.Point(171, 89);
+            this.btnH.Location = new System.Drawing.Point(164, 50);
             this.btnH.Margin = new System.Windows.Forms.Padding(0);
             this.btnH.Name = "btnH";
             this.btnH.Size = new System.Drawing.Size(24, 24);
@@ -328,7 +351,7 @@
             // 
             this.btnJ.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnJ.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnJ.Location = new System.Drawing.Point(195, 89);
+            this.btnJ.Location = new System.Drawing.Point(188, 50);
             this.btnJ.Margin = new System.Windows.Forms.Padding(0);
             this.btnJ.Name = "btnJ";
             this.btnJ.Size = new System.Drawing.Size(24, 24);
@@ -341,7 +364,7 @@
             // 
             this.btnK.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnK.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnK.Location = new System.Drawing.Point(219, 89);
+            this.btnK.Location = new System.Drawing.Point(212, 50);
             this.btnK.Margin = new System.Windows.Forms.Padding(0);
             this.btnK.Name = "btnK";
             this.btnK.Size = new System.Drawing.Size(24, 24);
@@ -354,7 +377,7 @@
             // 
             this.btnL.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnL.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnL.Location = new System.Drawing.Point(243, 89);
+            this.btnL.Location = new System.Drawing.Point(236, 50);
             this.btnL.Margin = new System.Windows.Forms.Padding(0);
             this.btnL.Name = "btnL";
             this.btnL.Size = new System.Drawing.Size(24, 24);
@@ -367,7 +390,7 @@
             // 
             this.btnZ.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnZ.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnZ.Location = new System.Drawing.Point(63, 113);
+            this.btnZ.Location = new System.Drawing.Point(56, 74);
             this.btnZ.Margin = new System.Windows.Forms.Padding(0);
             this.btnZ.Name = "btnZ";
             this.btnZ.Size = new System.Drawing.Size(24, 24);
@@ -380,7 +403,7 @@
             // 
             this.btnX.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnX.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnX.Location = new System.Drawing.Point(87, 113);
+            this.btnX.Location = new System.Drawing.Point(80, 74);
             this.btnX.Margin = new System.Windows.Forms.Padding(0);
             this.btnX.Name = "btnX";
             this.btnX.Size = new System.Drawing.Size(24, 24);
@@ -393,7 +416,7 @@
             // 
             this.btnC.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnC.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnC.Location = new System.Drawing.Point(111, 113);
+            this.btnC.Location = new System.Drawing.Point(104, 74);
             this.btnC.Margin = new System.Windows.Forms.Padding(0);
             this.btnC.Name = "btnC";
             this.btnC.Size = new System.Drawing.Size(24, 24);
@@ -406,7 +429,7 @@
             // 
             this.btnV.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnV.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnV.Location = new System.Drawing.Point(135, 113);
+            this.btnV.Location = new System.Drawing.Point(128, 74);
             this.btnV.Margin = new System.Windows.Forms.Padding(0);
             this.btnV.Name = "btnV";
             this.btnV.Size = new System.Drawing.Size(24, 24);
@@ -419,7 +442,7 @@
             // 
             this.btnB.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnB.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnB.Location = new System.Drawing.Point(159, 113);
+            this.btnB.Location = new System.Drawing.Point(152, 74);
             this.btnB.Margin = new System.Windows.Forms.Padding(0);
             this.btnB.Name = "btnB";
             this.btnB.Size = new System.Drawing.Size(24, 24);
@@ -432,7 +455,7 @@
             // 
             this.btnN.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnN.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnN.Location = new System.Drawing.Point(183, 113);
+            this.btnN.Location = new System.Drawing.Point(176, 74);
             this.btnN.Margin = new System.Windows.Forms.Padding(0);
             this.btnN.Name = "btnN";
             this.btnN.Size = new System.Drawing.Size(24, 24);
@@ -445,7 +468,7 @@
             // 
             this.btnM.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnM.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnM.Location = new System.Drawing.Point(207, 113);
+            this.btnM.Location = new System.Drawing.Point(200, 74);
             this.btnM.Margin = new System.Windows.Forms.Padding(0);
             this.btnM.Name = "btnM";
             this.btnM.Size = new System.Drawing.Size(24, 24);
@@ -458,7 +481,7 @@
             // 
             this.btn1.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn1.Location = new System.Drawing.Point(33, 41);
+            this.btn1.Location = new System.Drawing.Point(26, 2);
             this.btn1.Margin = new System.Windows.Forms.Padding(0);
             this.btn1.Name = "btn1";
             this.btn1.Size = new System.Drawing.Size(24, 24);
@@ -471,7 +494,7 @@
             // 
             this.btn2.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn2.Location = new System.Drawing.Point(57, 41);
+            this.btn2.Location = new System.Drawing.Point(50, 2);
             this.btn2.Margin = new System.Windows.Forms.Padding(0);
             this.btn2.Name = "btn2";
             this.btn2.Size = new System.Drawing.Size(24, 24);
@@ -484,7 +507,7 @@
             // 
             this.btn3.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn3.Location = new System.Drawing.Point(81, 41);
+            this.btn3.Location = new System.Drawing.Point(74, 2);
             this.btn3.Margin = new System.Windows.Forms.Padding(0);
             this.btn3.Name = "btn3";
             this.btn3.Size = new System.Drawing.Size(24, 24);
@@ -497,7 +520,7 @@
             // 
             this.btn4.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn4.Location = new System.Drawing.Point(105, 41);
+            this.btn4.Location = new System.Drawing.Point(98, 2);
             this.btn4.Margin = new System.Windows.Forms.Padding(0);
             this.btn4.Name = "btn4";
             this.btn4.Size = new System.Drawing.Size(24, 24);
@@ -510,7 +533,7 @@
             // 
             this.btn5.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn5.Location = new System.Drawing.Point(129, 41);
+            this.btn5.Location = new System.Drawing.Point(122, 2);
             this.btn5.Margin = new System.Windows.Forms.Padding(0);
             this.btn5.Name = "btn5";
             this.btn5.Size = new System.Drawing.Size(24, 24);
@@ -523,7 +546,7 @@
             // 
             this.btn6.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn6.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn6.Location = new System.Drawing.Point(153, 41);
+            this.btn6.Location = new System.Drawing.Point(146, 2);
             this.btn6.Margin = new System.Windows.Forms.Padding(0);
             this.btn6.Name = "btn6";
             this.btn6.Size = new System.Drawing.Size(24, 24);
@@ -536,7 +559,7 @@
             // 
             this.btn7.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn7.Location = new System.Drawing.Point(177, 41);
+            this.btn7.Location = new System.Drawing.Point(170, 2);
             this.btn7.Margin = new System.Windows.Forms.Padding(0);
             this.btn7.Name = "btn7";
             this.btn7.Size = new System.Drawing.Size(24, 24);
@@ -549,7 +572,7 @@
             // 
             this.btn8.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn8.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn8.Location = new System.Drawing.Point(201, 41);
+            this.btn8.Location = new System.Drawing.Point(194, 2);
             this.btn8.Margin = new System.Windows.Forms.Padding(0);
             this.btn8.Name = "btn8";
             this.btn8.Size = new System.Drawing.Size(24, 24);
@@ -562,7 +585,7 @@
             // 
             this.btn9.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn9.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn9.Location = new System.Drawing.Point(225, 41);
+            this.btn9.Location = new System.Drawing.Point(218, 2);
             this.btn9.Margin = new System.Windows.Forms.Padding(0);
             this.btn9.Name = "btn9";
             this.btn9.Size = new System.Drawing.Size(24, 24);
@@ -575,7 +598,7 @@
             // 
             this.btn0.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btn0.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn0.Location = new System.Drawing.Point(249, 41);
+            this.btn0.Location = new System.Drawing.Point(242, 2);
             this.btn0.Margin = new System.Windows.Forms.Padding(0);
             this.btn0.Name = "btn0";
             this.btn0.Size = new System.Drawing.Size(24, 24);
@@ -588,7 +611,7 @@
             // 
             this.btnMinus.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnMinus.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMinus.Location = new System.Drawing.Point(273, 41);
+            this.btnMinus.Location = new System.Drawing.Point(266, 2);
             this.btnMinus.Margin = new System.Windows.Forms.Padding(0);
             this.btnMinus.Name = "btnMinus";
             this.btnMinus.Size = new System.Drawing.Size(24, 24);
@@ -601,7 +624,7 @@
             // 
             this.btnEqual.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnEqual.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEqual.Location = new System.Drawing.Point(297, 41);
+            this.btnEqual.Location = new System.Drawing.Point(290, 2);
             this.btnEqual.Margin = new System.Windows.Forms.Padding(0);
             this.btnEqual.Name = "btnEqual";
             this.btnEqual.Size = new System.Drawing.Size(24, 24);
@@ -614,7 +637,7 @@
             // 
             this.btnBackTick.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnBackTick.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBackTick.Location = new System.Drawing.Point(9, 41);
+            this.btnBackTick.Location = new System.Drawing.Point(2, 2);
             this.btnBackTick.Margin = new System.Windows.Forms.Padding(0);
             this.btnBackTick.Name = "btnBackTick";
             this.btnBackTick.Size = new System.Drawing.Size(24, 24);
@@ -627,7 +650,7 @@
             // 
             this.btnBackslash.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnBackslash.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBackslash.Location = new System.Drawing.Point(39, 113);
+            this.btnBackslash.Location = new System.Drawing.Point(32, 74);
             this.btnBackslash.Margin = new System.Windows.Forms.Padding(0);
             this.btnBackslash.Name = "btnBackslash";
             this.btnBackslash.Size = new System.Drawing.Size(24, 24);
@@ -640,7 +663,7 @@
             // 
             this.btnPeriod.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnPeriod.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPeriod.Location = new System.Drawing.Point(255, 113);
+            this.btnPeriod.Location = new System.Drawing.Point(248, 74);
             this.btnPeriod.Margin = new System.Windows.Forms.Padding(0);
             this.btnPeriod.Name = "btnPeriod";
             this.btnPeriod.Size = new System.Drawing.Size(24, 24);
@@ -653,7 +676,7 @@
             // 
             this.btnSlash.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnSlash.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSlash.Location = new System.Drawing.Point(279, 113);
+            this.btnSlash.Location = new System.Drawing.Point(272, 74);
             this.btnSlash.Margin = new System.Windows.Forms.Padding(0);
             this.btnSlash.Name = "btnSlash";
             this.btnSlash.Size = new System.Drawing.Size(24, 24);
@@ -666,7 +689,7 @@
             // 
             this.btnHash.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnHash.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHash.Location = new System.Drawing.Point(315, 89);
+            this.btnHash.Location = new System.Drawing.Point(308, 50);
             this.btnHash.Margin = new System.Windows.Forms.Padding(0);
             this.btnHash.Name = "btnHash";
             this.btnHash.Size = new System.Drawing.Size(24, 24);
@@ -679,7 +702,7 @@
             // 
             this.bynLeftBracket.BackColor = System.Drawing.SystemColors.ControlLight;
             this.bynLeftBracket.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bynLeftBracket.Location = new System.Drawing.Point(285, 65);
+            this.bynLeftBracket.Location = new System.Drawing.Point(278, 26);
             this.bynLeftBracket.Margin = new System.Windows.Forms.Padding(0);
             this.bynLeftBracket.Name = "bynLeftBracket";
             this.bynLeftBracket.Size = new System.Drawing.Size(24, 24);
@@ -692,7 +715,7 @@
             // 
             this.btnRightBracket.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnRightBracket.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRightBracket.Location = new System.Drawing.Point(309, 65);
+            this.btnRightBracket.Location = new System.Drawing.Point(302, 26);
             this.btnRightBracket.Margin = new System.Windows.Forms.Padding(0);
             this.btnRightBracket.Name = "btnRightBracket";
             this.btnRightBracket.Size = new System.Drawing.Size(24, 24);
@@ -707,7 +730,7 @@
             this.btnBackspace.Enabled = false;
             this.btnBackspace.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBackspace.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.btnBackspace.Location = new System.Drawing.Point(321, 41);
+            this.btnBackspace.Location = new System.Drawing.Point(314, 2);
             this.btnBackspace.Margin = new System.Windows.Forms.Padding(0);
             this.btnBackspace.Name = "btnBackspace";
             this.btnBackspace.Size = new System.Drawing.Size(42, 24);
@@ -721,7 +744,7 @@
             // 
             this.btnShiftLock.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnShiftLock.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnShiftLock.Location = new System.Drawing.Point(9, 89);
+            this.btnShiftLock.Location = new System.Drawing.Point(2, 50);
             this.btnShiftLock.Margin = new System.Windows.Forms.Padding(0);
             this.btnShiftLock.Name = "btnShiftLock";
             this.btnShiftLock.Size = new System.Drawing.Size(42, 24);
@@ -736,7 +759,7 @@
             // 
             this.btnLshift.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnLshift.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLshift.Location = new System.Drawing.Point(9, 113);
+            this.btnLshift.Location = new System.Drawing.Point(2, 74);
             this.btnLshift.Margin = new System.Windows.Forms.Padding(0);
             this.btnLshift.Name = "btnLshift";
             this.btnLshift.Size = new System.Drawing.Size(30, 24);
@@ -753,7 +776,7 @@
             this.btnTab.Enabled = false;
             this.btnTab.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTab.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.btnTab.Location = new System.Drawing.Point(9, 65);
+            this.btnTab.Location = new System.Drawing.Point(2, 26);
             this.btnTab.Margin = new System.Windows.Forms.Padding(0);
             this.btnTab.Name = "btnTab";
             this.btnTab.Size = new System.Drawing.Size(36, 24);
@@ -767,7 +790,7 @@
             // 
             this.btnRshift.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnRshift.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRshift.Location = new System.Drawing.Point(303, 113);
+            this.btnRshift.Location = new System.Drawing.Point(296, 74);
             this.btnRshift.Margin = new System.Windows.Forms.Padding(0);
             this.btnRshift.Name = "btnRshift";
             this.btnRshift.Size = new System.Drawing.Size(60, 24);
@@ -782,7 +805,7 @@
             // 
             this.btnNum9.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum9.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNum9.Location = new System.Drawing.Point(415, 65);
+            this.btnNum9.Location = new System.Drawing.Point(408, 26);
             this.btnNum9.Margin = new System.Windows.Forms.Padding(0);
             this.btnNum9.Name = "btnNum9";
             this.btnNum9.Size = new System.Drawing.Size(24, 24);
@@ -795,7 +818,7 @@
             // 
             this.btnNum8.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum8.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNum8.Location = new System.Drawing.Point(391, 65);
+            this.btnNum8.Location = new System.Drawing.Point(384, 26);
             this.btnNum8.Margin = new System.Windows.Forms.Padding(0);
             this.btnNum8.Name = "btnNum8";
             this.btnNum8.Size = new System.Drawing.Size(24, 24);
@@ -808,7 +831,7 @@
             // 
             this.btnNum7.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNum7.Location = new System.Drawing.Point(367, 65);
+            this.btnNum7.Location = new System.Drawing.Point(360, 26);
             this.btnNum7.Margin = new System.Windows.Forms.Padding(0);
             this.btnNum7.Name = "btnNum7";
             this.btnNum7.Size = new System.Drawing.Size(24, 24);
@@ -821,7 +844,7 @@
             // 
             this.btnNum6.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum6.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNum6.Location = new System.Drawing.Point(415, 89);
+            this.btnNum6.Location = new System.Drawing.Point(408, 50);
             this.btnNum6.Margin = new System.Windows.Forms.Padding(0);
             this.btnNum6.Name = "btnNum6";
             this.btnNum6.Size = new System.Drawing.Size(24, 24);
@@ -834,7 +857,7 @@
             // 
             this.btnNum5.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNum5.Location = new System.Drawing.Point(391, 89);
+            this.btnNum5.Location = new System.Drawing.Point(384, 50);
             this.btnNum5.Margin = new System.Windows.Forms.Padding(0);
             this.btnNum5.Name = "btnNum5";
             this.btnNum5.Size = new System.Drawing.Size(24, 24);
@@ -847,7 +870,7 @@
             // 
             this.btnNum4.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNum4.Location = new System.Drawing.Point(367, 89);
+            this.btnNum4.Location = new System.Drawing.Point(360, 50);
             this.btnNum4.Margin = new System.Windows.Forms.Padding(0);
             this.btnNum4.Name = "btnNum4";
             this.btnNum4.Size = new System.Drawing.Size(24, 24);
@@ -860,7 +883,7 @@
             // 
             this.btnNum3.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNum3.Location = new System.Drawing.Point(415, 113);
+            this.btnNum3.Location = new System.Drawing.Point(408, 74);
             this.btnNum3.Margin = new System.Windows.Forms.Padding(0);
             this.btnNum3.Name = "btnNum3";
             this.btnNum3.Size = new System.Drawing.Size(24, 24);
@@ -873,7 +896,7 @@
             // 
             this.btnNum2.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNum2.Location = new System.Drawing.Point(391, 113);
+            this.btnNum2.Location = new System.Drawing.Point(384, 74);
             this.btnNum2.Margin = new System.Windows.Forms.Padding(0);
             this.btnNum2.Name = "btnNum2";
             this.btnNum2.Size = new System.Drawing.Size(24, 24);
@@ -886,7 +909,7 @@
             // 
             this.btnNum1.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNum1.Location = new System.Drawing.Point(367, 113);
+            this.btnNum1.Location = new System.Drawing.Point(360, 74);
             this.btnNum1.Margin = new System.Windows.Forms.Padding(0);
             this.btnNum1.Name = "btnNum1";
             this.btnNum1.Size = new System.Drawing.Size(24, 24);
@@ -899,7 +922,7 @@
             // 
             this.btnNum0.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNum0.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNum0.Location = new System.Drawing.Point(367, 137);
+            this.btnNum0.Location = new System.Drawing.Point(360, 98);
             this.btnNum0.Margin = new System.Windows.Forms.Padding(0);
             this.btnNum0.Name = "btnNum0";
             this.btnNum0.Size = new System.Drawing.Size(48, 24);
@@ -912,7 +935,7 @@
             // 
             this.btnNumPeriod.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNumPeriod.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNumPeriod.Location = new System.Drawing.Point(415, 137);
+            this.btnNumPeriod.Location = new System.Drawing.Point(408, 98);
             this.btnNumPeriod.Margin = new System.Windows.Forms.Padding(0);
             this.btnNumPeriod.Name = "btnNumPeriod";
             this.btnNumPeriod.Size = new System.Drawing.Size(24, 24);
@@ -927,7 +950,7 @@
             this.btnEnter.Enabled = false;
             this.btnEnter.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEnter.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.btnEnter.Location = new System.Drawing.Point(439, 113);
+            this.btnEnter.Location = new System.Drawing.Point(432, 74);
             this.btnEnter.Margin = new System.Windows.Forms.Padding(0);
             this.btnEnter.Name = "btnEnter";
             this.btnEnter.Size = new System.Drawing.Size(24, 48);
@@ -941,7 +964,7 @@
             // 
             this.btnComma.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnComma.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnComma.Location = new System.Drawing.Point(231, 113);
+            this.btnComma.Location = new System.Drawing.Point(224, 74);
             this.btnComma.Margin = new System.Windows.Forms.Padding(0);
             this.btnComma.Name = "btnComma";
             this.btnComma.Size = new System.Drawing.Size(24, 24);
@@ -954,7 +977,7 @@
             // 
             this.btnNumSlash.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNumSlash.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNumSlash.Location = new System.Drawing.Point(391, 41);
+            this.btnNumSlash.Location = new System.Drawing.Point(384, 2);
             this.btnNumSlash.Margin = new System.Windows.Forms.Padding(0);
             this.btnNumSlash.Name = "btnNumSlash";
             this.btnNumSlash.Size = new System.Drawing.Size(24, 24);
@@ -967,7 +990,7 @@
             // 
             this.btnNumAsterisk.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNumAsterisk.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNumAsterisk.Location = new System.Drawing.Point(415, 41);
+            this.btnNumAsterisk.Location = new System.Drawing.Point(408, 2);
             this.btnNumAsterisk.Margin = new System.Windows.Forms.Padding(0);
             this.btnNumAsterisk.Name = "btnNumAsterisk";
             this.btnNumAsterisk.Size = new System.Drawing.Size(24, 24);
@@ -980,7 +1003,7 @@
             // 
             this.btnNumMinus.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNumMinus.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNumMinus.Location = new System.Drawing.Point(439, 41);
+            this.btnNumMinus.Location = new System.Drawing.Point(432, 2);
             this.btnNumMinus.Margin = new System.Windows.Forms.Padding(0);
             this.btnNumMinus.Name = "btnNumMinus";
             this.btnNumMinus.Size = new System.Drawing.Size(24, 24);
@@ -993,7 +1016,7 @@
             // 
             this.btnNumPlus.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNumPlus.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNumPlus.Location = new System.Drawing.Point(439, 65);
+            this.btnNumPlus.Location = new System.Drawing.Point(432, 26);
             this.btnNumPlus.Margin = new System.Windows.Forms.Padding(0);
             this.btnNumPlus.Name = "btnNumPlus";
             this.btnNumPlus.Size = new System.Drawing.Size(24, 48);
@@ -1006,7 +1029,7 @@
             // 
             this.btnSpace.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnSpace.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSpace.Location = new System.Drawing.Point(105, 137);
+            this.btnSpace.Location = new System.Drawing.Point(98, 98);
             this.btnSpace.Margin = new System.Windows.Forms.Padding(0);
             this.btnSpace.Name = "btnSpace";
             this.btnSpace.Size = new System.Drawing.Size(162, 24);
@@ -1020,7 +1043,7 @@
             this.btnReturn.Enabled = false;
             this.btnReturn.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnReturn.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.btnReturn.Location = new System.Drawing.Point(339, 65);
+            this.btnReturn.Location = new System.Drawing.Point(332, 26);
             this.btnReturn.Margin = new System.Windows.Forms.Padding(0);
             this.btnReturn.Name = "btnReturn";
             this.btnReturn.Size = new System.Drawing.Size(24, 48);
@@ -1034,7 +1057,7 @@
             // 
             this.btnNumTopLeft.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnNumTopLeft.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNumTopLeft.Location = new System.Drawing.Point(367, 41);
+            this.btnNumTopLeft.Location = new System.Drawing.Point(360, 2);
             this.btnNumTopLeft.Margin = new System.Windows.Forms.Padding(0);
             this.btnNumTopLeft.Name = "btnNumTopLeft";
             this.btnNumTopLeft.Size = new System.Drawing.Size(24, 24);
@@ -1046,7 +1069,7 @@
             // 
             this.btnSemicolon.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnSemicolon.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSemicolon.Location = new System.Drawing.Point(267, 89);
+            this.btnSemicolon.Location = new System.Drawing.Point(260, 50);
             this.btnSemicolon.Margin = new System.Windows.Forms.Padding(0);
             this.btnSemicolon.Name = "btnSemicolon";
             this.btnSemicolon.Size = new System.Drawing.Size(24, 24);
@@ -1059,7 +1082,7 @@
             // 
             this.btnApostrophe.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnApostrophe.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnApostrophe.Location = new System.Drawing.Point(291, 89);
+            this.btnApostrophe.Location = new System.Drawing.Point(284, 50);
             this.btnApostrophe.Margin = new System.Windows.Forms.Padding(0);
             this.btnApostrophe.Name = "btnApostrophe";
             this.btnApostrophe.Size = new System.Drawing.Size(24, 24);
@@ -1072,7 +1095,7 @@
             // 
             this.btnGreek.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnGreek.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGreek.Location = new System.Drawing.Point(9, 137);
+            this.btnGreek.Location = new System.Drawing.Point(2, 98);
             this.btnGreek.Margin = new System.Windows.Forms.Padding(0);
             this.btnGreek.Name = "btnGreek";
             this.btnGreek.Size = new System.Drawing.Size(48, 24);
@@ -1087,7 +1110,7 @@
             // 
             this.btnMaths.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnMaths.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMaths.Location = new System.Drawing.Point(57, 137);
+            this.btnMaths.Location = new System.Drawing.Point(50, 98);
             this.btnMaths.Margin = new System.Windows.Forms.Padding(0);
             this.btnMaths.Name = "btnMaths";
             this.btnMaths.Size = new System.Drawing.Size(48, 24);
@@ -1102,7 +1125,7 @@
             // 
             this.btnSuperscript.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnSuperscript.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSuperscript.Location = new System.Drawing.Point(315, 137);
+            this.btnSuperscript.Location = new System.Drawing.Point(308, 98);
             this.btnSuperscript.Margin = new System.Windows.Forms.Padding(0);
             this.btnSuperscript.Name = "btnSuperscript";
             this.btnSuperscript.Size = new System.Drawing.Size(48, 24);
@@ -1117,7 +1140,7 @@
             // 
             this.btnSubscript.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnSubscript.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSubscript.Location = new System.Drawing.Point(267, 137);
+            this.btnSubscript.Location = new System.Drawing.Point(260, 98);
             this.btnSubscript.Margin = new System.Windows.Forms.Padding(0);
             this.btnSubscript.Name = "btnSubscript";
             this.btnSubscript.Size = new System.Drawing.Size(48, 24);
@@ -1130,7 +1153,7 @@
             // 
             // FunctionBox
             // 
-            this.FunctionBox.Location = new System.Drawing.Point(93, 9);
+            this.FunctionBox.Location = new System.Drawing.Point(90, 9);
             this.FunctionBox.Margin = new System.Windows.Forms.Padding(0);
             this.FunctionBox.Name = "FunctionBox";
             this.FunctionBox.Size = new System.Drawing.Size(370, 23);
@@ -1140,7 +1163,7 @@
             // btnClose
             // 
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnClose.Location = new System.Drawing.Point(388, 168);
+            this.btnClose.Location = new System.Drawing.Point(379, 6);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 25);
             this.btnClose.TabIndex = 3;
@@ -1152,32 +1175,84 @@
             // 
             this.tbProxy.BackColor = System.Drawing.SystemColors.Control;
             this.tbProxy.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbProxy.Dock = System.Windows.Forms.DockStyle.Left;
             this.tbProxy.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbProxy.Location = new System.Drawing.Point(9, 164);
+            this.tbProxy.Location = new System.Drawing.Point(3, 3);
             this.tbProxy.Multiline = true;
             this.tbProxy.Name = "tbProxy";
             this.tbProxy.ReadOnly = true;
             this.tbProxy.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbProxy.Size = new System.Drawing.Size(373, 29);
+            this.tbProxy.Size = new System.Drawing.Size(360, 31);
             this.tbProxy.TabIndex = 81;
             this.ToolTip.SetToolTip(this.tbProxy, "Preview of the final algebraic expression");
             // 
             // cbVisible
             // 
             this.cbVisible.AutoSize = true;
-            this.cbVisible.Location = new System.Drawing.Point(12, 12);
+            this.cbVisible.Location = new System.Drawing.Point(9, 12);
             this.cbVisible.Name = "cbVisible";
             this.cbVisible.Size = new System.Drawing.Size(15, 14);
             this.cbVisible.TabIndex = 84;
             this.ToolTip.SetToolTip(this.cbVisible, "Show or hide this trace");
             this.cbVisible.UseVisualStyleBackColor = true;
             // 
+            // seTransparency
+            // 
+            this.seTransparency.BackColor = System.Drawing.SystemColors.Control;
+            this.seTransparency.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.seTransparency.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.seTransparency.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.seTransparency.Location = new System.Drawing.Point(243, 36);
+            this.seTransparency.Margin = new System.Windows.Forms.Padding(0);
+            this.seTransparency.Name = "seTransparency";
+            this.seTransparency.ReadOnly = true;
+            this.seTransparency.Size = new System.Drawing.Size(44, 21);
+            this.seTransparency.TabIndex = 6;
+            this.seTransparency.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.ToolTip.SetToolTip(this.seTransparency, "Fill transparency (%)");
+            // 
+            // cbPenColour
+            // 
+            this.cbPenColour.BackColor = System.Drawing.SystemColors.Control;
+            this.cbPenColour.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbPenColour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPenColour.DropDownWidth = 144;
+            this.cbPenColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbPenColour.FormattingEnabled = true;
+            this.cbPenColour.ItemHeight = 18;
+            this.cbPenColour.Location = new System.Drawing.Point(86, 9);
+            this.cbPenColour.Margin = new System.Windows.Forms.Padding(0);
+            this.cbPenColour.Name = "cbPenColour";
+            this.cbPenColour.Size = new System.Drawing.Size(74, 24);
+            this.cbPenColour.TabIndex = 4;
+            this.ToolTip.SetToolTip(this.cbPenColour, "Pen colour used to draw this trace");
+            // 
+            // cbFillColour
+            // 
+            this.cbFillColour.BackColor = System.Drawing.SystemColors.Control;
+            this.cbFillColour.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbFillColour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFillColour.DropDownWidth = 144;
+            this.cbFillColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbFillColour.FormattingEnabled = true;
+            this.cbFillColour.ItemHeight = 18;
+            this.cbFillColour.Location = new System.Drawing.Point(86, 32);
+            this.cbFillColour.Margin = new System.Windows.Forms.Padding(0);
+            this.cbFillColour.Name = "cbFillColour";
+            this.cbFillColour.Size = new System.Drawing.Size(74, 24);
+            this.cbFillColour.TabIndex = 5;
+            this.ToolTip.SetToolTip(this.cbFillColour, "Fill colour (area under this trace)");
+            // 
             // seIndex
             // 
             this.seIndex.BackColor = System.Drawing.SystemColors.Control;
             this.seIndex.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.seIndex.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.seIndex.Location = new System.Drawing.Point(72, 6);
+            this.seIndex.Location = new System.Drawing.Point(69, 6);
             this.seIndex.Margin = new System.Windows.Forms.Padding(0);
             this.seIndex.Maximum = new decimal(new int[] {
             999,
@@ -1192,110 +1267,271 @@
             // 
             this.IndexLabel.AutoSize = true;
             this.IndexLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.IndexLabel.Location = new System.Drawing.Point(30, 8);
+            this.IndexLabel.Location = new System.Drawing.Point(27, 8);
             this.IndexLabel.Margin = new System.Windows.Forms.Padding(0);
             this.IndexLabel.Name = "IndexLabel";
             this.IndexLabel.Size = new System.Drawing.Size(15, 21);
             this.IndexLabel.TabIndex = 83;
             this.IndexLabel.Text = "f";
             // 
-            // KeyboardDialog
+            // TabControl
+            // 
+            this.TabControl.Controls.Add(this.tpSeriesProperties);
+            this.TabControl.Controls.Add(this.tpKeyboard);
+            this.TabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TabControl.Location = new System.Drawing.Point(0, 40);
+            this.TabControl.Multiline = true;
+            this.TabControl.Name = "TabControl";
+            this.TabControl.SelectedIndex = 0;
+            this.TabControl.Size = new System.Drawing.Size(466, 151);
+            this.TabControl.TabIndex = 85;
+            // 
+            // tpSeriesProperties
+            // 
+            this.tpSeriesProperties.BackColor = System.Drawing.SystemColors.Control;
+            this.tpSeriesProperties.Controls.Add(this.cbPenStyle);
+            this.tpSeriesProperties.Controls.Add(this.label6);
+            this.tpSeriesProperties.Controls.Add(this.numericUpDown1);
+            this.tpSeriesProperties.Controls.Add(this.label5);
+            this.tpSeriesProperties.Controls.Add(this.label4);
+            this.tpSeriesProperties.Controls.Add(this.label3);
+            this.tpSeriesProperties.Controls.Add(this.label2);
+            this.tpSeriesProperties.Controls.Add(this.label1);
+            this.tpSeriesProperties.Controls.Add(this.seTransparency);
+            this.tpSeriesProperties.Controls.Add(this.cbPenColour);
+            this.tpSeriesProperties.Controls.Add(this.cbFillColour);
+            this.tpSeriesProperties.Location = new System.Drawing.Point(4, 24);
+            this.tpSeriesProperties.Name = "tpSeriesProperties";
+            this.tpSeriesProperties.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSeriesProperties.Size = new System.Drawing.Size(458, 123);
+            this.tpSeriesProperties.TabIndex = 0;
+            this.tpSeriesProperties.Text = "Series Properties";
+            // 
+            // tpKeyboard
+            // 
+            this.tpKeyboard.BackColor = System.Drawing.SystemColors.Control;
+            this.tpKeyboard.Controls.Add(this.btnSpace);
+            this.tpKeyboard.Controls.Add(this.btnReturn);
+            this.tpKeyboard.Controls.Add(this.btnNumPeriod);
+            this.tpKeyboard.Controls.Add(this.btnNum0);
+            this.tpKeyboard.Controls.Add(this.btnEnter);
+            this.tpKeyboard.Controls.Add(this.btnSubscript);
+            this.tpKeyboard.Controls.Add(this.btnNum3);
+            this.tpKeyboard.Controls.Add(this.btnSuperscript);
+            this.tpKeyboard.Controls.Add(this.btnNum2);
+            this.tpKeyboard.Controls.Add(this.btnMaths);
+            this.tpKeyboard.Controls.Add(this.btnNum1);
+            this.tpKeyboard.Controls.Add(this.btnGreek);
+            this.tpKeyboard.Controls.Add(this.btnRshift);
+            this.tpKeyboard.Controls.Add(this.btnBackTick);
+            this.tpKeyboard.Controls.Add(this.btnSlash);
+            this.tpKeyboard.Controls.Add(this.btn1);
+            this.tpKeyboard.Controls.Add(this.btnPeriod);
+            this.tpKeyboard.Controls.Add(this.btn2);
+            this.tpKeyboard.Controls.Add(this.btnComma);
+            this.tpKeyboard.Controls.Add(this.btn3);
+            this.tpKeyboard.Controls.Add(this.btnM);
+            this.tpKeyboard.Controls.Add(this.btn4);
+            this.tpKeyboard.Controls.Add(this.btnN);
+            this.tpKeyboard.Controls.Add(this.btn5);
+            this.tpKeyboard.Controls.Add(this.btnB);
+            this.tpKeyboard.Controls.Add(this.btn6);
+            this.tpKeyboard.Controls.Add(this.btnV);
+            this.tpKeyboard.Controls.Add(this.btn7);
+            this.tpKeyboard.Controls.Add(this.btnC);
+            this.tpKeyboard.Controls.Add(this.btn8);
+            this.tpKeyboard.Controls.Add(this.btnX);
+            this.tpKeyboard.Controls.Add(this.btn9);
+            this.tpKeyboard.Controls.Add(this.btnZ);
+            this.tpKeyboard.Controls.Add(this.btn0);
+            this.tpKeyboard.Controls.Add(this.btnBackslash);
+            this.tpKeyboard.Controls.Add(this.btnMinus);
+            this.tpKeyboard.Controls.Add(this.btnLshift);
+            this.tpKeyboard.Controls.Add(this.btnEqual);
+            this.tpKeyboard.Controls.Add(this.btnNum6);
+            this.tpKeyboard.Controls.Add(this.btnBackspace);
+            this.tpKeyboard.Controls.Add(this.btnNum5);
+            this.tpKeyboard.Controls.Add(this.btnNumTopLeft);
+            this.tpKeyboard.Controls.Add(this.btnNum4);
+            this.tpKeyboard.Controls.Add(this.btnNumSlash);
+            this.tpKeyboard.Controls.Add(this.btnHash);
+            this.tpKeyboard.Controls.Add(this.btnNumAsterisk);
+            this.tpKeyboard.Controls.Add(this.btnApostrophe);
+            this.tpKeyboard.Controls.Add(this.btnNumMinus);
+            this.tpKeyboard.Controls.Add(this.btnSemicolon);
+            this.tpKeyboard.Controls.Add(this.btnTab);
+            this.tpKeyboard.Controls.Add(this.btnL);
+            this.tpKeyboard.Controls.Add(this.btnQ);
+            this.tpKeyboard.Controls.Add(this.btnK);
+            this.tpKeyboard.Controls.Add(this.btnW);
+            this.tpKeyboard.Controls.Add(this.btnJ);
+            this.tpKeyboard.Controls.Add(this.btnE);
+            this.tpKeyboard.Controls.Add(this.btnH);
+            this.tpKeyboard.Controls.Add(this.btnR);
+            this.tpKeyboard.Controls.Add(this.btnG);
+            this.tpKeyboard.Controls.Add(this.btnT);
+            this.tpKeyboard.Controls.Add(this.btnF);
+            this.tpKeyboard.Controls.Add(this.btnY);
+            this.tpKeyboard.Controls.Add(this.btnD);
+            this.tpKeyboard.Controls.Add(this.btnU);
+            this.tpKeyboard.Controls.Add(this.btnS);
+            this.tpKeyboard.Controls.Add(this.btnI);
+            this.tpKeyboard.Controls.Add(this.btnA);
+            this.tpKeyboard.Controls.Add(this.btnO);
+            this.tpKeyboard.Controls.Add(this.btnShiftLock);
+            this.tpKeyboard.Controls.Add(this.btnP);
+            this.tpKeyboard.Controls.Add(this.btnNumPlus);
+            this.tpKeyboard.Controls.Add(this.bynLeftBracket);
+            this.tpKeyboard.Controls.Add(this.btnNum9);
+            this.tpKeyboard.Controls.Add(this.btnRightBracket);
+            this.tpKeyboard.Controls.Add(this.btnNum8);
+            this.tpKeyboard.Controls.Add(this.btnNum7);
+            this.tpKeyboard.Location = new System.Drawing.Point(4, 24);
+            this.tpKeyboard.Name = "tpKeyboard";
+            this.tpKeyboard.Padding = new System.Windows.Forms.Padding(3);
+            this.tpKeyboard.Size = new System.Drawing.Size(458, 123);
+            this.tpKeyboard.TabIndex = 1;
+            this.tpKeyboard.Text = "Onscreen Keyboard";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.FunctionBox);
+            this.panel1.Controls.Add(this.IndexLabel);
+            this.panel1.Controls.Add(this.cbVisible);
+            this.panel1.Controls.Add(this.seIndex);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(466, 40);
+            this.panel1.TabIndex = 86;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.btnClose);
+            this.panel2.Controls.Add(this.tbProxy);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(0, 191);
+            this.panel2.Name = "panel2";
+            this.panel2.Padding = new System.Windows.Forms.Padding(3);
+            this.panel2.Size = new System.Drawing.Size(466, 37);
+            this.panel2.TabIndex = 87;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 12);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(66, 15);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Pen Colour";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 35);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(61, 15);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Fill Colour";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(163, 35);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(77, 15);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Transparency";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(290, 35);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(17, 15);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "%";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(163, 12);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(27, 15);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "Size";
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.BackColor = System.Drawing.SystemColors.Control;
+            this.numericUpDown1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.numericUpDown1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericUpDown1.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Location = new System.Drawing.Point(243, 13);
+            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(0);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.ReadOnly = true;
+            this.numericUpDown1.Size = new System.Drawing.Size(44, 21);
+            this.numericUpDown1.TabIndex = 12;
+            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.ToolTip.SetToolTip(this.numericUpDown1, "Fill transparency (%)");
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(290, 12);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(32, 15);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "Style";
+            // 
+            // cbPenStyle
+            // 
+            this.cbPenStyle.BackColor = System.Drawing.SystemColors.Control;
+            this.cbPenStyle.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbPenStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPenStyle.DropDownWidth = 144;
+            this.cbPenStyle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbPenStyle.FormattingEnabled = true;
+            this.cbPenStyle.ItemHeight = 18;
+            this.cbPenStyle.Location = new System.Drawing.Point(325, 9);
+            this.cbPenStyle.Margin = new System.Windows.Forms.Padding(0);
+            this.cbPenStyle.Name = "cbPenStyle";
+            this.cbPenStyle.Size = new System.Drawing.Size(74, 24);
+            this.cbPenStyle.TabIndex = 14;
+            this.ToolTip.SetToolTip(this.cbPenStyle, "Fill colour (area under this trace)");
+            // 
+            // SeriesPropertiesDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(473, 200);
-            this.Controls.Add(this.cbVisible);
-            this.Controls.Add(this.tbProxy);
-            this.Controls.Add(this.btnClose);
-            this.Controls.Add(this.FunctionBox);
-            this.Controls.Add(this.btnSubscript);
-            this.Controls.Add(this.btnSuperscript);
-            this.Controls.Add(this.btnMaths);
-            this.Controls.Add(this.btnGreek);
-            this.Controls.Add(this.btnBackTick);
-            this.Controls.Add(this.btn1);
-            this.Controls.Add(this.btn2);
-            this.Controls.Add(this.btn3);
-            this.Controls.Add(this.btn4);
-            this.Controls.Add(this.btn5);
-            this.Controls.Add(this.btn6);
-            this.Controls.Add(this.btn7);
-            this.Controls.Add(this.btn8);
-            this.Controls.Add(this.btn9);
-            this.Controls.Add(this.btn0);
-            this.Controls.Add(this.btnMinus);
-            this.Controls.Add(this.btnEqual);
-            this.Controls.Add(this.btnBackspace);
-            this.Controls.Add(this.btnNumTopLeft);
-            this.Controls.Add(this.btnNumSlash);
-            this.Controls.Add(this.btnNumAsterisk);
-            this.Controls.Add(this.btnNumMinus);
-            this.Controls.Add(this.btnTab);
-            this.Controls.Add(this.btnQ);
-            this.Controls.Add(this.btnW);
-            this.Controls.Add(this.btnE);
-            this.Controls.Add(this.btnR);
-            this.Controls.Add(this.btnT);
-            this.Controls.Add(this.btnY);
-            this.Controls.Add(this.btnU);
-            this.Controls.Add(this.btnI);
-            this.Controls.Add(this.btnO);
-            this.Controls.Add(this.btnP);
-            this.Controls.Add(this.bynLeftBracket);
-            this.Controls.Add(this.btnRightBracket);
-            this.Controls.Add(this.btnNum7);
-            this.Controls.Add(this.btnNum8);
-            this.Controls.Add(this.btnNum9);
-            this.Controls.Add(this.btnNumPlus);
-            this.Controls.Add(this.btnShiftLock);
-            this.Controls.Add(this.btnA);
-            this.Controls.Add(this.btnS);
-            this.Controls.Add(this.btnD);
-            this.Controls.Add(this.btnF);
-            this.Controls.Add(this.btnG);
-            this.Controls.Add(this.btnH);
-            this.Controls.Add(this.btnJ);
-            this.Controls.Add(this.btnK);
-            this.Controls.Add(this.btnL);
-            this.Controls.Add(this.btnSemicolon);
-            this.Controls.Add(this.btnApostrophe);
-            this.Controls.Add(this.btnHash);
-            this.Controls.Add(this.btnNum4);
-            this.Controls.Add(this.btnNum5);
-            this.Controls.Add(this.btnNum6);
-            this.Controls.Add(this.btnLshift);
-            this.Controls.Add(this.btnBackslash);
-            this.Controls.Add(this.btnZ);
-            this.Controls.Add(this.btnX);
-            this.Controls.Add(this.btnC);
-            this.Controls.Add(this.btnV);
-            this.Controls.Add(this.btnB);
-            this.Controls.Add(this.btnN);
-            this.Controls.Add(this.btnM);
-            this.Controls.Add(this.btnComma);
-            this.Controls.Add(this.btnPeriod);
-            this.Controls.Add(this.btnSlash);
-            this.Controls.Add(this.btnRshift);
-            this.Controls.Add(this.btnNum1);
-            this.Controls.Add(this.btnNum2);
-            this.Controls.Add(this.btnNum3);
-            this.Controls.Add(this.btnEnter);
-            this.Controls.Add(this.btnSpace);
-            this.Controls.Add(this.btnNum0);
-            this.Controls.Add(this.btnNumPeriod);
-            this.Controls.Add(this.btnReturn);
-            this.Controls.Add(this.seIndex);
-            this.Controls.Add(this.IndexLabel);
+            this.ClientSize = new System.Drawing.Size(466, 228);
+            this.Controls.Add(this.TabControl);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Name = "KeyboardDialog";
+            this.Name = "SeriesPropertiesDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.seIndex)).EndInit();
+            this.TabControl.ResumeLayout(false);
+            this.tpSeriesProperties.ResumeLayout(false);
+            this.tpSeriesProperties.PerformLayout();
+            this.tpKeyboard.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -1384,5 +1620,21 @@
         public System.Windows.Forms.NumericUpDown seIndex;
         public System.Windows.Forms.Label IndexLabel;
         public System.Windows.Forms.CheckBox cbVisible;
+        private System.Windows.Forms.TabControl TabControl;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
+        public System.Windows.Forms.NumericUpDown seTransparency;
+        public System.Windows.Forms.ComboBox cbPenColour;
+        public System.Windows.Forms.ComboBox cbFillColour;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        public System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Label label5;
+        public System.Windows.Forms.ComboBox cbPenStyle;
+        private System.Windows.Forms.Label label6;
+        public System.Windows.Forms.TabPage tpKeyboard;
+        public System.Windows.Forms.TabPage tpSeriesProperties;
     }
 }

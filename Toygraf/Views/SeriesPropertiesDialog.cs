@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    internal partial class PropertiesDialog : Form
+    internal partial class SeriesPropertiesDialog : Form
     {
-        internal PropertiesDialog()
+        internal SeriesPropertiesDialog()
         {
             InitializeComponent();
         }

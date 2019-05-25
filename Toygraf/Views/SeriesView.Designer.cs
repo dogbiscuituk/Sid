@@ -133,6 +133,7 @@
             // 
             this.seTransparency.BackColor = System.Drawing.SystemColors.Control;
             this.seTransparency.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.seTransparency.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.seTransparency.Increment = new decimal(new int[] {
             10,
             0,
@@ -142,7 +143,7 @@
             this.seTransparency.Margin = new System.Windows.Forms.Padding(0);
             this.seTransparency.Name = "seTransparency";
             this.seTransparency.ReadOnly = true;
-            this.seTransparency.Size = new System.Drawing.Size(44, 19);
+            this.seTransparency.Size = new System.Drawing.Size(44, 21);
             this.seTransparency.TabIndex = 3;
             this.seTransparency.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.ToolTip.SetToolTip(this.seTransparency, "Fill transparency (%)");

@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    internal partial class KeyboardDialog : Form
+    internal partial class GraphPropertiesDialog : Form
     {
-        internal KeyboardDialog()
+        internal GraphPropertiesDialog()
         {
             InitializeComponent();
         }

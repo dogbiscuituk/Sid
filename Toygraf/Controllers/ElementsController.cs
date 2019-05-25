@@ -12,7 +12,7 @@
     {
         #region Internal Interface
 
-        internal ElementsController(PropertiesController parent)
+        internal ElementsController(GraphPropertiesController parent)
         {
             Parent = parent;
             View = parent.View.ElementCheckboxes;
@@ -52,7 +52,7 @@
             }
         }
 
-        private PropertiesController Parent;
+        private GraphPropertiesController Parent;
         private Graph Graph => Parent.Graph;
         private readonly CheckState[] States = new CheckState[12];
         private bool Updating;

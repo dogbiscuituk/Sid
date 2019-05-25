@@ -1,6 +1,6 @@
 ﻿namespace ToyGraf.Views
 {
-    partial class PropertiesDialog
+    partial class GraphPropertiesDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertiesDialog));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphPropertiesDialog));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.sePaperTransparency = new System.Windows.Forms.NumericUpDown();
             this.cbFillColour = new System.Windows.Forms.ComboBox();
@@ -716,7 +716,7 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Quality";
             // 
-            // PropertiesDialog
+            // GraphPropertiesDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -732,7 +732,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "PropertiesDialog";
+            this.Name = "GraphPropertiesDialog";
             this.Text = "Graph Properties";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

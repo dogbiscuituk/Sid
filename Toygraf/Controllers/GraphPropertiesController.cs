@@ -8,19 +8,19 @@
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Views;
 
-    internal class PropertiesController
+    internal class GraphPropertiesController
     {
         #region Internal Interface
 
-        internal PropertiesController(AppController parent)
+        internal GraphPropertiesController(AppController parent)
         {
             Parent = parent;
-            View = new PropertiesDialog();
+            View = new GraphPropertiesDialog();
             ElementsController = new ElementsController(this);
             InitEnumControls();
         }
 
-        internal PropertiesDialog View
+        internal GraphPropertiesDialog View
         {
             get => _view;
             set
@@ -74,7 +74,7 @@
 
         #region Private Properties
 
-        private PropertiesDialog _view;
+        private GraphPropertiesDialog _view;
         private AppController _appController;
 
         private ColourController ColourController = new ColourController();

@@ -9,18 +9,18 @@
     using ToyGraf.Models;
     using ToyGraf.Views;
 
-    internal class KeyboardController
+    internal class SeriesPropertiesController
     {
         #region Internal Interface
 
-        internal KeyboardController(AppController parent)
+        internal SeriesPropertiesController(AppController parent)
         {
             Parent = parent;
-            View = new KeyboardDialog();
+            View = new SeriesPropertiesDialog();
             InitFunctionNames();
         }
 
-        internal KeyboardDialog View
+        internal SeriesPropertiesDialog View
         {
             get => _view;
             set
@@ -57,7 +57,7 @@
 
         #region Private Properties
 
-        private KeyboardDialog _view;
+        private SeriesPropertiesDialog _view;
         private readonly AppController Parent;
         private LegendController LegendController { get => Parent.LegendController; }
         private List<SeriesController> SeriesControllers => LegendController.Children;

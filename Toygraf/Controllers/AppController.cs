@@ -28,9 +28,9 @@
             JsonController.FilePathChanged += JsonController_FilePathChanged;
             JsonController.FileSaving += JsonController_FileSaving;
             JsonController.FileSaved += JsonController_FileSaved;
-            KeyboardController = new KeyboardController(this);
+            SeriesPropertiesController = new SeriesPropertiesController(this);
             LegendController = new LegendController(this);
-            PropertiesController = new PropertiesController(this);
+            GraphPropertiesController = new GraphPropertiesController(this);
             ToolbarController = new ToolbarController(this);
             ModifiedChanged();
             LegendController.AdjustLegend();
@@ -70,7 +70,7 @@
 
         internal ClockController ClockController => GraphicsController.ClockController;
         internal readonly CommandProcessor CommandProcessor;
-        internal readonly KeyboardController KeyboardController;
+        internal readonly SeriesPropertiesController SeriesPropertiesController;
         internal readonly LegendController LegendController;
 
         internal void UpdateMouseCoordinates(PointF p)
@@ -96,7 +96,7 @@
 
         private readonly GraphicsController GraphicsController;
         private readonly JsonController JsonController;
-        private readonly PropertiesController PropertiesController;
+        private readonly GraphPropertiesController GraphPropertiesController;
         private readonly ToolbarController ToolbarController;
 
         private FormWindowState PriorWindowState;
@@ -132,7 +132,7 @@
         private void FileSave_Click(object sender, EventArgs e) => JsonController.Save();
         private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
-        private void GraphProperties_Click(object sender, EventArgs e) => PropertiesController.Show(View);
+        private void GraphProperties_Click(object sender, EventArgs e) => GraphPropertiesController.Show(View);
         private void ZoomFullScreen_Click(object sender, EventArgs e) => ToggleFullScreen();
         private void ViewCoordinatesTooltip_Click(object sender, EventArgs e) => ToggleCoordinatesTooltip();
         private void HelpAbout_Click(object sender, EventArgs e) => new AboutController().ShowDialog(View);
