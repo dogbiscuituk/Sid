@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Linq;
@@ -14,7 +13,7 @@
     using ToyGraf.Models.Structs;
 
     [Serializable]
-    public class Series
+    public class Series : Style
     {
         public Series() { Formula = "0"; }
 
@@ -23,67 +22,13 @@
             FillColour = graph.FillColour;
             LimitColour = graph.LimitColour;
             PenColour = graph.PenColour;
+            PenStyle = graph.PenStyle;
+            PenWidth = graph.PenWidth;
             StepCount = graph.StepCount;
             FillTransparencyPercent = graph.FillTransparencyPercent;
         }
 
         #region Visual Properties
-
-        private Color _penColour;
-        public Color PenColour
-        {
-            get => _penColour;
-            set
-            {
-                if (PenColour != value)
-                {
-                    _penColour = value;
-                    OnPropertyChanged("PenColour");
-                }
-            }
-        }
-
-        private Color _fillColour;
-        public Color FillColour
-        {
-            get => _fillColour;
-            set
-            {
-                if (FillColour != value)
-                {
-                    _fillColour = value;
-                    OnPropertyChanged("FillColour");
-                }
-            }
-        }
-
-        private int _fillTransparencyPercent;
-        public int FillTransparencyPercent
-        {
-            get => _fillTransparencyPercent;
-            set
-            {
-                if (FillTransparencyPercent != value)
-                {
-                    _fillTransparencyPercent = value;
-                    OnPropertyChanged("FillTransparencyPercent");
-                }
-            }
-        }
-
-        private Color _limitColour;
-        public Color LimitColour
-        {
-            get => _limitColour;
-            set
-            {
-                if (LimitColour != value)
-                {
-                    _limitColour = value;
-                    OnPropertyChanged("LimitColour");
-                }
-            }
-        }
 
         [NonSerialized]
         private Viewport Viewport;
@@ -168,7 +113,7 @@
         [JsonIgnore]
         public Func<double, double, double> Derivative { get; private set; }
 
-        public bool UsesTime => Expression.UsesTime();
+        public bool UsesTime => Proxy != null && Proxy.UsesTime() || Expression.UsesTime();
 
         private void SetFunc(Expression e)
         {
@@ -180,20 +125,7 @@
 
         #region Drawing
 
-        private int _stepCount;
-        public int StepCount
-        {
-            get => _stepCount;
-            set
-            {
-                if (StepCount != value)
-                {
-                    _stepCount = value;
-                    InvalidatePoints();
-                    OnPropertyChanged("StepCount");
-                }
-            }
-        }
+        protected override void StepCountChanged() => InvalidatePoints();
 
         private List<List<PointF>> PointLists = new List<List<PointF>>();
 
@@ -350,15 +282,6 @@
         private static bool IsValid(float x) => !IsInvalid(x);
         private static bool IsValid(double x) => !IsInvalid(x);
         private static bool IsValid(PointF p) => !IsInvalid(p);
-
-        #endregion
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         #endregion
     }

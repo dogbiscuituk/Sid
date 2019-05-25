@@ -1,6 +1,7 @@
 ﻿namespace ToyGraf.Models
 {
     using System.Drawing;
+    using System.Drawing.Drawing2D;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Models.Structs;
 
@@ -19,7 +20,8 @@
             GraphDomainMaxCartesian = +10,
             GraphDomainMaxPolar = 180,
             GraphDomainMinCartesian = -10,
-            GraphDomainMinPolar = 0;
+            GraphDomainMinPolar = 0,
+            GraphPenWidth = 1;
 
         public static readonly Color
             GraphAxisColour = Color.Black,
@@ -29,17 +31,20 @@
             GraphPenColour = Color.Black,
             GraphReticleColour = Color.LightGray;
 
+        public const DashStyle
+            GraphPenStyle = DashStyle.Solid;
+
         public const Elements
             GraphElements = Elements.All;
+
+        public const Interpolation
+            GraphInterpolation = Interpolation.Linear;
 
         public const Optimization
             GraphOptimization = Optimization.HighQuality;
 
         public const PlotType
             GraphPlotType = PlotType.Cartesian;
-
-        public const Interpolation
-            GraphInterpolation = Interpolation.Linear;
 
         public const TickStyles
             GraphTickStyles = TickStyles.Negative;

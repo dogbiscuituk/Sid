@@ -15,7 +15,7 @@
     using ToyGraf.Models.Structs;
 
     [Serializable]
-    public class Graph : IDisposable
+    public class Graph : Style, IDisposable
     {
         public Graph() { RestoreDefaults(); }
 
@@ -45,90 +45,6 @@
                 {
                     _paperTransparencyPercent = value;
                     OnPropertyChanged("PaperTransparencyPercent");
-                }
-            }
-        }
-
-        private Color _axisColour;
-        public Color AxisColour
-        {
-            get => _axisColour;
-            set
-            {
-                if (AxisColour != value)
-                {
-                    _axisColour = value;
-                    OnPropertyChanged("AxisColour");
-                }
-            }
-        }
-
-        private Color _reticleColour;
-        public Color ReticleColour
-        {
-            get => _reticleColour;
-            set
-            {
-                if (ReticleColour != value)
-                {
-                    _reticleColour = value;
-                    OnPropertyChanged("ReticleColour");
-                }
-            }
-        }
-
-        private Color _penColour;
-        public Color PenColour
-        {
-            get => _penColour;
-            set
-            {
-                if (PenColour != value)
-                {
-                    _penColour = value;
-                    OnPropertyChanged("PenColour");
-                }
-            }
-        }
-
-        private Color _fillColour;
-        public Color FillColour
-        {
-            get => _fillColour;
-            set
-            {
-                if (FillColour != value)
-                {
-                    _fillColour = value;
-                    OnPropertyChanged("FillColour");
-                }
-            }
-        }
-
-        private int _fillTransparencyPercent;
-        public int FillTransparencyPercent
-        {
-            get => _fillTransparencyPercent;
-            set
-            {
-                if (FillTransparencyPercent != value)
-                {
-                    _fillTransparencyPercent = value;
-                    OnPropertyChanged("FillTransparencyPercent");
-                }
-            }
-        }
-
-        private Color _limitColour;
-        public Color LimitColour
-        {
-            get => _limitColour;
-            set
-            {
-                if (LimitColour != value)
-                {
-                    _limitColour = value;
-                    OnPropertyChanged("LimitColour");
                 }
             }
         }
@@ -315,20 +231,10 @@
             }
         }
 
-        private int _stepCount;
-        public int StepCount
+        protected override void StepCountChanged()
         {
-            get => _stepCount;
-            set
-            {
-                if (StepCount != value)
-                {
-                    _stepCount = value;
-                    OnPropertyChanged("StepCount");
-                    foreach (var series in Series)
-                        series.StepCount = StepCount;
-                }
-            }
+            foreach (var series in Series)
+                series.StepCount = StepCount;
         }
 
         private List<Series> _series = new List<Series>();
@@ -348,7 +254,14 @@
         private Bitmap Reticle;
         private List<Label> Labels = new List<Label>();
 
-        public bool UsesTime => Series.Any(p => p.Visible && p.UsesTime);
+        public bool UsesTime
+        {
+            get
+            {
+                ValidateProxies();
+                return Series.Any(p => p.Visible && p.UsesTime);
+            }
+        }
 
         [NonSerialized]
         private Viewport LastViewport;
@@ -374,6 +287,8 @@
             _limitColour = Defaults.GraphLimitColour;
             _paperColour = Defaults.GraphPaperColour;
             _penColour = Defaults.GraphPenColour;
+            _penStyle = Defaults.GraphPenStyle;
+            _penWidth = Defaults.GraphPenWidth;
             // Elements
             _elements = Defaults.GraphElements;
             //Optimization
@@ -646,12 +561,10 @@
 
         #region INotifyPropertyChanged
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
+        protected override void OnPropertyChanged(string propertyName)
         {
             InvalidateReticle();
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            base.OnPropertyChanged(propertyName);
         }
 
         public void Series_PropertyChanged(object sender, PropertyChangedEventArgs e)

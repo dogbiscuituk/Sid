@@ -76,6 +76,7 @@
     <Compile Include="Plotter.cs" />
     <Compile Include="Enumerations\TickStyles.cs" />
     <Compile Include="Structs\Viewport.cs" />
+    <Compile Include="Style.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
