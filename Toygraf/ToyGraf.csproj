@@ -67,6 +67,7 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\MruController.cs" />
     <Compile Include="Controllers\SdiController.cs" />
+    <Compile Include="Controllers\KeyboardController.cs" />
     <Compile Include="Controllers\SeriesPropertiesController.cs" />
     <Compile Include="Controllers\ToolbarController.cs" />
     <Compile Include="Views\AboutDialog.cs">

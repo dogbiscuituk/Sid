@@ -122,13 +122,19 @@
             this.tpSeriesProperties = new System.Windows.Forms.TabPage();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tpKeyboard = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cb2ndFillColour = new System.Windows.Forms.ComboBox();
+            this.cbBrushType = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cbHatchPattern = new System.Windows.Forms.ComboBox();
+            this.cbLinearGraphicMode = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seIndex)).BeginInit();
@@ -1323,6 +1329,12 @@
             // tpSeriesProperties
             // 
             this.tpSeriesProperties.BackColor = System.Drawing.SystemColors.Control;
+            this.tpSeriesProperties.Controls.Add(this.cbLinearGraphicMode);
+            this.tpSeriesProperties.Controls.Add(this.cbHatchPattern);
+            this.tpSeriesProperties.Controls.Add(this.label8);
+            this.tpSeriesProperties.Controls.Add(this.cbBrushType);
+            this.tpSeriesProperties.Controls.Add(this.cb2ndFillColour);
+            this.tpSeriesProperties.Controls.Add(this.label7);
             this.tpSeriesProperties.Controls.Add(this.cbPenStyle);
             this.tpSeriesProperties.Controls.Add(this.label6);
             this.tpSeriesProperties.Controls.Add(this.numericUpDown1);
@@ -1359,15 +1371,6 @@
             this.label5.TabIndex = 11;
             this.label5.Text = "Size:";
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(312, 35);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(17, 15);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "%";
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -1398,82 +1401,82 @@
             // tpKeyboard
             // 
             this.tpKeyboard.BackColor = System.Drawing.SystemColors.Control;
-            this.tpKeyboard.Controls.Add(this.btnSpace);
-            this.tpKeyboard.Controls.Add(this.btnReturn);
-            this.tpKeyboard.Controls.Add(this.btnNumPeriod);
-            this.tpKeyboard.Controls.Add(this.btnNum0);
-            this.tpKeyboard.Controls.Add(this.btnEnter);
-            this.tpKeyboard.Controls.Add(this.btnSubscript);
-            this.tpKeyboard.Controls.Add(this.btnNum3);
-            this.tpKeyboard.Controls.Add(this.btnSuperscript);
-            this.tpKeyboard.Controls.Add(this.btnNum2);
-            this.tpKeyboard.Controls.Add(this.btnMaths);
-            this.tpKeyboard.Controls.Add(this.btnNum1);
-            this.tpKeyboard.Controls.Add(this.btnGreek);
-            this.tpKeyboard.Controls.Add(this.btnRshift);
             this.tpKeyboard.Controls.Add(this.btnBackTick);
-            this.tpKeyboard.Controls.Add(this.btnSlash);
             this.tpKeyboard.Controls.Add(this.btn1);
-            this.tpKeyboard.Controls.Add(this.btnPeriod);
             this.tpKeyboard.Controls.Add(this.btn2);
-            this.tpKeyboard.Controls.Add(this.btnComma);
             this.tpKeyboard.Controls.Add(this.btn3);
-            this.tpKeyboard.Controls.Add(this.btnM);
             this.tpKeyboard.Controls.Add(this.btn4);
-            this.tpKeyboard.Controls.Add(this.btnN);
             this.tpKeyboard.Controls.Add(this.btn5);
-            this.tpKeyboard.Controls.Add(this.btnB);
             this.tpKeyboard.Controls.Add(this.btn6);
-            this.tpKeyboard.Controls.Add(this.btnV);
             this.tpKeyboard.Controls.Add(this.btn7);
-            this.tpKeyboard.Controls.Add(this.btnC);
             this.tpKeyboard.Controls.Add(this.btn8);
-            this.tpKeyboard.Controls.Add(this.btnX);
             this.tpKeyboard.Controls.Add(this.btn9);
-            this.tpKeyboard.Controls.Add(this.btnZ);
             this.tpKeyboard.Controls.Add(this.btn0);
-            this.tpKeyboard.Controls.Add(this.btnBackslash);
             this.tpKeyboard.Controls.Add(this.btnMinus);
-            this.tpKeyboard.Controls.Add(this.btnLshift);
             this.tpKeyboard.Controls.Add(this.btnEqual);
-            this.tpKeyboard.Controls.Add(this.btnNum6);
             this.tpKeyboard.Controls.Add(this.btnBackspace);
-            this.tpKeyboard.Controls.Add(this.btnNum5);
             this.tpKeyboard.Controls.Add(this.btnNumTopLeft);
-            this.tpKeyboard.Controls.Add(this.btnNum4);
             this.tpKeyboard.Controls.Add(this.btnNumSlash);
-            this.tpKeyboard.Controls.Add(this.btnHash);
             this.tpKeyboard.Controls.Add(this.btnNumAsterisk);
-            this.tpKeyboard.Controls.Add(this.btnApostrophe);
             this.tpKeyboard.Controls.Add(this.btnNumMinus);
-            this.tpKeyboard.Controls.Add(this.btnSemicolon);
             this.tpKeyboard.Controls.Add(this.btnTab);
-            this.tpKeyboard.Controls.Add(this.btnL);
             this.tpKeyboard.Controls.Add(this.btnQ);
-            this.tpKeyboard.Controls.Add(this.btnK);
             this.tpKeyboard.Controls.Add(this.btnW);
-            this.tpKeyboard.Controls.Add(this.btnJ);
             this.tpKeyboard.Controls.Add(this.btnE);
-            this.tpKeyboard.Controls.Add(this.btnH);
             this.tpKeyboard.Controls.Add(this.btnR);
-            this.tpKeyboard.Controls.Add(this.btnG);
             this.tpKeyboard.Controls.Add(this.btnT);
-            this.tpKeyboard.Controls.Add(this.btnF);
             this.tpKeyboard.Controls.Add(this.btnY);
-            this.tpKeyboard.Controls.Add(this.btnD);
             this.tpKeyboard.Controls.Add(this.btnU);
-            this.tpKeyboard.Controls.Add(this.btnS);
             this.tpKeyboard.Controls.Add(this.btnI);
-            this.tpKeyboard.Controls.Add(this.btnA);
             this.tpKeyboard.Controls.Add(this.btnO);
-            this.tpKeyboard.Controls.Add(this.btnShiftLock);
             this.tpKeyboard.Controls.Add(this.btnP);
-            this.tpKeyboard.Controls.Add(this.btnNumPlus);
             this.tpKeyboard.Controls.Add(this.bynLeftBracket);
-            this.tpKeyboard.Controls.Add(this.btnNum9);
             this.tpKeyboard.Controls.Add(this.btnRightBracket);
-            this.tpKeyboard.Controls.Add(this.btnNum8);
+            this.tpKeyboard.Controls.Add(this.btnReturn);
             this.tpKeyboard.Controls.Add(this.btnNum7);
+            this.tpKeyboard.Controls.Add(this.btnNum8);
+            this.tpKeyboard.Controls.Add(this.btnNum9);
+            this.tpKeyboard.Controls.Add(this.btnNumPlus);
+            this.tpKeyboard.Controls.Add(this.btnShiftLock);
+            this.tpKeyboard.Controls.Add(this.btnA);
+            this.tpKeyboard.Controls.Add(this.btnS);
+            this.tpKeyboard.Controls.Add(this.btnD);
+            this.tpKeyboard.Controls.Add(this.btnF);
+            this.tpKeyboard.Controls.Add(this.btnG);
+            this.tpKeyboard.Controls.Add(this.btnH);
+            this.tpKeyboard.Controls.Add(this.btnJ);
+            this.tpKeyboard.Controls.Add(this.btnK);
+            this.tpKeyboard.Controls.Add(this.btnL);
+            this.tpKeyboard.Controls.Add(this.btnSemicolon);
+            this.tpKeyboard.Controls.Add(this.btnApostrophe);
+            this.tpKeyboard.Controls.Add(this.btnHash);
+            this.tpKeyboard.Controls.Add(this.btnNum4);
+            this.tpKeyboard.Controls.Add(this.btnNum5);
+            this.tpKeyboard.Controls.Add(this.btnNum6);
+            this.tpKeyboard.Controls.Add(this.btnLshift);
+            this.tpKeyboard.Controls.Add(this.btnBackslash);
+            this.tpKeyboard.Controls.Add(this.btnZ);
+            this.tpKeyboard.Controls.Add(this.btnX);
+            this.tpKeyboard.Controls.Add(this.btnC);
+            this.tpKeyboard.Controls.Add(this.btnV);
+            this.tpKeyboard.Controls.Add(this.btnB);
+            this.tpKeyboard.Controls.Add(this.btnN);
+            this.tpKeyboard.Controls.Add(this.btnM);
+            this.tpKeyboard.Controls.Add(this.btnComma);
+            this.tpKeyboard.Controls.Add(this.btnPeriod);
+            this.tpKeyboard.Controls.Add(this.btnSlash);
+            this.tpKeyboard.Controls.Add(this.btnRshift);
+            this.tpKeyboard.Controls.Add(this.btnNum1);
+            this.tpKeyboard.Controls.Add(this.btnNum2);
+            this.tpKeyboard.Controls.Add(this.btnNum3);
+            this.tpKeyboard.Controls.Add(this.btnEnter);
+            this.tpKeyboard.Controls.Add(this.btnGreek);
+            this.tpKeyboard.Controls.Add(this.btnMaths);
+            this.tpKeyboard.Controls.Add(this.btnSpace);
+            this.tpKeyboard.Controls.Add(this.btnSubscript);
+            this.tpKeyboard.Controls.Add(this.btnSuperscript);
+            this.tpKeyboard.Controls.Add(this.btnNum0);
+            this.tpKeyboard.Controls.Add(this.btnNumPeriod);
             this.tpKeyboard.Location = new System.Drawing.Point(4, 24);
             this.tpKeyboard.Name = "tpKeyboard";
             this.tpKeyboard.Padding = new System.Windows.Forms.Padding(3);
@@ -1503,6 +1506,94 @@
             this.panel2.Padding = new System.Windows.Forms.Padding(3);
             this.panel2.Size = new System.Drawing.Size(466, 37);
             this.panel2.TabIndex = 87;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(2, 58);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(48, 15);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "2nd Fill:";
+            // 
+            // cb2ndFillColour
+            // 
+            this.cb2ndFillColour.BackColor = System.Drawing.SystemColors.Control;
+            this.cb2ndFillColour.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cb2ndFillColour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb2ndFillColour.DropDownWidth = 144;
+            this.cb2ndFillColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cb2ndFillColour.FormattingEnabled = true;
+            this.cb2ndFillColour.ItemHeight = 18;
+            this.cb2ndFillColour.Location = new System.Drawing.Point(75, 55);
+            this.cb2ndFillColour.Margin = new System.Windows.Forms.Padding(0);
+            this.cb2ndFillColour.Name = "cb2ndFillColour";
+            this.cb2ndFillColour.Size = new System.Drawing.Size(104, 24);
+            this.cb2ndFillColour.TabIndex = 16;
+            this.ToolTip.SetToolTip(this.cb2ndFillColour, "Fill colour (area under this trace)");
+            // 
+            // cbBrushType
+            // 
+            this.cbBrushType.BackColor = System.Drawing.SystemColors.Control;
+            this.cbBrushType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBrushType.DropDownWidth = 144;
+            this.cbBrushType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbBrushType.FormattingEnabled = true;
+            this.cbBrushType.ItemHeight = 15;
+            this.cbBrushType.Location = new System.Drawing.Point(350, 32);
+            this.cbBrushType.Margin = new System.Windows.Forms.Padding(0);
+            this.cbBrushType.Name = "cbBrushType";
+            this.cbBrushType.Size = new System.Drawing.Size(105, 23);
+            this.cbBrushType.TabIndex = 17;
+            this.ToolTip.SetToolTip(this.cbBrushType, "Fill colour (area under this trace)");
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(312, 35);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(40, 15);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Brush:";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(312, 58);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(35, 15);
+            this.label8.TabIndex = 18;
+            this.label8.Text = "Type:";
+            // 
+            // cbHatchPattern
+            // 
+            this.cbHatchPattern.BackColor = System.Drawing.SystemColors.Control;
+            this.cbHatchPattern.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbHatchPattern.DropDownWidth = 144;
+            this.cbHatchPattern.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbHatchPattern.FormattingEnabled = true;
+            this.cbHatchPattern.ItemHeight = 15;
+            this.cbHatchPattern.Location = new System.Drawing.Point(350, 55);
+            this.cbHatchPattern.Margin = new System.Windows.Forms.Padding(0);
+            this.cbHatchPattern.Name = "cbHatchPattern";
+            this.cbHatchPattern.Size = new System.Drawing.Size(105, 23);
+            this.cbHatchPattern.TabIndex = 19;
+            this.ToolTip.SetToolTip(this.cbHatchPattern, "Fill colour (area under this trace)");
+            // 
+            // cbLinearGraphicMode
+            // 
+            this.cbLinearGraphicMode.BackColor = System.Drawing.SystemColors.Control;
+            this.cbLinearGraphicMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLinearGraphicMode.DropDownWidth = 144;
+            this.cbLinearGraphicMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbLinearGraphicMode.FormattingEnabled = true;
+            this.cbLinearGraphicMode.ItemHeight = 15;
+            this.cbLinearGraphicMode.Location = new System.Drawing.Point(350, 78);
+            this.cbLinearGraphicMode.Margin = new System.Windows.Forms.Padding(0);
+            this.cbLinearGraphicMode.Name = "cbLinearGraphicMode";
+            this.cbLinearGraphicMode.Size = new System.Drawing.Size(105, 23);
+            this.cbLinearGraphicMode.TabIndex = 20;
+            this.ToolTip.SetToolTip(this.cbLinearGraphicMode, "Fill colour (area under this trace)");
             // 
             // SeriesPropertiesDialog
             // 
@@ -1619,13 +1710,11 @@
         public System.Windows.Forms.NumericUpDown seIndex;
         public System.Windows.Forms.Label IndexLabel;
         public System.Windows.Forms.CheckBox cbVisible;
-        private System.Windows.Forms.TabControl TabControl;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         public System.Windows.Forms.NumericUpDown seTransparency;
         public System.Windows.Forms.ComboBox cbPenColour;
         public System.Windows.Forms.ComboBox cbFillColour;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
@@ -1635,5 +1724,13 @@
         private System.Windows.Forms.Label label6;
         public System.Windows.Forms.TabPage tpKeyboard;
         public System.Windows.Forms.TabPage tpSeriesProperties;
+        public System.Windows.Forms.TabControl TabControl;
+        public System.Windows.Forms.ComboBox cbBrushType;
+        public System.Windows.Forms.ComboBox cb2ndFillColour;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label4;
+        public System.Windows.Forms.ComboBox cbLinearGraphicMode;
+        public System.Windows.Forms.ComboBox cbHatchPattern;
+        private System.Windows.Forms.Label label8;
     }
 }

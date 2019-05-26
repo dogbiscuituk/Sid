@@ -1,6 +1,7 @@
 ﻿namespace ToyGraf.Expressions
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing;
@@ -74,12 +75,29 @@
 
         #region Enums
 
-        public static string[] GetDescriptions(this Type enumType) => enumType
-            .GetFields()
-            .Select(p => p.GetCustomAttribute<DescriptionAttribute>())
-            .OfType<DescriptionAttribute>()
-            .Select(p => p.Description)
-            .ToArray();
+        public static string[] GetDescriptions(this Type enumType)
+        {
+            var result = Enum.GetNames(enumType);
+            var descriptions = enumType
+                .GetFields()
+                .Select(p => p.GetCustomAttribute<DescriptionAttribute>())
+                .OfType<DescriptionAttribute>()
+                .Select(p => p.Description)
+                .ToList();
+            for (var index = 0; index < Math.Min(result.Length, descriptions.Count); index++)
+            {
+                var description = descriptions[index];
+                if (!string.IsNullOrWhiteSpace(description))
+                    result[index] = description;
+            }
+            return result;
+        }
+
+        public static void PopulateWith(this IList list, Type enumType)
+        {
+            list.Clear();
+            Array.ForEach(enumType.GetDescriptions(), p => list.Add(p));
+        }
 
         #endregion
 

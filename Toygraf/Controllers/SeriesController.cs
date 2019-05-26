@@ -91,6 +91,7 @@
         private ColourController ColourController = new ColourController();
         private CommandProcessor CommandProcessor { get => AppController.CommandProcessor; }
         private SeriesPropertiesController SeriesPropertiesController { get => AppController.SeriesPropertiesController; }
+        private KeyboardController KeyboardController { get => SeriesPropertiesController.KeyboardController; }
         private int Index { get => Parent.IndexOf(this); }
         private ComboBox FunctionBox { get => View.cbFunction; }
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
@@ -102,11 +103,11 @@
 
         private void BtnDetails_Click(object sender, System.EventArgs e)
         {
-            int h = View.Height, h1 = SeriesPropertiesController.View.Height,
+            int h = View.Height, h1 = KeyboardController.View.Height,
                 h2 = Screen.FromControl(View).Bounds.Height;
             var p = View.PointToScreen(new Point(0, h));
             if (p.Y + h1 > h2) p.Y -= h + h1;
-            SeriesPropertiesController.ShowDialog(AppController.View, p, Graph, Parent.IndexOf(this));
+            KeyboardController.ShowDialog(AppController.View, p, Graph, Parent.IndexOf(this));
         }
 
         private void BtnRemove_Click(object sender, System.EventArgs e) => Parent.RemoveSeries(Index);

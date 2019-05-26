@@ -87,10 +87,7 @@
         private CommandProcessor CommandController { get => Parent.CommandProcessor; }
         private ElementsController ElementsController;
         private CheckedListBox.ObjectCollection ElementItems { get => View.ElementCheckboxes.Items; }
-        private ComboBox.ObjectCollection Interpolations { get => View.cbInterpolation.Items; }
         private Model Model { get => Parent.Model; }
-        private ComboBox.ObjectCollection Optimizations { get => View.cbOptimization.Items; }
-        private ComboBox.ObjectCollection PlotTypes { get => View.cbPlotType.Items; }
 
         private bool Loading;
 
@@ -301,12 +298,9 @@
 
         private void InitEnumControls()
         {
-            Optimizations.Clear();
-            Optimizations.AddRange(typeof(Optimization).GetDescriptions());
-            PlotTypes.Clear();
-            PlotTypes.AddRange(typeof(PlotType).GetDescriptions());
-            Interpolations.Clear();
-            Interpolations.AddRange(typeof(Interpolation).GetDescriptions());
+            View.cbOptimization.Items.PopulateWith(typeof(Optimization));
+            View.cbPlotType.Items.PopulateWith(typeof(PlotType));
+            View.cbInterpolation.Items.PopulateWith(typeof(Interpolation));
         }
 
         #endregion

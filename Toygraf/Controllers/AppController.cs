@@ -28,9 +28,9 @@
             JsonController.FilePathChanged += JsonController_FilePathChanged;
             JsonController.FileSaving += JsonController_FileSaving;
             JsonController.FileSaved += JsonController_FileSaved;
-            SeriesPropertiesController = new SeriesPropertiesController(this);
             LegendController = new LegendController(this);
             GraphPropertiesController = new GraphPropertiesController(this);
+            SeriesPropertiesController = new SeriesPropertiesController(this);
             ToolbarController = new ToolbarController(this);
             ModifiedChanged();
             LegendController.AdjustLegend();
@@ -70,8 +70,8 @@
 
         internal ClockController ClockController => GraphicsController.ClockController;
         internal readonly CommandProcessor CommandProcessor;
-        internal readonly SeriesPropertiesController SeriesPropertiesController;
         internal readonly LegendController LegendController;
+        internal readonly SeriesPropertiesController SeriesPropertiesController;
 
         internal void UpdateMouseCoordinates(PointF p)
         {
