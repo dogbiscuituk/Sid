@@ -231,12 +231,6 @@
             }
         }
 
-        protected override void StepCountChanged()
-        {
-            foreach (var series in Series)
-                series.StepCount = StepCount;
-        }
-
         private List<Series> _series = new List<Series>();
 
         public List<Series> Series
@@ -525,6 +519,12 @@
                     g.PixelOffsetMode = PixelOffsetMode.Default;
                     break;
             }
+        }
+
+        protected override void StepCountChanged()
+        {
+            foreach (var series in Series)
+                series.StepCount = StepCount;
         }
 
         #endregion

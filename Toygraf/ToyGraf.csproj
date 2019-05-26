@@ -58,6 +58,7 @@
     <Compile Include="Controllers\ColourController.cs" />
     <Compile Include="Controllers\CommandProcessor.cs" />
     <Compile Include="Controllers\ElementsController.cs" />
+    <Compile Include="Controllers\KeyboardController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\GraphicsController.cs" />
     <Compile Include="Controllers\GraphPropertiesController.cs" />
