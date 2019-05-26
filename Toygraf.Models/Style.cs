@@ -3,6 +3,7 @@
     using System.ComponentModel;
     using System.Drawing;
     using System.Drawing.Drawing2D;
+    using ToyGraf.Models.Enumerations;
 
     public abstract class Style
     {
@@ -16,6 +17,20 @@
                 {
                     _axisColour = value;
                     OnPropertyChanged("AxisColour");
+                }
+            }
+        }
+
+        protected BrushType _brushType;
+        public BrushType BrushType
+        {
+            get => _brushType;
+            set
+            {
+                if (BrushType != value)
+                {
+                    _brushType = value;
+                    OnPropertyChanged("BrushType");
                 }
             }
         }
@@ -34,6 +49,20 @@
             }
         }
 
+        protected Color _fillColour2;
+        public Color FillColour2
+        {
+            get => _fillColour2;
+            set
+            {
+                if (FillColour2 != value)
+                {
+                    _fillColour2 = value;
+                    OnPropertyChanged("FillColour2");
+                }
+            }
+        }
+
         protected int _fillTransparencyPercent;
         public int FillTransparencyPercent
         {
@@ -44,6 +73,34 @@
                 {
                     _fillTransparencyPercent = value;
                     OnPropertyChanged("FillTransparencyPercent");
+                }
+            }
+        }
+
+        protected LinearGradientMode _gradientMode;
+        public LinearGradientMode GradientMode
+        {
+            get => _gradientMode;
+            set
+            {
+                if (GradientMode != value)
+                {
+                    _gradientMode = value;
+                    OnPropertyChanged("GradientMode");
+                }
+            }
+        }
+
+        protected HatchStyle _hatchStyle;
+        public HatchStyle HatchStyle
+        {
+            get => _hatchStyle;
+            set
+            {
+                if (HatchStyle != value )
+                {
+                    _hatchStyle = value;
+                    OnPropertyChanged("HatchStyle");
                 }
             }
         }

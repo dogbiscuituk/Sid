@@ -88,7 +88,6 @@
         private ElementsController ElementsController;
         private CheckedListBox.ObjectCollection ElementItems { get => View.ElementCheckboxes.Items; }
         private Model Model { get => Parent.Model; }
-
         private bool Loading;
 
         #endregion

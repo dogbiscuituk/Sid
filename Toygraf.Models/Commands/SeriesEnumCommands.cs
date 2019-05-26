@@ -1,6 +1,8 @@
 ﻿namespace ToyGraf.Models.Commands
 {
     using System;
+    using System.Drawing.Drawing2D;
+    using ToyGraf.Models.Enumerations;
 
     public class SeriesEnumCommand : SeriesIntCommand
     {
@@ -8,5 +10,38 @@
             base(index, (int)value, s => (int)get(s), (s, e) => set(s, e)) { }
 
         public override string ToString() => $"f{Index} {Detail}";
+    }
+
+    public class SeriesBrushTypeCommand : SeriesEnumCommand
+    {
+        public SeriesBrushTypeCommand(int index, BrushType value) :
+            base(index, value,
+                s => s.BrushType,
+                (s, n) => s.BrushType = (BrushType)n) { }
+    }
+
+    public class SeriesGradientModeCommand : SeriesEnumCommand
+    {
+        public SeriesGradientModeCommand(int index, LinearGradientMode value) :
+            base(index, value,
+                s => s.GradientMode,
+                (s, n) => s.GradientMode = (LinearGradientMode)n) { }
+    }
+
+    public class SeriesHatchStyleCommand : SeriesEnumCommand
+    {
+        public SeriesHatchStyleCommand(int index, HatchStyle value) :
+            base(index, value,
+                s => s.HatchStyle,
+                (s, n) => s.HatchStyle = (HatchStyle)n) { }
+    }
+
+    public class SeriesPenStyleCommand : SeriesEnumCommand
+    {
+        public SeriesPenStyleCommand(int index, DashStyle value) :
+            base(index, value,
+                s => s.PenStyle,
+                (s, n) => s.PenStyle = (DashStyle)n)
+        { }
     }
 }

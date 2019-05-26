@@ -280,23 +280,31 @@
             _domain.MaxPolar = Defaults.GraphDomainMaxPolar;
             _domain.MinCartesian = Defaults.GraphDomainMinCartesian;
             _domain.MinPolar = Defaults.GraphDomainMinPolar;
+            _penWidth = Defaults.GraphPenWidth;
             // Color
             _axisColour = Defaults.GraphAxisColour;
             _fillColour = Defaults.GraphFillColour;
+            _fillColour2 = Defaults.GraphFillColour2;
             _reticleColour = Defaults.GraphReticleColour;
             _limitColour = Defaults.GraphLimitColour;
             _paperColour = Defaults.GraphPaperColour;
             _penColour = Defaults.GraphPenColour;
+            // BrushType
+            _brushType = Defaults.GraphBrushType;
+            // DashStyle
             _penStyle = Defaults.GraphPenStyle;
-            _penWidth = Defaults.GraphPenWidth;
             // Elements
             _elements = Defaults.GraphElements;
+            // HatchStyle
+            _hatchStyle = Defaults.GraphHatchStyle;
+            // Interpolation
+            _interpolation = Defaults.GraphInterpolation;
+            // LinearGradientMode
+            _gradientMode = Defaults.GraphGradientMode;
             //Optimization
             _optimization = Defaults.GraphOptimization;
             // PlotType
             _plotType = Defaults.GraphPlotType;
-            // Interpolation
-            _interpolation = Defaults.GraphInterpolation;
             // PointF
             OriginalCentre = Defaults.GraphViewport.Centre;
             // SizeF

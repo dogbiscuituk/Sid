@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Drawing;
-    using System.Drawing.Drawing2D;
     using System.Linq;
     using System.Windows.Forms;
     using ToyGraf.Expressions;
@@ -29,7 +28,6 @@
                 _view = value;
                 LoadKeys();
                 View.cbVisible.CheckedChanged += VisibleChanged;
-                View.seIndex.ValueChanged += IndexValueChanged;
                 FunctionBox.KeyUp += FunctionBox_KeyUp;
                 FunctionBox.MouseUp += FunctionBox_MouseUp;
                 FunctionBox.TextChanged += FunctionBox_TextChanged;
@@ -44,13 +42,12 @@
             }
         }
 
-        internal void ShowDialog(IWin32Window owner, Point location, Graph graph, int index)
+        internal void IndexValueChanged() => FocusFunctionBox();
+
+        internal void LoadSeries()
         {
-            Graph = graph;
-            View.seIndex.Maximum = SeriesControllers.Count - 1;
-            Index = index;
-            View.Location = location;
-            View.ShowDialog(owner);
+            View.cbVisible.Checked = SeriesView.cbVisible.Checked;
+            FunctionBox.Text = ActiveControl.Text;
         }
 
         #endregion
@@ -58,24 +55,20 @@
         #region Private Properties
 
         private SeriesPropertiesDialog _view;
+
         private readonly SeriesPropertiesController Parent;
         private AppController AppController => Parent.Parent;
-        private ColourController ColourController = new ColourController();
-        private LegendController LegendController { get => AppController.LegendController; }
-        private List<SeriesController> SeriesControllers => LegendController.Children;
-        private SeriesController SeriesController => SeriesControllers[Index];
-        private SeriesView SeriesView => SeriesController.View;
+        private readonly ColourController ColourController = new ColourController();
+        private List<SeriesController> SeriesControllers => AppController.LegendController.Children;
+        private SeriesView SeriesView => SeriesControllers[Index].View;
+
         private Control ActiveControl => SeriesView.cbFunction;
         private readonly List<Button> CustomKeys = new List<Button>();
         private ComboBox FunctionBox { get => View.FunctionBox; }
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
-        private Graph Graph;
+        private Graph Graph => Parent.Graph;
 
-        private int Index
-        {
-            get => GetIndex();
-            set => SetIndex(value);
-        }
+        private int Index => GetIndex();
 
         private int SelStart, SelLength;
 
@@ -121,7 +114,7 @@
 
         #region Private Methods
 
-        private int GetIndex() => (int)(View.seIndex.Maximum - View.seIndex.Value);
+        private int GetIndex() => Parent.Index;
 
         private string GetKeyboardName(KeyboardType type) => Keyboards[(int)type].Name;
 
@@ -159,19 +152,6 @@
             }
         }
 
-        private void LoadSeries()
-        {
-            View.cbVisible.Checked = SeriesView.cbVisible.Checked;
-            FunctionBox.Text = ActiveControl.Text;
-        }
-
-        private void SetIndex(int index)
-        {
-            View.seIndex.Value = View.seIndex.Maximum - index;
-            IndexValueChanged();
-            LoadSeries();
-        }
-
         #endregion
 
         #region Private Event Handlers
@@ -198,13 +178,6 @@
         }
 
         private void IndexValueChanged(object sender, EventArgs e) => IndexValueChanged();
-
-        private void IndexValueChanged()
-        {
-            View.IndexLabel.Text = $"f{Index}";
-            FocusFunctionBox();
-            LoadSeries();
-        }
 
         private void Key_Press(object sender, EventArgs e)
         {

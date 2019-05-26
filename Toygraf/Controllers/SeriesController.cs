@@ -107,7 +107,7 @@
                 h2 = Screen.FromControl(View).Bounds.Height;
             var p = View.PointToScreen(new Point(0, h));
             if (p.Y + h1 > h2) p.Y -= h + h1;
-            KeyboardController.ShowDialog(AppController.View, p, Graph, Parent.IndexOf(this));
+            SeriesPropertiesController.ShowDialog(AppController.View, p, Graph, Parent.IndexOf(this));
         }
 
         private void BtnRemove_Click(object sender, System.EventArgs e) => Parent.RemoveSeries(Index);

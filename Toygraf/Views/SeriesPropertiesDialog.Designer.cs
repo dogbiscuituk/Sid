@@ -114,29 +114,29 @@
             this.seTransparency = new System.Windows.Forms.NumericUpDown();
             this.cbPenColour = new System.Windows.Forms.ComboBox();
             this.cbFillColour = new System.Windows.Forms.ComboBox();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.sePenSize = new System.Windows.Forms.NumericUpDown();
             this.cbPenStyle = new System.Windows.Forms.ComboBox();
+            this.cbFillColour2 = new System.Windows.Forms.ComboBox();
+            this.cbBrushType = new System.Windows.Forms.ComboBox();
+            this.cbHatchStyle = new System.Windows.Forms.ComboBox();
+            this.cbGradientMode = new System.Windows.Forms.ComboBox();
             this.seIndex = new System.Windows.Forms.NumericUpDown();
             this.IndexLabel = new System.Windows.Forms.Label();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.tpSeriesProperties = new System.Windows.Forms.TabPage();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tpKeyboard = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.cb2ndFillColour = new System.Windows.Forms.ComboBox();
-            this.cbBrushType = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.cbHatchPattern = new System.Windows.Forms.ComboBox();
-            this.cbLinearGraphicMode = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sePenSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seIndex)).BeginInit();
             this.TabControl.SuspendLayout();
             this.tpSeriesProperties.SuspendLayout();
@@ -1253,24 +1253,40 @@
             this.cbFillColour.TabIndex = 5;
             this.ToolTip.SetToolTip(this.cbFillColour, "Fill colour (area under this trace)");
             // 
-            // numericUpDown1
+            // sePenSize
             // 
-            this.numericUpDown1.BackColor = System.Drawing.SystemColors.Control;
-            this.numericUpDown1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.numericUpDown1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDown1.Increment = new decimal(new int[] {
-            10,
+            this.sePenSize.BackColor = System.Drawing.SystemColors.Control;
+            this.sePenSize.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.sePenSize.DecimalPlaces = 1;
+            this.sePenSize.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sePenSize.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.sePenSize.Location = new System.Drawing.Point(265, 11);
+            this.sePenSize.Margin = new System.Windows.Forms.Padding(0);
+            this.sePenSize.Maximum = new decimal(new int[] {
+            5,
             0,
             0,
             0});
-            this.numericUpDown1.Location = new System.Drawing.Point(265, 11);
-            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(0);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.ReadOnly = true;
-            this.numericUpDown1.Size = new System.Drawing.Size(44, 21);
-            this.numericUpDown1.TabIndex = 12;
-            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.ToolTip.SetToolTip(this.numericUpDown1, "Fill transparency (%)");
+            this.sePenSize.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.sePenSize.Name = "sePenSize";
+            this.sePenSize.ReadOnly = true;
+            this.sePenSize.Size = new System.Drawing.Size(44, 21);
+            this.sePenSize.TabIndex = 12;
+            this.sePenSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.ToolTip.SetToolTip(this.sePenSize, "Fill transparency (%)");
+            this.sePenSize.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // cbPenStyle
             // 
@@ -1286,6 +1302,67 @@
             this.cbPenStyle.Size = new System.Drawing.Size(105, 23);
             this.cbPenStyle.TabIndex = 14;
             this.ToolTip.SetToolTip(this.cbPenStyle, "Fill colour (area under this trace)");
+            // 
+            // cbFillColour2
+            // 
+            this.cbFillColour2.BackColor = System.Drawing.SystemColors.Control;
+            this.cbFillColour2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbFillColour2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFillColour2.DropDownWidth = 144;
+            this.cbFillColour2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbFillColour2.FormattingEnabled = true;
+            this.cbFillColour2.ItemHeight = 18;
+            this.cbFillColour2.Location = new System.Drawing.Point(75, 55);
+            this.cbFillColour2.Margin = new System.Windows.Forms.Padding(0);
+            this.cbFillColour2.Name = "cbFillColour2";
+            this.cbFillColour2.Size = new System.Drawing.Size(104, 24);
+            this.cbFillColour2.TabIndex = 16;
+            this.ToolTip.SetToolTip(this.cbFillColour2, "Fill colour (area under this trace)");
+            // 
+            // cbBrushType
+            // 
+            this.cbBrushType.BackColor = System.Drawing.SystemColors.Control;
+            this.cbBrushType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBrushType.DropDownWidth = 144;
+            this.cbBrushType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbBrushType.FormattingEnabled = true;
+            this.cbBrushType.ItemHeight = 15;
+            this.cbBrushType.Location = new System.Drawing.Point(350, 32);
+            this.cbBrushType.Margin = new System.Windows.Forms.Padding(0);
+            this.cbBrushType.Name = "cbBrushType";
+            this.cbBrushType.Size = new System.Drawing.Size(105, 23);
+            this.cbBrushType.TabIndex = 17;
+            this.ToolTip.SetToolTip(this.cbBrushType, "Fill colour (area under this trace)");
+            // 
+            // cbHatchStyle
+            // 
+            this.cbHatchStyle.BackColor = System.Drawing.SystemColors.Control;
+            this.cbHatchStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbHatchStyle.DropDownWidth = 144;
+            this.cbHatchStyle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbHatchStyle.FormattingEnabled = true;
+            this.cbHatchStyle.ItemHeight = 15;
+            this.cbHatchStyle.Location = new System.Drawing.Point(350, 55);
+            this.cbHatchStyle.Margin = new System.Windows.Forms.Padding(0);
+            this.cbHatchStyle.Name = "cbHatchStyle";
+            this.cbHatchStyle.Size = new System.Drawing.Size(105, 23);
+            this.cbHatchStyle.TabIndex = 19;
+            this.ToolTip.SetToolTip(this.cbHatchStyle, "Fill colour (area under this trace)");
+            // 
+            // cbGradientMode
+            // 
+            this.cbGradientMode.BackColor = System.Drawing.SystemColors.Control;
+            this.cbGradientMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbGradientMode.DropDownWidth = 144;
+            this.cbGradientMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbGradientMode.FormattingEnabled = true;
+            this.cbGradientMode.ItemHeight = 15;
+            this.cbGradientMode.Location = new System.Drawing.Point(350, 78);
+            this.cbGradientMode.Margin = new System.Windows.Forms.Padding(0);
+            this.cbGradientMode.Name = "cbGradientMode";
+            this.cbGradientMode.Size = new System.Drawing.Size(105, 23);
+            this.cbGradientMode.TabIndex = 20;
+            this.ToolTip.SetToolTip(this.cbGradientMode, "Fill colour (area under this trace)");
             // 
             // seIndex
             // 
@@ -1329,15 +1406,15 @@
             // tpSeriesProperties
             // 
             this.tpSeriesProperties.BackColor = System.Drawing.SystemColors.Control;
-            this.tpSeriesProperties.Controls.Add(this.cbLinearGraphicMode);
-            this.tpSeriesProperties.Controls.Add(this.cbHatchPattern);
+            this.tpSeriesProperties.Controls.Add(this.cbGradientMode);
+            this.tpSeriesProperties.Controls.Add(this.cbHatchStyle);
             this.tpSeriesProperties.Controls.Add(this.label8);
             this.tpSeriesProperties.Controls.Add(this.cbBrushType);
-            this.tpSeriesProperties.Controls.Add(this.cb2ndFillColour);
+            this.tpSeriesProperties.Controls.Add(this.cbFillColour2);
             this.tpSeriesProperties.Controls.Add(this.label7);
             this.tpSeriesProperties.Controls.Add(this.cbPenStyle);
             this.tpSeriesProperties.Controls.Add(this.label6);
-            this.tpSeriesProperties.Controls.Add(this.numericUpDown1);
+            this.tpSeriesProperties.Controls.Add(this.sePenSize);
             this.tpSeriesProperties.Controls.Add(this.label5);
             this.tpSeriesProperties.Controls.Add(this.label4);
             this.tpSeriesProperties.Controls.Add(this.label3);
@@ -1353,6 +1430,24 @@
             this.tpSeriesProperties.TabIndex = 0;
             this.tpSeriesProperties.Text = "Series Properties";
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(312, 58);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(35, 15);
+            this.label8.TabIndex = 18;
+            this.label8.Text = "Type:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(2, 58);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(48, 15);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "2nd Fill:";
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -1365,11 +1460,20 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(232, 12);
+            this.label5.Location = new System.Drawing.Point(210, 12);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(30, 15);
+            this.label5.Size = new System.Drawing.Size(52, 15);
             this.label5.TabIndex = 11;
-            this.label5.Text = "Size:";
+            this.label5.Text = "Pen size:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(312, 35);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(40, 15);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Brush:";
             // 
             // label3
             // 
@@ -1507,94 +1611,6 @@
             this.panel2.Size = new System.Drawing.Size(466, 37);
             this.panel2.TabIndex = 87;
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(2, 58);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(48, 15);
-            this.label7.TabIndex = 15;
-            this.label7.Text = "2nd Fill:";
-            // 
-            // cb2ndFillColour
-            // 
-            this.cb2ndFillColour.BackColor = System.Drawing.SystemColors.Control;
-            this.cb2ndFillColour.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cb2ndFillColour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb2ndFillColour.DropDownWidth = 144;
-            this.cb2ndFillColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cb2ndFillColour.FormattingEnabled = true;
-            this.cb2ndFillColour.ItemHeight = 18;
-            this.cb2ndFillColour.Location = new System.Drawing.Point(75, 55);
-            this.cb2ndFillColour.Margin = new System.Windows.Forms.Padding(0);
-            this.cb2ndFillColour.Name = "cb2ndFillColour";
-            this.cb2ndFillColour.Size = new System.Drawing.Size(104, 24);
-            this.cb2ndFillColour.TabIndex = 16;
-            this.ToolTip.SetToolTip(this.cb2ndFillColour, "Fill colour (area under this trace)");
-            // 
-            // cbBrushType
-            // 
-            this.cbBrushType.BackColor = System.Drawing.SystemColors.Control;
-            this.cbBrushType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbBrushType.DropDownWidth = 144;
-            this.cbBrushType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbBrushType.FormattingEnabled = true;
-            this.cbBrushType.ItemHeight = 15;
-            this.cbBrushType.Location = new System.Drawing.Point(350, 32);
-            this.cbBrushType.Margin = new System.Windows.Forms.Padding(0);
-            this.cbBrushType.Name = "cbBrushType";
-            this.cbBrushType.Size = new System.Drawing.Size(105, 23);
-            this.cbBrushType.TabIndex = 17;
-            this.ToolTip.SetToolTip(this.cbBrushType, "Fill colour (area under this trace)");
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(312, 35);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(40, 15);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Brush:";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(312, 58);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(35, 15);
-            this.label8.TabIndex = 18;
-            this.label8.Text = "Type:";
-            // 
-            // cbHatchPattern
-            // 
-            this.cbHatchPattern.BackColor = System.Drawing.SystemColors.Control;
-            this.cbHatchPattern.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbHatchPattern.DropDownWidth = 144;
-            this.cbHatchPattern.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbHatchPattern.FormattingEnabled = true;
-            this.cbHatchPattern.ItemHeight = 15;
-            this.cbHatchPattern.Location = new System.Drawing.Point(350, 55);
-            this.cbHatchPattern.Margin = new System.Windows.Forms.Padding(0);
-            this.cbHatchPattern.Name = "cbHatchPattern";
-            this.cbHatchPattern.Size = new System.Drawing.Size(105, 23);
-            this.cbHatchPattern.TabIndex = 19;
-            this.ToolTip.SetToolTip(this.cbHatchPattern, "Fill colour (area under this trace)");
-            // 
-            // cbLinearGraphicMode
-            // 
-            this.cbLinearGraphicMode.BackColor = System.Drawing.SystemColors.Control;
-            this.cbLinearGraphicMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbLinearGraphicMode.DropDownWidth = 144;
-            this.cbLinearGraphicMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbLinearGraphicMode.FormattingEnabled = true;
-            this.cbLinearGraphicMode.ItemHeight = 15;
-            this.cbLinearGraphicMode.Location = new System.Drawing.Point(350, 78);
-            this.cbLinearGraphicMode.Margin = new System.Windows.Forms.Padding(0);
-            this.cbLinearGraphicMode.Name = "cbLinearGraphicMode";
-            this.cbLinearGraphicMode.Size = new System.Drawing.Size(105, 23);
-            this.cbLinearGraphicMode.TabIndex = 20;
-            this.ToolTip.SetToolTip(this.cbLinearGraphicMode, "Fill colour (area under this trace)");
-            // 
             // SeriesPropertiesDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1611,7 +1627,7 @@
             this.Name = "SeriesPropertiesDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sePenSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.seIndex)).EndInit();
             this.TabControl.ResumeLayout(false);
             this.tpSeriesProperties.ResumeLayout(false);
@@ -1718,7 +1734,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        public System.Windows.Forms.NumericUpDown numericUpDown1;
+        public System.Windows.Forms.NumericUpDown sePenSize;
         private System.Windows.Forms.Label label5;
         public System.Windows.Forms.ComboBox cbPenStyle;
         private System.Windows.Forms.Label label6;
@@ -1726,11 +1742,11 @@
         public System.Windows.Forms.TabPage tpSeriesProperties;
         public System.Windows.Forms.TabControl TabControl;
         public System.Windows.Forms.ComboBox cbBrushType;
-        public System.Windows.Forms.ComboBox cb2ndFillColour;
+        public System.Windows.Forms.ComboBox cbFillColour2;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label4;
-        public System.Windows.Forms.ComboBox cbLinearGraphicMode;
-        public System.Windows.Forms.ComboBox cbHatchPattern;
+        public System.Windows.Forms.ComboBox cbGradientMode;
+        public System.Windows.Forms.ComboBox cbHatchStyle;
         private System.Windows.Forms.Label label8;
     }
 }

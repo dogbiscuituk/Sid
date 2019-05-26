@@ -60,6 +60,7 @@
     <Compile Include="Commands\SeriesIntCommands.cs" />
     <Compile Include="Commands\SeriesStringCommands.cs" />
     <Compile Include="Defaults.cs" />
+    <Compile Include="Enumerations\BrushType.cs" />
     <Compile Include="Structs\Domain.cs" />
     <Compile Include="Enumerations\Elements.cs" />
     <Compile Include="Enumerations\Interpolation.cs" />

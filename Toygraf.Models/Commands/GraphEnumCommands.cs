@@ -23,7 +23,7 @@
     public class GraphInterpolationCommand : GraphEnumCommand
     {
         public GraphInterpolationCommand(Interpolation value) :
-            base(value, g => g.Interpolation, (g, e) => g.Interpolation = (Interpolation)e) { }
+            base(value, g => g.Interpolation, (g, n) => g.Interpolation = (Interpolation)n) { }
 
         public override string Action => "interpolation change";
         protected override string Detail => $"interpolation = {(Interpolation)Value}";

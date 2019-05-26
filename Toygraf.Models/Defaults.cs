@@ -26,10 +26,14 @@
         public static readonly Color
             GraphAxisColour = Color.Black,
             GraphFillColour = Color.Transparent,
+            GraphFillColour2 = Color.Transparent,
             GraphLimitColour = Color.DarkGray,
             GraphPaperColour = Color.White,
             GraphPenColour = Color.Black,
             GraphReticleColour = Color.LightGray;
+
+        public const BrushType
+            GraphBrushType = BrushType.Solid;
 
         public const DashStyle
             GraphPenStyle = DashStyle.Solid;
@@ -37,8 +41,14 @@
         public const Elements
             GraphElements = Elements.All;
 
+        public const HatchStyle
+            GraphHatchStyle = HatchStyle.Horizontal;
+
         public const Interpolation
             GraphInterpolation = Interpolation.Linear;
+
+        public const LinearGradientMode
+            GraphGradientMode = LinearGradientMode.Horizontal;
 
         public const Optimization
             GraphOptimization = Optimization.HighQuality;

@@ -35,8 +35,14 @@
         internal Color GetColour(ComboBox comboBox) =>
             Color.FromName(comboBox.SelectedItem.ToString());
 
-        internal void SetColour(ComboBox comboBox, Color colour) =>
-            comboBox.SelectedIndex = comboBox.Items.IndexOf(colour.Name);
+        internal void SetColour(ComboBox comboBox, Color colour)
+        {
+            var argb = colour.ToArgb();
+            var name = comboBox.Items.Cast<string>()
+                .FirstOrDefault(s => Color.FromName(s).ToArgb() == argb);
+            comboBox.SelectedIndex =
+                string.IsNullOrWhiteSpace(name) ? -1 : comboBox.Items.IndexOf(name);
+        }
 
         #endregion
 
