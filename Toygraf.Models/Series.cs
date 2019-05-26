@@ -125,6 +125,8 @@
 
         #region Drawing
 
+        protected override void StepCountChanged() => InvalidatePoints();
+
         private List<List<PointF>> PointLists = new List<List<PointF>>();
 
         // Method DrawAsync is made asynchronous purely as a programming exercise.
@@ -273,8 +275,6 @@
         }
 
         public void InvalidatePoints() => PointLists.Clear();
-
-        protected override void StepCountChanged() => InvalidatePoints();
 
         private static bool IsInvalid(float x) => float.IsInfinity(x) || float.IsNaN(x);
         private static bool IsInvalid(double x) => double.IsInfinity(x) || double.IsNaN(x);
