@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class SeriesIntCommand : SeriesPropertyCommand
+    public abstract class SeriesIntCommand : SeriesPropertyCommand
     {
         protected SeriesIntCommand(int index, int value, Func<Series, int> get, Action<Series, int> set) :
             base(index)
@@ -22,8 +22,6 @@
             Set(graph.Series[Index], Value);
             Value = n;
         }
-
-        public override string ToString() => $"f{Index} {Detail}";
     }
 
     public class SeriesFillTransparencyPercentCommand : SeriesIntCommand
@@ -33,8 +31,7 @@
                 s => s.FillTransparencyPercent,
                 (s, n) => s.FillTransparencyPercent = n) { }
 
-        public override string Action => "fill colour change";
-        protected override string Detail => $"fill transparency = {Value}%";
+        protected override string Detail => "fill transparency (%)";
     }
 
     public class SeriesStepCountCommand : SeriesIntCommand
@@ -44,7 +41,6 @@
                 s => s.StepCount,
                 (s, n) => s.StepCount = n) { }
 
-        public override string Action => "#steps change";
-        protected override string Detail => $"#steps = {Value}";
+        protected override string Detail => "#steps";
     }
 }

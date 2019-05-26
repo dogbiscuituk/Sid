@@ -3,7 +3,7 @@
     using System;
     using System.Drawing;
 
-    public class GraphPointFCommand : GraphPropertyCommand
+    public abstract class GraphPointFCommand : GraphPropertyCommand
     {
         protected GraphPointFCommand(PointF value, Func<Graph, PointF> get, Action<Graph, PointF> set) :
             base()
@@ -23,8 +23,6 @@
             Set(graph, Value);
             Value = p;
         }
-
-        public override string ToString() => $"Graph {Detail} = {Value}";
     }
 
     public class GraphCentreCommand : GraphPointFCommand

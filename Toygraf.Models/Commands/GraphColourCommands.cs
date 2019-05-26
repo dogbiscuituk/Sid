@@ -4,7 +4,7 @@
     using System.Drawing;
     using ToyGraf.Expressions;
 
-    public class GraphColourCommand : GraphIntCommand
+    public abstract class GraphColourCommand : GraphIntCommand
     {
         protected GraphColourCommand(Color colour, Func<Graph, Color> get, Action<Graph, Color> set) :
             base(colour.ToArgb(), c => get(c).ToArgb(), (g, c) => set(g, Color.FromArgb(c))) { }
@@ -33,7 +33,6 @@
     {
         public GraphLimitColourCommand(Color colour) :
             base(colour, g => g.LimitColour, (g, c) => g.LimitColour = c) { }
-
 
         protected override string Detail => "limit";
     }

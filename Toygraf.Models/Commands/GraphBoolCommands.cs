@@ -2,13 +2,12 @@
 {
     using System;
 
-    public class GraphBoolCommand : GraphIntCommand
+    public abstract class GraphBoolCommand : GraphIntCommand
     {
         protected GraphBoolCommand(bool value, Func<Graph, bool> get, Action<Graph, bool> set) :
             base(value ? 1 : 0, g => get(g) ? 1 : 0, (g, b) => set(g, b != 0)) { }
 
-        public override string ToString() =>
-            $"Graph {Detail} = {Value != 0}";
+        public override string ToString() => $"Graph {Detail} = {Value != 0}";
     }
 
     public class GraphDomainGraphWidthCommand : GraphBoolCommand

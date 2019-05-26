@@ -57,6 +57,7 @@
     <Compile Include="Commands\SeriesBoolCommands.cs" />
     <Compile Include="Commands\SeriesColourCommands.cs" />
     <Compile Include="Commands\SeriesEnumCommands.cs" />
+    <Compile Include="Commands\SeriesFloatCommands.cs" />
     <Compile Include="Commands\SeriesIntCommands.cs" />
     <Compile Include="Commands\SeriesStringCommands.cs" />
     <Compile Include="Defaults.cs" />

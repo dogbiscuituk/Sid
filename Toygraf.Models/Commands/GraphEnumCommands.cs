@@ -3,7 +3,7 @@
     using System;
     using ToyGraf.Models.Enumerations;
 
-    public class GraphEnumCommand : GraphIntCommand
+    public abstract class GraphEnumCommand : GraphIntCommand
     {
         protected GraphEnumCommand(object value, Func<Graph, object> get, Action<Graph, object> set) :
             base((int)value, g => (int)get(g), (g, e) => set(g, e)) { }

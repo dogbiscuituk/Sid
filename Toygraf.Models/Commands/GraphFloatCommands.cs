@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class GraphFloatCommand : GraphPropertyCommand
+    public abstract class GraphFloatCommand : GraphPropertyCommand
     {
         protected GraphFloatCommand(float value, Func<Graph, float> get, Action<Graph, float> set) :
             base()
@@ -22,8 +22,6 @@
             Set(graph, Value);
             Value = f;
         }
-
-        public override string ToString() => $"Graph {Detail} = {Value}";
     }
 
     public class GraphDomainMaxCartesianCommand : GraphFloatCommand
@@ -34,7 +32,7 @@
                 (g, f) => g.DomainMaxCartesian = f) { }
 
         public override string Action => "domain edit";
-        protected override string Detail => $"domain max (Cartesian)";
+        protected override string Detail => "domain max (Cartesian)";
     }
 
     public class GraphDomainMaxPolarCommand : GraphFloatCommand
@@ -45,7 +43,7 @@
                 (g, f) => g.DomainMaxPolar = f) { }
 
         public override string Action => "domain edit";
-        protected override string Detail => $"domain max (polar)";
+        protected override string Detail => "domain max (polar)";
     }
 
     public class GraphDomainMinCartesianCommand : GraphFloatCommand
@@ -56,7 +54,7 @@
                 (g, f) => g.DomainMinCartesian = f) { }
 
         public override string Action => "domain edit";
-        protected override string Detail => $"domain min (Cartesian)";
+        protected override string Detail => "domain min (Cartesian)";
     }
 
     public class GraphDomainMinPolarCommand : GraphFloatCommand
@@ -67,7 +65,7 @@
                 (g, f) => g.DomainMinPolar = f) { }
 
         public override string Action => "domain edit";
-        protected override string Detail => $"domain min (polar)";
+        protected override string Detail => "domain min (polar)";
     }
 
     public class GraphWidthCommand : GraphFloatCommand
@@ -78,6 +76,6 @@
                 (g, f) => g.Width = f) { }
 
         public override string Action => "zoom";
-        protected override string Detail => $"zoom width";
+        protected override string Detail => "zoom width";
     }
 }

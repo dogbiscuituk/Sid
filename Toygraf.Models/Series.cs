@@ -157,13 +157,32 @@
                 using (var pen = new Pen(LimitColour, penWidth))
                 {
                     pen.DashStyle = DashStyle.Dash;
-                    var paint = Utility.MakeColour(FillColour, FillTransparencyPercent);
-                    using (var brush = new SolidBrush(paint))
+                    using (var brush = CreateBrush())
                         PointLists.ForEach(p => FillSection(g, brush, plotType, interpolation, p));
                 }
             else
-                using (var pen = new Pen(PenColour, penWidth))
+                using (var pen = new Pen(PenColour, PenWidth * penWidth))
+                {
+                    pen.DashStyle = PenStyle;
                     PointLists.ForEach(p => DrawSection(g, pen, interpolation, p));
+                }
+        }
+
+        private Brush CreateBrush()
+        {
+            Color
+                paint = Utility.MakeColour(FillColour, FillTransparencyPercent),
+                paint2 = Utility.MakeColour(FillColour2, FillTransparencyPercent);
+            switch (BrushType)
+            {
+                case BrushType.Solid:
+                    return new SolidBrush(paint);
+                case BrushType.Hatch:
+                    return new HatchBrush(HatchStyle, paint, paint2);
+                case BrushType.LinearGradient:
+                    return new LinearGradientBrush(Viewport.Limits, paint, paint2, GradientMode);
+            }
+            return new SolidBrush(paint);
         }
 
         private void DrawSection(Graphics g, Pen pen,

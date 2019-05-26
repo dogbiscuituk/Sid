@@ -4,7 +4,7 @@
     using System.Drawing;
     using ToyGraf.Expressions;
 
-    public class SeriesColourCommand : SeriesIntCommand
+    public abstract class SeriesColourCommand : SeriesIntCommand
     {
         protected SeriesColourCommand(int index, Color colour, Func<Series, Color> get, Action<Series, Color> set) :
             base(index, colour.ToArgb(), c => get(c).ToArgb(), (g, c) => set(g, Color.FromArgb(c))) { }

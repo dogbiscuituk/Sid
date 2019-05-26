@@ -1,11 +1,7 @@
 ﻿namespace ToyGraf.Models.Commands
 {
-    public class GraphCommand
+    public abstract class GraphCommand
     {
-        public virtual string Action => "property change";
-        public virtual string UndoAction => Action;
-        public virtual string RedoAction => Action;
-
         /// <summary>
         /// Invoke the Run method of the command, then immediately invert
         /// the command in readiness for its transfer between the Undo and
@@ -18,28 +14,31 @@
         /// <param name="graph"></param>
         public void Do(Graph graph) { Run(graph); Invert(); }
 
-        protected virtual string Detail { get; }
+        public virtual string Action => $"{Detail} change";
+        public virtual string UndoAction => Action;
+        public virtual string RedoAction => Action;
+        public override string ToString() => $"{Target} {Detail} = {Value}";
 
+        protected abstract string Detail { get; }
         protected virtual void Invert() { }
-        protected virtual void Run(Graph graph) { }
+        protected abstract void Run(Graph graph);
+        protected virtual string Target { get => "Graph"; }
+        protected virtual object Value { get; set; }
     }
 
-    public class GraphPropertyCommand : GraphCommand
-    {
-        protected object Value { get; set; }
-    }
+    public abstract class GraphPropertyCommand : GraphCommand { }
 
-    public class SeriesCommand : GraphCommand
+    public abstract class SeriesCommand : GraphCommand
     {
         public SeriesCommand(int index) : base() { Index = index; }
 
         public int Index { get; protected set; }
     }
 
-    public class SeriesPropertyCommand : SeriesCommand
+    public abstract class SeriesPropertyCommand : SeriesCommand
     {
         public SeriesPropertyCommand(int index) : base(index) { }
 
-        protected object Value { get; set; }
+        protected override string Target => $"f{Index}";
     }
 }

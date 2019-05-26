@@ -32,6 +32,7 @@
             View.cbPenStyle.SelectedIndexChanged += PenStyleChanged;
             View.seIndex.ValueChanged += IndexValueChanged;
             View.seTransparency.ValueChanged += FillTransparencyChanged;
+            View.sePenSize.ValueChanged += PenSizeChanged;
         }
 
         internal void ShowDialog(IWin32Window owner, Point location, Graph graph, int index)
@@ -119,6 +120,14 @@
 
         private void PenColourChanged(object sender, System.EventArgs e) =>
             SeriesView.cbPenColour.SelectedIndex = View.cbPenColour.SelectedIndex;
+
+        private void PenSizeChanged(object sender, EventArgs e)
+        {
+            if (Loading) return;
+            var penWidth = (float)View.sePenSize.Value;
+            if (Series.PenWidth != penWidth)
+                CommandProcessor.Run(new SeriesPenWidthCommand(Index, penWidth));
+        }
 
         private void PenStyleChanged(object sender, System.EventArgs e)
         {

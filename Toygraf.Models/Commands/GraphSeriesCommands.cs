@@ -18,16 +18,11 @@
         public bool Add;
         public override string UndoAction => GetAction(true);
         public override string RedoAction => GetAction(false);
-        protected override string Detail => Series == null ? string.Empty : $" = {Series.Formula}";
+        public override string ToString() => $"{(Add ? "Add" : "Remove")} function f{Index} = {Detail}";
 
+        protected override string Detail => $"{Series?.Formula}";
         protected override void Invert() { Add = !Add; }
         
-        public override string ToString()
-        {
-            var verb = Add ? "Add" : "Remove";
-            return $"{verb} function f{Index}{Detail}";
-        }
-
         protected override void Run(Graph graph)
         {
             if (Add)
@@ -47,7 +42,7 @@
             }
         }
 
-        private string GetAction(bool undo) => Add ^ undo ? "function addition" : "function removal";
+        private string GetAction(bool undo) => $"function {(Add ^ undo ? "addition" : "removal")}";
     }
 
     public class GraphInsertSeriesCommand : GraphSeriesCommand

@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class SeriesStringCommand : SeriesPropertyCommand
+    public abstract class SeriesStringCommand : SeriesPropertyCommand
     {
         protected SeriesStringCommand(int index, string value, Func<Series, string> get, Action<Series, string> set) :
             base(index)
@@ -33,7 +33,6 @@
                 s => s.Formula,
                 (s, n) => s.Formula = n) { }
 
-        public override string Action => "formula change";
         protected override string Detail => "formula";
     }
 }

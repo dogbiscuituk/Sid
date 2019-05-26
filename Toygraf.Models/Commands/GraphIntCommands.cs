@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class GraphIntCommand : GraphPropertyCommand
+    public abstract class GraphIntCommand : GraphPropertyCommand
     {
         protected GraphIntCommand(int value, Func<Graph, int> get, Action<Graph, int> set) :
             base()
