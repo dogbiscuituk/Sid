@@ -83,6 +83,7 @@
             else
                 p = points.ToArray();
             var result = false;
+            //if (p.Max(q => Math.Abs(q.Y)) < 1e7) // Anything higher risks overflow
             try
             {
                 switch (Interpolation)

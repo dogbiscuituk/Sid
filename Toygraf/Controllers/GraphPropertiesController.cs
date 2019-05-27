@@ -159,8 +159,8 @@
         {
             if (Loading) return;
             var fillColour = ColourController.GetColour(View.cbFillColour);
-            if (Graph.FillColour.ToArgb() != fillColour.ToArgb())
-                CommandController.Run(new GraphFillColourCommand(fillColour));
+            if (Graph.FillColour1.ToArgb() != fillColour.ToArgb())
+                CommandController.Run(new GraphFillColour2Command(fillColour));
         }
 
         private void FillTransparencyChanged(object sender, EventArgs e)
@@ -287,7 +287,7 @@
             // Fill Colours
             ColourController.SetColour(View.cbPaperColour, Graph.PaperColour);
             View.sePaperTransparency.Value = Graph.PaperTransparencyPercent;
-            ColourController.SetColour(View.cbFillColour, Graph.FillColour);
+            ColourController.SetColour(View.cbFillColour, Graph.FillColour1);
             View.seFillTransparency.Value = Graph.FillTransparencyPercent;
             // Quality
             View.cbOptimization.SelectedIndex = (int)Graph.Optimization;

@@ -203,7 +203,7 @@
             child.TraceVisible = series.Visible;
             child.Formula = series.Formula;
             child.PenColour = series.PenColour;
-            child.FillColour = series.FillColour;
+            child.FillColour = series.FillColour1;
             child.FillTransparencyPercent = series.FillTransparencyPercent;
             child.View.cbFunction.Validating += CbFunction_Validating;
             SeriesViews.Add(child.View);

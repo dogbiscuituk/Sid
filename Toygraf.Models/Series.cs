@@ -21,7 +21,7 @@
         public Series(Graph graph): this()
         {
             BrushType = graph.BrushType;
-            FillColour = graph.FillColour;
+            FillColour1 = graph.FillColour1;
             FillColour2 = graph.FillColour2;
             FillTransparencyPercent = graph.FillTransparencyPercent;
             GradientMode = graph.GradientMode;
@@ -174,7 +174,7 @@
         private Brush CreateBrush(Matrix m)
         {
             Color
-                paint1 = Utility.MakeColour(FillColour, FillTransparencyPercent),
+                paint1 = Utility.MakeColour(FillColour1, FillTransparencyPercent),
                 paint2 = Utility.MakeColour(FillColour2, FillTransparencyPercent);
             switch (BrushType)
             {

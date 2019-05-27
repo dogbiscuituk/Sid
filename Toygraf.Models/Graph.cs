@@ -287,7 +287,7 @@
             _penWidth = Defaults.GraphPenWidth;
             // Color
             _axisColour = Defaults.GraphAxisColour;
-            _fillColour = Defaults.GraphFillColour;
+            _fillColour1 = Defaults.GraphFillColour1;
             _fillColour2 = Defaults.GraphFillColour2;
             _reticleColour = Defaults.GraphReticleColour;
             _limitColour = Defaults.GraphLimitColour;
@@ -386,7 +386,8 @@
         public void Draw(Graphics g, Rectangle r, double time)
         {
             InitOptimization(g);
-            g.Transform = GetMatrix(r);
+            using (var m = GetMatrix(r))
+                g.Transform = m;
             Viewport.SetRatio(r.Size);
             if (LastViewport != Viewport)
             {
@@ -488,8 +489,8 @@
         public Point GraphToClient(PointF p, Rectangle r)
         {
             var points = new[] { p };
-            var matrix = GetMatrix(r);
-            matrix.TransformPoints(points);
+            using (var m = GetMatrix(r))
+                m.TransformPoints(points);
             var q = points[0];
             return new Point((int)Math.Round(q.X), (int)Math.Round(q.Y));
         }
@@ -497,9 +498,11 @@
         public PointF ClientToGraph(Point p, Rectangle r)
         {
             var points = new[] { new PointF(p.X, p.Y) };
-            var matrix = GetMatrix(r);
-            matrix.Invert();
-            matrix.TransformPoints(points);
+            using (var m = GetMatrix(r))
+            {
+                m.Invert();
+                m.TransformPoints(points);
+            }
             return points[0];
         }
 

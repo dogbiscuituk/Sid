@@ -25,7 +25,7 @@
 
         public static readonly Color
             GraphAxisColour = Color.Black,
-            GraphFillColour = Color.Transparent,
+            GraphFillColour1 = Color.Transparent,
             GraphFillColour2 = Color.Transparent,
             GraphLimitColour = Color.DarkGray,
             GraphPaperColour = Color.White,

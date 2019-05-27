@@ -1071,7 +1071,8 @@
             // 
             // ImageOpenDialog
             // 
-            this.ImageOpenDialog.Filter = "Images (*.bmp;*.gif;*.jpeg;*.jpg)|*.bmp;*.gif;*.jpeg;*.jpg|All files (*.*)|*.*";
+            this.ImageOpenDialog.Filter = "Images (*.bmp;*.gif;*.jpeg;*.jpg;*.png)|*.bmp;*.gif;*.jpeg;*.jpg;*.png|All files " +
+    "(*.*)|*.*";
             this.ImageOpenDialog.Title = "Select Texture";
             // 
             // AppForm

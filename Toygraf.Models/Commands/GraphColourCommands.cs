@@ -21,12 +21,21 @@
         protected override string Detail => "axis";
     }
 
-    public class GraphFillColourCommand : GraphColourCommand
+    public class GraphFillColour1Command : GraphColourCommand
     {
-        public GraphFillColourCommand(Color colour) :
-            base(colour, g => g.FillColour, (g, c) => g.FillColour = c) { }
+        public GraphFillColour1Command(Color colour) :
+            base(colour, g => g.FillColour1, (g, c) => g.FillColour1 = c) { }
 
         protected override string Detail => "fill";
+    }
+
+    public class GraphFillColour2Command : GraphColourCommand
+    {
+        public GraphFillColour2Command(Color colour) :
+            base(colour, g => g.FillColour2, (g, c) => g.FillColour2 = c)
+        { }
+
+        protected override string Detail => "secondary fill";
     }
 
     public class GraphLimitColourCommand : GraphColourCommand

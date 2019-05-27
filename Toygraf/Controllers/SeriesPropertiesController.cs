@@ -21,12 +21,12 @@
             View = new SeriesPropertiesDialog();
             View.FormClosing += View_FormClosing;
             ColourController = new ColourController();
-            ColourController.AddControls(View.cbPenColour, View.cbFillColour, View.cbFillColour2);
+            ColourController.AddControls(View.cbPenColour, View.cbFillColour1, View.cbFillColour2);
             KeyboardController = new KeyboardController(this);
             InitEnumControls();
             View.btnTexture.Click += TextureClick;
             View.cbBrushType.SelectedIndexChanged += BrushTypeChanged;
-            View.cbFillColour.SelectedIndexChanged += FillColourChanged;
+            View.cbFillColour1.SelectedIndexChanged += FillColourChanged;
             View.cbFillColour2.SelectedIndexChanged += FillColour2Changed;
             View.cbGradientMode.SelectedIndexChanged += GradientModeChanged;
             View.cbHatchStyle.SelectedIndexChanged += HatchStyleChanged;
@@ -94,7 +94,7 @@
         }
 
         private void FillColourChanged(object sender, System.EventArgs e) =>
-            SeriesView.cbFillColour.SelectedIndex = View.cbFillColour.SelectedIndex;
+            SeriesView.cbFillColour.SelectedIndex = View.cbFillColour1.SelectedIndex;
 
         private void FillColour2Changed(object sender, System.EventArgs e)
         {
@@ -180,7 +180,7 @@
             Loading = true;
             var series = Graph.Series[Index];
             ColourController.SetColour(View.cbPenColour, series.PenColour);
-            ColourController.SetColour(View.cbFillColour, series.FillColour);
+            ColourController.SetColour(View.cbFillColour1, series.FillColour1);
             ColourController.SetColour(View.cbFillColour2, series.FillColour2);
             View.cbPenStyle.SelectedIndex = (int)series.PenStyle;
             View.cbBrushType.SelectedIndex = (int)series.BrushType;
@@ -202,7 +202,7 @@
                 texture = brushType == BrushType.Texture,
                 path = brushType == BrushType.PathGradient,
                 linear = brushType == BrushType.LinearGradient;
-            View.cbFillColour.Visible = !texture;
+            View.cbFillColour1.Visible = !texture;
             View.lblFillColour.Text = texture ? "Texture:" : "Fill colour:";
             View.lblTransparency.Visible = View.seTransparency.Visible = !texture;
             View.cbFillColour2.Visible = View.lblFillColour2.Visible = !(solid || texture);

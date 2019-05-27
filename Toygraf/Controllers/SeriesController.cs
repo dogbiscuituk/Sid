@@ -115,7 +115,7 @@
         private void CbFillColour_SelectedValueChanged(object sender, System.EventArgs e)
         {
             if (!Parent.Loading)
-                CommandProcessor.Run(new SeriesFillColourCommand(Index, FillColour));
+                CommandProcessor.Run(new SeriesFillColour1Command(Index, FillColour));
         }
 
         private void CbPenColour_SelectedValueChanged(object sender, System.EventArgs e)

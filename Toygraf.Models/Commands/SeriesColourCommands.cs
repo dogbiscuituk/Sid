@@ -15,10 +15,10 @@
             $"f{Index} {Detail} colour = {Color.FromArgb(Value).GetName()}";
     }
 
-    public class SeriesFillColourCommand : SeriesColourCommand
+    public class SeriesFillColour1Command : SeriesColourCommand
     {
-        public SeriesFillColourCommand(int index, Color colour) :
-            base(index, colour, s => s.FillColour, (s, c) => s.FillColour = c) { }
+        public SeriesFillColour1Command(int index, Color colour) :
+            base(index, colour, s => s.FillColour1, (s, c) => s.FillColour1 = c) { }
 
         protected override string Detail => "fill";
     }

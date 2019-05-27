@@ -38,16 +38,16 @@
             }
         }
 
-        protected Color _fillColour;
-        public Color FillColour
+        protected Color _fillColour1;
+        public Color FillColour1
         {
-            get => _fillColour;
+            get => _fillColour1;
             set
             {
-                if (FillColour != value)
+                if (FillColour1 != value)
                 {
-                    _fillColour = value;
-                    OnPropertyChanged("FillColour");
+                    _fillColour1 = value;
+                    OnPropertyChanged("FillColour1");
                 }
             }
         }

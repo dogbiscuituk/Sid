@@ -113,7 +113,7 @@
             this.cbVisible = new System.Windows.Forms.CheckBox();
             this.seTransparency = new System.Windows.Forms.NumericUpDown();
             this.cbPenColour = new System.Windows.Forms.ComboBox();
-            this.cbFillColour = new System.Windows.Forms.ComboBox();
+            this.cbFillColour1 = new System.Windows.Forms.ComboBox();
             this.sePenSize = new System.Windows.Forms.NumericUpDown();
             this.cbPenStyle = new System.Windows.Forms.ComboBox();
             this.cbFillColour2 = new System.Windows.Forms.ComboBox();
@@ -1243,19 +1243,19 @@
             // 
             // cbFillColour
             // 
-            this.cbFillColour.BackColor = System.Drawing.SystemColors.Control;
-            this.cbFillColour.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cbFillColour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFillColour.DropDownWidth = 144;
-            this.cbFillColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbFillColour.FormattingEnabled = true;
-            this.cbFillColour.ItemHeight = 18;
-            this.cbFillColour.Location = new System.Drawing.Point(75, 32);
-            this.cbFillColour.Margin = new System.Windows.Forms.Padding(0);
-            this.cbFillColour.Name = "cbFillColour";
-            this.cbFillColour.Size = new System.Drawing.Size(104, 24);
-            this.cbFillColour.TabIndex = 5;
-            this.ToolTip.SetToolTip(this.cbFillColour, "Fill colour (area under this trace)");
+            this.cbFillColour1.BackColor = System.Drawing.SystemColors.Control;
+            this.cbFillColour1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbFillColour1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFillColour1.DropDownWidth = 144;
+            this.cbFillColour1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbFillColour1.FormattingEnabled = true;
+            this.cbFillColour1.ItemHeight = 18;
+            this.cbFillColour1.Location = new System.Drawing.Point(75, 32);
+            this.cbFillColour1.Margin = new System.Windows.Forms.Padding(0);
+            this.cbFillColour1.Name = "cbFillColour1";
+            this.cbFillColour1.Size = new System.Drawing.Size(104, 24);
+            this.cbFillColour1.TabIndex = 5;
+            this.ToolTip.SetToolTip(this.cbFillColour1, "Fill colour (area under this trace)");
             // 
             // sePenSize
             // 
@@ -1427,7 +1427,7 @@
             this.tpSeriesProperties.Controls.Add(this.label1);
             this.tpSeriesProperties.Controls.Add(this.seTransparency);
             this.tpSeriesProperties.Controls.Add(this.cbPenColour);
-            this.tpSeriesProperties.Controls.Add(this.cbFillColour);
+            this.tpSeriesProperties.Controls.Add(this.cbFillColour1);
             this.tpSeriesProperties.Controls.Add(this.lblTexturePath);
             this.tpSeriesProperties.Controls.Add(this.btnTexture);
             this.tpSeriesProperties.Location = new System.Drawing.Point(4, 24);
@@ -1768,7 +1768,7 @@
         private System.Windows.Forms.Panel panel2;
         public System.Windows.Forms.NumericUpDown seTransparency;
         public System.Windows.Forms.ComboBox cbPenColour;
-        public System.Windows.Forms.ComboBox cbFillColour;
+        public System.Windows.Forms.ComboBox cbFillColour1;
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.NumericUpDown sePenSize;
         private System.Windows.Forms.Label label5;
