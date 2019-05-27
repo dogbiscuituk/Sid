@@ -25,7 +25,7 @@
             Model.Cleared += Model_Cleared;
             Model.ModifiedChanged += Model_ModifiedChanged;
             Model.PropertyChanged += Model_PropertyChanged;
-            GraphicsController = new GraphicsController(this);
+            GraphicsController = new GraphicsController(this, doubleBuffered: false);
             JsonController = new JsonController(Model, View, View.FileReopen);
             JsonController.FileLoaded += JsonController_FileLoaded;
             JsonController.FilePathChanged += JsonController_FilePathChanged;
@@ -65,6 +65,7 @@
                 View.HelpAbout.Click += HelpAbout_Click;
                 View.PopupMenu.Opening += PopupMenu_Opening;
                 View.FormClosing += View_FormClosing;
+                View.SizeChanged += View_SizeChanged;
             }
         }
 
@@ -140,6 +141,8 @@
         private void JsonController_FileSaved(object sender, EventArgs e) => FileSaved();
         private void JsonController_FileSaving(object sender, CancelEventArgs e) => e.Cancel = !ContinueSaving();
         private void View_FormClosing(object sender, FormClosingEventArgs e) => e.Cancel = !JsonController.SaveIfModified();
+        private void View_SizeChanged(object sender, EventArgs e) =>
+            View.StatusBar.ShowItemToolTips = View.WindowState != FormWindowState.Maximized;
 
         #endregion
 

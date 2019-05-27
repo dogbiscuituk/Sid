@@ -11,9 +11,10 @@
     {
         #region Internal Interface
 
-        internal GraphicsController(AppController parent)
+        internal GraphicsController(AppController parent, bool doubleBuffered)
         {
             Parent = parent;
+            DoubleBuffered = doubleBuffered;
             View = parent.View.PictureBox;
             ClockController = new ClockController(this);
             AdjustPictureBox();
@@ -51,7 +52,7 @@
         private CommandProcessor CommandController { get => Parent.CommandProcessor; }
         private Graph Graph => Parent.Graph;
         private Point DragFrom, MouseDownAt;
-        private bool Dragging;
+        private bool DoubleBuffered, Dragging;
 
         #endregion
 
@@ -109,7 +110,19 @@
         {
             var r = View.ClientRectangle;
             ClockController.BeforeDraw();
-            Graph.Draw(e.Graphics, r, ClockController.VirtualSecondsElapsed);
+            var t = ClockController.VirtualSecondsElapsed;
+            if (DoubleBuffered)
+                using (var bitmap = new Bitmap(r.Width, r.Height, e.Graphics))
+                {
+                    using (var g = Graphics.FromImage(bitmap))
+                    {
+                        g.SetClip(e.Graphics);
+                        Graph.Draw(g, r, t);
+                    }
+                    e.Graphics.DrawImageUnscaled(bitmap, 0, 0);
+                }
+            else
+                Graph.Draw(e.Graphics, r, t);
             ClockController.AfterDraw();
         }
 
