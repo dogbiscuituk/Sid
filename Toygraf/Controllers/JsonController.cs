@@ -73,9 +73,11 @@
 
         private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) { }
 
-        private static JsonSerializer GetSerializer() => new JsonSerializer{
-            Formatting = Formatting.Indented,
-            DefaultValueHandling = DefaultValueHandling.Ignore };
+        private static JsonSerializer GetSerializer() => new JsonSerializer
+        {
+            //DefaultValueHandling = DefaultValueHandling.Ignore,
+            Formatting = Formatting.Indented
+        };
 
         #endregion
     }

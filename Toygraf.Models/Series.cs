@@ -174,14 +174,14 @@
         private Brush CreateBrush(Matrix m)
         {
             Color
-                paint = Utility.MakeColour(FillColour, FillTransparencyPercent),
+                paint1 = Utility.MakeColour(FillColour, FillTransparencyPercent),
                 paint2 = Utility.MakeColour(FillColour2, FillTransparencyPercent);
             switch (BrushType)
             {
                 case BrushType.Solid:
-                    return new SolidBrush(paint);
+                    return new SolidBrush(paint1);
                 case BrushType.Hatch:
-                    return new HatchBrush(HatchStyle, paint, paint2);
+                    return new HatchBrush(HatchStyle, paint1, paint2);
                 case BrushType.Texture:
                     if (Texture == null)
                         goto case BrushType.Solid;
@@ -198,11 +198,14 @@
                 case BrushType.PathGradient:
                     var path = new GraphicsPath();
                     path.AddRectangle(Viewport.Limits);
-                    return new PathGradientBrush(path);
+                    var brush = new PathGradientBrush(path);
+                    brush.CenterColor = paint1;
+                    brush.SurroundColors = new Color[] { paint2 };
+                    return brush;
                 case BrushType.LinearGradient:
-                    return new LinearGradientBrush(Viewport.Limits, paint, paint2, GradientMode);
+                    return new LinearGradientBrush(Viewport.Limits, paint1, paint2, GradientMode);
             }
-            return new SolidBrush(paint);
+            return new SolidBrush(paint1);
         }
 
         private void DrawSection(Graphics g, Pen pen,

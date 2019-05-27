@@ -1071,7 +1071,7 @@
             // 
             // ImageOpenDialog
             // 
-            this.ImageOpenDialog.Filter = "Bitmaps (*.bmp)|*.bmp";
+            this.ImageOpenDialog.Filter = "Images (*.bmp;*.gif;*.jpeg;*.jpg)|*.bmp;*.gif;*.jpeg;*.jpg|All files (*.*)|*.*";
             this.ImageOpenDialog.Title = "Select Texture";
             // 
             // AppForm
