@@ -19,13 +19,17 @@
 
         public Series(Graph graph): this()
         {
+            BrushType = graph.BrushType;
             FillColour = graph.FillColour;
+            FillColour2 = graph.FillColour2;
+            FillTransparencyPercent = graph.FillTransparencyPercent;
+            GradientMode = graph.GradientMode;
+            HatchStyle = graph.HatchStyle;
             LimitColour = graph.LimitColour;
             PenColour = graph.PenColour;
             PenStyle = graph.PenStyle;
             PenWidth = graph.PenWidth;
             StepCount = graph.StepCount;
-            FillTransparencyPercent = graph.FillTransparencyPercent;
         }
 
         #region Visual Properties

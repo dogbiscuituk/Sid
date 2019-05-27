@@ -3,6 +3,7 @@
     using System.ComponentModel;
     using System.Drawing;
     using System.Drawing.Drawing2D;
+    using System.IO;
     using ToyGraf.Models.Enumerations;
 
     public abstract class Style
@@ -186,6 +187,29 @@
                     _stepCount = value;
                     OnPropertyChanged("StepCount");
                 }
+            }
+        }
+
+        protected Image _texture;
+        public Image Texture
+        {
+            get => _texture;
+            set
+            {
+                Texture = value;
+                OnPropertyChanged("Texture");
+            }
+        }
+
+        protected string _texturePath;
+        public string TexturePath
+        {
+            get => _texturePath;
+            set
+            {
+                _texturePath = value;
+                if (File.Exists(TexturePath))
+                    Texture = Image.FromFile(TexturePath);
             }
         }
 

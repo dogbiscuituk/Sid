@@ -124,17 +124,19 @@
             this.IndexLabel = new System.Windows.Forms.Label();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.tpSeriesProperties = new System.Windows.Forms.TabPage();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.lblType = new System.Windows.Forms.Label();
+            this.lblFillColour2 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblTransparency = new System.Windows.Forms.Label();
+            this.lblFillColour = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tpKeyboard = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.lblTexturePath = new System.Windows.Forms.Label();
+            this.btnTexture = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sePenSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seIndex)).BeginInit();
@@ -1357,7 +1359,7 @@
             this.cbGradientMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbGradientMode.FormattingEnabled = true;
             this.cbGradientMode.ItemHeight = 15;
-            this.cbGradientMode.Location = new System.Drawing.Point(350, 78);
+            this.cbGradientMode.Location = new System.Drawing.Point(350, 55);
             this.cbGradientMode.Margin = new System.Windows.Forms.Padding(0);
             this.cbGradientMode.Name = "cbGradientMode";
             this.cbGradientMode.Size = new System.Drawing.Size(105, 23);
@@ -1408,21 +1410,23 @@
             this.tpSeriesProperties.BackColor = System.Drawing.SystemColors.Control;
             this.tpSeriesProperties.Controls.Add(this.cbGradientMode);
             this.tpSeriesProperties.Controls.Add(this.cbHatchStyle);
-            this.tpSeriesProperties.Controls.Add(this.label8);
+            this.tpSeriesProperties.Controls.Add(this.lblType);
             this.tpSeriesProperties.Controls.Add(this.cbBrushType);
             this.tpSeriesProperties.Controls.Add(this.cbFillColour2);
-            this.tpSeriesProperties.Controls.Add(this.label7);
+            this.tpSeriesProperties.Controls.Add(this.lblFillColour2);
             this.tpSeriesProperties.Controls.Add(this.cbPenStyle);
             this.tpSeriesProperties.Controls.Add(this.label6);
             this.tpSeriesProperties.Controls.Add(this.sePenSize);
             this.tpSeriesProperties.Controls.Add(this.label5);
             this.tpSeriesProperties.Controls.Add(this.label4);
-            this.tpSeriesProperties.Controls.Add(this.label3);
-            this.tpSeriesProperties.Controls.Add(this.label2);
+            this.tpSeriesProperties.Controls.Add(this.lblTransparency);
+            this.tpSeriesProperties.Controls.Add(this.lblFillColour);
             this.tpSeriesProperties.Controls.Add(this.label1);
             this.tpSeriesProperties.Controls.Add(this.seTransparency);
             this.tpSeriesProperties.Controls.Add(this.cbPenColour);
             this.tpSeriesProperties.Controls.Add(this.cbFillColour);
+            this.tpSeriesProperties.Controls.Add(this.lblTexturePath);
+            this.tpSeriesProperties.Controls.Add(this.btnTexture);
             this.tpSeriesProperties.Location = new System.Drawing.Point(4, 24);
             this.tpSeriesProperties.Name = "tpSeriesProperties";
             this.tpSeriesProperties.Padding = new System.Windows.Forms.Padding(3);
@@ -1430,23 +1434,23 @@
             this.tpSeriesProperties.TabIndex = 0;
             this.tpSeriesProperties.Text = "Series Properties";
             // 
-            // label8
+            // lblType
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(312, 58);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(35, 15);
-            this.label8.TabIndex = 18;
-            this.label8.Text = "Type:";
+            this.lblType.AutoSize = true;
+            this.lblType.Location = new System.Drawing.Point(312, 58);
+            this.lblType.Name = "lblType";
+            this.lblType.Size = new System.Drawing.Size(35, 15);
+            this.lblType.TabIndex = 18;
+            this.lblType.Text = "Type:";
             // 
-            // label7
+            // lblFillColour2
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(2, 58);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(48, 15);
-            this.label7.TabIndex = 15;
-            this.label7.Text = "2nd Fill:";
+            this.lblFillColour2.AutoSize = true;
+            this.lblFillColour2.Location = new System.Drawing.Point(2, 58);
+            this.lblFillColour2.Name = "lblFillColour2";
+            this.lblFillColour2.Size = new System.Drawing.Size(46, 15);
+            this.lblFillColour2.TabIndex = 15;
+            this.lblFillColour2.Text = "2nd fill:";
             // 
             // label6
             // 
@@ -1475,32 +1479,32 @@
             this.label4.TabIndex = 10;
             this.label4.Text = "Brush:";
             // 
-            // label3
+            // lblTransparency
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(182, 35);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(80, 15);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Transparency:";
+            this.lblTransparency.AutoSize = true;
+            this.lblTransparency.Location = new System.Drawing.Point(182, 35);
+            this.lblTransparency.Name = "lblTransparency";
+            this.lblTransparency.Size = new System.Drawing.Size(80, 15);
+            this.lblTransparency.TabIndex = 9;
+            this.lblTransparency.Text = "Transparency:";
             // 
-            // label2
+            // lblFillColour
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 35);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(64, 15);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Fill Colour:";
+            this.lblFillColour.AutoSize = true;
+            this.lblFillColour.Location = new System.Drawing.Point(3, 35);
+            this.lblFillColour.Name = "lblFillColour";
+            this.lblFillColour.Size = new System.Drawing.Size(62, 15);
+            this.lblFillColour.TabIndex = 8;
+            this.lblFillColour.Text = "Fill colour:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(3, 12);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(69, 15);
+            this.label1.Size = new System.Drawing.Size(67, 15);
             this.label1.TabIndex = 7;
-            this.label1.Text = "Pen Colour:";
+            this.label1.Text = "Pen colour:";
             // 
             // tpKeyboard
             // 
@@ -1610,6 +1614,22 @@
             this.panel2.Padding = new System.Windows.Forms.Padding(3);
             this.panel2.Size = new System.Drawing.Size(466, 37);
             this.panel2.TabIndex = 87;
+            // 
+            // lblTexturePath
+            // 
+            this.lblTexturePath.Location = new System.Drawing.Point(100, 35);
+            this.lblTexturePath.Name = "lblTexturePath";
+            this.lblTexturePath.Size = new System.Drawing.Size(206, 15);
+            this.lblTexturePath.TabIndex = 21;
+            // 
+            // btnTexture
+            // 
+            this.btnTexture.Location = new System.Drawing.Point(75, 32);
+            this.btnTexture.Name = "btnTexture";
+            this.btnTexture.Size = new System.Drawing.Size(25, 22);
+            this.btnTexture.TabIndex = 22;
+            this.btnTexture.Text = "...";
+            this.btnTexture.UseVisualStyleBackColor = true;
             // 
             // SeriesPropertiesDialog
             // 
@@ -1731,8 +1751,6 @@
         public System.Windows.Forms.NumericUpDown seTransparency;
         public System.Windows.Forms.ComboBox cbPenColour;
         public System.Windows.Forms.ComboBox cbFillColour;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.NumericUpDown sePenSize;
         private System.Windows.Forms.Label label5;
@@ -1743,10 +1761,14 @@
         public System.Windows.Forms.TabControl TabControl;
         public System.Windows.Forms.ComboBox cbBrushType;
         public System.Windows.Forms.ComboBox cbFillColour2;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label4;
         public System.Windows.Forms.ComboBox cbGradientMode;
         public System.Windows.Forms.ComboBox cbHatchStyle;
-        private System.Windows.Forms.Label label8;
+        public System.Windows.Forms.Label lblFillColour;
+        public System.Windows.Forms.Label lblTransparency;
+        public System.Windows.Forms.Label lblFillColour2;
+        public System.Windows.Forms.Label lblType;
+        public System.Windows.Forms.Label lblTexturePath;
+        public System.Windows.Forms.Button btnTexture;
     }
 }

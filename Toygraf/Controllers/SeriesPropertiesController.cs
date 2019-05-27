@@ -23,6 +23,7 @@
             KeyboardController = new KeyboardController(this);
             ColourController.AddControls(View.cbPenColour, View.cbFillColour, View.cbFillColour2);
             InitEnumControls();
+            View.btnTexture.Click += TextureClick;
             View.cbBrushType.SelectedIndexChanged += BrushTypeChanged;
             View.cbFillColour.SelectedIndexChanged += FillColourChanged;
             View.cbFillColour2.SelectedIndexChanged += FillColour2Changed;
@@ -33,6 +34,7 @@
             View.seIndex.ValueChanged += IndexValueChanged;
             View.seTransparency.ValueChanged += FillTransparencyChanged;
             View.sePenSize.ValueChanged += PenSizeChanged;
+            UpdateUI();
         }
 
         internal void ShowDialog(IWin32Window owner, Point location, Graph graph, int index)
@@ -82,6 +84,7 @@
 
         private void BrushTypeChanged(object sender, System.EventArgs e)
         {
+            UpdateUI();
             if (Loading) return;
             var brushType = (BrushType)View.cbBrushType.SelectedIndex;
             if (Series.BrushType != brushType)
@@ -137,6 +140,9 @@
                 CommandProcessor.Run(new SeriesPenStyleCommand(Index, penStyle));
         }
 
+        private void TextureClick(object sender, EventArgs e) =>
+            Parent.ExecuteTextureDialog(Series);
+
         private void View_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
@@ -152,10 +158,10 @@
 
         private void InitEnumControls()
         {
-            View.cbPenStyle.Items.PopulateWith(typeof(DashStyle));
-            View.cbBrushType.Items.PopulateWith(typeof(BrushType));
-            View.cbHatchStyle.Items.PopulateWith(typeof(HatchStyle));
-            View.cbGradientMode.Items.PopulateWith(typeof(LinearGradientMode));
+            View.cbPenStyle.Items.PopulateWithNames(typeof(DashStyle));
+            View.cbBrushType.Items.PopulateWithDescriptions(typeof(BrushType));
+            View.cbHatchStyle.Items.PopulateWithNames(typeof(HatchStyle));
+            View.cbGradientMode.Items.PopulateWithNames(typeof(LinearGradientMode));
         }
 
         private void LoadSeries()
@@ -184,9 +190,13 @@
                 path = brushType == BrushType.PathGradient,
                 linear = brushType == BrushType.LinearGradient;
             View.cbFillColour.Visible = !texture;
-            View.cbFillColour2.Visible = !(solid || texture);
+            View.lblFillColour.Text = texture ? "Texture:" : "Fill colour:";
+            View.lblTransparency.Visible = View.seTransparency.Visible = !texture;
+            View.cbFillColour2.Visible = View.lblFillColour2.Visible = !(solid || texture);
             View.cbHatchStyle.Visible = hatch;
             View.cbGradientMode.Visible = linear;
+            View.lblType.Visible = hatch || linear;
+            View.lblTexturePath.Visible = View.btnTexture.Visible = texture;
         }
 
         #endregion

@@ -75,28 +75,26 @@
 
         #region Enums
 
-        public static string[] GetDescriptions(this Type enumType)
+        public static void PopulateWithDescriptions(this IList list, Type enumType)
         {
-            var result = Enum.GetNames(enumType);
-            var descriptions = enumType
+            list.Clear();
+            foreach (var description in
+                enumType
                 .GetFields()
                 .Select(p => p.GetCustomAttribute<DescriptionAttribute>())
                 .OfType<DescriptionAttribute>()
-                .Select(p => p.Description)
-                .ToList();
-            for (var index = 0; index < Math.Min(result.Length, descriptions.Count); index++)
-            {
-                var description = descriptions[index];
-                if (!string.IsNullOrWhiteSpace(description))
-                    result[index] = description;
-            }
-            return result;
+                .Select(p => p.Description))
+            { list.Add(description); }
         }
 
-        public static void PopulateWith(this IList list, Type enumType)
+        public static void PopulateWithNames(this IList list, Type enumType)
         {
             list.Clear();
-            Array.ForEach(enumType.GetDescriptions(), p => list.Add(p));
+            foreach (var name in Enum.GetValues(enumType)
+                .Cast<object>()
+                .Distinct()
+                .Select(p => Enum.GetName(enumType, p)))
+            { list.Add(name); }
         }
 
         #endregion

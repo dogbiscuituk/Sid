@@ -172,7 +172,9 @@
             }
         }
 
+        [JsonIgnore]
         public PointF OriginalCentre { get; private set; }
+
         public PointF Centre
         {
             get => Viewport.Centre;
@@ -186,7 +188,9 @@
             }
         }
 
+        [JsonIgnore]
         public float OriginalWidth { get; private set; }
+
         public float Width
         {
             get => Viewport.Width;

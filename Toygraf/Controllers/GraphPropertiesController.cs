@@ -297,9 +297,9 @@
 
         private void InitEnumControls()
         {
-            View.cbOptimization.Items.PopulateWith(typeof(Optimization));
-            View.cbPlotType.Items.PopulateWith(typeof(PlotType));
-            View.cbInterpolation.Items.PopulateWith(typeof(Interpolation));
+            View.cbOptimization.Items.PopulateWithDescriptions(typeof(Optimization));
+            View.cbPlotType.Items.PopulateWithDescriptions(typeof(PlotType));
+            View.cbInterpolation.Items.PopulateWithDescriptions(typeof(Interpolation));
         }
 
         #endregion

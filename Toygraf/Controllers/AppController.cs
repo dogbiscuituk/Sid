@@ -73,6 +73,8 @@
         internal readonly LegendController LegendController;
         internal readonly SeriesPropertiesController SeriesPropertiesController;
 
+        internal void ExecuteTextureDialog(Series series) => SelectTexture(series);
+
         internal void UpdateMouseCoordinates(PointF p)
         {
             string
@@ -110,6 +112,14 @@
                 View.ZoomFullScreen.Checked = value;
                 AdjustFullScreen();
             }
+        }
+
+        private void SelectTexture(Series series)
+        {
+            var dialog = View.ImageOpenDialog;
+            dialog.FileName = series.TexturePath;
+            if (dialog.ShowDialog(View) == DialogResult.OK)
+                series.Texture = Image.FromFile(dialog.FileName);
         }
 
         private bool ShowCoordinatesTooltip

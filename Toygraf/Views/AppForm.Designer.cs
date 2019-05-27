@@ -115,26 +115,26 @@
             this.LegendPanel = new System.Windows.Forms.Panel();
             this.PictureBox = new System.Windows.Forms.PictureBox();
             this.Toolbar = new System.Windows.Forms.ToolStrip();
-            this.tbAdd = new System.Windows.Forms.ToolStripButton();
-            this.tbProperties = new System.Windows.Forms.ToolStripButton();
-            this.tbCartesian = new System.Windows.Forms.ToolStripButton();
-            this.tbPolar = new System.Windows.Forms.ToolStripButton();
-            this.tbLegend = new System.Windows.Forms.ToolStripSplitButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tbNew = new System.Windows.Forms.ToolStripButton();
             this.tbOpen = new System.Windows.Forms.ToolStripSplitButton();
             this.tbSave = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tbUndo = new System.Windows.Forms.ToolStripSplitButton();
             this.tbRedo = new System.Windows.Forms.ToolStripSplitButton();
             this.tbCut = new System.Windows.Forms.ToolStripButton();
             this.tbCopy = new System.Windows.Forms.ToolStripButton();
             this.tbPaste = new System.Windows.Forms.ToolStripButton();
             this.tbDelete = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tbAdd = new System.Windows.Forms.ToolStripButton();
+            this.tbCartesian = new System.Windows.Forms.ToolStripButton();
+            this.tbPolar = new System.Windows.Forms.ToolStripButton();
+            this.tbProperties = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tbFullScreen = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.tbLegend = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.ImageOpenDialog = new System.Windows.Forms.OpenFileDialog();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
@@ -884,22 +884,21 @@
             this.Toolbar.Dock = System.Windows.Forms.DockStyle.Left;
             this.Toolbar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.Toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tbAdd,
-            this.tbProperties,
-            this.toolStripSeparator4,
-            this.tbCartesian,
-            this.tbPolar,
-            this.toolStripSeparator2,
             this.tbNew,
             this.tbOpen,
             this.tbSave,
-            this.toolStripSeparator1,
+            this.toolStripSeparator2,
             this.tbUndo,
             this.tbRedo,
             this.tbCut,
             this.tbCopy,
             this.tbPaste,
             this.tbDelete,
+            this.toolStripSeparator1,
+            this.tbAdd,
+            this.tbCartesian,
+            this.tbPolar,
+            this.tbProperties,
             this.toolStripSeparator3,
             this.tbFullScreen,
             this.tbLegend,
@@ -909,56 +908,6 @@
             this.Toolbar.Padding = new System.Windows.Forms.Padding(0);
             this.Toolbar.Size = new System.Drawing.Size(32, 452);
             this.Toolbar.TabIndex = 11;
-            // 
-            // tbAdd
-            // 
-            this.tbAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbAdd.Image = global::ToyGraf.Properties.Resources.action_add_16xLG;
-            this.tbAdd.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbAdd.Name = "tbAdd";
-            this.tbAdd.Size = new System.Drawing.Size(31, 20);
-            this.tbAdd.ToolTipText = "Add a new function (F2)";
-            // 
-            // tbProperties
-            // 
-            this.tbProperties.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbProperties.Image = global::ToyGraf.Properties.Resources.gear_16xLG;
-            this.tbProperties.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbProperties.Name = "tbProperties";
-            this.tbProperties.Size = new System.Drawing.Size(31, 20);
-            this.tbProperties.ToolTipText = "Graph properties (F3)";
-            // 
-            // tbCartesian
-            // 
-            this.tbCartesian.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbCartesian.Image = global::ToyGraf.Properties.Resources.Cartesian;
-            this.tbCartesian.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbCartesian.Name = "tbCartesian";
-            this.tbCartesian.Size = new System.Drawing.Size(31, 20);
-            this.tbCartesian.ToolTipText = "Graph type = Cartesian (Shift+^C)";
-            // 
-            // tbPolar
-            // 
-            this.tbPolar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbPolar.Image = global::ToyGraf.Properties.Resources.Polar;
-            this.tbPolar.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbPolar.Name = "tbPolar";
-            this.tbPolar.Size = new System.Drawing.Size(31, 20);
-            this.tbPolar.ToolTipText = "Graph type = Polar (Shift+^P)";
-            // 
-            // tbLegend
-            // 
-            this.tbLegend.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbLegend.Image = global::ToyGraf.Properties.Resources.LegendHS;
-            this.tbLegend.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbLegend.Name = "tbLegend";
-            this.tbLegend.Size = new System.Drawing.Size(31, 20);
-            this.tbLegend.ToolTipText = "Show/Hide Legend";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(31, 6);
             // 
             // tbNew
             // 
@@ -987,10 +936,10 @@
             this.tbSave.Size = new System.Drawing.Size(31, 20);
             this.tbSave.ToolTipText = "Save to file (^S)";
             // 
-            // toolStripSeparator1
+            // toolStripSeparator2
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(31, 6);
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(31, 6);
             // 
             // tbUndo
             // 
@@ -1051,6 +1000,47 @@
             this.tbDelete.Text = "toolStripButton4";
             this.tbDelete.ToolTipText = "Delete";
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(31, 6);
+            // 
+            // tbAdd
+            // 
+            this.tbAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbAdd.Image = global::ToyGraf.Properties.Resources.action_add_16xLG;
+            this.tbAdd.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbAdd.Name = "tbAdd";
+            this.tbAdd.Size = new System.Drawing.Size(31, 20);
+            this.tbAdd.ToolTipText = "Add a new function (F2)";
+            // 
+            // tbCartesian
+            // 
+            this.tbCartesian.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbCartesian.Image = global::ToyGraf.Properties.Resources.Cartesian;
+            this.tbCartesian.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbCartesian.Name = "tbCartesian";
+            this.tbCartesian.Size = new System.Drawing.Size(31, 20);
+            this.tbCartesian.ToolTipText = "Graph type = Cartesian (Shift+^C)";
+            // 
+            // tbPolar
+            // 
+            this.tbPolar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbPolar.Image = global::ToyGraf.Properties.Resources.Polar;
+            this.tbPolar.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbPolar.Name = "tbPolar";
+            this.tbPolar.Size = new System.Drawing.Size(31, 20);
+            this.tbPolar.ToolTipText = "Graph type = Polar (Shift+^P)";
+            // 
+            // tbProperties
+            // 
+            this.tbProperties.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbProperties.Image = global::ToyGraf.Properties.Resources.gear_16xLG;
+            this.tbProperties.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbProperties.Name = "tbProperties";
+            this.tbProperties.Size = new System.Drawing.Size(31, 20);
+            this.tbProperties.ToolTipText = "Graph properties (F3)";
+            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -1065,15 +1055,23 @@
             this.tbFullScreen.Size = new System.Drawing.Size(31, 20);
             this.tbFullScreen.ToolTipText = "Full screen (F11)";
             // 
-            // toolStripSeparator4
+            // tbLegend
             // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(31, 6);
+            this.tbLegend.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbLegend.Image = global::ToyGraf.Properties.Resources.LegendHS;
+            this.tbLegend.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbLegend.Name = "tbLegend";
+            this.tbLegend.Size = new System.Drawing.Size(31, 20);
+            this.tbLegend.ToolTipText = "Show/Hide Legend";
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(31, 6);
+            // 
+            // ImageOpenDialog
+            // 
+            this.ImageOpenDialog.Title = "Select Texture";
             // 
             // AppForm
             // 
@@ -1208,7 +1206,7 @@
         public System.Windows.Forms.ToolStripMenuItem TimeAccelerate;
         public System.Windows.Forms.ToolStripSplitButton tbLegend;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        public System.Windows.Forms.OpenFileDialog ImageOpenDialog;
     }
 }
