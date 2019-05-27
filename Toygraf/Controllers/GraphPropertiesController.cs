@@ -15,6 +15,7 @@
         internal GraphPropertiesController(AppController parent)
         {
             Parent = parent;
+            ColourController = new ColourController();
             View = new GraphPropertiesDialog();
             ElementsController = new ElementsController(this);
             InitEnumControls();
@@ -83,7 +84,7 @@
 
         private GraphPropertiesDialog _view;
         private AppController _appController;
-        private ColourController ColourController = new ColourController();
+        private ColourController ColourController;
         private CommandProcessor CommandController { get => Parent.CommandProcessor; }
         private ElementsController ElementsController;
         private CheckedListBox.ObjectCollection ElementItems { get => View.ElementCheckboxes.Items; }

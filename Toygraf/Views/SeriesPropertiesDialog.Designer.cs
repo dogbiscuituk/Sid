@@ -132,11 +132,12 @@
             this.lblTransparency = new System.Windows.Forms.Label();
             this.lblFillColour = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.lblTexturePath = new System.Windows.Forms.Label();
+            this.btnTexture = new System.Windows.Forms.Button();
             this.tpKeyboard = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.lblTexturePath = new System.Windows.Forms.Label();
-            this.btnTexture = new System.Windows.Forms.Button();
+            this.cbWrapMode = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sePenSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seIndex)).BeginInit();
@@ -1163,6 +1164,7 @@
             // 
             this.FunctionBox.Location = new System.Drawing.Point(90, 9);
             this.FunctionBox.Margin = new System.Windows.Forms.Padding(0);
+            this.FunctionBox.MaxDropDownItems = 36;
             this.FunctionBox.Name = "FunctionBox";
             this.FunctionBox.Size = new System.Drawing.Size(370, 23);
             this.FunctionBox.TabIndex = 0;
@@ -1408,6 +1410,7 @@
             // tpSeriesProperties
             // 
             this.tpSeriesProperties.BackColor = System.Drawing.SystemColors.Control;
+            this.tpSeriesProperties.Controls.Add(this.cbWrapMode);
             this.tpSeriesProperties.Controls.Add(this.cbGradientMode);
             this.tpSeriesProperties.Controls.Add(this.cbHatchStyle);
             this.tpSeriesProperties.Controls.Add(this.lblType);
@@ -1505,6 +1508,22 @@
             this.label1.Size = new System.Drawing.Size(67, 15);
             this.label1.TabIndex = 7;
             this.label1.Text = "Pen colour:";
+            // 
+            // lblTexturePath
+            // 
+            this.lblTexturePath.Location = new System.Drawing.Point(100, 35);
+            this.lblTexturePath.Name = "lblTexturePath";
+            this.lblTexturePath.Size = new System.Drawing.Size(206, 15);
+            this.lblTexturePath.TabIndex = 21;
+            // 
+            // btnTexture
+            // 
+            this.btnTexture.Location = new System.Drawing.Point(75, 32);
+            this.btnTexture.Name = "btnTexture";
+            this.btnTexture.Size = new System.Drawing.Size(25, 22);
+            this.btnTexture.TabIndex = 22;
+            this.btnTexture.Text = "...";
+            this.btnTexture.UseVisualStyleBackColor = true;
             // 
             // tpKeyboard
             // 
@@ -1615,21 +1634,20 @@
             this.panel2.Size = new System.Drawing.Size(466, 37);
             this.panel2.TabIndex = 87;
             // 
-            // lblTexturePath
+            // cbWrapMode
             // 
-            this.lblTexturePath.Location = new System.Drawing.Point(100, 35);
-            this.lblTexturePath.Name = "lblTexturePath";
-            this.lblTexturePath.Size = new System.Drawing.Size(206, 15);
-            this.lblTexturePath.TabIndex = 21;
-            // 
-            // btnTexture
-            // 
-            this.btnTexture.Location = new System.Drawing.Point(75, 32);
-            this.btnTexture.Name = "btnTexture";
-            this.btnTexture.Size = new System.Drawing.Size(25, 22);
-            this.btnTexture.TabIndex = 22;
-            this.btnTexture.Text = "...";
-            this.btnTexture.UseVisualStyleBackColor = true;
+            this.cbWrapMode.BackColor = System.Drawing.SystemColors.Control;
+            this.cbWrapMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbWrapMode.DropDownWidth = 144;
+            this.cbWrapMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbWrapMode.FormattingEnabled = true;
+            this.cbWrapMode.ItemHeight = 15;
+            this.cbWrapMode.Location = new System.Drawing.Point(350, 55);
+            this.cbWrapMode.Margin = new System.Windows.Forms.Padding(0);
+            this.cbWrapMode.Name = "cbWrapMode";
+            this.cbWrapMode.Size = new System.Drawing.Size(105, 23);
+            this.cbWrapMode.TabIndex = 23;
+            this.ToolTip.SetToolTip(this.cbWrapMode, "Fill colour (area under this trace)");
             // 
             // SeriesPropertiesDialog
             // 
@@ -1770,5 +1788,6 @@
         public System.Windows.Forms.Label lblType;
         public System.Windows.Forms.Label lblTexturePath;
         public System.Windows.Forms.Button btnTexture;
+        public System.Windows.Forms.ComboBox cbWrapMode;
     }
 }

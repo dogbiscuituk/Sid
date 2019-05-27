@@ -1,8 +1,10 @@
 ﻿namespace ToyGraf.Models
 {
+    using System;
     using System.ComponentModel;
     using System.Drawing;
     using System.Drawing.Drawing2D;
+    using System.Drawing.Imaging;
     using System.IO;
     using ToyGraf.Models.Enumerations;
 
@@ -190,13 +192,13 @@
             }
         }
 
-        protected Image _texture;
-        public Image Texture
+        protected string _texture;
+        public string Texture
         {
             get => _texture;
             set
             {
-                Texture = value;
+                _texture = value;
                 OnPropertyChanged("Texture");
             }
         }
@@ -208,8 +210,18 @@
             set
             {
                 _texturePath = value;
-                if (File.Exists(TexturePath))
-                    Texture = Image.FromFile(TexturePath);
+                OnPropertyChanged("TexturePath");
+            }
+        }
+
+        protected WrapMode _wrapMode;
+        public WrapMode WrapMode
+        {
+            get => _wrapMode;
+            set
+            {
+                _wrapMode = value;
+                OnPropertyChanged("WrapMode");
             }
         }
 

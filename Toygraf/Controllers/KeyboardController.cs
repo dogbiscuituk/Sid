@@ -58,7 +58,6 @@
 
         private readonly SeriesPropertiesController Parent;
         private AppController AppController => Parent.Parent;
-        private readonly ColourController ColourController = new ColourController();
         private List<SeriesController> SeriesControllers => AppController.LegendController.Children;
         private SeriesView SeriesView => SeriesControllers[Index].View;
 

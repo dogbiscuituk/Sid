@@ -15,23 +15,6 @@
     {
         #region Colours
 
-        public static string GetName(this Color colour)
-        {
-            var argb = colour.ToArgb();
-            return GetColours().FirstOrDefault(c => c.ToArgb() == argb).Name;
-        }
-
-        public static IEnumerable<Color> GetColours() =>
-            Enum.GetValues(typeof(KnownColor))
-            .Cast<KnownColor>()
-            .Select(Color.FromKnownColor)
-            .Where(c => !c.IsSystemColor);
-
-        public static IEnumerable<string> GetNonSystemColourNames(string orderByColourProperties) =>
-            GetColours()
-            .OrderByColourProperties(orderByColourProperties)
-            .Select(c => c.Name);
-
         private static readonly Dictionary<string, Func<Color, float>> ColourOrders =
             new Dictionary<string, Func<Color, float>>
             {
@@ -43,6 +26,46 @@
                 { "Saturation", c => c.GetSaturation() },
                 { "Brightness", c => c.GetBrightness() }
             };
+
+        public static int AlphaFromTransparencyPercent(int transparencyPercent) =>
+            (int)Math.Round(255 * (1 - transparencyPercent / 100.0));
+
+        public static int AlphaToTransparencyPercent(int alpha) =>
+            (int)Math.Round(100 * (1 - alpha / 255.0));
+
+        public static IEnumerable<Color> GetColours() =>
+            Enum.GetValues(typeof(KnownColor))
+            .Cast<KnownColor>()
+            .Select(Color.FromKnownColor)
+            .Where(c => !c.IsSystemColor);
+
+        public static string GetName(this Color colour)
+        {
+            var argb = colour.ToArgb();
+            return GetColours().FirstOrDefault(c => c.ToArgb() == argb).Name;
+        }
+
+        public static IEnumerable<string> GetNonSystemColourNames(string orderByColourProperties) =>
+            GetColours()
+            .OrderByColourProperties(orderByColourProperties)
+            .Select(c => c.Name);
+
+        public static bool IsBright(this Color colour) => colour.Luma() > 0.5;
+        public static bool IsDark(this Color colour) => colour.Luma() <= 0.5;
+        public static bool IsVeryBright(this Color colour) => colour.Luma() > 0.75;
+        public static bool IsVeryDark(this Color colour) => colour.Luma() <= 0.25;
+
+        /// <summary>
+        /// Luma can be used to determine whether or not a Color is "bright", "dark", etc.
+        /// https://en.wikipedia.org/wiki/Luma_%28video%29
+        /// </summary>
+        /// <param name="colour">The sample colour.</param>
+        /// <returns>The sample colour's Luma value.</returns>
+        public static double Luma(this Color colour) =>
+            (0.2126 * colour.R + 0.7152 * colour.G + 0.0722 * colour.B) / 255;
+
+        public static Color MakeColour(Color baseColour, int transparencyPerCent) =>
+            Color.FromArgb(AlphaFromTransparencyPercent(transparencyPerCent), baseColour);
 
         private static IEnumerable<Color> OrderByColourProperties(
             this IEnumerable<Color> colours, string colourProperties)
@@ -61,15 +84,6 @@
             }
             return result;
         }
-
-        public static int AlphaFromTransparencyPercent(int transparencyPercent) =>
-            (int)Math.Round(255 * (1 - transparencyPercent / 100.0));
-
-        public static int AlphaToTransparencyPercent(int alpha) =>
-            (int)Math.Round(100 * (1 - alpha / 255.0));
-
-        public static Color MakeColour(Color baseColour, int transparencyPerCent) =>
-            Color.FromArgb(AlphaFromTransparencyPercent(transparencyPerCent), baseColour);
 
         #endregion
 

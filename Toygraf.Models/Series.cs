@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Drawing2D;
+    using System.IO;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
@@ -139,8 +140,6 @@
         public async void DrawAsync(Graphics g, Domain domain, Viewport viewport,
             float penWidth, bool fill, double time, PlotType plotType, Interpolation interpolation)
         {
-            if (fill && (FillColour == Color.Transparent || FillTransparencyPercent == 100))
-                return;
             if (Func == null
                 || LastDomain != domain
                 || Viewport != viewport
@@ -161,7 +160,7 @@
                 using (var pen = new Pen(LimitColour, penWidth))
                 {
                     pen.DashStyle = DashStyle.Dash;
-                    using (var brush = CreateBrush())
+                    using (var brush = CreateBrush(g.Transform))
                         PointLists.ForEach(p => FillSection(g, brush, plotType, interpolation, p));
                 }
             else
@@ -172,7 +171,7 @@
                 }
         }
 
-        private Brush CreateBrush()
+        private Brush CreateBrush(Matrix m)
         {
             Color
                 paint = Utility.MakeColour(FillColour, FillTransparencyPercent),
@@ -183,6 +182,23 @@
                     return new SolidBrush(paint);
                 case BrushType.Hatch:
                     return new HatchBrush(HatchStyle, paint, paint2);
+                case BrushType.Texture:
+                    if (Texture == null)
+                        goto case BrushType.Solid;
+                    m = m.Clone();
+                    m.Invert();
+                    var bytes = Convert.FromBase64String(Texture);
+                    using (var stream = new MemoryStream())
+                    {
+                        stream.Write(bytes, 0, bytes.Length);
+                        stream.Seek(0, SeekOrigin.Begin);
+                        using (var image = Image.FromStream(stream))
+                            return new TextureBrush(image, WrapMode) { Transform = m };
+                    }
+                case BrushType.PathGradient:
+                    var path = new GraphicsPath();
+                    path.AddRectangle(Viewport.Limits);
+                    return new PathGradientBrush(path);
                 case BrushType.LinearGradient:
                     return new LinearGradientBrush(Viewport.Limits, paint, paint2, GradientMode);
             }

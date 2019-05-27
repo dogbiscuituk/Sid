@@ -61,5 +61,8 @@
 
         public static readonly Viewport
             GraphViewport = new Viewport(new PointF(0, 0), 22);
+
+        public const WrapMode
+            GraphWrapMode = WrapMode.Tile;
     }
 }

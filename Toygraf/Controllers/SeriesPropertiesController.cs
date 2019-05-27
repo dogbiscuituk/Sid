@@ -20,8 +20,9 @@
             Parent = parent;
             View = new SeriesPropertiesDialog();
             View.FormClosing += View_FormClosing;
-            KeyboardController = new KeyboardController(this);
+            ColourController = new ColourController();
             ColourController.AddControls(View.cbPenColour, View.cbFillColour, View.cbFillColour2);
+            KeyboardController = new KeyboardController(this);
             InitEnumControls();
             View.btnTexture.Click += TextureClick;
             View.cbBrushType.SelectedIndexChanged += BrushTypeChanged;
@@ -31,6 +32,7 @@
             View.cbHatchStyle.SelectedIndexChanged += HatchStyleChanged;
             View.cbPenColour.SelectedIndexChanged += PenColourChanged;
             View.cbPenStyle.SelectedIndexChanged += PenStyleChanged;
+            View.cbWrapMode.SelectedIndexChanged += WrapModeChanged;
             View.seIndex.ValueChanged += IndexValueChanged;
             View.seTransparency.ValueChanged += FillTransparencyChanged;
             View.sePenSize.ValueChanged += PenSizeChanged;
@@ -71,7 +73,7 @@
 
         #region Private Properties
 
-        private ColourController ColourController = new ColourController();
+        private ColourController ColourController;
         private CommandProcessor CommandProcessor => Parent.CommandProcessor;
         private List<SeriesController> SeriesControllers => Parent.LegendController.Children;
         private SeriesView SeriesView => SeriesControllers[Index].View;
@@ -152,6 +154,14 @@
             }
         }
 
+        private void WrapModeChanged(object sender, EventArgs e)
+        {
+            if (Loading) return;
+            var wrapMode = (WrapMode)View.cbWrapMode.SelectedIndex;
+            if (Series.WrapMode != wrapMode)
+                CommandProcessor.Run(new SeriesWrapModeCommand(Index, wrapMode));
+        }
+
         #endregion
 
         #region Private Methods
@@ -162,6 +172,7 @@
             View.cbBrushType.Items.PopulateWithDescriptions(typeof(BrushType));
             View.cbHatchStyle.Items.PopulateWithNames(typeof(HatchStyle));
             View.cbGradientMode.Items.PopulateWithNames(typeof(LinearGradientMode));
+            View.cbWrapMode.Items.PopulateWithNames(typeof(WrapMode));
         }
 
         private void LoadSeries()
@@ -175,6 +186,8 @@
             View.cbBrushType.SelectedIndex = (int)series.BrushType;
             View.cbHatchStyle.SelectedIndex = (int)series.HatchStyle;
             View.cbGradientMode.SelectedIndex = (int)series.GradientMode;
+            View.cbWrapMode.SelectedIndex = (int)series.WrapMode;
+            View.lblTexturePath.Text = series.TexturePath;
             View.sePenSize.Value = (decimal)series.PenWidth;
             View.seTransparency.Value = series.FillTransparencyPercent;
             Loading = false;
@@ -195,7 +208,8 @@
             View.cbFillColour2.Visible = View.lblFillColour2.Visible = !(solid || texture);
             View.cbHatchStyle.Visible = hatch;
             View.cbGradientMode.Visible = linear;
-            View.lblType.Visible = hatch || linear;
+            View.cbWrapMode.Visible = texture;
+            View.lblType.Visible = hatch || texture || linear;
             View.lblTexturePath.Visible = View.btnTexture.Visible = texture;
         }
 

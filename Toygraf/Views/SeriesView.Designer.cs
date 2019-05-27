@@ -46,15 +46,15 @@
             // cbFunction
             // 
             this.cbFunction.BackColor = System.Drawing.SystemColors.Control;
-            this.cbFunction.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbFunction.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbFunction.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbFunction.FormattingEnabled = true;
-            this.cbFunction.ItemHeight = 18;
+            this.cbFunction.ItemHeight = 15;
             this.cbFunction.Location = new System.Drawing.Point(54, 0);
             this.cbFunction.Margin = new System.Windows.Forms.Padding(0);
+            this.cbFunction.MaxDropDownItems = 36;
             this.cbFunction.Name = "cbFunction";
-            this.cbFunction.Size = new System.Drawing.Size(173, 24);
+            this.cbFunction.Size = new System.Drawing.Size(173, 23);
             this.cbFunction.TabIndex = 0;
             this.ToolTip.SetToolTip(this.cbFunction, "Formula for points on this trace");
             // 
@@ -62,6 +62,7 @@
             // 
             this.btnRemove.FlatAppearance.BorderSize = 0;
             this.btnRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRemove.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRemove.ImageIndex = 1;
             this.btnRemove.ImageList = this.ImageList;
             this.btnRemove.Location = new System.Drawing.Point(467, 1);
@@ -87,6 +88,7 @@
             this.cbPenColour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbPenColour.DropDownWidth = 144;
             this.cbPenColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbPenColour.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbPenColour.FormattingEnabled = true;
             this.cbPenColour.ItemHeight = 18;
             this.cbPenColour.Location = new System.Drawing.Point(246, 0);
@@ -103,6 +105,7 @@
             this.cbFillColour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFillColour.DropDownWidth = 144;
             this.cbFillColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbFillColour.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbFillColour.FormattingEnabled = true;
             this.cbFillColour.ItemHeight = 18;
             this.cbFillColour.Location = new System.Drawing.Point(320, 0);
@@ -152,7 +155,7 @@
             // 
             this.btnDetails.FlatAppearance.BorderSize = 0;
             this.btnDetails.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDetails.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDetails.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDetails.Image = global::ToyGraf.Properties.Resources._126_Edit_16x16_72;
             this.btnDetails.Location = new System.Drawing.Point(443, 1);
             this.btnDetails.Margin = new System.Windows.Forms.Padding(0);

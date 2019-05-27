@@ -16,6 +16,7 @@
         {
             Parent = parent;
             Series = series;
+            ColourController = new ColourController();
             View = new SeriesView();
             InitFunctionNames();
         }
@@ -27,7 +28,6 @@
             {
                 _view = value;
                 View.cbVisible.CheckedChanged += CbVisible_CheckedChanged;
-                FunctionBox.DrawItem += FunctionBox_DrawItem;
                 FunctionBox.TextChanged += FunctionBox_TextChanged;
                 View.cbPenColour.SelectedValueChanged += CbPenColour_SelectedValueChanged;
                 View.cbFillColour.SelectedValueChanged += CbFillColour_SelectedValueChanged;
@@ -88,7 +88,7 @@
         private SeriesView _view;
         private AppController AppController { get => Parent.Parent; }
         private LegendController Parent;
-        private ColourController ColourController = new ColourController();
+        private ColourController ColourController;
         private CommandProcessor CommandProcessor { get => AppController.CommandProcessor; }
         private SeriesPropertiesController SeriesPropertiesController { get => AppController.SeriesPropertiesController; }
         private KeyboardController KeyboardController { get => SeriesPropertiesController.KeyboardController; }
@@ -128,14 +128,6 @@
         {
             if (!Parent.Loading)
                 CommandProcessor.Run(new SeriesVisibleCommand(Index, TraceVisible));
-        }
-
-        private void FunctionBox_DrawItem(object sender, DrawItemEventArgs e)
-        {
-            var functionName = ((ComboBox)sender).Items[e.Index].ToString();
-            e.DrawBackground();
-            using (var brush = new SolidBrush(e.ForeColor))
-                e.Graphics.DrawString(functionName, e.Font, brush, e.Bounds);
         }
 
         private void FunctionBox_TextChanged(object sender, System.EventArgs e)

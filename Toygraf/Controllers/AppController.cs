@@ -3,9 +3,12 @@
     using System;
     using System.ComponentModel;
     using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.IO;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
     using ToyGraf.Models;
+    using ToyGraf.Models.Commands;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Models.Structs;
     using ToyGraf.Views;
@@ -114,25 +117,6 @@
             }
         }
 
-        private void SelectTexture(Series series)
-        {
-            var dialog = View.ImageOpenDialog;
-            dialog.FileName = series.TexturePath;
-            if (dialog.ShowDialog(View) == DialogResult.OK)
-                series.Texture = Image.FromFile(dialog.FileName);
-        }
-
-        private bool ShowCoordinatesTooltip
-        {
-            get => View.ViewCoordinatesTooltip.Checked;
-            set
-            {
-                View.ViewCoordinatesTooltip.Checked = value;
-                if (!value)
-                    InitCoordinatesToolTip(string.Empty);
-            }
-        }
-
         #endregion
 
         #region Private Event Handlers
@@ -196,6 +180,16 @@
 
         private void FileSaved() => Graph.ZoomSet();
 
+        private static string ImageToBase64String(string filePath)
+        {
+            using (var image = Image.FromFile(filePath))
+            using (var stream = new MemoryStream())
+            {
+                image.Save(stream, ImageFormat.Bmp);
+                return Convert.ToBase64String(stream.GetBuffer());
+            }
+        }
+
         private void InitCoordinatesToolTip(string toolTip)
         {
             if (View.ToolTip.GetToolTip(PictureBox) != toolTip)
@@ -246,6 +240,30 @@
         }
 
         private void OpenFile() => JsonController.Open();
+
+        private void SelectTexture(Series series)
+        {
+            var dialog = View.ImageOpenDialog;
+            dialog.FileName = series.TexturePath;
+            if (dialog.ShowDialog(View) == DialogResult.OK)
+            {
+                var index = Graph.Series.IndexOf(series);
+                var filePath = dialog.FileName;
+                CommandProcessor.Run(new SeriesTexturePathCommand(index, filePath));
+                CommandProcessor.Run(new SeriesTextureCommand(index, ImageToBase64String(filePath)));
+            }
+        }
+
+        private bool ShowCoordinatesTooltip
+        {
+            get => View.ViewCoordinatesTooltip.Checked;
+            set
+            {
+                View.ViewCoordinatesTooltip.Checked = value;
+                if (!value)
+                    InitCoordinatesToolTip(string.Empty);
+            }
+        }
 
         private void UpdatePlotType()
         {

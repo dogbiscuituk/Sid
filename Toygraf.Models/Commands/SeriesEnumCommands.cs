@@ -49,4 +49,14 @@
 
         protected override string Detail => "pen type";
     }
+
+    public class SeriesWrapModeCommand : SeriesEnumCommand
+    {
+        public SeriesWrapModeCommand(int index, WrapMode value) :
+            base(index, value,
+                s => s.WrapMode,
+                (s, n) => s.WrapMode = (WrapMode)n) { }
+
+        protected override string Detail => "wrap mode";
+    }
 }

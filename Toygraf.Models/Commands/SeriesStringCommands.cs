@@ -31,8 +31,28 @@
         public SeriesFormulaCommand(int index, string value) :
             base(index, value,
                 s => s.Formula,
-                (s, n) => s.Formula = n) { }
+                (s, t) => s.Formula = t) { }
 
         protected override string Detail => "formula";
+    }
+
+    public class SeriesTextureCommand : SeriesStringCommand
+    {
+        public SeriesTextureCommand(int index, string value) :
+            base(index, value,
+                s => s.Texture,
+                (s, t) => s.Texture = t) { }
+
+        protected override string Detail => "texture";
+    }
+
+    public class SeriesTexturePathCommand : SeriesStringCommand
+    {
+        public SeriesTexturePathCommand(int index, string value) :
+            base(index, value,
+                s => s.TexturePath,
+                (s, t) => s.TexturePath = t) { }
+
+        protected override string Detail => "texture path";
     }
 }

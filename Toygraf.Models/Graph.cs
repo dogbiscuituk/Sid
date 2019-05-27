@@ -317,6 +317,8 @@
             _tickStyles = Defaults.GraphTickStyles;
             // Viewport
             Viewport = Defaults.GraphViewport;
+            // WrapMode
+            _wrapMode = Defaults.GraphWrapMode;
         }
 
         #endregion
@@ -511,33 +513,7 @@
             });
         }
 
-        private void InitOptimization(Graphics g)
-        {
-            switch (Optimization)
-            {
-                case Optimization.HighSpeed:
-                    g.InterpolationMode = InterpolationMode.Low;
-                    g.CompositingQuality = CompositingQuality.HighSpeed;
-                    g.SmoothingMode = SmoothingMode.HighSpeed;
-                    g.TextRenderingHint = TextRenderingHint.SystemDefault;
-                    g.PixelOffsetMode = PixelOffsetMode.HighSpeed;
-                    break;
-                case Optimization.HighQuality:
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    g.CompositingQuality = CompositingQuality.HighQuality;
-                    g.SmoothingMode = SmoothingMode.HighQuality;
-                    g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                    break;
-                default:
-                    g.InterpolationMode = InterpolationMode.Bilinear;
-                    g.CompositingQuality = CompositingQuality.Default;
-                    g.SmoothingMode = SmoothingMode.None;
-                    g.TextRenderingHint = TextRenderingHint.SystemDefault;
-                    g.PixelOffsetMode = PixelOffsetMode.Default;
-                    break;
-            }
-        }
+        private void InitOptimization(Graphics g) => g.SetOptimization(Optimization);
 
         #endregion
 
