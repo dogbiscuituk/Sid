@@ -37,8 +37,7 @@ namespace ToyGraf.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ToyGraf Graph Files (*.tgg)|*.tgg|ToyGraf Templates (*.tgt)|*.tgt|All Files (*.*)" +
-            "|*.*")]
+        [global::System.Configuration.DefaultSettingValueAttribute("ToyGraf Files (*.tgf)|*.tgf|ToyGraf Templates (*.tgt)|*.tgt|All Files (*.*)|*.*")]
         public string GraphFilter {
             get {
                 return ((string)(this["GraphFilter"]));

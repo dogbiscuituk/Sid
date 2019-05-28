@@ -5,6 +5,7 @@
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.IO;
+    using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
     using ToyGraf.Expressions;
@@ -186,8 +187,8 @@
 
         private void FilePathRequest(SdiController.FilePathRequestEventArgs e)
         {
-            if (Graph.Series.Count > 0)
-                e.FilePath = Graph.Series[0].Formula.ToFilename();
+            if (string.IsNullOrWhiteSpace(e.FilePath) && Graph.Series.Count > 0)
+                e.FilePath = Graph.Series.Select(s => s.Formula).Aggregate((s, t) => $"{s};{t}");
         }
 
         private void FileSaved() => Graph.ZoomSet();

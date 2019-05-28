@@ -5,10 +5,12 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing;
+    using System.IO;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Text;
+    using System.Text.RegularExpressions;
     using ToyGraf.Expressions.Enumerations;
 
     public static class Utility
@@ -447,7 +449,7 @@
 
         /// <summary>
         /// Make a legal file name from a given string which may contain prohibited
-        /// characters or sequences.
+        /// characters or substrings.
         /// 
         /// https://docs.microsoft.com/en-us/windows/desktop/fileio/naming-a-file
         /// 
@@ -455,13 +457,23 @@
         /// for a name, including Unicode characters and characters in the extended
         /// character set (128–255), except for the following: <>:"/\|?*
         /// 
-        /// Do not use the following reserved names for the name of a file:
-        /// CON, PRN, AUX, NUL, COM1, COM2, COM3, COM4, COM5, COM6, COM7, COM8, COM9,
-        /// LPT1, LPT2, LPT3, LPT4, LPT5, LPT6, LPT7, LPT8, LPT9.
+        /// Do not use the following reserved names for the name of a file (# = 1..9):
+        /// CON, PRN, AUX, NUL, COM#, LPT#
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        public static string ToFilename(this string s) => s;
+        public static string ToFilename(this string s)
+        {
+            var t = new StringBuilder(s.Trim());
+            t.Replace('.', ',');
+            foreach (var c in Path.GetInvalidFileNameChars()) t.Replace(c, '_');
+            s = t.ToString();
+            return Regex.IsMatch(s,
+                "(^CON$|^PRN$|^AUX$|^NUL$|^COM[1-9]$|^LPT[1-9]$)",
+                RegexOptions.IgnoreCase)
+                ? s + "_"
+                : s;
+        }
 
         #endregion
 

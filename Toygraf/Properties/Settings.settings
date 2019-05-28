@@ -6,7 +6,7 @@
       <Value Profile="(Default)">Hue, Saturation</Value>
     </Setting>
     <Setting Name="GraphFilter" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">ToyGraf Graph Files (*.tgg)|*.tgg|ToyGraf Templates (*.tgt)|*.tgt|All Files (*.*)|*.*</Value>
+      <Value Profile="(Default)">ToyGraf Files (*.tgf)|*.tgf|ToyGraf Templates (*.tgt)|*.tgt|All Files (*.*)|*.*</Value>
     </Setting>
     <Setting Name="MinimumWindowSize" Type="System.Drawing.Size" Scope="User">
       <Value Profile="(Default)">800, 480</Value>
