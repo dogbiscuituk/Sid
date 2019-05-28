@@ -7,6 +7,7 @@
     using System.IO;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
+    using ToyGraf.Expressions;
     using ToyGraf.Models;
     using ToyGraf.Models.Commands;
     using ToyGraf.Models.Enumerations;
@@ -29,6 +30,7 @@
             JsonController = new JsonController(Model, View, View.FileReopen);
             JsonController.FileLoaded += JsonController_FileLoaded;
             JsonController.FilePathChanged += JsonController_FilePathChanged;
+            JsonController.FilePathRequest += JsonController_FilePathRequest;
             JsonController.FileSaving += JsonController_FileSaving;
             JsonController.FileSaved += JsonController_FileSaved;
             LegendController = new LegendController(this);
@@ -138,6 +140,7 @@
         private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e) => OnPropertyChanged($"Model.{e.PropertyName}");
         private void JsonController_FileLoaded(object sender, EventArgs e) => FileLoaded();
         private void JsonController_FilePathChanged(object sender, EventArgs e) => UpdateCaption();
+        private void JsonController_FilePathRequest(object sender, SdiController.FilePathRequestEventArgs e) => FilePathRequest(e);
         private void JsonController_FileSaved(object sender, EventArgs e) => FileSaved();
         private void JsonController_FileSaving(object sender, CancelEventArgs e) => e.Cancel = !ContinueSaving();
         private void View_FormClosing(object sender, FormClosingEventArgs e) => e.Cancel = !JsonController.SaveIfModified();
@@ -179,6 +182,12 @@
             Graph.ZoomSet();
             InitPaper();
             UpdateUI();
+        }
+
+        private void FilePathRequest(SdiController.FilePathRequestEventArgs e)
+        {
+            if (Graph.Series.Count > 0)
+                e.FilePath = Graph.Series[0].Formula.ToFilename();
         }
 
         private void FileSaved() => Graph.ZoomSet();

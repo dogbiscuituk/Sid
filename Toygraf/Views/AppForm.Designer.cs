@@ -181,7 +181,7 @@
             this.FileNew.Name = "FileNew";
             this.FileNew.ShortcutKeyDisplayString = "^N";
             this.FileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.FileNew.Size = new System.Drawing.Size(134, 22);
+            this.FileNew.Size = new System.Drawing.Size(180, 22);
             this.FileNew.Text = "&New";
             // 
             // FileOpen
@@ -191,19 +191,19 @@
             this.FileOpen.Name = "FileOpen";
             this.FileOpen.ShortcutKeyDisplayString = "^O";
             this.FileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.FileOpen.Size = new System.Drawing.Size(134, 22);
-            this.FileOpen.Text = "&Open";
+            this.FileOpen.Size = new System.Drawing.Size(180, 22);
+            this.FileOpen.Text = "&Open...";
             // 
             // FileReopen
             // 
             this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(134, 22);
+            this.FileReopen.Size = new System.Drawing.Size(180, 22);
             this.FileReopen.Text = "&Reopen";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(131, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // FileSave
             // 
@@ -212,25 +212,25 @@
             this.FileSave.Name = "FileSave";
             this.FileSave.ShortcutKeyDisplayString = "^S";
             this.FileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.FileSave.Size = new System.Drawing.Size(134, 22);
+            this.FileSave.Size = new System.Drawing.Size(180, 22);
             this.FileSave.Text = "&Save";
             // 
             // FileSaveAs
             // 
             this.FileSaveAs.Name = "FileSaveAs";
-            this.FileSaveAs.Size = new System.Drawing.Size(134, 22);
+            this.FileSaveAs.Size = new System.Drawing.Size(180, 22);
             this.FileSaveAs.Text = "Save &As...";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(131, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
             // 
             // FileExit
             // 
             this.FileExit.Name = "FileExit";
             this.FileExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.FileExit.Size = new System.Drawing.Size(134, 22);
+            this.FileExit.Size = new System.Drawing.Size(180, 22);
             this.FileExit.Text = "E&xit";
             // 
             // EditMenu

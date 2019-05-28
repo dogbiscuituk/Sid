@@ -1526,6 +1526,7 @@
             // 
             // lblTexturePath
             // 
+            this.lblTexturePath.AutoEllipsis = true;
             this.lblTexturePath.Location = new System.Drawing.Point(203, 34);
             this.lblTexturePath.Name = "lblTexturePath";
             this.lblTexturePath.Size = new System.Drawing.Size(249, 42);

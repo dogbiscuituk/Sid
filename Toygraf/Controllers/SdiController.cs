@@ -60,8 +60,14 @@
 
         internal bool Save() => string.IsNullOrEmpty(FilePath) ? SaveAs() : SaveToFile(FilePath);
 
-        internal bool SaveAs() => SaveFileDialog.ShowDialog() == DialogResult.OK
-            && SaveToFile(SaveFileDialog.FileName);
+        internal bool SaveAs()
+        {
+            if (string.IsNullOrWhiteSpace(FilePath))
+                OnFilePathRequest();
+            SaveFileDialog.FileName = FilePath;
+            return SaveFileDialog.ShowDialog() == DialogResult.OK
+                && SaveToFile(SaveFileDialog.FileName);
+        }
 
         internal bool SaveIfModified()
 		{
@@ -84,12 +90,18 @@
 
         internal event EventHandler<CancelEventArgs> FileLoading, FileSaving;
         internal event EventHandler FileLoaded, FilePathChanged, FileSaved;
+        internal event EventHandler<FilePathRequestEventArgs> FilePathRequest;
+
+        internal class FilePathRequestEventArgs : EventArgs
+        {
+            internal string FilePath { get; set; }
+        }
 
         #endregion
 
         #region Protected Properties
 
-		protected string FilePath
+        protected string FilePath
         {
             get => _filePath;
             set
@@ -196,7 +208,14 @@
 			return result;
 		}
 
-		private bool SaveToFile(string filePath)
+        private void OnFilePathRequest()
+        {
+            var e = new FilePathRequestEventArgs { FilePath = string.Empty };
+            FilePathRequest?.Invoke(this, e);
+            FilePath = e.FilePath;
+        }
+
+        private bool SaveToFile(string filePath)
 		{
 			var result = false;
 			if (OnFileSaving())

@@ -424,23 +424,44 @@
         #region Strings
 
         /// <summary>
-        /// Convert a string containing ampersands for use as a menu item caption
+        /// Convert a string, potentially containing ampersands, for use in an
+        /// accelerator-enabled UI context (label text, menu item caption, etc).
         /// </summary>
         /// <param name="s">The input string</param>
-        /// <returns>The input string with all ampersands escaped (doubled up)</returns>
+        /// <returns>The input string with all ampersands escaped (doubled up).</returns>
         public static string AmpersandEscape(this string s) => s.Replace("&", "&&");
 
         /// <summary>
-        /// Convert a string obtained from a menu caption for use in other contexts
+        /// Convert a string, obtained from an accelerator-enabled UI context
+        /// (label text, menu item caption, etc) and potentially containing double
+        /// ampersands, for use in other contexts.
         /// </summary>
-        /// <param name="s">The string obtained from a menu caption</param>
-        /// <returns>The input string with all escaped (doubled) ampersands unescaped</returns>
+        /// <param name="s">The string obtained from the UI context.</param>
+        /// <returns>The input string with all escaped (doubled) ampersands unescaped.</returns>
         public static string AmpersandUnescape(this string s) => s.Replace("&&", "&");
 
         public static string ToTitleCase(this string s) =>
             s == string.Empty
             ? string.Empty
             : $"{char.ToUpper(s[0])}{s.ToLower().Substring(1)}";
+
+        /// <summary>
+        /// Make a legal file name from a given string which may contain prohibited
+        /// characters or sequences.
+        /// 
+        /// https://docs.microsoft.com/en-us/windows/desktop/fileio/naming-a-file
+        /// 
+        /// Do not assume case sensitivity. Use any character in the current code page
+        /// for a name, including Unicode characters and characters in the extended
+        /// character set (128–255), except for the following: <>:"/\|?*
+        /// 
+        /// Do not use the following reserved names for the name of a file:
+        /// CON, PRN, AUX, NUL, COM1, COM2, COM3, COM4, COM5, COM6, COM7, COM8, COM9,
+        /// LPT1, LPT2, LPT3, LPT4, LPT5, LPT6, LPT7, LPT8, LPT9.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static string ToFilename(this string s) => s;
 
         #endregion
 

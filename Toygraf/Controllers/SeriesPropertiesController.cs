@@ -145,7 +145,7 @@
         private void TextureClick(object sender, EventArgs e)
         {
             if (Parent.ExecuteTextureDialog(Series))
-                View.lblTexturePath.Text = Series.TexturePath;
+                View.lblTexturePath.Text = Series.TexturePath.AmpersandEscape();
         }
 
         private void View_FormClosing(object sender, FormClosingEventArgs e)
