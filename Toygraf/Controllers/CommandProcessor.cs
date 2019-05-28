@@ -12,7 +12,7 @@
     {
         #region Internal Interface
 
-        internal CommandProcessor(AppController parent)
+        internal CommandProcessor(GraphController parent)
         {
             Parent = parent;
             // Model
@@ -73,8 +73,8 @@
 
         #region Private Properties
 
-        private AppController Parent;
-        private AppForm View => Parent.View;
+        private GraphController Parent;
+        private GraphForm View => Parent.View;
         private Graph Graph => Parent.Graph;
         private readonly Stack<GraphCommand> UndoStack = new Stack<GraphCommand>();
         private readonly Stack<GraphCommand> RedoStack = new Stack<GraphCommand>();

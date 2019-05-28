@@ -36,7 +36,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.lblVersion = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.NewtonsoftLinkLabel = new System.Windows.Forms.LinkLabel();
@@ -47,18 +46,19 @@
             // btnOK
             // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnOK.Location = new System.Drawing.Point(156, 146);
+            this.btnOK.Location = new System.Drawing.Point(165, 146);
             this.btnOK.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(87, 26);
             this.btnOK.TabIndex = 0;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Visible = false;
             // 
             // lblDescription
             // 
             this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(175, 11);
+            this.lblDescription.Location = new System.Drawing.Point(91, 11);
             this.lblDescription.Margin = new System.Windows.Forms.Padding(3);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Size = new System.Drawing.Size(67, 15);
@@ -115,16 +115,6 @@
             this.label4.TabIndex = 7;
             this.label4.Text = "Copyright:";
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(91, 11);
-            this.label1.Margin = new System.Windows.Forms.Padding(3);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 15);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Description:";
-            // 
             // lblVersion
             // 
             this.lblVersion.AutoSize = true;
@@ -177,7 +167,6 @@
             this.Controls.Add(this.NewtonsoftLinkLabel);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.lblVersion);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -186,14 +175,15 @@
             this.Controls.Add(this.lblDescription);
             this.Controls.Add(this.btnOK);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AboutDialog";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "About";
+            this.TopMost = true;
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -201,12 +191,9 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label5;
         public System.Windows.Forms.Label lblDescription;
         public System.Windows.Forms.Label lblAuthor;
@@ -214,5 +201,6 @@
         public System.Windows.Forms.Label lblVersion;
         public System.Windows.Forms.LinkLabel NewtonsoftLinkLabel;
         private System.Windows.Forms.PictureBox pictureBox1;
+        public System.Windows.Forms.Button btnOK;
     }
 }

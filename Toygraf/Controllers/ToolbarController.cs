@@ -8,7 +8,7 @@
     {
         #region Internal Interface
 
-        internal ToolbarController(AppController parent)
+        internal ToolbarController(GraphController parent)
         {
             Parent = parent;
             View.ViewToolbar.DropDownOpening += ViewToolbar_DropDownOpening;
@@ -23,8 +23,8 @@
 
         #region Private Properties
 
-        private AppController Parent;
-        private AppForm View => Parent.View;
+        private GraphController Parent;
+        private GraphForm View => Parent.View;
         private ToolStrip Toolbar => View.Toolbar;
 
         private const AnchorStyles

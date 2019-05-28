@@ -14,14 +14,14 @@
     {
         #region Internal Interface
 
-        internal LegendController(AppController parent)
+        internal LegendController(GraphController parent)
         {
             Parent = parent;
             Parent.Model.Cleared += Model_Cleared;
             View = parent.View;
         }
 
-        internal AppForm View
+        internal GraphForm View
         {
             get => _view;
             set
@@ -40,7 +40,7 @@
             }
         }
 
-        internal AppController Parent;
+        internal GraphController Parent;
         internal List<SeriesController> Children = new List<SeriesController>();
         internal bool Loading = true;
 
@@ -119,7 +119,7 @@
 
         #region Private Properties
 
-        private AppForm _view;
+        private GraphForm _view;
         private CommandProcessor CommandController { get => Parent.CommandProcessor; }
         private bool CanCancel;
         private Graph Graph { get => Parent.Graph; }

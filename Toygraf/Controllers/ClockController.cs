@@ -12,18 +12,18 @@
         internal ClockController(GraphicsController parent)
         {
             Parent = parent;
-            AppForm.TimeDecelerate.Click += TimeDecelerate_Click;
-            AppForm.tbDecelerate.Click += TimeDecelerate_Click;
-            AppForm.TimeReverse.Click += TimeReverse_Click;
-            AppForm.tbReverse.Click += TimeReverse_Click;
-            AppForm.TimeStop.Click += TimeStop_Click;
-            AppForm.tbStop.Click += TimeStop_Click;
-            AppForm.TimePause.Click += TimePause_Click;
-            AppForm.tbPause.Click += TimePause_Click;
-            AppForm.TimeForward.Click += TimeForward_Click;
-            AppForm.tbForward.Click += TimeForward_Click;
-            AppForm.TimeAccelerate.Click += TimeAccelerate_Click;
-            AppForm.tbAccelerate.Click += TimeAccelerate_Click;
+            graphForm.TimeDecelerate.Click += TimeDecelerate_Click;
+            graphForm.tbDecelerate.Click += TimeDecelerate_Click;
+            graphForm.TimeReverse.Click += TimeReverse_Click;
+            graphForm.tbReverse.Click += TimeReverse_Click;
+            graphForm.TimeStop.Click += TimeStop_Click;
+            graphForm.tbStop.Click += TimeStop_Click;
+            graphForm.TimePause.Click += TimePause_Click;
+            graphForm.tbPause.Click += TimePause_Click;
+            graphForm.TimeForward.Click += TimeForward_Click;
+            graphForm.tbForward.Click += TimeForward_Click;
+            graphForm.TimeAccelerate.Click += TimeAccelerate_Click;
+            graphForm.tbAccelerate.Click += TimeAccelerate_Click;
             Clock = new Clock { Sync = Parent.View };
             Clock.Tick += Clock_Tick;
             UpdateTimeControls();
@@ -67,13 +67,13 @@
         {
             if (ClockRunning && !UsesTime)
                 ClockStop();
-            AppForm.TimeAccelerate.Enabled = AppForm.tbAccelerate.Enabled = CanAccelerate;
-            AppForm.TimeDecelerate.Enabled = AppForm.tbDecelerate.Enabled = CanDecelerate;
-            AppForm.TimeForward.Enabled = AppForm.tbForward.Enabled = CanStart;
-            AppForm.TimePause.Enabled = AppForm.tbPause.Enabled = CanPause;
-            AppForm.TimeReverse.Enabled = AppForm.tbReverse.Enabled = CanReverse;
-            AppForm.TimeStop.Enabled = AppForm.tbStop.Enabled = CanStop;
-            AppForm.SpeedLabel.Enabled = AppForm.Tlabel.Enabled = AppForm.FPSlabel.Enabled = UsesTime;
+            graphForm.TimeAccelerate.Enabled = graphForm.tbAccelerate.Enabled = CanAccelerate;
+            graphForm.TimeDecelerate.Enabled = graphForm.tbDecelerate.Enabled = CanDecelerate;
+            graphForm.TimeForward.Enabled = graphForm.tbForward.Enabled = CanStart;
+            graphForm.TimePause.Enabled = graphForm.tbPause.Enabled = CanPause;
+            graphForm.TimeReverse.Enabled = graphForm.tbReverse.Enabled = CanReverse;
+            graphForm.TimeStop.Enabled = graphForm.tbStop.Enabled = CanStop;
+            graphForm.SpeedLabel.Enabled = graphForm.Tlabel.Enabled = graphForm.FPSlabel.Enabled = UsesTime;
             UpdateTimeFactor();
         }
 
@@ -82,8 +82,8 @@
         #region Private Properties
 
         private GraphicsController Parent;
-        private AppController AppController => Parent.Parent;
-        private AppForm AppForm { get => Parent.AppForm; }
+        private GraphController GraphController => Parent.Parent;
+        private GraphForm graphForm { get => Parent.graphForm; }
         private System.Diagnostics.Stopwatch Stopwatch;
         private bool EpilepsyWarningAcknowledged;
 
@@ -94,7 +94,7 @@
         private bool CanStart => UsesTime && (!Clock.Running || VirtualTimeFactor < 0);
         private bool CanStop => UsesTime && Clock.Running;
 
-        private bool UsesTime => AppController.Graph.UsesTime;
+        private bool UsesTime => GraphController.Graph.UsesTime;
 
         #endregion
 
@@ -148,7 +148,7 @@
         {
             if (!EpilepsyWarningAcknowledged)
                 EpilepsyWarningAcknowledged = MessageBox.Show(
-                    AppForm,
+                    graphForm,
                     "The Time function can be used to create fast flashing images which may cause discomfort, " +
                     "and have the potential to trigger seizures in people with photosensitive epilepsy. " +
                     "User discretion is advised.\n\nDo you wish to proceed?",
@@ -170,8 +170,8 @@
         private void UpdateTimeDisplay()
         {
             Clock.UpdateFPS();
-            AppForm.Tlabel.Text = string.Format("t={0:f1}", VirtualSecondsElapsed);
-            AppForm.FPSlabel.Text = string.Format("fps={0:f1}", Clock.FramesPerSecond);
+            graphForm.Tlabel.Text = string.Format("t={0:f1}", VirtualSecondsElapsed);
+            graphForm.FPSlabel.Text = string.Format("fps={0:f1}", Clock.FramesPerSecond);
             Parent.InvalidateView();
         }
 
@@ -188,7 +188,7 @@
                     factor = 1 / factor;
                 speed = divide ? $"time ÷ {factor}" : $"time × {factor}";
             }
-            AppForm.SpeedLabel.Text = speed;
+            graphForm.SpeedLabel.Text = speed;
         }
 
         #endregion

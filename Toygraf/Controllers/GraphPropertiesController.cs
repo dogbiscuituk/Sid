@@ -12,7 +12,7 @@
     {
         #region Internal Interface
 
-        internal GraphPropertiesController(AppController parent)
+        internal GraphPropertiesController(GraphController parent)
         {
             Parent = parent;
             ColourController = new ColourController();
@@ -52,16 +52,16 @@
             }
         }
 
-        internal AppController Parent
+        internal GraphController Parent
         {
-            get => _appController;
+            get => _GraphController;
             set
             {
                 if (Parent != null)
-                    Parent.PropertyChanged -= AppController_PropertyChanged;
-                _appController = value;
+                    Parent.PropertyChanged -= GraphController_PropertyChanged;
+                _GraphController = value;
                 if (Parent != null)
-                    Parent.PropertyChanged += AppController_PropertyChanged;
+                    Parent.PropertyChanged += GraphController_PropertyChanged;
             }
         }
 
@@ -83,7 +83,7 @@
         #region Private Properties
 
         private GraphPropertiesDialog _view;
-        private AppController _appController;
+        private GraphController _GraphController;
         private ColourController ColourController;
         private CommandProcessor CommandController { get => Parent.CommandProcessor; }
         private ElementsController ElementsController;
@@ -95,7 +95,7 @@
 
         #region Private Event Handlers
 
-        private void AppController_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) => GraphRead();
+        private void GraphController_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) => GraphRead();
         private void BtnClose_Click(object sender, EventArgs e) => View.Hide();
 
         private void AxisColourChanged(object sender, EventArgs e)

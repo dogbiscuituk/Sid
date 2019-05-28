@@ -19,14 +19,19 @@
             View.lblCopyright.Text = asm.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
         }
 
-        internal void ShowDialog(IWin32Window owner) => View.ShowDialog(owner);
+        internal void Show(IWin32Window owner)
+        {
+            View.btnOK.Visible = false;
+            View.Show(owner);
+        }
 
-        #endregion
+        internal void ShowDialog(IWin32Window owner)
+        {
+            View.btnOK.Visible = true;
+            View.ShowDialog(owner);
+        }
 
-        #region Private Properties
-
-        private AboutDialog _view;
-        private AboutDialog View
+        internal AboutDialog View
         {
             get => _view;
             set
@@ -35,6 +40,12 @@
                 View.NewtonsoftLinkLabel.Click += NewtonsoftLinkLabel_Click;
             }
         }
+
+        #endregion
+
+        #region Private Properties
+
+        private AboutDialog _view;
 
         #endregion
 

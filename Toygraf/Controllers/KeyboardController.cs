@@ -57,8 +57,8 @@
         private SeriesPropertiesDialog _view;
 
         private readonly SeriesPropertiesController Parent;
-        private AppController AppController => Parent.Parent;
-        private List<SeriesController> SeriesControllers => AppController.LegendController.Children;
+        private GraphController GraphController => Parent.GraphController;
+        private List<SeriesController> SeriesControllers => GraphController.LegendController.Children;
         private SeriesView SeriesView => SeriesControllers[Index].View;
 
         private Control ActiveControl => SeriesView.cbFunction;
@@ -215,7 +215,7 @@
 
         private void LoadKeys()
         {
-            var keys = View.tpKeyboard.Controls.OfType<Button>().Where(p => p.Tag == null);
+            var keys = View.tpKeyboard.Controls.OfType<Button>().Where(p => (string)p.Tag == "KB");
             CustomKeys.AddRange(keys);
             foreach (var key in keys)
                 key.Click += Key_Press;

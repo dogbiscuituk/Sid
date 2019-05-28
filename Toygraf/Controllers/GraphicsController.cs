@@ -11,7 +11,7 @@
     {
         #region Internal Interface
 
-        internal GraphicsController(AppController parent, bool doubleBuffered)
+        internal GraphicsController(GraphController parent, bool doubleBuffered)
         {
             Parent = parent;
             DoubleBuffered = doubleBuffered;
@@ -20,8 +20,8 @@
             AdjustPictureBox();
         }
 
-        internal readonly AppController Parent;
-        internal AppForm AppForm { get => Parent.View; }
+        internal readonly GraphController Parent;
+        internal GraphForm graphForm { get => Parent.View; }
         internal ClockController ClockController;
 
         internal PictureBox View

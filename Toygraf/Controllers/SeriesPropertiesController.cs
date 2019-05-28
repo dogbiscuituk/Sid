@@ -15,15 +15,16 @@
     {
         #region Internal Interface
 
-        internal SeriesPropertiesController(AppController parent)
+        internal SeriesPropertiesController(GraphController parent)
         {
-            Parent = parent;
+            GraphController = parent;
             View = new SeriesPropertiesDialog();
             View.FormClosing += View_FormClosing;
             ColourController = new ColourController();
             ColourController.AddControls(View.cbPenColour, View.cbFillColour1, View.cbFillColour2);
             KeyboardController = new KeyboardController(this);
             InitEnumControls();
+            View.btnTaylorPolynomial.Click += TaylorPolynomialClick;
             View.btnTexture.Click += TextureClick;
             View.cbBrushType.SelectedIndexChanged += BrushTypeChanged;
             View.cbFillColour1.SelectedIndexChanged += FillColourChanged;
@@ -48,7 +49,8 @@
             View.ShowDialog(owner);
         }
 
-        internal readonly AppController Parent;
+        internal readonly GraphController GraphController;
+        internal AppController AppController => GraphController.AppController;
         internal KeyboardController KeyboardController;
         internal SeriesPropertiesDialog View;
         internal Graph Graph;
@@ -74,8 +76,8 @@
         #region Private Properties
 
         private ColourController ColourController;
-        private CommandProcessor CommandProcessor => Parent.CommandProcessor;
-        private List<SeriesController> SeriesControllers => Parent.LegendController.Children;
+        private CommandProcessor CommandProcessor => GraphController.CommandProcessor;
+        private List<SeriesController> SeriesControllers => GraphController.LegendController.Children;
         private SeriesView SeriesView => SeriesControllers[Index].View;
         private Series Series => Graph.Series[Index];
         private bool Loading;
@@ -142,9 +144,17 @@
                 CommandProcessor.Run(new SeriesPenStyleCommand(Index, penStyle));
         }
 
+        private void TaylorPolynomialClick(object sender, EventArgs e)
+        {
+            var graphController = AppController.AddNewGraphController();
+            var taylorPolynomialController = new TaylorPolynomialController(graphController);
+            taylorPolynomialController.PopulateSeries(Series.Proxy, 0, 10);
+            View.DialogResult = DialogResult.OK;
+        }
+
         private void TextureClick(object sender, EventArgs e)
         {
-            if (Parent.ExecuteTextureDialog(Series))
+            if (GraphController.ExecuteTextureDialog(Series))
                 View.lblTexturePath.Text = Series.TexturePath.AmpersandEscape();
         }
 

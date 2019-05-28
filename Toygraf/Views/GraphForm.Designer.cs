@@ -1,6 +1,6 @@
 ﻿namespace ToyGraf.Views
 {
-    partial class AppForm
+    partial class GraphForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphForm));
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -1075,7 +1075,7 @@
     "(*.*)|*.*";
             this.ImageOpenDialog.Title = "Select Texture";
             // 
-            // AppForm
+            // graphForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -1088,7 +1088,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MainMenu;
-            this.Name = "AppForm";
+            this.Name = "graphForm";
             this.Text = "ToyGraf";
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();

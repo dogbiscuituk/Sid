@@ -125,6 +125,7 @@
             this.IndexLabel = new System.Windows.Forms.Label();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.tpSeriesProperties = new System.Windows.Forms.TabPage();
+            this.btnTaylorPolynomial = new System.Windows.Forms.Button();
             this.lblType = new System.Windows.Forms.Label();
             this.lblFillColour2 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -157,6 +158,7 @@
             this.btnQ.Name = "btnQ";
             this.btnQ.Size = new System.Drawing.Size(24, 24);
             this.btnQ.TabIndex = 24;
+            this.btnQ.Tag = "KB";
             this.btnQ.Text = "q";
             this.btnQ.UseMnemonic = false;
             this.btnQ.UseVisualStyleBackColor = false;
@@ -170,6 +172,7 @@
             this.btnW.Name = "btnW";
             this.btnW.Size = new System.Drawing.Size(24, 24);
             this.btnW.TabIndex = 25;
+            this.btnW.Tag = "KB";
             this.btnW.Text = "w";
             this.btnW.UseMnemonic = false;
             this.btnW.UseVisualStyleBackColor = false;
@@ -183,6 +186,7 @@
             this.btnE.Name = "btnE";
             this.btnE.Size = new System.Drawing.Size(24, 24);
             this.btnE.TabIndex = 26;
+            this.btnE.Tag = "KB";
             this.btnE.Text = "e";
             this.btnE.UseMnemonic = false;
             this.btnE.UseVisualStyleBackColor = false;
@@ -196,6 +200,7 @@
             this.btnR.Name = "btnR";
             this.btnR.Size = new System.Drawing.Size(24, 24);
             this.btnR.TabIndex = 27;
+            this.btnR.Tag = "KB";
             this.btnR.Text = "r";
             this.btnR.UseMnemonic = false;
             this.btnR.UseVisualStyleBackColor = false;
@@ -209,6 +214,7 @@
             this.btnT.Name = "btnT";
             this.btnT.Size = new System.Drawing.Size(24, 24);
             this.btnT.TabIndex = 28;
+            this.btnT.Tag = "KB";
             this.btnT.Text = "t";
             this.btnT.UseMnemonic = false;
             this.btnT.UseVisualStyleBackColor = false;
@@ -222,6 +228,7 @@
             this.btnY.Name = "btnY";
             this.btnY.Size = new System.Drawing.Size(24, 24);
             this.btnY.TabIndex = 29;
+            this.btnY.Tag = "KB";
             this.btnY.Text = "y";
             this.btnY.UseMnemonic = false;
             this.btnY.UseVisualStyleBackColor = false;
@@ -235,6 +242,7 @@
             this.btnU.Name = "btnU";
             this.btnU.Size = new System.Drawing.Size(24, 24);
             this.btnU.TabIndex = 30;
+            this.btnU.Tag = "KB";
             this.btnU.Text = "u";
             this.btnU.UseMnemonic = false;
             this.btnU.UseVisualStyleBackColor = false;
@@ -248,6 +256,7 @@
             this.btnI.Name = "btnI";
             this.btnI.Size = new System.Drawing.Size(24, 24);
             this.btnI.TabIndex = 31;
+            this.btnI.Tag = "KB";
             this.btnI.Text = "i";
             this.btnI.UseMnemonic = false;
             this.btnI.UseVisualStyleBackColor = false;
@@ -261,6 +270,7 @@
             this.btnO.Name = "btnO";
             this.btnO.Size = new System.Drawing.Size(24, 24);
             this.btnO.TabIndex = 32;
+            this.btnO.Tag = "KB";
             this.btnO.Text = "o";
             this.btnO.UseMnemonic = false;
             this.btnO.UseVisualStyleBackColor = false;
@@ -274,6 +284,7 @@
             this.btnP.Name = "btnP";
             this.btnP.Size = new System.Drawing.Size(24, 24);
             this.btnP.TabIndex = 33;
+            this.btnP.Tag = "KB";
             this.btnP.Text = "p";
             this.btnP.UseMnemonic = false;
             this.btnP.UseVisualStyleBackColor = false;
@@ -287,6 +298,7 @@
             this.btnA.Name = "btnA";
             this.btnA.Size = new System.Drawing.Size(24, 24);
             this.btnA.TabIndex = 42;
+            this.btnA.Tag = "KB";
             this.btnA.Text = "a";
             this.btnA.UseMnemonic = false;
             this.btnA.UseVisualStyleBackColor = false;
@@ -300,6 +312,7 @@
             this.btnS.Name = "btnS";
             this.btnS.Size = new System.Drawing.Size(24, 24);
             this.btnS.TabIndex = 43;
+            this.btnS.Tag = "KB";
             this.btnS.Text = "s";
             this.btnS.UseMnemonic = false;
             this.btnS.UseVisualStyleBackColor = false;
@@ -313,6 +326,7 @@
             this.btnD.Name = "btnD";
             this.btnD.Size = new System.Drawing.Size(24, 24);
             this.btnD.TabIndex = 44;
+            this.btnD.Tag = "KB";
             this.btnD.Text = "d";
             this.btnD.UseMnemonic = false;
             this.btnD.UseVisualStyleBackColor = false;
@@ -326,6 +340,7 @@
             this.btnF.Name = "btnF";
             this.btnF.Size = new System.Drawing.Size(24, 24);
             this.btnF.TabIndex = 45;
+            this.btnF.Tag = "KB";
             this.btnF.Text = "f";
             this.btnF.UseMnemonic = false;
             this.btnF.UseVisualStyleBackColor = false;
@@ -339,6 +354,7 @@
             this.btnG.Name = "btnG";
             this.btnG.Size = new System.Drawing.Size(24, 24);
             this.btnG.TabIndex = 46;
+            this.btnG.Tag = "KB";
             this.btnG.Text = "g";
             this.btnG.UseMnemonic = false;
             this.btnG.UseVisualStyleBackColor = false;
@@ -352,6 +368,7 @@
             this.btnH.Name = "btnH";
             this.btnH.Size = new System.Drawing.Size(24, 24);
             this.btnH.TabIndex = 47;
+            this.btnH.Tag = "KB";
             this.btnH.Text = "h";
             this.btnH.UseMnemonic = false;
             this.btnH.UseVisualStyleBackColor = false;
@@ -365,6 +382,7 @@
             this.btnJ.Name = "btnJ";
             this.btnJ.Size = new System.Drawing.Size(24, 24);
             this.btnJ.TabIndex = 48;
+            this.btnJ.Tag = "KB";
             this.btnJ.Text = "j";
             this.btnJ.UseMnemonic = false;
             this.btnJ.UseVisualStyleBackColor = false;
@@ -378,6 +396,7 @@
             this.btnK.Name = "btnK";
             this.btnK.Size = new System.Drawing.Size(24, 24);
             this.btnK.TabIndex = 49;
+            this.btnK.Tag = "KB";
             this.btnK.Text = "k";
             this.btnK.UseMnemonic = false;
             this.btnK.UseVisualStyleBackColor = false;
@@ -391,6 +410,7 @@
             this.btnL.Name = "btnL";
             this.btnL.Size = new System.Drawing.Size(24, 24);
             this.btnL.TabIndex = 50;
+            this.btnL.Tag = "KB";
             this.btnL.Text = "l";
             this.btnL.UseMnemonic = false;
             this.btnL.UseVisualStyleBackColor = false;
@@ -404,6 +424,7 @@
             this.btnZ.Name = "btnZ";
             this.btnZ.Size = new System.Drawing.Size(24, 24);
             this.btnZ.TabIndex = 59;
+            this.btnZ.Tag = "KB";
             this.btnZ.Text = "z";
             this.btnZ.UseMnemonic = false;
             this.btnZ.UseVisualStyleBackColor = false;
@@ -417,6 +438,7 @@
             this.btnX.Name = "btnX";
             this.btnX.Size = new System.Drawing.Size(24, 24);
             this.btnX.TabIndex = 60;
+            this.btnX.Tag = "KB";
             this.btnX.Text = "x";
             this.btnX.UseMnemonic = false;
             this.btnX.UseVisualStyleBackColor = false;
@@ -430,6 +452,7 @@
             this.btnC.Name = "btnC";
             this.btnC.Size = new System.Drawing.Size(24, 24);
             this.btnC.TabIndex = 61;
+            this.btnC.Tag = "KB";
             this.btnC.Text = "c";
             this.btnC.UseMnemonic = false;
             this.btnC.UseVisualStyleBackColor = false;
@@ -443,6 +466,7 @@
             this.btnV.Name = "btnV";
             this.btnV.Size = new System.Drawing.Size(24, 24);
             this.btnV.TabIndex = 62;
+            this.btnV.Tag = "KB";
             this.btnV.Text = "v";
             this.btnV.UseMnemonic = false;
             this.btnV.UseVisualStyleBackColor = false;
@@ -456,6 +480,7 @@
             this.btnB.Name = "btnB";
             this.btnB.Size = new System.Drawing.Size(24, 24);
             this.btnB.TabIndex = 63;
+            this.btnB.Tag = "KB";
             this.btnB.Text = "b";
             this.btnB.UseMnemonic = false;
             this.btnB.UseVisualStyleBackColor = false;
@@ -469,6 +494,7 @@
             this.btnN.Name = "btnN";
             this.btnN.Size = new System.Drawing.Size(24, 24);
             this.btnN.TabIndex = 64;
+            this.btnN.Tag = "KB";
             this.btnN.Text = "n";
             this.btnN.UseMnemonic = false;
             this.btnN.UseVisualStyleBackColor = false;
@@ -482,6 +508,7 @@
             this.btnM.Name = "btnM";
             this.btnM.Size = new System.Drawing.Size(24, 24);
             this.btnM.TabIndex = 65;
+            this.btnM.Tag = "KB";
             this.btnM.Text = "m";
             this.btnM.UseMnemonic = false;
             this.btnM.UseVisualStyleBackColor = false;
@@ -495,6 +522,7 @@
             this.btn1.Name = "btn1";
             this.btn1.Size = new System.Drawing.Size(24, 24);
             this.btn1.TabIndex = 6;
+            this.btn1.Tag = "KB";
             this.btn1.Text = "1";
             this.btn1.UseMnemonic = false;
             this.btn1.UseVisualStyleBackColor = false;
@@ -508,6 +536,7 @@
             this.btn2.Name = "btn2";
             this.btn2.Size = new System.Drawing.Size(24, 24);
             this.btn2.TabIndex = 7;
+            this.btn2.Tag = "KB";
             this.btn2.Text = "2";
             this.btn2.UseMnemonic = false;
             this.btn2.UseVisualStyleBackColor = false;
@@ -521,6 +550,7 @@
             this.btn3.Name = "btn3";
             this.btn3.Size = new System.Drawing.Size(24, 24);
             this.btn3.TabIndex = 8;
+            this.btn3.Tag = "KB";
             this.btn3.Text = "3";
             this.btn3.UseMnemonic = false;
             this.btn3.UseVisualStyleBackColor = false;
@@ -534,6 +564,7 @@
             this.btn4.Name = "btn4";
             this.btn4.Size = new System.Drawing.Size(24, 24);
             this.btn4.TabIndex = 9;
+            this.btn4.Tag = "KB";
             this.btn4.Text = "4";
             this.btn4.UseMnemonic = false;
             this.btn4.UseVisualStyleBackColor = false;
@@ -547,6 +578,7 @@
             this.btn5.Name = "btn5";
             this.btn5.Size = new System.Drawing.Size(24, 24);
             this.btn5.TabIndex = 10;
+            this.btn5.Tag = "KB";
             this.btn5.Text = "5";
             this.btn5.UseMnemonic = false;
             this.btn5.UseVisualStyleBackColor = false;
@@ -560,6 +592,7 @@
             this.btn6.Name = "btn6";
             this.btn6.Size = new System.Drawing.Size(24, 24);
             this.btn6.TabIndex = 11;
+            this.btn6.Tag = "KB";
             this.btn6.Text = "6";
             this.btn6.UseMnemonic = false;
             this.btn6.UseVisualStyleBackColor = false;
@@ -573,6 +606,7 @@
             this.btn7.Name = "btn7";
             this.btn7.Size = new System.Drawing.Size(24, 24);
             this.btn7.TabIndex = 12;
+            this.btn7.Tag = "KB";
             this.btn7.Text = "7";
             this.btn7.UseMnemonic = false;
             this.btn7.UseVisualStyleBackColor = false;
@@ -586,6 +620,7 @@
             this.btn8.Name = "btn8";
             this.btn8.Size = new System.Drawing.Size(24, 24);
             this.btn8.TabIndex = 13;
+            this.btn8.Tag = "KB";
             this.btn8.Text = "8";
             this.btn8.UseMnemonic = false;
             this.btn8.UseVisualStyleBackColor = false;
@@ -599,6 +634,7 @@
             this.btn9.Name = "btn9";
             this.btn9.Size = new System.Drawing.Size(24, 24);
             this.btn9.TabIndex = 14;
+            this.btn9.Tag = "KB";
             this.btn9.Text = "9";
             this.btn9.UseMnemonic = false;
             this.btn9.UseVisualStyleBackColor = false;
@@ -612,6 +648,7 @@
             this.btn0.Name = "btn0";
             this.btn0.Size = new System.Drawing.Size(24, 24);
             this.btn0.TabIndex = 15;
+            this.btn0.Tag = "KB";
             this.btn0.Text = "0";
             this.btn0.UseMnemonic = false;
             this.btn0.UseVisualStyleBackColor = false;
@@ -625,6 +662,7 @@
             this.btnMinus.Name = "btnMinus";
             this.btnMinus.Size = new System.Drawing.Size(24, 24);
             this.btnMinus.TabIndex = 16;
+            this.btnMinus.Tag = "KB";
             this.btnMinus.Text = "-";
             this.btnMinus.UseMnemonic = false;
             this.btnMinus.UseVisualStyleBackColor = false;
@@ -638,6 +676,7 @@
             this.btnEqual.Name = "btnEqual";
             this.btnEqual.Size = new System.Drawing.Size(24, 24);
             this.btnEqual.TabIndex = 17;
+            this.btnEqual.Tag = "KB";
             this.btnEqual.Text = "=";
             this.btnEqual.UseMnemonic = false;
             this.btnEqual.UseVisualStyleBackColor = false;
@@ -651,6 +690,7 @@
             this.btnBackTick.Name = "btnBackTick";
             this.btnBackTick.Size = new System.Drawing.Size(24, 24);
             this.btnBackTick.TabIndex = 5;
+            this.btnBackTick.Tag = "KB";
             this.btnBackTick.Text = "`";
             this.btnBackTick.UseMnemonic = false;
             this.btnBackTick.UseVisualStyleBackColor = false;
@@ -664,6 +704,7 @@
             this.btnBackslash.Name = "btnBackslash";
             this.btnBackslash.Size = new System.Drawing.Size(24, 24);
             this.btnBackslash.TabIndex = 58;
+            this.btnBackslash.Tag = "KB";
             this.btnBackslash.Text = "\\";
             this.btnBackslash.UseMnemonic = false;
             this.btnBackslash.UseVisualStyleBackColor = false;
@@ -677,6 +718,7 @@
             this.btnPeriod.Name = "btnPeriod";
             this.btnPeriod.Size = new System.Drawing.Size(24, 24);
             this.btnPeriod.TabIndex = 67;
+            this.btnPeriod.Tag = "KB";
             this.btnPeriod.Text = ".";
             this.btnPeriod.UseMnemonic = false;
             this.btnPeriod.UseVisualStyleBackColor = false;
@@ -690,6 +732,7 @@
             this.btnSlash.Name = "btnSlash";
             this.btnSlash.Size = new System.Drawing.Size(24, 24);
             this.btnSlash.TabIndex = 68;
+            this.btnSlash.Tag = "KB";
             this.btnSlash.Text = "/";
             this.btnSlash.UseMnemonic = false;
             this.btnSlash.UseVisualStyleBackColor = false;
@@ -703,6 +746,7 @@
             this.btnHash.Name = "btnHash";
             this.btnHash.Size = new System.Drawing.Size(24, 24);
             this.btnHash.TabIndex = 53;
+            this.btnHash.Tag = "KB";
             this.btnHash.Text = "#";
             this.btnHash.UseMnemonic = false;
             this.btnHash.UseVisualStyleBackColor = false;
@@ -716,6 +760,7 @@
             this.bynLeftBracket.Name = "bynLeftBracket";
             this.bynLeftBracket.Size = new System.Drawing.Size(24, 24);
             this.bynLeftBracket.TabIndex = 34;
+            this.bynLeftBracket.Tag = "KB";
             this.bynLeftBracket.Text = "[";
             this.bynLeftBracket.UseMnemonic = false;
             this.bynLeftBracket.UseVisualStyleBackColor = false;
@@ -729,6 +774,7 @@
             this.btnRightBracket.Name = "btnRightBracket";
             this.btnRightBracket.Size = new System.Drawing.Size(24, 24);
             this.btnRightBracket.TabIndex = 35;
+            this.btnRightBracket.Tag = "KB";
             this.btnRightBracket.Text = "]";
             this.btnRightBracket.UseMnemonic = false;
             this.btnRightBracket.UseVisualStyleBackColor = false;
@@ -819,6 +865,7 @@
             this.btnNum9.Name = "btnNum9";
             this.btnNum9.Size = new System.Drawing.Size(24, 24);
             this.btnNum9.TabIndex = 39;
+            this.btnNum9.Tag = "KB";
             this.btnNum9.Text = "9";
             this.btnNum9.UseMnemonic = false;
             this.btnNum9.UseVisualStyleBackColor = false;
@@ -832,6 +879,7 @@
             this.btnNum8.Name = "btnNum8";
             this.btnNum8.Size = new System.Drawing.Size(24, 24);
             this.btnNum8.TabIndex = 38;
+            this.btnNum8.Tag = "KB";
             this.btnNum8.Text = "8";
             this.btnNum8.UseMnemonic = false;
             this.btnNum8.UseVisualStyleBackColor = false;
@@ -845,6 +893,7 @@
             this.btnNum7.Name = "btnNum7";
             this.btnNum7.Size = new System.Drawing.Size(24, 24);
             this.btnNum7.TabIndex = 37;
+            this.btnNum7.Tag = "KB";
             this.btnNum7.Text = "7";
             this.btnNum7.UseMnemonic = false;
             this.btnNum7.UseVisualStyleBackColor = false;
@@ -858,6 +907,7 @@
             this.btnNum6.Name = "btnNum6";
             this.btnNum6.Size = new System.Drawing.Size(24, 24);
             this.btnNum6.TabIndex = 56;
+            this.btnNum6.Tag = "KB";
             this.btnNum6.Text = "6";
             this.btnNum6.UseMnemonic = false;
             this.btnNum6.UseVisualStyleBackColor = false;
@@ -871,6 +921,7 @@
             this.btnNum5.Name = "btnNum5";
             this.btnNum5.Size = new System.Drawing.Size(24, 24);
             this.btnNum5.TabIndex = 55;
+            this.btnNum5.Tag = "KB";
             this.btnNum5.Text = "5";
             this.btnNum5.UseMnemonic = false;
             this.btnNum5.UseVisualStyleBackColor = false;
@@ -884,6 +935,7 @@
             this.btnNum4.Name = "btnNum4";
             this.btnNum4.Size = new System.Drawing.Size(24, 24);
             this.btnNum4.TabIndex = 54;
+            this.btnNum4.Tag = "KB";
             this.btnNum4.Text = "4";
             this.btnNum4.UseMnemonic = false;
             this.btnNum4.UseVisualStyleBackColor = false;
@@ -897,6 +949,7 @@
             this.btnNum3.Name = "btnNum3";
             this.btnNum3.Size = new System.Drawing.Size(24, 24);
             this.btnNum3.TabIndex = 72;
+            this.btnNum3.Tag = "KB";
             this.btnNum3.Text = "3";
             this.btnNum3.UseMnemonic = false;
             this.btnNum3.UseVisualStyleBackColor = false;
@@ -910,6 +963,7 @@
             this.btnNum2.Name = "btnNum2";
             this.btnNum2.Size = new System.Drawing.Size(24, 24);
             this.btnNum2.TabIndex = 71;
+            this.btnNum2.Tag = "KB";
             this.btnNum2.Text = "2";
             this.btnNum2.UseMnemonic = false;
             this.btnNum2.UseVisualStyleBackColor = false;
@@ -923,6 +977,7 @@
             this.btnNum1.Name = "btnNum1";
             this.btnNum1.Size = new System.Drawing.Size(24, 24);
             this.btnNum1.TabIndex = 70;
+            this.btnNum1.Tag = "KB";
             this.btnNum1.Text = "1";
             this.btnNum1.UseMnemonic = false;
             this.btnNum1.UseVisualStyleBackColor = false;
@@ -936,6 +991,7 @@
             this.btnNum0.Name = "btnNum0";
             this.btnNum0.Size = new System.Drawing.Size(48, 24);
             this.btnNum0.TabIndex = 79;
+            this.btnNum0.Tag = "KB";
             this.btnNum0.Text = "0";
             this.btnNum0.UseMnemonic = false;
             this.btnNum0.UseVisualStyleBackColor = false;
@@ -949,6 +1005,7 @@
             this.btnNumPeriod.Name = "btnNumPeriod";
             this.btnNumPeriod.Size = new System.Drawing.Size(24, 24);
             this.btnNumPeriod.TabIndex = 80;
+            this.btnNumPeriod.Tag = "KB";
             this.btnNumPeriod.Text = ".";
             this.btnNumPeriod.UseMnemonic = false;
             this.btnNumPeriod.UseVisualStyleBackColor = false;
@@ -978,6 +1035,7 @@
             this.btnComma.Name = "btnComma";
             this.btnComma.Size = new System.Drawing.Size(24, 24);
             this.btnComma.TabIndex = 66;
+            this.btnComma.Tag = "KB";
             this.btnComma.Text = ",";
             this.btnComma.UseMnemonic = false;
             this.btnComma.UseVisualStyleBackColor = false;
@@ -991,6 +1049,7 @@
             this.btnNumSlash.Name = "btnNumSlash";
             this.btnNumSlash.Size = new System.Drawing.Size(24, 24);
             this.btnNumSlash.TabIndex = 20;
+            this.btnNumSlash.Tag = "KB";
             this.btnNumSlash.Text = "/";
             this.btnNumSlash.UseMnemonic = false;
             this.btnNumSlash.UseVisualStyleBackColor = false;
@@ -1004,6 +1063,7 @@
             this.btnNumAsterisk.Name = "btnNumAsterisk";
             this.btnNumAsterisk.Size = new System.Drawing.Size(24, 24);
             this.btnNumAsterisk.TabIndex = 21;
+            this.btnNumAsterisk.Tag = "KB";
             this.btnNumAsterisk.Text = "*";
             this.btnNumAsterisk.UseMnemonic = false;
             this.btnNumAsterisk.UseVisualStyleBackColor = false;
@@ -1017,6 +1077,7 @@
             this.btnNumMinus.Name = "btnNumMinus";
             this.btnNumMinus.Size = new System.Drawing.Size(24, 24);
             this.btnNumMinus.TabIndex = 22;
+            this.btnNumMinus.Tag = "KB";
             this.btnNumMinus.Text = "-";
             this.btnNumMinus.UseMnemonic = false;
             this.btnNumMinus.UseVisualStyleBackColor = false;
@@ -1030,6 +1091,7 @@
             this.btnNumPlus.Name = "btnNumPlus";
             this.btnNumPlus.Size = new System.Drawing.Size(24, 48);
             this.btnNumPlus.TabIndex = 40;
+            this.btnNumPlus.Tag = "KB";
             this.btnNumPlus.Text = "+";
             this.btnNumPlus.UseMnemonic = false;
             this.btnNumPlus.UseVisualStyleBackColor = false;
@@ -1043,6 +1105,7 @@
             this.btnSpace.Name = "btnSpace";
             this.btnSpace.Size = new System.Drawing.Size(162, 24);
             this.btnSpace.TabIndex = 76;
+            this.btnSpace.Tag = "KB";
             this.btnSpace.UseMnemonic = false;
             this.btnSpace.UseVisualStyleBackColor = false;
             // 
@@ -1071,6 +1134,7 @@
             this.btnNumTopLeft.Name = "btnNumTopLeft";
             this.btnNumTopLeft.Size = new System.Drawing.Size(24, 24);
             this.btnNumTopLeft.TabIndex = 19;
+            this.btnNumTopLeft.Tag = "KB";
             this.btnNumTopLeft.UseMnemonic = false;
             this.btnNumTopLeft.UseVisualStyleBackColor = false;
             // 
@@ -1083,6 +1147,7 @@
             this.btnSemicolon.Name = "btnSemicolon";
             this.btnSemicolon.Size = new System.Drawing.Size(24, 24);
             this.btnSemicolon.TabIndex = 51;
+            this.btnSemicolon.Tag = "KB";
             this.btnSemicolon.Text = ";";
             this.btnSemicolon.UseMnemonic = false;
             this.btnSemicolon.UseVisualStyleBackColor = false;
@@ -1096,6 +1161,7 @@
             this.btnApostrophe.Name = "btnApostrophe";
             this.btnApostrophe.Size = new System.Drawing.Size(24, 24);
             this.btnApostrophe.TabIndex = 52;
+            this.btnApostrophe.Tag = "KB";
             this.btnApostrophe.Text = "\'";
             this.btnApostrophe.UseMnemonic = false;
             this.btnApostrophe.UseVisualStyleBackColor = false;
@@ -1425,6 +1491,7 @@
             // tpSeriesProperties
             // 
             this.tpSeriesProperties.BackColor = System.Drawing.SystemColors.Control;
+            this.tpSeriesProperties.Controls.Add(this.btnTaylorPolynomial);
             this.tpSeriesProperties.Controls.Add(this.cbWrapMode);
             this.tpSeriesProperties.Controls.Add(this.cbGradientMode);
             this.tpSeriesProperties.Controls.Add(this.cbHatchStyle);
@@ -1451,6 +1518,16 @@
             this.tpSeriesProperties.Size = new System.Drawing.Size(458, 123);
             this.tpSeriesProperties.TabIndex = 0;
             this.tpSeriesProperties.Text = "Series Properties";
+            // 
+            // btnTaylorSeries
+            // 
+            this.btnTaylorPolynomial.Location = new System.Drawing.Point(331, 95);
+            this.btnTaylorPolynomial.Name = "btnTaylorPolynomial";
+            this.btnTaylorPolynomial.Size = new System.Drawing.Size(119, 25);
+            this.btnTaylorPolynomial.TabIndex = 24;
+            this.btnTaylorPolynomial.Tag = "Fixed";
+            this.btnTaylorPolynomial.Text = "Taylor polynomial";
+            this.btnTaylorPolynomial.UseVisualStyleBackColor = true;
             // 
             // lblType
             // 
@@ -1790,5 +1867,6 @@
         public System.Windows.Forms.Label lblTexturePath;
         public System.Windows.Forms.Button btnTexture;
         public System.Windows.Forms.ComboBox cbWrapMode;
+        public System.Windows.Forms.Button btnTaylorPolynomial;
     }
 }

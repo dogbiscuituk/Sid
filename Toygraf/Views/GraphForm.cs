@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    internal partial class AppForm : Form
+    internal partial class GraphForm : Form
     {
-        internal AppForm()
+        internal GraphForm()
         {
             InitializeComponent();
         }

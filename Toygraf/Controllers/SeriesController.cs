@@ -86,11 +86,11 @@
         #region Private Properties
 
         private SeriesView _view;
-        private AppController AppController { get => Parent.Parent; }
+        private GraphController GraphController { get => Parent.Parent; }
         private LegendController Parent;
         private ColourController ColourController;
-        private CommandProcessor CommandProcessor { get => AppController.CommandProcessor; }
-        private SeriesPropertiesController SeriesPropertiesController { get => AppController.SeriesPropertiesController; }
+        private CommandProcessor CommandProcessor { get => GraphController.CommandProcessor; }
+        private SeriesPropertiesController SeriesPropertiesController { get => GraphController.SeriesPropertiesController; }
         private KeyboardController KeyboardController { get => SeriesPropertiesController.KeyboardController; }
         private int Index { get => Parent.IndexOf(this); }
         private ComboBox FunctionBox { get => View.cbFunction; }
@@ -107,7 +107,7 @@
                 h2 = Screen.FromControl(View).Bounds.Height;
             var p = View.PointToScreen(new Point(0, h));
             if (p.Y + h1 > h2) p.Y -= h + h1;
-            SeriesPropertiesController.ShowDialog(AppController.View, p, Graph, Parent.IndexOf(this));
+            SeriesPropertiesController.ShowDialog(GraphController.View, p, Graph, Parent.IndexOf(this));
         }
 
         private void BtnRemove_Click(object sender, System.EventArgs e) => Parent.RemoveSeries(Index);
