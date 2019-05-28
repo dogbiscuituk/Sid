@@ -19,6 +19,8 @@
             Parent = parent;
             Parent.Model.Cleared += Model_Cleared;
             View = parent.View;
+            Graph.BeginUpdate += GraphBeginUpdate;
+            Graph.EndUpdate += GraphEndUpdate;
         }
 
         internal GraphForm View
@@ -83,6 +85,8 @@
 
         internal void GraphRead()
         {
+            if (Updating)
+                return;
             Loading = true;
             Legend.SuspendLayout();
             // First, remove any child without a corresponding Series in the Graph.
@@ -121,7 +125,7 @@
 
         private GraphForm _view;
         private CommandProcessor CommandController { get => Parent.CommandProcessor; }
-        private bool CanCancel;
+        private bool CanCancel, Updating;
         private Graph Graph { get => Parent.Graph; }
         private Panel Client { get => View.ClientPanel; }
         private Panel Legend { get => View.LegendPanel; }
@@ -140,6 +144,17 @@
         #endregion
 
         #region Private Event Handlers
+
+        private void GraphBeginUpdate(object sender, EventArgs e)
+        {
+            Updating = true;
+        }
+
+        private void GraphEndUpdate(object sender, EventArgs e)
+        {
+            Updating = false;
+            GraphRead();
+        }
 
         private void CbFunction_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {

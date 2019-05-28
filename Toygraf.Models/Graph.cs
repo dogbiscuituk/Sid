@@ -548,6 +548,27 @@
 
         #region INotifyPropertyChanged
 
+        private int UpdateCount;
+
+        public event EventHandler BeginUpdate, EndUpdate;
+
+        public void OnBeginUpdate()
+        {
+            if (UpdateCount == 0)
+                BeginUpdate?.Invoke(this, EventArgs.Empty);
+            UpdateCount++;
+        }
+
+        public void OnEndUpdate()
+        {
+            if (UpdateCount > 0)
+            {
+                UpdateCount--;
+                if (UpdateCount == 0)
+                    EndUpdate?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
         protected override void OnPropertyChanged(string propertyName)
         {
             InvalidateReticle();

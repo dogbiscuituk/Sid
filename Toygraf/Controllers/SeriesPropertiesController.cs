@@ -148,7 +148,7 @@
         {
             var graphController = AppController.AddNewGraphController();
             var taylorPolynomialController = new TaylorPolynomialController(graphController);
-            taylorPolynomialController.PopulateSeries(Series.Proxy, 0, 10);
+            taylorPolynomialController.PopulateSeries(Series.Proxy, 0, 16);
             View.DialogResult = DialogResult.OK;
         }
 

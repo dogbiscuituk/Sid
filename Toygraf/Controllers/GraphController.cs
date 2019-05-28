@@ -202,7 +202,7 @@
         private void FilePathRequest(SdiController.FilePathRequestEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(e.FilePath) && Graph.Series.Count > 0)
-                e.FilePath = Graph.Series.Select(s => s.Formula).Aggregate((s, t) => $"{s};{t}");
+                e.FilePath = Graph.Series[0].Formula;
         }
 
         private void FileSaved() => Graph.ZoomSet();

@@ -106,7 +106,7 @@
         [JsonIgnore]
         public Expression Proxy
         {
-            get => _proxy;
+            get => _proxy ?? Expression;
             set
             {
                 _proxy = value;
