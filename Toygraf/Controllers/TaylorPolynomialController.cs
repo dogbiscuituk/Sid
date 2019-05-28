@@ -15,8 +15,7 @@
         {
             Graph.OnBeginUpdate();
             Graph.Clear();
-            var series = AddSeries();
-            series.Formula = proxy.AsString();
+            var targetFormula = proxy.AsString();
             double denominator = 1;
             var linearFactor = Expressions.x.Minus(a);
             Expression powerFactor, runningTotal = 0.0.Constant();
@@ -40,8 +39,7 @@
                 var coefficient = proxy.AsFunction()(a, 0);
                 var termTaylor = coefficient.Times(powerFactor).Over(denominator).Simplify();
                 runningTotal = runningTotal.Plus(termTaylor).Simplify();
-                System.Diagnostics.Debug.WriteLine(runningTotal.AsString());
-                series = AddSeries();
+                var series = AddSeries();
                 var newFormula = runningTotal.AsString();
                 series.Formula = newFormula;
                 series.Visible = newFormula != oldFormula;
@@ -49,8 +47,10 @@
                 {
                     oldFormula = newFormula;
                     proxy = proxy.Differentiate();
+                    System.Diagnostics.Debug.WriteLine(proxy.AsString());
                 }
             }
+            AddSeries().Formula = targetFormula;
             Graph.OnEndUpdate();
         }
 

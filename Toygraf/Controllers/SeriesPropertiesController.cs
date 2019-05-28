@@ -86,7 +86,7 @@
 
         #region Private Event Handlers
 
-        private void BrushTypeChanged(object sender, System.EventArgs e)
+        private void BrushTypeChanged(object sender, EventArgs e)
         {
             UpdateUI();
             if (Loading) return;
@@ -95,10 +95,10 @@
                 CommandProcessor.Run(new SeriesBrushTypeCommand(Index, brushType));
         }
 
-        private void FillColourChanged(object sender, System.EventArgs e) =>
+        private void FillColourChanged(object sender, EventArgs e) =>
             SeriesView.cbFillColour.SelectedIndex = View.cbFillColour1.SelectedIndex;
 
-        private void FillColour2Changed(object sender, System.EventArgs e)
+        private void FillColour2Changed(object sender, EventArgs e)
         {
             if (Loading) return;
             var fillColour2 = ColourController.GetColour(View.cbFillColour2);
@@ -109,7 +109,7 @@
         private void FillTransparencyChanged(object sender, EventArgs e) =>
             SeriesView.seTransparency.Value = View.seTransparency.Value;
 
-        private void GradientModeChanged(object sender, System.EventArgs e)
+        private void GradientModeChanged(object sender, EventArgs e)
         {
             if (Loading) return;
             var gradientMode = (LinearGradientMode)View.cbGradientMode.SelectedIndex;
@@ -117,7 +117,7 @@
                 CommandProcessor.Run(new SeriesGradientModeCommand(Index, gradientMode));
         }
 
-        private void HatchStyleChanged(object sender, System.EventArgs e)
+        private void HatchStyleChanged(object sender, EventArgs e)
         {
             if (Loading) return;
             var hatchStyle = (HatchStyle)View.cbHatchStyle.SelectedIndex;
@@ -125,7 +125,7 @@
                 CommandProcessor.Run(new SeriesHatchStyleCommand(Index, hatchStyle));
         }
 
-        private void PenColourChanged(object sender, System.EventArgs e) =>
+        private void PenColourChanged(object sender, EventArgs e) =>
             SeriesView.cbPenColour.SelectedIndex = View.cbPenColour.SelectedIndex;
 
         private void PenSizeChanged(object sender, EventArgs e)
@@ -136,7 +136,7 @@
                 CommandProcessor.Run(new SeriesPenWidthCommand(Index, penWidth));
         }
 
-        private void PenStyleChanged(object sender, System.EventArgs e)
+        private void PenStyleChanged(object sender, EventArgs e)
         {
             if (Loading) return;
             var penStyle = (DashStyle)View.cbPenStyle.SelectedIndex;
@@ -146,10 +146,19 @@
 
         private void TaylorPolynomialClick(object sender, EventArgs e)
         {
+            View.DialogResult = DialogResult.OK;
             var graphController = AppController.AddNewGraphController();
             var taylorPolynomialController = new TaylorPolynomialController(graphController);
             taylorPolynomialController.PopulateSeries(Series.Proxy, 0, 16);
-            View.DialogResult = DialogResult.OK;
+            var myDelegate = new MyDelegate(Foo);
+            View.Invoke(myDelegate, graphController.View);
+        }
+
+        private delegate void MyDelegate(Form form);
+        private void Foo(Form form)
+        {
+            form.BringToFront();
+            form.Focus();
         }
 
         private void TextureClick(object sender, EventArgs e)
