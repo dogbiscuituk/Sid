@@ -457,8 +457,8 @@
         /// for a name, including Unicode characters and characters in the extended
         /// character set (128–255), except for the following: <>:"/\|?*
         /// 
-        /// Do not use the following reserved names for the name of a file (# = 1..9):
-        /// CON, PRN, AUX, NUL, COM#, LPT#
+        /// Do not use the following reserved names for the name of a file:
+        /// CON PRN AUX CLOCK$ NUL COM# LPT# (where # is a digit, 0..9).
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
@@ -468,11 +468,8 @@
             t.Replace('.', ',');
             foreach (var c in Path.GetInvalidFileNameChars()) t.Replace(c, '_');
             s = t.ToString();
-            return Regex.IsMatch(s,
-                "(^CON$|^PRN$|^AUX$|^NUL$|^COM[1-9]$|^LPT[1-9]$)",
-                RegexOptions.IgnoreCase)
-                ? s + "_"
-                : s;
+            return Regex.IsMatch(s, @"(^CON$|^PRN$|^AUX$|^CLOCK\$$|^NUL$|^COM[0-9]$|^LPT[0-9]$)",
+                RegexOptions.IgnoreCase) ? s + "_" : s;
         }
 
         #endregion
