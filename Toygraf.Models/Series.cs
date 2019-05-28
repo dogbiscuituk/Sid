@@ -16,7 +16,7 @@
     [Serializable]
     public class Series : Style
     {
-        public Series() { Formula = "0"; }
+        public Series() { SetFormula("0"); }
 
         public Series(Graph graph): this()
         {
@@ -71,12 +71,21 @@
             {
                 if (Formula != value)
                 {
-                    Expression = new Parser().Parse(value);
-                    SetFunc(Expression);
-                    _formula = value;
+                    SetFormula(value);
                     OnPropertyChanged("Formula");
                 }
             }
+        }
+
+        /// <summary>
+        /// Provided to avoid calling the virtual OnPropertyChanged() from the constructor.
+        /// </summary>
+        /// <param name="formula"></param>
+        private void SetFormula(string formula)
+        {
+            Expression = new Parser().Parse(formula);
+            SetFunc(Expression);
+            _formula = formula;
         }
 
         /// <summary>

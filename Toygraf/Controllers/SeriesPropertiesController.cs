@@ -11,7 +11,7 @@
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Views;
 
-    internal class SeriesPropertiesController
+    internal class SeriesPropertiesController : IDisposable
     {
         #region Internal Interface
 
@@ -142,8 +142,11 @@
                 CommandProcessor.Run(new SeriesPenStyleCommand(Index, penStyle));
         }
 
-        private void TextureClick(object sender, EventArgs e) =>
-            Parent.ExecuteTextureDialog(Series);
+        private void TextureClick(object sender, EventArgs e)
+        {
+            if (Parent.ExecuteTextureDialog(Series))
+                View.lblTexturePath.Text = Series.TexturePath;
+        }
 
         private void View_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -197,20 +200,45 @@
         private void UpdateUI()
         {
             var brushType = (BrushType)View.cbBrushType.SelectedIndex;
-            bool solid = brushType == BrushType.Solid,
+            bool
+                solid = brushType == BrushType.Solid,
                 hatch = brushType == BrushType.Hatch,
                 texture = brushType == BrushType.Texture,
                 path = brushType == BrushType.PathGradient,
                 linear = brushType == BrushType.LinearGradient;
-            View.cbFillColour1.Visible = !texture;
-            View.lblFillColour.Text = texture ? "Texture:" : "Fill colour:";
-            View.lblTransparency.Visible = View.seTransparency.Visible = !texture;
-            View.cbFillColour2.Visible = View.lblFillColour2.Visible = !(solid || texture);
+            View.lblFillColour.Visible =
+                View.cbFillColour1.Visible =
+                View.lblTransparency.Visible =
+                View.seTransparency.Visible = !texture;
+            View.cbFillColour2.Visible =
+                View.lblFillColour2.Visible = !(solid || texture);
             View.cbHatchStyle.Visible = hatch;
             View.cbGradientMode.Visible = linear;
-            View.cbWrapMode.Visible = texture;
             View.lblType.Visible = hatch || texture || linear;
-            View.lblTexturePath.Visible = View.btnTexture.Visible = texture;
+            View.cbWrapMode.Visible =
+                View.lblTexturePath.Visible =
+                View.btnTexture.Visible = texture;
+        }
+
+        #endregion
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing) => DisposeView();
+
+        private void DisposeView()
+        {
+            if (View != null)
+            {
+                View.Dispose();
+                View = null;
+            }
         }
 
         #endregion

@@ -120,6 +120,7 @@
             this.cbBrushType = new System.Windows.Forms.ComboBox();
             this.cbHatchStyle = new System.Windows.Forms.ComboBox();
             this.cbGradientMode = new System.Windows.Forms.ComboBox();
+            this.cbWrapMode = new System.Windows.Forms.ComboBox();
             this.seIndex = new System.Windows.Forms.NumericUpDown();
             this.IndexLabel = new System.Windows.Forms.Label();
             this.TabControl = new System.Windows.Forms.TabControl();
@@ -137,7 +138,6 @@
             this.tpKeyboard = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.cbWrapMode = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sePenSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seIndex)).BeginInit();
@@ -1216,7 +1216,7 @@
             0,
             0,
             0});
-            this.seTransparency.Location = new System.Drawing.Point(265, 34);
+            this.seTransparency.Location = new System.Drawing.Point(411, 33);
             this.seTransparency.Margin = new System.Windows.Forms.Padding(0);
             this.seTransparency.Name = "seTransparency";
             this.seTransparency.ReadOnly = true;
@@ -1234,14 +1234,14 @@
             this.cbPenColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbPenColour.FormattingEnabled = true;
             this.cbPenColour.ItemHeight = 18;
-            this.cbPenColour.Location = new System.Drawing.Point(75, 9);
+            this.cbPenColour.Location = new System.Drawing.Point(221, 9);
             this.cbPenColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbPenColour.Name = "cbPenColour";
             this.cbPenColour.Size = new System.Drawing.Size(104, 24);
             this.cbPenColour.TabIndex = 4;
             this.ToolTip.SetToolTip(this.cbPenColour, "Pen colour used to draw this trace");
             // 
-            // cbFillColour
+            // cbFillColour1
             // 
             this.cbFillColour1.BackColor = System.Drawing.SystemColors.Control;
             this.cbFillColour1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
@@ -1250,7 +1250,7 @@
             this.cbFillColour1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbFillColour1.FormattingEnabled = true;
             this.cbFillColour1.ItemHeight = 18;
-            this.cbFillColour1.Location = new System.Drawing.Point(75, 32);
+            this.cbFillColour1.Location = new System.Drawing.Point(221, 31);
             this.cbFillColour1.Margin = new System.Windows.Forms.Padding(0);
             this.cbFillColour1.Name = "cbFillColour1";
             this.cbFillColour1.Size = new System.Drawing.Size(104, 24);
@@ -1268,7 +1268,7 @@
             0,
             0,
             65536});
-            this.sePenSize.Location = new System.Drawing.Point(265, 11);
+            this.sePenSize.Location = new System.Drawing.Point(411, 11);
             this.sePenSize.Margin = new System.Windows.Forms.Padding(0);
             this.sePenSize.Maximum = new decimal(new int[] {
             5,
@@ -1300,7 +1300,7 @@
             this.cbPenStyle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbPenStyle.FormattingEnabled = true;
             this.cbPenStyle.ItemHeight = 15;
-            this.cbPenStyle.Location = new System.Drawing.Point(350, 9);
+            this.cbPenStyle.Location = new System.Drawing.Point(64, 9);
             this.cbPenStyle.Margin = new System.Windows.Forms.Padding(0);
             this.cbPenStyle.Name = "cbPenStyle";
             this.cbPenStyle.Size = new System.Drawing.Size(105, 23);
@@ -1316,7 +1316,7 @@
             this.cbFillColour2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbFillColour2.FormattingEnabled = true;
             this.cbFillColour2.ItemHeight = 18;
-            this.cbFillColour2.Location = new System.Drawing.Point(75, 55);
+            this.cbFillColour2.Location = new System.Drawing.Point(221, 53);
             this.cbFillColour2.Margin = new System.Windows.Forms.Padding(0);
             this.cbFillColour2.Name = "cbFillColour2";
             this.cbFillColour2.Size = new System.Drawing.Size(104, 24);
@@ -1331,7 +1331,7 @@
             this.cbBrushType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbBrushType.FormattingEnabled = true;
             this.cbBrushType.ItemHeight = 15;
-            this.cbBrushType.Location = new System.Drawing.Point(350, 32);
+            this.cbBrushType.Location = new System.Drawing.Point(64, 31);
             this.cbBrushType.Margin = new System.Windows.Forms.Padding(0);
             this.cbBrushType.Name = "cbBrushType";
             this.cbBrushType.Size = new System.Drawing.Size(105, 23);
@@ -1346,7 +1346,7 @@
             this.cbHatchStyle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbHatchStyle.FormattingEnabled = true;
             this.cbHatchStyle.ItemHeight = 15;
-            this.cbHatchStyle.Location = new System.Drawing.Point(350, 55);
+            this.cbHatchStyle.Location = new System.Drawing.Point(64, 53);
             this.cbHatchStyle.Margin = new System.Windows.Forms.Padding(0);
             this.cbHatchStyle.Name = "cbHatchStyle";
             this.cbHatchStyle.Size = new System.Drawing.Size(105, 23);
@@ -1361,12 +1361,27 @@
             this.cbGradientMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbGradientMode.FormattingEnabled = true;
             this.cbGradientMode.ItemHeight = 15;
-            this.cbGradientMode.Location = new System.Drawing.Point(350, 55);
+            this.cbGradientMode.Location = new System.Drawing.Point(64, 53);
             this.cbGradientMode.Margin = new System.Windows.Forms.Padding(0);
             this.cbGradientMode.Name = "cbGradientMode";
             this.cbGradientMode.Size = new System.Drawing.Size(105, 23);
             this.cbGradientMode.TabIndex = 20;
             this.ToolTip.SetToolTip(this.cbGradientMode, "Fill colour (area under this trace)");
+            // 
+            // cbWrapMode
+            // 
+            this.cbWrapMode.BackColor = System.Drawing.SystemColors.Control;
+            this.cbWrapMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbWrapMode.DropDownWidth = 144;
+            this.cbWrapMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbWrapMode.FormattingEnabled = true;
+            this.cbWrapMode.ItemHeight = 15;
+            this.cbWrapMode.Location = new System.Drawing.Point(64, 53);
+            this.cbWrapMode.Margin = new System.Windows.Forms.Padding(0);
+            this.cbWrapMode.Name = "cbWrapMode";
+            this.cbWrapMode.Size = new System.Drawing.Size(105, 23);
+            this.cbWrapMode.TabIndex = 23;
+            this.ToolTip.SetToolTip(this.cbWrapMode, "Fill colour (area under this trace)");
             // 
             // seIndex
             // 
@@ -1440,7 +1455,7 @@
             // lblType
             // 
             this.lblType.AutoSize = true;
-            this.lblType.Location = new System.Drawing.Point(312, 58);
+            this.lblType.Location = new System.Drawing.Point(4, 56);
             this.lblType.Name = "lblType";
             this.lblType.Size = new System.Drawing.Size(35, 15);
             this.lblType.TabIndex = 18;
@@ -1449,7 +1464,7 @@
             // lblFillColour2
             // 
             this.lblFillColour2.AutoSize = true;
-            this.lblFillColour2.Location = new System.Drawing.Point(2, 58);
+            this.lblFillColour2.Location = new System.Drawing.Point(172, 56);
             this.lblFillColour2.Name = "lblFillColour2";
             this.lblFillColour2.Size = new System.Drawing.Size(46, 15);
             this.lblFillColour2.TabIndex = 15;
@@ -1458,16 +1473,16 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(312, 12);
+            this.label6.Location = new System.Drawing.Point(4, 12);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(35, 15);
+            this.label6.Size = new System.Drawing.Size(57, 15);
             this.label6.TabIndex = 13;
-            this.label6.Text = "Style:";
+            this.label6.Text = "Pen style:";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(210, 12);
+            this.label5.Location = new System.Drawing.Point(328, 12);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(52, 15);
             this.label5.TabIndex = 11;
@@ -1476,7 +1491,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(312, 35);
+            this.label4.Location = new System.Drawing.Point(4, 34);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(40, 15);
             this.label4.TabIndex = 10;
@@ -1485,7 +1500,7 @@
             // lblTransparency
             // 
             this.lblTransparency.AutoSize = true;
-            this.lblTransparency.Location = new System.Drawing.Point(182, 35);
+            this.lblTransparency.Location = new System.Drawing.Point(328, 34);
             this.lblTransparency.Name = "lblTransparency";
             this.lblTransparency.Size = new System.Drawing.Size(80, 15);
             this.lblTransparency.TabIndex = 9;
@@ -1494,31 +1509,31 @@
             // lblFillColour
             // 
             this.lblFillColour.AutoSize = true;
-            this.lblFillColour.Location = new System.Drawing.Point(3, 35);
+            this.lblFillColour.Location = new System.Drawing.Point(172, 34);
             this.lblFillColour.Name = "lblFillColour";
-            this.lblFillColour.Size = new System.Drawing.Size(62, 15);
+            this.lblFillColour.Size = new System.Drawing.Size(25, 15);
             this.lblFillColour.TabIndex = 8;
-            this.lblFillColour.Text = "Fill colour:";
+            this.lblFillColour.Text = "Fill:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 12);
+            this.label1.Location = new System.Drawing.Point(172, 12);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 15);
+            this.label1.Size = new System.Drawing.Size(46, 15);
             this.label1.TabIndex = 7;
-            this.label1.Text = "Pen colour:";
+            this.label1.Text = "Colour:";
             // 
             // lblTexturePath
             // 
-            this.lblTexturePath.Location = new System.Drawing.Point(100, 35);
+            this.lblTexturePath.Location = new System.Drawing.Point(203, 34);
             this.lblTexturePath.Name = "lblTexturePath";
-            this.lblTexturePath.Size = new System.Drawing.Size(206, 15);
+            this.lblTexturePath.Size = new System.Drawing.Size(249, 42);
             this.lblTexturePath.TabIndex = 21;
             // 
             // btnTexture
             // 
-            this.btnTexture.Location = new System.Drawing.Point(75, 32);
+            this.btnTexture.Location = new System.Drawing.Point(172, 30);
             this.btnTexture.Name = "btnTexture";
             this.btnTexture.Size = new System.Drawing.Size(25, 22);
             this.btnTexture.TabIndex = 22;
@@ -1633,21 +1648,6 @@
             this.panel2.Padding = new System.Windows.Forms.Padding(3);
             this.panel2.Size = new System.Drawing.Size(466, 37);
             this.panel2.TabIndex = 87;
-            // 
-            // cbWrapMode
-            // 
-            this.cbWrapMode.BackColor = System.Drawing.SystemColors.Control;
-            this.cbWrapMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbWrapMode.DropDownWidth = 144;
-            this.cbWrapMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbWrapMode.FormattingEnabled = true;
-            this.cbWrapMode.ItemHeight = 15;
-            this.cbWrapMode.Location = new System.Drawing.Point(350, 55);
-            this.cbWrapMode.Margin = new System.Windows.Forms.Padding(0);
-            this.cbWrapMode.Name = "cbWrapMode";
-            this.cbWrapMode.Size = new System.Drawing.Size(105, 23);
-            this.cbWrapMode.TabIndex = 23;
-            this.ToolTip.SetToolTip(this.cbWrapMode, "Fill colour (area under this trace)");
             // 
             // SeriesPropertiesDialog
             // 

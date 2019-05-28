@@ -13,7 +13,7 @@
     using ToyGraf.Models.Structs;
     using ToyGraf.Views;
 
-    internal class AppController
+    internal class AppController : IDisposable
     {
         #region Internal Interface
 
@@ -75,9 +75,9 @@
         internal ClockController ClockController => GraphicsController.ClockController;
         internal readonly CommandProcessor CommandProcessor;
         internal readonly LegendController LegendController;
-        internal readonly SeriesPropertiesController SeriesPropertiesController;
+        internal SeriesPropertiesController SeriesPropertiesController;
 
-        internal void ExecuteTextureDialog(Series series) => SelectTexture(series);
+        internal bool ExecuteTextureDialog(Series series) => SelectTexture(series);
 
         internal void UpdateMouseCoordinates(PointF p)
         {
@@ -244,17 +244,19 @@
 
         private void OpenFile() => JsonController.Open();
 
-        private void SelectTexture(Series series)
+        private bool SelectTexture(Series series)
         {
             var dialog = View.ImageOpenDialog;
             dialog.FileName = series.TexturePath;
-            if (dialog.ShowDialog(View) == DialogResult.OK)
+            bool ok = dialog.ShowDialog(View) == DialogResult.OK;
+            if (ok)
             {
                 var index = Graph.Series.IndexOf(series);
                 var filePath = dialog.FileName;
                 CommandProcessor.Run(new SeriesTexturePathCommand(index, filePath));
                 CommandProcessor.Run(new SeriesTextureCommand(index, ImageToBase64String(filePath)));
             }
+            return ok;
         }
 
         private bool ShowCoordinatesTooltip
@@ -286,6 +288,27 @@
         private void ToggleCoordinatesTooltip() => ShowCoordinatesTooltip = !ShowCoordinatesTooltip;
         private void ToggleFullScreen() => FullScreen = !FullScreen;
         private void UpdateCaption() { View.Text = JsonController.WindowCaption; }
+
+        #endregion
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing) => DisposeSeriesPropertiesController();
+
+        private void DisposeSeriesPropertiesController()
+        {
+            if (SeriesPropertiesController != null)
+            {
+                SeriesPropertiesController.Dispose();
+                SeriesPropertiesController = null;
+            }
+        }
 
         #endregion
     }

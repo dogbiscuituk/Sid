@@ -533,10 +533,7 @@
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
-        {
-            DisposeReticle();
-        }
+        protected virtual void Dispose(bool disposing) => DisposeReticle();
 
         private void DisposeReticle()
         {

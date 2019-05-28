@@ -2,7 +2,6 @@
 {
     using System;
     using System.Windows.Forms;
-    using ToyGraf.Expressions;
     using ToyGraf.Models;
     using ToyGraf.Views;
 
