@@ -203,8 +203,77 @@
             return e;
         }
 
-        public static string AsString(this Expression e) =>
-            e.ToString().Replace(" ", "").Replace("Param_0", "x").Replace("Param_1", "t");
+        public static string AsString(this Expression e) => e.AsString(Precedence.Assignment);
+
+        public static string AsString(this Expression e, Precedence context)
+        {
+            switch (e)
+            {
+                case ConstantExpression ce:
+                    return ce.Value.ToString();
+                case ParameterExpression pe:
+                    return pe == x ? "x" : pe == t ? "t" : pe.ToString();
+                case UnaryExpression ue:
+                    switch (ue.NodeType)
+                    {
+                        case ExpressionType.UnaryPlus:
+                            return ue.Operand.AsString(Precedence.Unary);
+                        case ExpressionType.Negate:
+                            return $"-{ue.Operand.AsString(Precedence.Unary)}";
+                        default:
+                            return ue.ToString();
+                    }
+                case MethodCallExpression me:
+                    var name = me.Method.Name;
+                    var operand = me.Arguments[0].AsString(Precedence.Unary);
+                    return context <= Precedence.Unary
+                        ? operand.StartsWith("(")
+                            ? $"{name}{operand}"
+                            : $"{name} {operand}"
+                        : $"{name}({operand})";
+                case BinaryExpression be:
+                    Expression left = be.Left, right = be.Right;
+                    ExpressionType op = be.NodeType, opChild = op, opOther = ExpressionType.Multiply;
+                    var ours = op.GetPrecedence();
+                    bool flip = false;
+                    switch (op)
+                    {
+                        case ExpressionType.Subtract:
+                        case ExpressionType.Divide:
+                            if (right is BinaryExpression beRight)
+                            {
+                                opChild = beRight.NodeType;
+                                var theirs = opChild.GetPrecedence();
+                                flip = ours == theirs;
+                                if (flip)
+                                {
+                                    opOther = opChild.Invert();
+                                    return MakeBinary(opOther, MakeBinary(op, left, beRight.Left), beRight.Right).AsString(context);
+                                }
+                            }
+                            break;
+                        case ExpressionType.Power:
+                            if (left is BinaryExpression beLeft)
+                            {
+                                opChild = beLeft.NodeType;
+                                var theirs = opChild.GetPrecedence();
+                                flip = ours == theirs;
+                                if (flip)
+                                    return MakeBinary(op, beLeft.Left, MakeBinary(opOther, beLeft.Right, right)).AsString(context);
+                            }
+                            break;
+                    }
+                    var binary = $"{left.AsString(ours)}{op.AsString()}{right.AsString(ours)}";
+                    return context <= ours ? binary : $"({binary})";
+                case ConditionalExpression cond:
+                    const Precedence pt = Precedence.Ternary;
+                    Expression test = cond.Test, ifSo = cond.IfTrue, ifNot = cond.IfFalse;
+                    var condition = $"{test.AsString(pt)}?{ifSo.AsString(pt)}:{ifNot.AsString(pt)}";
+                    return context <= pt ? condition : $"({condition})";
+                default:
+                    return e.ToString();
+            }
+        }
 
         public static Expression Parse(this string formula) => new Parser().Parse(formula);
 

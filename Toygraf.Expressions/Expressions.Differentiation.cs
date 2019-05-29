@@ -19,6 +19,9 @@
                     return Constant(0);
                 case ParameterExpression pe:          // d(x)/dx = 1
                     return pe.Name == "x" ? Constant(1) : Constant(0);
+                case UnaryExpression ue:
+                    var v = D(ue.Operand);
+                    return ue.NodeType == ExpressionType.UnaryPlus ? v : Negate(v);
                 case MethodCallExpression me:         // Use the Chain Rule
                     var methodName = me.Method.Name;
                     if (methodName == "Udf")
@@ -31,9 +34,6 @@
                     }
                     var gx = me.Arguments[0];
                     return DifferentiateFunction(methodName, gx).Times(D(gx));
-                case UnaryExpression ue:
-                    var v = D(ue.Operand);
-                    return ue.NodeType == ExpressionType.UnaryPlus ? v : Negate(v);
                 case BinaryExpression be:
                     Expression f = be.Left, g = be.Right;
                     switch (be.NodeType)

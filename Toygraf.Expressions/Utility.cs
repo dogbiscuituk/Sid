@@ -119,6 +119,53 @@
 
         public const double piOver180 = Math.PI / 180;
 
+        public static string AsString(this ExpressionType nodeType)
+        {
+            switch (nodeType)
+            {
+                case ExpressionType.Add:
+                    return "+";
+                case ExpressionType.And:
+                    return "&";
+                case ExpressionType.AndAlso:
+                    return "&&";
+                case ExpressionType.Divide:
+                    return "/";
+                case ExpressionType.Equal:
+                    return "=";
+                case ExpressionType.GreaterThan:
+                    return ">";
+                case ExpressionType.GreaterThanOrEqual:
+                    return "≥";
+                case ExpressionType.LessThan:
+                    return "<";
+                case ExpressionType.LessThanOrEqual:
+                    return "≤";
+                case ExpressionType.Modulo:
+                    return "%";
+                case ExpressionType.Multiply:
+                    return "*";
+                case ExpressionType.Negate:
+                    return "-";
+                case ExpressionType.Not:
+                    return "!";
+                case ExpressionType.NotEqual:
+                    return "≠";
+                case ExpressionType.Or:
+                    return "|";
+                case ExpressionType.OrElse:
+                    return "||";
+                case ExpressionType.Power:
+                    return "^";
+                case ExpressionType.Subtract:
+                    return "-";
+                case ExpressionType.UnaryPlus:
+                    return "+";
+                default:
+                    return nodeType.ToString();
+            }
+        }
+
         public static float DegreesToRadians(this float degrees) => (float)(degrees * piOver180);
         public static double DegreesToRadians(this double degrees) => degrees * piOver180;
 
@@ -157,6 +204,39 @@
             return GetBinaryOperandTypes(op.GetExpressionType());
         }
 
+        public static Precedence GetPrecedence(this ExpressionType nodeType)
+        {
+            switch (nodeType)
+            {
+                case ExpressionType.OrElse:
+                    return Precedence.LogicalOr;
+                case ExpressionType.AndAlso:
+                    return Precedence.LogicalAnd;
+                case ExpressionType.Or:
+                    return Precedence.BitwiseOr;
+                case ExpressionType.And:
+                    return Precedence.BitwiseAnd;
+                case ExpressionType.Equal:
+                case ExpressionType.NotEqual:
+                    return Precedence.Equality;
+                case ExpressionType.LessThan:
+                case ExpressionType.LessThanOrEqual:
+                case ExpressionType.GreaterThan:
+                case ExpressionType.GreaterThanOrEqual:
+                    return Precedence.Relational;
+                case ExpressionType.Add:
+                case ExpressionType.Subtract:
+                    return Precedence.Additive;
+                case ExpressionType.Multiply:
+                case ExpressionType.Divide:
+                    return Precedence.Multiplicative;
+                case ExpressionType.Power:
+                    return Precedence.Exponential;
+                default:
+                    throw new InvalidEnumArgumentException();
+            }
+        }
+
         public static ExpressionType GetExpressionType(this string op)
         {
             switch (op)
@@ -170,11 +250,13 @@
                 case ":":
                     return ExpressionType.Conditional;
                 case "|":
-                case "||":
                     return ExpressionType.Or;
+                case "||":
+                    return ExpressionType.OrElse;
                 case "&":
-                case "&&":
                     return ExpressionType.And;
+                case "&&":
+                    return ExpressionType.AndAlso;
                 case "=":
                 case "==":
                     return ExpressionType.Equal;
