@@ -161,8 +161,14 @@
 
         private void ParseFunction(string function)
         {
-            Operators.Push(function);
             ReadPast(function);
+            if (PeekChar().IsSuperscript())
+            {
+                var token = PeekToken();
+                ParseSuperscript(token);
+                Operators.Push(Ops.SuperscriptPowerSwap);
+            }
+            Operators.Push(function);
         }
 
         private bool ParseNamedConstant(string constant)
@@ -308,6 +314,8 @@
                             if (oldOp.GetPrecedence() == Precedence.Relational && left.IsRelational())
                                 operand = "&".MakeBinary(left, 
                                     oldOp.MakeBinary(left.GetRightmostRelation(), operand));
+                            else if (oldOp == Ops.SuperscriptPowerSwap)
+                                operand = Ops.SuperscriptPower.MakeBinary(operand, left);
                             else
                                 operand = oldOp.MakeBinary(left, operand);
                         }
@@ -340,16 +348,16 @@
             ReadPast(token);
         }
 
-        private void ParseSubscript(string subscript)
+        private void ParseSubscript(string token)
         {
-            Operands.Push(new Parser().Parse(subscript.FromSubscript()));
-            ReadPast(subscript);
+            Operands.Push(new Parser().Parse(token.FromSubscript()));
+            ReadPast(token);
         }
 
-        private void ParseSuperscript(string superscript)
+        private void ParseSuperscript(string token)
         {
-            Operands.Push(new Parser().Parse(superscript.FromSuperscript()));
-            ReadPast(superscript);
+            Operands.Push(new Parser().Parse(token.FromSuperscript()));
+            ReadPast(token);
         }
 
         private void ParseTick()
@@ -358,10 +366,10 @@
             ReadPast('\'');
         }
 
-        private void ParseUnary(string unary)
+        private void ParseUnary(string token)
         {
-            Operators.Push($"({unary})");
-            ReadPast(unary);
+            Operators.Push($"({token})");
+            ReadPast(token);
         }
 
         private void ParseVulgarFraction(char c)

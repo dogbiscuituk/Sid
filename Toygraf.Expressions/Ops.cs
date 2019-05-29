@@ -11,7 +11,8 @@
             SquareRoot = "(√)",
             CubeRoot = "(∛)",
             FourthRoot = "(∜)",
-            ImpliedProduct = "i*",
-            SuperscriptPower = "s^";
+            ImpliedProduct = "*i",
+            SuperscriptPower = "^s",
+            SuperscriptPowerSwap = "s^";
     }
 }

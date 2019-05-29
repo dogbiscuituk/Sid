@@ -102,6 +102,8 @@
             TestParse("sin x;(f0(x))'", "Sin(x);Cos(x)");
             TestParse("sin(x+t);cos(x-t);f0(x,t)+f1(x,t)", "Sin((x+t));Cos((x-t));(Sin((x+t))+Cos((x-t)))");
             TestParse("(x+t)^3;(x-t)^5;(f0(x,t))'+(f1(x,t))''", "((x+t)^3);((x-t)^5);((((x+t)^2)*3)+(((x-t)^3)*20))");
+            TestParse("sin²x", "(Sin(x)^2)");
+            TestParse("4sec²x * tan²x + 2sec⁴x", "(((4*(Sec(x)^2))*(Tan(x)^2))+(2*(Sec(x)^4)))");
         }
     }
 }

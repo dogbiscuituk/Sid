@@ -202,14 +202,14 @@
                     return ExpressionType.Subtract;
                 case "*":
                 case "×":
-                case "i*":
+                case Ops.ImpliedProduct:
                     return ExpressionType.Multiply;
                 case "/":
                 case "÷":
                 case "⁄": // Unicode Fraction Slash (U+2044)
                     return ExpressionType.Divide;
                 case "^":
-                case "s^":
+                case Ops.SuperscriptPower:
                     return ExpressionType.Power;
                 case Ops.UnaryPlus:
                     return ExpressionType.UnaryPlus;
@@ -289,6 +289,7 @@
                 case "'":
                     return Precedence.Postfix;
                 case Ops.SuperscriptPower:
+                case Ops.SuperscriptPowerSwap:
                     return Precedence.Superscript;
                 case "⁄": // Unicode Fraction Slash (U+2044)
                     return Precedence.Fraction;
