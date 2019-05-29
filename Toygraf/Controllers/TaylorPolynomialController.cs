@@ -47,7 +47,6 @@
                 {
                     oldFormula = newFormula;
                     proxy = proxy.Differentiate();
-                    System.Diagnostics.Debug.WriteLine(proxy.AsString());
                 }
             }
             AddSeries().Formula = targetFormula;

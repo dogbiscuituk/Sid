@@ -11,7 +11,7 @@
 
         internal ClockController(GraphicsController parent)
         {
-            Parent = parent;
+            GraphicsController = parent;
             graphForm.TimeDecelerate.Click += TimeDecelerate_Click;
             graphForm.tbDecelerate.Click += TimeDecelerate_Click;
             graphForm.TimeReverse.Click += TimeReverse_Click;
@@ -24,7 +24,7 @@
             graphForm.tbForward.Click += TimeForward_Click;
             graphForm.TimeAccelerate.Click += TimeAccelerate_Click;
             graphForm.tbAccelerate.Click += TimeAccelerate_Click;
-            Clock = new Clock { Sync = Parent.View };
+            Clock = new Clock { Sync = GraphicsController.View };
             Clock.Tick += Clock_Tick;
             UpdateTimeControls();
         }
@@ -81,11 +81,11 @@
 
         #region Private Properties
 
-        private GraphicsController Parent;
-        private GraphController GraphController => Parent.Parent;
-        private GraphForm graphForm { get => Parent.graphForm; }
+        internal AppController AppController => GraphController.AppController;
+        private GraphicsController GraphicsController;
+        private GraphController GraphController => GraphicsController.GraphController;
+        private GraphForm graphForm { get => GraphicsController.graphForm; }
         private System.Diagnostics.Stopwatch Stopwatch;
-        private bool EpilepsyWarningAcknowledged;
 
         private bool CanAccelerate => UsesTime && VirtualTimeFactor < +32;
         private bool CanDecelerate => UsesTime && VirtualTimeFactor > -32;
@@ -96,9 +96,15 @@
 
         private bool UsesTime => GraphController.Graph.UsesTime;
 
+        private bool EpilepsyWarningAcknowledged
+        {
+            get => AppController.EpilepsyWarningAcknowledged;
+            set => AppController.EpilepsyWarningAcknowledged = value;
+        }
+
         #endregion
 
-        #region Private Event Handlers
+            #region Private Event Handlers
 
         private void Clock_Tick(object sender, EventArgs e) => UpdateTimeDisplay();
         private void TimeDecelerate_Click(object sender, EventArgs e) => ClockDecelerate();
@@ -172,7 +178,7 @@
             Clock.UpdateFPS();
             graphForm.Tlabel.Text = string.Format("t={0:f1}", VirtualSecondsElapsed);
             graphForm.FPSlabel.Text = string.Format("fps={0:f1}", Clock.FramesPerSecond);
-            Parent.InvalidateView();
+            GraphicsController.InvalidateView();
         }
 
         private void UpdateTimeFactor()

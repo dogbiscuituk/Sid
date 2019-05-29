@@ -12,10 +12,6 @@
         {
             const string message = "Comparison failed";
             var details = $"Expected: \"{expected}\", Actual: \"{actual}\".";
-            //if (actual == expected)
-            //    Debug.WriteLine($"OK: {actual}");
-            //else
-            //    Debug.WriteLine($"*** {message}. {details}");
             System.Diagnostics.Debug.Assert(actual == expected, message, details);
         }
 

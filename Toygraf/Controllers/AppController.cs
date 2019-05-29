@@ -9,7 +9,7 @@
         internal AppController(): base()
         {
             View = new AboutController().View;
-            Timer timer = new Timer(3000)
+            Timer timer = new Timer(5000)
             {
                 AutoReset = false,
                 Enabled = true,
@@ -35,6 +35,7 @@
         }
 
         internal AboutDialog View;
+        internal bool EpilepsyWarningAcknowledged;
 
         private List<GraphController> GraphControllers = new List<GraphController>();
         private void Timer_Elapsed(object sender, ElapsedEventArgs e) => View.Hide();

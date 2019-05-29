@@ -11,17 +11,18 @@
     {
         #region Internal Interface
 
-        internal GraphicsController(GraphController parent, bool doubleBuffered)
+        internal GraphicsController(GraphController graphController, bool doubleBuffered)
         {
-            Parent = parent;
+            GraphController = graphController;
             DoubleBuffered = doubleBuffered;
-            View = parent.View.PictureBox;
+            View = GraphController.View.PictureBox;
             ClockController = new ClockController(this);
             AdjustPictureBox();
         }
 
-        internal readonly GraphController Parent;
-        internal GraphForm graphForm { get => Parent.View; }
+        internal readonly GraphController GraphController;
+        internal AppController AppController => GraphController.AppController;
+        internal GraphForm graphForm { get => GraphController.View; }
         internal ClockController ClockController;
 
         internal PictureBox View
@@ -49,8 +50,8 @@
         #region Private Properties
 
         private PictureBox _view;
-        private CommandProcessor CommandController { get => Parent.CommandProcessor; }
-        private Graph Graph => Parent.Graph;
+        private CommandProcessor CommandController { get => GraphController.CommandProcessor; }
+        private Graph Graph => GraphController.Graph;
         private Point DragFrom, MouseDownAt;
         private bool DoubleBuffered, Dragging;
 
@@ -78,7 +79,7 @@
             }
         }
 
-        private void View_MouseLeave(object sender, EventArgs e) => Parent.UpdateMouseCoordinates(PointF.Empty);
+        private void View_MouseLeave(object sender, EventArgs e) => GraphController.UpdateMouseCoordinates(PointF.Empty);
 
         private void View_MouseMove(object sender, MouseEventArgs e)
         {
@@ -87,7 +88,7 @@
                     View.Left - MouseDownAt.X + e.X,
                     View.Top - MouseDownAt.Y + e.Y);
             else
-                Parent.UpdateMouseCoordinates(ClientToGraph(e.Location));
+                GraphController.UpdateMouseCoordinates(ClientToGraph(e.Location));
         }
 
         private void View_MouseUp(object sender, MouseEventArgs e)
