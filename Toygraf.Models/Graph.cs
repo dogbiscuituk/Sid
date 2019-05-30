@@ -397,7 +397,8 @@
             ValidateProxies();
             Series.ForEach(s =>
             {
-                if (s.Visible) s.DrawAsync(g, _domain, Viewport, penWidth, true, time, PlotType, Interpolation);
+                if (s.Visible)
+                    s.DrawAsync(g, _domain, Viewport, penWidth, true, time, PlotType, Interpolation);
             });
             ValidateReticle(g, r, penWidth);
             var transform = g.Transform;
@@ -410,7 +411,8 @@
                 Labels.ForEach(p => p.Draw(g, brush, font, format));
             Series.ForEach(s =>
             {
-                if (s.Visible) s.DrawAsync(g, _domain, Viewport, penWidth, false, time, PlotType, Interpolation);
+                if (s.Visible)
+                    s.DrawAsync(g, _domain, Viewport, penWidth, false, time, PlotType, Interpolation);
             });
         }
 
@@ -459,7 +461,7 @@
         }
 
         public void InvalidateReticle() { DisposeReticle(); Labels.Clear(); }
-        private void InvalidatePoints() => Series.ForEach(p => p.InvalidatePoints());
+        private void InvalidatePoints() => Series.ForEach(p => p.InvalidatePaths());
         public void InvalidateProxies() => _proxiesValid = false;
 
         private void ValidateReticle(Graphics g, Rectangle r, float penWidth)

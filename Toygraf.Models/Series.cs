@@ -125,7 +125,7 @@
             {
                 _proxy = value;
                 SetFunc(Proxy);
-                InvalidatePoints();
+                InvalidatePaths();
             }
         }
 
@@ -153,7 +153,7 @@
 
         #region Drawing
 
-        protected override void StepCountChanged() => InvalidatePoints();
+        protected override void StepCountChanged() => InvalidatePaths();
 
         private List<List<PointF>> PointLists = new List<List<PointF>>();
         private readonly List<GraphicsPath>
@@ -173,7 +173,7 @@
                 || LastPlotType != plotType
                 || !PointLists.Any())
             {
-                InvalidatePoints();
+                InvalidatePaths();
                 LastDomain = domain;
                 Viewport = viewport;
                 LastTime = time;
@@ -198,6 +198,8 @@
                     pen.DashStyle = PenStyle;
                     PointLists.ForEach(p => DrawSection(g, pen, interpolation, p, usePaths));
                 }
+            if (DrawPaths.Any() && FillPaths.Any())
+                InvalidatePoints();
         }
 
         private Brush CreateBrush(Matrix m)
@@ -345,11 +347,16 @@
             yield return p;
         }
 
-        public void InvalidatePoints()
+        public void InvalidatePaths()
         {
-            PointLists.Clear();
+            InvalidatePoints();
             DrawPaths.Clear();
             FillPaths.Clear();
+        }
+
+        private void InvalidatePoints()
+        {
+            PointLists.Clear();
         }
 
         private static bool IsInvalid(float x) => float.IsInfinity(x) || float.IsNaN(x);

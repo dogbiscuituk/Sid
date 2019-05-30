@@ -117,7 +117,7 @@
                     x2 = p[n].X;
                 }
                 p[0] = new PointF(x1, 0);
-                p[n + 1] = new PointF(x2, 0);
+                p[++n] = new PointF(x2, 0);
             }
             else
                 p = points.ToArray();

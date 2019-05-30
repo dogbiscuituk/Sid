@@ -38,7 +38,7 @@
             {
                 Series = graph.Series[Index];
                 graph.RemoveSeries(Index);
-                Series.InvalidatePoints();
+                Series.InvalidatePaths();
             }
         }
 
