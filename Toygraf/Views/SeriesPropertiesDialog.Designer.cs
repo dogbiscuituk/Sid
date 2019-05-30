@@ -121,6 +121,9 @@
             this.cbHatchStyle = new System.Windows.Forms.ComboBox();
             this.cbGradientMode = new System.Windows.Forms.ComboBox();
             this.cbWrapMode = new System.Windows.Forms.ComboBox();
+            this.btnPenColour = new System.Windows.Forms.Button();
+            this.btnFillColour1 = new System.Windows.Forms.Button();
+            this.btnFillColour2 = new System.Windows.Forms.Button();
             this.seIndex = new System.Windows.Forms.NumericUpDown();
             this.IndexLabel = new System.Windows.Forms.Label();
             this.TabControl = new System.Windows.Forms.TabControl();
@@ -139,6 +142,7 @@
             this.tpKeyboard = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.ColourDialog = new System.Windows.Forms.ColorDialog();
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sePenSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seIndex)).BeginInit();
@@ -1228,11 +1232,11 @@
             // 
             // FunctionBox
             // 
-            this.FunctionBox.Location = new System.Drawing.Point(90, 9);
+            this.FunctionBox.Location = new System.Drawing.Point(84, 9);
             this.FunctionBox.Margin = new System.Windows.Forms.Padding(0);
             this.FunctionBox.MaxDropDownItems = 36;
             this.FunctionBox.Name = "FunctionBox";
-            this.FunctionBox.Size = new System.Drawing.Size(370, 23);
+            this.FunctionBox.Size = new System.Drawing.Size(376, 23);
             this.FunctionBox.TabIndex = 0;
             this.ToolTip.SetToolTip(this.FunctionBox, "Formula for points on this trace");
             // 
@@ -1300,10 +1304,10 @@
             this.cbPenColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbPenColour.FormattingEnabled = true;
             this.cbPenColour.ItemHeight = 18;
-            this.cbPenColour.Location = new System.Drawing.Point(221, 9);
+            this.cbPenColour.Location = new System.Drawing.Point(209, 9);
             this.cbPenColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbPenColour.Name = "cbPenColour";
-            this.cbPenColour.Size = new System.Drawing.Size(104, 24);
+            this.cbPenColour.Size = new System.Drawing.Size(92, 24);
             this.cbPenColour.TabIndex = 4;
             this.ToolTip.SetToolTip(this.cbPenColour, "Pen colour used to draw this trace");
             // 
@@ -1316,10 +1320,10 @@
             this.cbFillColour1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbFillColour1.FormattingEnabled = true;
             this.cbFillColour1.ItemHeight = 18;
-            this.cbFillColour1.Location = new System.Drawing.Point(221, 31);
+            this.cbFillColour1.Location = new System.Drawing.Point(209, 31);
             this.cbFillColour1.Margin = new System.Windows.Forms.Padding(0);
             this.cbFillColour1.Name = "cbFillColour1";
-            this.cbFillColour1.Size = new System.Drawing.Size(104, 24);
+            this.cbFillColour1.Size = new System.Drawing.Size(92, 24);
             this.cbFillColour1.TabIndex = 5;
             this.ToolTip.SetToolTip(this.cbFillColour1, "Fill colour (area under this trace)");
             // 
@@ -1364,7 +1368,7 @@
             this.cbPenStyle.Location = new System.Drawing.Point(64, 9);
             this.cbPenStyle.Margin = new System.Windows.Forms.Padding(0);
             this.cbPenStyle.Name = "cbPenStyle";
-            this.cbPenStyle.Size = new System.Drawing.Size(105, 23);
+            this.cbPenStyle.Size = new System.Drawing.Size(93, 23);
             this.cbPenStyle.TabIndex = 14;
             this.ToolTip.SetToolTip(this.cbPenStyle, "Fill colour (area under this trace)");
             // 
@@ -1377,10 +1381,10 @@
             this.cbFillColour2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbFillColour2.FormattingEnabled = true;
             this.cbFillColour2.ItemHeight = 18;
-            this.cbFillColour2.Location = new System.Drawing.Point(221, 53);
+            this.cbFillColour2.Location = new System.Drawing.Point(209, 53);
             this.cbFillColour2.Margin = new System.Windows.Forms.Padding(0);
             this.cbFillColour2.Name = "cbFillColour2";
-            this.cbFillColour2.Size = new System.Drawing.Size(104, 24);
+            this.cbFillColour2.Size = new System.Drawing.Size(92, 24);
             this.cbFillColour2.TabIndex = 16;
             this.ToolTip.SetToolTip(this.cbFillColour2, "Fill colour (area under this trace)");
             // 
@@ -1395,7 +1399,7 @@
             this.cbBrushType.Location = new System.Drawing.Point(64, 31);
             this.cbBrushType.Margin = new System.Windows.Forms.Padding(0);
             this.cbBrushType.Name = "cbBrushType";
-            this.cbBrushType.Size = new System.Drawing.Size(105, 23);
+            this.cbBrushType.Size = new System.Drawing.Size(93, 23);
             this.cbBrushType.TabIndex = 17;
             this.ToolTip.SetToolTip(this.cbBrushType, "Fill colour (area under this trace)");
             // 
@@ -1410,7 +1414,7 @@
             this.cbHatchStyle.Location = new System.Drawing.Point(64, 53);
             this.cbHatchStyle.Margin = new System.Windows.Forms.Padding(0);
             this.cbHatchStyle.Name = "cbHatchStyle";
-            this.cbHatchStyle.Size = new System.Drawing.Size(105, 23);
+            this.cbHatchStyle.Size = new System.Drawing.Size(93, 23);
             this.cbHatchStyle.TabIndex = 19;
             this.ToolTip.SetToolTip(this.cbHatchStyle, "Fill colour (area under this trace)");
             // 
@@ -1425,7 +1429,7 @@
             this.cbGradientMode.Location = new System.Drawing.Point(64, 53);
             this.cbGradientMode.Margin = new System.Windows.Forms.Padding(0);
             this.cbGradientMode.Name = "cbGradientMode";
-            this.cbGradientMode.Size = new System.Drawing.Size(105, 23);
+            this.cbGradientMode.Size = new System.Drawing.Size(93, 23);
             this.cbGradientMode.TabIndex = 20;
             this.ToolTip.SetToolTip(this.cbGradientMode, "Fill colour (area under this trace)");
             // 
@@ -1440,16 +1444,61 @@
             this.cbWrapMode.Location = new System.Drawing.Point(64, 53);
             this.cbWrapMode.Margin = new System.Windows.Forms.Padding(0);
             this.cbWrapMode.Name = "cbWrapMode";
-            this.cbWrapMode.Size = new System.Drawing.Size(105, 23);
+            this.cbWrapMode.Size = new System.Drawing.Size(93, 23);
             this.cbWrapMode.TabIndex = 23;
             this.ToolTip.SetToolTip(this.cbWrapMode, "Fill colour (area under this trace)");
+            // 
+            // btnPenColour
+            // 
+            this.btnPenColour.FlatAppearance.BorderSize = 0;
+            this.btnPenColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPenColour.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPenColour.Image = global::ToyGraf.Properties.Resources.Color_linecolor;
+            this.btnPenColour.Location = new System.Drawing.Point(303, 11);
+            this.btnPenColour.Margin = new System.Windows.Forms.Padding(0);
+            this.btnPenColour.Name = "btnPenColour";
+            this.btnPenColour.Size = new System.Drawing.Size(22, 22);
+            this.btnPenColour.TabIndex = 25;
+            this.btnPenColour.Text = "...";
+            this.ToolTip.SetToolTip(this.btnPenColour, "Pen colour dialog");
+            this.btnPenColour.UseVisualStyleBackColor = true;
+            // 
+            // btnFillColour1
+            // 
+            this.btnFillColour1.FlatAppearance.BorderSize = 0;
+            this.btnFillColour1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFillColour1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFillColour1.Image = global::ToyGraf.Properties.Resources.Color_linecolor;
+            this.btnFillColour1.Location = new System.Drawing.Point(303, 33);
+            this.btnFillColour1.Margin = new System.Windows.Forms.Padding(0);
+            this.btnFillColour1.Name = "btnFillColour1";
+            this.btnFillColour1.Size = new System.Drawing.Size(22, 22);
+            this.btnFillColour1.TabIndex = 26;
+            this.btnFillColour1.Text = "...";
+            this.ToolTip.SetToolTip(this.btnFillColour1, "Fill colour dialog");
+            this.btnFillColour1.UseVisualStyleBackColor = true;
+            // 
+            // btnFillColour2
+            // 
+            this.btnFillColour2.FlatAppearance.BorderSize = 0;
+            this.btnFillColour2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFillColour2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFillColour2.Image = global::ToyGraf.Properties.Resources.Color_linecolor;
+            this.btnFillColour2.Location = new System.Drawing.Point(303, 55);
+            this.btnFillColour2.Margin = new System.Windows.Forms.Padding(0);
+            this.btnFillColour2.Name = "btnFillColour2";
+            this.btnFillColour2.Size = new System.Drawing.Size(22, 22);
+            this.btnFillColour2.TabIndex = 27;
+            this.btnFillColour2.Text = "...";
+            this.ToolTip.SetToolTip(this.btnFillColour2, "2nd fill colour dialog");
+            this.btnFillColour2.UseVisualStyleBackColor = true;
             // 
             // seIndex
             // 
             this.seIndex.BackColor = System.Drawing.SystemColors.Control;
             this.seIndex.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.seIndex.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.seIndex.Location = new System.Drawing.Point(69, 6);
+            this.seIndex.Location = new System.Drawing.Point(68, 6);
             this.seIndex.Margin = new System.Windows.Forms.Padding(0);
             this.seIndex.Maximum = new decimal(new int[] {
             999,
@@ -1486,6 +1535,9 @@
             // tpSeriesProperties
             // 
             this.tpSeriesProperties.BackColor = System.Drawing.SystemColors.Control;
+            this.tpSeriesProperties.Controls.Add(this.btnFillColour2);
+            this.tpSeriesProperties.Controls.Add(this.btnFillColour1);
+            this.tpSeriesProperties.Controls.Add(this.btnPenColour);
             this.tpSeriesProperties.Controls.Add(this.btnTaylorPolynomial);
             this.tpSeriesProperties.Controls.Add(this.cbWrapMode);
             this.tpSeriesProperties.Controls.Add(this.cbGradientMode);
@@ -1536,7 +1588,7 @@
             // lblFillColour2
             // 
             this.lblFillColour2.AutoSize = true;
-            this.lblFillColour2.Location = new System.Drawing.Point(172, 56);
+            this.lblFillColour2.Location = new System.Drawing.Point(160, 56);
             this.lblFillColour2.Name = "lblFillColour2";
             this.lblFillColour2.Size = new System.Drawing.Size(46, 15);
             this.lblFillColour2.TabIndex = 15;
@@ -1581,7 +1633,7 @@
             // lblFillColour
             // 
             this.lblFillColour.AutoSize = true;
-            this.lblFillColour.Location = new System.Drawing.Point(172, 34);
+            this.lblFillColour.Location = new System.Drawing.Point(160, 34);
             this.lblFillColour.Name = "lblFillColour";
             this.lblFillColour.Size = new System.Drawing.Size(25, 15);
             this.lblFillColour.TabIndex = 8;
@@ -1590,7 +1642,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(172, 12);
+            this.label1.Location = new System.Drawing.Point(160, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(46, 15);
             this.label1.TabIndex = 7;
@@ -1599,14 +1651,14 @@
             // lblTexturePath
             // 
             this.lblTexturePath.AutoEllipsis = true;
-            this.lblTexturePath.Location = new System.Drawing.Point(203, 34);
+            this.lblTexturePath.Location = new System.Drawing.Point(191, 34);
             this.lblTexturePath.Name = "lblTexturePath";
-            this.lblTexturePath.Size = new System.Drawing.Size(249, 42);
+            this.lblTexturePath.Size = new System.Drawing.Size(267, 58);
             this.lblTexturePath.TabIndex = 21;
             // 
             // btnTexture
             // 
-            this.btnTexture.Location = new System.Drawing.Point(172, 30);
+            this.btnTexture.Location = new System.Drawing.Point(160, 30);
             this.btnTexture.Name = "btnTexture";
             this.btnTexture.Size = new System.Drawing.Size(25, 22);
             this.btnTexture.TabIndex = 22;
@@ -1721,6 +1773,11 @@
             this.panel2.Padding = new System.Windows.Forms.Padding(3);
             this.panel2.Size = new System.Drawing.Size(466, 37);
             this.panel2.TabIndex = 87;
+            // 
+            // ColourDialog
+            // 
+            this.ColourDialog.AnyColor = true;
+            this.ColourDialog.FullOpen = true;
             // 
             // SeriesPropertiesDialog
             // 
@@ -1863,5 +1920,9 @@
         public System.Windows.Forms.Button btnTexture;
         public System.Windows.Forms.ComboBox cbWrapMode;
         public System.Windows.Forms.Button btnTaylorPolynomial;
+        public System.Windows.Forms.Button btnPenColour;
+        public System.Windows.Forms.Button btnFillColour2;
+        public System.Windows.Forms.Button btnFillColour1;
+        public System.Windows.Forms.ColorDialog ColourDialog;
     }
 }

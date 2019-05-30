@@ -101,7 +101,7 @@
 
         #region Protected Properties
 
-        protected string FilePath
+        protected internal string FilePath
         {
             get => _filePath;
             set

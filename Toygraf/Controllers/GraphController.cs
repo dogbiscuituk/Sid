@@ -5,9 +5,9 @@
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.IO;
-    using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
+    using ToyGraf.Expressions;
     using ToyGraf.Models;
     using ToyGraf.Models.Commands;
     using ToyGraf.Models.Enumerations;
@@ -57,7 +57,7 @@
                 View.tbOpen.DropDownOpening += TbOpen_DropDownOpening;
                 View.FileSave.Click += FileSave_Click;
                 View.FileSaveAs.Click += FileSaveAs_Click;
-                View.tbSave.Click += FileSaveAs_Click;
+                View.tbSave.Click += FileSave_Click;
                 View.FileExit.Click += FileExit_Click;
                 View.GraphProperties.Click += GraphProperties_Click;
                 View.tbProperties.Click += GraphProperties_Click;
@@ -201,8 +201,10 @@
 
         private void FilePathRequest(SdiController.FilePathRequestEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(e.FilePath))
+                e.FilePath = Graph.Title.ToFilename();
             if (string.IsNullOrWhiteSpace(e.FilePath) && Graph.Series.Count > 0)
-                e.FilePath = Graph.Series[0].Formula;
+                e.FilePath = Graph.Series[0].Formula.ToFilename();
         }
 
         private void FileSaved() => Graph.ZoomSet();
@@ -260,6 +262,10 @@
                     break;
                 case string s when Regex.IsMatch(s, @"^Model\.Graph\.Series\[\d+\].(Formula|Visible)$"):
                     ClockController.UpdateTimeControls();
+                    break;
+                case "Model.Graph.Title":
+                    if (string.IsNullOrWhiteSpace(JsonController.FilePath))
+                        JsonController.FilePath = Graph.Title.ToFilename();
                     break;
             }
             GraphicsController.InvalidateView();

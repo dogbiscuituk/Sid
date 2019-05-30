@@ -46,8 +46,15 @@
 
         internal void LoadSeries()
         {
-            View.cbVisible.Checked = SeriesView.cbVisible.Checked;
-            FunctionBox.Text = ActiveControl.Text;
+            if (Index >= 0)
+            {
+                View.cbVisible.Checked = SeriesView.cbVisible.Checked;
+                FunctionBox.Text = ActiveControl.Text;
+            }
+            else
+            {
+                FunctionBox.Text = string.Empty;
+            }
         }
 
         #endregion
@@ -169,6 +176,8 @@
             var function = FunctionBox.Text;
             if (!string.IsNullOrWhiteSpace(function) && !Functions.Contains(function))
                 Functions[0] = function;
+            if (Index < 0)
+                return;
             ActiveControl.Text = function;
             var proxies = Graph.GetProxies().ToArray();
             View.tbProxy.Text = Index >= 0 && Index < proxies.Length

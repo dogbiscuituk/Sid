@@ -14,11 +14,11 @@
     {
         #region Internal Interface
 
-        internal LegendController(GraphController parent)
+        internal LegendController(GraphController graphController)
         {
-            Parent = parent;
-            Parent.Model.Cleared += Model_Cleared;
-            View = parent.View;
+            GraphController = graphController;
+            GraphController.Model.Cleared += Model_Cleared;
+            View = graphController.View;
             Graph.BeginUpdate += GraphBeginUpdate;
             Graph.EndUpdate += GraphEndUpdate;
         }
@@ -42,7 +42,7 @@
             }
         }
 
-        internal GraphController Parent;
+        internal GraphController GraphController;
         internal List<SeriesController> Children = new List<SeriesController>();
         internal bool Loading = true;
 
@@ -124,9 +124,9 @@
         #region Private Properties
 
         private GraphForm _view;
-        private CommandProcessor CommandController { get => Parent.CommandProcessor; }
+        private CommandProcessor CommandController { get => GraphController.CommandProcessor; }
         private bool CanCancel, Updating;
-        private Graph Graph { get => Parent.Graph; }
+        private Graph Graph { get => GraphController.Graph; }
         private Panel Client { get => View.ClientPanel; }
         private Panel Legend { get => View.LegendPanel; }
         private Control.ControlCollection SeriesViews { get => Legend.Controls; }
@@ -231,6 +231,7 @@
         {
             View.StatusBar.Focus();
             SeriesViews.RemoveAt(index);
+            Children[index].BeforeRemove();
             Children.RemoveAt(index);
         }
 

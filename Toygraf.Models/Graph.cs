@@ -320,6 +320,8 @@
             _wrapMode = Defaults.GraphWrapMode;
         }
 
+        private bool Updating;
+
         #endregion
 
         #region Series Management
@@ -341,7 +343,8 @@
         public void AddSeries(Series series)
         {
             Series.Add(series);
-            OnPropertyChanged("Series");
+            if (!Updating)
+                OnPropertyChanged("Series");
         }
 
         public void Clear()
@@ -557,7 +560,10 @@
         public void OnBeginUpdate()
         {
             if (UpdateCount == 0)
+            {
+                Updating = true;
                 BeginUpdate?.Invoke(this, EventArgs.Empty);
+            }
             UpdateCount++;
         }
 
@@ -567,7 +573,10 @@
             {
                 UpdateCount--;
                 if (UpdateCount == 0)
+                {
+                    Updating = false;
                     EndUpdate?.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 

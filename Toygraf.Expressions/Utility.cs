@@ -35,6 +35,8 @@
         public static int AlphaToTransparencyPercent(int alpha) =>
             (int)Math.Round(100 * (1 - alpha / 255.0));
 
+        public static Color Contrast(this Color colour) => colour.IsBright() ? Color.Black : Color.White;
+
         public static IEnumerable<Color> GetColours() =>
             Enum.GetValues(typeof(KnownColor))
             .Cast<KnownColor>()

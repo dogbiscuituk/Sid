@@ -1,5 +1,6 @@
 ﻿namespace ToyGraf.Models
 {
+    using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using ToyGraf.Models.Enumerations;
@@ -64,5 +65,23 @@
 
         public const WrapMode
             GraphWrapMode = WrapMode.Tile;
+
+        private static readonly List<Color> GraphPenColours = new List<Color>
+        {
+            Color.Black,
+            Color.Brown,
+            Color.Red,
+            Color.Orange,
+            Color.Gold,
+            Color.Green,
+            Color.Cyan,
+            Color.Blue,
+            Color.Violet,
+            Color.Gray,
+            Color.Pink
+        };
+
+        public static Color GetGraphPenColour(int index) =>
+            GraphPenColours[index % GraphPenColours.Count];
     }
 }

@@ -1,6 +1,5 @@
 ﻿namespace ToyGraf.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Drawing2D;
@@ -35,16 +34,26 @@
             Controls.Clear();
         }
 
-        internal Color GetColour(ComboBox comboBox) =>
-            Color.FromName(comboBox.SelectedItem.ToString());
+        internal Color GetColour(ComboBox comboBox)
+        {
+            var item = comboBox.SelectedItem;
+            if (item != null)
+                return Color.FromName(item.ToString());
+            else if (comboBox.Tag is Color)
+                return (Color)comboBox.Tag;
+            else
+                return Color.Transparent;
+        }
 
         internal void SetColour(ComboBox comboBox, Color colour)
         {
             var argb = colour.ToArgb();
+            comboBox.Tag = colour;
             var name = comboBox.Items.Cast<string>()
                 .FirstOrDefault(s => Color.FromName(s).ToArgb() == argb);
             comboBox.SelectedIndex =
                 string.IsNullOrWhiteSpace(name) ? -1 : comboBox.Items.IndexOf(name);
+            comboBox.Invalidate();
         }
 
         #endregion
@@ -56,16 +65,28 @@
 
         private void Control_DrawItem(object sender, DrawItemEventArgs e)
         {
-            if (e.Index < 0)
+            var comboBox = (ComboBox)sender;
+            string colourName;
+            Color colour;
+            if (e.Index >= 0)
+            {
+                colourName = comboBox.Items[e.Index].ToString();
+                colour = Color.FromName(colourName);
+            }
+            else if (comboBox.Tag is Color)
+            {
+                colour = (Color)comboBox.Tag;
+                colourName = $"{colour.ToArgb() & 0xffffff:X}";
+            }
+            else
                 return;
+            Color
+                ground = colour,
+                figure = ground.Contrast();
+            var selected = (e.State & DrawItemState.Selected) != 0;
             var g = e.Graphics;
             g.SetOptimization(Optimization.HighQuality);
             var r = e.Bounds;
-            var colourName = ((ComboBox)sender).Items[e.Index].ToString();
-            var selected = (e.State & DrawItemState.Selected) != 0;
-            Color
-                ground = Color.FromName(colourName),
-                figure = ground.IsBright() ? Color.Black : Color.White;
             using (Brush figureBrush = new SolidBrush(figure), groundBrush = new SolidBrush(ground))
             {
                 e.Graphics.FillRectangle(groundBrush, r);

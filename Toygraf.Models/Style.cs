@@ -214,6 +214,20 @@
             }
         }
 
+        protected string _title;
+        public string Title
+        {
+            get => _title;
+            set
+            {
+                if (Title != value)
+                {
+                    _title = value;
+                    OnPropertyChanged("Title");
+                }
+            }
+        }
+
         protected WrapMode _wrapMode;
         public WrapMode WrapMode
         {

@@ -1,5 +1,6 @@
 ﻿namespace ToyGraf.Controllers
 {
+    using System.Drawing;
     using System.Linq.Expressions;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
@@ -20,7 +21,8 @@
             var linearFactor = Expressions.x.Minus(a);
             Expression powerFactor, runningTotal = 0.0.Constant();
             var oldFormula = string.Empty;
-            for (var index = 0; index < count; index++)
+            Series series;
+            for (int index = 0, penIndex = 0; index < count; index++)
             {
                 switch (index)
                 {
@@ -39,17 +41,26 @@
                 var coefficient = proxy.AsFunction()(a, 0);
                 var termTaylor = coefficient.Times(powerFactor).Over(denominator).Simplify();
                 runningTotal = runningTotal.Plus(termTaylor).Simplify();
-                var series = AddSeries();
                 var newFormula = runningTotal.AsString();
-                series.Formula = newFormula;
-                series.Visible = newFormula != oldFormula;
+                if (newFormula != oldFormula)
+                {
+                    series = AddSeries();
+                    series.Formula = newFormula;
+                    Color penColour;
+                    do penColour = Defaults.GetGraphPenColour(penIndex++);
+                    while (penColour == Color.Black || penColour == Color.White);
+                    series.PenColour = penColour;
+                }
                 if (index < count - 1)
                 {
                     oldFormula = newFormula;
                     proxy = proxy.Differentiate();
                 }
             }
-            AddSeries().Formula = targetFormula;
+            series = AddSeries();
+            series.Formula = targetFormula;
+            series.PenColour = Graph.PaperColour.Contrast();
+            Graph.Title = $"Taylor Polynomial for f{Graph.Series.Count - 1} = {targetFormula} around x=0";
             Graph.OnEndUpdate();
         }
 

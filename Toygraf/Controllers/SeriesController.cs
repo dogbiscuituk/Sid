@@ -1,7 +1,9 @@
 ﻿namespace ToyGraf.Controllers
 {
+    using System.ComponentModel;
     using System.Drawing;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Windows.Forms;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
@@ -14,7 +16,7 @@
 
         internal SeriesController(LegendController parent, Series series)
         {
-            Parent = parent;
+            LegendController = parent;
             Series = series;
             ColourController = new ColourController();
             View = new SeriesView();
@@ -35,6 +37,7 @@
                 View.btnDetails.Click += BtnDetails_Click;
                 View.btnRemove.Click += BtnRemove_Click;
                 ColourController.AddControls(View.cbPenColour, View.cbFillColour);
+                GraphController.PropertyChanged += GraphController_PropertyChanged;
             }
         }
 
@@ -81,21 +84,24 @@
             set => View.seTransparency.Value = value;
         }
 
+        internal void BeforeRemove() => GraphController.PropertyChanged -= GraphController_PropertyChanged;
+
         #endregion
 
         #region Private Properties
 
         private SeriesView _view;
-        private GraphController GraphController { get => Parent.Parent; }
-        private LegendController Parent;
+        private GraphController GraphController { get => LegendController.GraphController; }
+        private LegendController LegendController;
         private ColourController ColourController;
         private CommandProcessor CommandProcessor { get => GraphController.CommandProcessor; }
         private SeriesPropertiesController SeriesPropertiesController { get => GraphController.SeriesPropertiesController; }
         private KeyboardController KeyboardController { get => SeriesPropertiesController.KeyboardController; }
-        private int Index { get => Parent.IndexOf(this); }
+        private int Index { get => LegendController.IndexOf(this); }
         private ComboBox FunctionBox { get => View.cbFunction; }
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
-        private Graph Graph { get => Parent.Parent.Graph; }
+        private Graph Graph { get => LegendController.GraphController.Graph; }
+        private bool Updating;
 
         #endregion
 
@@ -103,30 +109,36 @@
 
         private void BtnDetails_Click(object sender, System.EventArgs e)
         {
-            int h = View.Height, h1 = KeyboardController.View.Height,
-                h2 = Screen.FromControl(View).Bounds.Height;
-            var p = View.PointToScreen(new Point(0, h));
-            if (p.Y + h1 > h2) p.Y -= h + h1;
-            SeriesPropertiesController.Show(GraphController.View, p, Graph, Parent.IndexOf(this));
+            var index = LegendController.IndexOf(this);
+            if (!SeriesPropertiesController.View.Visible)
+            {
+                int h = View.Height, h1 = KeyboardController.View.Height,
+                    h2 = Screen.FromControl(View).Bounds.Height;
+                var p = View.PointToScreen(new Point(0, h));
+                if (p.Y + h1 > h2) p.Y -= h + h1;
+                SeriesPropertiesController.Show(GraphController.View, p, index);
+            }
+            else
+                SeriesPropertiesController.Series = Graph.Series[index];
         }
 
-        private void BtnRemove_Click(object sender, System.EventArgs e) => Parent.RemoveSeries(Index);
+        private void BtnRemove_Click(object sender, System.EventArgs e) => LegendController.RemoveSeries(Index);
 
         private void CbFillColour_SelectedValueChanged(object sender, System.EventArgs e)
         {
-            if (!Parent.Loading)
+            if (!LegendController.Loading)
                 CommandProcessor.Run(new SeriesFillColour1Command(Index, FillColour));
         }
 
         private void CbPenColour_SelectedValueChanged(object sender, System.EventArgs e)
         {
-            if (!Parent.Loading)
+            if (!LegendController.Loading)
                 CommandProcessor.Run(new SeriesPenColourCommand(Index, PenColour));
         }
 
         private void CbVisible_CheckedChanged(object sender, System.EventArgs e)
         {
-            if (!Parent.Loading)
+            if (!LegendController.Loading)
                 CommandProcessor.Run(new SeriesVisibleCommand(Index, TraceVisible));
         }
 
@@ -134,13 +146,42 @@
         {
             if (!string.IsNullOrWhiteSpace(Formula) && !Functions.Contains(Formula))
                 Functions[0] = Formula;
-            if (!Parent.Loading && Parent.Validate())
+            if (!LegendController.Loading && LegendController.Validate())
                 CommandProcessor.Run(new SeriesFormulaCommand(Index, Formula));
+        }
+
+        private void GraphController_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (!Updating)
+            {
+                Updating = true;
+                var match = Regex.Match(e.PropertyName, $@"Model.Graph.Series\[{Index}\]\.(\w+)");
+                if (match.Success)
+                    switch (match.Groups[1].Value)
+                    {
+                        case "Visible":
+                            TraceVisible = Series.Visible;
+                            break;
+                        case "Formula":
+                            Formula = Series.Formula;
+                            break;
+                        case "PenColour":
+                            PenColour = Series.PenColour;
+                            break;
+                        case "FillColour1":
+                            FillColour = Series.FillColour1;
+                            break;
+                        case "FillTransparencyPercent":
+                            FillTransparencyPercent = Series.FillTransparencyPercent;
+                            break;
+                    }
+                Updating = false;
+            }
         }
 
         private void SeTransparency_ValueChanged(object sender, System.EventArgs e)
         {
-            if (!Parent.Loading)
+            if (!LegendController.Loading)
                 CommandProcessor.Run(new SeriesFillTransparencyPercentCommand(Index, FillTransparencyPercent));
         }
 
