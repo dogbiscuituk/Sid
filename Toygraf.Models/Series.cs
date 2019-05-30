@@ -35,6 +35,20 @@
 
         #region Visual Properties
 
+        private bool _selected;
+        public bool Selected
+        {
+            get => _selected;
+            set
+            {
+                if (Selected != value)
+                {
+                    _selected = value;
+                    OnPropertyChanged("Selected");
+                }
+            }
+        }
+
         [NonSerialized]
         private Viewport Viewport;
 
@@ -142,6 +156,9 @@
         protected override void StepCountChanged() => InvalidatePoints();
 
         private List<List<PointF>> PointLists = new List<List<PointF>>();
+        private readonly List<GraphicsPath>
+            DrawPaths = new List<GraphicsPath>(),
+            FillPaths = new List<GraphicsPath>();
 
         // Method DrawAsync is made asynchronous purely as a programming exercise.
         // All drawing must take place on the main Windows UI thread, and no time
@@ -165,18 +182,21 @@
                 PointLists.AddRange(pointLists);
                 pointLists.Clear();
             }
+            bool usePaths;
             if (fill)
                 using (var pen = new Pen(LimitColour, penWidth))
                 {
+                    usePaths = FillPaths.Any();
                     pen.DashStyle = DashStyle.Dash;
                     using (var brush = CreateBrush(g.Transform))
-                        PointLists.ForEach(p => FillSection(g, brush, plotType, interpolation, p));
+                        PointLists.ForEach(p => FillSection(g, brush, plotType, interpolation, p, usePaths));
                 }
             else
                 using (var pen = new Pen(PenColour, PenWidth * penWidth))
                 {
+                    usePaths = DrawPaths.Any();
                     pen.DashStyle = PenStyle;
-                    PointLists.ForEach(p => DrawSection(g, pen, interpolation, p));
+                    PointLists.ForEach(p => DrawSection(g, pen, interpolation, p, usePaths));
                 }
         }
 
@@ -217,13 +237,13 @@
             return new SolidBrush(paint1);
         }
 
-        private void DrawSection(Graphics g, Pen pen,
-            Interpolation interpolation, List<PointF> points) =>
-            new Plotter().Draw(g, pen, interpolation, points);
+        private void DrawSection(Graphics g, Pen pen, Interpolation interpolation,
+            List<PointF> points, bool usePaths) =>
+            new Plotter().Draw(g, pen, interpolation, points, DrawPaths, usePaths);
 
-        private void FillSection(Graphics g, Brush brush, PlotType plotType,
-            Interpolation interpolation, List<PointF> points) =>
-            new Plotter().Fill(g, brush, plotType, interpolation, points);
+        private void FillSection(Graphics g, Brush brush, PlotType plotType, Interpolation interpolation,
+            List<PointF> points, bool usePaths) =>
+            new Plotter().Fill(g, brush, plotType, interpolation, points, FillPaths, usePaths);
 
         private Task<List<List<PointF>>> ComputePointsAsync(
             Domain domain, Viewport viewport, double time, bool polar)
@@ -325,7 +345,12 @@
             yield return p;
         }
 
-        public void InvalidatePoints() => PointLists.Clear();
+        public void InvalidatePoints()
+        {
+            PointLists.Clear();
+            DrawPaths.Clear();
+            FillPaths.Clear();
+        }
 
         private static bool IsInvalid(float x) => float.IsInfinity(x) || float.IsNaN(x);
         private static bool IsInvalid(double x) => double.IsInfinity(x) || double.IsNaN(x);

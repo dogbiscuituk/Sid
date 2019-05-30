@@ -1341,11 +1341,6 @@
             0,
             0,
             0});
-            this.sePenSize.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            65536});
             this.sePenSize.Name = "sePenSize";
             this.sePenSize.ReadOnly = true;
             this.sePenSize.Size = new System.Drawing.Size(44, 21);
@@ -1519,7 +1514,7 @@
             this.tpSeriesProperties.TabIndex = 0;
             this.tpSeriesProperties.Text = "Series Properties";
             // 
-            // btnTaylorSeries
+            // btnTaylorPolynomial
             // 
             this.btnTaylorPolynomial.Location = new System.Drawing.Point(331, 95);
             this.btnTaylorPolynomial.Name = "btnTaylorPolynomial";

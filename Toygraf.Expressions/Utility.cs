@@ -67,7 +67,9 @@
             (0.2126 * colour.R + 0.7152 * colour.G + 0.0722 * colour.B) / 255;
 
         public static Color MakeColour(Color baseColour, int transparencyPerCent) =>
-            Color.FromArgb(AlphaFromTransparencyPercent(transparencyPerCent), baseColour);
+            baseColour == Color.Transparent
+            ? baseColour
+            : Color.FromArgb(AlphaFromTransparencyPercent(transparencyPerCent), baseColour);
 
         private static IEnumerable<Color> OrderByColourProperties(
             this IEnumerable<Color> colours, string colourProperties)

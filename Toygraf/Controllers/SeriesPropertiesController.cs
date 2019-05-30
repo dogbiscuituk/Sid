@@ -40,13 +40,13 @@
             UpdateUI();
         }
 
-        internal void ShowDialog(IWin32Window owner, Point location, Graph graph, int index)
+        internal void Show(IWin32Window owner, Point location, Graph graph, int index)
         {
             Graph = graph;
             View.seIndex.Maximum = SeriesControllers.Count - 1;
             Index = index;
             View.Location = location;
-            View.ShowDialog(owner);
+            View.Show(owner);
         }
 
         internal readonly GraphController GraphController;
@@ -146,7 +146,7 @@
 
         private void TaylorPolynomialClick(object sender, EventArgs e)
         {
-            View.DialogResult = DialogResult.OK;
+            View.Close();
             var graphController = AppController.AddNewGraphController();
             var taylorPolynomialController = new TaylorPolynomialController(graphController);
             taylorPolynomialController.PopulateSeries(Series.Proxy, 0, 16);
