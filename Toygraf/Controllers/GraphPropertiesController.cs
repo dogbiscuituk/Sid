@@ -12,9 +12,9 @@
     {
         #region Internal Interface
 
-        internal GraphPropertiesController(GraphController parent)
+        internal GraphPropertiesController(GraphController graphController)
         {
-            Parent = parent;
+            GraphController = graphController;
             ColourController = new ColourController();
             View = new GraphPropertiesDialog();
             ElementsController = new ElementsController(this);
@@ -52,16 +52,16 @@
             }
         }
 
-        internal GraphController Parent
+        internal GraphController GraphController
         {
             get => _GraphController;
             set
             {
-                if (Parent != null)
-                    Parent.PropertyChanged -= GraphController_PropertyChanged;
+                if (GraphController != null)
+                    GraphController.PropertyChanged -= GraphController_PropertyChanged;
                 _GraphController = value;
-                if (Parent != null)
-                    Parent.PropertyChanged += GraphController_PropertyChanged;
+                if (GraphController != null)
+                    GraphController.PropertyChanged += GraphController_PropertyChanged;
             }
         }
 
@@ -85,10 +85,10 @@
         private GraphPropertiesDialog _view;
         private GraphController _GraphController;
         private ColourController ColourController;
-        private CommandProcessor CommandController { get => Parent.CommandProcessor; }
+        private CommandProcessor CommandController { get => GraphController.CommandProcessor; }
         private ElementsController ElementsController;
         private CheckedListBox.ObjectCollection ElementItems { get => View.ElementCheckboxes.Items; }
-        private Model Model { get => Parent.Model; }
+        private Model Model { get => GraphController.Model; }
         private bool Loading;
 
         #endregion

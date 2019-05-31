@@ -12,11 +12,11 @@
     {
         #region Internal Interface
 
-        internal CommandProcessor(GraphController parent)
+        internal CommandProcessor(GraphController graphController)
         {
-            Parent = parent;
+            GraphController = graphController;
             // Model
-            Parent.Model.Cleared += Model_Cleared;
+            GraphController.Model.Cleared += Model_Cleared;
             // Edit
             View.EditUndo.Click += EditUndo_Click;
             View.tbUndo.ButtonClick += EditUndo_Click;
@@ -73,9 +73,9 @@
 
         #region Private Properties
 
-        private GraphController Parent;
-        private GraphForm View => Parent.View;
-        private Graph Graph => Parent.Graph;
+        private GraphController GraphController;
+        private GraphForm View => GraphController.View;
+        private Graph Graph => GraphController.Graph;
         private readonly Stack<GraphCommand> UndoStack = new Stack<GraphCommand>();
         private readonly Stack<GraphCommand> RedoStack = new Stack<GraphCommand>();
 

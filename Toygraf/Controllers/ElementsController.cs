@@ -12,10 +12,10 @@
     {
         #region Internal Interface
 
-        internal ElementsController(GraphPropertiesController parent)
+        internal ElementsController(GraphPropertiesController graphPropertiesController)
         {
-            Parent = parent;
-            View = parent.View.ElementCheckboxes;
+            GraphPropertiesController = graphPropertiesController;
+            View = graphPropertiesController.View.ElementCheckboxes;
             for (var index = 0; index < 12; index++)
                 States[index] = View.GetItemCheckState(index);
         }
@@ -52,8 +52,8 @@
             }
         }
 
-        private GraphPropertiesController Parent;
-        private Graph Graph => Parent.Graph;
+        private GraphPropertiesController GraphPropertiesController;
+        private Graph Graph => GraphPropertiesController.Graph;
         private readonly CheckState[] States = new CheckState[12];
         private bool Updating;
 
@@ -104,8 +104,8 @@
             for (var index = 0; index < 8; index++)
                 if (States[index] == CheckState.Checked)
                     elements |= values[ControlToEnum(index)];
-            if (Parent.Graph.Elements != elements)
-                Parent.Parent.CommandProcessor.Run(new GraphElementsCommand(elements));
+            if (GraphPropertiesController.Graph.Elements != elements)
+                GraphPropertiesController.GraphController.CommandProcessor.Run(new GraphElementsCommand(elements));
         }
 
         private void SetState(int index, CheckState state) => View.SetItemCheckState(index, States[index] = state);

@@ -788,6 +788,7 @@
             // btnBackspace
             // 
             this.btnBackspace.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.btnBackspace.Enabled = false;
             this.btnBackspace.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBackspace.ForeColor = System.Drawing.SystemColors.GrayText;
             this.btnBackspace.Location = new System.Drawing.Point(314, 2);

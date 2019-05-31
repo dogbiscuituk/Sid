@@ -1,6 +1,5 @@
 ﻿namespace ToyGraf.Controllers
 {
-    using System.Drawing;
     using System.Windows.Forms;
     using ToyGraf.Views;
 
@@ -8,9 +7,9 @@
     {
         #region Internal Interface
 
-        internal ToolbarController(GraphController parent)
+        internal ToolbarController(GraphController graphController)
         {
-            Parent = parent;
+            GraphController = graphController;
             View.ViewToolbar.DropDownOpening += ViewToolbar_DropDownOpening;
             View.ViewToolbarBottom.Click += DockToolbarBottom;
             View.ViewToolbarLeft.Click += DockToolbarLeft;
@@ -23,8 +22,8 @@
 
         #region Private Properties
 
-        private GraphController Parent;
-        private GraphForm View => Parent.View;
+        private GraphController GraphController;
+        private GraphForm View => GraphController.View;
         private ToolStrip Toolbar => View.Toolbar;
 
         private const AnchorStyles

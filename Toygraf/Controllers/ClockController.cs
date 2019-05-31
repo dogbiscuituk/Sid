@@ -9,9 +9,9 @@
     {
         #region Internal Interface
 
-        internal ClockController(GraphicsController parent)
+        internal ClockController(GraphicsController graphicsController)
         {
-            GraphicsController = parent;
+            GraphicsController = graphicsController;
             graphForm.TimeDecelerate.Click += TimeDecelerate_Click;
             graphForm.tbDecelerate.Click += TimeDecelerate_Click;
             graphForm.TimeReverse.Click += TimeReverse_Click;

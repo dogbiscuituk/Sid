@@ -14,9 +14,9 @@
     {
         #region Internal Interface
 
-        internal SeriesController(LegendController parent, Series series)
+        internal SeriesController(LegendController legendController, Series series)
         {
-            LegendController = parent;
+            LegendController = legendController;
             Series = series;
             ColourController = new ColourController();
             View = new SeriesView();
