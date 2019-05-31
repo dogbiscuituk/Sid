@@ -2,21 +2,25 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Drawing;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Windows.Forms;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
+    using ToyGraf.Models.Commands;
     using ToyGraf.Views;
 
     internal class KeyboardController
     {
         #region Internal Interface
 
-        internal KeyboardController(SeriesPropertiesController parent)
+        internal KeyboardController(SeriesPropertiesController seriesPropertiesController)
         {
-            Parent = parent;
-            View = parent.View;
+            SeriesPropertiesController = seriesPropertiesController;
+            View = seriesPropertiesController.View;
+            GraphController.PropertyChanged += GraphController_PropertyChanged;
             InitFunctionNames();
         }
 
@@ -31,6 +35,8 @@
                 FunctionBox.KeyUp += FunctionBox_KeyUp;
                 FunctionBox.MouseUp += FunctionBox_MouseUp;
                 FunctionBox.TextChanged += FunctionBox_TextChanged;
+                FunctionBox.Validating += FunctionBox_Validating;
+                View.btnBackspace.Click += Key_Press;
                 View.btnLshift.Click += BtnShift_Click;
                 View.btnRshift.Click += BtnShift_Click;
                 View.btnShiftLock.Click += BtnShiftLock_Click;
@@ -61,22 +67,21 @@
 
         #region Private Properties
 
-        private SeriesPropertiesDialog _view;
-
-        private readonly SeriesPropertiesController Parent;
-        private GraphController GraphController => Parent.GraphController;
-        private List<SeriesController> SeriesControllers => GraphController.LegendController.Children;
-        private SeriesView SeriesView => SeriesControllers[Index].View;
-
-        private Control ActiveControl => SeriesView.cbFunction;
-        private readonly List<Button> CustomKeys = new List<Button>();
-        private ComboBox FunctionBox { get => View.FunctionBox; }
-        private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
-        private Graph Graph => Parent.Graph;
-
-        private int Index => GetIndex();
-
-        private int SelStart, SelLength;
+        /// <summary>
+        /// Greek keyboard based on https://en.wikipedia.org/wiki/Keyboard_layout#/media/File:KB_Greek.svg
+        /// </summary>
+        private static readonly Keyboard[] Keyboards =
+        {
+            new Keyboard{Keys = @"`1234567890-= /*-qwertyuiop[]789+asdfghjkl;'#456\zxcvbnm,./123 0.", Name = "Latin Lowercase"},
+            new Keyboard{Keys = @"¬!""£$%^&*()_+ /*-QWERTYUIOP{}789+ASDFGHJKL:@~456|ZXCVBNM<>?123 0.", Name = "Latin Uppercase"},
+            new Keyboard{Keys = @"`1234567890-= /*- ςερτυθιοπ[]789+ασδφγηξκλ;'#456\ζχψωβνμ,./123 0.", Name = "Greek Lowercase"},
+            new Keyboard{Keys = @"¬!""£$%^&*()_+ /*-  ΕΡΤΥΘΙΟΠ{}789+ΑΣΔΦΓΗΞΚΛ:@~456|ΖΧΨΩΒΝΜ<>?123 0.", Name = "Greek Uppercase"},
+            new Keyboard{Keys = @"½⅓⅔¼¾⅕⅖⅗⅘≮≯-≠°÷×-qwertyuiop≰≱789+asdfghjkl;'#456\zxcvbnm≤≥/123 0.", Name = "Mathematical Lowercase"},
+            new Keyboard{Keys = @"⅙⅚⅐⅛⅜⅝⅞⅑⅒≮≯-≠°√∛∜QWERTYUIOP≰≱789+ASDFGHJKL;'#456\ZXCVBNM≤≥/123 0.", Name = "Mathematical Uppercase"},
+            new Keyboard{Keys = @"ᵦᵧᵩᵪᵨ    ₍₎₋₌ ⁄ ₋  ₑᵣₜ ᵤᵢₒₚ  ₇₈₉₊ₐₛ   ₕⱼₖₗ   ₄₅₆  ₓ ᵥ ₙₘ   ₁₂₃ ₀ ", Name = "Subscript"},
+            new Keyboard{Keys = @"ᵝᵞᵠᵡᵅᵟᵋᶿᶥ⁽⁾⁻⁼ ⁄ ⁻ᶲʷᵉʳᵗʸᵘⁱᵒᵖ  ⁷⁸⁹⁺ᵃˢᵈᶠᵍʰʲᵏˡ   ⁴⁵⁶ ᶻˣᶜᵛᵇⁿᵐ   ¹²³ ⁰ ", Name = "Superscript Lowercase"},
+            new Keyboard{Keys = @"         ⁽⁾⁻⁼   ⁻ ᵂᴱᴿᵀ ᵁᴵᴼᴾ  ⁷⁸⁹⁺ᴬ ᴰ ᴳᴴᴶᴷᴸ   ⁴⁵⁶    ⱽᴮᴺᴹ   ¹²³ ⁰ ", Name = "Superscript Uppercase"}
+        };
 
         private KeyStates _state;
         private KeyStates State
@@ -100,27 +105,124 @@
             }
         }
 
-        /// <summary>
-        /// Greek keyboard based on https://en.wikipedia.org/wiki/Keyboard_layout#/media/File:KB_Greek.svg
-        /// </summary>
-        private readonly Keyboard[] Keyboards =
+        private SeriesPropertiesDialog _view;
+        private readonly SeriesPropertiesController SeriesPropertiesController;
+        private GraphController GraphController => SeriesPropertiesController.GraphController;
+        private CommandProcessor CommandProcessor => GraphController.CommandProcessor;
+        private List<SeriesController> SeriesControllers => GraphController.LegendController.Children;
+        private SeriesView SeriesView => SeriesControllers[Index].View;
+        private Control ActiveControl => SeriesView.cbFunction;
+        private readonly List<Button> CustomKeys = new List<Button>();
+        private ComboBox FunctionBox { get => View.FunctionBox; }
+        private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
+        private Graph Graph => SeriesPropertiesController.Graph;
+        private int Index => GetIndex();
+        private int SelStart, SelLength;
+        private bool CanCancel, Loading, Updating;
+
+        #endregion
+
+        #region Private Event Handlers
+
+        private void BtnGreek_Click(object sender, EventArgs e) => ToggleLanguage(KeyStates.Greek);
+        private void BtnMaths_Click(object sender, EventArgs e) => ToggleLanguage(KeyStates.Maths);
+        private void BtnShift_Click(object sender, EventArgs e) => State = State & ~KeyStates.ShiftLock ^ KeyStates.Shift;
+        private void BtnShiftLock_Click(object sender, EventArgs e) => State = State & ~KeyStates.Shift ^ KeyStates.ShiftLock;
+        private void BtnSubscript_Click(object sender, EventArgs e) => ToggleLanguage(KeyStates.Subs);
+        private void BtnSuperscript_Click(object sender, EventArgs e) => ToggleLanguage(KeyStates.Super);
+        private void FunctionBox_KeyUp(object sender, KeyEventArgs e) => SaveSelection();
+        private void FunctionBox_MouseUp(object sender, MouseEventArgs e) => SaveSelection();
+
+        private void FunctionBox_TextChanged(object sender, EventArgs e)
         {
-            new Keyboard{Keys = @"`1234567890-= /*-qwertyuiop[]789+asdfghjkl;'#456\zxcvbnm,./123 0.", Name = "Latin Lowercase"},
-            new Keyboard{Keys = @"¬!""£$%^&*()_+ /*-QWERTYUIOP{}789+ASDFGHJKL:@~456|ZXCVBNM<>?123 0.", Name = "Latin Uppercase"},
-            new Keyboard{Keys = @"`1234567890-= /*- ςερτυθιοπ[]789+ασδφγηξκλ;'#456\ζχψωβνμ,./123 0.", Name = "Greek Lowercase"},
-            new Keyboard{Keys = @"¬!""£$%^&*()_+ /*-  ΕΡΤΥΘΙΟΠ{}789+ΑΣΔΦΓΗΞΚΛ:@~456|ΖΧΨΩΒΝΜ<>?123 0.", Name = "Greek Uppercase"},
-            new Keyboard{Keys = @"½⅓⅔¼¾⅕⅖⅗⅘≮≯-≠°÷×-qwertyuiop≰≱789+asdfghjkl;'#456\zxcvbnm≤≥/123 0.", Name = "Mathematical Lowercase"},
-            new Keyboard{Keys = @"⅙⅚⅐⅛⅜⅝⅞⅑⅒≮≯-≠°√∛∜QWERTYUIOP≰≱789+ASDFGHJKL;'#456\ZXCVBNM≤≥/123 0.", Name = "Mathematical Uppercase"},
-            new Keyboard{Keys = @"ᵦᵧᵩᵪᵨ    ₍₎₋₌ ⁄ ₋  ₑᵣₜ ᵤᵢₒₚ  ₇₈₉₊ₐₛ   ₕⱼₖₗ   ₄₅₆  ₓ ᵥ ₙₘ   ₁₂₃ ₀ ", Name = "Subscript"},
-            new Keyboard{Keys = @"ᵝᵞᵠᵡᵅᵟᵋᶿᶥ⁽⁾⁻⁼ ⁄ ⁻ᶲʷᵉʳᵗʸᵘⁱᵒᵖ  ⁷⁸⁹⁺ᵃˢᵈᶠᵍʰʲᵏˡ   ⁴⁵⁶ ᶻˣᶜᵛᵇⁿᵐ   ¹²³ ⁰ ", Name = "Superscript Lowercase"},
-            new Keyboard{Keys = @"         ⁽⁾⁻⁼   ⁻ ᵂᴱᴿᵀ ᵁᴵᴼᴾ  ⁷⁸⁹⁺ᴬ ᴰ ᴳᴴᴶᴷᴸ   ⁴⁵⁶    ⱽᴮᴺᴹ   ¹²³ ⁰ ", Name = "Superscript Uppercase"}
-        };
+            var formula = FunctionBox.Text;
+            if (!string.IsNullOrWhiteSpace(formula) && !Functions.Contains(formula))
+                Functions[0] = formula;
+            if (Index < 0)
+                return;
+            if (!Updating)
+                if (Validate())
+                    CommandProcessor.Run(new SeriesFormulaCommand(Index, formula));
+        }
+
+        private void FunctionBox_Validating(object sender, CancelEventArgs e)
+        {
+            var comboBox = (ComboBox)sender;
+            var ok = new Parser().TryParse(comboBox.Text, out object result);
+            View.ErrorProvider.SetError(comboBox, ok ? string.Empty : result.ToString());
+            e.Cancel = CanCancel && !ok;
+        }
+
+        private void GraphController_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (!Updating)
+            {
+                var match = Regex.Match(e.PropertyName, $@"Model.Graph.Series\[{Index}\]\.(\w+)");
+                if (match.Success)
+                {
+                    Updating = true;
+                    switch (match.Groups[1].Value)
+                    {
+                        case "Formula":
+                            SaveSelection();
+                            View.FunctionBox.Text = Graph.Series[Index].Formula;
+                            LoadSelection();
+                            UpdateProxyLabel();
+                            break;
+                    }
+                Updating = false;
+                }
+            }
+        }
+
+        private void IndexValueChanged(object sender, EventArgs e) => IndexValueChanged();
+
+        private void Key_Press(object sender, EventArgs e)
+        {
+            var text = ((Control)sender).Text;
+            switch (text)
+            {
+                case "Back":
+                    FocusFunctionBox();
+                    var index = SelStart - 1;
+                    if (index >= 0)
+                    {
+                        var s = FunctionBox.Text;
+                        s = s.Substring(0, index) + s.Substring(index + 1);
+                        FunctionBox.Text = s;
+                    }
+                    SaveSelection();
+                    break;
+                case string t when !string.IsNullOrEmpty(t):
+                    FocusFunctionBox();
+                    FunctionBox.SelectedText = t;
+                    SaveSelection();
+                    State &= ~(KeyStates.Shift | KeyStates.Languages);
+                    break;
+            }
+        }
+
+        private void UpdateProxyLabel()
+        {
+            var proxies = Graph.GetProxies().ToArray();
+            View.tbProxy.Text = Index >= 0 && Index < proxies.Length
+                ? proxies[Index]?.AsString()
+                : string.Empty;
+        }
+
+        private void VisibleChanged(object sender, EventArgs e) => SeriesView.cbVisible.Checked = View.cbVisible.Checked;
 
         #endregion
 
         #region Private Methods
 
-        private int GetIndex() => Parent.Index;
+        private void FocusFunctionBox()
+        {
+            FunctionBox.Focus();
+            LoadSelection();
+        }
+
+        private int GetIndex() => SeriesPropertiesController.Index;
 
         private string GetKeyboardName(KeyboardType type) => Keyboards[(int)type].Name;
 
@@ -144,6 +246,17 @@
 
         private string GetKeys(KeyboardType type) => Keyboards[(int)type].Keys;
 
+        private void InitBackColour(Control control, KeyStates state) =>
+            control.BackColor = Color.FromKnownColor(
+                (State & state) == 0 ? KnownColor.ControlLight : KnownColor.Window);
+
+        private void InitFunctionNames()
+        {
+            Functions.Clear();
+            Functions.Add(string.Empty);
+            Functions.AddRange(Utility.FunctionNames.Select(f => $"{f}(x)").ToArray());
+        }
+
         private void InitKeys()
         {
             var type = GetKeyboardType();
@@ -156,70 +269,6 @@
                 key.Text = c.ToString().AmpersandEscape();
                 View.ToolTip.SetToolTip(key, $"{char.GetUnicodeCategory(c)} '{c}'");
             }
-        }
-
-        #endregion
-
-        #region Private Event Handlers
-
-        private void BtnGreek_Click(object sender, EventArgs e) => ToggleLanguage(KeyStates.Greek);
-        private void BtnMaths_Click(object sender, EventArgs e) => ToggleLanguage(KeyStates.Maths);
-        private void BtnShift_Click(object sender, EventArgs e) => State = State & ~KeyStates.ShiftLock ^ KeyStates.Shift;
-        private void BtnShiftLock_Click(object sender, EventArgs e) => State = State & ~KeyStates.Shift ^ KeyStates.ShiftLock;
-        private void BtnSubscript_Click(object sender, EventArgs e) => ToggleLanguage(KeyStates.Subs);
-        private void BtnSuperscript_Click(object sender, EventArgs e) => ToggleLanguage(KeyStates.Super);
-        private void FunctionBox_KeyUp(object sender, KeyEventArgs e) => SaveSelection();
-        private void FunctionBox_MouseUp(object sender, MouseEventArgs e) => SaveSelection();
-
-        private void FunctionBox_TextChanged(object sender, EventArgs e)
-        {
-            var function = FunctionBox.Text;
-            if (!string.IsNullOrWhiteSpace(function) && !Functions.Contains(function))
-                Functions[0] = function;
-            if (Index < 0)
-                return;
-            ActiveControl.Text = function;
-            var proxies = Graph.GetProxies().ToArray();
-            View.tbProxy.Text = Index >= 0 && Index < proxies.Length
-                ? proxies[Index]?.AsString()
-                : string.Empty;
-        }
-
-        private void IndexValueChanged(object sender, EventArgs e) => IndexValueChanged();
-
-        private void Key_Press(object sender, EventArgs e)
-        {
-            var text = ((Control)sender).Text;
-            if (text != string.Empty)
-            {
-                FocusFunctionBox();
-                FunctionBox.SelectedText = text;
-                SaveSelection();
-            }
-            State &= ~(KeyStates.Shift | KeyStates.Languages);
-        }
-
-        private void VisibleChanged(object sender, EventArgs e) => SeriesView.cbVisible.Checked = View.cbVisible.Checked;
-
-        #endregion
-
-        #region Private Methods
-
-        private void FocusFunctionBox()
-        {
-            FunctionBox.Focus();
-            LoadSelection();
-        }
-
-        private void InitBackColour(Control control, KeyStates state) =>
-            control.BackColor = Color.FromKnownColor(
-                (State & state) == 0 ? KnownColor.ControlLight : KnownColor.Window);
-
-        private void InitFunctionNames()
-        {
-            Functions.Clear();
-            Functions.Add(string.Empty);
-            Functions.AddRange(Utility.FunctionNames.Select(f => $"{f}(x)").ToArray());
         }
 
         private void LoadKeys()
@@ -250,6 +299,15 @@
             foreach (var key in CustomKeys)
                 key.Click -= Key_Press;
             CustomKeys.Clear();
+        }
+
+        private bool Validate()
+        {
+            Graph.ValidateProxies();
+            CanCancel = true;
+            var ok = View.ValidateChildren();
+            CanCancel = false;
+            return ok;
         }
 
         #endregion

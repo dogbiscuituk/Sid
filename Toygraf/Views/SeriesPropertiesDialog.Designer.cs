@@ -143,6 +143,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.ColourDialog = new System.Windows.Forms.ColorDialog();
+            this.ErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sePenSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seIndex)).BeginInit();
@@ -151,6 +152,7 @@
             this.tpKeyboard.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // btnQ
@@ -786,7 +788,6 @@
             // btnBackspace
             // 
             this.btnBackspace.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.btnBackspace.Enabled = false;
             this.btnBackspace.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBackspace.ForeColor = System.Drawing.SystemColors.GrayText;
             this.btnBackspace.Location = new System.Drawing.Point(314, 2);
@@ -1236,7 +1237,7 @@
             this.FunctionBox.Margin = new System.Windows.Forms.Padding(0);
             this.FunctionBox.MaxDropDownItems = 36;
             this.FunctionBox.Name = "FunctionBox";
-            this.FunctionBox.Size = new System.Drawing.Size(376, 23);
+            this.FunctionBox.Size = new System.Drawing.Size(360, 23);
             this.FunctionBox.TabIndex = 0;
             this.ToolTip.SetToolTip(this.FunctionBox, "Formula for points on this trace");
             // 
@@ -1779,6 +1780,10 @@
             this.ColourDialog.AnyColor = true;
             this.ColourDialog.FullOpen = true;
             // 
+            // ErrorProvider
+            // 
+            this.ErrorProvider.ContainerControl = this;
+            // 
             // SeriesPropertiesDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1805,6 +1810,7 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1924,5 +1930,6 @@
         public System.Windows.Forms.Button btnFillColour2;
         public System.Windows.Forms.Button btnFillColour1;
         public System.Windows.Forms.ColorDialog ColourDialog;
+        public System.Windows.Forms.ErrorProvider ErrorProvider;
     }
 }

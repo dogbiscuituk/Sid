@@ -101,6 +101,7 @@
         private ComboBox FunctionBox { get => View.cbFunction; }
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
         private Graph Graph { get => LegendController.GraphController.Graph; }
+        private int FormulaSelStart, FormulaSelLength;
         private bool Updating;
 
         #endregion
@@ -146,24 +147,28 @@
         {
             if (!string.IsNullOrWhiteSpace(Formula) && !Functions.Contains(Formula))
                 Functions[0] = Formula;
-            if (!LegendController.Loading && LegendController.Validate())
-                CommandProcessor.Run(new SeriesFormulaCommand(Index, Formula));
+            if (!Updating)
+                if (!LegendController.Loading && LegendController.Validate())
+                    CommandProcessor.Run(new SeriesFormulaCommand(Index, Formula));
         }
 
         private void GraphController_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (!Updating)
             {
-                Updating = true;
                 var match = Regex.Match(e.PropertyName, $@"Model.Graph.Series\[{Index}\]\.(\w+)");
                 if (match.Success)
+                {
+                    Updating = true;
                     switch (match.Groups[1].Value)
                     {
                         case "Visible":
                             TraceVisible = Series.Visible;
                             break;
                         case "Formula":
+                            SaveFormulaSelection();
                             Formula = Series.Formula;
+                            LoadFormulaSelection();
                             break;
                         case "PenColour":
                             PenColour = Series.PenColour;
@@ -175,7 +180,8 @@
                             FillTransparencyPercent = Series.FillTransparencyPercent;
                             break;
                     }
-                Updating = false;
+                    Updating = false;
+                }
             }
         }
 
@@ -194,6 +200,18 @@
             Functions.Clear();
             Functions.Add(string.Empty);
             Functions.AddRange(Utility.FunctionNames.Select(f => $"{f}(x)").ToArray());
+        }
+
+        private void LoadFormulaSelection()
+        {
+            FunctionBox.SelectionStart = FormulaSelStart;
+            FunctionBox.SelectionLength = FormulaSelLength;
+        }
+
+        private void SaveFormulaSelection()
+        {
+            FormulaSelStart = FunctionBox.SelectionStart;
+            FormulaSelLength = FunctionBox.SelectionLength;
         }
 
         #endregion

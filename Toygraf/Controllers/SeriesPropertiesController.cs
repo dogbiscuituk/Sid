@@ -191,9 +191,6 @@
                         case "FillTransparencyPercent":
                             View.seTransparency.Value = Series.FillTransparencyPercent;
                             break;
-                        case "Formula":
-                            View.FunctionBox.Text = Series.Formula;
-                            break;
                         case "GradientMode":
                             View.cbGradientMode.SelectedIndex = (int)Series.GradientMode;
                             break;
