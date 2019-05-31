@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
@@ -156,7 +157,7 @@
             GraphRead();
         }
 
-        private void CbFunction_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        private void CbFunction_Validating(object sender, CancelEventArgs e)
         {
             var comboBox = (ComboBox)sender;
             var ok = new Parser().TryParse(comboBox.Text, out object result);

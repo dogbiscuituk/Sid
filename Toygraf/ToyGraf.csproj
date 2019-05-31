@@ -114,6 +114,12 @@
     <Compile Include="Views\SeriesPropertiesDialog.Designer.cs">
       <DependentUpon>SeriesPropertiesDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\TaylorPolynomialParamsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\TaylorPolynomialParamsDialog.Designer.cs">
+      <DependentUpon>TaylorPolynomialParamsDialog.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -153,6 +159,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SeriesPropertiesDialog.resx">
       <DependentUpon>SeriesPropertiesDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\TaylorPolynomialParamsDialog.resx">
+      <DependentUpon>TaylorPolynomialParamsDialog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +265,7 @@
     <Content Include="Icons\Help.png" />
     <Content Include="Icons\HomeHS.png" />
     <Content Include="Icons\InsertHyperlinkHS.png" />
+    <None Include="Icons\keybd.png" />
     <Content Include="Icons\LegendHS.png" />
     <Content Include="Icons\LineColorHS.png" />
     <Content Include="Icons\ListBox_686.png" />

@@ -67,7 +67,7 @@
         }
 
         [NonSerialized] private PlotType LastPlotType = (PlotType)(-1);
-        [NonSerialized] private Domain LastDomain;
+        [NonSerialized] private DomainInfo LastDomainInfo;
         [NonSerialized] private double LastTime = -1;
 
         #endregion
@@ -163,22 +163,22 @@
         // Method DrawAsync is made asynchronous purely as a programming exercise.
         // All drawing must take place on the main Windows UI thread, and no time
         // is saved by multithreading the ComputePointsAsync() point computations.
-        public async void DrawAsync(Graphics g, Domain domain, Viewport viewport,
+        public async void DrawAsync(Graphics g, DomainInfo domainInfo, Viewport viewport,
             float penWidth, bool fill, double time, PlotType plotType, Interpolation interpolation)
         {
             if (Func == null
-                || LastDomain != domain
+                || LastDomainInfo != domainInfo
                 || Viewport != viewport
                 || LastTime != time && UsesTime
                 || LastPlotType != plotType
                 || !PointLists.Any())
             {
                 InvalidatePaths();
-                LastDomain = domain;
+                LastDomainInfo = domainInfo;
                 Viewport = viewport;
                 LastTime = time;
                 LastPlotType = plotType;
-                var pointLists = await ComputePointsAsync(domain, viewport, time, plotType == PlotType.Polar);
+                var pointLists = await ComputePointsAsync(domainInfo, viewport, time, plotType == PlotType.Polar);
                 PointLists.AddRange(pointLists);
                 pointLists.Clear();
             }
@@ -248,26 +248,13 @@
             new Plotter().Fill(g, brush, plotType, interpolation, points, FillPaths, usePaths);
 
         private Task<List<List<PointF>>> ComputePointsAsync(
-            Domain domain, Viewport viewport, double time, bool polar)
+            DomainInfo domainInfo, Viewport viewport, double time, bool polar)
         {
             var result = new List<List<PointF>>();
             List<PointF> points = null;
-            float start, finish;
-            if (polar)
-            {
-                start = domain.MinRadians;
-                finish = domain.MaxRadians;
-            }
-            else if (domain.UseGraphWidth)
-            {
-                start = Viewport.Left;
-                finish = Viewport.Right;
-            }
-            else
-            {
-                start = domain.MinCartesian;
-                finish = domain.MaxCartesian;
-            }
+            var domain = GetDomain(domainInfo, viewport, polar);
+            var start = domain.Item1;
+            var finish = domain.Item2;
             double step = (finish - start) / StepCount;
             double dx = step;
             var previousPoint = PointF.Empty;
@@ -307,6 +294,15 @@
             // Every segment of the trace must include at least 2 points.
             result.RemoveAll(p => p.Count < 2);
             return Task.FromResult(result);
+        }
+
+        public Tuple<float, float> GetDomain(DomainInfo domainInfo, Viewport viewport, bool polar)
+        {
+            if (polar)
+                return new Tuple<float, float>(domainInfo.MinRadians, domainInfo.MaxRadians);
+            if (domainInfo.UseGraphWidth)
+                return new Tuple<float, float>(Viewport.Left, Viewport.Right);
+            return new Tuple<float, float>(domainInfo.MinCartesian, domainInfo.MaxCartesian);
         }
 
         private IEnumerable<PointF> GetPoints(PointF previousPoint, double x, double t, double slope, bool polar)

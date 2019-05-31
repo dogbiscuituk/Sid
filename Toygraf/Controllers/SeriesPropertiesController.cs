@@ -256,10 +256,12 @@
 
         private void TaylorPolynomialClick(object sender, EventArgs e)
         {
-            Close();
-            var graphController = AppController.AddNewGraphController();
-            var taylorPolynomialController = new TaylorPolynomialController(graphController);
-            taylorPolynomialController.PopulateSeries(Series.Proxy, 0, 20);
+            var taylorPolynomialController = new TaylorPolynomialController(this);
+            if (taylorPolynomialController.Execute())
+            {
+                Close();
+                taylorPolynomialController.CreateGraph();
+            }
         }
 
         private void TextureClick(object sender, EventArgs e)

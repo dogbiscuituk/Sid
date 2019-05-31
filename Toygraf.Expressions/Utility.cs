@@ -551,6 +551,8 @@
         /// <returns></returns>
         public static string ToFilename(this string s)
         {
+            if (string.IsNullOrWhiteSpace(s))
+                return "(untitled)";
             var t = new StringBuilder(s.Trim());
             t.Replace('.', ',');
             foreach (var c in Path.GetInvalidFileNameChars()) t.Replace(c, '_');

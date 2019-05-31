@@ -252,7 +252,7 @@
             foreach (PointF p in intercepts)
             {
                 var d = p.Y == 0 && p.X < 0 ? 180 : p.Y >= 0 ? (int)degrees : (int)degrees - 180;
-                var label = info.Domain.PolarDegrees ? $"{d}°" : d >= 0 ? rads[d / 15] : $"-{rads[-d / 15]}";
+                var label = info.DomainInfo.PolarDegrees ? $"{d}°" : d >= 0 ? rads[d / 15] : $"-{rads[-d / 15]}";
                 if (p.X < 0)
                     d -= 180;
                 labels.Add(new Label(label, p.X, p.Y, true, d));

@@ -1,9 +1,8 @@
 ﻿namespace ToyGraf.Models.Structs
 {
-    using System;
     using ToyGraf.Expressions;
 
-    public struct Domain
+    public struct DomainInfo
     {
         public float
             MaxCartesian, MaxPolar,
@@ -16,14 +15,14 @@
         public float MinDegrees { get => PolarDegrees ? MinPolar : MinPolar.RadiansToDegrees(); }
         public float MinRadians { get => PolarDegrees ? MinPolar.DegreesToRadians() : MinPolar; }
 
-        public static bool operator ==(Domain a, Domain b) =>
+        public static bool operator ==(DomainInfo a, DomainInfo b) =>
             a.MaxCartesian == b.MaxCartesian && a.MaxPolar == b.MaxPolar &&
             a.MinCartesian == b.MinCartesian && a.MinPolar == b.MinPolar &&
             a.PolarDegrees == b.PolarDegrees && a.UseGraphWidth == b.UseGraphWidth;
 
-        public static bool operator !=(Domain a, Domain b) => !(a == b);
+        public static bool operator !=(DomainInfo a, DomainInfo b) => !(a == b);
 
-        public override bool Equals(object obj) => obj is Domain d && this == d;
+        public override bool Equals(object obj) => obj is DomainInfo d && this == d;
 
         public override int GetHashCode() =>
             MaxCartesian.GetHashCode() ^ MaxPolar.GetHashCode() ^

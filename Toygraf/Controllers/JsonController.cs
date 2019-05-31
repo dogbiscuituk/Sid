@@ -4,12 +4,13 @@
     using System.IO;
     using System.Windows.Forms;
     using Newtonsoft.Json;
+    using ToyGraf.Expressions;
     using ToyGraf.Models;
 
     /// <summary>
     /// Extend SdiController to provide concrete I/O methods using Json data format.
     /// Maintain a "WindowCaption" property for the app, including the product name,
-    /// current filename (if any, otherwise "(untitled)", and "Modified" flag.
+    /// current filename if any - otherwise "(untitled)" - and the "Modified" flag.
     /// </summary>
     internal class JsonController : SdiController
     {
@@ -26,9 +27,7 @@
         {
             get
             {
-                var text = Path.GetFileNameWithoutExtension(FilePath);
-                if (string.IsNullOrWhiteSpace(text))
-                    text = "(untitled)";
+                var text = Path.GetFileNameWithoutExtension(FilePath).ToFilename();
                 var modified = Model.Modified;
                 if (modified)
                     text = string.Concat("* ", text);

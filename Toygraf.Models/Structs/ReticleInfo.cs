@@ -6,12 +6,12 @@
 
     public struct ReticleInfo
     {
-        public ReticleInfo(PlotType plotType, Viewport viewport, Domain domain, Color axisColour, Color reticleColour,
+        public ReticleInfo(PlotType plotType, Viewport viewport, DomainInfo domainInfo, Color axisColour, Color reticleColour,
             float penWidth, Elements elements, TickStyles tickStyles, bool vertical = false)
         {
             PlotType = plotType;
             Viewport = viewport;
-            Domain = domain;
+            DomainInfo = domainInfo;
             AxisColour = axisColour;
             ReticleColour = reticleColour;
             PenWidth = penWidth;
@@ -22,7 +22,7 @@
 
         public PlotType PlotType { get; set; }
         public Viewport Viewport { get; set; }
-        public Domain Domain { get; set; }
+        public DomainInfo DomainInfo { get; set; }
         public Color AxisColour { get; set; }
         public Color ReticleColour { get; set; }
         public float PenWidth { get; set; }

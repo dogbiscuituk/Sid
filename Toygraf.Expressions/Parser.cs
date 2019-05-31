@@ -53,9 +53,25 @@
             }
         }
 
+        public bool TryParseConstant(string formula, out double result)
+        {
+            var ok = true;
+            result = 0;
+            try
+            {
+                var expression = Parse(formula).Simplify();
+                if (expression is ConstantExpression ce)
+                    result = (double)ce.Value;
+                else
+                    ok = false;
+            }
+            catch (Exception) { ok = false; }
+            return ok;
+        }
+
         #endregion
 
-        #region Fields
+            #region Fields
 
         private string Formula;
         private int Index;

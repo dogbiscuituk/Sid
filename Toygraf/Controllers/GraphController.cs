@@ -57,7 +57,7 @@
                 View.tbOpen.DropDownOpening += TbOpen_DropDownOpening;
                 View.FileSave.Click += FileSave_Click;
                 View.FileSaveAs.Click += FileSaveAs_Click;
-                View.tbSave.Click += FileSave_Click;
+                View.tbSave.Click += TbSave_Click;
                 View.FileExit.Click += FileExit_Click;
                 View.GraphProperties.Click += GraphProperties_Click;
                 View.tbProperties.Click += GraphProperties_Click;
@@ -157,6 +157,14 @@
                 AppController.Remove(this);
             }
             return !cancel;
+        }
+
+        private void TbSave_Click(object sender, EventArgs e)
+        {
+            if (View.FileSave.Enabled)
+                FileSave_Click(sender, e);
+            else
+                FileSaveAs_Click(sender, e);
         }
 
         private void View_SizeChanged(object sender, EventArgs e) =>
