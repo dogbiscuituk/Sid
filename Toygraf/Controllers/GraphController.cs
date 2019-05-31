@@ -200,6 +200,7 @@
 
         private void FileLoaded()
         {
+            SeriesPropertiesController.Clear();
             LegendController.Clear();
             CommandProcessor.Clear();
             Graph.ZoomSet();
@@ -247,6 +248,7 @@
         {
             if (JsonController.Clear())
             {
+                SeriesPropertiesController.Clear();
                 Graph.InvalidateReticle();
                 GraphicsController.InvalidateView();
                 UpdateUI();

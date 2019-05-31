@@ -57,6 +57,12 @@
             }
         }
 
+        internal void Clear()
+        {
+            Series = null;
+            Close();
+        }
+
         internal void Show(IWin32Window owner, Point location, int index)
         {
             Series = Graph.Series[index];
@@ -157,10 +163,7 @@
             {
                 case "Model.Graph.Series":
                     if (Count == 0)
-                    {
-                        Series = null;
-                        Close();
-                    }
+                        Clear();
                     else
                     {
                         var index = Math.Max(Graph.Series.IndexOf(Series), 0);
