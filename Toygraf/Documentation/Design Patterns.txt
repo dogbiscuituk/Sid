@@ -1,0 +1,62 @@
+﻿This project contains examples of several popular software design patterns:
+
+    Command
+    Interpreter
+    Memento
+    Model-View-Controller
+    Observer
+	Visitor
+
+Command
+
+All edits to the Graph and its Series are performed through Command objects. For example, when a
+trace (pen) colour is changed, the change is effected by the appropriate Controller creating a new
+SeriesPenColourCommand, which is dispatched to the CommandProcessor to be run. See the description
+of the Memento pattern for more details about Command execution.
+
+Interpreter
+
+The project allows entry of mathematical formulae in a very freeform style, using for example Greek
+letters, superscripts and subscripts, an extended set of mathematical symbols, and more. The Parser
+has the responsibility of interpreting these Unicode formula strings, translating them into standard
+System.Linq.Expression objects, which can then be graphed, differentiated, etc. The Precedence and
+Associativity rules of the Parser are particularly interesting. See for example the article at
+http://mycodehere.blogspot.com/2019/04/expression-parser-part-1-of-2.html
+
+Memento
+
+The effect of any property Command is to carry the new value to the object of interest, then set the
+relevant property on that object to the new value, after taking a Memento of its previous value. In
+this design, such a Command is its own inverse. For when pushed on to an Undo stack, popped back off
+and re-run, its effect now is to restore the original value of the property (which it holds), after
+taking another Memento, this time reading back the value it originally applied to the object. The
+Command is now ready to be pushed on to a Redo stack, primed to perform its original edit once more.
+
+Model-View-Controller
+
+There is one Model per Graph, containing all its associated data. Controllers form a tree structure
+at runtime, with the AppController at the root. These provide the interface between the Model and
+the application's Views, which are mostly empty UI elements containing little beyond initialization
+data for their controls.
+
+Observer
+
+Several UI elements can be interested in the same piece of data. For example, a SeriesView in the
+Legend needs to know when its Series PenColour changes. The SeriesPropertiesDialog also needs to
+know this, and since it's not a modal dialog, both of these UI elements have the ability to change
+the same data. By subscribing to the GraphController.PropertyChanged event, both SeriesController
+and SeriesPropertiesController become Observers of the Model data, and can update their associated
+Views (SeriesView and SeriesPropertiesDialog respectively) whenever there are relevant changes.
+
+Visitor
+
+The output of the Parser is a Linq expression tree. Several operations on this structure need to
+traverse its tree structure. For example:
+
+    Simplify() performs algebraic simplification by crawling along a traversal as it modifies the
+	very nodes it's running over;
+
+	AsString() converts an expression node by node into legible text;
+
+	UsesTime() visits every node on the tree to determine whether it uses the Time function, and can
+	therefore enable the media controls (play, pause, rewind etc).

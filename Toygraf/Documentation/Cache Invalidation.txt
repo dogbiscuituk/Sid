@@ -1,8 +1,4 @@
-﻿              =========================================================================
-              DOCUMENTATION of the IMPLEMENTATION of CACHE INVALIDATION in this PROJECT
-              =========================================================================
-
-Several levels of cache invalidation are used in this project, to control and enhance the efficiency
+﻿Several levels of cache invalidation are used in this project, to control and enhance the efficiency
 of graphical operations. GDI+ is notorious for slow speed, deriving no help whatsoever from hardware
 (GPU) acceleration, so such measures are essential.
 

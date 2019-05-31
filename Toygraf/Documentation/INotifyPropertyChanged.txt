@@ -1,8 +1,4 @@
-﻿            =============================================================================
-            DOCUMENTATION of the IMPLEMENTATION of INotifyPropertyChanged in this PROJECT
-            =============================================================================
-
-The classes Series, Graph, Model and AppController form a hierarchy using the INotifyPropertyChanged
+﻿The classes Series, Graph, Model and AppController form a hierarchy using the INotifyPropertyChanged
 event (though not explicitly declaring the interface),
 
     public event PropertyChangedEventHandler PropertyChanged;

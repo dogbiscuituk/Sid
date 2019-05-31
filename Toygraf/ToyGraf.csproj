@@ -198,6 +198,7 @@
     <None Include="Icons\FullScreen.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Documentation\Design Patterns.txt" />
     <Content Include="Documentation\INotifyPropertyChanged.txt" />
     <Content Include="Documentation\Cache Invalidation.txt" />
     <Content Include="3ph.ico" />
