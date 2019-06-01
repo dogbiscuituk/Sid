@@ -50,7 +50,7 @@
         internal void AdjustLegend()
         {
             Legend.Visible = true;
-            const int margin = 0, rowHeight = 23, maxRows = 20;
+            const int margin = 0, rowHeight = 23, maxRows = 17;
             var scroll = SeriesViews.Count > maxRows;
             int w = 489 + (scroll ? SystemInformation.VerticalScrollBarWidth : 0),
                 h = SeriesViews.Count > 0 ? Math.Min(SeriesViews.Count, maxRows) * rowHeight + 2 : 0,

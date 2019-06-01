@@ -135,6 +135,7 @@
 
         private void FunctionBox_TextChanged(object sender, EventArgs e)
         {
+            View.ToolTip.SetToolTip(FunctionBox, FunctionBox.Text);
             var formula = FunctionBox.Text;
             if (!string.IsNullOrWhiteSpace(formula) && !Functions.Contains(formula))
                 Functions[0] = formula;

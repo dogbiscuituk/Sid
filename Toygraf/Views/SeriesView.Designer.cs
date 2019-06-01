@@ -202,12 +202,12 @@
         public System.Windows.Forms.ComboBox cbFunction;
         public System.Windows.Forms.Button btnRemove;
         public System.Windows.Forms.CheckBox cbVisible;
-        private System.Windows.Forms.ToolTip ToolTip;
         public System.Windows.Forms.ComboBox cbPenColour;
         public System.Windows.Forms.ComboBox cbFillColour;
         public System.Windows.Forms.NumericUpDown seTransparency;
         public System.Windows.Forms.Button btnDetails;
         private System.Windows.Forms.ImageList ImageList;
         public System.Windows.Forms.Label Label;
+        public System.Windows.Forms.ToolTip ToolTip;
     }
 }
