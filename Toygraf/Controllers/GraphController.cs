@@ -21,7 +21,7 @@
         internal GraphController(AppController appController)
         {
             AppController = appController;
-            View = new GraphForm { MinimumSize = Properties.Settings.Default.MinimumWindowSize };
+            View = new GraphForm { MinimumSize = Properties.Settings.Default.GraphForm_MinimumSize };
             Model = new Model();
             Model.Cleared += Model_Cleared;
             Model.ModifiedChanged += Model_ModifiedChanged;
@@ -37,6 +37,7 @@
             GraphPropertiesController = new GraphPropertiesController(this);
             SeriesPropertiesController = new SeriesPropertiesController(this);
             ToolbarController = new ToolbarController(this);
+            PropertyGridController = new PropertyGridController(this);
             ModifiedChanged();
             LegendController.AdjustLegend();
             UpdateUI();
@@ -109,6 +110,7 @@
         private readonly JsonController JsonController;
         private readonly GraphPropertiesController GraphPropertiesController;
         private readonly ToolbarController ToolbarController;
+        private readonly PropertyGridController PropertyGridController;
 
         private FormWindowState PriorWindowState;
         private bool PriorLegendVisible;
@@ -323,6 +325,7 @@
             UpdatePlotType();
             ClockController.UpdateTimeControls();
             LegendController.GraphRead();
+            View.PropertyTable.SelectedObject = Graph;
         }
 
         private void ToggleCoordinatesTooltip() => ShowCoordinatesTooltip = !ShowCoordinatesTooltip;

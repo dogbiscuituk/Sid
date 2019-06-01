@@ -85,6 +85,7 @@
             this.ViewToolbarBottom = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.ViewToolbarHide = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewPropertyTable = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
             this.ViewCoordinatesTooltip = new System.Windows.Forms.ToolStripMenuItem();
             this.TimeMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -135,6 +136,8 @@
             this.tbLegend = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.ImageOpenDialog = new System.Windows.Forms.OpenFileDialog();
+            this.Splitter = new System.Windows.Forms.Splitter();
+            this.PropertyTable = new System.Windows.Forms.PropertyGrid();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
@@ -397,6 +400,7 @@
             this.ScrollMenu,
             this.ViewLegend,
             this.ViewToolbar,
+            this.ViewPropertyTable,
             this.toolStripMenuItem7,
             this.ViewCoordinatesTooltip});
             this.ViewMenu.Name = "ViewMenu";
@@ -619,6 +623,12 @@
             this.ViewToolbarHide.Name = "ViewToolbarHide";
             this.ViewToolbarHide.Size = new System.Drawing.Size(114, 22);
             this.ViewToolbarHide.Text = "&Hide";
+            // 
+            // ViewPropertyTable
+            // 
+            this.ViewPropertyTable.Name = "ViewPropertyTable";
+            this.ViewPropertyTable.Size = new System.Drawing.Size(183, 22);
+            this.ViewPropertyTable.Text = "&Property Table";
             // 
             // toolStripMenuItem7
             // 
@@ -859,7 +869,7 @@
             this.ClientPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ClientPanel.Location = new System.Drawing.Point(32, 24);
             this.ClientPanel.Name = "ClientPanel";
-            this.ClientPanel.Size = new System.Drawing.Size(912, 452);
+            this.ClientPanel.Size = new System.Drawing.Size(709, 452);
             this.ClientPanel.TabIndex = 6;
             // 
             // LegendPanel
@@ -1075,6 +1085,26 @@
     "(*.*)|*.*";
             this.ImageOpenDialog.Title = "Select Texture";
             // 
+            // Splitter
+            // 
+            this.Splitter.Dock = System.Windows.Forms.DockStyle.Right;
+            this.Splitter.Location = new System.Drawing.Point(741, 24);
+            this.Splitter.MinExtra = 0;
+            this.Splitter.Name = "Splitter";
+            this.Splitter.Size = new System.Drawing.Size(3, 452);
+            this.Splitter.TabIndex = 13;
+            this.Splitter.TabStop = false;
+            this.Splitter.Visible = false;
+            // 
+            // PropertyTable
+            // 
+            this.PropertyTable.Dock = System.Windows.Forms.DockStyle.Right;
+            this.PropertyTable.Location = new System.Drawing.Point(744, 24);
+            this.PropertyTable.Name = "PropertyTable";
+            this.PropertyTable.Size = new System.Drawing.Size(200, 452);
+            this.PropertyTable.TabIndex = 14;
+            this.PropertyTable.Visible = false;
+            // 
             // GraphForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1082,6 +1112,8 @@
             this.ClientSize = new System.Drawing.Size(944, 501);
             this.ContextMenuStrip = this.PopupMenu;
             this.Controls.Add(this.ClientPanel);
+            this.Controls.Add(this.Splitter);
+            this.Controls.Add(this.PropertyTable);
             this.Controls.Add(this.Toolbar);
             this.Controls.Add(this.StatusBar);
             this.Controls.Add(this.MainMenu);
@@ -1210,5 +1242,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         public System.Windows.Forms.OpenFileDialog ImageOpenDialog;
+        public System.Windows.Forms.PropertyGrid PropertyTable;
+        public System.Windows.Forms.Splitter Splitter;
+        public System.Windows.Forms.ToolStripMenuItem ViewPropertyTable;
     }
 }

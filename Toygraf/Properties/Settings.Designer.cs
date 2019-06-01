@@ -47,24 +47,24 @@ namespace ToyGraf.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("800, 480")]
-        public global::System.Drawing.Size MinimumWindowSize {
+        public global::System.Drawing.Size GraphForm_MinimumSize {
             get {
-                return ((global::System.Drawing.Size)(this["MinimumWindowSize"]));
+                return ((global::System.Drawing.Size)(this["GraphForm_MinimumSize"]));
             }
             set {
-                this["MinimumWindowSize"] = value;
+                this["GraphForm_MinimumSize"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Setting {
+        [global::System.Configuration.DefaultSettingValueAttribute("400")]
+        public int PropertyTable_MaximumWidth {
             get {
-                return ((string)(this["Setting"]));
+                return ((int)(this["PropertyTable_MaximumWidth"]));
             }
             set {
-                this["Setting"] = value;
+                this["PropertyTable_MaximumWidth"] = value;
             }
         }
     }

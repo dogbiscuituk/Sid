@@ -8,11 +8,11 @@
     <Setting Name="GraphFilter" Type="System.String" Scope="Application">
       <Value Profile="(Default)">ToyGraf Files (*.tgf)|*.tgf|ToyGraf Templates (*.tgt)|*.tgt|All Files (*.*)|*.*</Value>
     </Setting>
-    <Setting Name="MinimumWindowSize" Type="System.Drawing.Size" Scope="User">
+    <Setting Name="GraphForm_MinimumSize" Type="System.Drawing.Size" Scope="User">
       <Value Profile="(Default)">800, 480</Value>
     </Setting>
-    <Setting Name="Setting" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="PropertyTable_MaximumWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">400</Value>
     </Setting>
   </Settings>
 </SettingsFile>
