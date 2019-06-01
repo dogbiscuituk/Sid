@@ -130,6 +130,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ToyGraf.Controls\ToyGraf.Controls.csproj">
+      <Project>{4de47873-1ea5-45db-88fe-981eb2bcb433}</Project>
+      <Name>ToyGraf.Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Toygraf.Expressions\ToyGraf.Expressions.csproj">
       <Project>{091b2974-e44b-49c4-a3aa-355fc2558fef}</Project>
       <Name>ToyGraf.Expressions</Name>

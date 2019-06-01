@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphForm));
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.MainMenu = new System.Windows.Forms.MenuStrip();
+            this.MainMenu = new ToyGraf.Controls.TgMenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FileNew = new System.Windows.Forms.ToolStripMenuItem();
             this.FileOpen = new System.Windows.Forms.ToolStripMenuItem();
@@ -96,7 +96,7 @@
             this.TimeAccelerate = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.StatusBar = new System.Windows.Forms.StatusStrip();
+            this.StatusBar = new ToyGraf.Controls.TgStatusStrip();
             this.tbDecelerate = new System.Windows.Forms.ToolStripDropDownButton();
             this.tbReverse = new System.Windows.Forms.ToolStripDropDownButton();
             this.tbStop = new System.Windows.Forms.ToolStripDropDownButton();
@@ -114,7 +114,7 @@
             this.ClientPanel = new System.Windows.Forms.Panel();
             this.LegendPanel = new System.Windows.Forms.Panel();
             this.PictureBox = new System.Windows.Forms.PictureBox();
-            this.Toolbar = new System.Windows.Forms.ToolStrip();
+            this.Toolbar = new ToyGraf.Controls.TgToolStrip();
             this.tbNew = new System.Windows.Forms.ToolStripButton();
             this.tbOpen = new System.Windows.Forms.ToolStripSplitButton();
             this.tbSave = new System.Windows.Forms.ToolStripButton();
@@ -181,7 +181,7 @@
             this.FileNew.Name = "FileNew";
             this.FileNew.ShortcutKeyDisplayString = "^N";
             this.FileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.FileNew.Size = new System.Drawing.Size(180, 22);
+            this.FileNew.Size = new System.Drawing.Size(136, 22);
             this.FileNew.Text = "&New";
             // 
             // FileOpen
@@ -191,19 +191,19 @@
             this.FileOpen.Name = "FileOpen";
             this.FileOpen.ShortcutKeyDisplayString = "^O";
             this.FileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.FileOpen.Size = new System.Drawing.Size(180, 22);
+            this.FileOpen.Size = new System.Drawing.Size(136, 22);
             this.FileOpen.Text = "&Open...";
             // 
             // FileReopen
             // 
             this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(180, 22);
+            this.FileReopen.Size = new System.Drawing.Size(136, 22);
             this.FileReopen.Text = "&Reopen";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(133, 6);
             // 
             // FileSave
             // 
@@ -212,25 +212,25 @@
             this.FileSave.Name = "FileSave";
             this.FileSave.ShortcutKeyDisplayString = "^S";
             this.FileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.FileSave.Size = new System.Drawing.Size(180, 22);
+            this.FileSave.Size = new System.Drawing.Size(136, 22);
             this.FileSave.Text = "&Save";
             // 
             // FileSaveAs
             // 
             this.FileSaveAs.Name = "FileSaveAs";
-            this.FileSaveAs.Size = new System.Drawing.Size(180, 22);
+            this.FileSaveAs.Size = new System.Drawing.Size(136, 22);
             this.FileSaveAs.Text = "Save &As...";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(133, 6);
             // 
             // FileExit
             // 
             this.FileExit.Name = "FileExit";
             this.FileExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.FileExit.Size = new System.Drawing.Size(180, 22);
+            this.FileExit.Size = new System.Drawing.Size(136, 22);
             this.FileExit.Text = "E&xit";
             // 
             // EditMenu
@@ -1075,7 +1075,7 @@
     "(*.*)|*.*";
             this.ImageOpenDialog.Title = "Select Texture";
             // 
-            // graphForm
+            // GraphForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -1088,7 +1088,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MainMenu;
-            this.Name = "graphForm";
+            this.Name = "GraphForm";
             this.Text = "ToyGraf";
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
@@ -1119,9 +1119,9 @@
         public System.Windows.Forms.ToolTip ToolTip;
         public System.Windows.Forms.ToolStripMenuItem ViewMenu;
         public System.Windows.Forms.ToolStripMenuItem ViewCoordinatesTooltip;
-        public System.Windows.Forms.StatusStrip StatusBar;
+        public ToyGraf.Controls.TgStatusStrip StatusBar;
         public System.Windows.Forms.ContextMenuStrip PopupMenu;
-        public System.Windows.Forms.MenuStrip MainMenu;
+        public ToyGraf.Controls.TgMenuStrip MainMenu;
         public System.Windows.Forms.ErrorProvider ErrorProvider;
         public System.Windows.Forms.ToolStripMenuItem ViewLegend;
         public System.Windows.Forms.Panel ClientPanel;
@@ -1158,7 +1158,7 @@
         public System.Windows.Forms.ToolStripMenuItem GraphType;
         public System.Windows.Forms.ToolStripMenuItem GraphTypeCartesian;
         public System.Windows.Forms.ToolStripMenuItem GraphTypePolar;
-        public System.Windows.Forms.ToolStrip Toolbar;
+        public ToyGraf.Controls.TgToolStrip Toolbar;
         public System.Windows.Forms.ToolStripButton tbNew;
         public System.Windows.Forms.ToolStripSplitButton tbOpen;
         public System.Windows.Forms.ToolStripButton tbSave;

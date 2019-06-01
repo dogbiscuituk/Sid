@@ -191,21 +191,19 @@
                         var index = FunctionBox.SelectionStart - 1;
                         if (index >= 0)
                         {
-                            var s = FunctionBox.Text;
-                            s = s.Substring(0, index) + s.Substring(index + 1);
-                            FunctionBox.Text = s;
-                            FunctionBox.SelectionLength = 0;
                             FunctionBox.SelectionStart = index;
+                            FunctionBox.SelectionLength = 1;
+                            FunctionBox.SelectedText = string.Empty;
+                            SaveSelection();
                         }
                     }
-
                     break;
                 case string t when !string.IsNullOrEmpty(t):
                     FunctionBox.SelectedText = t;
+                    SaveSelection();
                     State &= ~(KeyStates.Shift | KeyStates.Languages);
                     break;
             }
-            SaveSelection();
         }
 
         private void UpdateProxyLabel()
