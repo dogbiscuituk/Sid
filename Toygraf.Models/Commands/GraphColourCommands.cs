@@ -1,72 +1,60 @@
 ﻿namespace ToyGraf.Models.Commands
 {
-    using System;
     using System.Drawing;
-    using ToyGraf.Expressions;
 
-    public abstract class GraphColourCommand : GraphIntCommand
-    {
-        protected GraphColourCommand(Color colour, Func<Graph, Color> get, Action<Graph, Color> set) :
-            base(colour.ToArgb(), c => get(c).ToArgb(), (g, c) => set(g, Color.FromArgb(c))) { }
-
-        public override string ToString() =>
-            $"Graph {Detail} colour = {Color.FromArgb(Value).GetName()}";
-    }
-
-    public class GraphAxisColourCommand : GraphColourCommand
+    public class GraphAxisColourCommand : GraphPropertyCommand<Color>
     {
         public GraphAxisColourCommand(Color colour) :
-            base(colour, g => g.AxisColour, (g, c) => g.AxisColour = c) { }
+            base(colour, g => g.AxisColour, (g, v) => g.AxisColour = v) { }
 
-        protected override string Detail => "axis";
+        protected override string Detail => "axis colour";
     }
 
-    public class GraphFillColour1Command : GraphColourCommand
+    public class GraphFillColour1Command : GraphPropertyCommand<Color>
     {
         public GraphFillColour1Command(Color colour) :
-            base(colour, g => g.FillColour1, (g, c) => g.FillColour1 = c) { }
+            base(colour, g => g.FillColour1, (g, v) => g.FillColour1 = v) { }
 
-        protected override string Detail => "fill";
+        protected override string Detail => "primary fill colour";
     }
 
-    public class GraphFillColour2Command : GraphColourCommand
+    public class GraphFillColour2Command : GraphPropertyCommand<Color>
     {
         public GraphFillColour2Command(Color colour) :
-            base(colour, g => g.FillColour2, (g, c) => g.FillColour2 = c)
-        { }
+            base(colour, g => g.FillColour2, (g, v) => g.FillColour2 = v) { }
 
-        protected override string Detail => "secondary fill";
+        protected override string Detail => "secondary fill colour";
     }
 
-    public class GraphLimitColourCommand : GraphColourCommand
+    public class GraphLimitColourCommand : GraphPropertyCommand<Color>
     {
         public GraphLimitColourCommand(Color colour) :
-            base(colour, g => g.LimitColour, (g, c) => g.LimitColour = c) { }
+            base(colour, g => g.LimitColour, (g, v) => g.LimitColour = v) { }
 
-        protected override string Detail => "limit";
+        protected override string Detail => "limit colour";
     }
 
-    public class GraphPaperColourCommand : GraphColourCommand
+    public class GraphPaperColourCommand : GraphPropertyCommand<Color>
     {
         public GraphPaperColourCommand(Color colour) :
-            base(colour, g => g.PaperColour, (g, c) => g.PaperColour = c) { }
+            base(colour, g => g.PaperColour, (g, v) => g.PaperColour = v) { }
 
-        protected override string Detail => "paper";
+        protected override string Detail => "paper colour";
     }
 
-    public class GraphPenColourCommand : GraphColourCommand
+    public class GraphPenColourCommand : GraphPropertyCommand<Color>
     {
         public GraphPenColourCommand(Color colour) :
-            base(colour, g => g.PenColour, (g, c) => g.PenColour = c) { }
+            base(colour, g => g.PenColour, (g, v) => g.PenColour = v) { }
 
-        protected override string Detail => "pen";
+        protected override string Detail => "pen colour";
     }
 
-    public class GraphReticleColourCommand : GraphColourCommand
+    public class GraphReticleColourCommand : GraphPropertyCommand<Color>
     {
         public GraphReticleColourCommand(Color colour) :
-            base(colour, g => g.ReticleColour, (g, c) => g.ReticleColour = c) { }
+            base(colour, g => g.ReticleColour, (g, v) => g.ReticleColour = v) { }
 
-        protected override string Detail => "reticle";
+        protected override string Detail => "reticle colour";
     }
 }

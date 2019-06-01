@@ -10,36 +10,36 @@
     /// other, prior to the CommandProcessor transfering them between the Undo and
     /// Redo stacks.
     /// </summary>
-    public class GraphSeriesCommand : SeriesCommand
+    public class GraphSeriesCommand : SeriesCommand<Series>, IGraphSeriesCommand
     {
         public GraphSeriesCommand(int index, bool add) : base(index) { Add = add; }
 
-        public Series Series;
-        public bool Add;
+        public bool Add { get; set; }
+
         public override string UndoAction => GetAction(true);
         public override string RedoAction => GetAction(false);
         public override string ToString() => $"{(Add ? "Add" : "Remove")} function f{Index} = {Detail}";
-
-        protected override string Detail => $"{Series?.Formula}";
+        protected override string Detail => $"{base.Value?.Formula}";
         protected override void Invert() { Add = !Add; }
         
-        protected override void Run(Graph graph)
+        protected override bool Run(Graph graph)
         {
             if (Add)
             {
-                if (Series == null)
-                    Series = graph.NewSeries();
+                if (base.Value == null)
+                    base.Value = graph.NewSeries();
                 if (Index >= 0 && Index < graph.Series.Count)
-                    graph.InsertSeries(Index, Series);
+                    graph.InsertSeries(Index, base.Value);
                 else if (Index == graph.Series.Count)
-                    graph.AddSeries(Series);
+                    graph.AddSeries(base.Value);
             }
             else
             {
-                Series = graph.Series[Index];
+                base.Value = graph.Series[Index];
                 graph.RemoveSeries(Index);
-                Series.InvalidatePaths();
+                base.Value.InvalidatePaths();
             }
+            return true;
         }
 
         private string GetAction(bool undo) => $"function {(Add ^ undo ? "addition" : "removal")}";

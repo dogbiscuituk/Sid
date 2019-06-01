@@ -4,58 +4,52 @@
     using System.Drawing.Drawing2D;
     using ToyGraf.Models.Enumerations;
 
-    public abstract class SeriesEnumCommand : SeriesIntCommand
-    {
-        protected SeriesEnumCommand(int index, object value, Func<Series, object> get, Action<Series, object> set) :
-            base(index, (int)value, s => (int)get(s), (s, e) => set(s, e)) { }
-    }
-
-    public class SeriesBrushTypeCommand : SeriesEnumCommand
+    public class SeriesBrushTypeCommand : SeriesPropertyCommand<BrushType>
     {
         public SeriesBrushTypeCommand(int index, BrushType value) :
             base(index, value,
                 s => s.BrushType,
-                (s, n) => s.BrushType = (BrushType)n) { }
+                (s, v) => s.BrushType = v) { }
 
         protected override string Detail => "fill type";
     }
 
-    public class SeriesGradientModeCommand : SeriesEnumCommand
+    public class SeriesGradientModeCommand : SeriesPropertyCommand<LinearGradientMode>
     {
         public SeriesGradientModeCommand(int index, LinearGradientMode value) :
             base(index, value,
                 s => s.GradientMode,
-                (s, n) => s.GradientMode = (LinearGradientMode)n) { }
+                (s, v) => s.GradientMode = v) { }
 
         protected override string Detail => "gradient type";
     }
 
-    public class SeriesHatchStyleCommand : SeriesEnumCommand
+    public class SeriesHatchStyleCommand : SeriesPropertyCommand<HatchStyle>
     {
         public SeriesHatchStyleCommand(int index, HatchStyle value) :
             base(index, value,
                 s => s.HatchStyle,
-                (s, n) => s.HatchStyle = (HatchStyle)n) { }
+                (s, v) => s.HatchStyle = v) { }
 
         protected override string Detail => "hatch type";
     }
 
-    public class SeriesPenStyleCommand : SeriesEnumCommand
+    public class SeriesPenStyleCommand : SeriesPropertyCommand<DashStyle>
     {
         public SeriesPenStyleCommand(int index, DashStyle value) :
             base(index, value,
                 s => s.PenStyle,
-                (s, n) => s.PenStyle = (DashStyle)n) { }
+                (s, v) => s.PenStyle = v) { }
 
         protected override string Detail => "pen type";
     }
 
-    public class SeriesWrapModeCommand : SeriesEnumCommand
+    public class SeriesWrapModeCommand : SeriesPropertyCommand<WrapMode>
     {
         public SeriesWrapModeCommand(int index, WrapMode value) :
             base(index, value,
                 s => s.WrapMode,
-                (s, n) => s.WrapMode = (WrapMode)n) { }
+                (s, v) => s.WrapMode = v) { }
 
         protected override string Detail => "wrap mode";
     }

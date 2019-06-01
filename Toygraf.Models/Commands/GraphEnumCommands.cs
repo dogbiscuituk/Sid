@@ -1,58 +1,44 @@
 ﻿namespace ToyGraf.Models.Commands
 {
-    using System;
     using ToyGraf.Models.Enumerations;
 
-    public abstract class GraphEnumCommand : GraphIntCommand
-    {
-        protected GraphEnumCommand(object value, Func<Graph, object> get, Action<Graph, object> set) :
-            base((int)value, g => (int)get(g), (g, e) => set(g, e)) { }
-
-        public override string ToString() => $"Graph {Detail}";
-    }
-
-    public class GraphElementsCommand : GraphEnumCommand
+    public class GraphElementsCommand : GraphPropertyCommand<Elements>
     {
         public GraphElementsCommand(Elements value) :
-            base(value, g => g.Elements, (g, e) => g.Elements = (Elements)e) { }
+            base(value, g => g.Elements, (g, v) => g.Elements = v) { }
 
-        public override string Action => "reticle elements change";
-        protected override string Detail => $"elements = {(Elements)Value}";
+        protected override string Detail => "reticle elements";
     }
 
-    public class GraphInterpolationCommand : GraphEnumCommand
+    public class GraphInterpolationCommand : GraphPropertyCommand<Interpolation>
     {
         public GraphInterpolationCommand(Interpolation value) :
-            base(value, g => g.Interpolation, (g, n) => g.Interpolation = (Interpolation)n) { }
+            base(value, g => g.Interpolation, (g, v) => g.Interpolation = v) { }
 
-        public override string Action => "interpolation change";
-        protected override string Detail => $"interpolation = {(Interpolation)Value}";
+        protected override string Detail => "interpolation";
     }
 
-    public class GraphOptimizationCommand : GraphEnumCommand
+    public class GraphOptimizationCommand : GraphPropertyCommand<Optimization>
     {
         public GraphOptimizationCommand(Optimization value) :
-            base(value, g => g.Optimization, (g, n) => g.Optimization = (Optimization)n) { }
+            base(value, g => g.Optimization, (g, v) => g.Optimization = v) { }
 
-        public override string Action => "optimization change";
-        protected override string Detail => $"optimization = {(Optimization)Value}";
+        protected override string Detail => "optimization";
     }
 
-    public class GraphPlotTypeCommand : GraphEnumCommand
+    public class GraphPlotTypeCommand : GraphPropertyCommand<PlotType>
     {
         public GraphPlotTypeCommand(PlotType value) :
-            base(value, g => g.PlotType, (g, n) => g.PlotType = (PlotType)n) { }
+            base(value, g => g.PlotType, (g, v) => g.PlotType = v) { }
 
-        public override string Action => "plot type change";
-        protected override string Detail => $"plot type = {(PlotType)Value}";
+        protected override string Detail => "plot type";
     }
 
-    public class GraphTickStylesCommand : GraphEnumCommand
+    public class GraphTickStylesCommand : GraphPropertyCommand<TickStyles>
     {
         public GraphTickStylesCommand(TickStyles value) :
-            base(value, g => g.TickStyles, (g, n) => g.TickStyles = (TickStyles)n) { }
+            base(value, g => g.TickStyles, (g, v) => g.TickStyles = v) { }
 
-        public override string Action => "tick styles change";
-        protected override string Detail => $"tick style = {(TickStyles)Value}";
+        protected override string Detail => "tick style";
     }
 }

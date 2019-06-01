@@ -1,6 +1,8 @@
 ﻿namespace ToyGraf.Models.Commands
 {
-    public abstract class GraphCommand
+    using System;
+
+    public abstract class GraphCommand<T> : IGraphCommand
     {
         /// <summary>
         /// Invoke the Run method of the command, then immediately invert
@@ -17,28 +19,69 @@
         public virtual string Action => $"{Detail} change";
         public virtual string UndoAction => Action;
         public virtual string RedoAction => Action;
+        public virtual T Value { get; set; }
+
         public override string ToString() => $"{Target} {Detail} = {Value}";
 
         protected abstract string Detail { get; }
-        protected virtual void Invert() { }
-        protected abstract void Run(Graph graph);
         protected virtual string Target { get => "Graph"; }
-        protected virtual object Value { get; set; }
+
+        protected virtual void Invert() { }
+        protected abstract bool Run(Graph graph);
     }
 
-    public abstract class GraphPropertyCommand : GraphCommand { }
+    public abstract class GraphPropertyCommand<T> : GraphCommand<T>, IGraphPropertyCommand
+    {
+        public GraphPropertyCommand(T value, Func<Graph, T> get, Action<Graph, T> set)
+            : base() { Get = get; Set = set; }
 
-    public abstract class SeriesCommand : GraphCommand
+        protected Func<Graph, T> Get;
+        protected Action<Graph, T> Set;
+
+        protected override bool Run(Graph graph)
+        {
+            T value = Get(graph);
+            var result = !value.Equals(Value);
+            if (result)
+            {
+                Set(graph, Value);
+                Value = value;
+            }
+            return result;
+        }
+    }
+
+    public abstract class SeriesCommand<T> : GraphCommand<T>, ISeriesCommand
     {
         public SeriesCommand(int index) : base() { Index = index; }
 
-        public int Index { get; protected set; }
+        public int Index { get; set; }
     }
 
-    public abstract class SeriesPropertyCommand : SeriesCommand
+    public abstract class SeriesPropertyCommand<T> : SeriesCommand<T>, ISeriesPropertyCommand
     {
-        public SeriesPropertyCommand(int index) : base(index) { }
+        public SeriesPropertyCommand(int index, T value, Func<Series, T> get, Action<Series, T> set)
+            : base(index)
+        {
+            Value = value;
+            Get = get;
+            Set = set;
+        }
 
+        protected Func<Series, T> Get;
+        protected Action<Series, T> Set;
+
+        protected override bool Run(Graph graph)
+        {
+            T value = Get(graph.Series[Index]);
+            var result = !value.Equals(Value);
+            if (result)
+            {
+                Set(graph.Series[Index], Value);
+                Value = value;
+            }
+            return result;
+        }
         protected override string Target => $"f{Index}";
     }
 }

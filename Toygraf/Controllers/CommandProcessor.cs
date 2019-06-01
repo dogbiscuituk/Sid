@@ -51,7 +51,7 @@
             UpdateUI();
         }
 
-        internal void Run(params GraphCommand[] commands)
+        internal void Run(params IGraphCommand[] commands)
         {
             foreach (var command in commands)
                 Redo(command);
@@ -71,13 +71,20 @@
 
         #endregion
 
+        #region Commands
+
+        internal void SetGraphDomainGraphWidth(bool value) => Run(new GraphDomainGraphWidthCommand(value));
+        internal void SetGraphDomainPolarDegrees(bool value) => Run(new GraphDomainPolarDegreesCommand(value));
+
+        #endregion
+
         #region Private Properties
 
         private GraphController GraphController;
         private GraphForm View => GraphController.View;
         private Graph Graph => GraphController.Graph;
-        private readonly Stack<GraphCommand> UndoStack = new Stack<GraphCommand>();
-        private readonly Stack<GraphCommand> RedoStack = new Stack<GraphCommand>();
+        private readonly Stack<IGraphCommand> UndoStack = new Stack<IGraphCommand>();
+        private readonly Stack<IGraphCommand> RedoStack = new Stack<IGraphCommand>();
 
         private bool CanUndo { get => UndoStack.Count > 0; }
         private bool CanRedo { get => RedoStack.Count > 0; }
@@ -121,7 +128,7 @@
         private void Undo() { if (CanUndo) Undo(UndoStack.Pop()); }
         private void Redo() { if (CanRedo) Redo(RedoStack.Pop()); }
 
-        private void Copy(Stack<GraphCommand> stack, ToolStripDropDownItem item, EventHandler handler)
+        private void Copy(Stack<IGraphCommand> stack, ToolStripDropDownItem item, EventHandler handler)
         {
             const int MaxItems = 20;
             var commands = stack.ToArray();
@@ -134,14 +141,14 @@
             }
         }
 
-        private void Undo(GraphCommand command)
+        private void Undo(IGraphCommand command)
         {
             command.Do(Graph);
             RedoStack.Push(command);
             UpdateUI();
         }
 
-        private void Redo(GraphCommand command)
+        private void Redo(IGraphCommand command)
         {
             command.Do(Graph);
             var canGroup = false;
@@ -149,13 +156,13 @@
             {
                 var prevCmd = UndoStack.Peek();
                 canGroup = !(command is GraphSeriesCommand) && command.GetType() == prevCmd.GetType();
-                if (canGroup && command is SeriesPropertyCommand s)
-                    canGroup = s.Index == ((SeriesPropertyCommand)prevCmd).Index;
-                else if (command is SeriesPropertyCommand sf && prevCmd is GraphSeriesCommand gs)
+                if (canGroup && command is ISeriesPropertyCommand s)
+                    canGroup = s.Index == ((ISeriesPropertyCommand)prevCmd).Index;
+                else if (command is ISeriesPropertyCommand sf && prevCmd is IGraphSeriesCommand gs)
                 {
                     canGroup = !gs.Add && sf.Index == gs.Index;
-                    if (canGroup && gs.Series == null)
-                        gs.Series = Graph.Series[sf.Index];
+                    if (canGroup && gs.Value == null)
+                        gs.Value = Graph.Series[sf.Index];
                 }
             };
             if (!canGroup)

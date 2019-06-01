@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clock.cs" />
+    <Compile Include="Commands\CommandInterfaces.cs" />
     <Compile Include="Commands\GraphBoolCommands.cs" />
     <Compile Include="Commands\GraphColourCommands.cs" />
     <Compile Include="Commands\BaseCommands.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Commands\GraphIntCommands.cs" />
     <Compile Include="Commands\GraphPointFCommands.cs" />
     <Compile Include="Commands\GraphSeriesCommands.cs" />
+    <Compile Include="Commands\GraphStringCommands.cs" />
     <Compile Include="Commands\SeriesBoolCommands.cs" />
     <Compile Include="Commands\SeriesColourCommands.cs" />
     <Compile Include="Commands\SeriesEnumCommands.cs" />

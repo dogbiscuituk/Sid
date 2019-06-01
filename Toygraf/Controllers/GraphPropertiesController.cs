@@ -112,7 +112,7 @@
             View.seDomainMinCartesian.Enabled = View.seDomainMaxCartesian.Enabled = !domainGraphWidth;
             if (Loading) return;
             if (Graph.DomainGraphWidth != domainGraphWidth)
-                CommandController.Run(new GraphDomainGraphWidthCommand(domainGraphWidth));
+                CommandController.SetGraphDomainGraphWidth(domainGraphWidth);
         }
 
         private void DomainMaxCartesianChanged(object sender, EventArgs e)

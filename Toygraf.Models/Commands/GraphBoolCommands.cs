@@ -2,29 +2,19 @@
 {
     using System;
 
-    public abstract class GraphBoolCommand : GraphIntCommand
-    {
-        protected GraphBoolCommand(bool value, Func<Graph, bool> get, Action<Graph, bool> set) :
-            base(value ? 1 : 0, g => get(g) ? 1 : 0, (g, b) => set(g, b != 0)) { }
-
-        public override string ToString() => $"Graph {Detail} = {Value != 0}";
-    }
-
-    public class GraphDomainGraphWidthCommand : GraphBoolCommand
+    public class GraphDomainGraphWidthCommand : GraphPropertyCommand<bool>
     {
         public GraphDomainGraphWidthCommand(bool value) :
-            base(value, g => g.DomainGraphWidth, (g, b) => g.DomainGraphWidth = b) { }
+            base(value, g => g.DomainGraphWidth, (g, v) => g.DomainGraphWidth = v) { }
 
-        public override string Action => "domain edit";
         protected override string Detail => "unlimited domain";
     }
 
-    public class GraphDomainPolarDegreesCommand : GraphBoolCommand
+    public class GraphDomainPolarDegreesCommand : GraphPropertyCommand<bool>
     {
         public GraphDomainPolarDegreesCommand(bool value) :
-            base(value, g => g.DomainPolarDegrees, (g, b) => g.DomainPolarDegrees = b) { }
+            base(value, g => g.DomainPolarDegrees, (g, v) => g.DomainPolarDegrees = v) { }
 
-        public override string Action => "domain edit";
         protected override string Detail => "polar domain in degrees";
     }
 }
