@@ -4,11 +4,13 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing;
+    using System.Drawing.Design;
     using System.Drawing.Drawing2D;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
     using Newtonsoft.Json;
+    using ToyGraf.Controls;
     using ToyGraf.Expressions;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Models.Structs;
@@ -242,6 +244,7 @@
 
         private List<Series> _series = new List<Series>();
 
+        [Editor(typeof(TgCollectionEditor), typeof(UITypeEditor))]
         public List<Series> Series
         {
             get => _series;

@@ -13,6 +13,7 @@
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Models.Structs;
     using ToyGraf.Views;
+    using ToyGraf.Controls;
 
     internal class GraphController : IDisposable
     {
@@ -69,6 +70,8 @@
                 View.PopupMenu.Opening += PopupMenu_Opening;
                 View.FormClosing += View_FormClosing;
                 View.SizeChanged += View_SizeChanged;
+                TgCollectionEditor.CollectionFormClosed += PropertyTable_FormClosed;
+                TgCollectionEditor.CollectionItemPropertyValueChanged += PropertyTable_SeriesPropertyValueChanged;
             }
         }
 
@@ -159,6 +162,16 @@
                 AppController.Remove(this);
             }
             return !cancel;
+        }
+
+        private void PropertyTable_FormClosed(object s, FormClosedEventArgs e)
+        {
+            return;
+        }
+
+        private void PropertyTable_SeriesPropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            return;
         }
 
         private void TbSave_Click(object sender, EventArgs e)
