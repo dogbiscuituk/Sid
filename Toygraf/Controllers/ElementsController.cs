@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
+    using ToyGraf.Commands;
     using ToyGraf.Models;
-    using ToyGraf.Models.Commands;
     using ToyGraf.Models.Enumerations;
 
     internal class ElementsController
@@ -53,6 +53,7 @@
         }
 
         private GraphPropertiesController GraphPropertiesController;
+        private CommandProcessor CommandProcessor => GraphPropertiesController.GraphController.CommandProcessor;
         private Graph Graph => GraphPropertiesController.Graph;
         private readonly CheckState[] States = new CheckState[12];
         private bool Updating;
@@ -104,8 +105,7 @@
             for (var index = 0; index < 8; index++)
                 if (States[index] == CheckState.Checked)
                     elements |= values[ControlToEnum(index)];
-            if (GraphPropertiesController.Graph.Elements != elements)
-                GraphPropertiesController.GraphController.CommandProcessor.Run(new GraphElementsCommand(elements));
+            CommandProcessor.SetGraphElements(elements);
         }
 
         private void SetState(int index, CheckState state) => View.SetItemCheckState(index, States[index] = state);

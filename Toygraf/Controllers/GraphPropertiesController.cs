@@ -2,9 +2,9 @@
 {
     using System;
     using System.Windows.Forms;
+    using ToyGraf.Commands;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
-    using ToyGraf.Models.Commands;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Views;
 
@@ -108,89 +108,68 @@
         {
             var domainGraphWidth = View.cbDomainGraphWidth.Checked;
             View.seDomainMinCartesian.Enabled = View.seDomainMaxCartesian.Enabled = !domainGraphWidth;
-            if (Loading) return;
-            if (Graph.DomainGraphWidth != domainGraphWidth)
+            if (!Loading)
                 CommandProcessor.SetGraphDomainGraphWidth(domainGraphWidth);
         }
 
         private void DomainMaxCartesianChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var domainMaxCartesian = (float)View.seDomainMaxCartesian.Value;
-            if (Graph.DomainMaxCartesian != domainMaxCartesian)
-                CommandProcessor.Run(new GraphDomainMaxCartesianCommand(domainMaxCartesian));
+            if (!Loading)
+                CommandProcessor.SetGraphDomainMaxCartesian((float)View.seDomainMaxCartesian.Value);
         }
 
         private void DomainMaxPolarChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var domainMaxPolar = (float)View.seDomainMaxPolar.Value;
-            if (Graph.DomainMaxPolar != domainMaxPolar)
-                CommandProcessor.Run(new GraphDomainMaxPolarCommand(domainMaxPolar));
+            if (!Loading)
+                CommandProcessor.SetGraphDomainMaxPolar((float)View.seDomainMaxPolar.Value);
         }
 
         private void DomainMinCartesianChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var domainMinCartesian = (float)View.seDomainMinCartesian.Value;
-            if (Graph.DomainMinCartesian != domainMinCartesian)
-                CommandProcessor.Run(new GraphDomainMinCartesianCommand(domainMinCartesian));
+            if (!Loading)
+                CommandProcessor.SetGraphDomainMinCartesian((float)View.seDomainMinCartesian.Value);
         }
 
         private void DomainMinPolarChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var domainMinPolar = (float)View.seDomainMinPolar.Value;
-            if (Graph.DomainMinPolar != domainMinPolar)
-                CommandProcessor.Run(new GraphDomainMinPolarCommand(domainMinPolar));
+            if (!Loading)
+                CommandProcessor.SetGraphDomainMinPolar((float)View.seDomainMinPolar.Value);
         }
 
         private void DomainPolarDegreesChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var domainPolarDegrees = View.rbDegrees.Checked;
-            if (Graph.DomainPolarDegrees != domainPolarDegrees)
-                CommandProcessor.Run(new GraphDomainPolarDegreesCommand(domainPolarDegrees));
+            if (!Loading)
+                CommandProcessor.SetGraphDomainPolarDegrees(View.rbDegrees.Checked);
         }
 
         private void FillColourChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var fillColour = ColourController.GetColour(View.cbFillColour);
-            if (Graph.FillColour1.ToArgb() != fillColour.ToArgb())
-                CommandProcessor.Run(new GraphFillColour2Command(fillColour));
+            if (!Loading)
+                CommandProcessor.SetGraphFillColour1(ColourController.GetColour(View.cbFillColour));
         }
 
         private void FillTransparencyChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var fillTransparencyPercent = (int)View.seFillTransparency.Value;
-            if (Graph.FillTransparencyPercent != fillTransparencyPercent)
-                CommandProcessor.Run(new GraphFillTransparencyPercentCommand(fillTransparencyPercent));
+            if (!Loading)
+                CommandProcessor.SetGraphFillTransparencyPercent((int)View.seFillTransparency.Value);
         }
 
         private void InterpolationChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var interpolation = (Interpolation)View.cbInterpolation.SelectedIndex;
-            if (Graph.Interpolation != interpolation)
-                CommandProcessor.Run(new GraphInterpolationCommand(interpolation));
+            if (!Loading)
+                CommandProcessor.SetGraphInterpolation((Interpolation)View.cbInterpolation.SelectedIndex);
         }
 
         private void LimitColourChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var limitColour = ColourController.GetColour(View.cbLimitColour);
-            if (Graph.LimitColour.ToArgb() != limitColour.ToArgb())
-                CommandProcessor.Run(new GraphLimitColourCommand(limitColour));
+            if (!Loading)
+                CommandProcessor.SetGraphLimitColour(ColourController.GetColour(View.cbLimitColour));
         }
 
         private void OptimizationChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var optimization = (Optimization)View.cbOptimization.SelectedIndex;
-            if (Graph.Optimization != optimization)
-                CommandProcessor.Run(new GraphOptimizationCommand(optimization));
+            if (!Loading)
+                CommandProcessor.SetGraphOptimization((Optimization)View.cbOptimization.SelectedIndex);
         }
 
         private void PaperColourChanged(object sender, EventArgs e)
@@ -201,18 +180,14 @@
 
         private void PaperTransparencyChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var paperTransparencyPercent = (int)View.sePaperTransparency.Value;
-            if (Graph.PaperTransparencyPercent != paperTransparencyPercent)
-                CommandProcessor.Run(new GraphPaperTransparencyPercentCommand(paperTransparencyPercent));
+            if (!Loading)
+                CommandProcessor.SetGraphPaperTransparencyPercent((int)View.sePaperTransparency.Value);
         }
 
         private void PenColourChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var penColour = ColourController.GetColour(View.cbPenColour);
-            if (Graph.PenColour.ToArgb() != penColour.ToArgb())
-                CommandProcessor.Run(new GraphPenColourCommand(penColour));
+            if (!Loading)
+                CommandProcessor.SetGraphPenColour(ColourController.GetColour(View.cbPenColour));
         }
 
         private void PlotTypeChanged(object sender, EventArgs e)
@@ -224,26 +199,20 @@
                 View.seDomainMaxCartesian.Visible = !polar;
             View.seDomainMinPolar.Visible = View.seDomainMaxPolar.Visible =
                 View.rbDegrees.Visible = View.rbRadians.Visible = polar;
-            if (Loading) return;
-            var plotType = (PlotType)View.cbPlotType.SelectedIndex;
-            if (Graph.PlotType != plotType)
-                CommandProcessor.Run(new GraphPlotTypeCommand(plotType));
+            if (!Loading)
+                CommandProcessor.SetGraphPlotType((PlotType)View.cbPlotType.SelectedIndex);
         }
 
         private void ReticleColourChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var reticleColour = ColourController.GetColour(View.cbReticleColour);
-            if (Graph.ReticleColour.ToArgb() != reticleColour.ToArgb())
-                CommandProcessor.Run(new GraphReticleColourCommand(reticleColour));
+            if (!Loading)
+                CommandProcessor.SetGraphReticleColour(ColourController.GetColour(View.cbReticleColour));
         }
 
         private void StepCountChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var stepCount = int.Parse(View.cbStepCount.Text);
-            if (Graph.StepCount != stepCount)
-                CommandProcessor.Run(new GraphStepCountCommand(stepCount));
+            if (!Loading)
+                CommandProcessor.SetGraphStepCount(int.Parse(View.cbStepCount.Text));
         }
 
         private void View_FormClosing(object sender, FormClosingEventArgs e)

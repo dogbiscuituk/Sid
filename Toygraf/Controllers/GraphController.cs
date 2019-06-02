@@ -8,8 +8,8 @@
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
     using ToyGraf.Expressions;
+    using ToyGraf.Commands;
     using ToyGraf.Models;
-    using ToyGraf.Models.Commands;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Models.Structs;
     using ToyGraf.Views;
@@ -295,8 +295,8 @@
             {
                 var index = Graph.Series.IndexOf(series);
                 var filePath = dialog.FileName;
-                CommandProcessor.Run(new SeriesTexturePathCommand(index, filePath));
-                CommandProcessor.Run(new SeriesTextureCommand(index, ImageToBase64String(filePath)));
+                CommandProcessor.SetSeriesTexturePath(index, filePath);
+                CommandProcessor.SetSeriesTexture(index, ImageToBase64String(filePath));
             }
             return ok;
         }

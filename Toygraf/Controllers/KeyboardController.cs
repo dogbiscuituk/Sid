@@ -7,9 +7,9 @@
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
+    using ToyGraf.Commands;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
-    using ToyGraf.Models.Commands;
     using ToyGraf.Views;
 
     internal class KeyboardController
@@ -52,6 +52,7 @@
 
         internal void LoadSeries()
         {
+            Loading = true;
             if (Index >= 0)
             {
                 View.cbVisible.Checked = SeriesView.cbVisible.Checked;
@@ -61,6 +62,7 @@
             {
                 FunctionBox.Text = string.Empty;
             }
+            Loading = false;
         }
 
         #endregion
@@ -139,11 +141,8 @@
             var formula = FunctionBox.Text;
             if (!string.IsNullOrWhiteSpace(formula) && !Functions.Contains(formula))
                 Functions[0] = formula;
-            if (Index < 0)
-                return;
-            if (!Updating)
-                if (Validate())
-                    CommandProcessor.Run(new SeriesFormulaCommand(Index, formula));
+            if (Index >= 0 && !Loading && !Updating && Validate())
+                CommandProcessor.SetSeriesFormula(Index, formula);
         }
 
         private void FunctionBox_Validating(object sender, CancelEventArgs e)

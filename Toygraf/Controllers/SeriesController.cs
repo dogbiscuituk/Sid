@@ -5,9 +5,9 @@
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
+    using ToyGraf.Commands;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
-    using ToyGraf.Models.Commands;
     using ToyGraf.Views;
 
     internal class SeriesController
@@ -49,8 +49,8 @@
             set
             {
                 View.cbVisible.Checked = value;
-                if (Series.Visible != value)
-                    CommandProcessor.Run(new SeriesVisibleCommand(Index, value));
+                if (!LegendController.Loading)
+                    CommandProcessor.SetSeriesVisible(Index, value);
             }
         }
 
@@ -128,19 +128,19 @@
         private void CbFillColour_SelectedValueChanged(object sender, System.EventArgs e)
         {
             if (!LegendController.Loading)
-                CommandProcessor.Run(new SeriesFillColour1Command(Index, FillColour));
+                CommandProcessor.SetSeriesFillColour1(Index, FillColour);
         }
 
         private void CbPenColour_SelectedValueChanged(object sender, System.EventArgs e)
         {
             if (!LegendController.Loading)
-                CommandProcessor.Run(new SeriesPenColourCommand(Index, PenColour));
+                CommandProcessor.SetSeriesPenColour(Index, PenColour);
         }
 
         private void CbVisible_CheckedChanged(object sender, System.EventArgs e)
         {
             if (!LegendController.Loading)
-                CommandProcessor.Run(new SeriesVisibleCommand(Index, TraceVisible));
+                CommandProcessor.SetSeriesVisible(Index, TraceVisible);
         }
 
         private void FunctionBox_TextChanged(object sender, System.EventArgs e)
@@ -148,9 +148,8 @@
             View.ToolTip.SetToolTip(FunctionBox, FunctionBox.Text);
             if (!string.IsNullOrWhiteSpace(Formula) && !Functions.Contains(Formula))
                 Functions[0] = Formula;
-            if (!Updating)
-                if (!LegendController.Loading && LegendController.Validate())
-                    CommandProcessor.Run(new SeriesFormulaCommand(Index, Formula));
+            if (!Updating && !LegendController.Loading && LegendController.Validate())
+                CommandProcessor.SetSeriesFormula(Index, Formula);
         }
 
         private void GraphController_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -189,7 +188,7 @@
         private void SeTransparency_ValueChanged(object sender, System.EventArgs e)
         {
             if (!LegendController.Loading)
-                CommandProcessor.Run(new SeriesFillTransparencyPercentCommand(Index, FillTransparencyPercent));
+                CommandProcessor.SetSeriesFillTransparencyPercent(Index, FillTransparencyPercent);
         }
 
         #endregion

@@ -326,7 +326,7 @@
 
         #region Series Management
 
-        internal Series NewSeries()
+        public Series NewSeries()
         {
             var series = new Series(this);
             series.PropertyChanged += Series_PropertyChanged;

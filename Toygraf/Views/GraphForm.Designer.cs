@@ -869,7 +869,7 @@
             this.ClientPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ClientPanel.Location = new System.Drawing.Point(32, 24);
             this.ClientPanel.Name = "ClientPanel";
-            this.ClientPanel.Size = new System.Drawing.Size(709, 452);
+            this.ClientPanel.Size = new System.Drawing.Size(653, 452);
             this.ClientPanel.TabIndex = 6;
             // 
             // LegendPanel
@@ -1088,7 +1088,7 @@
             // Splitter
             // 
             this.Splitter.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Splitter.Location = new System.Drawing.Point(741, 24);
+            this.Splitter.Location = new System.Drawing.Point(685, 24);
             this.Splitter.MinExtra = 0;
             this.Splitter.Name = "Splitter";
             this.Splitter.Size = new System.Drawing.Size(3, 452);
@@ -1099,9 +1099,9 @@
             // PropertyTable
             // 
             this.PropertyTable.Dock = System.Windows.Forms.DockStyle.Right;
-            this.PropertyTable.Location = new System.Drawing.Point(744, 24);
+            this.PropertyTable.Location = new System.Drawing.Point(688, 24);
             this.PropertyTable.Name = "PropertyTable";
-            this.PropertyTable.Size = new System.Drawing.Size(200, 452);
+            this.PropertyTable.Size = new System.Drawing.Size(256, 452);
             this.PropertyTable.TabIndex = 14;
             this.PropertyTable.UseCompatibleTextRendering = true;
             this.PropertyTable.Visible = false;

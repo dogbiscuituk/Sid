@@ -53,11 +53,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\BaseCommands.cs" />
+    <Compile Include="Commands\CommandInterfaces.cs" />
+    <Compile Include="Commands\CommandProcessor.cs" />
+    <Compile Include="Commands\GraphBoolCommands.cs" />
+    <Compile Include="Commands\GraphColourCommands.cs" />
+    <Compile Include="Commands\GraphEnumCommands.cs" />
+    <Compile Include="Commands\GraphFloatCommands.cs" />
+    <Compile Include="Commands\GraphIntCommands.cs" />
+    <Compile Include="Commands\GraphPointFCommands.cs" />
+    <Compile Include="Commands\GraphSeriesCommands.cs" />
+    <Compile Include="Commands\GraphStringCommands.cs" />
+    <Compile Include="Commands\SeriesBoolCommands.cs" />
+    <Compile Include="Commands\SeriesColourCommands.cs" />
+    <Compile Include="Commands\SeriesEnumCommands.cs" />
+    <Compile Include="Commands\SeriesFloatCommands.cs" />
+    <Compile Include="Commands\SeriesIntCommands.cs" />
+    <Compile Include="Commands\SeriesStringCommands.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\ClockController.cs" />
     <Compile Include="Controllers\ColourController.cs" />
-    <Compile Include="Controllers\CommandProcessor.cs" />
     <Compile Include="Controllers\ElementsController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\GraphicsController.cs" />

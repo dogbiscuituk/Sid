@@ -3,6 +3,7 @@
     using System;
     using System.Drawing;
     using System.Windows.Forms;
+    using ToyGraf.Commands;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Views;
 

@@ -6,9 +6,9 @@
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
+    using ToyGraf.Commands;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
-    using ToyGraf.Models.Commands;
     using ToyGraf.Views;
 
     internal class LegendController
@@ -109,7 +109,7 @@
         }
 
         internal int IndexOf(SeriesController child) => Children.IndexOf(child);
-        internal void RemoveSeries(int index) => CommandProcessor.Run(new GraphDeleteSeriesCommand(index));
+        internal void RemoveSeries(int index) => CommandProcessor.GraphDeleteSeries(index);
 
         internal bool Validate()
         {
@@ -193,7 +193,7 @@
 
         #region Private Methods
 
-        private void AddNewSeries() => CommandProcessor.Run(new GraphInsertSeriesCommand(Children.Count));
+        private void AddNewSeries() => CommandProcessor.GraphInsertSeries(Children.Count);
 
         private static AnchorStyles AlignToAnchor(ContentAlignment align)
         {

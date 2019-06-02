@@ -28,7 +28,7 @@
             if (Operators.Any())
                 throw new FormatException(
                     $"Unexpected end of expression, input='{Formula}'");
-            return Operands.Peek();
+            return Operands.Pop();
         }
 
         /// <summary>

@@ -7,9 +7,9 @@
     using System.Drawing.Drawing2D;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
+    using ToyGraf.Commands;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
-    using ToyGraf.Models.Commands;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Views;
 
@@ -76,6 +76,7 @@
         internal SeriesPropertiesDialog View;
         internal Graph Graph => GraphController.Graph;
         internal int Index => Graph.Series.IndexOf(Series);
+        internal bool Loading;
 
         #endregion
 
@@ -87,7 +88,7 @@
         private SeriesView SeriesView => SeriesControllers[Index].View;
         private Series _series;
         private int Count => Graph.Series.Count;
-        private bool Loading, Updating;
+        private bool Updating;
 
         #endregion
 
@@ -96,10 +97,8 @@
         private void BrushTypeChanged(object sender, EventArgs e)
         {
             UpdateUI();
-            if (Loading) return;
-            var brushType = (BrushType)View.cbBrushType.SelectedIndex;
-            if (Series.BrushType != brushType)
-                CommandProcessor.Run(new SeriesBrushTypeCommand(Index, brushType));
+            if (!Loading)
+                CommandProcessor.SetSeriesBrushType(Index, (BrushType)View.cbBrushType.SelectedIndex);
         }
 
         private void BtnClose_Click(object sender, EventArgs e) => Close();
@@ -108,53 +107,45 @@
         {
             View.ColourDialog.Color = Series.FillColour1;
             if (View.ColourDialog.ShowDialog(View) == DialogResult.OK)
-                CommandProcessor.Run(new SeriesFillColour1Command(Index, View.ColourDialog.Color));
+                CommandProcessor.SetSeriesFillColour1(Index, View.ColourDialog.Color);
         }
 
         private void BtnFillColour2_Click(object sender, EventArgs e)
         {
             View.ColourDialog.Color = Series.FillColour2;
             if (View.ColourDialog.ShowDialog(View) == DialogResult.OK)
-                CommandProcessor.Run(new SeriesFillColour2Command(Index, View.ColourDialog.Color));
+                CommandProcessor.SetSeriesFillColour2(Index, View.ColourDialog.Color);
         }
 
         private void BtnPenColour_Click(object sender, EventArgs e)
         {
             View.ColourDialog.Color = Series.PenColour;
             if (View.ColourDialog.ShowDialog(View) == DialogResult.OK)
-                CommandProcessor.Run(new SeriesPenColourCommand(Index, View.ColourDialog.Color));
+                CommandProcessor.SetSeriesPenColour(Index, View.ColourDialog.Color);
         }
 
         private void FillColour1Changed(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var fillColour1 = ColourController.GetColour(View.cbFillColour1);
-            if (Series.FillColour1 != fillColour1)
-                CommandProcessor.Run(new SeriesFillColour1Command(Index, fillColour1));
+            if (!Loading)
+                CommandProcessor.SetSeriesFillColour1(Index, ColourController.GetColour(View.cbFillColour1));
         }
 
         private void FillColour2Changed(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var fillColour2 = ColourController.GetColour(View.cbFillColour2);
-            if (Series.FillColour2 != fillColour2)
-                CommandProcessor.Run(new SeriesFillColour2Command(Index, fillColour2));
+            if (!Loading)
+                CommandProcessor.SetSeriesFillColour2(Index, ColourController.GetColour(View.cbFillColour2));
         }
 
         private void FillTransparencyChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var fillTransparencyPercent = View.seTransparency.Value;
-            if (Series.FillTransparencyPercent != fillTransparencyPercent)
-                CommandProcessor.Run(new SeriesFillTransparencyPercentCommand(Index, (int)fillTransparencyPercent));
+            if (!Loading)
+                CommandProcessor.SetSeriesFillTransparencyPercent(Index, (int)View.seTransparency.Value);
         }
 
         private void GradientModeChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var gradientMode = (LinearGradientMode)View.cbGradientMode.SelectedIndex;
-            if (Series.GradientMode != gradientMode)
-                CommandProcessor.Run(new SeriesGradientModeCommand(Index, gradientMode));
+            if (!Loading)
+                CommandProcessor.SetSeriesGradientMode(Index, (LinearGradientMode)View.cbGradientMode.SelectedIndex);
         }
 
         private void GraphController_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -224,34 +215,26 @@
 
         private void HatchStyleChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var hatchStyle = (HatchStyle)View.cbHatchStyle.SelectedIndex;
-            if (Series.HatchStyle != hatchStyle)
-                CommandProcessor.Run(new SeriesHatchStyleCommand(Index, hatchStyle));
+            if (!Loading)
+                CommandProcessor.SetSeriesHatchStyle(Index, (HatchStyle)View.cbHatchStyle.SelectedIndex);
         }
 
         private void PenColourChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var penColour = ColourController.GetColour(View.cbPenColour);
-            if (Series.PenColour != penColour)
-                CommandProcessor.Run(new SeriesPenColourCommand(Index, penColour));
+            if (!Loading)
+                CommandProcessor.SetSeriesPenColour(Index, ColourController.GetColour(View.cbPenColour));
         }
 
         private void PenSizeChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var penWidth = (float)View.sePenSize.Value;
-            if (Series.PenWidth != penWidth)
-                CommandProcessor.Run(new SeriesPenWidthCommand(Index, penWidth));
+            if (!Loading)
+                CommandProcessor.SetSeriesPenWidth(Index, (float)View.sePenSize.Value);
         }
 
         private void PenStyleChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var penStyle = (DashStyle)View.cbPenStyle.SelectedIndex;
-            if (Series.PenStyle != penStyle)
-                CommandProcessor.Run(new SeriesPenStyleCommand(Index, penStyle));
+            if (!Loading)
+                CommandProcessor.SetSeriesPenStyle(Index, (DashStyle)View.cbPenStyle.SelectedIndex);
         }
 
         private void TaylorPolynomialClick(object sender, EventArgs e)
@@ -281,10 +264,8 @@
 
         private void WrapModeChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var wrapMode = (WrapMode)View.cbWrapMode.SelectedIndex;
-            if (Series.WrapMode != wrapMode)
-                CommandProcessor.Run(new SeriesWrapModeCommand(Index, wrapMode));
+            if (!Loading)
+                CommandProcessor.SetSeriesWrapMode(Index, (WrapMode)View.cbWrapMode.SelectedIndex);
         }
 
         #endregion

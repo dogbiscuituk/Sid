@@ -1,16 +1,16 @@
-﻿namespace ToyGraf.Controllers
+﻿namespace ToyGraf.Commands
 {
     using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Windows.Forms;
+    using ToyGraf.Controllers;
     using ToyGraf.Models;
-    using ToyGraf.Models.Commands;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Views;
 
-    internal class CommandProcessor
+    internal partial class CommandProcessor
     {
         #region Internal Interface
 
@@ -51,14 +51,6 @@
             UndoStack.Clear();
             RedoStack.Clear();
             UpdateUI();
-        }
-
-        internal bool Run(IGraphCommand command, bool run = true)
-        {
-            var result = run ? Redo(command) : Note(command);
-            RedoStack.Clear();
-            UpdateUI();
-            return result;
         }
 
         internal void ScrollBy(float xDelta, float yDelta) =>
@@ -141,6 +133,9 @@
             set => View.EditGroupUndo.Checked = value;
         }
 
+        private string UndoAction => UndoStack.Peek().UndoAction;
+        private string RedoAction => RedoStack.Peek().RedoAction;
+
         #endregion
 
         #region Private Event Handlers
@@ -171,9 +166,6 @@
 
         #region Private Methods
 
-        private void Undo() { if (CanUndo) Undo(UndoStack.Pop()); }
-        private void Redo() { if (CanRedo) Redo(RedoStack.Pop()); }
-
         private void Copy(Stack<IGraphCommand> stack, ToolStripDropDownItem item, EventHandler handler)
         {
             const int MaxItems = 20;
@@ -185,20 +177,6 @@
                 var command = commands[n];
                 items.Add(command.ToString(), null, handler).Tag = command;
             }
-        }
-
-        private void Undo(IGraphCommand command)
-        {
-            command.Do(Graph);
-            RedoStack.Push(command);
-            UpdateUI();
-        }
-
-        private bool Redo(IGraphCommand command)
-        {
-            var result = command.Do(Graph);
-            Note(command);
-            return result;
         }
 
         private bool Note(IGraphCommand command)
@@ -213,8 +191,8 @@
                 else if (command is ISeriesPropertyCommand sf && prevCmd is IGraphSeriesCommand gs)
                 {
                     canGroup = !gs.Add && sf.Index == gs.Index;
-                    if (canGroup && gs.Value == null)
-                        gs.Value = Graph.Series[sf.Index];
+                    if (canGroup && gs.Series == null)
+                        gs.Series = Graph.Series[sf.Index];
                 }
             };
             if (!canGroup)
@@ -223,10 +201,13 @@
             return true;
         }
 
-        private void UndoMultiple(object sender, EventArgs e)
+        private void Redo() { if (CanRedo) Redo(RedoStack.Pop()); }
+
+        private bool Redo(IGraphCommand command)
         {
-            var peek = ((ToolStripItem)sender).Tag;
-            do Undo(); while (RedoStack.Peek() != peek);
+            var result = command.Do(Graph);
+            Note(command);
+            return result;
         }
 
         private void RedoMultiple(object sender, EventArgs e)
@@ -235,14 +216,34 @@
             do Redo(); while (UndoStack.Peek() != peek);
         }
 
+        private bool Run(IGraphCommand command, bool run = true)
+        {
+            var result = run ? Redo(command) : Note(command);
+            RedoStack.Clear();
+            UpdateUI();
+            return result;
+        }
+
         private void Scroll(float xFactor, float yFactor) => Run(new GraphCentreCommand(
             Graph.Centre.X + Graph.Width * xFactor,
             Graph.Centre.Y + Graph.Width * yFactor));
 
         private void ScrollTo(float x, float y) => Run(new GraphCentreCommand(x, y));
 
-        private string UndoAction => UndoStack.Peek().UndoAction;
-        private string RedoAction => RedoStack.Peek().RedoAction;
+        private void Undo() { if (CanUndo) Undo(UndoStack.Pop()); }
+
+        private void Undo(IGraphCommand command)
+        {
+            command.Do(Graph);
+            RedoStack.Push(command);
+            UpdateUI();
+        }
+
+        private void UndoMultiple(object sender, EventArgs e)
+        {
+            var peek = ((ToolStripItem)sender).Tag;
+            do Undo(); while (RedoStack.Peek() != peek);
+        }
 
         private void UpdateUI()
         {
