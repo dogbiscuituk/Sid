@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
     using System.Windows.Forms;
     using ToyGraf.Models;
     using ToyGraf.Models.Commands;
@@ -51,30 +53,74 @@
             UpdateUI();
         }
 
-        internal void Run(params IGraphCommand[] commands)
+        internal bool Run(IGraphCommand command, bool run = true)
         {
-            foreach (var command in commands)
-                Redo(command);
+            var result = run ? Redo(command) : Note(command);
             RedoStack.Clear();
             UpdateUI();
+            return result;
         }
 
-        internal void ScrollBy(float xDelta, float yDelta) => Run(new GraphCentreCommand(
-            Graph.Centre.X + xDelta,
-            Graph.Centre.Y + yDelta));
+        internal void ScrollBy(float xDelta, float yDelta) =>
+            SetGraphCentre(new PointF(Graph.Centre.X + xDelta, Graph.Centre.Y + yDelta));
 
-        internal void Zoom(float factor) => Run(new GraphWidthCommand(Graph.Width * factor));
+        internal void Zoom(float factor) =>
+            SetGraphWidth(Graph.Width * factor);
 
-        internal void ZoomReset() => Run(
-            new GraphCentreCommand(Graph.OriginalCentre),
-            new GraphWidthCommand(Graph.OriginalWidth));
+        internal void ZoomReset()
+        {
+            SetGraphCentre(Graph.OriginalCentre);
+            SetGraphWidth(Graph.OriginalWidth);
+        }
 
         #endregion
 
-        #region Commands
+        #region Command Runners
 
-        internal void SetGraphDomainGraphWidth(bool value) => Run(new GraphDomainGraphWidthCommand(value));
-        internal void SetGraphDomainPolarDegrees(bool value) => Run(new GraphDomainPolarDegreesCommand(value));
+        internal bool GraphDeleteSeries(int index) => Run(new GraphDeleteSeriesCommand(index));
+        internal bool GraphInsertSeries(int index) => Run(new GraphInsertSeriesCommand(index));
+
+        internal bool SetGraphAxisColour(Color value, bool run = true) => Run(new GraphAxisColourCommand(value), run);
+        internal bool SetGraphCentre(PointF value, bool run = true) => Run(new GraphCentreCommand(value), run);
+        internal bool SetGraphDomainGraphWidth(bool value, bool run = true) => Run(new GraphDomainGraphWidthCommand(value), run);
+        internal bool SetGraphDomainMaxCartesian(float value, bool run = true) => Run(new GraphDomainMaxCartesianCommand(value), run);
+        internal bool SetGraphDomainMaxPolar(float value, bool run = true) => Run(new GraphDomainMaxPolarCommand(value), run);
+        internal bool SetGraphDomainMinCartesian(float value, bool run = true) => Run(new GraphDomainMinCartesianCommand(value), run);
+        internal bool SetGraphDomainMinPolar(float value, bool run = true) => Run(new GraphDomainMinPolarCommand(value), run);
+        internal bool SetGraphDomainPolarDegrees(bool value, bool run = true) => Run(new GraphDomainPolarDegreesCommand(value), run);
+        internal bool SetGraphElements(Elements value, bool run = true) => Run(new GraphElementsCommand(value), run);
+        internal bool SetGraphFillColour1(Color value, bool run = true) => Run(new GraphFillColour1Command(value), run);
+        internal bool SetGraphFillColour2(Color value, bool run = true) => Run(new GraphFillColour2Command(value), run);
+        internal bool SetGraphFillTransparencyPercent(int value, bool run = true) => Run(new GraphFillTransparencyPercentCommand(value), run);
+        internal bool SetGraphInterpolation(Interpolation value, bool run = true) => Run(new GraphInterpolationCommand(value), run);
+        internal bool SetGraphLimitColour(Color value, bool run = true) => Run(new GraphLimitColourCommand(value), run);
+        internal bool SetGraphOptimization(Optimization value, bool run = true) => Run(new GraphOptimizationCommand(value), run);
+        internal bool SetGraphPaperColour(Color value, bool run = true) => Run(new GraphPaperColourCommand(value), run);
+        internal bool SetGraphPaperTransparencyPercent(int value, bool run = true) => Run(new GraphPaperTransparencyPercentCommand(value), run);
+        internal bool SetGraphPenColour(Color value, bool run = true) => Run(new GraphPenColourCommand(value), run);
+        internal bool SetGraphPlotType(PlotType value, bool run = true) => Run(new GraphPlotTypeCommand(value), run);
+        internal bool SetGraphReticleColour(Color colour, bool run = true) => Run(new GraphReticleColourCommand(colour), run);
+        internal bool SetGraphStepCount(int value, bool run = true) => Run(new GraphStepCountCommand(value), run);
+        internal bool SetGraphTickStyles(TickStyles value, bool run = true) => Run(new GraphTickStylesCommand(value), run);
+        internal bool SetGraphTitle(string value, bool run = true) => Run(new GraphTitleCommand(value), run);
+        internal bool SetGraphWidth(float value, bool run = true) => Run(new GraphWidthCommand(value), run);
+
+        internal bool SetSeriesBrushType(int index, BrushType value, bool run = true) => Run(new SeriesBrushTypeCommand(index, value), run);
+        internal bool SetSeriesFillColour1(int index, Color value, bool run = true) => Run(new SeriesFillColour1Command(index, value), run);
+        internal bool SetSeriesFillColour2(int index, Color value, bool run = true) => Run(new SeriesFillColour2Command(index, value), run);
+        internal bool SetSeriesFillTransparencyPercent(int index, int value, bool run = true) => Run(new SeriesFillTransparencyPercentCommand(index, value), run);
+        internal bool SetSeriesFormula(int index, string value, bool run = true) => Run(new SeriesFormulaCommand(index, value), run);
+        internal bool SetSeriesGradientMode(int index, LinearGradientMode value, bool run = true) => Run(new SeriesGradientModeCommand(index, value), run);
+        internal bool SetSeriesHatchStyle(int index, HatchStyle value, bool run = true) => Run(new SeriesHatchStyleCommand(index, value), run);
+        internal bool SetSeriesLimitColour(int index, Color value, bool run = true) => Run(new SeriesLimitColourCommand(index, value), run);
+        internal bool SetSeriesPenColour(int index, Color value, bool run = true) => Run(new SeriesPenColourCommand(index, value), run);
+        internal bool SetSeriesPenStyle(int index, DashStyle value, bool run = true) => Run(new SeriesPenStyleCommand(index, value), run);
+        internal bool SetSeriesPenWidth(int index, float value, bool run = true) => Run(new SeriesPenWidthCommand(index, value), run);
+        internal bool SetSeriesStepCount(int index, int value, bool run = true) => Run(new SeriesStepCountCommand(index, value), run);
+        internal bool SetSeriesTexture(int index, string value, bool run = true) => Run(new SeriesTextureCommand(index, value), run);
+        internal bool SetSeriesTexturePath(int index, string value, bool run = true) => Run(new SeriesTexturePathCommand(index, value), run);
+        internal bool SetSeriesVisible(int index, bool value, bool run = true) => Run(new SeriesVisibleCommand(index, value), run);
+        internal bool SetSeriesWrapMode(int index, WrapMode value, bool run = true) => Run(new SeriesWrapModeCommand(index, value), run);
 
         #endregion
 
@@ -148,9 +194,15 @@
             UpdateUI();
         }
 
-        private void Redo(IGraphCommand command)
+        private bool Redo(IGraphCommand command)
         {
-            command.Do(Graph);
+            var result = command.Do(Graph);
+            Note(command);
+            return result;
+        }
+
+        private bool Note(IGraphCommand command)
+        {
             var canGroup = false;
             if (GroupUndo && CanUndo)
             {
@@ -168,6 +220,7 @@
             if (!canGroup)
                 UndoStack.Push(command);
             UpdateUI();
+            return true;
         }
 
         private void UndoMultiple(object sender, EventArgs e)

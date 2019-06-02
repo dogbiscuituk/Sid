@@ -1103,6 +1103,7 @@
             this.PropertyTable.Name = "PropertyTable";
             this.PropertyTable.Size = new System.Drawing.Size(200, 452);
             this.PropertyTable.TabIndex = 14;
+            this.PropertyTable.UseCompatibleTextRendering = true;
             this.PropertyTable.Visible = false;
             // 
             // GraphForm

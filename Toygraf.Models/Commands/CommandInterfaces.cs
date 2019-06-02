@@ -2,13 +2,19 @@
 {
     public interface IGraphCommand
     {
-        void Do(Graph graph);
+        bool Do(Graph graph);
         string UndoAction { get; }
         string RedoAction { get; }
     }
 
     public interface IGraphPropertyCommand : IGraphCommand
     {
+    }
+
+    public interface IGraphSeriesCommand : ISeriesCommand
+    {
+        bool Add { get; set; }
+        Series Value { get; set; }
     }
 
     public interface ISeriesCommand : IGraphCommand
@@ -18,11 +24,5 @@
 
     public interface ISeriesPropertyCommand : ISeriesCommand
     {
-    }
-
-    public interface IGraphSeriesCommand : ISeriesCommand
-    {
-        bool Add { get; set; }
-        Series Value { get; set; }
     }
 }

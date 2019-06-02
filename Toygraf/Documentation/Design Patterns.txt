@@ -1,7 +1,12 @@
-﻿This project contains examples of several popular software design patterns:
+﻿This project contains examples of several popular software design patterns. All of these, with the
+singular exception of Model-View-Controller (not so much a pattern, more of a framework) are as
+originally described in the GoF book, https://en.wikipedia.org/wiki/Design_Patterns.
+
 
     Command
+	Facade
     Interpreter
+	Mediator
     Memento
     Model-View-Controller
     Observer
@@ -14,6 +19,14 @@ trace (pen) colour is changed, the change is effected by the appropriate Control
 SeriesPenColourCommand, which is dispatched to the CommandProcessor to be run. See the description
 of the Memento pattern for more details about Command execution.
 
+Facade
+
+The CommandInterpreter supplies a facade interface, providing one method per available action: for
+example, GraphChangePaperColour(), SeriesChangePenColour(), and so on. This hides the details of the
+command implementation from clients such as the Visual Studio themed Property Table (a PropertyGrid
+control), which is not itself command pattern based, while retaining behind the scenes the full
+command pattern implementation required to support unlimited Undo/Redo operations.
+
 Interpreter
 
 The project allows entry of mathematical formulae in a very freeform style, using for example Greek
@@ -22,6 +35,15 @@ has the responsibility of interpreting these Unicode formula strings, translatin
 System.Linq.Expression objects, which can then be graphed, differentiated, etc. The Precedence and
 Associativity rules of the Parser are particularly interesting. See for example the article at
 http://mycodehere.blogspot.com/2019/04/expression-parser-part-1-of-2.html
+
+Mediator
+
+The CommandProcessor acts as Mediator between the set of available commands, and the various clients
+(Controller classes such as GraphPropertiesController, SeriesPropertiesController, SeriesController
+and PropertyGridController). One important decoupling it provides is that between actually running a
+command, as most clients do, and simply noting its effects for Undo/Redo purposes, as in the case of
+the PropertyGridController (which bypasses the command running mechanism in favour of modifying the
+model directly).
 
 Memento
 

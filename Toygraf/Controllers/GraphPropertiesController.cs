@@ -85,7 +85,7 @@
         private GraphPropertiesDialog _view;
         private GraphController _GraphController;
         private ColourController ColourController;
-        private CommandProcessor CommandController { get => GraphController.CommandProcessor; }
+        private CommandProcessor CommandProcessor { get => GraphController.CommandProcessor; }
         private ElementsController ElementsController;
         private CheckedListBox.ObjectCollection ElementItems { get => View.ElementCheckboxes.Items; }
         private Model Model { get => GraphController.Model; }
@@ -100,10 +100,8 @@
 
         private void AxisColourChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var axisColour = ColourController.GetColour(View.cbAxisColour);
-            if (Graph.AxisColour.ToArgb() != axisColour.ToArgb())
-                CommandController.Run(new GraphAxisColourCommand(axisColour));
+            if (!Loading)
+                CommandProcessor.SetGraphAxisColour(ColourController.GetColour(View.cbAxisColour));
         }
 
         private void DomainGraphWidthChanged(object sender, EventArgs e)
@@ -112,7 +110,7 @@
             View.seDomainMinCartesian.Enabled = View.seDomainMaxCartesian.Enabled = !domainGraphWidth;
             if (Loading) return;
             if (Graph.DomainGraphWidth != domainGraphWidth)
-                CommandController.SetGraphDomainGraphWidth(domainGraphWidth);
+                CommandProcessor.SetGraphDomainGraphWidth(domainGraphWidth);
         }
 
         private void DomainMaxCartesianChanged(object sender, EventArgs e)
@@ -120,7 +118,7 @@
             if (Loading) return;
             var domainMaxCartesian = (float)View.seDomainMaxCartesian.Value;
             if (Graph.DomainMaxCartesian != domainMaxCartesian)
-                CommandController.Run(new GraphDomainMaxCartesianCommand(domainMaxCartesian));
+                CommandProcessor.Run(new GraphDomainMaxCartesianCommand(domainMaxCartesian));
         }
 
         private void DomainMaxPolarChanged(object sender, EventArgs e)
@@ -128,7 +126,7 @@
             if (Loading) return;
             var domainMaxPolar = (float)View.seDomainMaxPolar.Value;
             if (Graph.DomainMaxPolar != domainMaxPolar)
-                CommandController.Run(new GraphDomainMaxPolarCommand(domainMaxPolar));
+                CommandProcessor.Run(new GraphDomainMaxPolarCommand(domainMaxPolar));
         }
 
         private void DomainMinCartesianChanged(object sender, EventArgs e)
@@ -136,7 +134,7 @@
             if (Loading) return;
             var domainMinCartesian = (float)View.seDomainMinCartesian.Value;
             if (Graph.DomainMinCartesian != domainMinCartesian)
-                CommandController.Run(new GraphDomainMinCartesianCommand(domainMinCartesian));
+                CommandProcessor.Run(new GraphDomainMinCartesianCommand(domainMinCartesian));
         }
 
         private void DomainMinPolarChanged(object sender, EventArgs e)
@@ -144,7 +142,7 @@
             if (Loading) return;
             var domainMinPolar = (float)View.seDomainMinPolar.Value;
             if (Graph.DomainMinPolar != domainMinPolar)
-                CommandController.Run(new GraphDomainMinPolarCommand(domainMinPolar));
+                CommandProcessor.Run(new GraphDomainMinPolarCommand(domainMinPolar));
         }
 
         private void DomainPolarDegreesChanged(object sender, EventArgs e)
@@ -152,7 +150,7 @@
             if (Loading) return;
             var domainPolarDegrees = View.rbDegrees.Checked;
             if (Graph.DomainPolarDegrees != domainPolarDegrees)
-                CommandController.Run(new GraphDomainPolarDegreesCommand(domainPolarDegrees));
+                CommandProcessor.Run(new GraphDomainPolarDegreesCommand(domainPolarDegrees));
         }
 
         private void FillColourChanged(object sender, EventArgs e)
@@ -160,7 +158,7 @@
             if (Loading) return;
             var fillColour = ColourController.GetColour(View.cbFillColour);
             if (Graph.FillColour1.ToArgb() != fillColour.ToArgb())
-                CommandController.Run(new GraphFillColour2Command(fillColour));
+                CommandProcessor.Run(new GraphFillColour2Command(fillColour));
         }
 
         private void FillTransparencyChanged(object sender, EventArgs e)
@@ -168,7 +166,7 @@
             if (Loading) return;
             var fillTransparencyPercent = (int)View.seFillTransparency.Value;
             if (Graph.FillTransparencyPercent != fillTransparencyPercent)
-                CommandController.Run(new GraphFillTransparencyPercentCommand(fillTransparencyPercent));
+                CommandProcessor.Run(new GraphFillTransparencyPercentCommand(fillTransparencyPercent));
         }
 
         private void InterpolationChanged(object sender, EventArgs e)
@@ -176,7 +174,7 @@
             if (Loading) return;
             var interpolation = (Interpolation)View.cbInterpolation.SelectedIndex;
             if (Graph.Interpolation != interpolation)
-                CommandController.Run(new GraphInterpolationCommand(interpolation));
+                CommandProcessor.Run(new GraphInterpolationCommand(interpolation));
         }
 
         private void LimitColourChanged(object sender, EventArgs e)
@@ -184,7 +182,7 @@
             if (Loading) return;
             var limitColour = ColourController.GetColour(View.cbLimitColour);
             if (Graph.LimitColour.ToArgb() != limitColour.ToArgb())
-                CommandController.Run(new GraphLimitColourCommand(limitColour));
+                CommandProcessor.Run(new GraphLimitColourCommand(limitColour));
         }
 
         private void OptimizationChanged(object sender, EventArgs e)
@@ -192,15 +190,13 @@
             if (Loading) return;
             var optimization = (Optimization)View.cbOptimization.SelectedIndex;
             if (Graph.Optimization != optimization)
-                CommandController.Run(new GraphOptimizationCommand(optimization));
+                CommandProcessor.Run(new GraphOptimizationCommand(optimization));
         }
 
         private void PaperColourChanged(object sender, EventArgs e)
         {
-            if (Loading) return;
-            var paperColour = ColourController.GetColour(View.cbPaperColour);
-            if (Graph.PaperColour.ToArgb() != paperColour.ToArgb())
-                CommandController.Run(new GraphPaperColourCommand(paperColour));
+            if (!Loading)
+                CommandProcessor.SetGraphPaperColour(ColourController.GetColour(View.cbPaperColour));
         }
 
         private void PaperTransparencyChanged(object sender, EventArgs e)
@@ -208,7 +204,7 @@
             if (Loading) return;
             var paperTransparencyPercent = (int)View.sePaperTransparency.Value;
             if (Graph.PaperTransparencyPercent != paperTransparencyPercent)
-                CommandController.Run(new GraphPaperTransparencyPercentCommand(paperTransparencyPercent));
+                CommandProcessor.Run(new GraphPaperTransparencyPercentCommand(paperTransparencyPercent));
         }
 
         private void PenColourChanged(object sender, EventArgs e)
@@ -216,7 +212,7 @@
             if (Loading) return;
             var penColour = ColourController.GetColour(View.cbPenColour);
             if (Graph.PenColour.ToArgb() != penColour.ToArgb())
-                CommandController.Run(new GraphPenColourCommand(penColour));
+                CommandProcessor.Run(new GraphPenColourCommand(penColour));
         }
 
         private void PlotTypeChanged(object sender, EventArgs e)
@@ -231,7 +227,7 @@
             if (Loading) return;
             var plotType = (PlotType)View.cbPlotType.SelectedIndex;
             if (Graph.PlotType != plotType)
-                CommandController.Run(new GraphPlotTypeCommand(plotType));
+                CommandProcessor.Run(new GraphPlotTypeCommand(plotType));
         }
 
         private void ReticleColourChanged(object sender, EventArgs e)
@@ -239,7 +235,7 @@
             if (Loading) return;
             var reticleColour = ColourController.GetColour(View.cbReticleColour);
             if (Graph.ReticleColour.ToArgb() != reticleColour.ToArgb())
-                CommandController.Run(new GraphReticleColourCommand(reticleColour));
+                CommandProcessor.Run(new GraphReticleColourCommand(reticleColour));
         }
 
         private void StepCountChanged(object sender, EventArgs e)
@@ -247,7 +243,7 @@
             if (Loading) return;
             var stepCount = int.Parse(View.cbStepCount.Text);
             if (Graph.StepCount != stepCount)
-                CommandController.Run(new GraphStepCountCommand(stepCount));
+                CommandProcessor.Run(new GraphStepCountCommand(stepCount));
         }
 
         private void View_FormClosing(object sender, FormClosingEventArgs e)

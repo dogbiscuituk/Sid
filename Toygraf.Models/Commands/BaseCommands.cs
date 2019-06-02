@@ -14,7 +14,12 @@
         /// for a notable exception to this rule.
         /// </summary>
         /// <param name="graph"></param>
-        public void Do(Graph graph) { Run(graph); Invert(); }
+        public bool Do(Graph graph)
+        {
+            var result = Run(graph);
+            Invert();
+            return result;
+        }
 
         public virtual string Action => $"{Detail} change";
         public virtual string UndoAction => Action;
@@ -33,7 +38,12 @@
     public abstract class GraphPropertyCommand<T> : GraphCommand<T>, IGraphPropertyCommand
     {
         public GraphPropertyCommand(T value, Func<Graph, T> get, Action<Graph, T> set)
-            : base() { Get = get; Set = set; }
+            : base()
+        {
+            Value = value;
+            Get = get;
+            Set = set;
+        }
 
         protected Func<Graph, T> Get;
         protected Action<Graph, T> Set;
@@ -41,7 +51,7 @@
         protected override bool Run(Graph graph)
         {
             T value = Get(graph);
-            var result = !value.Equals(Value);
+            var result = !Equals(value, Value);
             if (result)
             {
                 Set(graph, Value);
