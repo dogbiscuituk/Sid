@@ -27,106 +27,115 @@ namespace ToyGraf.Commands
             private readonly GraphProxy GraphProxy;
             private readonly int Index;
             private Graph Graph => GraphProxy.Graph;
-            private Trace trace => Graph.Traces[Index];
+            private Trace Trace => Graph.Traces[Index];
 
+            [Category("Style")]
             public BrushType BrushType
             {
-                get => trace.BrushType;
+                get => Trace.BrushType;
                 set => Run(new TraceBrushTypeCommand(Index, value));
             }
 
-            [Category("Colours")]
+            [Category("Colour")]
             public Color FillColour1
             {
-                get => trace.FillColour1;
+                get => Trace.FillColour1;
                 set => Run(new TraceFillColour1Command(Index, value));
             }
 
-            [Category("Colours")]
+            [Category("Colour")]
             public Color FillColour2
             {
-                get => trace.FillColour2;
+                get => Trace.FillColour2;
                 set => Run(new TraceFillColour2Command(Index, value));
             }
 
-            [Category("Colours")]
+            [Category("Colour")]
             public int FillTransparencyPercent
             {
-                get => trace.FillTransparencyPercent;
+                get => Trace.FillTransparencyPercent;
                 set => Run(new TraceFillTransparencyPercentCommand(Index, value));
             }
 
             public string Formula
             {
-                get => trace.Formula;
+                get => Trace.Formula;
                 set => Run(new TraceFormulaCommand(Index, value));
             }
 
+            [Category("Style")]
             public LinearGradientMode GradientMode
             {
-                get => trace.GradientMode;
+                get => Trace.GradientMode;
                 set => Run(new TraceGradientModeCommand(Index, value));
             }
 
+            [Category("Style")]
             public HatchStyle HatchStyle
             {
-                get => trace.HatchStyle;
+                get => Trace.HatchStyle;
                 set => Run(new TraceHatchStyleCommand(Index, value));
             }
 
-            [Category("Colours")]
+            [Category("Colour")]
             public Color LimitColour
             {
-                get => trace.LimitColour;
+                get => Trace.LimitColour;
                 set => Run(new TraceLimitColourCommand(Index, value));
             }
 
-            [Category("Colours")]
+            [Category("Colour")]
             public Color PenColour
             {
-                get => trace.PenColour;
+                get => Trace.PenColour;
                 set => Run(new TracePenColourCommand(Index, value));
             }
 
+            [Category("Style")]
             public DashStyle PenStyle
             {
-                get => trace.PenStyle;
+                get => Trace.PenStyle;
                 set => Run(new TracePenStyleCommand(Index, value));
             }
 
+            [Category("Style")]
             public float PenWidth
             {
-                get => trace.PenWidth;
+                get => Trace.PenWidth;
                 set => Run(new TracePenWidthCommand(Index, value));
             }
 
+            [Category("Style")]
             public int StepCount
             {
-                get => trace.StepCount;
+                get => Trace.StepCount;
                 set => Run(new TraceStepCountCommand(Index, value));
             }
 
+            [Category("Style")]
             public string Texture
             {
-                get => trace.Texture;
+                get => Trace.Texture;
                 set => Run(new TraceTextureCommand(Index, value));
             }
 
+            [Category("Style")]
             public string TexturePath
             {
-                get => trace.TexturePath;
+                get => Trace.TexturePath;
                 set => Run(new TraceTexturePathCommand(Index, value));
             }
 
             public bool Visible
             {
-                get => trace.Visible;
+                get => Trace.Visible;
                 set => Run(new TraceVisibleCommand(Index, value));
             }
 
+            [Category("Style")]
             public WrapMode WrapMode
             {
-                get => trace.WrapMode;
+                get => Trace.WrapMode;
                 set => Run(new TraceWrapModeCommand(Index, value));
             }
 

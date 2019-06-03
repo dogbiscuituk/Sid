@@ -6,13 +6,14 @@
 
     partial class GraphProxy
     {
-        [Category("Colours")]
+        [Category("Colour")]
         public Color AxisColour
         {
             get => Graph.AxisColour;
             set => Run(new GraphAxisColourCommand(value));
         }
 
+        [Category("View")]
         public PointF Centre
         {
             get => Graph.Centre;
@@ -61,92 +62,98 @@
             set => Run(new GraphDomainPolarDegreesCommand(value));
         }
 
+        [Category("Style")]
         public Elements Elements
         {
             get => Graph.Elements;
             set => Run(new GraphElementsCommand(value));
         }
 
-        [Category("Colours")]
+        [Category("Colour")]
         public Color FillColour1
         {
             get => Graph.FillColour1;
             set => Run(new GraphFillColour1Command(value));
         }
 
-        [Category("Colours")]
+        [Category("Colour")]
         public Color FillColour2
         {
             get => Graph.FillColour2;
             set => Run(new GraphFillColour2Command(value));
         }
 
-        [Category("Colours")]
+        [Category("Colour")]
         public int FillTransparencyPercent
         {
             get => Graph.FillTransparencyPercent;
             set => Run(new GraphFillTransparencyPercentCommand(value));
         }
 
+        [Category("Style")]
         public Interpolation Interpolation
         {
             get => Graph.Interpolation;
             set => Run(new GraphInterpolationCommand(value));
         }
 
-        [Category("Colours")]
+        [Category("Colour")]
         public Color LimitColour
         {
             get => Graph.LimitColour;
             set => Run(new GraphLimitColourCommand(value));
         }
 
+        [Category("Style")]
         public Optimization Optimization
         {
             get => Graph.Optimization;
             set => Run(new GraphOptimizationCommand(value));
         }
 
-        [Category("Colours")]
+        [Category("Colour")]
         public Color PaperColour
         {
             get => Graph.PaperColour;
             set => Run(new GraphPaperColourCommand(value));
         }
 
-        [Category("Colours")]
+        [Category("Colour")]
         public int PaperTransparencyPercent
         {
             get => Graph.PaperTransparencyPercent;
             set => Run(new GraphPaperTransparencyPercentCommand(value));
         }
 
-        [Category("Colours")]
+        [Category("Colour")]
         public Color PenColour
         {
             get => Graph.PenColour;
             set => Run(new GraphPenColourCommand(value));
         }
 
+        [Category("Style")]
         public PlotType PlotType
         {
             get => Graph.PlotType;
             set => Run(new GraphPlotTypeCommand(value));
         }
 
-        [Category("Colours")]
+        [Category("Colour")]
         public Color ReticleColour
         {
             get => Graph.ReticleColour;
             set => Run(new GraphReticleColourCommand(value));
         }
 
+        [Category("Style")]
         public int StepCount
         {
             get => Graph.StepCount;
             set => Run(new GraphStepCountCommand(value));
         }
 
+        [Category("Style")]
         public TickStyles TickStyles
         {
             get => Graph.TickStyles;
@@ -159,6 +166,7 @@
             set => Run(new GraphTitleCommand(value));
         }
 
+        [Category("View")]
         public float Width
         {
             get => Graph.Width;
