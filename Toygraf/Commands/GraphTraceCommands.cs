@@ -5,7 +5,7 @@
     partial class GraphProxy
     {
         /// <summary>
-        /// Common ancestor for GraphInsertSeriesCommand and GraphDeleteSeriesCommand.
+        /// Common ancestor for GraphInsertTraceCommand and GraphDeleteTraceCommand.
         /// These two descendant classes differ only in the value of a private bool flag,
         /// "Add", which controls their appearance and behaviour. Whereas most commands
         /// are their own inverses, since they just tell the Graph "Swap your property
@@ -14,12 +14,12 @@
         /// other, prior to the CommandProcessor (now GraphProxy) transfering them
         /// between the Undo and Redo stacks.
         /// </summary>
-        private class GraphSeriesCommand : SeriesCommand<Series>, IGraphSeriesCommand
+        private class GraphTraceCommand : TraceCommand<Trace>, IGraphTraceCommand
         {
-            internal GraphSeriesCommand(int index, bool add) : base(index) { Add = add; }
+            internal GraphTraceCommand(int index, bool add) : base(index) { Add = add; }
 
             public bool Add { get; set; }
-            public Series Series { get => Value; set => Value = value; }
+            public Trace Trace { get => Value; set => Value = value; }
 
             public override string UndoAction => GetAction(true);
             public override string RedoAction => GetAction(false);
@@ -33,16 +33,16 @@
                 if (Add)
                 {
                     if (Value == null)
-                        Value = graph.NewSeries();
-                    if (Index >= 0 && Index < graph.Series.Count)
-                        graph.InsertSeries(Index, Value);
-                    else if (Index == graph.Series.Count)
-                        graph.AddSeries(Value);
+                        Value = graph.NewTrace();
+                    if (Index >= 0 && Index < graph.Traces.Count)
+                        graph.InsertTrace(Index, Value);
+                    else if (Index == graph.Traces.Count)
+                        graph.AddTrace(Value);
                 }
                 else
                 {
-                    Value = graph.Series[Index];
-                    graph.RemoveSeries(Index);
+                    Value = graph.Traces[Index];
+                    graph.RemoveTrace(Index);
                     Value.InvalidatePaths();
                 }
                 return true;
@@ -51,14 +51,14 @@
             private string GetAction(bool undo) => $"function {(Add ^ undo ? "addition" : "removal")}";
         }
 
-        private class GraphInsertSeriesCommand : GraphSeriesCommand
+        private class GraphInsertTraceCommand : GraphTraceCommand
         {
-            internal GraphInsertSeriesCommand(int index) : base(index, true) { }
+            internal GraphInsertTraceCommand(int index) : base(index, true) { }
         }
 
-        private class GraphDeleteSeriesCommand : GraphSeriesCommand
+        private class GraphDeleteTraceCommand : GraphTraceCommand
         {
-            internal GraphDeleteSeriesCommand(int index) : base(index, false) { }
+            internal GraphDeleteTraceCommand(int index) : base(index, false) { }
         }
     }
 }

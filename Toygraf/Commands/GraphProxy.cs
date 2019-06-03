@@ -71,16 +71,16 @@
 
         #region Command Runners
 
-        internal GraphSeries this[int index] { get => new GraphSeries(this, index); }
+        internal GraphTrace this[int index] { get => new GraphTrace(this, index); }
 
         [Editor(typeof(TgCollectionEditor), typeof(UITypeEditor))]
-        public List<GraphSeries> Series
+        public List<GraphTrace> Traces
         {
-            get => Graph.Series.Select(s => new GraphSeries(this, Graph.Series.IndexOf(s))).ToList();
+            get => Graph.Traces.Select(s => new GraphTrace(this, Graph.Traces.IndexOf(s))).ToList();
         }
 
-        internal bool GraphDeleteSeries(int index) => Run(new GraphDeleteSeriesCommand(index));
-        internal bool GraphInsertSeries(int index) => Run(new GraphInsertSeriesCommand(index));
+        internal bool GraphDeleteTrace(int index) => Run(new GraphDeleteTraceCommand(index));
+        internal bool GraphInsertTrace(int index) => Run(new GraphInsertTraceCommand(index));
 
         #endregion
 
@@ -156,14 +156,14 @@
             if (GroupUndo && CanUndo)
             {
                 var prevCmd = UndoStack.Peek();
-                canGroup = !(command is GraphSeriesCommand) && command.GetType() == prevCmd.GetType();
-                if (canGroup && command is ISeriesPropertyCommand s)
-                    canGroup = s.Index == ((ISeriesPropertyCommand)prevCmd).Index;
-                else if (command is ISeriesPropertyCommand sf && prevCmd is IGraphSeriesCommand gs)
+                canGroup = !(command is GraphTraceCommand) && command.GetType() == prevCmd.GetType();
+                if (canGroup && command is ITracePropertyCommand s)
+                    canGroup = s.Index == ((ITracePropertyCommand)prevCmd).Index;
+                else if (command is ITracePropertyCommand sf && prevCmd is IGraphTraceCommand gs)
                 {
                     canGroup = !gs.Add && sf.Index == gs.Index;
-                    if (canGroup && gs.Series == null)
-                        gs.Series = Graph.Series[sf.Index];
+                    if (canGroup && gs.Trace == null)
+                        gs.Trace = Graph.Traces[sf.Index];
                 }
             };
             if (!canGroup)

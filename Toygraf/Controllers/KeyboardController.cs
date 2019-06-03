@@ -16,15 +16,15 @@
     {
         #region Internal Interface
 
-        internal KeyboardController(SeriesPropertiesController seriesPropertiesController)
+        internal KeyboardController(TracePropertiesController tracePropertiesController)
         {
-            SeriesPropertiesController = seriesPropertiesController;
-            View = seriesPropertiesController.View;
+            TracePropertiesController = tracePropertiesController;
+            View = tracePropertiesController.View;
             GraphController.PropertyChanged += GraphController_PropertyChanged;
             InitFunctionNames();
         }
 
-        internal SeriesPropertiesDialog View
+        internal TracePropertiesDialog View
         {
             get => _view;
             set
@@ -50,12 +50,12 @@
 
         internal void IndexValueChanged() => FocusFunctionBox();
 
-        internal void LoadSeries()
+        internal void LoadTrace()
         {
             Loading = true;
             if (Index >= 0)
             {
-                View.cbVisible.Checked = SeriesView.cbVisible.Checked;
+                View.cbVisible.Checked = TraceView.cbVisible.Checked;
                 FunctionBox.Text = ActiveControl.Text;
             }
             else
@@ -107,17 +107,17 @@
             }
         }
 
-        private SeriesPropertiesDialog _view;
-        private readonly SeriesPropertiesController SeriesPropertiesController;
-        private GraphController GraphController => SeriesPropertiesController.GraphController;
+        private TracePropertiesDialog _view;
+        private readonly TracePropertiesController TracePropertiesController;
+        private GraphController GraphController => TracePropertiesController.GraphController;
         private GraphProxy GraphProxy => GraphController.GraphProxy;
-        private List<SeriesController> SeriesControllers => GraphController.LegendController.Children;
-        private SeriesView SeriesView => SeriesControllers[Index].View;
-        private Control ActiveControl => SeriesView.cbFunction;
+        private List<TraceController> TraceControllers => GraphController.LegendController.Children;
+        private TraceView TraceView => TraceControllers[Index].View;
+        private Control ActiveControl => TraceView.cbFunction;
         private readonly List<Button> CustomKeys = new List<Button>();
         private ComboBox FunctionBox { get => View.FunctionBox; }
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
-        private Graph Graph => SeriesPropertiesController.Graph;
+        private Graph Graph => TracePropertiesController.Graph;
         private int Index => GetIndex();
         private int SelStart, SelLength;
         private bool CanCancel, Loading, Updating;
@@ -157,7 +157,7 @@
         {
             if (!Updating)
             {
-                var match = Regex.Match(e.PropertyName, $@"Model.Graph.Series\[{Index}\]\.(\w+)");
+                var match = Regex.Match(e.PropertyName, $@"Model.Graph.Traces\[{Index}\]\.(\w+)");
                 if (match.Success)
                 {
                     Updating = true;
@@ -165,7 +165,7 @@
                     {
                         case "Formula":
                             SaveSelection();
-                            View.FunctionBox.Text = Graph.Series[Index].Formula;
+                            View.FunctionBox.Text = Graph.Traces[Index].Formula;
                             LoadSelection();
                             UpdateProxyLabel();
                             break;
@@ -214,7 +214,7 @@
                 : string.Empty;
         }
 
-        private void VisibleChanged(object sender, EventArgs e) => SeriesView.cbVisible.Checked = View.cbVisible.Checked;
+        private void VisibleChanged(object sender, EventArgs e) => TraceView.cbVisible.Checked = View.cbVisible.Checked;
 
         #endregion
 
@@ -226,7 +226,7 @@
             LoadSelection();
         }
 
-        private int GetIndex() => SeriesPropertiesController.Index;
+        private int GetIndex() => TracePropertiesController.Index;
 
         private string GetKeyboardName(KeyboardType type) => Keyboards[(int)type].Name;
 

@@ -11,17 +11,17 @@
             string RedoAction { get; }
         }
 
-        private interface ISeriesCommand : IGraphCommand
+        private interface ITraceCommand : IGraphCommand
         {
             int Index { get; set; }
         }
 
-        private interface ISeriesPropertyCommand : ISeriesCommand { }
+        private interface ITracePropertyCommand : ITraceCommand { }
 
-        private interface IGraphSeriesCommand : ISeriesCommand
+        private interface IGraphTraceCommand : ITraceCommand
         {
             bool Add { get; set; }
-            Series Series { get; set; }
+            Trace Trace { get; set; }
         }
     }
 }

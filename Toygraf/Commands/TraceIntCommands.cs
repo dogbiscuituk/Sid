@@ -2,9 +2,9 @@
 {
     partial class GraphProxy
     {
-        private class SeriesFillTransparencyPercentCommand : SeriesPropertyCommand<int>
+        private class TraceFillTransparencyPercentCommand : TracePropertyCommand<int>
         {
-            public SeriesFillTransparencyPercentCommand(int index, int value) :
+            public TraceFillTransparencyPercentCommand(int index, int value) :
                 base(index, value,
                     s => s.FillTransparencyPercent,
                     (s, v) => s.FillTransparencyPercent = v)
@@ -13,9 +13,9 @@
             protected override string Detail => "fill transparency (%)";
         }
 
-        private class SeriesStepCountCommand : SeriesPropertyCommand<int>
+        private class TraceStepCountCommand : TracePropertyCommand<int>
         {
-            public SeriesStepCountCommand(int index, int value) :
+            public TraceStepCountCommand(int index, int value) :
                 base(index, value,
                     s => s.StepCount,
                     (s, v) => s.StepCount = v)

@@ -4,36 +4,36 @@
 
     partial class GraphProxy
     {
-        private class SeriesFillColour1Command : SeriesPropertyCommand<Color>
+        private class TraceFillColour1Command : TracePropertyCommand<Color>
         {
-            public SeriesFillColour1Command(int index, Color colour) :
+            public TraceFillColour1Command(int index, Color colour) :
                 base(index, colour, s => s.FillColour1, (s, v) => s.FillColour1 = v)
             { }
 
             protected override string Detail => "fill";
         }
 
-        private class SeriesFillColour2Command : SeriesPropertyCommand<Color>
+        private class TraceFillColour2Command : TracePropertyCommand<Color>
         {
-            public SeriesFillColour2Command(int index, Color colour) :
+            public TraceFillColour2Command(int index, Color colour) :
                 base(index, colour, s => s.FillColour2, (s, v) => s.FillColour2 = v)
             { }
 
             protected override string Detail => "secondary fill";
         }
 
-        private class SeriesLimitColourCommand : SeriesPropertyCommand<Color>
+        private class TraceLimitColourCommand : TracePropertyCommand<Color>
         {
-            public SeriesLimitColourCommand(int index, Color colour) :
+            public TraceLimitColourCommand(int index, Color colour) :
                 base(index, colour, s => s.LimitColour, (s, v) => s.LimitColour = v)
             { }
 
             protected override string Detail => "limit";
         }
 
-        private class SeriesPenColourCommand : SeriesPropertyCommand<Color>
+        private class TracePenColourCommand : TracePropertyCommand<Color>
         {
-            public SeriesPenColourCommand(int index, Color colour) :
+            public TracePenColourCommand(int index, Color colour) :
                 base(index, colour, s => s.PenColour, (s, v) => s.PenColour = v)
             { }
 

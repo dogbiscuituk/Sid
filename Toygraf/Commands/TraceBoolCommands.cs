@@ -2,9 +2,9 @@
 {
     partial class GraphProxy
     {
-        private class SeriesVisibleCommand : SeriesPropertyCommand<bool>
+        private class TraceVisibleCommand : TracePropertyCommand<bool>
         {
-            public SeriesVisibleCommand(int index, bool value) :
+            public TraceVisibleCommand(int index, bool value) :
                 base(index, value,
                     s => s.Visible,
                     (s, v) => s.Visible = v)

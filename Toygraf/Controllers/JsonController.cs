@@ -49,8 +49,8 @@
             using (var reader = new JsonTextReader(streamer))
                 result = UseStream(() => Model.Graph = GetSerializer().Deserialize<Graph>(reader));
             Graph.PropertyChanged += Model.Graph_PropertyChanged;
-            foreach (var series in Series)
-                series.PropertyChanged += Graph.Series_PropertyChanged;
+            foreach (var trace in Traces)
+                trace.PropertyChanged += Graph.Trace_PropertyChanged;
 
             return result;
         }
@@ -67,7 +67,7 @@
         #region Private Implementation
 
         private Graph Graph { get => Model.Graph; }
-        private List<Series> Series { get => Graph.Series; }
+        private List<Trace> Traces { get => Graph.Traces; }
         private readonly Control View;
 
         private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) { }

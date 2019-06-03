@@ -2,9 +2,9 @@
 {
     partial class GraphProxy
     {
-        private class SeriesPenWidthCommand : SeriesPropertyCommand<float>
+        private class TracePenWidthCommand : TracePropertyCommand<float>
         {
-            public SeriesPenWidthCommand(int index, float value) :
+            public TracePenWidthCommand(int index, float value) :
                 base(index, value,
                     s => s.PenWidth,
                     (s, v) => s.PenWidth = v)

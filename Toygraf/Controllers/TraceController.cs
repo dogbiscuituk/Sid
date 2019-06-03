@@ -10,20 +10,20 @@
     using ToyGraf.Models;
     using ToyGraf.Views;
 
-    internal class SeriesController
+    internal class TraceController
     {
         #region Internal Interface
 
-        internal SeriesController(LegendController legendController, Series series)
+        internal TraceController(LegendController legendController, Trace trace)
         {
             LegendController = legendController;
-            Series = series;
+            Trace = trace;
             ColourController = new ColourController();
-            View = new SeriesView();
+            View = new TraceView();
             InitFunctionNames();
         }
 
-        internal SeriesView View
+        internal TraceView View
         {
             get => _view;
             set
@@ -41,7 +41,7 @@
             }
         }
 
-        internal Series Series { get; set; }
+        internal Trace Trace { get; set; }
 
         internal bool TraceVisible
         {
@@ -90,13 +90,13 @@
 
         #region Private Properties
 
-        private SeriesView _view;
+        private TraceView _view;
         private GraphController GraphController { get => LegendController.GraphController; }
         private LegendController LegendController;
         private ColourController ColourController;
         private GraphProxy GraphProxy { get => GraphController.GraphProxy; }
-        private SeriesPropertiesController SeriesPropertiesController { get => GraphController.SeriesPropertiesController; }
-        private KeyboardController KeyboardController { get => SeriesPropertiesController.KeyboardController; }
+        private TracePropertiesController TracePropertiesController { get => GraphController.TracePropertiesController; }
+        private KeyboardController KeyboardController { get => TracePropertiesController.KeyboardController; }
         private int Index { get => LegendController.IndexOf(this); }
         private ComboBox FunctionBox { get => View.cbFunction; }
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
@@ -111,19 +111,19 @@
         private void BtnDetails_Click(object sender, System.EventArgs e)
         {
             var index = LegendController.IndexOf(this);
-            if (!SeriesPropertiesController.View.Visible)
+            if (!TracePropertiesController.View.Visible)
             {
                 int h = View.Height, h1 = KeyboardController.View.Height,
                     h2 = Screen.FromControl(View).Bounds.Height;
                 var p = View.PointToScreen(new Point(0, h));
                 if (p.Y + h1 > h2) p.Y -= h + h1;
-                SeriesPropertiesController.Show(GraphController.View, p, index);
+                TracePropertiesController.Show(GraphController.View, p, index);
             }
             else
-                SeriesPropertiesController.Series = Graph.Series[index];
+                TracePropertiesController.Trace = Graph.Traces[index];
         }
 
-        private void BtnRemove_Click(object sender, System.EventArgs e) => LegendController.RemoveSeries(Index);
+        private void BtnRemove_Click(object sender, System.EventArgs e) => LegendController.RemoveTrace(Index);
 
         private void CbFillColour_SelectedValueChanged(object sender, System.EventArgs e)
         {
@@ -156,28 +156,28 @@
         {
             if (!Updating)
             {
-                var match = Regex.Match(e.PropertyName, $@"Model.Graph.Series\[{Index}\]\.(\w+)");
+                var match = Regex.Match(e.PropertyName, $@"Model.Graph.Traces\[{Index}\]\.(\w+)");
                 if (match.Success)
                 {
                     Updating = true;
                     switch (match.Groups[1].Value)
                     {
                         case "Visible":
-                            TraceVisible = Series.Visible;
+                            TraceVisible = Trace.Visible;
                             break;
                         case "Formula":
                             SaveFormulaSelection();
-                            Formula = Series.Formula;
+                            Formula = Trace.Formula;
                             LoadFormulaSelection();
                             break;
                         case "PenColour":
-                            PenColour = Series.PenColour;
+                            PenColour = Trace.PenColour;
                             break;
                         case "FillColour1":
-                            FillColour = Series.FillColour1;
+                            FillColour = Trace.FillColour1;
                             break;
                         case "FillTransparencyPercent":
-                            FillTransparencyPercent = Series.FillTransparencyPercent;
+                            FillTransparencyPercent = Trace.FillTransparencyPercent;
                             break;
                     }
                     Updating = false;

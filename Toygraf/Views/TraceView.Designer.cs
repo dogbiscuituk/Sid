@@ -1,6 +1,6 @@
 ﻿namespace ToyGraf.Views
 {
-    partial class SeriesView
+    partial class TraceView
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SeriesView));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TraceView));
             this.cbFunction = new System.Windows.Forms.ComboBox();
             this.btnRemove = new System.Windows.Forms.Button();
             this.ImageList = new System.Windows.Forms.ImageList(this.components);
@@ -174,7 +174,7 @@
             this.Label.TabIndex = 7;
             this.Label.Text = "f";
             // 
-            // SeriesView
+            // TraceView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -190,7 +190,7 @@
             this.Controls.Add(this.cbVisible);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(0);
-            this.Name = "SeriesView";
+            this.Name = "TraceView";
             this.Size = new System.Drawing.Size(489, 24);
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).EndInit();
             this.ResumeLayout(false);

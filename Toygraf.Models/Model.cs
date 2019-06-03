@@ -47,7 +47,7 @@
 
         #endregion
 
-        #region Series management
+        #region Trace management
 
         public event EventHandler Cleared;
 

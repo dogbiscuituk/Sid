@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    internal partial class SeriesView : UserControl
+    internal partial class TracePropertiesDialog : Form
     {
-        internal SeriesView()
+        internal TracePropertiesDialog()
         {
             InitializeComponent();
         }

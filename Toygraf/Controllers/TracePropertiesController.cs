@@ -13,15 +13,15 @@
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Views;
 
-    internal class SeriesPropertiesController : IDisposable
+    internal class TracePropertiesController : IDisposable
     {
         #region Internal Interface
 
-        internal SeriesPropertiesController(GraphController graphController)
+        internal TracePropertiesController(GraphController graphController)
         {
             GraphController = graphController;
             GraphController.PropertyChanged += GraphController_PropertyChanged;
-            View = new SeriesPropertiesDialog();
+            View = new TracePropertiesDialog();
             View.FormClosing += View_FormClosing;
             ColourController = new ColourController();
             ColourController.AddControls(View.cbPenColour, View.cbFillColour1, View.cbFillColour2);
@@ -47,34 +47,34 @@
             UpdateUI();
         }
 
-        internal Series Series
+        internal Trace Trace
         {
-            get => _series;
+            get => _trace;
             set
             {
-                _series = value;
-                LoadSeries();
+                _trace = value;
+                LoadTrace();
             }
         }
 
         internal void Clear()
         {
-            Series = null;
+            Trace = null;
             Close();
         }
 
         internal void Show(IWin32Window owner, Point location, int index)
         {
-            Series = Graph.Series[index];
+            Trace = Graph.Traces[index];
             View.Location = location;
             View.Show(owner);
         }
 
         internal readonly GraphController GraphController;
         internal KeyboardController KeyboardController;
-        internal SeriesPropertiesDialog View;
+        internal TracePropertiesDialog View;
         internal Graph Graph => GraphController.Graph;
-        internal int Index => Graph.Series.IndexOf(Series);
+        internal int Index => Graph.Traces.IndexOf(Trace);
         internal bool Loading;
 
         #endregion
@@ -83,10 +83,10 @@
 
         private ColourController ColourController;
         private GraphProxy GraphProxy => GraphController.GraphProxy;
-        private List<SeriesController> SeriesControllers => GraphController.LegendController.Children;
-        private SeriesView SeriesView => SeriesControllers[Index].View;
-        private Series _series;
-        private int Count => Graph.Series.Count;
+        private List<TraceController> TraceControllers => GraphController.LegendController.Children;
+        private TraceView TraceView => TraceControllers[Index].View;
+        private Trace _trace;
+        private int Count => Graph.Traces.Count;
         private bool Updating;
 
         #endregion
@@ -104,21 +104,21 @@
 
         private void BtnFillColour1_Click(object sender, EventArgs e)
         {
-            View.ColourDialog.Color = Series.FillColour1;
+            View.ColourDialog.Color = Trace.FillColour1;
             if (View.ColourDialog.ShowDialog(View) == DialogResult.OK)
                 GraphProxy[Index].FillColour1 = View.ColourDialog.Color;
         }
 
         private void BtnFillColour2_Click(object sender, EventArgs e)
         {
-            View.ColourDialog.Color = Series.FillColour2;
+            View.ColourDialog.Color = Trace.FillColour2;
             if (View.ColourDialog.ShowDialog(View) == DialogResult.OK)
                 GraphProxy[Index].FillColour2 = View.ColourDialog.Color;
         }
 
         private void BtnPenColour_Click(object sender, EventArgs e)
         {
-            View.ColourDialog.Color = Series.PenColour;
+            View.ColourDialog.Color = Trace.PenColour;
             if (View.ColourDialog.ShowDialog(View) == DialogResult.OK)
                 GraphProxy[Index].PenColour = View.ColourDialog.Color;
         }
@@ -151,60 +151,60 @@
         {
             switch (e.PropertyName)
             {
-                case "Model.Graph.Series":
+                case "Model.Graph.Traces":
                     if (Count == 0)
                         Clear();
                     else
                     {
-                        var index = Math.Max(Graph.Series.IndexOf(Series), 0);
-                        Series = Graph.Series[index];
+                        var index = Math.Max(Graph.Traces.IndexOf(Trace), 0);
+                        Trace = Graph.Traces[index];
                     }
                     return;
             }
             if (!Updating)
             {
-                var match = Regex.Match(e.PropertyName, $@"Model.Graph.Series\[{Index}\]\.(\w+)");
+                var match = Regex.Match(e.PropertyName, $@"Model.Graph.Traces\[{Index}\]\.(\w+)");
                 if (match.Success)
                 {
                     Updating = true;
                     switch (match.Groups[1].Value)
                     {
                         case "BrushType":
-                            View.cbBrushType.SelectedIndex = (int)Series.BrushType;
+                            View.cbBrushType.SelectedIndex = (int)Trace.BrushType;
                             break;
                         case "FillColour1":
-                            ColourController.SetColour(View.cbFillColour1, Series.FillColour1);
+                            ColourController.SetColour(View.cbFillColour1, Trace.FillColour1);
                             break;
                         case "FillColour2":
-                            ColourController.SetColour(View.cbFillColour2, Series.FillColour2);
+                            ColourController.SetColour(View.cbFillColour2, Trace.FillColour2);
                             break;
                         case "FillTransparencyPercent":
-                            View.seTransparency.Value = Series.FillTransparencyPercent;
+                            View.seTransparency.Value = Trace.FillTransparencyPercent;
                             break;
                         case "GradientMode":
-                            View.cbGradientMode.SelectedIndex = (int)Series.GradientMode;
+                            View.cbGradientMode.SelectedIndex = (int)Trace.GradientMode;
                             break;
                         case "HatchStyle":
-                            View.cbHatchStyle.SelectedIndex = (int)Series.HatchStyle;
+                            View.cbHatchStyle.SelectedIndex = (int)Trace.HatchStyle;
                             break;
                         case "PenColour":
-                            ColourController.SetColour(View.cbPenColour, Series.PenColour);
+                            ColourController.SetColour(View.cbPenColour, Trace.PenColour);
                             break;
                         case "PenStyle":
-                            View.cbPenStyle.SelectedIndex = (int)Series.PenStyle;
+                            View.cbPenStyle.SelectedIndex = (int)Trace.PenStyle;
                             break;
                         case "PenWidth":
-                            View.sePenSize.Value = (decimal)Series.PenWidth;
+                            View.sePenSize.Value = (decimal)Trace.PenWidth;
                             break;
                         case "Texture":
                         case "TexturePath":
-                            View.lblTexturePath.Text = Series.TexturePath;
+                            View.lblTexturePath.Text = Trace.TexturePath;
                             break;
                         case "Visible":
-                            View.cbVisible.Checked = Series.Visible;
+                            View.cbVisible.Checked = Trace.Visible;
                             break;
                         case "WrapMode":
-                            View.cbWrapMode.SelectedIndex = (int)Series.WrapMode;
+                            View.cbWrapMode.SelectedIndex = (int)Trace.WrapMode;
                             break;
                     }
                     Updating = false;
@@ -248,8 +248,8 @@
 
         private void TextureClick(object sender, EventArgs e)
         {
-            if (GraphController.ExecuteTextureDialog(Series))
-                View.lblTexturePath.Text = Series.TexturePath.AmpersandEscape();
+            if (GraphController.ExecuteTextureDialog(Trace))
+                View.lblTexturePath.Text = Trace.TexturePath.AmpersandEscape();
         }
 
         private void View_FormClosing(object sender, FormClosingEventArgs e)
@@ -278,7 +278,7 @@
             if (!Loading)
             {
                 Loading = true;
-                Series = Graph.Series[Count - (int)View.seIndex.Value - 1];
+                Trace = Graph.Traces[Count - (int)View.seIndex.Value - 1];
                 Loading = false;
             }
             KeyboardController.IndexValueChanged();
@@ -293,28 +293,28 @@
             View.cbWrapMode.Items.PopulateWithNames(typeof(WrapMode));
         }
 
-        private void LoadSeries()
+        private void LoadTrace()
         {
-            if (Series != null)
+            if (Trace != null)
             {
                 Loading = true;
                 View.IndexLabel.Text = $"f{Index}";
                 View.seIndex.Maximum = Count - 1;
                 View.seIndex.Value = Count - Index - 1;
-                ColourController.SetColour(View.cbPenColour, Series.PenColour);
-                ColourController.SetColour(View.cbFillColour1, Series.FillColour1);
-                ColourController.SetColour(View.cbFillColour2, Series.FillColour2);
-                View.cbPenStyle.SelectedIndex = (int)Series.PenStyle;
-                View.cbBrushType.SelectedIndex = (int)Series.BrushType;
-                View.cbHatchStyle.SelectedIndex = (int)Series.HatchStyle;
-                View.cbGradientMode.SelectedIndex = (int)Series.GradientMode;
-                View.cbWrapMode.SelectedIndex = (int)Series.WrapMode;
-                View.lblTexturePath.Text = Series.TexturePath;
-                View.sePenSize.Value = (decimal)Series.PenWidth;
-                View.seTransparency.Value = Series.FillTransparencyPercent;
+                ColourController.SetColour(View.cbPenColour, Trace.PenColour);
+                ColourController.SetColour(View.cbFillColour1, Trace.FillColour1);
+                ColourController.SetColour(View.cbFillColour2, Trace.FillColour2);
+                View.cbPenStyle.SelectedIndex = (int)Trace.PenStyle;
+                View.cbBrushType.SelectedIndex = (int)Trace.BrushType;
+                View.cbHatchStyle.SelectedIndex = (int)Trace.HatchStyle;
+                View.cbGradientMode.SelectedIndex = (int)Trace.GradientMode;
+                View.cbWrapMode.SelectedIndex = (int)Trace.WrapMode;
+                View.lblTexturePath.Text = Trace.TexturePath;
+                View.sePenSize.Value = (decimal)Trace.PenWidth;
+                View.seTransparency.Value = Trace.FillTransparencyPercent;
                 Loading = false;
             }
-            KeyboardController.LoadSeries();
+            KeyboardController.LoadTrace();
         }
 
         private void UpdateIndexLabel() => View.IndexLabel.Text = $"f{Index}";

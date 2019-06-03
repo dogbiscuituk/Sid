@@ -10,22 +10,22 @@
 
     internal class TaylorPolynomialController
     {
-        internal TaylorPolynomialController(SeriesPropertiesController seriesPropertiesController) =>
-            SeriesPropertiesController = seriesPropertiesController;
+        internal TaylorPolynomialController(TracePropertiesController tracePropertiesController) =>
+            TracePropertiesController = tracePropertiesController;
 
         internal void CreateGraph()
         {
             GraphController = AppController.TheAppController.AddNewGraphController();
-            PopulateSeries(SeriesPropertiesController.Series.Proxy);
+            PopulateTraces(TracePropertiesController.Trace.Proxy);
         }
 
         internal bool Execute()
         {
             var view = new TaylorPolynomialParamsDialog();
             view.edCentreX.Text = "0";
-            var graph = SeriesPropertiesController.Graph;
+            var graph = TracePropertiesController.Graph;
             DomainInfo = graph.DomainInfo;
-            var ok = view.ShowDialog(SeriesPropertiesController.View) == DialogResult.OK;
+            var ok = view.ShowDialog(TracePropertiesController.View) == DialogResult.OK;
             if (ok)
             {
                 Degree = (int)view.seDegree.Value;
@@ -36,7 +36,7 @@
             return ok;
         }
 
-        internal void PopulateSeries(Expression proxy)
+        internal void PopulateTraces(Expression proxy)
         {
             Graph.OnBeginUpdate();
             Graph.Clear();
@@ -45,7 +45,7 @@
             var linearFactor = Expressions.x.Minus(CentreX);
             Expression powerFactor, runningTotal = 0.0.Constant();
             var oldFormula = string.Empty;
-            Series series;
+            Trace trace;
             var degree = 0;
             for (int index = 0, penIndex = 0; index <= Degree; index++)
             {
@@ -69,12 +69,12 @@
                 var newFormula = runningTotal.AsString();
                 if (newFormula != oldFormula)
                 {
-                    series = Graph.AddSeries();
-                    series.Formula = newFormula;
+                    trace = Graph.AddTrace();
+                    trace.Formula = newFormula;
                     Color penColour;
                     do penColour = Defaults.GetGraphPenColour(penIndex++);
                     while (penColour == Color.Black || penColour == Color.White);
-                    series.PenColour = penColour;
+                    trace.PenColour = penColour;
                     degree = index;
                 }
                 if (index < Degree)
@@ -83,19 +83,19 @@
                     proxy = proxy.Differentiate();
                 }
             }
-            series = Graph.AddSeries();
-            series.Formula = targetFormula;
-            series.PenColour = Graph.PaperColour.Contrast();
+            trace = Graph.AddTrace();
+            trace.Formula = targetFormula;
+            trace.PenColour = Graph.PaperColour.Contrast();
             Graph.DomainInfo = DomainInfo;
             Graph.Title = $"Taylor Polynomial of degree {degree} for {targetFormula} at x={Centre}";
             Graph.OnEndUpdate();
             GraphController.Model.Modified = false;
         }
 
-        private readonly SeriesPropertiesController SeriesPropertiesController;
+        private readonly TracePropertiesController TracePropertiesController;
         private GraphController GraphController;
         private Graph Graph => GraphController.Graph;
-        private Series Series => SeriesPropertiesController.Series;
+        private Trace Trace => TracePropertiesController.Trace;
         private DomainInfo DomainInfo;
         private string Centre;
         private double CentreX;

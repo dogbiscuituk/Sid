@@ -13,8 +13,8 @@
             /// Redo stacks. Since most commands are their own inverses (they
             /// just tell the Graph "Swap your property value with the one I'm
             /// carrying", the Invert() method is almost always empty. See the
-            /// GraphInsertSeriesCommand and GraphDeleteSeriesCommand classes
-            /// for a notable exception to this rule.
+            /// GraphInsertTraceCommand and GraphDeleteTraceCommand classes
+            /// for two notable exceptions to this rule.
             /// </summary>
             /// <param name="graph"></param>
             public bool Do(Graph graph)
@@ -64,16 +64,16 @@
             }
         }
 
-        private abstract class SeriesCommand<T> : GraphCommand<T>, ISeriesCommand
+        private abstract class TraceCommand<T> : GraphCommand<T>, ITraceCommand
         {
-            protected SeriesCommand(int index) : base() { Index = index; }
+            protected TraceCommand(int index) : base() { Index = index; }
 
             public int Index { get; set; }
         }
 
-        private abstract class SeriesPropertyCommand<T> : SeriesCommand<T>, ISeriesPropertyCommand
+        private abstract class TracePropertyCommand<T> : TraceCommand<T>, ITracePropertyCommand
         {
-            protected SeriesPropertyCommand(int index, T value, Func<Series, T> get, Action<Series, T> set)
+            protected TracePropertyCommand(int index, T value, Func<Trace, T> get, Action<Trace, T> set)
                 : base(index)
             {
                 Value = value;
@@ -81,16 +81,16 @@
                 Set = set;
             }
 
-            protected Func<Series, T> Get;
-            protected Action<Series, T> Set;
+            protected Func<Trace, T> Get;
+            protected Action<Trace, T> Set;
 
             protected override bool Run(Graph graph)
             {
-                T value = Get(graph.Series[Index]);
+                T value = Get(graph.Traces[Index]);
                 var result = !value.Equals(Value);
                 if (result)
                 {
-                    Set(graph.Series[Index], Value);
+                    Set(graph.Traces[Index], Value);
                     Value = value;
                 }
                 return result;

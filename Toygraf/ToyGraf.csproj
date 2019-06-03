@@ -65,15 +65,15 @@
     <Compile Include="Commands\GraphFloatCommands.cs" />
     <Compile Include="Commands\GraphIntCommands.cs" />
     <Compile Include="Commands\GraphPointFCommands.cs" />
-    <Compile Include="Commands\GraphSeries.cs" />
-    <Compile Include="Commands\GraphSeriesCommands.cs" />
+    <Compile Include="Commands\GraphTrace.cs" />
+    <Compile Include="Commands\GraphTraceCommands.cs" />
     <Compile Include="Commands\GraphStringCommands.cs" />
-    <Compile Include="Commands\SeriesBoolCommands.cs" />
-    <Compile Include="Commands\SeriesColourCommands.cs" />
-    <Compile Include="Commands\SeriesEnumCommands.cs" />
-    <Compile Include="Commands\SeriesFloatCommands.cs" />
-    <Compile Include="Commands\SeriesIntCommands.cs" />
-    <Compile Include="Commands\SeriesStringCommands.cs" />
+    <Compile Include="Commands\TraceBoolCommands.cs" />
+    <Compile Include="Commands\TraceColourCommands.cs" />
+    <Compile Include="Commands\TraceEnumCommands.cs" />
+    <Compile Include="Commands\TraceFloatCommands.cs" />
+    <Compile Include="Commands\TraceIntCommands.cs" />
+    <Compile Include="Commands\TraceStringCommands.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\ClockController.cs" />
@@ -85,12 +85,12 @@
     <Compile Include="Controllers\JsonController.cs" />
     <Compile Include="Controllers\LegendController.cs" />
     <Compile Include="Controllers\PropertyGridController.cs" />
-    <Compile Include="Controllers\SeriesController.cs" />
+    <Compile Include="Controllers\TraceController.cs" />
     <Compile Include="Controllers\GraphController.cs" />
     <Compile Include="Controllers\MruController.cs" />
     <Compile Include="Controllers\SdiController.cs" />
     <Compile Include="Controllers\KeyboardController.cs" />
-    <Compile Include="Controllers\SeriesPropertiesController.cs" />
+    <Compile Include="Controllers\TracePropertiesController.cs" />
     <Compile Include="Controllers\TaylorPolynomialController.cs" />
     <Compile Include="Controllers\ToolbarController.cs" />
     <Compile Include="Views\AboutDialog.cs">
@@ -123,17 +123,17 @@
     <Compile Include="Views\GraphPropertiesDialog.Designer.cs">
       <DependentUpon>GraphPropertiesDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\SeriesView.cs">
+    <Compile Include="Views\TraceView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\SeriesView.Designer.cs">
-      <DependentUpon>SeriesView.cs</DependentUpon>
+    <Compile Include="Views\TraceView.Designer.cs">
+      <DependentUpon>TraceView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\SeriesPropertiesDialog.cs">
+    <Compile Include="Views\TracePropertiesDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\SeriesPropertiesDialog.Designer.cs">
-      <DependentUpon>SeriesPropertiesDialog.cs</DependentUpon>
+    <Compile Include="Views\TracePropertiesDialog.Designer.cs">
+      <DependentUpon>TracePropertiesDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\TaylorPolynomialParamsDialog.cs">
       <SubType>Form</SubType>
@@ -179,11 +179,11 @@
     <EmbeddedResource Include="Views\GraphPropertiesDialog.resx">
       <DependentUpon>GraphPropertiesDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\SeriesView.resx">
-      <DependentUpon>SeriesView.cs</DependentUpon>
+    <EmbeddedResource Include="Views\TraceView.resx">
+      <DependentUpon>TraceView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\SeriesPropertiesDialog.resx">
-      <DependentUpon>SeriesPropertiesDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Views\TracePropertiesDialog.resx">
+      <DependentUpon>TracePropertiesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\TaylorPolynomialParamsDialog.resx">
       <DependentUpon>TaylorPolynomialParamsDialog.cs</DependentUpon>

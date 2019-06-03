@@ -44,23 +44,23 @@
         }
 
         internal GraphController GraphController;
-        internal List<SeriesController> Children = new List<SeriesController>();
+        internal List<TraceController> Children = new List<TraceController>();
         internal bool Loading = true;
 
         internal void AdjustLegend()
         {
             Legend.Visible = true;
             const int margin = 0, rowHeight = 23, maxRows = 17;
-            var scroll = SeriesViews.Count > maxRows;
+            var scroll = TraceViews.Count > maxRows;
             int w = 489 + (scroll ? SystemInformation.VerticalScrollBarWidth : 0),
-                h = SeriesViews.Count > 0 ? Math.Min(SeriesViews.Count, maxRows) * rowHeight + 2 : 0,
+                h = TraceViews.Count > 0 ? Math.Min(TraceViews.Count, maxRows) * rowHeight + 2 : 0,
                 x = Client.Width - w, y = Client.Height - h;
             Legend.AutoScrollPosition = new Point(0, 0);
             int index = 0, top = 0;
-            foreach (SeriesView seriesView in SeriesViews)
+            foreach (TraceView traceView in TraceViews)
             {
-                seriesView.Location = new Point(0, top);
-                seriesView.Label.Text = $"f{index++}";
+                traceView.Location = new Point(0, top);
+                traceView.Label.Text = $"f{index++}";
                 top += rowHeight;
             }
             var anchor = AlignToAnchor(LegendAlignment);
@@ -80,7 +80,7 @@
         internal void Clear()
         {
             View.StatusBar.Focus();
-            SeriesViews.Clear();
+            TraceViews.Clear();
             Children.Clear();
         }
 
@@ -90,16 +90,16 @@
                 return;
             Loading = true;
             Legend.SuspendLayout();
-            // First, remove any child without a corresponding Series in the Graph.
+            // First, remove any child without a corresponding Trace in the Graph.
             for (var index = 0; index < Children.Count; index++)
-                if (!Graph.Series.Contains(Children[index].Series))
-                    RemoveSeriesViewAt(index);
-            // Next, add any Graph Series without a corresponding child.
-            for (var index = 0; index < Graph.Series.Count; index++)
+                if (!Graph.Traces.Contains(Children[index].Trace))
+                    RemoveTraceViewAt(index);
+            // Next, add any Graph Trace without a corresponding child.
+            for (var index = 0; index < Graph.Traces.Count; index++)
             {
-                var series = Graph.Series[index];
-                if (!Children.Any(p => p.Series == series))
-                    InsertNewSeriesView(index, series);
+                var trace = Graph.Traces[index];
+                if (!Children.Any(p => p.Trace == trace))
+                    InsertNewTraceView(index, trace);
             }
             // Done.
             Legend.ResumeLayout();
@@ -108,8 +108,8 @@
             AdjustLegend();
         }
 
-        internal int IndexOf(SeriesController child) => Children.IndexOf(child);
-        internal void RemoveSeries(int index) => GraphProxy.GraphDeleteSeries(index);
+        internal int IndexOf(TraceController child) => Children.IndexOf(child);
+        internal void RemoveTrace(int index) => GraphProxy.GraphDeleteTrace(index);
 
         internal bool Validate()
         {
@@ -130,7 +130,7 @@
         private Graph Graph { get => GraphController.Graph; }
         private Panel Client { get => View.ClientPanel; }
         private Panel Legend { get => View.LegendPanel; }
-        private Control.ControlCollection SeriesViews { get => Legend.Controls; }
+        private Control.ControlCollection TraceViews { get => Legend.Controls; }
         private ContentAlignment _legendAlignment = ContentAlignment.TopLeft;
         private ContentAlignment LegendAlignment
         {
@@ -182,7 +182,7 @@
             View.ViewLegend.CloneTo(View.tbLegend);
         }
 
-        private void GraphAddNewFunction_Click(object sender, EventArgs e) => AddNewSeries();
+        private void GraphAddNewFunction_Click(object sender, EventArgs e) => AddNewTrace();
         private void ViewLegendBottomLeft_Click(object sender, EventArgs e) => LegendAlignment = ContentAlignment.BottomLeft;
         private void ViewLegendBottomRight_Click(object sender, EventArgs e) => LegendAlignment = ContentAlignment.BottomRight;
         private void ViewLegendHide_Click(object sender, EventArgs e) => Legend.Visible = !Legend.Visible;
@@ -193,7 +193,7 @@
 
         #region Private Methods
 
-        private void AddNewSeries() => GraphProxy.GraphInsertSeries(Children.Count);
+        private void AddNewTrace() => GraphProxy.GraphInsertTrace(Children.Count);
 
         private static AnchorStyles AlignToAnchor(ContentAlignment align)
         {
@@ -211,27 +211,27 @@
             return 0;
         }
 
-        private void InsertNewSeriesView(int index, Series series)
+        private void InsertNewTraceView(int index, Trace trace)
         {
             Loading = true;
-            var child = new SeriesController(this, series);
+            var child = new TraceController(this, trace);
             Children.Insert(index, child);
-            child.TraceVisible = series.Visible;
-            child.Formula = series.Formula;
-            child.PenColour = series.PenColour;
-            child.FillColour = series.FillColour1;
-            child.FillTransparencyPercent = series.FillTransparencyPercent;
+            child.TraceVisible = trace.Visible;
+            child.Formula = trace.Formula;
+            child.PenColour = trace.PenColour;
+            child.FillColour = trace.FillColour1;
+            child.FillTransparencyPercent = trace.FillTransparencyPercent;
             child.View.cbFunction.Validating += CbFunction_Validating;
-            SeriesViews.Add(child.View);
-            SeriesViews.SetChildIndex(child.View, index);
+            TraceViews.Add(child.View);
+            TraceViews.SetChildIndex(child.View, index);
             Loading = false;
             child.View.cbFunction.Focus();
         }
 
-        private void RemoveSeriesViewAt(int index)
+        private void RemoveTraceViewAt(int index)
         {
             View.StatusBar.Focus();
-            SeriesViews.RemoveAt(index);
+            TraceViews.RemoveAt(index);
             Children[index].BeforeRemove();
             Children.RemoveAt(index);
         }

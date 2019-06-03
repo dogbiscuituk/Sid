@@ -34,7 +34,7 @@
             JsonController.FileSaved += JsonController_FileSaved;
             LegendController = new LegendController(this);
             GraphPropertiesController = new GraphPropertiesController(this);
-            SeriesPropertiesController = new SeriesPropertiesController(this);
+            TracePropertiesController = new TracePropertiesController(this);
             ToolbarController = new ToolbarController(this);
             PropertyGridController = new PropertyGridController(this);
             ModifiedChanged();
@@ -78,9 +78,9 @@
         internal ClockController ClockController => GraphicsController.ClockController;
         internal readonly GraphProxy GraphProxy;
         internal readonly LegendController LegendController;
-        internal SeriesPropertiesController SeriesPropertiesController;
+        internal TracePropertiesController TracePropertiesController;
 
-        internal bool ExecuteTextureDialog(Series series) => SelectTexture(series);
+        internal bool ExecuteTextureDialog(Trace trace) => SelectTexture(trace);
 
         internal void Show() => View.Show();
 
@@ -201,7 +201,7 @@
 
         private void FileLoaded()
         {
-            SeriesPropertiesController.Clear();
+            TracePropertiesController.Clear();
             LegendController.Clear();
             GraphProxy.Clear();
             Graph.ZoomSet();
@@ -213,8 +213,8 @@
         {
             if (string.IsNullOrWhiteSpace(e.FilePath))
                 e.FilePath = Graph.Title.ToFilename();
-            if (string.IsNullOrWhiteSpace(e.FilePath) && Graph.Series.Count > 0)
-                e.FilePath = Graph.Series[0].Formula.ToFilename();
+            if (string.IsNullOrWhiteSpace(e.FilePath) && Graph.Traces.Count > 0)
+                e.FilePath = Graph.Traces[0].Formula.ToFilename();
         }
 
         private void FileSaved() => Graph.ZoomSet();
@@ -249,7 +249,7 @@
         {
             if (JsonController.Clear())
             {
-                SeriesPropertiesController.Clear();
+                TracePropertiesController.Clear();
                 Graph.InvalidateReticle();
                 GraphicsController.InvalidateView();
                 UpdateUI();
@@ -267,11 +267,11 @@
                     GraphicsController.AdjustPictureBox();
                     UpdatePlotType();
                     break;
-                case "Model.Graph.Series":
+                case "Model.Graph.Traces":
                     ClockController.UpdateTimeControls();
                     LegendController.GraphRead();
                     break;
-                case string s when Regex.IsMatch(s, @"^Model\.Graph\.Series\[\d+\].(Formula|Visible)$"):
+                case string s when Regex.IsMatch(s, @"^Model\.Graph\.Traces\[\d+\].(Formula|Visible)$"):
                     ClockController.UpdateTimeControls();
                     break;
                 case "Model.Graph.Title":
@@ -285,14 +285,14 @@
 
         private void OpenFile() => JsonController.Open();
 
-        private bool SelectTexture(Series series)
+        private bool SelectTexture(Trace trace)
         {
             var dialog = View.ImageOpenDialog;
-            dialog.FileName = series.TexturePath;
+            dialog.FileName = trace.TexturePath;
             bool ok = dialog.ShowDialog(View) == DialogResult.OK;
             if (ok)
             {
-                var index = Graph.Series.IndexOf(series);
+                var index = Graph.Traces.IndexOf(trace);
                 var filePath = dialog.FileName;
                 GraphProxy[index].TexturePath = filePath;
                 GraphProxy[index].Texture = ImageToBase64String(filePath);
@@ -340,14 +340,14 @@
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing) => DisposeSeriesPropertiesController();
+        protected virtual void Dispose(bool disposing) => DisposeTracePropertiesController();
 
-        private void DisposeSeriesPropertiesController()
+        private void DisposeTracePropertiesController()
         {
-            if (SeriesPropertiesController != null)
+            if (TracePropertiesController != null)
             {
-                SeriesPropertiesController.Dispose();
-                SeriesPropertiesController = null;
+                TracePropertiesController.Dispose();
+                TracePropertiesController = null;
             }
         }
 

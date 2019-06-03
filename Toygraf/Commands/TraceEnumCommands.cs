@@ -5,9 +5,9 @@
 
     partial class GraphProxy
     {
-        private class SeriesBrushTypeCommand : SeriesPropertyCommand<BrushType>
+        private class TraceBrushTypeCommand : TracePropertyCommand<BrushType>
         {
-            public SeriesBrushTypeCommand(int index, BrushType value) :
+            public TraceBrushTypeCommand(int index, BrushType value) :
                 base(index, value,
                     s => s.BrushType,
                     (s, v) => s.BrushType = v)
@@ -16,9 +16,9 @@
             protected override string Detail => "fill type";
         }
 
-        private class SeriesGradientModeCommand : SeriesPropertyCommand<LinearGradientMode>
+        private class TraceGradientModeCommand : TracePropertyCommand<LinearGradientMode>
         {
-            public SeriesGradientModeCommand(int index, LinearGradientMode value) :
+            public TraceGradientModeCommand(int index, LinearGradientMode value) :
                 base(index, value,
                     s => s.GradientMode,
                     (s, v) => s.GradientMode = v)
@@ -27,9 +27,9 @@
             protected override string Detail => "gradient type";
         }
 
-        private class SeriesHatchStyleCommand : SeriesPropertyCommand<HatchStyle>
+        private class TraceHatchStyleCommand : TracePropertyCommand<HatchStyle>
         {
-            public SeriesHatchStyleCommand(int index, HatchStyle value) :
+            public TraceHatchStyleCommand(int index, HatchStyle value) :
                 base(index, value,
                     s => s.HatchStyle,
                     (s, v) => s.HatchStyle = v)
@@ -38,9 +38,9 @@
             protected override string Detail => "hatch type";
         }
 
-        private class SeriesPenStyleCommand : SeriesPropertyCommand<DashStyle>
+        private class TracePenStyleCommand : TracePropertyCommand<DashStyle>
         {
-            public SeriesPenStyleCommand(int index, DashStyle value) :
+            public TracePenStyleCommand(int index, DashStyle value) :
                 base(index, value,
                     s => s.PenStyle,
                     (s, v) => s.PenStyle = v)
@@ -49,9 +49,9 @@
             protected override string Detail => "pen type";
         }
 
-        private class SeriesWrapModeCommand : SeriesPropertyCommand<WrapMode>
+        private class TraceWrapModeCommand : TracePropertyCommand<WrapMode>
         {
-            public SeriesWrapModeCommand(int index, WrapMode value) :
+            public TraceWrapModeCommand(int index, WrapMode value) :
                 base(index, value,
                     s => s.WrapMode,
                     (s, v) => s.WrapMode = v)

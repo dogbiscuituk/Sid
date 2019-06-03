@@ -14,11 +14,11 @@
     using ToyGraf.Models.Structs;
 
     [Serializable]
-    public class Series : Style
+    public class Trace : Style
     {
-        public Series() { SetFormula("0"); }
+        public Trace() { SetFormula("0"); }
 
-        public Series(Graph graph): this()
+        public Trace(Graph graph): this()
         {
             _brushType = graph.BrushType;
             _fillColour1 = graph.FillColour1;
@@ -76,7 +76,7 @@
 
         private string _formula = string.Empty;
         /// <summary>
-        /// Plain text version of the algebraic expression used by the Series.
+        /// Plain text version of the algebraic expression used by the Trace.
         /// </summary>
         public string Formula
         {
@@ -103,7 +103,7 @@
         }
 
         /// <summary>
-        /// A tokenised representation of the algebraic expression used by the Series.
+        /// A tokenised representation of the algebraic expression used by the Trace.
         /// This is obtained by sending the Formula to the Parser.Parse() method.
         /// </summary>
         [JsonIgnore]
@@ -113,9 +113,9 @@
         private Expression _proxy;
 
         /// <summary>
-        /// The System.Linq.Expressions representation of the algebraic expression used by the Series.
+        /// The System.Linq.Expressions representation of the algebraic expression used by the Trace.
         /// This is obtained from the Expression property by replacing all Udf tokens (User Defined Functions)
-        /// with calls to other Series in the Graph.
+        /// with calls to other Traces in the Graph.
         /// </summary>
         [JsonIgnore]
         public Expression Proxy
@@ -130,7 +130,7 @@
         }
 
         /// <summary>
-        /// The compiled lambda expression Func(x, t) of the algebraic expression used by the Series.
+        /// The compiled lambda expression Func(x, t) of the algebraic expression used by the Trace.
         /// </summary>
         [JsonIgnore]
         public Func<double, double, double> Func { get; private set; }

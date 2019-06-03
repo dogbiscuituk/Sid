@@ -1,6 +1,6 @@
 ﻿namespace ToyGraf.Views
 {
-    partial class SeriesPropertiesDialog
+    partial class TracePropertiesDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SeriesPropertiesDialog));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TracePropertiesDialog));
             this.btnQ = new System.Windows.Forms.Button();
             this.btnW = new System.Windows.Forms.Button();
             this.btnE = new System.Windows.Forms.Button();
@@ -127,7 +127,7 @@
             this.seIndex = new System.Windows.Forms.NumericUpDown();
             this.IndexLabel = new System.Windows.Forms.Label();
             this.TabControl = new System.Windows.Forms.TabControl();
-            this.tpSeriesProperties = new System.Windows.Forms.TabPage();
+            this.tpTraceProperties = new System.Windows.Forms.TabPage();
             this.btnTaylorPolynomial = new System.Windows.Forms.Button();
             this.lblType = new System.Windows.Forms.Label();
             this.lblFillColour2 = new System.Windows.Forms.Label();
@@ -148,7 +148,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.sePenSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seIndex)).BeginInit();
             this.TabControl.SuspendLayout();
-            this.tpSeriesProperties.SuspendLayout();
+            this.tpTraceProperties.SuspendLayout();
             this.tpKeyboard.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -1523,7 +1523,7 @@
             // 
             // TabControl
             // 
-            this.TabControl.Controls.Add(this.tpSeriesProperties);
+            this.TabControl.Controls.Add(this.tpTraceProperties);
             this.TabControl.Controls.Add(this.tpKeyboard);
             this.TabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TabControl.Location = new System.Drawing.Point(0, 40);
@@ -1533,39 +1533,39 @@
             this.TabControl.Size = new System.Drawing.Size(466, 151);
             this.TabControl.TabIndex = 85;
             // 
-            // tpSeriesProperties
+            // tpTraceProperties
             // 
-            this.tpSeriesProperties.BackColor = System.Drawing.SystemColors.Control;
-            this.tpSeriesProperties.Controls.Add(this.btnFillColour2);
-            this.tpSeriesProperties.Controls.Add(this.btnFillColour1);
-            this.tpSeriesProperties.Controls.Add(this.btnPenColour);
-            this.tpSeriesProperties.Controls.Add(this.btnTaylorPolynomial);
-            this.tpSeriesProperties.Controls.Add(this.cbWrapMode);
-            this.tpSeriesProperties.Controls.Add(this.cbGradientMode);
-            this.tpSeriesProperties.Controls.Add(this.cbHatchStyle);
-            this.tpSeriesProperties.Controls.Add(this.lblType);
-            this.tpSeriesProperties.Controls.Add(this.cbBrushType);
-            this.tpSeriesProperties.Controls.Add(this.cbFillColour2);
-            this.tpSeriesProperties.Controls.Add(this.lblFillColour2);
-            this.tpSeriesProperties.Controls.Add(this.cbPenStyle);
-            this.tpSeriesProperties.Controls.Add(this.label6);
-            this.tpSeriesProperties.Controls.Add(this.sePenSize);
-            this.tpSeriesProperties.Controls.Add(this.label5);
-            this.tpSeriesProperties.Controls.Add(this.label4);
-            this.tpSeriesProperties.Controls.Add(this.lblTransparency);
-            this.tpSeriesProperties.Controls.Add(this.lblFillColour);
-            this.tpSeriesProperties.Controls.Add(this.label1);
-            this.tpSeriesProperties.Controls.Add(this.seTransparency);
-            this.tpSeriesProperties.Controls.Add(this.cbPenColour);
-            this.tpSeriesProperties.Controls.Add(this.cbFillColour1);
-            this.tpSeriesProperties.Controls.Add(this.lblTexturePath);
-            this.tpSeriesProperties.Controls.Add(this.btnTexture);
-            this.tpSeriesProperties.Location = new System.Drawing.Point(4, 24);
-            this.tpSeriesProperties.Name = "tpSeriesProperties";
-            this.tpSeriesProperties.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSeriesProperties.Size = new System.Drawing.Size(458, 123);
-            this.tpSeriesProperties.TabIndex = 0;
-            this.tpSeriesProperties.Text = "Series Properties";
+            this.tpTraceProperties.BackColor = System.Drawing.SystemColors.Control;
+            this.tpTraceProperties.Controls.Add(this.btnFillColour2);
+            this.tpTraceProperties.Controls.Add(this.btnFillColour1);
+            this.tpTraceProperties.Controls.Add(this.btnPenColour);
+            this.tpTraceProperties.Controls.Add(this.btnTaylorPolynomial);
+            this.tpTraceProperties.Controls.Add(this.cbWrapMode);
+            this.tpTraceProperties.Controls.Add(this.cbGradientMode);
+            this.tpTraceProperties.Controls.Add(this.cbHatchStyle);
+            this.tpTraceProperties.Controls.Add(this.lblType);
+            this.tpTraceProperties.Controls.Add(this.cbBrushType);
+            this.tpTraceProperties.Controls.Add(this.cbFillColour2);
+            this.tpTraceProperties.Controls.Add(this.lblFillColour2);
+            this.tpTraceProperties.Controls.Add(this.cbPenStyle);
+            this.tpTraceProperties.Controls.Add(this.label6);
+            this.tpTraceProperties.Controls.Add(this.sePenSize);
+            this.tpTraceProperties.Controls.Add(this.label5);
+            this.tpTraceProperties.Controls.Add(this.label4);
+            this.tpTraceProperties.Controls.Add(this.lblTransparency);
+            this.tpTraceProperties.Controls.Add(this.lblFillColour);
+            this.tpTraceProperties.Controls.Add(this.label1);
+            this.tpTraceProperties.Controls.Add(this.seTransparency);
+            this.tpTraceProperties.Controls.Add(this.cbPenColour);
+            this.tpTraceProperties.Controls.Add(this.cbFillColour1);
+            this.tpTraceProperties.Controls.Add(this.lblTexturePath);
+            this.tpTraceProperties.Controls.Add(this.btnTexture);
+            this.tpTraceProperties.Location = new System.Drawing.Point(4, 24);
+            this.tpTraceProperties.Name = "tpTraceProperties";
+            this.tpTraceProperties.Padding = new System.Windows.Forms.Padding(3);
+            this.tpTraceProperties.Size = new System.Drawing.Size(458, 123);
+            this.tpTraceProperties.TabIndex = 0;
+            this.tpTraceProperties.Text = "Trace Properties";
             // 
             // btnTaylorPolynomial
             // 
@@ -1784,7 +1784,7 @@
             // 
             this.ErrorProvider.ContainerControl = this;
             // 
-            // SeriesPropertiesDialog
+            // TracePropertiesDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -1797,14 +1797,14 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Name = "SeriesPropertiesDialog";
+            this.Name = "TracePropertiesDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sePenSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.seIndex)).EndInit();
             this.TabControl.ResumeLayout(false);
-            this.tpSeriesProperties.ResumeLayout(false);
-            this.tpSeriesProperties.PerformLayout();
+            this.tpTraceProperties.ResumeLayout(false);
+            this.tpTraceProperties.PerformLayout();
             this.tpKeyboard.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -1812,7 +1812,6 @@
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).EndInit();
             this.ResumeLayout(false);
-
         }
 
         #endregion
@@ -1911,7 +1910,7 @@
         public System.Windows.Forms.ComboBox cbPenStyle;
         private System.Windows.Forms.Label label6;
         public System.Windows.Forms.TabPage tpKeyboard;
-        public System.Windows.Forms.TabPage tpSeriesProperties;
+        public System.Windows.Forms.TabPage tpTraceProperties;
         public System.Windows.Forms.TabControl TabControl;
         public System.Windows.Forms.ComboBox cbBrushType;
         public System.Windows.Forms.ComboBox cbFillColour2;

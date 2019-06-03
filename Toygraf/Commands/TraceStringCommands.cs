@@ -2,9 +2,9 @@
 {
     partial class GraphProxy
     {
-        private class SeriesFormulaCommand : SeriesPropertyCommand<string>
+        private class TraceFormulaCommand : TracePropertyCommand<string>
         {
-            public SeriesFormulaCommand(int index, string value) :
+            public TraceFormulaCommand(int index, string value) :
                 base(index, value,
                     s => s.Formula,
                     (s, v) => s.Formula = v)
@@ -13,9 +13,9 @@
             protected override string Detail => "formula";
         }
 
-        private class SeriesTextureCommand : SeriesPropertyCommand<string>
+        private class TraceTextureCommand : TracePropertyCommand<string>
         {
-            public SeriesTextureCommand(int index, string value) :
+            public TraceTextureCommand(int index, string value) :
                 base(index, value,
                     s => s.Texture,
                     (s, v) => s.Texture = v)
@@ -24,9 +24,9 @@
             protected override string Detail => "texture";
         }
 
-        private class SeriesTexturePathCommand : SeriesPropertyCommand<string>
+        private class TraceTexturePathCommand : TracePropertyCommand<string>
         {
-            public SeriesTexturePathCommand(int index, string value) :
+            public TraceTexturePathCommand(int index, string value) :
                 base(index, value,
                     s => s.TexturePath,
                     (s, v) => s.TexturePath = v)

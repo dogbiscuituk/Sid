@@ -236,19 +236,19 @@
 
         protected override void StepCountChanged()
         {
-            foreach (var series in Series)
-                series.StepCount = StepCount;
+            foreach (var trace in Traces)
+                trace.StepCount = StepCount;
         }
 
-        private List<Series> _series = new List<Series>();
+        private List<Trace> _traces = new List<Trace>();
 
-        public List<Series> Series
+        public List<Trace> Traces
         {
-            get => _series;
+            get => _traces;
             set
             {
-                _series = value;
-                OnPropertyChanged("Series");
+                _traces = value;
+                OnPropertyChanged("Traces");
             }
         }
 
@@ -262,7 +262,7 @@
             get
             {
                 ValidateProxies();
-                return Series.Any(p => p.Visible && p.UsesTime);
+                return Traces.Any(p => p.Visible && p.UsesTime);
             }
         }
 
@@ -324,61 +324,61 @@
 
         #endregion
 
-        #region Series Management
+        #region Trace Management
 
-        public Series NewSeries()
+        public Trace NewTrace()
         {
-            var series = new Series(this);
-            series.PropertyChanged += Series_PropertyChanged;
-            return series;
+            var trace = new Trace(this);
+            trace.PropertyChanged += Trace_PropertyChanged;
+            return trace;
         }
 
-        public Series AddSeries()
+        public Trace AddTrace()
         {
-            var series = NewSeries();
-            AddSeries(series);
-            return series;
+            var trace = NewTrace();
+            AddTrace(trace);
+            return trace;
         }
 
-        public void AddSeries(Series series)
+        public void AddTrace(Trace trace)
         {
-            Series.Add(series);
+            Traces.Add(trace);
             if (!Updating)
-                OnPropertyChanged("Series");
+                OnPropertyChanged("Traces");
         }
 
         public void Clear()
         {
-            RemoveSeriesRange(0, Series.Count);
+            RemoveTraceRange(0, Traces.Count);
             RestoreDefaults();
         }
 
-        public Series InsertSeries(int index)
+        public Trace InsertTrace(int index)
         {
-            var series = NewSeries();
-            InsertSeries(index);
-            return series;
+            var trace = NewTrace();
+            InsertTrace(index, trace);
+            return trace;
         }
 
-        public void InsertSeries(int index, Series series)
+        public void InsertTrace(int index, Trace trace)
         {
-            Series.Insert(index, series);
-            OnPropertyChanged("Series");
+            Traces.Insert(index, trace);
+            OnPropertyChanged("Traces");
         }
 
-        public void RemoveSeries(int index)
+        public void RemoveTrace(int index)
         {
-            if (index >= 0 && index < Series.Count)
+            if (index >= 0 && index < Traces.Count)
             {
-                Series.RemoveAt(index);
-                OnPropertyChanged("Series");
+                Traces.RemoveAt(index);
+                OnPropertyChanged("Traces");
             }
         }
 
-        public void RemoveSeriesRange(int index, int count)
+        public void RemoveTraceRange(int index, int count)
         {
             while (count-- > 0)
-                RemoveSeries(index + count);
+                RemoveTrace(index + count);
         }
 
         #endregion
@@ -398,7 +398,7 @@
             }
             var penWidth = Width / r.Width + Viewport.Height / r.Height;
             ValidateProxies();
-            Series.ForEach(s =>
+            Traces.ForEach(s =>
             {
                 if (s.Visible)
                     s.DrawAsync(g, DomainInfo, Viewport, penWidth, true, time, PlotType, Interpolation);
@@ -412,7 +412,7 @@
             using (var font = new Font("Arial", 5 * penWidth))
             using (var format = new StringFormat(StringFormat.GenericTypographic) { Alignment = StringAlignment.Far })
                 Labels.ForEach(p => p.Draw(g, brush, font, format));
-            Series.ForEach(s =>
+            Traces.ForEach(s =>
             {
                 if (s.Visible)
                     s.DrawAsync(g, DomainInfo, Viewport, penWidth, false, time, PlotType, Interpolation);
@@ -422,16 +422,16 @@
         public List<Expression> GetProxies()
         {
             ValidateProxies();
-            return Series.Select(p => p.Proxy).ToList();
+            return Traces.Select(p => p.Proxy).ToList();
         }
 
         private void InitProxies()
         {
-            var count = Series.Count;
+            var count = Traces.Count;
             var hit = new bool[count, count];
             for (int row = 0; row < count; row++)
             {
-                var matches = Regex.Matches(Series[row].Formula, @"[fF](\d+)");
+                var matches = Regex.Matches(Traces[row].Formula, @"[fF](\d+)");
                 foreach (Match match in matches)
                 {
                     var col = int.Parse(match.Groups[1].Value);
@@ -454,17 +454,17 @@
                                 }
             }
             while (somethingChanged);
-            var refs = Series.Select(p => p.Expression).ToArray();
+            var refs = Traces.Select(p => p.Expression).ToArray();
             for (int index = 0; index < count; index++)
             {
-                Series[index].Proxy = hit[index, index]
+                Traces[index].Proxy = hit[index, index]
                     ? Expressions.DefaultVoid
-                    : Series[index].Expression.AsProxy(Expressions.x, Expressions.t, refs);
+                    : Traces[index].Expression.AsProxy(Expressions.x, Expressions.t, refs);
             }
         }
 
         public void InvalidateReticle() { DisposeReticle(); Labels.Clear(); }
-        private void InvalidatePoints() => Series.ForEach(p => p.InvalidatePaths());
+        private void InvalidatePoints() => Traces.ForEach(p => p.InvalidatePaths());
         public void InvalidateProxies() => _proxiesValid = false;
 
         private void ValidateReticle(Graphics g, Rectangle r, float penWidth)
@@ -586,11 +586,11 @@
             base.OnPropertyChanged(propertyName);
         }
 
-        public void Series_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        public void Trace_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Formula")
                 InvalidateProxies();
-            OnPropertyChanged($"Series[{Series.IndexOf((Series)sender)}].{e.PropertyName}");
+            OnPropertyChanged($"Traces[{Traces.IndexOf((Trace)sender)}].{e.PropertyName}");
         }
 
         #endregion
