@@ -21,7 +21,7 @@
             GraphDomainMaxCartesian = +10,
             GraphDomainMaxPolar = 180,
             GraphDomainMinCartesian = -10,
-            GraphDomainMinPolar = 0,
+            GraphDomainMinPolar = -180,
             GraphPenWidth = 1;
 
         public static readonly Color

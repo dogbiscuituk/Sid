@@ -30,6 +30,7 @@ namespace ToyGraf.Commands
             private Trace Trace => Graph.Traces[Index];
 
             [Category("Style")]
+            [DefaultValue(typeof(BrushType), "Solid")]
             public BrushType BrushType
             {
                 get => Trace.BrushType;
@@ -37,6 +38,7 @@ namespace ToyGraf.Commands
             }
 
             [Category("Colour")]
+            [DefaultValue(typeof(Color), "Transparent")]
             public Color FillColour1
             {
                 get => Trace.FillColour1;
@@ -44,6 +46,7 @@ namespace ToyGraf.Commands
             }
 
             [Category("Colour")]
+            [DefaultValue(typeof(Color), "Transparent")]
             public Color FillColour2
             {
                 get => Trace.FillColour2;
@@ -51,6 +54,7 @@ namespace ToyGraf.Commands
             }
 
             [Category("Colour")]
+            [DefaultValue(0)]
             public int FillTransparencyPercent
             {
                 get => Trace.FillTransparencyPercent;
@@ -64,6 +68,7 @@ namespace ToyGraf.Commands
             }
 
             [Category("Style")]
+            [DefaultValue(typeof(LinearGradientMode), "Horizontal")]
             public LinearGradientMode GradientMode
             {
                 get => Trace.GradientMode;
@@ -71,6 +76,7 @@ namespace ToyGraf.Commands
             }
 
             [Category("Style")]
+            [DefaultValue(typeof(HatchStyle), "Horizontal")]
             public HatchStyle HatchStyle
             {
                 get => Trace.HatchStyle;
@@ -78,6 +84,7 @@ namespace ToyGraf.Commands
             }
 
             [Category("Colour")]
+            [DefaultValue(typeof(Color), "DarkGray")]
             public Color LimitColour
             {
                 get => Trace.LimitColour;
@@ -85,6 +92,7 @@ namespace ToyGraf.Commands
             }
 
             [Category("Colour")]
+            [DefaultValue(typeof(Color), "Black")]
             public Color PenColour
             {
                 get => Trace.PenColour;
@@ -92,6 +100,7 @@ namespace ToyGraf.Commands
             }
 
             [Category("Style")]
+            [DefaultValue(typeof(DashStyle), "Solid")]
             public DashStyle PenStyle
             {
                 get => Trace.PenStyle;
@@ -99,6 +108,7 @@ namespace ToyGraf.Commands
             }
 
             [Category("Style")]
+            [DefaultValue(1.0f)]
             public float PenWidth
             {
                 get => Trace.PenWidth;
@@ -106,6 +116,7 @@ namespace ToyGraf.Commands
             }
 
             [Category("Style")]
+            [DefaultValue(1000)]
             public int StepCount
             {
                 get => Trace.StepCount;
@@ -126,6 +137,7 @@ namespace ToyGraf.Commands
                 set => Run(new TraceTexturePathCommand(Index, value));
             }
 
+            [DefaultValue(true)]
             public bool Visible
             {
                 get => Trace.Visible;
@@ -133,6 +145,7 @@ namespace ToyGraf.Commands
             }
 
             [Category("Style")]
+            [DefaultValue(typeof(WrapMode), "Tile")]
             public WrapMode WrapMode
             {
                 get => Trace.WrapMode;

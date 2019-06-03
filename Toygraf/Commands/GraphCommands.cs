@@ -23,6 +23,7 @@
         }
 
         [Category("Domain")]
+        [DefaultValue(true)]
         public bool DomainGraphWidth
         {
             get => Graph.DomainGraphWidth;
@@ -30,6 +31,7 @@
         }
 
         [Category("Domain")]
+        [DefaultValue(+10.0f)]
         public float DomainMaxCartesian
         {
             get => Graph.DomainMaxCartesian;
@@ -37,6 +39,7 @@
         }
 
         [Category("Domain")]
+        [DefaultValue(+180.0f)]
         public float DomainMaxPolar
         {
             get => Graph.DomainMaxPolar;
@@ -44,6 +47,7 @@
         }
 
         [Category("Domain")]
+        [DefaultValue(-10.0f)]
         public float DomainMinCartesian
         {
             get => Graph.DomainMinCartesian;
@@ -51,6 +55,7 @@
         }
 
         [Category("Domain")]
+        [DefaultValue(-180.0f)]
         public float DomainMinPolar
         {
             get => Graph.DomainMinPolar;
@@ -58,6 +63,7 @@
         }
 
         [Category("Domain")]
+        [DefaultValue(true)]
         public bool DomainPolarDegrees
         {
             get => Graph.DomainPolarDegrees;
@@ -65,6 +71,7 @@
         }
 
         [Category("Style")]
+        [DefaultValue(typeof(Elements), "All")]
         public Elements Elements
         {
             get => Graph.Elements;
@@ -88,6 +95,7 @@
         }
 
         [Category("Colour")]
+        [DefaultValue(0)]
         public int FillTransparencyPercent
         {
             get => Graph.FillTransparencyPercent;
@@ -95,6 +103,7 @@
         }
 
         [Category("Style")]
+        [DefaultValue(typeof(Interpolation), "Linear")]
         public Interpolation Interpolation
         {
             get => Graph.Interpolation;
@@ -110,6 +119,7 @@
         }
 
         [Category("Style")]
+        [DefaultValue(typeof(Optimization), "HighQuality")]
         public Optimization Optimization
         {
             get => Graph.Optimization;
@@ -125,6 +135,7 @@
         }
 
         [Category("Colour")]
+        [DefaultValue(0)]
         public int PaperTransparencyPercent
         {
             get => Graph.PaperTransparencyPercent;
@@ -140,6 +151,7 @@
         }
 
         [Category("Style")]
+        [DefaultValue(typeof(PlotType), "Cartesian")]
         public PlotType PlotType
         {
             get => Graph.PlotType;
@@ -155,6 +167,7 @@
         }
 
         [Category("Style")]
+        [DefaultValue(1000)]
         public int StepCount
         {
             get => Graph.StepCount;
@@ -162,6 +175,7 @@
         }
 
         [Category("Style")]
+        [DefaultValue(typeof(TickStyles), "Negative")]
         public TickStyles TickStyles
         {
             get => Graph.TickStyles;

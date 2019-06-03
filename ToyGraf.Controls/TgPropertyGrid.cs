@@ -1,9 +1,8 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Forms;
-
-namespace ToyGraf.Controls
+﻿namespace ToyGraf.Controls
 {
+    using System.Linq;
+    using System.Windows.Forms;
+
     public class TgPropertyGrid : PropertyGrid
     {
         public ToolStrip GetToolStrip() => Controls.OfType<ToolStrip>().FirstOrDefault();
