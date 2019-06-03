@@ -1,10 +1,12 @@
 ﻿namespace ToyGraf.Commands
 {
+    using System.ComponentModel;
     using System.Drawing;
     using ToyGraf.Models.Enumerations;
 
     partial class GraphProxy
     {
+        [Category("Colours")]
         public Color AxisColour
         {
             get => Graph.AxisColour;
@@ -17,36 +19,42 @@
             set => Run(new GraphCentreCommand(value));
         }
 
+        [Category("Domain")]
         public bool DomainGraphWidth
         {
             get => Graph.DomainGraphWidth;
             set => Run(new GraphDomainGraphWidthCommand(value));
         }
 
+        [Category("Domain")]
         public float DomainMaxCartesian
         {
             get => Graph.DomainMaxCartesian;
             set => Run(new GraphDomainMaxCartesianCommand(value));
         }
 
+        [Category("Domain")]
         public float DomainMaxPolar
         {
             get => Graph.DomainMaxPolar;
             set => Run(new GraphDomainMaxPolarCommand(value));
         }
 
+        [Category("Domain")]
         public float DomainMinCartesian
         {
             get => Graph.DomainMinCartesian;
             set => Run(new GraphDomainMinCartesianCommand(value));
         }
 
+        [Category("Domain")]
         public float DomainMinPolar
         {
             get => Graph.DomainMinPolar;
             set => Run(new GraphDomainMinPolarCommand(value));
         }
 
+        [Category("Domain")]
         public bool DomainPolarDegrees
         {
             get => Graph.DomainPolarDegrees;
@@ -59,18 +67,21 @@
             set => Run(new GraphElementsCommand(value));
         }
 
+        [Category("Colours")]
         public Color FillColour1
         {
             get => Graph.FillColour1;
             set => Run(new GraphFillColour1Command(value));
         }
 
+        [Category("Colours")]
         public Color FillColour2
         {
             get => Graph.FillColour2;
             set => Run(new GraphFillColour2Command(value));
         }
 
+        [Category("Colours")]
         public int FillTransparencyPercent
         {
             get => Graph.FillTransparencyPercent;
@@ -83,6 +94,7 @@
             set => Run(new GraphInterpolationCommand(value));
         }
 
+        [Category("Colours")]
         public Color LimitColour
         {
             get => Graph.LimitColour;
@@ -95,18 +107,21 @@
             set => Run(new GraphOptimizationCommand(value));
         }
 
+        [Category("Colours")]
         public Color PaperColour
         {
             get => Graph.PaperColour;
             set => Run(new GraphPaperColourCommand(value));
         }
 
+        [Category("Colours")]
         public int PaperTransparencyPercent
         {
             get => Graph.PaperTransparencyPercent;
             set => Run(new GraphPaperTransparencyPercentCommand(value));
         }
 
+        [Category("Colours")]
         public Color PenColour
         {
             get => Graph.PenColour;
@@ -119,6 +134,7 @@
             set => Run(new GraphPlotTypeCommand(value));
         }
 
+        [Category("Colours")]
         public Color ReticleColour
         {
             get => Graph.ReticleColour;

@@ -81,7 +81,6 @@
 
         #region Private Properties
 
-        internal AppController AppController => GraphController.AppController;
         private GraphicsController GraphicsController;
         private GraphController GraphController => GraphicsController.GraphController;
         private GraphForm graphForm { get => GraphicsController.graphForm; }
@@ -98,8 +97,8 @@
 
         private bool EpilepsyWarningAcknowledged
         {
-            get => AppController.EpilepsyWarningAcknowledged;
-            set => AppController.EpilepsyWarningAcknowledged = value;
+            get => AppController.TheAppController.EpilepsyWarningAcknowledged;
+            set => AppController.TheAppController.EpilepsyWarningAcknowledged = value;
         }
 
         #endregion

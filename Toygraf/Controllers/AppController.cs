@@ -2,13 +2,16 @@
 {
     using System.Collections.Generic;
     using System.Timers;
+    using System.Windows.Forms;
     using ToyGraf.Views;
+    using Timer = System.Timers.Timer;
 
     internal class AppController
     {
-        internal AppController(): base()
+        internal static AppController TheAppController = new AppController();
+
+        private AppController(): base()
         {
-            View = new AboutController().View;
             Timer timer = new Timer(5000)
             {
                 AutoReset = false,
@@ -21,7 +24,7 @@
 
         internal GraphController AddNewGraphController()
         {
-            var graphController = new GraphController(this);
+            var graphController = new GraphController();
             GraphControllers.Add(graphController);
             graphController.Show();
             return graphController;
@@ -34,10 +37,24 @@
                 System.Windows.Forms.Application.Exit();
         }
 
-        internal AboutDialog View;
+        private AboutDialog _view;
+        internal AboutDialog View
+        {
+            get
+            {
+                if (_view == null)
+                {
+                    Application.SetCompatibleTextRenderingDefault(false);
+                    _view = new AboutController().View;
+                }
+                return _view;
+            }
+        }
+
         internal bool EpilepsyWarningAcknowledged;
 
-        private List<GraphController> GraphControllers = new List<GraphController>();
+        internal List<GraphController> GraphControllers = new List<GraphController>();
+
         private void Timer_Elapsed(object sender, ElapsedEventArgs e) => View.Hide();
     }
 }

@@ -18,9 +18,8 @@
     {
         #region Internal Interface
 
-        internal GraphController(AppController appController)
+        internal GraphController()
         {
-            AppController = appController;
             View = new GraphForm { MinimumSize = Properties.Settings.Default.GraphForm_MinimumSize };
             Model = new Model();
             Model.Cleared += Model_Cleared;
@@ -73,7 +72,6 @@
             }
         }
 
-        internal AppController AppController;
         internal readonly Model Model;
         internal Graph Graph { get => Model.Graph; }
 
@@ -157,7 +155,7 @@
             if (!cancel)
             {
                 Model.Modified = false;
-                AppController.Remove(this);
+                AppController.TheAppController.Remove(this);
             }
             return !cancel;
         }

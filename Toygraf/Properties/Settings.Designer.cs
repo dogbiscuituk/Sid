@@ -55,17 +55,5 @@ namespace ToyGraf.Properties {
                 this["GraphForm_MinimumSize"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("400")]
-        public int PropertyTable_MaximumWidth {
-            get {
-                return ((int)(this["PropertyTable_MaximumWidth"]));
-            }
-            set {
-                this["PropertyTable_MaximumWidth"] = value;
-            }
-        }
     }
 }

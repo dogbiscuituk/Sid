@@ -2,10 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Drawing;
+    using System.Drawing.Design;
     using System.Linq;
     using System.Windows.Forms;
     using ToyGraf.Controllers;
+    using ToyGraf.Controls;
     using ToyGraf.Models;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Views;
@@ -70,6 +73,7 @@
 
         internal GraphSeries this[int index] { get => new GraphSeries(this, index); }
 
+        [Editor(typeof(TgCollectionEditor), typeof(UITypeEditor))]
         public List<GraphSeries> Series
         {
             get => Graph.Series.Select(s => new GraphSeries(this, Graph.Series.IndexOf(s))).ToList();

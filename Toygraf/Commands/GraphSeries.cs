@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.ComponentModel;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using ToyGraf.Models;
 using ToyGraf.Models.Enumerations;
@@ -9,6 +10,14 @@ namespace ToyGraf.Commands
     {
         internal class GraphSeries
         {
+            internal GraphSeries()
+            {
+                GraphProxy = GraphProxyProxy.GraphProxy;
+                var index = Graph.Series.Count;
+                Run(new GraphInsertSeriesCommand(index));
+                Index = index;
+            }
+
             internal GraphSeries(GraphProxy graphProxy, int index)
             {
                 GraphProxy = graphProxy;
@@ -26,18 +35,21 @@ namespace ToyGraf.Commands
                 set => Run(new SeriesBrushTypeCommand(Index, value));
             }
 
+            [Category("Colours")]
             public Color FillColour1
             {
                 get => Series.FillColour1;
                 set => Run(new SeriesFillColour1Command(Index, value));
             }
 
+            [Category("Colours")]
             public Color FillColour2
             {
                 get => Series.FillColour2;
                 set => Run(new SeriesFillColour2Command(Index, value));
             }
 
+            [Category("Colours")]
             public int FillTransparencyPercent
             {
                 get => Series.FillTransparencyPercent;
@@ -62,12 +74,14 @@ namespace ToyGraf.Commands
                 set => Run(new SeriesHatchStyleCommand(Index, value));
             }
 
+            [Category("Colours")]
             public Color LimitColour
             {
                 get => Series.LimitColour;
                 set => Run(new SeriesLimitColourCommand(Index, value));
             }
 
+            [Category("Colours")]
             public Color PenColour
             {
                 get => Series.PenColour;

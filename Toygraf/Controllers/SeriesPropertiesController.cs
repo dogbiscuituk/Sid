@@ -71,7 +71,6 @@
         }
 
         internal readonly GraphController GraphController;
-        internal AppController AppController => GraphController.AppController;
         internal KeyboardController KeyboardController;
         internal SeriesPropertiesDialog View;
         internal Graph Graph => GraphController.Graph;

@@ -15,7 +15,7 @@
 
         internal void CreateGraph()
         {
-            GraphController = AppController.AddNewGraphController();
+            GraphController = AppController.TheAppController.AddNewGraphController();
             PopulateSeries(SeriesPropertiesController.Series.Proxy);
         }
 
@@ -93,7 +93,6 @@
         }
 
         private readonly SeriesPropertiesController SeriesPropertiesController;
-        private AppController AppController => SeriesPropertiesController.AppController;
         private GraphController GraphController;
         private Graph Graph => GraphController.Graph;
         private Series Series => SeriesPropertiesController.Series;

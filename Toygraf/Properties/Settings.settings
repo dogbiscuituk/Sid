@@ -11,8 +11,5 @@
     <Setting Name="GraphForm_MinimumSize" Type="System.Drawing.Size" Scope="User">
       <Value Profile="(Default)">800, 480</Value>
     </Setting>
-    <Setting Name="PropertyTable_MaximumWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">400</Value>
-    </Setting>
   </Settings>
 </SettingsFile>
