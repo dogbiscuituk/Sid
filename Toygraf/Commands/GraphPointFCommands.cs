@@ -2,7 +2,7 @@
 {
     using System.Drawing;
 
-    partial class CommandProcessor
+    partial class GraphProxy
     {
         private class GraphCentreCommand : GraphPropertyCommand<PointF>
         {

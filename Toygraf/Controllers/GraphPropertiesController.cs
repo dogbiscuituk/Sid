@@ -85,7 +85,7 @@
         private GraphPropertiesDialog _view;
         private GraphController _GraphController;
         private ColourController ColourController;
-        private CommandProcessor CommandProcessor { get => GraphController.CommandProcessor; }
+        private GraphProxy GraphProxy { get => GraphController.GraphProxy; }
         private ElementsController ElementsController;
         private CheckedListBox.ObjectCollection ElementItems { get => View.ElementCheckboxes.Items; }
         private Model Model { get => GraphController.Model; }
@@ -101,7 +101,7 @@
         private void AxisColourChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetGraphAxisColour(ColourController.GetColour(View.cbAxisColour));
+                GraphProxy.AxisColour = ColourController.GetColour(View.cbAxisColour);
         }
 
         private void DomainGraphWidthChanged(object sender, EventArgs e)
@@ -109,85 +109,85 @@
             var domainGraphWidth = View.cbDomainGraphWidth.Checked;
             View.seDomainMinCartesian.Enabled = View.seDomainMaxCartesian.Enabled = !domainGraphWidth;
             if (!Loading)
-                CommandProcessor.SetGraphDomainGraphWidth(domainGraphWidth);
+                GraphProxy.DomainGraphWidth = domainGraphWidth;
         }
 
         private void DomainMaxCartesianChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetGraphDomainMaxCartesian((float)View.seDomainMaxCartesian.Value);
+                GraphProxy.DomainMaxCartesian = (float)View.seDomainMaxCartesian.Value;
         }
 
         private void DomainMaxPolarChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetGraphDomainMaxPolar((float)View.seDomainMaxPolar.Value);
+                GraphProxy.DomainMaxPolar = (float)View.seDomainMaxPolar.Value;
         }
 
         private void DomainMinCartesianChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetGraphDomainMinCartesian((float)View.seDomainMinCartesian.Value);
+                GraphProxy.DomainMinCartesian = (float)View.seDomainMinCartesian.Value;
         }
 
         private void DomainMinPolarChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetGraphDomainMinPolar((float)View.seDomainMinPolar.Value);
+                GraphProxy.DomainMinPolar = (float)View.seDomainMinPolar.Value;
         }
 
         private void DomainPolarDegreesChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetGraphDomainPolarDegrees(View.rbDegrees.Checked);
+                GraphProxy.DomainPolarDegrees = View.rbDegrees.Checked;
         }
 
         private void FillColourChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetGraphFillColour1(ColourController.GetColour(View.cbFillColour));
+                GraphProxy.FillColour1 = ColourController.GetColour(View.cbFillColour);
         }
 
         private void FillTransparencyChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetGraphFillTransparencyPercent((int)View.seFillTransparency.Value);
+                GraphProxy.FillTransparencyPercent = (int)View.seFillTransparency.Value;
         }
 
         private void InterpolationChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetGraphInterpolation((Interpolation)View.cbInterpolation.SelectedIndex);
+                GraphProxy.Interpolation = (Interpolation)View.cbInterpolation.SelectedIndex;
         }
 
         private void LimitColourChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetGraphLimitColour(ColourController.GetColour(View.cbLimitColour));
+                GraphProxy.LimitColour = ColourController.GetColour(View.cbLimitColour);
         }
 
         private void OptimizationChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetGraphOptimization((Optimization)View.cbOptimization.SelectedIndex);
+                GraphProxy.Optimization = (Optimization)View.cbOptimization.SelectedIndex;
         }
 
         private void PaperColourChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetGraphPaperColour(ColourController.GetColour(View.cbPaperColour));
+                GraphProxy.PaperColour = ColourController.GetColour(View.cbPaperColour);
         }
 
         private void PaperTransparencyChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetGraphPaperTransparencyPercent((int)View.sePaperTransparency.Value);
+                GraphProxy.PaperTransparencyPercent = (int)View.sePaperTransparency.Value;
         }
 
         private void PenColourChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetGraphPenColour(ColourController.GetColour(View.cbPenColour));
+                GraphProxy.PenColour = ColourController.GetColour(View.cbPenColour);
         }
 
         private void PlotTypeChanged(object sender, EventArgs e)
@@ -200,19 +200,19 @@
             View.seDomainMinPolar.Visible = View.seDomainMaxPolar.Visible =
                 View.rbDegrees.Visible = View.rbRadians.Visible = polar;
             if (!Loading)
-                CommandProcessor.SetGraphPlotType((PlotType)View.cbPlotType.SelectedIndex);
+                GraphProxy.PlotType = (PlotType)View.cbPlotType.SelectedIndex;
         }
 
         private void ReticleColourChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetGraphReticleColour(ColourController.GetColour(View.cbReticleColour));
+                GraphProxy.ReticleColour = ColourController.GetColour(View.cbReticleColour);
         }
 
         private void StepCountChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetGraphStepCount(int.Parse(View.cbStepCount.Text));
+                GraphProxy.StepCount = int.Parse(View.cbStepCount.Text);
         }
 
         private void View_FormClosing(object sender, FormClosingEventArgs e)

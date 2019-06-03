@@ -1,12 +1,15 @@
 ﻿namespace ToyGraf.Controls
 {
     using System;
+    using System.ComponentModel;
     using System.ComponentModel.Design;
     using System.Windows.Forms;
 
     public class TgCollectionEditor : CollectionEditor
     {
         public TgCollectionEditor(Type type) : base(type) { }
+
+        public ITypeDescriptorContext GetContext() => Context;
 
         protected override CollectionForm CreateCollectionForm()
         {

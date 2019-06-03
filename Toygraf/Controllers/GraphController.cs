@@ -7,13 +7,12 @@
     using System.IO;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
-    using ToyGraf.Expressions;
     using ToyGraf.Commands;
+    using ToyGraf.Expressions;
     using ToyGraf.Models;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Models.Structs;
     using ToyGraf.Views;
-    using ToyGraf.Controls;
 
     internal class GraphController : IDisposable
     {
@@ -43,7 +42,8 @@
             LegendController.AdjustLegend();
             UpdateUI();
             PopupMenu_Opening(View, new CancelEventArgs());
-            CommandProcessor = new CommandProcessor(this);
+            GraphProxy = new GraphProxy(this);
+            View.PropertyTable.SelectedObject = GraphProxy;
         }
 
         internal GraphForm View
@@ -70,8 +70,6 @@
                 View.PopupMenu.Opening += PopupMenu_Opening;
                 View.FormClosing += View_FormClosing;
                 View.SizeChanged += View_SizeChanged;
-                TgCollectionEditor.CollectionFormClosed += PropertyTable_FormClosed;
-                TgCollectionEditor.CollectionItemPropertyValueChanged += PropertyTable_SeriesPropertyValueChanged;
             }
         }
 
@@ -80,7 +78,7 @@
         internal Graph Graph { get => Model.Graph; }
 
         internal ClockController ClockController => GraphicsController.ClockController;
-        internal readonly CommandProcessor CommandProcessor;
+        internal readonly GraphProxy GraphProxy;
         internal readonly LegendController LegendController;
         internal SeriesPropertiesController SeriesPropertiesController;
 
@@ -164,16 +162,6 @@
             return !cancel;
         }
 
-        private void PropertyTable_FormClosed(object s, FormClosedEventArgs e)
-        {
-            return;
-        }
-
-        private void PropertyTable_SeriesPropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-            return;
-        }
-
         private void TbSave_Click(object sender, EventArgs e)
         {
             if (View.FileSave.Enabled)
@@ -217,7 +205,7 @@
         {
             SeriesPropertiesController.Clear();
             LegendController.Clear();
-            CommandProcessor.Clear();
+            GraphProxy.Clear();
             Graph.ZoomSet();
             InitPaper();
             UpdateUI();
@@ -308,8 +296,8 @@
             {
                 var index = Graph.Series.IndexOf(series);
                 var filePath = dialog.FileName;
-                CommandProcessor.SetSeriesTexturePath(index, filePath);
-                CommandProcessor.SetSeriesTexture(index, ImageToBase64String(filePath));
+                GraphProxy[index].TexturePath = filePath;
+                GraphProxy[index].Texture = ImageToBase64String(filePath);
             }
             return ok;
         }
@@ -338,7 +326,6 @@
             UpdatePlotType();
             ClockController.UpdateTimeControls();
             LegendController.GraphRead();
-            View.PropertyTable.SelectedObject = Graph;
         }
 
         private void ToggleCoordinatesTooltip() => ShowCoordinatesTooltip = !ShowCoordinatesTooltip;

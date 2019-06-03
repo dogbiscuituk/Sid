@@ -110,7 +110,7 @@
         private SeriesPropertiesDialog _view;
         private readonly SeriesPropertiesController SeriesPropertiesController;
         private GraphController GraphController => SeriesPropertiesController.GraphController;
-        private CommandProcessor CommandProcessor => GraphController.CommandProcessor;
+        private GraphProxy GraphProxy => GraphController.GraphProxy;
         private List<SeriesController> SeriesControllers => GraphController.LegendController.Children;
         private SeriesView SeriesView => SeriesControllers[Index].View;
         private Control ActiveControl => SeriesView.cbFunction;
@@ -142,7 +142,7 @@
             if (!string.IsNullOrWhiteSpace(formula) && !Functions.Contains(formula))
                 Functions[0] = formula;
             if (Index >= 0 && !Loading && !Updating && Validate())
-                CommandProcessor.SetSeriesFormula(Index, formula);
+                GraphProxy[Index].Formula = formula;
         }
 
         private void FunctionBox_Validating(object sender, CancelEventArgs e)

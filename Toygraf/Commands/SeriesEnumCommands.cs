@@ -3,7 +3,7 @@
     using System.Drawing.Drawing2D;
     using ToyGraf.Models.Enumerations;
 
-    partial class CommandProcessor
+    partial class GraphProxy
     {
         private class SeriesBrushTypeCommand : SeriesPropertyCommand<BrushType>
         {

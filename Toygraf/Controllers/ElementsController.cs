@@ -53,7 +53,7 @@
         }
 
         private GraphPropertiesController GraphPropertiesController;
-        private CommandProcessor CommandProcessor => GraphPropertiesController.GraphController.CommandProcessor;
+        private GraphProxy GraphProxy => GraphPropertiesController.GraphController.GraphProxy;
         private Graph Graph => GraphPropertiesController.Graph;
         private readonly CheckState[] States = new CheckState[12];
         private bool Updating;
@@ -105,7 +105,7 @@
             for (var index = 0; index < 8; index++)
                 if (States[index] == CheckState.Checked)
                     elements |= values[ControlToEnum(index)];
-            CommandProcessor.SetGraphElements(elements);
+            GraphProxy.Elements = elements;
         }
 
         private void SetState(int index, CheckState state) => View.SetItemCheckState(index, States[index] = state);

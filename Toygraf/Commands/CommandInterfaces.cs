@@ -2,7 +2,7 @@
 {
     using ToyGraf.Models;
 
-    partial class CommandProcessor
+    partial class GraphProxy
     {
         private interface IGraphCommand
         {

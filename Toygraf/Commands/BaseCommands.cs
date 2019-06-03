@@ -3,7 +3,7 @@
     using System;
     using ToyGraf.Models;
 
-    partial class CommandProcessor
+    partial class GraphProxy
     {
         private abstract class GraphCommand<T> : IGraphCommand
         {

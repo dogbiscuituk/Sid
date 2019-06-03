@@ -2,7 +2,7 @@
 {
     using ToyGraf.Models.Enumerations;
 
-    partial class CommandProcessor
+    partial class GraphProxy
     {
         private class GraphElementsCommand : GraphPropertyCommand<Elements>
         {

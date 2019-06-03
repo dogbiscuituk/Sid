@@ -109,7 +109,7 @@
         }
 
         internal int IndexOf(SeriesController child) => Children.IndexOf(child);
-        internal void RemoveSeries(int index) => CommandProcessor.GraphDeleteSeries(index);
+        internal void RemoveSeries(int index) => GraphProxy.GraphDeleteSeries(index);
 
         internal bool Validate()
         {
@@ -125,7 +125,7 @@
         #region Private Properties
 
         private GraphForm _view;
-        private CommandProcessor CommandProcessor => GraphController.CommandProcessor;
+        private GraphProxy GraphProxy => GraphController.GraphProxy;
         private bool CanCancel, Updating;
         private Graph Graph { get => GraphController.Graph; }
         private Panel Client { get => View.ClientPanel; }
@@ -193,7 +193,7 @@
 
         #region Private Methods
 
-        private void AddNewSeries() => CommandProcessor.GraphInsertSeries(Children.Count);
+        private void AddNewSeries() => GraphProxy.GraphInsertSeries(Children.Count);
 
         private static AnchorStyles AlignToAnchor(ContentAlignment align)
         {

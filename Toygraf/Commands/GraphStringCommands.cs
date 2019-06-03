@@ -1,6 +1,6 @@
 ﻿namespace ToyGraf.Commands
 {
-    partial class CommandProcessor
+    partial class GraphProxy
     {
         private class GraphTitleCommand : GraphPropertyCommand<string>
         {

@@ -2,7 +2,7 @@
 {
     using ToyGraf.Models;
 
-    partial class CommandProcessor
+    partial class GraphProxy
     {
         /// <summary>
         /// Common ancestor for GraphInsertSeriesCommand and GraphDeleteSeriesCommand.
@@ -11,8 +11,8 @@
         /// are their own inverses, since they just tell the Graph "Swap your property
         /// value with the one I'm carrying", the Invert() method is usually empty. In
         /// the case of these two commands, toggling the Add flag converts one into the
-        /// other, prior to the CommandProcessor transfering them between the Undo and
-        /// Redo stacks.
+        /// other, prior to the CommandProcessor (now GraphProxy) transfering them
+        /// between the Undo and Redo stacks.
         /// </summary>
         private class GraphSeriesCommand : SeriesCommand<Series>, IGraphSeriesCommand
         {

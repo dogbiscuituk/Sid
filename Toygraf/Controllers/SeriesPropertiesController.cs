@@ -83,7 +83,7 @@
         #region Private Properties
 
         private ColourController ColourController;
-        private CommandProcessor CommandProcessor => GraphController.CommandProcessor;
+        private GraphProxy GraphProxy => GraphController.GraphProxy;
         private List<SeriesController> SeriesControllers => GraphController.LegendController.Children;
         private SeriesView SeriesView => SeriesControllers[Index].View;
         private Series _series;
@@ -98,7 +98,7 @@
         {
             UpdateUI();
             if (!Loading)
-                CommandProcessor.SetSeriesBrushType(Index, (BrushType)View.cbBrushType.SelectedIndex);
+                GraphProxy[Index].BrushType = (BrushType)View.cbBrushType.SelectedIndex;
         }
 
         private void BtnClose_Click(object sender, EventArgs e) => Close();
@@ -107,45 +107,45 @@
         {
             View.ColourDialog.Color = Series.FillColour1;
             if (View.ColourDialog.ShowDialog(View) == DialogResult.OK)
-                CommandProcessor.SetSeriesFillColour1(Index, View.ColourDialog.Color);
+                GraphProxy[Index].FillColour1 = View.ColourDialog.Color;
         }
 
         private void BtnFillColour2_Click(object sender, EventArgs e)
         {
             View.ColourDialog.Color = Series.FillColour2;
             if (View.ColourDialog.ShowDialog(View) == DialogResult.OK)
-                CommandProcessor.SetSeriesFillColour2(Index, View.ColourDialog.Color);
+                GraphProxy[Index].FillColour2 = View.ColourDialog.Color;
         }
 
         private void BtnPenColour_Click(object sender, EventArgs e)
         {
             View.ColourDialog.Color = Series.PenColour;
             if (View.ColourDialog.ShowDialog(View) == DialogResult.OK)
-                CommandProcessor.SetSeriesPenColour(Index, View.ColourDialog.Color);
+                GraphProxy[Index].PenColour = View.ColourDialog.Color;
         }
 
         private void FillColour1Changed(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetSeriesFillColour1(Index, ColourController.GetColour(View.cbFillColour1));
+                GraphProxy[Index].FillColour1 = ColourController.GetColour(View.cbFillColour1);
         }
 
         private void FillColour2Changed(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetSeriesFillColour2(Index, ColourController.GetColour(View.cbFillColour2));
+                GraphProxy[Index].FillColour2 = ColourController.GetColour(View.cbFillColour2);
         }
 
         private void FillTransparencyChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetSeriesFillTransparencyPercent(Index, (int)View.seTransparency.Value);
+                GraphProxy[Index].FillTransparencyPercent = (int)View.seTransparency.Value;
         }
 
         private void GradientModeChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetSeriesGradientMode(Index, (LinearGradientMode)View.cbGradientMode.SelectedIndex);
+                GraphProxy[Index].GradientMode = (LinearGradientMode)View.cbGradientMode.SelectedIndex;
         }
 
         private void GraphController_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -216,25 +216,25 @@
         private void HatchStyleChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetSeriesHatchStyle(Index, (HatchStyle)View.cbHatchStyle.SelectedIndex);
+                GraphProxy[Index].HatchStyle = (HatchStyle)View.cbHatchStyle.SelectedIndex;
         }
 
         private void PenColourChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetSeriesPenColour(Index, ColourController.GetColour(View.cbPenColour));
+                GraphProxy[Index].PenColour = ColourController.GetColour(View.cbPenColour);
         }
 
         private void PenSizeChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetSeriesPenWidth(Index, (float)View.sePenSize.Value);
+                GraphProxy[Index].PenWidth = (float)View.sePenSize.Value;
         }
 
         private void PenStyleChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetSeriesPenStyle(Index, (DashStyle)View.cbPenStyle.SelectedIndex);
+                GraphProxy[Index].PenStyle = (DashStyle)View.cbPenStyle.SelectedIndex;
         }
 
         private void TaylorPolynomialClick(object sender, EventArgs e)
@@ -265,7 +265,7 @@
         private void WrapModeChanged(object sender, EventArgs e)
         {
             if (!Loading)
-                CommandProcessor.SetSeriesWrapMode(Index, (WrapMode)View.cbWrapMode.SelectedIndex);
+                GraphProxy[Index].WrapMode = (WrapMode)View.cbWrapMode.SelectedIndex;
         }
 
         #endregion

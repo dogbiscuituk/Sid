@@ -50,7 +50,7 @@
         #region Private Properties
 
         private PictureBox _view;
-        private CommandProcessor CommandController { get => GraphController.CommandProcessor; }
+        private GraphProxy CommandController { get => GraphController.GraphProxy; }
         private Graph Graph => GraphController.Graph;
         private Point DragFrom, MouseDownAt;
         private bool DoubleBuffered, Dragging;
