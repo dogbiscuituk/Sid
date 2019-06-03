@@ -17,11 +17,10 @@
             /// for two notable exceptions to this rule.
             /// </summary>
             /// <param name="graph"></param>
-            public bool Do(Graph graph)
+            public void Do(Graph graph)
             {
-                var result = Run(graph);
+                Run(graph);
                 Invert();
-                return result;
             }
 
             public virtual string UndoAction => Action;

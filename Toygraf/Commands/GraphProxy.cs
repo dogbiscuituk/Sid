@@ -79,8 +79,8 @@
             get => Graph.Traces.Select(s => new GraphTrace(this, Graph.Traces.IndexOf(s))).ToList();
         }
 
-        internal bool GraphDeleteTrace(int index) => Run(new GraphDeleteTraceCommand(index));
-        internal bool GraphInsertTrace(int index) => Run(new GraphInsertTraceCommand(index));
+        internal void GraphDeleteTrace(int index) => Run(new GraphDeleteTraceCommand(index));
+        internal void GraphInsertTrace(int index) => Run(new GraphInsertTraceCommand(index));
 
         #endregion
 
@@ -149,9 +149,9 @@
 
         private void Redo() { if (CanRedo) Redo(RedoStack.Pop()); }
 
-        private bool Redo(IGraphCommand command)
+        private void Redo(IGraphCommand command)
         {
-            var result = command.Do(Graph);
+            command.Do(Graph);
             var canGroup = false;
             if (GroupUndo && CanUndo)
             {
@@ -169,7 +169,6 @@
             if (!canGroup)
                 UndoStack.Push(command);
             UpdateUI();
-            return result;
         }
 
         private void RedoMultiple(object sender, EventArgs e)
@@ -178,12 +177,11 @@
             do Redo(); while (UndoStack.Peek() != peek);
         }
 
-        private bool Run(IGraphCommand command)
+        private void Run(IGraphCommand command)
         {
-            var result = Redo(command);
+            Redo(command);
             RedoStack.Clear();
             UpdateUI();
-            return result;
         }
 
         private void Scroll(float xFactor, float yFactor) => Run(new GraphCentreCommand(

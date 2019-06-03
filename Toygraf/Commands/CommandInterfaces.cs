@@ -6,7 +6,7 @@
     {
         private interface IGraphCommand
         {
-            bool Do(Graph graph);
+            void Do(Graph graph);
             string UndoAction { get; }
             string RedoAction { get; }
         }
