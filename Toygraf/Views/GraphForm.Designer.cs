@@ -137,6 +137,7 @@
             this.ImageOpenDialog = new System.Windows.Forms.OpenFileDialog();
             this.PropertyTable = new System.Windows.Forms.PropertyGrid();
             this.SplitContainer = new System.Windows.Forms.SplitContainer();
+            this.ViewPropertyTable = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
@@ -403,6 +404,7 @@
             this.ScrollMenu,
             this.ViewLegend,
             this.ViewToolbar,
+            this.ViewPropertyTable,
             this.toolStripMenuItem7,
             this.ViewCoordinatesTooltip});
             this.ViewMenu.Name = "ViewMenu";
@@ -1107,6 +1109,12 @@
             this.SplitContainer.SplitterDistance = 658;
             this.SplitContainer.TabIndex = 17;
             // 
+            // ViewPropertyTable
+            // 
+            this.ViewPropertyTable.Name = "ViewPropertyTable";
+            this.ViewPropertyTable.Size = new System.Drawing.Size(183, 22);
+            this.ViewPropertyTable.Text = "&Property Table";
+            // 
             // GraphForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1247,6 +1255,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         public System.Windows.Forms.OpenFileDialog ImageOpenDialog;
         public System.Windows.Forms.PropertyGrid PropertyTable;
-        private System.Windows.Forms.SplitContainer SplitContainer;
+        public System.Windows.Forms.ToolStripMenuItem ViewPropertyTable;
+        public System.Windows.Forms.SplitContainer SplitContainer;
     }
 }

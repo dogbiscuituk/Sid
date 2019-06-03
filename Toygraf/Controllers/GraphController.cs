@@ -36,7 +36,8 @@
             GraphPropertiesController = new GraphPropertiesController(this);
             TracePropertiesController = new TracePropertiesController(this);
             ToolbarController = new ToolbarController(this);
-            PropertyGridController = new PropertyGridController(this);
+            PropertyTableController = new PropertyTableController(this);
+            FullScreenController = new FullScreenController(this);
             ModifiedChanged();
             LegendController.AdjustLegend();
             UpdateUI();
@@ -62,8 +63,6 @@
                 View.FileExit.Click += FileExit_Click;
                 View.GraphProperties.Click += GraphProperties_Click;
                 View.tbProperties.Click += GraphProperties_Click;
-                View.ZoomFullScreen.Click += ZoomFullScreen_Click;
-                View.tbFullScreen.Click += ZoomFullScreen_Click;
                 View.ViewCoordinatesTooltip.Click += ViewCoordinatesTooltip_Click;
                 View.HelpAbout.Click += HelpAbout_Click;
                 View.PopupMenu.Opening += PopupMenu_Opening;
@@ -78,6 +77,7 @@
         internal ClockController ClockController => GraphicsController.ClockController;
         internal readonly GraphProxy GraphProxy;
         internal readonly LegendController LegendController;
+        internal readonly PropertyTableController PropertyTableController;
         internal TracePropertiesController TracePropertiesController;
 
         internal bool ExecuteTextureDialog(Trace trace) => SelectTexture(trace);
@@ -105,24 +105,11 @@
         private Panel ClientPanel { get => View.ClientPanel; }
         private PictureBox PictureBox { get => View.PictureBox; }
 
+        private readonly FullScreenController FullScreenController;
         private readonly GraphicsController GraphicsController;
-        private readonly JsonController JsonController;
         private readonly GraphPropertiesController GraphPropertiesController;
+        private readonly JsonController JsonController;
         private readonly ToolbarController ToolbarController;
-        private readonly PropertyGridController PropertyGridController;
-
-        private FormWindowState PriorWindowState;
-        private bool PriorLegendVisible;
-
-        private bool FullScreen
-        {
-            get => View.ZoomFullScreen.Checked;
-            set
-            {
-                View.ZoomFullScreen.Checked = value;
-                AdjustFullScreen();
-            }
-        }
 
         #endregion
 
@@ -134,7 +121,6 @@
         private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
         private void FileExit_Click(object sender, EventArgs e) => View.Close();
         private void GraphProperties_Click(object sender, EventArgs e) => GraphPropertiesController.Show(View);
-        private void ZoomFullScreen_Click(object sender, EventArgs e) => ToggleFullScreen();
         private void ViewCoordinatesTooltip_Click(object sender, EventArgs e) => ToggleCoordinatesTooltip();
         private void HelpAbout_Click(object sender, EventArgs e) => new AboutController().ShowDialog(View);
         private void PopupMenu_Opening(object sender, CancelEventArgs e) => View.MainMenu.CloneTo(View.PopupMenu);
@@ -174,28 +160,6 @@
         #endregion
 
         #region Private Methods
-
-        private void AdjustFullScreen()
-        {
-            var normal = !FullScreen;
-            View.MainMenuStrip.Visible =
-                View.Toolbar.Visible =
-                View.StatusBar.Visible = normal;
-            if (FullScreen)
-            {
-                PriorLegendVisible = View.LegendPanel.Visible;
-                View.LegendPanel.Visible = false;
-                View.FormBorderStyle = FormBorderStyle.None;
-                PriorWindowState = View.WindowState;
-                View.WindowState = FormWindowState.Maximized;
-            }
-            else
-            {
-                View.LegendPanel.Visible = PriorLegendVisible;
-                View.FormBorderStyle = FormBorderStyle.Sizable;
-                View.WindowState = PriorWindowState;
-            }
-        }
 
         private bool ContinueSaving() => true;
 
@@ -327,7 +291,6 @@
         }
 
         private void ToggleCoordinatesTooltip() => ShowCoordinatesTooltip = !ShowCoordinatesTooltip;
-        private void ToggleFullScreen() => FullScreen = !FullScreen;
         private void UpdateCaption() { View.Text = JsonController.WindowCaption; }
 
         #endregion

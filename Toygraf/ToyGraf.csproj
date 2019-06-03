@@ -79,12 +79,13 @@
     <Compile Include="Controllers\ClockController.cs" />
     <Compile Include="Controllers\ColourController.cs" />
     <Compile Include="Controllers\ElementsController.cs" />
+    <Compile Include="Controllers\FullScreenController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\GraphicsController.cs" />
     <Compile Include="Controllers\GraphPropertiesController.cs" />
     <Compile Include="Controllers\JsonController.cs" />
     <Compile Include="Controllers\LegendController.cs" />
-    <Compile Include="Controllers\PropertyGridController.cs" />
+    <Compile Include="Controllers\PropertyTableController.cs" />
     <Compile Include="Controllers\TraceController.cs" />
     <Compile Include="Controllers\GraphController.cs" />
     <Compile Include="Controllers\MruController.cs" />
