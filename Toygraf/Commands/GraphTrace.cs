@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Design;
 using System.Drawing.Drawing2D;
+using ToyGraf.Controls;
 using ToyGraf.Models;
 using ToyGraf.Models.Enumerations;
 
@@ -123,7 +125,7 @@ namespace ToyGraf.Commands
                 set => Run(new TraceStepCountCommand(Index, value));
             }
 
-            [Category("Style")]
+            [Browsable(false)]
             public string Texture
             {
                 get => Trace.Texture;
@@ -131,6 +133,7 @@ namespace ToyGraf.Commands
             }
 
             [Category("Style")]
+            [Editor(typeof(TgFileNameEditor), typeof(UITypeEditor))]
             public string TexturePath
             {
                 get => Trace.TexturePath;
@@ -151,6 +154,8 @@ namespace ToyGraf.Commands
                 get => Trace.WrapMode;
                 set => Run(new TraceWrapModeCommand(Index, value));
             }
+
+            public override string ToString() => $"Trace f{Index}";
 
             private void Run(IGraphCommand command) => GraphProxy.Run(command);
         }

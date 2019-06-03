@@ -6,9 +6,12 @@
     {
         private interface IGraphCommand
         {
-            void Do(Graph graph);
             string UndoAction { get; }
             string RedoAction { get; }
+
+            void Do(Graph graph);
+            void Invert();
+            void Run(Graph Graph);
         }
 
         private interface ITraceCommand : IGraphCommand

@@ -249,7 +249,7 @@
         private void TextureClick(object sender, EventArgs e)
         {
             if (GraphController.ExecuteTextureDialog(Trace))
-                View.lblTexturePath.Text = Trace.TexturePath.AmpersandEscape();
+                UpdateTexturePathLabel();
         }
 
         private void View_FormClosing(object sender, FormClosingEventArgs e)
@@ -309,7 +309,7 @@
                 View.cbHatchStyle.SelectedIndex = (int)Trace.HatchStyle;
                 View.cbGradientMode.SelectedIndex = (int)Trace.GradientMode;
                 View.cbWrapMode.SelectedIndex = (int)Trace.WrapMode;
-                View.lblTexturePath.Text = Trace.TexturePath;
+                UpdateTexturePathLabel();
                 View.sePenSize.Value = (decimal)Trace.PenWidth;
                 View.seTransparency.Value = Trace.FillTransparencyPercent;
                 Loading = false;
@@ -318,6 +318,7 @@
         }
 
         private void UpdateIndexLabel() => View.IndexLabel.Text = $"f{Index}";
+        private void UpdateTexturePathLabel() => View.lblTexturePath.Text = Trace.TexturePath.AmpersandEscape();
 
         private void UpdateUI()
         {

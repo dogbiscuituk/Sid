@@ -15,6 +15,7 @@ namespace ToyGraf.Commands
             {
                 TgCollectionEditor.CollectionFormShown += TgCollectionEditor_CollectionFormShown;
                 TgCollectionEditor.CollectionFormClosed += TgCollectionEditor_CollectionFormClosed;
+                TgFileNameEditor.InitDialog += TgFileNameEditor_InitDialog;
             }
 
             private void TgCollectionEditor_CollectionFormShown(object sender, EventArgs e)
@@ -28,6 +29,14 @@ namespace ToyGraf.Commands
 
             private void TgCollectionEditor_CollectionFormClosed(object sender, FormClosedEventArgs e) =>
                 GraphProxy = null;
+
+            private void TgFileNameEditor_InitDialog(object sender, InitDialogEventArgs e)
+            {
+                var target = e.OpenFileDialog;
+                target.Filter = "Images (*.bmp;*.gif;*.jpeg;*.jpg;*.png)|*.bmp;*.gif;*.jpeg;*.jpg;*.png|All files " +
+    "(*.*)|*.*";
+                target.Title = "Select Texture";
+            }
 
             internal static GraphProxy GraphProxy;
         }

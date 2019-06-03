@@ -7,6 +7,9 @@
     {
         private abstract class GraphCommand<T> : IGraphCommand
         {
+            public virtual string RedoAction => Action;
+            public virtual string UndoAction => Action;
+
             /// <summary>
             /// Invoke the Run method of the command, then immediately invert
             /// the command in readiness for its transfer between the Undo and
@@ -23,44 +26,37 @@
                 Invert();
             }
 
-            public virtual string UndoAction => Action;
-            public virtual string RedoAction => Action;
-
+            public virtual void Invert() { }
+            public abstract void Run(Graph graph);
             public override string ToString() => $"{Target} {Detail} = {Value}";
 
             protected virtual string Action => $"{Detail} change";
             protected abstract string Detail { get; }
             protected virtual string Target { get => "Graph"; }
             protected T Value { get; set; }
-
-            protected virtual void Invert() { }
-            protected abstract bool Run(Graph graph);
         }
 
         private abstract class GraphPropertyCommand<T> : GraphCommand<T>
         {
-            protected GraphPropertyCommand(T value, Func<Graph, T> get, Action<Graph, T> set)
-                : base()
+            protected GraphPropertyCommand(T value, Func<Graph, T> get, Action<Graph, T> set) : base()
             {
                 Value = value;
                 Get = get;
                 Set = set;
             }
 
-            protected Func<Graph, T> Get;
-            protected Action<Graph, T> Set;
-
-            protected override bool Run(Graph graph)
+            public override void Run(Graph graph)
             {
                 T value = Get(graph);
-                var result = !Equals(value, Value);
-                if (result)
+                if (!Equals(value, Value))
                 {
                     Set(graph, Value);
                     Value = value;
                 }
-                return result;
             }
+
+            protected Func<Graph, T> Get;
+            protected Action<Graph, T> Set;
         }
 
         private abstract class TraceCommand<T> : GraphCommand<T>, ITraceCommand
@@ -80,20 +76,18 @@
                 Set = set;
             }
 
-            protected Func<Trace, T> Get;
-            protected Action<Trace, T> Set;
-
-            protected override bool Run(Graph graph)
+            public override void Run(Graph graph)
             {
                 T value = Get(graph.Traces[Index]);
-                var result = !value.Equals(Value);
-                if (result)
+                if (!Equals(value, Value))
                 {
                     Set(graph.Traces[Index], Value);
                     Value = value;
                 }
-                return result;
             }
+
+            protected Func<Trace, T> Get;
+            protected Action<Trace, T> Set;
             protected override string Target => $"f{Index}";
         }
     }

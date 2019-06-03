@@ -1,9 +1,9 @@
-﻿This project contains examples of several popular software design patterns. All of these, with the
+﻿This project contains many examples of popular software design patterns. All of these, with the
 singular exception of Model-View-Controller (not so much a pattern, more of a framework) are as
 originally described in the GoF book, https://en.wikipedia.org/wiki/Design_Patterns.
 
-
     Command
+	Composite
 	Facade
     Interpreter
 	Mediator
@@ -12,17 +12,28 @@ originally described in the GoF book, https://en.wikipedia.org/wiki/Design_Patte
     Observer
 	Visitor
 
+The following (incomplete) list illustrates a single instance of each of these in the project.
+
 Command
 
-All edits to the Graph and its Series are performed through Command objects. For example, when a
+All edits to the Graph and its Traces are performed through Command objects. For example, when a
 trace (pen) colour is changed, the change is effected by the appropriate Controller creating a new
-SeriesPenColourCommand, which is dispatched to the CommandProcessor to be run. See the description
+TracePenColourCommand, which is dispatched to the CommandProcessor to be run. See the description
 of the Memento pattern for more details about Command execution.
+
+Composite
+
+Where the Command thrives, CompositeCommand will usually be found. This is a kind of macro, which
+combines the effects of two or more elementary Commands into a single action. On execution, or on
+Redo, the individual component commands are run in sequence. When a CompositeCommand is popped off
+the Undo stack, the subcommands are processed in reverse order, thus undoing the composite effect.
+The list of component Commands in a CompositeCommand may include further CompositeCommands, nested
+arbitrarily.
 
 Facade
 
 The CommandInterpreter supplies a facade interface, providing one method per available action: for
-example, GraphChangePaperColour(), SeriesChangePenColour(), and so on. This hides the details of the
+example, GraphChangePaperColour(), TraceChangePenColour(), and so on. This hides the details of the
 command implementation from clients such as the Visual Studio themed Property Table (a PropertyGrid
 control), which is not itself command pattern based, while retaining behind the scenes the full
 command pattern implementation required to support unlimited Undo/Redo operations.
@@ -39,7 +50,7 @@ http://mycodehere.blogspot.com/2019/04/expression-parser-part-1-of-2.html
 Mediator
 
 The CommandProcessor acts as Mediator between the set of available commands, and the various clients
-(Controller classes such as GraphPropertiesController, SeriesPropertiesController, SeriesController
+(Controller classes such as GraphPropertiesController, TracePropertiesController, TraceController
 and PropertyGridController). One important decoupling it provides is that between actually running a
 command, as most clients do, and simply noting its effects for Undo/Redo purposes, as in the case of
 the PropertyGridController (which bypasses the command running mechanism in favour of modifying the
@@ -63,12 +74,12 @@ data for their controls.
 
 Observer
 
-Several UI elements can be interested in the same piece of data. For example, a SeriesView in the
-Legend needs to know when its Series PenColour changes. The SeriesPropertiesDialog also needs to
+Several UI elements can be interested in the same piece of data. For example, a TraceView in the
+Legend needs to know when its Trace.PenColour changes. The TracePropertiesDialog also needs to
 know this, and since it's not a modal dialog, both of these UI elements have the ability to change
-the same data. By subscribing to the GraphController.PropertyChanged event, both SeriesController
-and SeriesPropertiesController become Observers of the Model data, and can update their associated
-Views (SeriesView and SeriesPropertiesDialog respectively) whenever there are relevant changes.
+the same data. By subscribing to the GraphController.PropertyChanged event, both TraceController
+and TracePropertiesController become Observers of the Model data, and can update their associated
+Views (TraceView and TracePropertiesDialog respectively) whenever there are relevant changes.
 
 Visitor
 

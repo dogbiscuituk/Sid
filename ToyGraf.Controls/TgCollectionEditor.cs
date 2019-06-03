@@ -22,10 +22,8 @@
             return form;
         }
 
-        protected virtual void OnCollectionFormClosed(object sender, FormClosedEventArgs e)
-        {
+        protected virtual void OnCollectionFormClosed(object sender, FormClosedEventArgs e) =>
             CollectionFormClosed?.Invoke(this, e);
-        }
 
         protected virtual void OnCollectionItemPropertyValueChanged(object sender, PropertyValueChangedEventArgs e) =>
             CollectionItemPropertyValueChanged?.Invoke(this, e);

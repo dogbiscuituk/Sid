@@ -20,15 +20,13 @@
 
             public bool Add { get; set; }
             public Trace Trace { get => Value; set => Value = value; }
-
             public override string UndoAction => GetAction(true);
             public override string RedoAction => GetAction(false);
+
+            public override void Invert() { Add = !Add; }
             public override string ToString() => $"{(Add ? "Add" : "Remove")} function f{Index} = {Detail}";
 
-            protected override string Detail => $"{base.Value?.Formula}";
-            protected override void Invert() { Add = !Add; }
-
-            protected override bool Run(Graph graph)
+            public override void Run(Graph graph)
             {
                 if (Add)
                 {
@@ -45,8 +43,9 @@
                     graph.RemoveTrace(Index);
                     Value.InvalidatePaths();
                 }
-                return true;
             }
+
+            protected override string Detail => $"{base.Value?.Formula}";
 
             private string GetAction(bool undo) => $"function {(Add ^ undo ? "addition" : "removal")}";
         }

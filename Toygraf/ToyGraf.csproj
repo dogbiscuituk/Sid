@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Commands\BaseCommands.cs" />
     <Compile Include="Commands\CommandInterfaces.cs" />
+    <Compile Include="Commands\CompositeCommand.cs" />
     <Compile Include="Commands\GraphProxyProxy.cs" />
     <Compile Include="Commands\GraphProxy.cs" />
     <Compile Include="Commands\GraphBoolCommands.cs" />
