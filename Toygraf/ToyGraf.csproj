@@ -247,6 +247,7 @@
     <Content Include="Icons\ChooseColor.png" />
     <Content Include="Icons\clock.png" />
     <Content Include="Icons\clock_16xLG.png" />
+    <None Include="Icons\Close.png" />
     <Content Include="Icons\ColorHS.png" />
     <Content Include="Icons\Color_fontHS.png" />
     <Content Include="Icons\Color_linecolor.png" />

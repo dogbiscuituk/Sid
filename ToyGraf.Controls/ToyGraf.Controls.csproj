@@ -49,6 +49,9 @@
     <Compile Include="TgMenuStrip.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="TgPropertyGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="TgStatusStrip.cs">
       <SubType>Component</SubType>
     </Compile>

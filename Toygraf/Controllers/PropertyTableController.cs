@@ -1,8 +1,10 @@
 ﻿namespace ToyGraf.Controllers
 {
     using System;
+    using System.Drawing;
     using System.Windows.Forms;
     using ToyGraf.Commands;
+    using ToyGraf.Controls;
     using ToyGraf.Views;
 
     internal class PropertyTableController
@@ -13,7 +15,21 @@
             PropertyTable = graphController.View.PropertyTable;
             Form.ViewMenu.DropDownOpening += ViewMenu_DropDownOpening;
             Form.ViewPropertyTable.Click += TogglePropertyTable;
+            var toolStrip = PropertyTable.GetToolStrip();
+            toolStrip.Items.RemoveAt(4); // Property Pages
+            toolStrip.Items.RemoveAt(3); // Separator
+            var closeButton = new ToolStripButton("Close", Properties.Resources.Close)
+            {
+                Alignment = ToolStripItemAlignment.Right,
+                DisplayStyle = ToolStripItemDisplayStyle.Image,
+                ImageTransparentColor = Color.White,
+                ToolTipText = "Hide the Property Table"
+            };
+            closeButton.Click += CloseButton_Click;
+            toolStrip.Items.Add(closeButton);
         }
+
+        private void CloseButton_Click(object sender, EventArgs e) => PropertyTableVisible = false;
 
         internal bool PropertyTableVisible
         {
@@ -27,6 +43,6 @@
         private GraphProxy GraphProxy => GraphController.GraphProxy;
         private readonly GraphController GraphController;
         private GraphForm Form => GraphController.View;
-        private readonly PropertyGrid PropertyTable;
+        private readonly TgPropertyGrid PropertyTable;
     }
 }

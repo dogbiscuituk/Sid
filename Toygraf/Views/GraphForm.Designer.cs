@@ -85,6 +85,7 @@
             this.ViewToolbarBottom = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.ViewToolbarHide = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewPropertyTable = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
             this.ViewCoordinatesTooltip = new System.Windows.Forms.ToolStripMenuItem();
             this.TimeMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -135,9 +136,8 @@
             this.tbLegend = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.ImageOpenDialog = new System.Windows.Forms.OpenFileDialog();
-            this.PropertyTable = new System.Windows.Forms.PropertyGrid();
+            this.PropertyTable = new ToyGraf.Controls.TgPropertyGrid();
             this.SplitContainer = new System.Windows.Forms.SplitContainer();
-            this.ViewPropertyTable = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
@@ -628,6 +628,12 @@
             this.ViewToolbarHide.Size = new System.Drawing.Size(114, 22);
             this.ViewToolbarHide.Text = "&Hide";
             // 
+            // ViewPropertyTable
+            // 
+            this.ViewPropertyTable.Name = "ViewPropertyTable";
+            this.ViewPropertyTable.Size = new System.Drawing.Size(183, 22);
+            this.ViewPropertyTable.Text = "&Property Table";
+            // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
@@ -1109,12 +1115,6 @@
             this.SplitContainer.SplitterDistance = 658;
             this.SplitContainer.TabIndex = 17;
             // 
-            // ViewPropertyTable
-            // 
-            this.ViewPropertyTable.Name = "ViewPropertyTable";
-            this.ViewPropertyTable.Size = new System.Drawing.Size(183, 22);
-            this.ViewPropertyTable.Text = "&Property Table";
-            // 
             // GraphForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1254,7 +1254,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         public System.Windows.Forms.OpenFileDialog ImageOpenDialog;
-        public System.Windows.Forms.PropertyGrid PropertyTable;
+        public ToyGraf.Controls.TgPropertyGrid PropertyTable;
         public System.Windows.Forms.ToolStripMenuItem ViewPropertyTable;
         public System.Windows.Forms.SplitContainer SplitContainer;
     }

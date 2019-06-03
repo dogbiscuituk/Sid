@@ -2,11 +2,13 @@
 {
     using System.ComponentModel;
     using System.Drawing;
+    using ToyGraf.Models;
     using ToyGraf.Models.Enumerations;
 
     partial class GraphProxy
     {
         [Category("Colour")]
+        [DefaultValue(typeof(Color), "Black")]
         public Color AxisColour
         {
             get => Graph.AxisColour;
@@ -70,6 +72,7 @@
         }
 
         [Category("Colour")]
+        [DefaultValue(typeof(Color), "Transparent")]
         public Color FillColour1
         {
             get => Graph.FillColour1;
@@ -77,6 +80,7 @@
         }
 
         [Category("Colour")]
+        [DefaultValue(typeof(Color), "Transparent")]
         public Color FillColour2
         {
             get => Graph.FillColour2;
@@ -98,6 +102,7 @@
         }
 
         [Category("Colour")]
+        [DefaultValue(typeof(Color), "DarkGray")]
         public Color LimitColour
         {
             get => Graph.LimitColour;
@@ -112,6 +117,7 @@
         }
 
         [Category("Colour")]
+        [DefaultValue(typeof(Color), "White")]
         public Color PaperColour
         {
             get => Graph.PaperColour;
@@ -126,6 +132,7 @@
         }
 
         [Category("Colour")]
+        [DefaultValue(typeof(Color), "Black")]
         public Color PenColour
         {
             get => Graph.PenColour;
@@ -140,6 +147,7 @@
         }
 
         [Category("Colour")]
+        [DefaultValue(typeof(Color), "LightGray")]
         public Color ReticleColour
         {
             get => Graph.ReticleColour;
