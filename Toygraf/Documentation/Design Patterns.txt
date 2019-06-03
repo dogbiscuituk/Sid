@@ -18,8 +18,10 @@ Command
 
 All edits to the Graph and its Traces are performed through Command objects. For example, when a
 trace (pen) colour is changed, the change is effected by the appropriate Controller creating a new
-TracePenColourCommand, which is dispatched to the CommandProcessor to be run. See the description
-of the Memento pattern for more details about Command execution.
+TracePenColourCommand, which is dispatched to be run by the the CommandProcessor (confusingly now
+renamed GraphProxy, as the responsibilities of several design classes dovetailed during extended
+development, and the final design only emerged when the dust setled). See the description of the
+Memento pattern for more details about Command execution.
 
 Composite
 
@@ -49,12 +51,13 @@ http://mycodehere.blogspot.com/2019/04/expression-parser-part-1-of-2.html
 
 Mediator
 
-The CommandProcessor acts as Mediator between the set of available commands, and the various clients
-(Controller classes such as GraphPropertiesController, TracePropertiesController, TraceController
-and PropertyGridController). One important decoupling it provides is that between actually running a
-command, as most clients do, and simply noting its effects for Undo/Redo purposes, as in the case of
-the PropertyGridController (which bypasses the command running mechanism in favour of modifying the
-model directly).
+The GraphProxy (nee CommandProcessor) acts as Mediator between the set of available commands, and
+the various clients (Controller classes e.g. GraphPropertiesController, TracePropertiesController,
+TraceController and PropertyTableController). One important decoupling it provided was that between
+actually running a command, as most clients do, and simply noting its effects for the purposes of
+Undo/Redo suppport. Such was the case with the original PropertyTableController, which bypassed the
+command running mechanism in favour of modifying the model directly. This entire evolution is, of
+course, A Long Story...
 
 Memento
 
