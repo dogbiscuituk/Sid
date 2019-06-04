@@ -68,14 +68,14 @@
             toolStrip.Items.Add(closeButton);
         }
 
+        private static ToolStrip FindToolStrip(PropertyGrid propertyGrid) =>
+            propertyGrid.Controls.OfType<ToolStrip>().FirstOrDefault();
+
         private static void HidePropertyPagesButton(ToolStrip toolStrip)
         {
             toolStrip.Items[4].Visible = false; // Property Pages
             toolStrip.Items[3].Visible = false; // Separator
         }
-
-        private static ToolStrip FindToolStrip(PropertyGrid propertyGrid) =>
-            propertyGrid.Controls.OfType<ToolStrip>().FirstOrDefault();
 
         private void PropertyChanged(string propertyName)
         {

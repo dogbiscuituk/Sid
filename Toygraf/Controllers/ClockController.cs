@@ -97,8 +97,8 @@
 
         private bool EpilepsyWarningAcknowledged
         {
-            get => AppController.TheAppController.EpilepsyWarningAcknowledged;
-            set => AppController.TheAppController.EpilepsyWarningAcknowledged = value;
+            get => AppController.EpilepsyWarningAcknowledged;
+            set => AppController.EpilepsyWarningAcknowledged = value;
         }
 
         #endregion

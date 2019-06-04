@@ -14,7 +14,7 @@
         {
             Expressions.Expressions.TestAll();
             Application.EnableVisualStyles();
-            Application.Run(AppController.TheAppController.View);
+            Application.Run(AppController.View);
         }
     }
 }

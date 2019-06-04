@@ -6,11 +6,11 @@
     using ToyGraf.Views;
     using Timer = System.Timers.Timer;
 
-    internal class AppController
+    internal static class AppController
     {
-        internal static AppController TheAppController = new AppController();
+        //internal static AppController TheAppController = new AppController();
 
-        private AppController(): base()
+        static AppController()
         {
             Timer timer = new Timer(5000)
             {
@@ -22,7 +22,7 @@
             AddNewGraphController();
         }
 
-        internal GraphController AddNewGraphController()
+        internal static GraphController AddNewGraphController()
         {
             var graphController = new GraphController();
             GraphControllers.Add(graphController);
@@ -30,15 +30,17 @@
             return graphController;
         }
 
-        internal void Remove(GraphController graphController)
+        internal static void Close() => Application.Exit();
+
+        internal static void Remove(GraphController graphController)
         {
             GraphControllers.Remove(graphController);
             if (GraphControllers.Count == 0)
-                System.Windows.Forms.Application.Exit();
+                Application.Exit();
         }
 
-        private AboutDialog _view;
-        internal AboutDialog View
+        private static AboutDialog _view;
+        internal static AboutDialog View
         {
             get
             {
@@ -51,10 +53,10 @@
             }
         }
 
-        internal bool EpilepsyWarningAcknowledged;
+        internal static bool EpilepsyWarningAcknowledged;
 
-        internal List<GraphController> GraphControllers = new List<GraphController>();
+        internal static List<GraphController> GraphControllers = new List<GraphController>();
 
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e) => View.Hide();
+        private static void Timer_Elapsed(object sender, ElapsedEventArgs e) => View.Hide();
     }
 }

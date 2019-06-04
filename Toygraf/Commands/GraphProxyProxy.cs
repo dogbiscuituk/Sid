@@ -25,7 +25,7 @@
                     form.Size = new System.Drawing.Size(512, 512);
                     form.Text = "Trace properties";
                     if (form.Owner is GraphForm graphForm)
-                        GraphProxy = AppController.TheAppController.GraphControllers
+                        GraphProxy = AppController.GraphControllers
                             .FirstOrDefault(p => p.View == graphForm)
                             .GraphProxy;
                     var propertyGrid = form.Controls.Find("propertyBrowser", true)?[0] as PropertyGrid;

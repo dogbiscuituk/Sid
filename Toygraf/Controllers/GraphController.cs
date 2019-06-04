@@ -53,6 +53,7 @@
             {
                 _view = value;
                 View.FileNew.Click += FileNew_Click;
+                View.FileNewWindow.Click += FileNewWindow_Click;
                 View.tbNew.Click += FileNew_Click;
                 View.FileOpen.Click += FileOpen_Click;
                 View.tbOpen.ButtonClick += FileOpen_Click;
@@ -60,6 +61,7 @@
                 View.FileSave.Click += FileSave_Click;
                 View.FileSaveAs.Click += FileSaveAs_Click;
                 View.tbSave.Click += TbSave_Click;
+                View.FileClose.Click += FileClose_Click;
                 View.FileExit.Click += FileExit_Click;
                 View.GraphProperties.Click += GraphProperties_Click;
                 View.tbProperties.Click += GraphProperties_Click;
@@ -123,10 +125,12 @@
         #region Private Event Handlers
 
         private void FileNew_Click(object sender, EventArgs e) => NewFile();
+        private void FileNewWindow_Click(object sender, EventArgs e) => NewWindow();
         private void FileOpen_Click(object sender, EventArgs e) => OpenFile();
         private void FileSave_Click(object sender, EventArgs e) => JsonController.Save();
         private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
-        private void FileExit_Click(object sender, EventArgs e) => View.Close();
+        private void FileClose_Click(object sender, EventArgs e) => View.Close();
+        private void FileExit_Click(object sender, EventArgs e) => AppController.Close();
         private void GraphProperties_Click(object sender, EventArgs e) => GraphPropertiesController.Show(View);
         private void ViewCoordinatesTooltip_Click(object sender, EventArgs e) => ToggleCoordinatesTooltip();
         private void HelpAbout_Click(object sender, EventArgs e) => new AboutController().ShowDialog(View);
@@ -148,7 +152,7 @@
             if (!cancel)
             {
                 Model.Modified = false;
-                AppController.TheAppController.Remove(this);
+                AppController.Remove(this);
             }
             return !cancel;
         }
@@ -226,6 +230,8 @@
                 UpdateUI();
             }
         }
+
+        private void NewWindow() => AppController.AddNewGraphController();
 
         private void OnPropertyChanged(string propertyName)
         {

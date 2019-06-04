@@ -34,12 +34,14 @@
             this.MainMenu = new ToyGraf.Controls.TgMenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FileNew = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileNewWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.FileOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.FileSave = new System.Windows.Forms.ToolStripMenuItem();
             this.FileSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.FileClose = new System.Windows.Forms.ToolStripMenuItem();
             this.FileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.EditUndo = new System.Windows.Forms.ToolStripMenuItem();
@@ -170,12 +172,14 @@
             // 
             this.FileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileNew,
+            this.FileNewWindow,
             this.FileOpen,
             this.FileReopen,
             this.toolStripMenuItem2,
             this.FileSave,
             this.FileSaveAs,
             this.toolStripMenuItem1,
+            this.FileClose,
             this.FileExit});
             this.FileMenu.Name = "FileMenu";
             this.FileMenu.Size = new System.Drawing.Size(37, 20);
@@ -188,8 +192,16 @@
             this.FileNew.Name = "FileNew";
             this.FileNew.ShortcutKeyDisplayString = "^N";
             this.FileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.FileNew.Size = new System.Drawing.Size(136, 22);
+            this.FileNew.Size = new System.Drawing.Size(180, 22);
             this.FileNew.Text = "&New";
+            // 
+            // FileNewWindow
+            // 
+            this.FileNewWindow.Image = global::ToyGraf.Properties.Resources.NewDocumentHS;
+            this.FileNewWindow.ImageTransparentColor = System.Drawing.Color.White;
+            this.FileNewWindow.Name = "FileNewWindow";
+            this.FileNewWindow.Size = new System.Drawing.Size(180, 22);
+            this.FileNewWindow.Text = "New &Window";
             // 
             // FileOpen
             // 
@@ -198,19 +210,19 @@
             this.FileOpen.Name = "FileOpen";
             this.FileOpen.ShortcutKeyDisplayString = "^O";
             this.FileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.FileOpen.Size = new System.Drawing.Size(136, 22);
+            this.FileOpen.Size = new System.Drawing.Size(180, 22);
             this.FileOpen.Text = "&Open...";
             // 
             // FileReopen
             // 
             this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(136, 22);
+            this.FileReopen.Size = new System.Drawing.Size(180, 22);
             this.FileReopen.Text = "&Reopen";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(133, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // FileSave
             // 
@@ -219,26 +231,33 @@
             this.FileSave.Name = "FileSave";
             this.FileSave.ShortcutKeyDisplayString = "^S";
             this.FileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.FileSave.Size = new System.Drawing.Size(136, 22);
+            this.FileSave.Size = new System.Drawing.Size(180, 22);
             this.FileSave.Text = "&Save";
             // 
             // FileSaveAs
             // 
             this.FileSaveAs.Name = "FileSaveAs";
-            this.FileSaveAs.Size = new System.Drawing.Size(136, 22);
+            this.FileSaveAs.Size = new System.Drawing.Size(180, 22);
             this.FileSaveAs.Text = "Save &As...";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(133, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // FileClose
+            // 
+            this.FileClose.Name = "FileClose";
+            this.FileClose.ShortcutKeyDisplayString = "^F4";
+            this.FileClose.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F4)));
+            this.FileClose.Size = new System.Drawing.Size(180, 22);
+            this.FileClose.Text = "&Close";
             // 
             // FileExit
             // 
             this.FileExit.Name = "FileExit";
-            this.FileExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.FileExit.Size = new System.Drawing.Size(136, 22);
-            this.FileExit.Text = "E&xit";
+            this.FileExit.Size = new System.Drawing.Size(180, 22);
+            this.FileExit.Text = "Close All && E&xit";
             // 
             // EditMenu
             // 
@@ -1149,7 +1168,7 @@
         public System.Windows.Forms.ToolStripMenuItem FileSaveAs;
         public System.Windows.Forms.ToolStripMenuItem FileReopen;
         public System.Windows.Forms.ToolStripMenuItem FileMenu;
-        public System.Windows.Forms.ToolStripMenuItem FileExit;
+        public System.Windows.Forms.ToolStripMenuItem FileClose;
         public System.Windows.Forms.ToolStripMenuItem FileNew;
         public System.Windows.Forms.ToolStripMenuItem FileOpen;
         public System.Windows.Forms.ToolStripMenuItem HelpAbout;
@@ -1251,5 +1270,7 @@
         public System.Windows.Forms.PropertyGrid PropertyTable;
         public System.Windows.Forms.ToolStripMenuItem ViewPropertyTable;
         public System.Windows.Forms.SplitContainer SplitContainer;
+        public System.Windows.Forms.ToolStripMenuItem FileNewWindow;
+        public System.Windows.Forms.ToolStripMenuItem FileExit;
     }
 }

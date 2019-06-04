@@ -15,7 +15,7 @@
 
         internal void CreateGraph()
         {
-            GraphController = AppController.TheAppController.AddNewGraphController();
+            GraphController = AppController.AddNewGraphController();
             PopulateTraces(TracePropertiesController.Trace.Proxy);
         }
 
