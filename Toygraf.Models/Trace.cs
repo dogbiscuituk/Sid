@@ -215,33 +215,22 @@
                 case BrushType.Hatch:
                     return new HatchBrush(HatchStyle, paint1, paint2);
                 case BrushType.Texture:
-                    if (Texture == null)
+                    if (string.IsNullOrWhiteSpace(Texture))
                         goto case BrushType.Solid;
+                    m = m.Clone();
+                    float offsetX = m.OffsetX, offsetY = m.OffsetY;
+                    m.Invert();
+                    m.Translate(offsetX, offsetY);
+                    var attr = new ImageAttributes();
+                    attr.SetColorMatrix(new ColorMatrix { Matrix33 = 1 - FillTransparencyPercent / 100f });
                     var bytes = Convert.FromBase64String(Texture);
                     using (var stream = new MemoryStream())
                     {
                         stream.Write(bytes, 0, bytes.Length);
                         stream.Seek(0, SeekOrigin.Begin);
                         using (var image = Image.FromStream(stream))
-                        {
-                            var α = 1 - FillTransparencyPercent / 100f;
-                            var attr = new ImageAttributes();
-                            attr.SetColorMatrix(new ColorMatrix(new[]
-                            {
-                                new float[]{ 1, 0, 0, 0, 0},
-                                new float[]{ 0, 1, 0, 0, 0},
-                                new float[]{ 0, 0, 1, 0, 0},
-                                new float[]{ 0, 0, 0, α, 0},
-                                new float[]{ 0, 0, 0, 0, 1},
-                            }));
-                            m = m.Clone();
-                            m.Invert();
-                            return new TextureBrush(image, new Rectangle(new Point(0, 0), image.Size), attr)
-                            {
-                                Transform = m,
-                                WrapMode = WrapMode
-                            };
-                        }
+                            return new TextureBrush(image, new Rectangle(0, 0, image.Width, image.Height), attr)
+                            { Transform = m, WrapMode = WrapMode };
                     }
                 case BrushType.PathGradient:
                     var path = new GraphicsPath();

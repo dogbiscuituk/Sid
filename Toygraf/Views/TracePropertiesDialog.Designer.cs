@@ -1569,7 +1569,7 @@
             // 
             // btnTaylorPolynomial
             // 
-            this.btnTaylorPolynomial.Location = new System.Drawing.Point(331, 95);
+            this.btnTaylorPolynomial.Location = new System.Drawing.Point(8, 92);
             this.btnTaylorPolynomial.Name = "btnTaylorPolynomial";
             this.btnTaylorPolynomial.Size = new System.Drawing.Size(119, 25);
             this.btnTaylorPolynomial.TabIndex = 24;
@@ -1652,9 +1652,9 @@
             // lblTexturePath
             // 
             this.lblTexturePath.AutoEllipsis = true;
-            this.lblTexturePath.Location = new System.Drawing.Point(191, 34);
+            this.lblTexturePath.Location = new System.Drawing.Point(163, 56);
             this.lblTexturePath.Name = "lblTexturePath";
-            this.lblTexturePath.Size = new System.Drawing.Size(267, 58);
+            this.lblTexturePath.Size = new System.Drawing.Size(295, 61);
             this.lblTexturePath.TabIndex = 21;
             // 
             // btnTexture
@@ -1812,6 +1812,7 @@
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).EndInit();
             this.ResumeLayout(false);
+
         }
 
         #endregion

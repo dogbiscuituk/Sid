@@ -139,9 +139,10 @@
         #region Private Methods
 
         private PointF ClientToGraph(Point p) => Graph.ClientToGraph(p, View.ClientRectangle);
+        private PointF ScreenToGraph(Point p) => ClientToGraph(View.PointToClient(p));
+
         private Point GraphToClient(PointF p) => Graph.GraphToClient(p, View.ClientRectangle);
         private Point GraphToScreen(PointF p) => View.PointToScreen(GraphToClient(p));
-        private PointF ScreenToGraph(Point p) => ClientToGraph(View.PointToClient(p));
 
         #endregion
     }

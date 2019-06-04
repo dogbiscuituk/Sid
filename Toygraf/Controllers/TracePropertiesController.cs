@@ -331,9 +331,9 @@
                 linear = brushType == BrushType.LinearGradient;
             View.lblFillColour.Visible =
                 View.cbFillColour1.Visible =
-                View.btnFillColour1.Visible =
-                View.lblTransparency.Visible =
-                View.seTransparency.Visible = !texture;
+                View.btnFillColour1.Visible = !texture;
+            View.lblTransparency.Visible =
+                View.seTransparency.Visible = true;
             View.lblFillColour2.Visible =
                 View.cbFillColour2.Visible =
                 View.btnFillColour2.Visible = !(solid || texture);
