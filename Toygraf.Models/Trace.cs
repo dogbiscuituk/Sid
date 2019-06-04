@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Drawing2D;
+    using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
     using System.Linq.Expressions;
@@ -216,23 +217,40 @@
                 case BrushType.Texture:
                     if (Texture == null)
                         goto case BrushType.Solid;
-                    m = m.Clone();
-                    m.Invert();
                     var bytes = Convert.FromBase64String(Texture);
                     using (var stream = new MemoryStream())
                     {
                         stream.Write(bytes, 0, bytes.Length);
                         stream.Seek(0, SeekOrigin.Begin);
                         using (var image = Image.FromStream(stream))
-                            return new TextureBrush(image, WrapMode) { Transform = m };
+                        {
+                            var α = 1 - FillTransparencyPercent / 100f;
+                            var attr = new ImageAttributes();
+                            attr.SetColorMatrix(new ColorMatrix(new[]
+                            {
+                                new float[]{ 1, 0, 0, 0, 0},
+                                new float[]{ 0, 1, 0, 0, 0},
+                                new float[]{ 0, 0, 1, 0, 0},
+                                new float[]{ 0, 0, 0, α, 0},
+                                new float[]{ 0, 0, 0, 0, 1},
+                            }));
+                            m = m.Clone();
+                            m.Invert();
+                            return new TextureBrush(image, new Rectangle(new Point(0, 0), image.Size), attr)
+                            {
+                                Transform = m,
+                                WrapMode = WrapMode
+                            };
+                        }
                     }
                 case BrushType.PathGradient:
                     var path = new GraphicsPath();
                     path.AddRectangle(Viewport.Limits);
-                    var brush = new PathGradientBrush(path);
-                    brush.CenterColor = paint1;
-                    brush.SurroundColors = new Color[] { paint2 };
-                    return brush;
+                    return new PathGradientBrush(path)
+                    {
+                        CenterColor = paint1,
+                        SurroundColors = new Color[] { paint2 }
+                    };
                 case BrushType.LinearGradient:
                     return new LinearGradientBrush(Viewport.Limits, paint1, paint2, GradientMode);
             }

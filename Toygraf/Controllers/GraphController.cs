@@ -68,6 +68,7 @@
                 View.PopupMenu.Opening += PopupMenu_Opening;
                 View.FormClosing += View_FormClosing;
                 View.SizeChanged += View_SizeChanged;
+                InitTextureDialog(View.TextureDialog);
             }
         }
 
@@ -81,6 +82,12 @@
         internal TracePropertiesController TracePropertiesController;
 
         internal bool ExecuteTextureDialog(Trace trace) => SelectTexture(trace);
+
+        internal static void InitTextureDialog(OpenFileDialog dialog)
+        {
+            dialog.Filter = "Images (*.bmp;*.gif;*.jpeg;*.jpg;*.png)|*.bmp;*.gif;*.jpeg;*.jpg;*.png|All files (*.*)|*.*";
+            dialog.Title = "Select Texture";
+        }
 
         internal void Show() => View.Show();
 
@@ -251,7 +258,7 @@
 
         private bool SelectTexture(Trace trace)
         {
-            var dialog = View.ImageOpenDialog;
+            var dialog = View.TextureDialog;
             dialog.FileName = trace.TexturePath;
             bool ok = dialog.ShowDialog(View) == DialogResult.OK;
             if (ok)

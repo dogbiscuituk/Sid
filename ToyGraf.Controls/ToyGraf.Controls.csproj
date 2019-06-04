@@ -50,9 +50,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="TgFileNameEditor.cs" />
-    <Compile Include="TgPropertyGrid.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="TgStatusStrip.cs">
       <SubType>Component</SubType>
     </Compile>

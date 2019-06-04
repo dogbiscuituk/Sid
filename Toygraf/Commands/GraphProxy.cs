@@ -2,13 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Drawing;
-    using System.Drawing.Design;
-    using System.Linq;
     using System.Windows.Forms;
     using ToyGraf.Controllers;
-    using ToyGraf.Controls;
     using ToyGraf.Models;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Views;
@@ -70,14 +66,6 @@
         #endregion
 
         #region Command Runners
-
-        internal GraphTrace this[int index] { get => new GraphTrace(this, index); }
-
-        [Editor(typeof(TgCollectionEditor), typeof(UITypeEditor))]
-        public List<GraphTrace> Traces
-        {
-            get => Graph.Traces.Select(s => new GraphTrace(this, Graph.Traces.IndexOf(s))).ToList();
-        }
 
         internal void GraphDeleteTrace(int index) => Run(new GraphDeleteTraceCommand(index));
         internal void GraphInsertTrace(int index) => Run(new GraphInsertTraceCommand(index));

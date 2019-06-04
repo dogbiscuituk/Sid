@@ -135,8 +135,8 @@
             this.tbFullScreen = new System.Windows.Forms.ToolStripButton();
             this.tbLegend = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.ImageOpenDialog = new System.Windows.Forms.OpenFileDialog();
-            this.PropertyTable = new ToyGraf.Controls.TgPropertyGrid();
+            this.TextureDialog = new System.Windows.Forms.OpenFileDialog();
+            this.PropertyTable = new System.Windows.Forms.PropertyGrid();
             this.SplitContainer = new System.Windows.Forms.SplitContainer();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
@@ -873,7 +873,7 @@
             this.ClientPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ClientPanel.Location = new System.Drawing.Point(0, 0);
             this.ClientPanel.Name = "ClientPanel";
-            this.ClientPanel.Size = new System.Drawing.Size(658, 452);
+            this.ClientPanel.Size = new System.Drawing.Size(608, 452);
             this.ClientPanel.TabIndex = 6;
             // 
             // LegendPanel
@@ -1083,18 +1083,12 @@
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(31, 6);
             // 
-            // ImageOpenDialog
-            // 
-            this.ImageOpenDialog.Filter = "Images (*.bmp;*.gif;*.jpeg;*.jpg;*.png)|*.bmp;*.gif;*.jpeg;*.jpg;*.png|All files " +
-    "(*.*)|*.*";
-            this.ImageOpenDialog.Title = "Select Texture";
-            // 
             // PropertyTable
             // 
             this.PropertyTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PropertyTable.Location = new System.Drawing.Point(0, 0);
             this.PropertyTable.Name = "PropertyTable";
-            this.PropertyTable.Size = new System.Drawing.Size(250, 452);
+            this.PropertyTable.Size = new System.Drawing.Size(300, 452);
             this.PropertyTable.TabIndex = 14;
             // 
             // SplitContainer
@@ -1112,7 +1106,7 @@
             // 
             this.SplitContainer.Panel2.Controls.Add(this.PropertyTable);
             this.SplitContainer.Size = new System.Drawing.Size(912, 452);
-            this.SplitContainer.SplitterDistance = 658;
+            this.SplitContainer.SplitterDistance = 608;
             this.SplitContainer.TabIndex = 17;
             // 
             // GraphForm
@@ -1253,8 +1247,8 @@
         public System.Windows.Forms.ToolStripSplitButton tbLegend;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        public System.Windows.Forms.OpenFileDialog ImageOpenDialog;
-        public ToyGraf.Controls.TgPropertyGrid PropertyTable;
+        public System.Windows.Forms.OpenFileDialog TextureDialog;
+        public System.Windows.Forms.PropertyGrid PropertyTable;
         public System.Windows.Forms.ToolStripMenuItem ViewPropertyTable;
         public System.Windows.Forms.SplitContainer SplitContainer;
     }

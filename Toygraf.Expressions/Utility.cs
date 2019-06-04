@@ -518,7 +518,7 @@
         /// </summary>
         /// <param name="s">The input string</param>
         /// <returns>The input string with all ampersands escaped (doubled up).</returns>
-        public static string AmpersandEscape(this string s) => s.Replace("&", "&&");
+        public static string AmpersandEscape(this string s) => s?.Replace("&", "&&");
 
         /// <summary>
         /// Convert a string, obtained from an accelerator-enabled UI context
@@ -527,7 +527,7 @@
         /// </summary>
         /// <param name="s">The string obtained from the UI context.</param>
         /// <returns>The input string with all escaped (doubled) ampersands unescaped.</returns>
-        public static string AmpersandUnescape(this string s) => s.Replace("&&", "&");
+        public static string AmpersandUnescape(this string s) => s?.Replace("&&", "&");
 
         public static string ToTitleCase(this string s) =>
             s == string.Empty

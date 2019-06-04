@@ -3,9 +3,9 @@
     using System;
     using System.ComponentModel;
     using System.Drawing;
+    using System.Linq;
     using System.Windows.Forms;
     using ToyGraf.Commands;
-    using ToyGraf.Controls;
     using ToyGraf.Views;
 
     internal class PropertyTableController
@@ -18,7 +18,9 @@
             PropertyTable = graphController.View.PropertyTable;
             Form.ViewMenu.DropDownOpening += ViewMenu_DropDownOpening;
             Form.ViewPropertyTable.Click += TogglePropertyTable;
-            AddCloseButton();
+            var toolStrip = FindToolStrip(PropertyTable);
+            HidePropertyPagesButton(toolStrip);
+            AddCloseButton(toolStrip);
             GraphController.PropertyChanged += GraphController_PropertyChanged;
         }
 
@@ -28,6 +30,9 @@
             set => Form.SplitContainer.Panel2Collapsed = !value;
         }
 
+        internal static void HidePropertyPagesButton(PropertyGrid propertyGrid) =>
+            HidePropertyPagesButton(FindToolStrip(propertyGrid));
+
         #endregion
 
         #region Private Properties
@@ -35,7 +40,7 @@
         private GraphProxy GraphProxy => GraphController.GraphProxy;
         private readonly GraphController GraphController;
         private GraphForm Form => GraphController.View;
-        private readonly TgPropertyGrid PropertyTable;
+        private readonly PropertyGrid PropertyTable;
 
         #endregion
 
@@ -50,11 +55,8 @@
 
         #region Private Methods
 
-        private void AddCloseButton()
+        private void AddCloseButton(ToolStrip toolStrip)
         {
-            var toolStrip = PropertyTable.GetToolStrip();
-            toolStrip.Items.RemoveAt(4); // Property Pages
-            toolStrip.Items.RemoveAt(3); // Separator
             var closeButton = new ToolStripButton("Close", Properties.Resources.Close)
             {
                 Alignment = ToolStripItemAlignment.Right,
@@ -65,6 +67,15 @@
             closeButton.Click += CloseButton_Click;
             toolStrip.Items.Add(closeButton);
         }
+
+        private static void HidePropertyPagesButton(ToolStrip toolStrip)
+        {
+            toolStrip.Items[4].Visible = false; // Property Pages
+            toolStrip.Items[3].Visible = false; // Separator
+        }
+
+        private static ToolStrip FindToolStrip(PropertyGrid propertyGrid) =>
+            propertyGrid.Controls.OfType<ToolStrip>().FirstOrDefault();
 
         private void PropertyChanged(string propertyName)
         {
