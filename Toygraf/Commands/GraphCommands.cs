@@ -23,7 +23,7 @@
         }
 
         [Category("View")]
-        [Description("The Cartesian co-ordinates of the point at the centree of the graph display.")]
+        [Description("The Cartesian co-ordinates of the point at the centre of the graph display, in domain units.")]
         [DisplayName("Centre")]
         public PointF Centre
         {
@@ -42,7 +42,7 @@
         }
 
         [Category("Domain")]
-        [DefaultValue(+10.0f)]
+        [DefaultValue(10f)]
         [Description("The right endpoint of a Cartesian plot's domain.")]
         [DisplayName("Cartesian maximum")]
         public float DomainMaxCartesian
@@ -52,7 +52,7 @@
         }
 
         [Category("Domain")]
-        [DefaultValue(+180.0f)]
+        [DefaultValue(180f)]
         [Description("The finishing angle of a polar plot's domain.")]
         [DisplayName("Polar maximum")]
         public float DomainMaxPolar
@@ -62,7 +62,7 @@
         }
 
         [Category("Domain")]
-        [DefaultValue(-10.0f)]
+        [DefaultValue(-10f)]
         [Description("The left endpoint of a Cartesian plot's domain.")]
         [DisplayName("Cartesian minimum")]
         public float DomainMinCartesian
@@ -72,7 +72,7 @@
         }
 
         [Category("Domain")]
-        [DefaultValue(-180.0f)]
+        [DefaultValue(-180f)]
         [Description("The starting angle of a polar plot's domain.")]
         [DisplayName("Polar minimum")]
         public float DomainMinPolar
@@ -103,7 +103,7 @@
 
         [Category("Colour")]
         [DefaultValue(typeof(Color), "Transparent")]
-        [Description("The default primary fill colour for Traces. Used by all brush types except \"Texture\".")]
+        [Description("The default primary fill colour used by traces. Applies to all brush types except \"Texture\".")]
         [DisplayName("Fill colour #1")]
         public Color FillColour1
         {
@@ -113,7 +113,7 @@
 
         [Category("Colour")]
         [DefaultValue(typeof(Color), "Transparent")]
-        [Description("The default secondary fill colour for Traces. Used by brush types \"Hatch\", \"Linear Gradient\", and \"Path Gradient\".")]
+        [Description("The default secondary fill colour used by traces. Applies to brush types \"Hatch\", \"Linear Gradient\", and \"Path Gradient\".")]
         [DisplayName("Fill colour #2")]
         public Color FillColour2
         {
@@ -123,7 +123,7 @@
 
         [Category("Colour")]
         [DefaultValue(0)]
-        [Description("The default level of transparency applied to Trace filled areas.")]
+        [Description("The default level of transparency applied to trace filled areas. Applies to all brush types, including \"Texture\".")]
         [DisplayName("Fill transparency %")]
         public int FillTransparencyPercent
         {
@@ -133,6 +133,7 @@
 
         [Category("Style")]
         [DefaultValue(typeof(Interpolation), "Linear")]
+        [Description("Traces are drawn and filled by joining up the computed points, using either straight lines (\"Linear\"), or cubic curves (\"CardinalSpline\").")]
         [DisplayName("Interpolation")]
         public Interpolation Interpolation
         {
@@ -142,6 +143,7 @@
 
         [Category("Colour")]
         [DefaultValue(typeof(Color), "DarkGray")]
+        [Description("The default colour used by traces to draw asymptotes.")]
         [DisplayName("Limit colour")]
         public Color LimitColour
         {
@@ -151,6 +153,7 @@
 
         [Category("Style")]
         [DefaultValue(typeof(Optimization), "HighQuality")]
+        [Description("Controls a number of settings in the graphics drawing code.")]
         [DisplayName("Optimization")]
         public Optimization Optimization
         {
@@ -160,6 +163,7 @@
 
         [Category("Colour")]
         [DefaultValue(typeof(Color), "White")]
+        [Description("The background colour used in the graph.")]
         [DisplayName("Paper colour")]
         public Color PaperColour
         {
@@ -169,6 +173,7 @@
 
         [Category("Colour")]
         [DefaultValue(0)]
+        [Description("The level of transparency in the background colour used in the graph.")]
         [DisplayName("Paper transparency %")]
         public int PaperTransparencyPercent
         {
@@ -178,6 +183,7 @@
 
         [Category("Colour")]
         [DefaultValue(typeof(Color), "Black")]
+        [Description("The default pen colour used by traces in the graph.")]
         [DisplayName("Pen colour")]
         public Color PenColour
         {
@@ -187,6 +193,7 @@
 
         [Category("Style")]
         [DefaultValue(typeof(PlotType), "Cartesian")]
+        [Description("The type of plot produced. Cartesian is the normal x-y plot. Polar plots use x and y respectively as the angle and distance from the origin.")]
         [DisplayName("Plot type")]
         public PlotType PlotType
         {
@@ -196,6 +203,7 @@
 
         [Category("Colour")]
         [DefaultValue(typeof(Color), "LightGray")]
+        [Description("The colour used to draw the graph reticle (grid).")]
         [DisplayName("Reticle colour")]
         public Color ReticleColour
         {
@@ -205,6 +213,8 @@
 
         [Category("Style")]
         [DefaultValue(1000)]
+        [Description("The default minimum number of steps used in calculating points on a trace. In steep sections of a trace, this number will be increased dynamically. "
+            + "Conversely, in sections where the Formula is undefined, steps will be dropped.")]
         [DisplayName("# steps")]
         public int StepCount
         {
@@ -214,6 +224,7 @@
 
         [Category("Style")]
         [DefaultValue(typeof(TickStyles), "Negative")]
+        [Description("The style of tick mark used to indicate axis gradations.")]
         [DisplayName("Tick style")]
         public TickStyles TickStyles
         {
@@ -222,6 +233,7 @@
         }
 
         [Category("Graph")]
+        [Description("A title for the graph.")]
         [DisplayName("Title")]
         public string Title
         {
@@ -230,6 +242,7 @@
         }
 
         [Category("Graph")]
+        [Description("The list of traces in the graph.")]
         [DisplayName("Traces")]
         [Editor(typeof(TgCollectionEditor), typeof(UITypeEditor))]
         public List<GraphTrace> Traces
@@ -238,6 +251,8 @@
         }
 
         [Category("View")]
+        [DefaultValue(22f)]
+        [Description("The horizontal dimension of the graph display, in domain units.")]
         [DisplayName("Width")]
         public float Width
         {
