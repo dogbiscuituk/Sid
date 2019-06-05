@@ -19,18 +19,9 @@
     {
         public Trace() { SetFormula("0"); }
 
-        public Trace(Graph graph): this()
+        public Trace(Graph graph): base(graph)
         {
-            _brushType = graph.BrushType;
-            _fillColour1 = graph.FillColour1;
-            _fillColour2 = graph.FillColour2;
-            _fillTransparencyPercent = graph.FillTransparencyPercent;
-            _gradientMode = graph.GradientMode;
-            _hatchStyle = graph.HatchStyle;
-            _limitColour = graph.LimitColour;
-            _penColour = graph.PenColour;
-            _penStyle = graph.PenStyle;
-            _penWidth = graph.PenWidth;
+            SetFormula("0");
             _stepCount = graph.StepCount;
         }
 
@@ -153,8 +144,6 @@
         #endregion
 
         #region Drawing
-
-        protected override void StepCountChanged() => InvalidatePaths();
 
         private List<List<PointF>> PointLists = new List<List<PointF>>();
         private readonly List<GraphicsPath>

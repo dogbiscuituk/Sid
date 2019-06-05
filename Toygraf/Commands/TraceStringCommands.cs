@@ -34,5 +34,16 @@
 
             protected override string Detail => "texture path";
         }
+
+        private class TraceTitleCommand : TracePropertyCommand<string>
+        {
+            public TraceTitleCommand(int index, string value) :
+                base(index, value,
+                    s => s.Title,
+                    (s, v) => s.Title = v)
+            { }
+
+            protected override string Detail => "title";
+        }
     }
 }

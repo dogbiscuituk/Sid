@@ -301,6 +301,7 @@
             UpdatePlotType();
             ClockController.UpdateTimeControls();
             LegendController.GraphRead();
+            PropertyTableController.Refresh();
         }
 
         private void ToggleCoordinatesTooltip() => ShowCoordinatesTooltip = !ShowCoordinatesTooltip;

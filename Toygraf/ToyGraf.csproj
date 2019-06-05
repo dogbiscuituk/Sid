@@ -66,6 +66,13 @@
     <Compile Include="Commands\GraphFloatCommands.cs" />
     <Compile Include="Commands\GraphIntCommands.cs" />
     <Compile Include="Commands\GraphPointFCommands.cs" />
+    <Compile Include="Commands\GraphStyleCommands.cs" />
+    <Compile Include="Commands\StyleColourCommands.cs" />
+    <Compile Include="Commands\StyleCommands.cs" />
+    <Compile Include="Commands\StyleEnumCommands.cs" />
+    <Compile Include="Commands\StyleFloatCommands.cs" />
+    <Compile Include="Commands\StyleIntCommands.cs" />
+    <Compile Include="Commands\StyleStringCommands.cs" />
     <Compile Include="Commands\TraceCommands.cs" />
     <Compile Include="Commands\GraphTraceCommands.cs" />
     <Compile Include="Commands\GraphStringCommands.cs" />

@@ -33,6 +33,8 @@
         internal static void HidePropertyPagesButton(PropertyGrid propertyGrid) =>
             HidePropertyPagesButton(FindToolStrip(propertyGrid));
 
+        internal void Refresh() => PropertyTable.Refresh();
+
         #endregion
 
         #region Private Properties

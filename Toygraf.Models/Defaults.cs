@@ -24,6 +24,9 @@
             GraphDomainMinPolar = -180,
             GraphPenWidth = 1;
 
+        public const string
+            GraphTitle = "";
+
         public static readonly Color
             GraphAxisColour = Color.Black,
             GraphFillColour1 = Color.Transparent,

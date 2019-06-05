@@ -59,6 +59,38 @@
             protected Action<Graph, T> Set;
         }
 
+        private abstract class StyleCommand<T> : GraphCommand<T>, IStyleCommand
+        {
+            protected StyleCommand(int index) : base() { Index = index; }
+
+            public int Index { get; set; }
+        }
+
+        private abstract class StylePropertyCommand<T> : StyleCommand<T>, IStylePropertyCommand
+        {
+            protected StylePropertyCommand(int index, T value, Func<Style, T> get, Action<Style, T> set)
+                : base(index)
+            {
+                Value = value;
+                Get = get;
+                Set = set;
+            }
+
+            public override void Run(Graph graph)
+            {
+                T value = Get(graph.Styles[Index]);
+                if (!Equals(value, Value))
+                {
+                    Set(graph.Styles[Index], Value);
+                    Value = value;
+                }
+            }
+
+            protected Func<Style, T> Get;
+            protected Action<Style, T> Set;
+            protected override string Target => $"f{Index}";
+        }
+
         private abstract class TraceCommand<T> : GraphCommand<T>, ITraceCommand
         {
             protected TraceCommand(int index) : base() { Index = index; }

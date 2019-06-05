@@ -20,6 +20,20 @@
 
         #region Properties
 
+        private Color _axisColour;
+        public Color AxisColour
+        {
+            get => _axisColour;
+            set
+            {
+                if (AxisColour != value)
+                {
+                    _axisColour = value;
+                    OnPropertyChanged("AxisColour");
+                }
+            }
+        }
+
         private Color _paperColour;
         public Color PaperColour
         {
@@ -220,6 +234,31 @@
             }
         }
 
+        private Color _reticleColour;
+        public Color ReticleColour
+        {
+            get => _reticleColour;
+            set
+            {
+                if (ReticleColour != value)
+                {
+                    _reticleColour = value;
+                    OnPropertyChanged("ReticleColour");
+                }
+            }
+        }
+
+        private List<Style> _styles = new List<Style>();
+        public List<Style> Styles
+        {
+            get => _styles;
+            set
+            {
+                _styles = value;
+                OnPropertyChanged("Styles");
+            }
+        }
+
         private TickStyles _tickStyles;
         public TickStyles TickStyles
         {
@@ -234,14 +273,7 @@
             }
         }
 
-        protected override void StepCountChanged()
-        {
-            foreach (var trace in Traces)
-                trace.StepCount = StepCount;
-        }
-
         private List<Trace> _traces = new List<Trace>();
-
         public List<Trace> Traces
         {
             get => _traces;
@@ -269,6 +301,13 @@
         [NonSerialized]
         private Viewport LastViewport;
 
+        public void Clear()
+        {
+            RemoveStyleRange(0, Styles.Count);
+            RemoveTraceRange(0, Traces.Count);
+            RestoreDefaults();
+        }
+
         private void RestoreDefaults()
         {
             // bool
@@ -284,6 +323,8 @@
             DomainInfo.MinCartesian = Defaults.GraphDomainMinCartesian;
             DomainInfo.MinPolar = Defaults.GraphDomainMinPolar;
             _penWidth = Defaults.GraphPenWidth;
+            // string
+            _title = Defaults.GraphTitle;
             // Color
             _axisColour = Defaults.GraphAxisColour;
             _fillColour1 = Defaults.GraphFillColour1;
@@ -324,14 +365,60 @@
 
         #endregion
 
-        #region Trace Management
+        #region Style Management
 
-        public Trace NewTrace()
+        public Style AddStyle()
         {
-            var trace = new Trace(this);
-            trace.PropertyChanged += Trace_PropertyChanged;
-            return trace;
+            var Style = NewStyle();
+            AddStyle(Style);
+            return Style;
         }
+
+        public void AddStyle(Style Style)
+        {
+            Styles.Add(Style);
+            if (!Updating)
+                OnPropertyChanged("Styles");
+        }
+
+        public Style InsertStyle(int index)
+        {
+            var style = NewStyle();
+            InsertStyle(index, style);
+            return style;
+        }
+
+        public void InsertStyle(int index, Style Style)
+        {
+            Styles.Insert(index, Style);
+            OnPropertyChanged("Styles");
+        }
+
+        public Style NewStyle()
+        {
+            var Style = new Style(this);
+            Style.PropertyChanged += Style_PropertyChanged;
+            return Style;
+        }
+
+        public void RemoveStyle(int index)
+        {
+            if (index >= 0 && index < Styles.Count)
+            {
+                Styles.RemoveAt(index);
+                OnPropertyChanged("Styles");
+            }
+        }
+
+        public void RemoveStyleRange(int index, int count)
+        {
+            while (count-- > 0)
+                RemoveStyle(index + count);
+        }
+
+        #endregion
+
+        #region Trace Management
 
         public Trace AddTrace()
         {
@@ -347,12 +434,6 @@
                 OnPropertyChanged("Traces");
         }
 
-        public void Clear()
-        {
-            RemoveTraceRange(0, Traces.Count);
-            RestoreDefaults();
-        }
-
         public Trace InsertTrace(int index)
         {
             var trace = NewTrace();
@@ -364,6 +445,13 @@
         {
             Traces.Insert(index, trace);
             OnPropertyChanged("Traces");
+        }
+
+        public Trace NewTrace()
+        {
+            var trace = new Trace(this);
+            trace.PropertyChanged += Trace_PropertyChanged;
+            return trace;
         }
 
         public void RemoveTrace(int index)
@@ -584,6 +672,11 @@
         {
             InvalidateReticle();
             base.OnPropertyChanged(propertyName);
+        }
+
+        public void Style_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged($"Styles[{Styles.IndexOf((Style)sender)}].{e.PropertyName}");
         }
 
         public void Trace_PropertyChanged(object sender, PropertyChangedEventArgs e)

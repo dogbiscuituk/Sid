@@ -223,6 +223,15 @@
         }
 
         [Category("Style")]
+        [Description("The list of default trace styles available to the graph.")]
+        [DisplayName("Styles")]
+        [Editor(typeof(TgCollectionEditor), typeof(UITypeEditor))]
+        public List<GraphStyle> Styles
+        {
+            get => Graph.Styles.Select(s => new GraphStyle(this, Graph.Styles.IndexOf(s))).ToList();
+        }
+
+        [Category("Style")]
         [DefaultValue(typeof(TickStyles), "Negative")]
         [Description("The style of tick mark used to indicate axis gradations.")]
         [DisplayName("Tick style")]
@@ -233,7 +242,7 @@
         }
 
         [Category("Graph")]
-        [Description("A title for the graph.")]
+        [Description("A title for this graph.")]
         [DisplayName("Title")]
         public string Title
         {

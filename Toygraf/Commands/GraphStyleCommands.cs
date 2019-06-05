@@ -5,7 +5,7 @@
     partial class GraphProxy
     {
         /// <summary>
-        /// Common ancestor for GraphInsertTraceCommand and GraphDeleteTraceCommand.
+        /// Common ancestor for GraphInsertStyleCommand and GraphDeleteStyleCommand.
         /// These two descendant classes differ only in the value of a private bool flag,
         /// "Add", which controls their appearance and behaviour. Whereas most commands
         /// are their own inverses, since they just tell the Graph "Swap your property
@@ -14,50 +14,49 @@
         /// other, prior to the CommandProcessor (now GraphProxy) transfering them
         /// between the Undo and Redo stacks.
         /// </summary>
-        private class GraphTraceCommand : TraceCommand<Trace>, IGraphTraceCommand
+        private class GraphStyleCommand : StyleCommand<Style>, IGraphStyleCommand
         {
-            internal GraphTraceCommand(int index, bool add) : base(index) { Add = add; }
+            internal GraphStyleCommand(int index, bool add) : base(index) { Add = add; }
 
             public bool Add { get; set; }
-            public Trace Trace { get => Value; set => Value = value; }
+            public Style Style { get => Value; set => Value = value; }
             public override string UndoAction => GetAction(true);
             public override string RedoAction => GetAction(false);
 
             public override void Invert() { Add = !Add; }
-            public override string ToString() => $"{(Add ? "Add" : "Remove")} function f{Index} = {Detail}";
+            public override string ToString() => $"{(Add ? "Add" : "Remove")} style #{Index} = {Detail}";
 
             public override void Run(Graph graph)
             {
                 if (Add)
                 {
                     if (Value == null)
-                        Value = graph.NewTrace();
-                    if (Index >= 0 && Index < graph.Traces.Count)
-                        graph.InsertTrace(Index, Value);
-                    else if (Index == graph.Traces.Count)
-                        graph.AddTrace(Value);
+                        Value = graph.NewStyle();
+                    if (Index >= 0 && Index < graph.Styles.Count)
+                        graph.InsertStyle(Index, Value);
+                    else if (Index == graph.Styles.Count)
+                        graph.AddStyle(Value);
                 }
                 else
                 {
-                    Value = graph.Traces[Index];
-                    graph.RemoveTrace(Index);
-                    Value.InvalidatePaths();
+                    Value = graph.Styles[Index];
+                    graph.RemoveStyle(Index);
                 }
             }
 
-            protected override string Detail => $"{Value?.Formula}";
+            protected override string Detail => string.Empty;
 
             private string GetAction(bool undo) => $"function {(Add ^ undo ? "addition" : "removal")}";
         }
 
-        private class GraphInsertTraceCommand : GraphTraceCommand
+        private class GraphInsertStyleCommand : GraphStyleCommand
         {
-            internal GraphInsertTraceCommand(int index) : base(index, true) { }
+            internal GraphInsertStyleCommand(int index) : base(index, true) { }
         }
 
-        private class GraphDeleteTraceCommand : GraphTraceCommand
+        private class GraphDeleteStyleCommand : GraphStyleCommand
         {
-            internal GraphDeleteTraceCommand(int index) : base(index, false) { }
+            internal GraphDeleteStyleCommand(int index) : base(index, false) { }
         }
     }
 }

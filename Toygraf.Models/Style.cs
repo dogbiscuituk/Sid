@@ -1,27 +1,26 @@
 ﻿namespace ToyGraf.Models
 {
-    using System;
     using System.ComponentModel;
     using System.Drawing;
     using System.Drawing.Drawing2D;
-    using System.Drawing.Imaging;
-    using System.IO;
     using ToyGraf.Models.Enumerations;
 
-    public abstract class Style
+    public class Style
     {
-        protected Color _axisColour;
-        public Color AxisColour
+        public Style() { }
+
+        public Style(Graph graph) : this()
         {
-            get => _axisColour;
-            set
-            {
-                if (AxisColour != value)
-                {
-                    _axisColour = value;
-                    OnPropertyChanged("AxisColour");
-                }
-            }
+            _brushType = graph.BrushType;
+            _fillColour1 = graph.FillColour1;
+            _fillColour2 = graph.FillColour2;
+            _fillTransparencyPercent = graph.FillTransparencyPercent;
+            _gradientMode = graph.GradientMode;
+            _hatchStyle = graph.HatchStyle;
+            _limitColour = graph.LimitColour;
+            _penColour = graph.PenColour;
+            _penStyle = graph.PenStyle;
+            _penWidth = graph.PenWidth;
         }
 
         protected BrushType _brushType;
@@ -164,20 +163,6 @@
             }
         }
 
-        protected Color _reticleColour;
-        public Color ReticleColour
-        {
-            get => _reticleColour;
-            set
-            {
-                if (ReticleColour != value)
-                {
-                    _reticleColour = value;
-                    OnPropertyChanged("ReticleColour");
-                }
-            }
-        }
-
         protected int _stepCount;
         public int StepCount
         {
@@ -238,8 +223,6 @@
                 OnPropertyChanged("WrapMode");
             }
         }
-
-        protected abstract void StepCountChanged();
 
         public event PropertyChangedEventHandler PropertyChanged;
 

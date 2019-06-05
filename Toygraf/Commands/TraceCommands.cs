@@ -74,6 +74,7 @@
                 set => Run(new TraceFillTransparencyPercentCommand(Index, value));
             }
 
+            [Category("Trace")]
             [Description("The mathematical expression used to draw the trace.")]
             [DisplayName("Formula")]
             public string Formula
@@ -170,6 +171,16 @@
                 set => Run(new TraceTexturePathCommand(Index, value));
             }
 
+            [Category("Trace")]
+            [Description("A title for this trace.")]
+            [DisplayName("Title")]
+            public string Title
+            {
+                get => Trace.Title;
+                set => Run(new TraceTitleCommand(Index, value));
+            }
+
+            [Category("Trace")]
             [DefaultValue(true)]
             [Description("Take a wild guess.")]
             [DisplayName("Visible?")]

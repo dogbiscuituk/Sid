@@ -14,6 +14,19 @@
             void Run(Graph Graph);
         }
 
+        private interface IStyleCommand : IGraphCommand
+        {
+            int Index { get; set; }
+        }
+
+        private interface IStylePropertyCommand : IStyleCommand { }
+
+        private interface IGraphStyleCommand : IStyleCommand
+        {
+            bool Add { get; set; }
+            Style Style { get; set; }
+        }
+
         private interface ITraceCommand : IGraphCommand
         {
             int Index { get; set; }
