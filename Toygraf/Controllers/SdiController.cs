@@ -38,7 +38,9 @@
 
         internal string SelectFilePath(FilterIndex filterIndex = FilterIndex.Default)
         {
-            OpenFileDialog.FilterIndex = EvalFilterIndex(filterIndex);
+            filterIndex = EvalFilterIndex(filterIndex);
+            OpenFileDialog.FilterIndex = (int)filterIndex;
+            InitFolderPath(OpenFileDialog, filterIndex);
             if (OpenFileDialog.ShowDialog() != DialogResult.OK)
                 return null;
             return OpenFileDialog.FileName;
@@ -74,23 +76,34 @@
             if (string.IsNullOrWhiteSpace(FilePath))
                 OnFilePathRequest();
             SaveFileDialog.FileName = FilePath;
-            SaveFileDialog.FilterIndex = EvalFilterIndex(filterIndex);
+            filterIndex = EvalFilterIndex(filterIndex);
+            InitFolderPath(SaveFileDialog, filterIndex);
+            SaveFileDialog.FilterIndex = (int)filterIndex;
             return SaveFileDialog.ShowDialog() == DialogResult.OK
                 && SaveToFile(SaveFileDialog.FileName);
         }
 
-        private int EvalFilterIndex(FilterIndex filterIndex)
+        private FilterIndex EvalFilterIndex(FilterIndex filterIndex)
         {
             if (filterIndex == FilterIndex.Default)
                 switch (Path.GetExtension(FilePath))
                 {
                     case ".tgt":
-                        return (int)FilterIndex.Template;
+                        return FilterIndex.Template;
                     case ".tgf":
                     default:
-                        return (int)FilterIndex.File;
+                        return FilterIndex.File;
                 }
-            return (int)filterIndex;
+            return filterIndex;
+        }
+
+        private void InitFolderPath(FileDialog dialog, FilterIndex filterIndex)
+        {
+            var folderPath = string.Empty;
+            if (!string.IsNullOrWhiteSpace(dialog.FileName))
+                folderPath = Path.GetDirectoryName(dialog.FileName);
+            if (string.IsNullOrWhiteSpace(folderPath))
+                dialog.InitialDirectory = AppController.GetDefaultFolder(filterIndex);
         }
 
         internal bool SaveIfModified()

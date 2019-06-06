@@ -120,6 +120,8 @@
             this.PictureBox = new System.Windows.Forms.PictureBox();
             this.Toolbar = new ToyGraf.Controls.TgToolStrip();
             this.tbNew = new System.Windows.Forms.ToolStripSplitButton();
+            this.tbNewEmptyGraph = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbNewFromTemplate = new System.Windows.Forms.ToolStripMenuItem();
             this.tbOpen = new System.Windows.Forms.ToolStripSplitButton();
             this.tbSave = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -141,8 +143,6 @@
             this.TextureDialog = new System.Windows.Forms.OpenFileDialog();
             this.PropertyTable = new System.Windows.Forms.PropertyGrid();
             this.SplitContainer = new System.Windows.Forms.SplitContainer();
-            this.tbNewEmptyGraph = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbNewFromTemplate = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
@@ -195,7 +195,7 @@
             this.FileNew.Image = global::ToyGraf.Properties.Resources.NewDocumentHS;
             this.FileNew.ImageTransparentColor = System.Drawing.Color.White;
             this.FileNew.Name = "FileNew";
-            this.FileNew.Size = new System.Drawing.Size(180, 22);
+            this.FileNew.Size = new System.Drawing.Size(154, 22);
             this.FileNew.Text = "&New";
             // 
             // FileNewEmptyGraph
@@ -204,14 +204,14 @@
             this.FileNewEmptyGraph.Name = "FileNewEmptyGraph";
             this.FileNewEmptyGraph.ShortcutKeyDisplayString = "^N";
             this.FileNewEmptyGraph.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.FileNewEmptyGraph.Size = new System.Drawing.Size(180, 22);
+            this.FileNewEmptyGraph.Size = new System.Drawing.Size(167, 22);
             this.FileNewEmptyGraph.Text = "&Empty Graph";
             // 
             // FileNewFromTemplate
             // 
             this.FileNewFromTemplate.ImageTransparentColor = System.Drawing.Color.White;
             this.FileNewFromTemplate.Name = "FileNewFromTemplate";
-            this.FileNewFromTemplate.Size = new System.Drawing.Size(180, 22);
+            this.FileNewFromTemplate.Size = new System.Drawing.Size(167, 22);
             this.FileNewFromTemplate.Text = "From &Template...";
             // 
             // FileOpen
@@ -221,19 +221,19 @@
             this.FileOpen.Name = "FileOpen";
             this.FileOpen.ShortcutKeyDisplayString = "^O";
             this.FileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.FileOpen.Size = new System.Drawing.Size(180, 22);
+            this.FileOpen.Size = new System.Drawing.Size(154, 22);
             this.FileOpen.Text = "&Open...";
             // 
             // FileReopen
             // 
             this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(180, 22);
+            this.FileReopen.Size = new System.Drawing.Size(154, 22);
             this.FileReopen.Text = "&Reopen";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(151, 6);
             // 
             // FileSave
             // 
@@ -242,32 +242,32 @@
             this.FileSave.Name = "FileSave";
             this.FileSave.ShortcutKeyDisplayString = "^S";
             this.FileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.FileSave.Size = new System.Drawing.Size(180, 22);
+            this.FileSave.Size = new System.Drawing.Size(154, 22);
             this.FileSave.Text = "&Save";
             // 
             // FileSaveAs
             // 
             this.FileSaveAs.Name = "FileSaveAs";
-            this.FileSaveAs.Size = new System.Drawing.Size(180, 22);
+            this.FileSaveAs.Size = new System.Drawing.Size(154, 22);
             this.FileSaveAs.Text = "Save &As...";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(151, 6);
             // 
             // FileClose
             // 
             this.FileClose.Name = "FileClose";
             this.FileClose.ShortcutKeyDisplayString = "^F4";
             this.FileClose.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F4)));
-            this.FileClose.Size = new System.Drawing.Size(180, 22);
+            this.FileClose.Size = new System.Drawing.Size(154, 22);
             this.FileClose.Text = "&Close";
             // 
             // FileExit
             // 
             this.FileExit.Name = "FileExit";
-            this.FileExit.Size = new System.Drawing.Size(180, 22);
+            this.FileExit.Size = new System.Drawing.Size(154, 22);
             this.FileExit.Text = "Close All && E&xit";
             // 
             // EditMenu
@@ -901,7 +901,7 @@
             this.ClientPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ClientPanel.Location = new System.Drawing.Point(0, 0);
             this.ClientPanel.Name = "ClientPanel";
-            this.ClientPanel.Size = new System.Drawing.Size(608, 452);
+            this.ClientPanel.Size = new System.Drawing.Size(625, 452);
             this.ClientPanel.TabIndex = 6;
             // 
             // LegendPanel
@@ -962,6 +962,20 @@
             this.tbNew.Name = "tbNew";
             this.tbNew.Size = new System.Drawing.Size(31, 20);
             this.tbNew.ToolTipText = "Create a new file (^N)";
+            // 
+            // tbNewEmptyGraph
+            // 
+            this.tbNewEmptyGraph.Name = "tbNewEmptyGraph";
+            this.tbNewEmptyGraph.ShortcutKeyDisplayString = "^N";
+            this.tbNewEmptyGraph.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.tbNewEmptyGraph.Size = new System.Drawing.Size(194, 22);
+            this.tbNewEmptyGraph.Text = "&New Empty Graph";
+            // 
+            // tbNewFromTemplate
+            // 
+            this.tbNewFromTemplate.Name = "tbNewFromTemplate";
+            this.tbNewFromTemplate.Size = new System.Drawing.Size(194, 22);
+            this.tbNewFromTemplate.Text = "New From &Template...";
             // 
             // tbOpen
             // 
@@ -1119,7 +1133,7 @@
             this.PropertyTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PropertyTable.Location = new System.Drawing.Point(0, 0);
             this.PropertyTable.Name = "PropertyTable";
-            this.PropertyTable.Size = new System.Drawing.Size(300, 452);
+            this.PropertyTable.Size = new System.Drawing.Size(283, 452);
             this.PropertyTable.TabIndex = 14;
             // 
             // SplitContainer
@@ -1137,22 +1151,8 @@
             // 
             this.SplitContainer.Panel2.Controls.Add(this.PropertyTable);
             this.SplitContainer.Size = new System.Drawing.Size(912, 452);
-            this.SplitContainer.SplitterDistance = 608;
+            this.SplitContainer.SplitterDistance = 625;
             this.SplitContainer.TabIndex = 17;
-            // 
-            // tbNewEmptyGraph
-            // 
-            this.tbNewEmptyGraph.Name = "tbNewEmptyGraph";
-            this.tbNewEmptyGraph.ShortcutKeyDisplayString = "^N";
-            this.tbNewEmptyGraph.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.tbNewEmptyGraph.Size = new System.Drawing.Size(194, 22);
-            this.tbNewEmptyGraph.Text = "&New Empty Graph";
-            // 
-            // tbNewFromTemplate
-            // 
-            this.tbNewFromTemplate.Name = "tbNewFromTemplate";
-            this.tbNewFromTemplate.Size = new System.Drawing.Size(194, 22);
-            this.tbNewFromTemplate.Text = "New From &Template...";
             // 
             // GraphForm
             // 

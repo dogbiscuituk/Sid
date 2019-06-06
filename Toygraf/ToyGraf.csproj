@@ -292,6 +292,7 @@
     <Content Include="Icons\Find_VS.png" />
     <Content Include="Icons\FlipHorizontalHS.png" />
     <Content Include="Icons\FlipVerticalHS.png" />
+    <None Include="Icons\FolderHS.png" />
     <Content Include="Icons\FontDialogHS.png" />
     <Content Include="Icons\FormRunHS.png" />
     <Content Include="Icons\FullScreenHS.png" />

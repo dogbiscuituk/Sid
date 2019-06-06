@@ -89,5 +89,29 @@ namespace ToyGraf.Properties {
                 this["Options_GroupUndo"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string FilesFolderPath {
+            get {
+                return ((string)(this["FilesFolderPath"]));
+            }
+            set {
+                this["FilesFolderPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TemplatesFolderPath {
+            get {
+                return ((string)(this["TemplatesFolderPath"]));
+            }
+            set {
+                this["TemplatesFolderPath"] = value;
+            }
+        }
     }
 }

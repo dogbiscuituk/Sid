@@ -36,8 +36,16 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.rbNoGroupUndo = new System.Windows.Forms.RadioButton();
             this.rbGroupUndo = new System.Windows.Forms.RadioButton();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.edTemplatesFolder = new System.Windows.Forms.TextBox();
+            this.edFilesFolder = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnTemplatesFolder = new System.Windows.Forms.Button();
+            this.btnFilesFolder = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -74,7 +82,7 @@
             // btnOK
             // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(230, 151);
+            this.btnOK.Location = new System.Drawing.Point(230, 232);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 2;
@@ -84,7 +92,7 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(311, 151);
+            this.btnCancel.Location = new System.Drawing.Point(311, 232);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 3;
@@ -122,13 +130,87 @@
             this.rbGroupUndo.Text = "Group into a single, composite operatrion for Undo/Redo purposes.";
             this.rbGroupUndo.UseVisualStyleBackColor = true;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.btnTemplatesFolder);
+            this.groupBox3.Controls.Add(this.btnFilesFolder);
+            this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.Controls.Add(this.edTemplatesFolder);
+            this.groupBox3.Controls.Add(this.edFilesFolder);
+            this.groupBox3.Controls.Add(this.label1);
+            this.groupBox3.Location = new System.Drawing.Point(12, 151);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(374, 75);
+            this.groupBox3.TabIndex = 4;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Default folders";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 48);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(59, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Templates:";
+            // 
+            // edTemplatesFolder
+            // 
+            this.edTemplatesFolder.BackColor = System.Drawing.SystemColors.Control;
+            this.edTemplatesFolder.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.edTemplatesFolder.Location = new System.Drawing.Point(72, 48);
+            this.edTemplatesFolder.Name = "edTemplatesFolder";
+            this.edTemplatesFolder.Size = new System.Drawing.Size(276, 13);
+            this.edTemplatesFolder.TabIndex = 2;
+            // 
+            // edFilesFolder
+            // 
+            this.edFilesFolder.BackColor = System.Drawing.SystemColors.Control;
+            this.edFilesFolder.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.edFilesFolder.Location = new System.Drawing.Point(72, 23);
+            this.edFilesFolder.Name = "edFilesFolder";
+            this.edFilesFolder.Size = new System.Drawing.Size(276, 13);
+            this.edFilesFolder.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(60, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Graph files:";
+            // 
+            // btnTemplatesFolder
+            // 
+            this.btnTemplatesFolder.FlatAppearance.BorderSize = 0;
+            this.btnTemplatesFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTemplatesFolder.Image = global::ToyGraf.Properties.Resources.FolderHS;
+            this.btnTemplatesFolder.Location = new System.Drawing.Point(348, 45);
+            this.btnTemplatesFolder.Name = "btnTemplatesFolder";
+            this.btnTemplatesFolder.Size = new System.Drawing.Size(20, 20);
+            this.btnTemplatesFolder.TabIndex = 5;
+            this.btnTemplatesFolder.UseVisualStyleBackColor = true;
+            // 
+            // btnFilesFolder
+            // 
+            this.btnFilesFolder.FlatAppearance.BorderSize = 0;
+            this.btnFilesFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFilesFolder.Image = global::ToyGraf.Properties.Resources.FolderHS;
+            this.btnFilesFolder.Location = new System.Drawing.Point(348, 19);
+            this.btnFilesFolder.Name = "btnFilesFolder";
+            this.btnFilesFolder.Size = new System.Drawing.Size(20, 20);
+            this.btnFilesFolder.TabIndex = 4;
+            this.btnFilesFolder.UseVisualStyleBackColor = true;
+            // 
             // OptionsDialog
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(399, 181);
+            this.ClientSize = new System.Drawing.Size(399, 267);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
@@ -143,6 +225,8 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -157,5 +241,12 @@
         internal System.Windows.Forms.GroupBox groupBox2;
         internal System.Windows.Forms.RadioButton rbGroupUndo;
         internal System.Windows.Forms.RadioButton rbNoGroupUndo;
+        internal System.Windows.Forms.GroupBox groupBox3;
+        internal System.Windows.Forms.Button btnTemplatesFolder;
+        internal System.Windows.Forms.Button btnFilesFolder;
+        internal System.Windows.Forms.Label label2;
+        internal System.Windows.Forms.TextBox edTemplatesFolder;
+        internal System.Windows.Forms.TextBox edFilesFolder;
+        internal System.Windows.Forms.Label label1;
     }
 }

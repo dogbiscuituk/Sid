@@ -17,6 +17,9 @@
 
         public static void TestAll()
         {
+            var foo = Environment.SpecialFolder.MyDocuments;
+            var bar = Environment.GetFolderPath(foo);
+
             TestAlphaConversions();
             TestComparisons();
             TestCompoundExpression();

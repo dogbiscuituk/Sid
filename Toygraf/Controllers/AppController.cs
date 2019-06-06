@@ -1,8 +1,11 @@
 ﻿namespace ToyGraf.Controllers
 {
+    using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Timers;
     using System.Windows.Forms;
+    using ToyGraf.Models.Enumerations;
     using ToyGraf.Models.Structs;
     using ToyGraf.Views;
     using Timer = System.Timers.Timer;
@@ -23,20 +26,43 @@
 
         internal static Options Options
         {
-            get => new Options
+            get
             {
-                OpenInNewWindow = Settings.Options_OpenInNewWindow,
-                GroupUndo = Settings.Options_GroupUndo
-            };
+                var options = new Options
+                {
+                    OpenInNewWindow = Settings.Options_OpenInNewWindow,
+                    GroupUndo = Settings.Options_GroupUndo,
+                    FilesFolderPath = Settings.FilesFolderPath,
+                    TemplatesFolderPath = Settings.TemplatesFolderPath
+                };
+                if (string.IsNullOrWhiteSpace(options.FilesFolderPath))
+                    options.FilesFolderPath = DefaultFilesFolderPath;
+                if (string.IsNullOrWhiteSpace(options.TemplatesFolderPath))
+                    options.TemplatesFolderPath = $"{DefaultFilesFolderPath}\\Templates";
+                return options;
+            }
             set
             {
                 Settings.Options_OpenInNewWindow = value.OpenInNewWindow;
                 Settings.Options_GroupUndo = value.GroupUndo;
+                Settings.FilesFolderPath = value.FilesFolderPath;
+                Settings.TemplatesFolderPath = value.TemplatesFolderPath;
                 Settings.Save();
+                if (!Directory.Exists(value.FilesFolderPath))
+                    Directory.CreateDirectory(value.FilesFolderPath);
+                if (!Directory.Exists(value.TemplatesFolderPath))
+                    Directory.CreateDirectory(value.TemplatesFolderPath);
             }
         }
 
+        #region Private Properties
+
+        private static readonly string DefaultFilesFolderPath =
+            $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\{Application.ProductName}";
+
         private static Properties.Settings Settings => Properties.Settings.Default;
+
+        #endregion
 
         internal static GraphController AddNewGraphController()
         {
@@ -47,6 +73,19 @@
         }
 
         internal static void Close() => Application.Exit();
+
+        internal static string GetDefaultFolder(FilterIndex filterIndex)
+        {
+            switch (filterIndex)
+            {
+                case FilterIndex.File:
+                    return Options.FilesFolderPath;
+                case FilterIndex.Template:
+                    return Options.TemplatesFolderPath;
+                default:
+                    return string.Empty;
+            }
+        }
 
         internal static void Remove(GraphController graphController)
         {
