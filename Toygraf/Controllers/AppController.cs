@@ -3,13 +3,12 @@
     using System.Collections.Generic;
     using System.Timers;
     using System.Windows.Forms;
+    using ToyGraf.Models.Structs;
     using ToyGraf.Views;
     using Timer = System.Timers.Timer;
 
     internal static class AppController
     {
-        //internal static AppController TheAppController = new AppController();
-
         static AppController()
         {
             Timer timer = new Timer(5000)
@@ -21,6 +20,23 @@
             timer.Elapsed += Timer_Elapsed;
             AddNewGraphController();
         }
+
+        internal static Options Options
+        {
+            get => new Options
+            {
+                OpenInNewWindow = Settings.Options_OpenInNewWindow,
+                GroupUndo = Settings.Options_GroupUndo
+            };
+            set
+            {
+                Settings.Options_OpenInNewWindow = value.OpenInNewWindow;
+                Settings.Options_GroupUndo = value.GroupUndo;
+                Settings.Save();
+            }
+        }
+
+        private static Properties.Settings Settings => Properties.Settings.Default;
 
         internal static GraphController AddNewGraphController()
         {

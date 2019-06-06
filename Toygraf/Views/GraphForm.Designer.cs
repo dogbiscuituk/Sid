@@ -34,7 +34,8 @@
             this.MainMenu = new ToyGraf.Controls.TgMenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FileNew = new System.Windows.Forms.ToolStripMenuItem();
-            this.FileNewWindow = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileNewEmptyGraph = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileNewFromTemplate = new System.Windows.Forms.ToolStripMenuItem();
             this.FileOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
@@ -52,7 +53,7 @@
             this.EditPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.EditDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
-            this.EditGroupUndo = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditOptions = new System.Windows.Forms.ToolStripMenuItem();
             this.GraphMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.GraphAddNewFunction = new System.Windows.Forms.ToolStripMenuItem();
             this.GraphType = new System.Windows.Forms.ToolStripMenuItem();
@@ -118,7 +119,7 @@
             this.LegendPanel = new System.Windows.Forms.Panel();
             this.PictureBox = new System.Windows.Forms.PictureBox();
             this.Toolbar = new ToyGraf.Controls.TgToolStrip();
-            this.tbNew = new System.Windows.Forms.ToolStripButton();
+            this.tbNew = new System.Windows.Forms.ToolStripSplitButton();
             this.tbOpen = new System.Windows.Forms.ToolStripSplitButton();
             this.tbSave = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -140,6 +141,8 @@
             this.TextureDialog = new System.Windows.Forms.OpenFileDialog();
             this.PropertyTable = new System.Windows.Forms.PropertyGrid();
             this.SplitContainer = new System.Windows.Forms.SplitContainer();
+            this.tbNewEmptyGraph = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbNewFromTemplate = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
@@ -172,7 +175,6 @@
             // 
             this.FileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileNew,
-            this.FileNewWindow,
             this.FileOpen,
             this.FileReopen,
             this.toolStripMenuItem2,
@@ -187,21 +189,30 @@
             // 
             // FileNew
             // 
+            this.FileNew.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FileNewEmptyGraph,
+            this.FileNewFromTemplate});
             this.FileNew.Image = global::ToyGraf.Properties.Resources.NewDocumentHS;
             this.FileNew.ImageTransparentColor = System.Drawing.Color.White;
             this.FileNew.Name = "FileNew";
-            this.FileNew.ShortcutKeyDisplayString = "^N";
-            this.FileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.FileNew.Size = new System.Drawing.Size(154, 22);
+            this.FileNew.Size = new System.Drawing.Size(180, 22);
             this.FileNew.Text = "&New";
             // 
-            // FileNewWindow
+            // FileNewEmptyGraph
             // 
-            this.FileNewWindow.Image = global::ToyGraf.Properties.Resources.NewDocumentHS;
-            this.FileNewWindow.ImageTransparentColor = System.Drawing.Color.White;
-            this.FileNewWindow.Name = "FileNewWindow";
-            this.FileNewWindow.Size = new System.Drawing.Size(154, 22);
-            this.FileNewWindow.Text = "New &Window";
+            this.FileNewEmptyGraph.ImageTransparentColor = System.Drawing.Color.White;
+            this.FileNewEmptyGraph.Name = "FileNewEmptyGraph";
+            this.FileNewEmptyGraph.ShortcutKeyDisplayString = "^N";
+            this.FileNewEmptyGraph.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.FileNewEmptyGraph.Size = new System.Drawing.Size(180, 22);
+            this.FileNewEmptyGraph.Text = "&Empty Graph";
+            // 
+            // FileNewFromTemplate
+            // 
+            this.FileNewFromTemplate.ImageTransparentColor = System.Drawing.Color.White;
+            this.FileNewFromTemplate.Name = "FileNewFromTemplate";
+            this.FileNewFromTemplate.Size = new System.Drawing.Size(180, 22);
+            this.FileNewFromTemplate.Text = "From &Template...";
             // 
             // FileOpen
             // 
@@ -210,19 +221,19 @@
             this.FileOpen.Name = "FileOpen";
             this.FileOpen.ShortcutKeyDisplayString = "^O";
             this.FileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.FileOpen.Size = new System.Drawing.Size(154, 22);
+            this.FileOpen.Size = new System.Drawing.Size(180, 22);
             this.FileOpen.Text = "&Open...";
             // 
             // FileReopen
             // 
             this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(154, 22);
+            this.FileReopen.Size = new System.Drawing.Size(180, 22);
             this.FileReopen.Text = "&Reopen";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(151, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // FileSave
             // 
@@ -231,32 +242,32 @@
             this.FileSave.Name = "FileSave";
             this.FileSave.ShortcutKeyDisplayString = "^S";
             this.FileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.FileSave.Size = new System.Drawing.Size(154, 22);
+            this.FileSave.Size = new System.Drawing.Size(180, 22);
             this.FileSave.Text = "&Save";
             // 
             // FileSaveAs
             // 
             this.FileSaveAs.Name = "FileSaveAs";
-            this.FileSaveAs.Size = new System.Drawing.Size(154, 22);
+            this.FileSaveAs.Size = new System.Drawing.Size(180, 22);
             this.FileSaveAs.Text = "Save &As...";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(151, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
             // 
             // FileClose
             // 
             this.FileClose.Name = "FileClose";
             this.FileClose.ShortcutKeyDisplayString = "^F4";
             this.FileClose.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F4)));
-            this.FileClose.Size = new System.Drawing.Size(154, 22);
+            this.FileClose.Size = new System.Drawing.Size(180, 22);
             this.FileClose.Text = "&Close";
             // 
             // FileExit
             // 
             this.FileExit.Name = "FileExit";
-            this.FileExit.Size = new System.Drawing.Size(154, 22);
+            this.FileExit.Size = new System.Drawing.Size(180, 22);
             this.FileExit.Text = "Close All && E&xit";
             // 
             // EditMenu
@@ -270,7 +281,7 @@
             this.EditPaste,
             this.EditDelete,
             this.toolStripMenuItem9,
-            this.EditGroupUndo});
+            this.EditOptions});
             this.EditMenu.Name = "EditMenu";
             this.EditMenu.Size = new System.Drawing.Size(39, 20);
             this.EditMenu.Text = "&Edit";
@@ -283,7 +294,7 @@
             this.EditUndo.Name = "EditUndo";
             this.EditUndo.ShortcutKeyDisplayString = "^Z";
             this.EditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.EditUndo.Size = new System.Drawing.Size(139, 22);
+            this.EditUndo.Size = new System.Drawing.Size(125, 22);
             this.EditUndo.Text = "&Undo";
             // 
             // EditRedo
@@ -294,13 +305,13 @@
             this.EditRedo.Name = "EditRedo";
             this.EditRedo.ShortcutKeyDisplayString = "^Y";
             this.EditRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.EditRedo.Size = new System.Drawing.Size(139, 22);
+            this.EditRedo.Size = new System.Drawing.Size(125, 22);
             this.EditRedo.Text = "&Redo";
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(136, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(122, 6);
             // 
             // EditCut
             // 
@@ -310,7 +321,7 @@
             this.EditCut.Name = "EditCut";
             this.EditCut.ShortcutKeyDisplayString = "^X";
             this.EditCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.EditCut.Size = new System.Drawing.Size(139, 22);
+            this.EditCut.Size = new System.Drawing.Size(125, 22);
             this.EditCut.Text = "Cu&t";
             // 
             // EditCopy
@@ -321,7 +332,7 @@
             this.EditCopy.Name = "EditCopy";
             this.EditCopy.ShortcutKeyDisplayString = "^C";
             this.EditCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.EditCopy.Size = new System.Drawing.Size(139, 22);
+            this.EditCopy.Size = new System.Drawing.Size(125, 22);
             this.EditCopy.Text = "&Copy";
             // 
             // EditPaste
@@ -332,7 +343,7 @@
             this.EditPaste.Name = "EditPaste";
             this.EditPaste.ShortcutKeyDisplayString = "^V";
             this.EditPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.EditPaste.Size = new System.Drawing.Size(139, 22);
+            this.EditPaste.Size = new System.Drawing.Size(125, 22);
             this.EditPaste.Text = "&Paste";
             // 
             // EditDelete
@@ -341,21 +352,19 @@
             this.EditDelete.Image = global::ToyGraf.Properties.Resources.Delete;
             this.EditDelete.ImageTransparentColor = System.Drawing.Color.White;
             this.EditDelete.Name = "EditDelete";
-            this.EditDelete.Size = new System.Drawing.Size(139, 22);
+            this.EditDelete.Size = new System.Drawing.Size(125, 22);
             this.EditDelete.Text = "&Delete";
             // 
             // toolStripMenuItem9
             // 
             this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(136, 6);
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(122, 6);
             // 
-            // EditGroupUndo
+            // EditOptions
             // 
-            this.EditGroupUndo.Checked = true;
-            this.EditGroupUndo.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.EditGroupUndo.Name = "EditGroupUndo";
-            this.EditGroupUndo.Size = new System.Drawing.Size(139, 22);
-            this.EditGroupUndo.Text = "&Group Undo";
+            this.EditOptions.Name = "EditOptions";
+            this.EditOptions.Size = new System.Drawing.Size(125, 22);
+            this.EditOptions.Text = "&Options...";
             // 
             // GraphMenu
             // 
@@ -945,6 +954,9 @@
             // tbNew
             // 
             this.tbNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbNew.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbNewEmptyGraph,
+            this.tbNewFromTemplate});
             this.tbNew.Image = global::ToyGraf.Properties.Resources.NewDocumentHS;
             this.tbNew.ImageTransparentColor = System.Drawing.Color.White;
             this.tbNew.Name = "tbNew";
@@ -1128,6 +1140,20 @@
             this.SplitContainer.SplitterDistance = 608;
             this.SplitContainer.TabIndex = 17;
             // 
+            // tbNewEmptyGraph
+            // 
+            this.tbNewEmptyGraph.Name = "tbNewEmptyGraph";
+            this.tbNewEmptyGraph.ShortcutKeyDisplayString = "^N";
+            this.tbNewEmptyGraph.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.tbNewEmptyGraph.Size = new System.Drawing.Size(194, 22);
+            this.tbNewEmptyGraph.Text = "&New Empty Graph";
+            // 
+            // tbNewFromTemplate
+            // 
+            this.tbNewFromTemplate.Name = "tbNewFromTemplate";
+            this.tbNewFromTemplate.Size = new System.Drawing.Size(194, 22);
+            this.tbNewFromTemplate.Text = "New From &Template...";
+            // 
             // GraphForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1162,115 +1188,118 @@
         }
 
         #endregion
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        public System.Windows.Forms.ToolStripMenuItem FileSave;
-        public System.Windows.Forms.ToolStripMenuItem FileSaveAs;
-        public System.Windows.Forms.ToolStripMenuItem FileReopen;
-        public System.Windows.Forms.ToolStripMenuItem FileMenu;
-        public System.Windows.Forms.ToolStripMenuItem FileClose;
-        public System.Windows.Forms.ToolStripMenuItem FileNew;
-        public System.Windows.Forms.ToolStripMenuItem FileOpen;
-        public System.Windows.Forms.ToolStripMenuItem HelpAbout;
-        public System.Windows.Forms.ToolStripStatusLabel ModifiedLabel;
-        public System.Windows.Forms.ToolTip ToolTip;
-        public System.Windows.Forms.ToolStripMenuItem ViewMenu;
-        public System.Windows.Forms.ToolStripMenuItem ViewCoordinatesTooltip;
-        public ToyGraf.Controls.TgStatusStrip StatusBar;
-        public System.Windows.Forms.ContextMenuStrip PopupMenu;
-        public ToyGraf.Controls.TgMenuStrip MainMenu;
-        public System.Windows.Forms.ErrorProvider ErrorProvider;
-        public System.Windows.Forms.ToolStripMenuItem ViewLegend;
-        public System.Windows.Forms.Panel ClientPanel;
-        public System.Windows.Forms.PictureBox PictureBox;
-        public System.Windows.Forms.Panel LegendPanel;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
-        public System.Windows.Forms.ToolStripMenuItem ViewLegendTopLeft;
-        public System.Windows.Forms.ToolStripMenuItem ViewLegendTopRight;
-        public System.Windows.Forms.ToolStripMenuItem ViewLegendBottomLeft;
-        public System.Windows.Forms.ToolStripMenuItem ViewLegendBottomRight;
-        public System.Windows.Forms.ToolStripMenuItem ViewLegendHide;
-        public System.Windows.Forms.ToolStripMenuItem GraphMenu;
-        public System.Windows.Forms.ToolStripMenuItem GraphAddNewFunction;
-        public System.Windows.Forms.ToolStripMenuItem HelpMenu;
-        public System.Windows.Forms.ToolStripStatusLabel XYlabel;
-        public System.Windows.Forms.ToolStripStatusLabel Rϴlabel;
-        public System.Windows.Forms.ToolStripMenuItem GraphProperties;
-        public System.Windows.Forms.ToolStripMenuItem TimeMenu;
-        public System.Windows.Forms.ToolStripMenuItem TimeStop;
-        public System.Windows.Forms.ToolStripStatusLabel Tlabel;
-        public System.Windows.Forms.ToolStripMenuItem ZoomMenu;
-        public System.Windows.Forms.ToolStripMenuItem ZoomIn;
-        public System.Windows.Forms.ToolStripMenuItem ZoomOut;
-        public System.Windows.Forms.ToolStripMenuItem ZoomReset;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
-        public System.Windows.Forms.ToolStripMenuItem ZoomFullScreen;
-        public System.Windows.Forms.ToolStripMenuItem ScrollMenu;
-        public System.Windows.Forms.ToolStripMenuItem ScrollLeft;
-        public System.Windows.Forms.ToolStripMenuItem ScrollRight;
-        public System.Windows.Forms.ToolStripMenuItem ScrollUp;
-        public System.Windows.Forms.ToolStripMenuItem ScrollDown;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
-        public System.Windows.Forms.ToolStripMenuItem ScrollCentre;
-        public System.Windows.Forms.ToolStripMenuItem GraphType;
-        public System.Windows.Forms.ToolStripMenuItem GraphTypeCartesian;
-        public System.Windows.Forms.ToolStripMenuItem GraphTypePolar;
-        public ToyGraf.Controls.TgToolStrip Toolbar;
-        public System.Windows.Forms.ToolStripButton tbNew;
-        public System.Windows.Forms.ToolStripSplitButton tbOpen;
-        public System.Windows.Forms.ToolStripButton tbSave;
-        public System.Windows.Forms.ToolStripButton tbAdd;
-        public System.Windows.Forms.ToolStripButton tbCartesian;
-        public System.Windows.Forms.ToolStripButton tbPolar;
-        public System.Windows.Forms.ToolStripButton tbProperties;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
-        public System.Windows.Forms.ToolStripStatusLabel FPSlabel;
-        public System.Windows.Forms.ToolStripButton tbFullScreen;
-        public System.Windows.Forms.ToolStripStatusLabel SpeedLabel;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
-        public System.Windows.Forms.ToolStripMenuItem EditUndo;
-        public System.Windows.Forms.ToolStripMenuItem EditRedo;
-        public System.Windows.Forms.ToolStripMenuItem EditCut;
-        public System.Windows.Forms.ToolStripMenuItem EditCopy;
-        public System.Windows.Forms.ToolStripMenuItem EditPaste;
-        public System.Windows.Forms.ToolStripMenuItem EditDelete;
-        public System.Windows.Forms.ToolStripMenuItem ViewToolbar;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
-        public System.Windows.Forms.ToolStripMenuItem ViewToolbarLeft;
-        public System.Windows.Forms.ToolStripMenuItem ViewToolbarTop;
-        public System.Windows.Forms.ToolStripMenuItem ViewToolbarRight;
-        public System.Windows.Forms.ToolStripMenuItem ViewToolbarBottom;
-        public System.Windows.Forms.ToolStripMenuItem ViewToolbarHide;
-        public System.Windows.Forms.ToolStripMenuItem EditMenu;
-        public System.Windows.Forms.ToolStripSplitButton tbUndo;
-        public System.Windows.Forms.ToolStripSplitButton tbRedo;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
-        public System.Windows.Forms.ToolStripMenuItem EditGroupUndo;
-        public System.Windows.Forms.ToolStripButton tbCut;
-        public System.Windows.Forms.ToolStripButton tbCopy;
-        public System.Windows.Forms.ToolStripButton tbPaste;
-        public System.Windows.Forms.ToolStripButton tbDelete;
-        public System.Windows.Forms.ToolStripMenuItem TimeForward;
-        public System.Windows.Forms.ToolStripMenuItem TimePause;
-        public System.Windows.Forms.ToolStripDropDownButton tbForward;
-        public System.Windows.Forms.ToolStripDropDownButton tbPause;
-        public System.Windows.Forms.ToolStripDropDownButton tbStop;
-        public System.Windows.Forms.ToolStripDropDownButton tbDecelerate;
-        public System.Windows.Forms.ToolStripDropDownButton tbReverse;
-        public System.Windows.Forms.ToolStripDropDownButton tbAccelerate;
-        public System.Windows.Forms.ToolStripMenuItem TimeDecelerate;
-        public System.Windows.Forms.ToolStripMenuItem TimeReverse;
-        public System.Windows.Forms.ToolStripMenuItem TimeAccelerate;
-        public System.Windows.Forms.ToolStripSplitButton tbLegend;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        public System.Windows.Forms.OpenFileDialog TextureDialog;
-        public System.Windows.Forms.PropertyGrid PropertyTable;
-        public System.Windows.Forms.ToolStripMenuItem ViewPropertyTable;
-        public System.Windows.Forms.SplitContainer SplitContainer;
-        public System.Windows.Forms.ToolStripMenuItem FileNewWindow;
-        public System.Windows.Forms.ToolStripMenuItem FileExit;
+        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        internal System.Windows.Forms.ToolStripMenuItem FileSave;
+        internal System.Windows.Forms.ToolStripMenuItem FileSaveAs;
+        internal System.Windows.Forms.ToolStripMenuItem FileReopen;
+        internal System.Windows.Forms.ToolStripMenuItem FileMenu;
+        internal System.Windows.Forms.ToolStripMenuItem FileClose;
+        internal System.Windows.Forms.ToolStripMenuItem FileOpen;
+        internal System.Windows.Forms.ToolStripMenuItem HelpAbout;
+        internal System.Windows.Forms.ToolStripStatusLabel ModifiedLabel;
+        internal System.Windows.Forms.ToolTip ToolTip;
+        internal System.Windows.Forms.ToolStripMenuItem ViewMenu;
+        internal System.Windows.Forms.ToolStripMenuItem ViewCoordinatesTooltip;
+        internal ToyGraf.Controls.TgStatusStrip StatusBar;
+        internal System.Windows.Forms.ContextMenuStrip PopupMenu;
+        internal ToyGraf.Controls.TgMenuStrip MainMenu;
+        internal System.Windows.Forms.ErrorProvider ErrorProvider;
+        internal System.Windows.Forms.ToolStripMenuItem ViewLegend;
+        internal System.Windows.Forms.Panel ClientPanel;
+        internal System.Windows.Forms.PictureBox PictureBox;
+        internal System.Windows.Forms.Panel LegendPanel;
+        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        internal System.Windows.Forms.ToolStripMenuItem ViewLegendTopLeft;
+        internal System.Windows.Forms.ToolStripMenuItem ViewLegendTopRight;
+        internal System.Windows.Forms.ToolStripMenuItem ViewLegendBottomLeft;
+        internal System.Windows.Forms.ToolStripMenuItem ViewLegendBottomRight;
+        internal System.Windows.Forms.ToolStripMenuItem ViewLegendHide;
+        internal System.Windows.Forms.ToolStripMenuItem GraphMenu;
+        internal System.Windows.Forms.ToolStripMenuItem GraphAddNewFunction;
+        internal System.Windows.Forms.ToolStripMenuItem HelpMenu;
+        internal System.Windows.Forms.ToolStripStatusLabel XYlabel;
+        internal System.Windows.Forms.ToolStripStatusLabel Rϴlabel;
+        internal System.Windows.Forms.ToolStripMenuItem GraphProperties;
+        internal System.Windows.Forms.ToolStripMenuItem TimeMenu;
+        internal System.Windows.Forms.ToolStripMenuItem TimeStop;
+        internal System.Windows.Forms.ToolStripStatusLabel Tlabel;
+        internal System.Windows.Forms.ToolStripMenuItem ZoomMenu;
+        internal System.Windows.Forms.ToolStripMenuItem ZoomIn;
+        internal System.Windows.Forms.ToolStripMenuItem ZoomOut;
+        internal System.Windows.Forms.ToolStripMenuItem ZoomReset;
+        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
+        internal System.Windows.Forms.ToolStripMenuItem ZoomFullScreen;
+        internal System.Windows.Forms.ToolStripMenuItem ScrollMenu;
+        internal System.Windows.Forms.ToolStripMenuItem ScrollLeft;
+        internal System.Windows.Forms.ToolStripMenuItem ScrollRight;
+        internal System.Windows.Forms.ToolStripMenuItem ScrollUp;
+        internal System.Windows.Forms.ToolStripMenuItem ScrollDown;
+        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
+        internal System.Windows.Forms.ToolStripMenuItem ScrollCentre;
+        internal System.Windows.Forms.ToolStripMenuItem GraphType;
+        internal System.Windows.Forms.ToolStripMenuItem GraphTypeCartesian;
+        internal System.Windows.Forms.ToolStripMenuItem GraphTypePolar;
+        internal ToyGraf.Controls.TgToolStrip Toolbar;
+        internal System.Windows.Forms.ToolStripSplitButton tbNew;
+        internal System.Windows.Forms.ToolStripSplitButton tbOpen;
+        internal System.Windows.Forms.ToolStripButton tbSave;
+        internal System.Windows.Forms.ToolStripButton tbAdd;
+        internal System.Windows.Forms.ToolStripButton tbCartesian;
+        internal System.Windows.Forms.ToolStripButton tbPolar;
+        internal System.Windows.Forms.ToolStripButton tbProperties;
+        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
+        internal System.Windows.Forms.ToolStripStatusLabel FPSlabel;
+        internal System.Windows.Forms.ToolStripButton tbFullScreen;
+        internal System.Windows.Forms.ToolStripStatusLabel SpeedLabel;
+        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        internal System.Windows.Forms.ToolStripMenuItem EditUndo;
+        internal System.Windows.Forms.ToolStripMenuItem EditRedo;
+        internal System.Windows.Forms.ToolStripMenuItem EditCut;
+        internal System.Windows.Forms.ToolStripMenuItem EditCopy;
+        internal System.Windows.Forms.ToolStripMenuItem EditPaste;
+        internal System.Windows.Forms.ToolStripMenuItem EditDelete;
+        internal System.Windows.Forms.ToolStripMenuItem ViewToolbar;
+        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
+        internal System.Windows.Forms.ToolStripMenuItem ViewToolbarLeft;
+        internal System.Windows.Forms.ToolStripMenuItem ViewToolbarTop;
+        internal System.Windows.Forms.ToolStripMenuItem ViewToolbarRight;
+        internal System.Windows.Forms.ToolStripMenuItem ViewToolbarBottom;
+        internal System.Windows.Forms.ToolStripMenuItem ViewToolbarHide;
+        internal System.Windows.Forms.ToolStripMenuItem EditMenu;
+        internal System.Windows.Forms.ToolStripSplitButton tbUndo;
+        internal System.Windows.Forms.ToolStripSplitButton tbRedo;
+        internal System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        internal System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
+        internal System.Windows.Forms.ToolStripButton tbCut;
+        internal System.Windows.Forms.ToolStripButton tbCopy;
+        internal System.Windows.Forms.ToolStripButton tbPaste;
+        internal System.Windows.Forms.ToolStripButton tbDelete;
+        internal System.Windows.Forms.ToolStripMenuItem TimeForward;
+        internal System.Windows.Forms.ToolStripMenuItem TimePause;
+        internal System.Windows.Forms.ToolStripDropDownButton tbForward;
+        internal System.Windows.Forms.ToolStripDropDownButton tbPause;
+        internal System.Windows.Forms.ToolStripDropDownButton tbStop;
+        internal System.Windows.Forms.ToolStripDropDownButton tbDecelerate;
+        internal System.Windows.Forms.ToolStripDropDownButton tbReverse;
+        internal System.Windows.Forms.ToolStripDropDownButton tbAccelerate;
+        internal System.Windows.Forms.ToolStripMenuItem TimeDecelerate;
+        internal System.Windows.Forms.ToolStripMenuItem TimeReverse;
+        internal System.Windows.Forms.ToolStripMenuItem TimeAccelerate;
+        internal System.Windows.Forms.ToolStripSplitButton tbLegend;
+        internal System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        internal System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        internal System.Windows.Forms.OpenFileDialog TextureDialog;
+        internal System.Windows.Forms.PropertyGrid PropertyTable;
+        internal System.Windows.Forms.ToolStripMenuItem ViewPropertyTable;
+        internal System.Windows.Forms.SplitContainer SplitContainer;
+        internal System.Windows.Forms.ToolStripMenuItem FileExit;
+        internal System.Windows.Forms.ToolStripMenuItem FileNew;
+        internal System.Windows.Forms.ToolStripMenuItem FileNewEmptyGraph;
+        internal System.Windows.Forms.ToolStripMenuItem FileNewFromTemplate;
+        internal System.Windows.Forms.ToolStripMenuItem EditOptions;
+        internal System.Windows.Forms.ToolStripMenuItem tbNewEmptyGraph;
+        internal System.Windows.Forms.ToolStripMenuItem tbNewFromTemplate;
     }
 }

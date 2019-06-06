@@ -55,5 +55,39 @@ namespace ToyGraf.Properties {
                 this["GraphForm_MinimumSize"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Images (*.bmp;*.gif;*.jpeg;*.jpg;*.png)|*.bmp;*.gif;*.jpeg;*.jpg;*.png|All files " +
+            "(*.*)|*.*")]
+        public string ImageFilter {
+            get {
+                return ((string)(this["ImageFilter"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Options_OpenInNewWindow {
+            get {
+                return ((bool)(this["Options_OpenInNewWindow"]));
+            }
+            set {
+                this["Options_OpenInNewWindow"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Options_GroupUndo {
+            get {
+                return ((bool)(this["Options_GroupUndo"]));
+            }
+            set {
+                this["Options_GroupUndo"] = value;
+            }
+        }
     }
 }

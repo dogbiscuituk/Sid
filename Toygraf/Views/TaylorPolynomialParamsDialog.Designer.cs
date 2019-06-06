@@ -166,14 +166,14 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        public System.Windows.Forms.NumericUpDown seDegree;
-        private System.Windows.Forms.Label label2;
-        public System.Windows.Forms.Button btnCentreX;
-        private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.Label label4;
-        public System.Windows.Forms.TextBox edCentreX;
-        private System.Windows.Forms.ToolTip ToolTip;
+        internal System.Windows.Forms.Label label1;
+        internal System.Windows.Forms.NumericUpDown seDegree;
+        internal System.Windows.Forms.Label label2;
+        internal System.Windows.Forms.Button btnCentreX;
+        internal System.Windows.Forms.Button btnCancel;
+        internal System.Windows.Forms.Button btnOK;
+        internal System.Windows.Forms.Label label4;
+        internal System.Windows.Forms.TextBox edCentreX;
+        internal System.Windows.Forms.ToolTip ToolTip;
     }
 }

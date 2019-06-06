@@ -25,7 +25,6 @@
             View.EditRedo.Click += EditRedo_Click;
             View.tbRedo.ButtonClick += EditRedo_Click;
             View.tbRedo.DropDownOpening += TbRedo_DropDownOpening;
-            View.EditGroupUndo.Click += EditGroupUndo_Click;
             // Graph
             View.GraphTypeCartesian.Click += GraphTypeCartesian_Click;
             View.tbCartesian.Click += GraphTypeCartesian_Click;
@@ -83,12 +82,7 @@
         private bool CanUndo { get => UndoStack.Count > 0; }
         private bool CanRedo { get => RedoStack.Count > 0; }
 
-        private bool GroupUndo
-        {
-            get => View.EditGroupUndo.Checked;
-            set => View.EditGroupUndo.Checked = value;
-        }
-
+        private bool GroupUndo => AppController.Options.GroupUndo;
         private string UndoAction => UndoStack.Peek().UndoAction;
         private string RedoAction => RedoStack.Peek().RedoAction;
 
@@ -101,7 +95,6 @@
         private void TbUndo_DropDownOpening(object sender, EventArgs e) => Copy(UndoStack, View.tbUndo, UndoMultiple);
         private void EditRedo_Click(object sender, EventArgs e) => Redo();
         private void TbRedo_DropDownOpening(object sender, EventArgs e) => Copy(RedoStack, View.tbRedo, RedoMultiple);
-        private void EditGroupUndo_Click(object sender, EventArgs e) => GroupUndo = !GroupUndo;
         // Graph
         private void GraphTypePolar_Click(object sender, EventArgs e) => Run(new GraphPlotTypeCommand(PlotType.Polar));
         private void GraphTypeCartesian_Click(object sender, EventArgs e) => Run(new GraphPlotTypeCommand(PlotType.Cartesian));

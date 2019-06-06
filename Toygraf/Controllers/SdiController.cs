@@ -5,6 +5,7 @@
     using System.IO;
     using System.Windows.Forms;
     using ToyGraf.Models;
+    using ToyGraf.Models.Enumerations;
 
     /// <summary>
     /// "Single Document Interface" Controller.
@@ -28,45 +29,68 @@
 
         #region Internal Interface
 
-        internal bool Clear()
-		{
-			var result = SaveIfModified();
-			if (result)
-			{
-				FilePath = string.Empty;
-                ClearDocument();
-                Model.Modified = false;
-            }
-            return result;
-		}
+        internal void Clear()
+        {
+            FilePath = string.Empty;
+            ClearDocument();
+            Model.Modified = false;
+        }
 
-        internal bool Open() => SaveIfModified()
-            && OpenFileDialog.ShowDialog() == DialogResult.OK
-            && LoadFromFile(OpenFileDialog.FileName);
+        internal string SelectFilePath(FilterIndex filterIndex = FilterIndex.Default)
+        {
+            OpenFileDialog.FilterIndex = EvalFilterIndex(filterIndex);
+            if (OpenFileDialog.ShowDialog() != DialogResult.OK)
+                return null;
+            return OpenFileDialog.FileName;
+        }
 
         internal override void Reopen(ToolStripItem menuItem)
         {
             var filePath = menuItem.ToolTipText;
-            if (File.Exists(filePath))
+            if (!File.Exists(filePath))
             {
-                if (SaveIfModified())
-                    LoadFromFile(filePath);
+                if (MessageBox.Show(string.Format("File \"{0}\" no longer exists. Remove from menu?", filePath),
+                    "Reopen file", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    RemoveItem(filePath);
+                return;
             }
-            else if (MessageBox.Show(
-                string.Format("File \"{0}\" no longer exists. Remove from menu?", filePath),
-                "Reopen file", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                RemoveItem(filePath);
+            OnFileReopen(filePath);
+
         }
 
-        internal bool Save() => string.IsNullOrEmpty(FilePath) ? SaveAs() : SaveToFile(FilePath);
+        protected virtual void OnFileReopen(string filePath)
+        {
+            if (SaveIfModified())
+                LoadFromFile(filePath);
+        }
 
-        internal bool SaveAs()
+        internal bool Save(FilterIndex filterIndex = FilterIndex.Default) =>
+            string.IsNullOrEmpty(FilePath)
+            ? SaveAs(filterIndex)
+            : SaveToFile(FilePath);
+
+        internal bool SaveAs(FilterIndex filterIndex = FilterIndex.Default)
         {
             if (string.IsNullOrWhiteSpace(FilePath))
                 OnFilePathRequest();
             SaveFileDialog.FileName = FilePath;
+            SaveFileDialog.FilterIndex = EvalFilterIndex(filterIndex);
             return SaveFileDialog.ShowDialog() == DialogResult.OK
                 && SaveToFile(SaveFileDialog.FileName);
+        }
+
+        private int EvalFilterIndex(FilterIndex filterIndex)
+        {
+            if (filterIndex == FilterIndex.Default)
+                switch (Path.GetExtension(FilePath))
+                {
+                    case ".tgt":
+                        return (int)FilterIndex.Template;
+                    case ".tgf":
+                    default:
+                        return (int)FilterIndex.File;
+                }
+            return (int)filterIndex;
         }
 
         internal bool SaveIfModified()
@@ -90,10 +114,11 @@
 
         internal event EventHandler<CancelEventArgs> FileLoading, FileSaving;
         internal event EventHandler FileLoaded, FilePathChanged, FileSaved;
-        internal event EventHandler<FilePathRequestEventArgs> FilePathRequest;
+        internal event EventHandler<FilePathEventArgs> FilePathRequest;
 
-        internal class FilePathRequestEventArgs : EventArgs
+        internal class FilePathEventArgs : EventArgs
         {
+            internal FilePathEventArgs(string filePath) { FilePath = filePath; }
             internal string FilePath { get; set; }
         }
 
@@ -191,7 +216,7 @@
 
         #region Private Methods
 
-        private bool LoadFromFile(string filePath)
+        internal bool LoadFromFile(string filePath)
 		{
 			var result = false;
 			if (OnFileLoading())
@@ -210,7 +235,7 @@
 
         private void OnFilePathRequest()
         {
-            var e = new FilePathRequestEventArgs { FilePath = string.Empty };
+            var e = new FilePathEventArgs(string.Empty);
             FilePathRequest?.Invoke(this, e);
             FilePath = e.FilePath;
         }

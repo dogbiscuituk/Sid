@@ -30,6 +30,7 @@
             JsonController.FileLoaded += JsonController_FileLoaded;
             JsonController.FilePathChanged += JsonController_FilePathChanged;
             JsonController.FilePathRequest += JsonController_FilePathRequest;
+            JsonController.FileReopen += JsonController_FileReopen;
             JsonController.FileSaving += JsonController_FileSaving;
             JsonController.FileSaved += JsonController_FileSaved;
             LegendController = new LegendController(this);
@@ -52,9 +53,11 @@
             set
             {
                 _view = value;
-                View.FileNew.Click += FileNew_Click;
-                View.FileNewWindow.Click += FileNewWindow_Click;
-                View.tbNew.Click += FileNew_Click;
+                View.FileNewEmptyGraph.Click += FileNewEmptyGraph_Click;
+                View.FileNewFromTemplate.Click += FileNewFromTemplate_Click;
+                View.tbNew.ButtonClick += FileNewEmptyGraph_Click;
+                View.tbNewEmptyGraph.Click += FileNewEmptyGraph_Click;
+                View.tbNewFromTemplate.Click += FileNewFromTemplate_Click;
                 View.FileOpen.Click += FileOpen_Click;
                 View.tbOpen.ButtonClick += FileOpen_Click;
                 View.tbOpen.DropDownOpening += TbOpen_DropDownOpening;
@@ -63,6 +66,7 @@
                 View.tbSave.Click += TbSave_Click;
                 View.FileClose.Click += FileClose_Click;
                 View.FileExit.Click += FileExit_Click;
+                View.EditOptions.Click += EditOptions_Click;
                 View.GraphProperties.Click += GraphProperties_Click;
                 View.tbProperties.Click += GraphProperties_Click;
                 View.ViewCoordinatesTooltip.Click += ViewCoordinatesTooltip_Click;
@@ -87,7 +91,7 @@
 
         internal static void InitTextureDialog(OpenFileDialog dialog)
         {
-            dialog.Filter = "Images (*.bmp;*.gif;*.jpeg;*.jpg;*.png)|*.bmp;*.gif;*.jpeg;*.jpg;*.png|All files (*.*)|*.*";
+            dialog.Filter = Properties.Settings.Default.ImageFilter;
             dialog.Title = "Select Texture";
         }
 
@@ -124,13 +128,14 @@
 
         #region Private Event Handlers
 
-        private void FileNew_Click(object sender, EventArgs e) => NewFile();
-        private void FileNewWindow_Click(object sender, EventArgs e) => NewWindow();
+        private void FileNewEmptyGraph_Click(object sender, EventArgs e) => NewEmptyGraph();
+        private void FileNewFromTemplate_Click(object sender, EventArgs e) => NewFromTemplate();
         private void FileOpen_Click(object sender, EventArgs e) => OpenFile();
         private void FileSave_Click(object sender, EventArgs e) => JsonController.Save();
         private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
         private void FileClose_Click(object sender, EventArgs e) => View.Close();
         private void FileExit_Click(object sender, EventArgs e) => AppController.Close();
+        private void EditOptions_Click(object sender, EventArgs e) => EditOptions();
         private void GraphProperties_Click(object sender, EventArgs e) => GraphPropertiesController.Show(View);
         private void ViewCoordinatesTooltip_Click(object sender, EventArgs e) => ToggleCoordinatesTooltip();
         private void HelpAbout_Click(object sender, EventArgs e) => new AboutController().ShowDialog(View);
@@ -141,7 +146,8 @@
         private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e) => OnPropertyChanged($"Model.{e.PropertyName}");
         private void JsonController_FileLoaded(object sender, EventArgs e) => FileLoaded();
         private void JsonController_FilePathChanged(object sender, EventArgs e) => UpdateCaption();
-        private void JsonController_FilePathRequest(object sender, SdiController.FilePathRequestEventArgs e) => FilePathRequest(e);
+        private void JsonController_FilePathRequest(object sender, SdiController.FilePathEventArgs e) => FilePathRequest(e);
+        private void JsonController_FileReopen(object sender, SdiController.FilePathEventArgs e) => OpenFile(e.FilePath);
         private void JsonController_FileSaved(object sender, EventArgs e) => FileSaved();
         private void JsonController_FileSaving(object sender, CancelEventArgs e) => e.Cancel = !ContinueSaving();
         private void View_FormClosing(object sender, FormClosingEventArgs e) => e.Cancel = !FormClosing(e.CloseReason);
@@ -170,9 +176,7 @@
 
         #endregion
 
-        #region Private Methods
-
-        private bool ContinueSaving() => true;
+        #region File Operations
 
         private void FileLoaded()
         {
@@ -184,7 +188,7 @@
             UpdateUI();
         }
 
-        private void FilePathRequest(SdiController.FilePathRequestEventArgs e)
+        private void FilePathRequest(SdiController.FilePathEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(e.FilePath))
                 e.FilePath = Graph.Title.ToFilename();
@@ -193,6 +197,50 @@
         }
 
         private void FileSaved() => Graph.ZoomSet();
+
+        private GraphController GetNewGraphController()
+        {
+            if (AppController.Options.OpenInNewWindow)
+                return AppController.AddNewGraphController();
+            if (!JsonController.SaveIfModified())
+                return null;
+            JsonController.Clear();
+            TracePropertiesController.Clear();
+            Graph.InvalidateReticle();
+            GraphicsController.InvalidateView();
+            UpdateUI();
+            return this;
+        }
+
+        private void NewEmptyGraph() => GetNewGraphController();
+
+        private void NewFromTemplate()
+        {
+            var graphController = OpenFile(FilterIndex.Template);
+            if (graphController != null)
+                graphController.JsonController.FilePath = string.Empty;
+        }
+
+        private GraphController OpenFile(FilterIndex filterIndex = FilterIndex.File) =>
+            OpenFile(JsonController.SelectFilePath(filterIndex));
+
+        private GraphController OpenFile(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
+                return null;
+            var graphController = GetNewGraphController();
+            if (graphController == null)
+                return null;
+            graphController.JsonController.LoadFromFile(filePath);
+            return graphController;
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private bool ContinueSaving() => true;
+        private void EditOptions() => new OptionsController(this).ShowModal(View);
 
         private static string ImageToBase64String(string filePath)
         {
@@ -219,19 +267,6 @@
             View.FileSave.Enabled = Model.Modified;
             View.ModifiedLabel.Visible = Model.Modified;
         }
-
-        private void NewFile()
-        {
-            if (JsonController.Clear())
-            {
-                TracePropertiesController.Clear();
-                Graph.InvalidateReticle();
-                GraphicsController.InvalidateView();
-                UpdateUI();
-            }
-        }
-
-        private void NewWindow() => AppController.AddNewGraphController();
 
         private void OnPropertyChanged(string propertyName)
         {
@@ -260,8 +295,6 @@
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void OpenFile() => JsonController.Open();
-
         private bool SelectTexture(Trace trace)
         {
             var dialog = View.TextureDialog;
@@ -288,6 +321,9 @@
             }
         }
 
+        private void ToggleCoordinatesTooltip() => ShowCoordinatesTooltip = !ShowCoordinatesTooltip;
+        private void UpdateCaption() { View.Text = JsonController.WindowCaption; }
+
         private void UpdatePlotType()
         {
             View.GraphTypeCartesian.Checked =
@@ -303,9 +339,6 @@
             LegendController.GraphRead();
             PropertyTableController.Refresh();
         }
-
-        private void ToggleCoordinatesTooltip() => ShowCoordinatesTooltip = !ShowCoordinatesTooltip;
-        private void UpdateCaption() { View.Text = JsonController.WindowCaption; }
 
         #endregion
 

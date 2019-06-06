@@ -54,7 +54,7 @@
             this.cbFunction.Margin = new System.Windows.Forms.Padding(0);
             this.cbFunction.MaxDropDownItems = 36;
             this.cbFunction.Name = "cbFunction";
-            this.cbFunction.Size = new System.Drawing.Size(173, 23);
+            this.cbFunction.Size = new System.Drawing.Size(132, 23);
             this.cbFunction.TabIndex = 0;
             this.ToolTip.SetToolTip(this.cbFunction, "Formula for points on this trace");
             // 
@@ -65,7 +65,7 @@
             this.btnRemove.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRemove.ImageIndex = 1;
             this.btnRemove.ImageList = this.ImageList;
-            this.btnRemove.Location = new System.Drawing.Point(467, 1);
+            this.btnRemove.Location = new System.Drawing.Point(426, 1);
             this.btnRemove.Margin = new System.Windows.Forms.Padding(0);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(21, 19);
@@ -91,7 +91,7 @@
             this.cbPenColour.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbPenColour.FormattingEnabled = true;
             this.cbPenColour.ItemHeight = 18;
-            this.cbPenColour.Location = new System.Drawing.Point(246, 0);
+            this.cbPenColour.Location = new System.Drawing.Point(205, 0);
             this.cbPenColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbPenColour.Name = "cbPenColour";
             this.cbPenColour.Size = new System.Drawing.Size(74, 24);
@@ -108,7 +108,7 @@
             this.cbFillColour.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbFillColour.FormattingEnabled = true;
             this.cbFillColour.ItemHeight = 18;
-            this.cbFillColour.Location = new System.Drawing.Point(320, 0);
+            this.cbFillColour.Location = new System.Drawing.Point(279, 0);
             this.cbFillColour.Margin = new System.Windows.Forms.Padding(0);
             this.cbFillColour.Name = "cbFillColour";
             this.cbFillColour.Size = new System.Drawing.Size(74, 24);
@@ -142,7 +142,7 @@
             0,
             0,
             0});
-            this.seTransparency.Location = new System.Drawing.Point(394, 3);
+            this.seTransparency.Location = new System.Drawing.Point(353, 3);
             this.seTransparency.Margin = new System.Windows.Forms.Padding(0);
             this.seTransparency.Name = "seTransparency";
             this.seTransparency.ReadOnly = true;
@@ -157,7 +157,7 @@
             this.btnDetails.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDetails.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDetails.Image = global::ToyGraf.Properties.Resources._126_Edit_16x16_72;
-            this.btnDetails.Location = new System.Drawing.Point(443, 1);
+            this.btnDetails.Location = new System.Drawing.Point(402, 1);
             this.btnDetails.Margin = new System.Windows.Forms.Padding(0);
             this.btnDetails.Name = "btnDetails";
             this.btnDetails.Size = new System.Drawing.Size(21, 19);
@@ -191,7 +191,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "TraceView";
-            this.Size = new System.Drawing.Size(489, 24);
+            this.Size = new System.Drawing.Size(448, 24);
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).EndInit();
             this.ResumeLayout(false);
 
@@ -199,15 +199,15 @@
 
         #endregion
 
-        public System.Windows.Forms.ComboBox cbFunction;
-        public System.Windows.Forms.Button btnRemove;
-        public System.Windows.Forms.CheckBox cbVisible;
-        public System.Windows.Forms.ComboBox cbPenColour;
-        public System.Windows.Forms.ComboBox cbFillColour;
-        public System.Windows.Forms.NumericUpDown seTransparency;
-        public System.Windows.Forms.Button btnDetails;
-        private System.Windows.Forms.ImageList ImageList;
-        public System.Windows.Forms.Label Label;
-        public System.Windows.Forms.ToolTip ToolTip;
+        internal System.Windows.Forms.ComboBox cbFunction;
+        internal System.Windows.Forms.Button btnRemove;
+        internal System.Windows.Forms.CheckBox cbVisible;
+        internal System.Windows.Forms.ComboBox cbPenColour;
+        internal System.Windows.Forms.ComboBox cbFillColour;
+        internal System.Windows.Forms.NumericUpDown seTransparency;
+        internal System.Windows.Forms.Button btnDetails;
+        internal System.Windows.Forms.ImageList ImageList;
+        internal System.Windows.Forms.Label Label;
+        internal System.Windows.Forms.ToolTip ToolTip;
     }
 }

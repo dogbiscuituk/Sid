@@ -1,5 +1,6 @@
 ﻿namespace ToyGraf.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Windows.Forms;
@@ -51,9 +52,13 @@
             Graph.PropertyChanged += Model.Graph_PropertyChanged;
             foreach (var trace in Traces)
                 trace.PropertyChanged += Graph.Trace_PropertyChanged;
-
             return result;
         }
+
+        protected override void OnFileReopen(string filePath) =>
+            FileReopen?.Invoke(this, new FilePathEventArgs(filePath));
+
+        internal event EventHandler<FilePathEventArgs> FileReopen;
 
         protected override bool SaveToStream(Stream stream, string format)
         {

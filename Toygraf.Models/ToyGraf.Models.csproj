@@ -48,11 +48,13 @@
     <Compile Include="Clock.cs" />
     <Compile Include="Defaults.cs" />
     <Compile Include="Enumerations\BrushType.cs" />
+    <Compile Include="Enumerations\FilterIndex.cs" />
     <Compile Include="Structs\DomainInfo.cs" />
     <Compile Include="Enumerations\Elements.cs" />
     <Compile Include="Enumerations\Interpolation.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="Reticle.cs" />
+    <Compile Include="Structs\Options.cs" />
     <Compile Include="Structs\ReticleInfo.cs" />
     <Compile Include="Label.cs" />
     <Compile Include="Model.cs" />

@@ -52,7 +52,7 @@
             Legend.Visible = true;
             const int margin = 0, rowHeight = 23, maxRows = 17;
             var scroll = TraceViews.Count > maxRows;
-            int w = 489 + (scroll ? SystemInformation.VerticalScrollBarWidth : 0),
+            int w = 448 + (scroll ? SystemInformation.VerticalScrollBarWidth : 0),
                 h = TraceViews.Count > 0 ? Math.Min(TraceViews.Count, maxRows) * rowHeight + 2 : 0,
                 x = Client.Width - w, y = Client.Height - h;
             Legend.AutoScrollPosition = new Point(0, 0);

@@ -93,6 +93,7 @@
     <Compile Include="Controllers\GraphPropertiesController.cs" />
     <Compile Include="Controllers\JsonController.cs" />
     <Compile Include="Controllers\LegendController.cs" />
+    <Compile Include="Controllers\OptionsController.cs" />
     <Compile Include="Controllers\PropertyTableController.cs" />
     <Compile Include="Controllers\TraceController.cs" />
     <Compile Include="Controllers\GraphController.cs" />
@@ -131,6 +132,12 @@
     </Compile>
     <Compile Include="Views\GraphPropertiesDialog.Designer.cs">
       <DependentUpon>GraphPropertiesDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OptionsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\OptionsDialog.Designer.cs">
+      <DependentUpon>OptionsDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\TraceView.cs">
       <SubType>UserControl</SubType>
@@ -187,6 +194,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\GraphPropertiesDialog.resx">
       <DependentUpon>GraphPropertiesDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\OptionsDialog.resx">
+      <DependentUpon>OptionsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\TraceView.resx">
       <DependentUpon>TraceView.cs</DependentUpon>
