@@ -1,177 +1,141 @@
 ﻿namespace ToyGraf.Commands
 {
-    using System.ComponentModel;
     using System.Drawing;
-    using System.Drawing.Design;
     using System.Drawing.Drawing2D;
-    using ToyGraf.Controls;
-    using ToyGraf.Models;
     using ToyGraf.Models.Enumerations;
 
-    partial class GraphProxy
+    partial class CommandProcessor
     {
-        internal GraphStyle this[int foo, int index] { get => new GraphStyle(this, index); }
+        #region Add/Remove
 
-        [DefaultProperty("PenColour")]
-        internal class GraphStyle
+        private class StyleInsertCommand : StylesCommand
         {
-            internal GraphStyle()
-            {
-                GraphProxy = GraphProxyProxy.GraphProxy;
-                var index = Graph.Styles.Count;
-                Run(new GraphInsertStyleCommand(index));
-                Index = index;
-            }
-
-            internal GraphStyle(GraphProxy graphProxy, int index)
-            {
-                GraphProxy = graphProxy;
-                Index = index;
-            }
-
-            private readonly GraphProxy GraphProxy;
-            private readonly int Index;
-            private Graph Graph => GraphProxy.Graph;
-            private Style Style => Graph.Styles[Index];
-            [Category("Style")]
-            [DefaultValue(typeof(BrushType), "Solid")]
-            [Description("The type of brush used by the Style to fill in its area of integration.")]
-            [DisplayName("Brush type")]
-            public BrushType BrushType
-            {
-                get => Style.BrushType;
-                set => Run(new StyleBrushTypeCommand(Index, value));
-            }
-
-            [Category("Colour")]
-            [DefaultValue(typeof(Color), "Transparent")]
-            [Description("The primary fill colour used by the Style. Applies to all brush types except \"Texture\".")]
-            [DisplayName("Fill colour #1")]
-            public Color FillColour1
-            {
-                get => Style.FillColour1;
-                set => Run(new StyleFillColour1Command(Index, value));
-            }
-
-            [Category("Colour")]
-            [DefaultValue(typeof(Color), "Transparent")]
-            [Description("The secondary fill colour used by the Style. Applies to brush types \"Hatch\", \"Linear Gradient\", and \"Path Gradient\".")]
-            [DisplayName("Fill colour #2")]
-            public Color FillColour2
-            {
-                get => Style.FillColour2;
-                set => Run(new StyleFillColour2Command(Index, value));
-            }
-
-            [Category("Colour")]
-            [DefaultValue(0)]
-            [Description("The level of transparency applied to the Style filled areas. Applies to all brush types, including \"Texture\".")]
-            [DisplayName("Fill transparency %")]
-            public int FillTransparencyPercent
-            {
-                get => Style.FillTransparencyPercent;
-                set => Run(new StyleFillTransparencyPercentCommand(Index, value));
-            }
-
-            [Category("Style")]
-            [DefaultValue(typeof(LinearGradientMode), "Horizontal")]
-            [Description("The direction of the gradient between the two colours used by a \"Linear Gradient\" brush.")]
-            [DisplayName("Gradient mode")]
-            public LinearGradientMode GradientMode
-            {
-                get => Style.GradientMode;
-                set => Run(new StyleGradientModeCommand(Index, value));
-            }
-
-            [Category("Style")]
-            [DefaultValue(typeof(HatchStyle), "Horizontal")]
-            [Description("The pattern used by a Hatch brush.")]
-            [DisplayName("Hatch pattern")]
-            public HatchStyle HatchStyle
-            {
-                get => Style.HatchStyle;
-                set => Run(new StyleHatchStyleCommand(Index, value));
-            }
-
-            [Category("Colour")]
-            [DefaultValue(typeof(Color), "DarkGray")]
-            [Description("The default colour used by the Style to draw asymptotes.")]
-            [DisplayName("Limit colour")]
-            public Color LimitColour
-            {
-                get => Style.LimitColour;
-                set => Run(new StyleLimitColourCommand(Index, value));
-            }
-
-            [Category("Colour")]
-            [DefaultValue(typeof(Color), "Black")]
-            [Description("The colour of pen used by the Style.")]
-            [DisplayName("Pen colour")]
-            public Color PenColour
-            {
-                get => Style.PenColour;
-                set => Run(new StylePenColourCommand(Index, value));
-            }
-
-            [Category("Style")]
-            [DefaultValue(typeof(DashStyle), "Solid")]
-            [Description("The style of pen (solid, dotted, dashed, etc.) used to draw the Style.")]
-            [DisplayName("Pen style")]
-            public DashStyle PenStyle
-            {
-                get => Style.PenStyle;
-                set => Run(new StylePenStyleCommand(Index, value));
-            }
-
-            [Category("Style")]
-            [DefaultValue(1.0f)]
-            [Description("The point size of the pen used to draw the Style.")]
-            [DisplayName("Pen size")]
-            public float PenWidth
-            {
-                get => Style.PenWidth;
-                set => Run(new StylePenWidthCommand(Index, value));
-            }
-
-            [Browsable(false)]
-            public string Texture
-            {
-                get => Style.Texture;
-                set => Run(new StyleTextureCommand(Index, value));
-            }
-
-            [Category("Style")]
-            [Editor(typeof(TgFileNameEditor), typeof(UITypeEditor))]
-            [Description("The image file used to provide the Style's \"Texture\" brush.")]
-            [DisplayName("Texture file")]
-            public string TexturePath
-            {
-                get => Style.TexturePath;
-                set => Run(new StyleTexturePathCommand(Index, value));
-            }
-
-            [Category("Style")]
-            [Description("A title for this style.")]
-            [DisplayName("Title")]
-            public string Title
-            {
-                get => Style.Title;
-                set => Run(new StyleTitleCommand(Index, value));
-            }
-
-            [Category("Style")]
-            [DefaultValue(typeof(WrapMode), "Tile")]
-            [Description("Determines how copies of a \"Texture\" brush image are tiled, or stitched together, to fill an area.")]
-            [DisplayName("Wrap mode")]
-            public WrapMode WrapMode
-            {
-                get => Style.WrapMode;
-                set => Run(new StyleWrapModeCommand(Index, value));
-            }
-
-            public override string ToString() => $"Style #{Index}";
-
-            private void Run(IStyleCommand command) => GraphProxy.Run(command);
+            internal StyleInsertCommand(int index) : base(index, true) { }
         }
+
+        private class StyleDeleteCommand : StylesCommand
+        {
+            internal StyleDeleteCommand(int index) : base(index, false) { }
+        }
+
+        #endregion
+
+        #region Color
+
+        private class StyleFillColour1Command : StylePropertyCommand<Color>
+        {
+            public StyleFillColour1Command(int index, Color value) : base(index, "fill colour",
+                value, s => s.FillColour1, (s, v) => s.FillColour1 = v)
+            { }
+        }
+
+        private class StyleFillColour2Command : StylePropertyCommand<Color>
+        {
+            public StyleFillColour2Command(int index, Color value) : base(index, "2nd fill colour",
+                value, s => s.FillColour2, (s, v) => s.FillColour2 = v)
+            { }
+        }
+
+        private class StyleLimitColourCommand : StylePropertyCommand<Color>
+        {
+            public StyleLimitColourCommand(int index, Color value) : base(index, "limit colour",
+                value, s => s.LimitColour, (s, v) => s.LimitColour = v)
+            { }
+        }
+
+        private class StylePenColourCommand : StylePropertyCommand<Color>
+        {
+            public StylePenColourCommand(int index, Color value) : base(index, "pen colour",
+                value, s => s.PenColour, (s, v) => s.PenColour = v)
+            { }
+        }
+
+        #endregion
+
+        #region enum
+
+        private class StyleBrushTypeCommand : StylePropertyCommand<BrushType>
+        {
+            public StyleBrushTypeCommand(int index, BrushType value) : base(index, "fill type",
+                value, s => s.BrushType, (s, v) => s.BrushType = v)
+            { }
+        }
+
+        private class StyleGradientModeCommand : StylePropertyCommand<LinearGradientMode>
+        {
+            public StyleGradientModeCommand(int index, LinearGradientMode value) : base(index, "gradient type",
+                value, s => s.GradientMode, (s, v) => s.GradientMode = v)
+            { }
+        }
+
+        private class StyleHatchStyleCommand : StylePropertyCommand<HatchStyle>
+        {
+            public StyleHatchStyleCommand(int index, HatchStyle value) : base(index, "hatch type",
+                value, s => s.HatchStyle, (s, v) => s.HatchStyle = v)
+            { }
+        }
+
+        private class StylePenStyleCommand : StylePropertyCommand<DashStyle>
+        {
+            public StylePenStyleCommand(int index, DashStyle value) : base(index, "pen type",
+                value, s => s.PenStyle, (s, v) => s.PenStyle = v)
+            { }
+        }
+
+        private class StyleWrapModeCommand : StylePropertyCommand<WrapMode>
+        {
+            public StyleWrapModeCommand(int index, WrapMode value) : base(index, "wrap mode",
+                value, s => s.WrapMode, (s, v) => s.WrapMode = v)
+            { }
+        }
+
+        #endregion
+
+        #region float
+
+        private class StylePenWidthCommand : StylePropertyCommand<float>
+        {
+            public StylePenWidthCommand(int index, float value) : base(index, "pen size",
+                value, s => s.PenWidth, (s, v) => s.PenWidth = v)
+            { }
+        }
+
+        #endregion
+
+        #region int
+
+        private class StyleFillTransparencyPercentCommand : StylePropertyCommand<int>
+        {
+            public StyleFillTransparencyPercentCommand(int index, int value) : base(index, "fill transparency (%)",
+                value, s => s.FillTransparencyPercent, (s, v) => s.FillTransparencyPercent = v)
+            { }
+        }
+
+        #endregion
+
+        #region string
+
+        private class StyleTextureCommand : StylePropertyCommand<string>
+        {
+            public StyleTextureCommand(int index, string value) : base(index, "texture",
+                value, s => s.Texture, (s, v) => s.Texture = v)
+            { }
+        }
+
+        private class StyleTexturePathCommand : StylePropertyCommand<string>
+        {
+            public StyleTexturePathCommand(int index, string value) : base(index, "texture path",
+                value, s => s.TexturePath, (s, v) => s.TexturePath = v)
+            { }
+        }
+
+        private class StyleTitleCommand : StylePropertyCommand<string>
+        {
+            public StyleTitleCommand(int index, string value) : base(index, "title",
+                value, s => s.Title, (s, v) => s.Title = v)
+            { }
+        }
+
+        #endregion
     }
 }

@@ -36,6 +36,13 @@
             return form;
         }
 
+        public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
+        {
+            var result = base.EditValue(context, provider, value);
+
+            return result;
+        }
+
         public static event EventHandler
             CollectionFormActivated,
             CollectionFormDeactivate,

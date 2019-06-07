@@ -110,7 +110,7 @@
         private TracePropertiesDialog _view;
         private readonly TracePropertiesController TracePropertiesController;
         private GraphController GraphController => TracePropertiesController.GraphController;
-        private GraphProxy GraphProxy => GraphController.GraphProxy;
+        private CommandProcessor CommandProcessor => GraphController.CommandProcessor;
         private List<TraceController> TraceControllers => GraphController.LegendController.Children;
         private TraceView TraceView => TraceControllers[Index].View;
         private Control ActiveControl => TraceView.cbFunction;
@@ -142,7 +142,7 @@
             if (!string.IsNullOrWhiteSpace(formula) && !Functions.Contains(formula))
                 Functions[0] = formula;
             if (Index >= 0 && !Loading && !Updating && Validate())
-                GraphProxy[Index].Formula = formula;
+                CommandProcessor[Index].Formula = formula;
         }
 
         private void FunctionBox_Validating(object sender, CancelEventArgs e)

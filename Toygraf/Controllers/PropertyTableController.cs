@@ -39,7 +39,7 @@
 
         #region Private Properties
 
-        private GraphProxy GraphProxy => GraphController.GraphProxy;
+        private CommandProcessor CommandProcessor => GraphController.CommandProcessor;
         private readonly GraphController GraphController;
         private GraphForm Form => GraphController.View;
         private readonly PropertyGrid PropertyTable;

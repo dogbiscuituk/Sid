@@ -109,7 +109,7 @@
         }
 
         internal int IndexOf(TraceController child) => Children.IndexOf(child);
-        internal void RemoveTrace(int index) => GraphProxy.GraphDeleteTrace(index);
+        internal void RemoveTrace(int index) => CommandProcessor.GraphDeleteTrace(index);
 
         internal bool Validate()
         {
@@ -125,7 +125,7 @@
         #region Private Properties
 
         private GraphForm _view;
-        private GraphProxy GraphProxy => GraphController.GraphProxy;
+        private CommandProcessor CommandProcessor => GraphController.CommandProcessor;
         private bool CanCancel, Updating;
         private Graph Graph { get => GraphController.Graph; }
         private Panel Client { get => View.ClientPanel; }
@@ -193,7 +193,7 @@
 
         #region Private Methods
 
-        private void AddNewTrace() => GraphProxy.GraphInsertTrace(Children.Count);
+        private void AddNewTrace() => CommandProcessor.GraphInsertTrace(Children.Count);
 
         private static AnchorStyles AlignToAnchor(ContentAlignment align)
         {

@@ -2,42 +2,37 @@
 {
     using ToyGraf.Models;
 
-    partial class GraphProxy
+    partial class CommandProcessor
     {
-        private interface IGraphCommand
+        private interface ICommand
         {
-            string UndoAction { get; }
+            int Index { get; }
             string RedoAction { get; }
+            string UndoAction { get; }
 
             void Do(Graph graph);
             void Invert();
             void Run(Graph Graph);
         }
 
-        private interface IStyleCommand : IGraphCommand
+        private interface IPropertyCommand : ICommand { }
+        private interface IGraphPropertyCommand : IPropertyCommand { }
+        private interface IStylePropertyCommand : IPropertyCommand { }
+        private interface ITracePropertyCommand : IPropertyCommand { }
+
+        private interface ICollectionCommand : ICommand
         {
-            int Index { get; set; }
+            bool Adding { get; set; }
         }
 
-        private interface IStylePropertyCommand : IStyleCommand { }
-
-        private interface IGraphStyleCommand : IStyleCommand
+        private interface IStylesCommand : ICollectionCommand
         {
-            bool Add { get; set; }
-            Style Style { get; set; }
+            Style Value { get; set; }
         }
 
-        private interface ITraceCommand : IGraphCommand
+        private interface ITracesCommand : ICollectionCommand
         {
-            int Index { get; set; }
-        }
-
-        private interface ITracePropertyCommand : ITraceCommand { }
-
-        private interface IGraphTraceCommand : ITraceCommand
-        {
-            bool Add { get; set; }
-            Trace Trace { get; set; }
+            Trace Value { get; set; }
         }
     }
 }
