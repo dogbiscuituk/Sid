@@ -96,3 +96,5 @@ traverse its tree structure. For example:
 
 	UsesTime() visits every node on the tree to determine whether it uses the Time function, and can
 	therefore enable the media controls (play, pause, rewind etc).
+
+Commands provide another sample application of Visitor Pattern.

@@ -141,22 +141,26 @@
 
             public override void Run(Graph graph)
             {
-                var items = GetItems(graph);
+                var count = GetItemsCount(graph);
                 if (Adding)
                 {
                     if (Value == null)
                         Value = GetNewItem(graph);
-                    if (Index >= 0 && Index < items.Count)
-                        items.Insert(Index, Value);
-                    else if (Index == items.Count)
-                        items.Add(Value);
+                    if (Index >= 0 && Index < count)
+                        InsertItem(graph);
+                    else if (Index == count)
+                        AddItem(graph);
                 }
                 else
-                    items.RemoveAt(Index);
+                    RemoveItem(graph);
             }
 
-            protected abstract List<TItem> GetItems(Graph graph);
+            protected abstract int GetItemsCount(Graph graph);
             protected abstract TItem GetNewItem(Graph graph);
+
+            protected abstract void AddItem(Graph graph);
+            protected abstract void InsertItem(Graph graph);
+            protected abstract void RemoveItem(Graph graph);
 
             private string GetAction(bool undo) => $"{Detail} {(Adding ^ undo ? "addition" : "removal")}";
         }
@@ -170,8 +174,12 @@
 
             protected override string Target => $"style #{Index}";
 
-            protected override List<Style> GetItems(Graph graph) => graph.Styles;
+            protected override int GetItemsCount(Graph graph) => graph.Styles.Count;
             protected override Style GetNewItem(Graph graph) => graph.NewStyle();
+
+            protected override void AddItem(Graph graph) => graph.AddStyle(Value);
+            protected override void InsertItem(Graph graph) => graph.InsertStyle(Index, Value);
+            protected override void RemoveItem(Graph graph) => graph.RemoveStyle(Index);
         }
 
         private class TracesCommand : CollectionCommand<Trace>, ITracesCommand
@@ -186,8 +194,12 @@
                 ? $"f{Index}"
                 : $"f{Index} = {Value.Formula}";
 
-            protected override List<Trace> GetItems(Graph graph) => graph.Traces;
+            protected override int GetItemsCount(Graph graph) => graph.Traces.Count;
             protected override Trace GetNewItem(Graph graph) => graph.NewTrace();
+
+            protected override void AddItem(Graph graph) => graph.AddTrace(Value);
+            protected override void InsertItem(Graph graph) => graph.InsertTrace(Index, Value);
+            protected override void RemoveItem(Graph graph) => graph.RemoveTrace(Index);
         }
 
         #endregion

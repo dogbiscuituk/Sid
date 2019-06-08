@@ -444,7 +444,8 @@
         public void InsertTrace(int index, Trace trace)
         {
             Traces.Insert(index, trace);
-            OnPropertyChanged("Traces");
+            if (!Updating)
+                OnPropertyChanged("Traces");
         }
 
         public Trace NewTrace()
@@ -459,7 +460,8 @@
             if (index >= 0 && index < Traces.Count)
             {
                 Traces.RemoveAt(index);
-                OnPropertyChanged("Traces");
+                if (!Updating)
+                    OnPropertyChanged("Traces");
             }
         }
 
