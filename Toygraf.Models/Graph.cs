@@ -391,7 +391,8 @@
         public void InsertStyle(int index, Style Style)
         {
             Styles.Insert(index, Style);
-            OnPropertyChanged("Styles");
+            if (!Updating)
+                OnPropertyChanged("Styles");
         }
 
         public Style NewStyle()
@@ -406,7 +407,8 @@
             if (index >= 0 && index < Styles.Count)
             {
                 Styles.RemoveAt(index);
-                OnPropertyChanged("Styles");
+                if (!Updating)
+                    OnPropertyChanged("Styles");
             }
         }
 

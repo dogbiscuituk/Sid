@@ -49,7 +49,7 @@
             set
             {
                 View.cbVisible.Checked = value;
-                if (!LegendController.Loading)
+                if (!Updating)
                     CommandProcessor[Index].Visible = value;
             }
         }
@@ -101,8 +101,9 @@
         private ComboBox FunctionBox { get => View.cbFunction; }
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
         private Graph Graph { get => LegendController.GraphController.Graph; }
+        private bool Updating => UpdatingThis || LegendController.Loading;
         private int FormulaSelStart, FormulaSelLength;
-        private bool Updating;
+        private bool UpdatingThis;
 
         #endregion
 
@@ -127,19 +128,19 @@
 
         private void CbFillColour_SelectedValueChanged(object sender, System.EventArgs e)
         {
-            if (!LegendController.Loading)
+            if (!Updating)
                 CommandProcessor[Index].FillColour1 = FillColour;
         }
 
         private void CbPenColour_SelectedValueChanged(object sender, System.EventArgs e)
         {
-            if (!LegendController.Loading)
+            if (!Updating)
                 CommandProcessor[Index].PenColour = PenColour;
         }
 
         private void CbVisible_CheckedChanged(object sender, System.EventArgs e)
         {
-            if (!LegendController.Loading)
+            if (!Updating)
                 CommandProcessor[Index].Visible = TraceVisible;
         }
 
@@ -148,18 +149,18 @@
             View.ToolTip.SetToolTip(FunctionBox, FunctionBox.Text);
             if (!string.IsNullOrWhiteSpace(Formula) && !Functions.Contains(Formula))
                 Functions[0] = Formula;
-            if (!Updating && !LegendController.Loading && LegendController.Validate())
+            if (!Updating && LegendController.Validate())
                 CommandProcessor[Index].Formula = Formula;
         }
 
         private void GraphController_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (!Updating)
+            if (!UpdatingThis)
             {
                 var match = Regex.Match(e.PropertyName, $@"Model.Graph.Traces\[{Index}\]\.(\w+)");
                 if (match.Success)
                 {
-                    Updating = true;
+                    UpdatingThis = true;
                     switch (match.Groups[1].Value)
                     {
                         case "Visible":
@@ -180,14 +181,14 @@
                             FillTransparencyPercent = Trace.FillTransparencyPercent;
                             break;
                     }
-                    Updating = false;
+                    UpdatingThis = false;
                 }
             }
         }
 
         private void SeTransparency_ValueChanged(object sender, System.EventArgs e)
         {
-            if (!LegendController.Loading)
+            if (!Updating)
                 CommandProcessor[Index].FillTransparencyPercent = FillTransparencyPercent;
         }
 

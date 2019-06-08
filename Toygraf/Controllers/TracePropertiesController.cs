@@ -75,7 +75,7 @@
         internal TracePropertiesDialog View;
         internal Graph Graph => GraphController.Graph;
         internal int Index => Graph.Traces.IndexOf(Trace);
-        internal bool Loading;
+        internal bool Updating;
 
         #endregion
 
@@ -87,7 +87,6 @@
         private TraceView TraceView => TraceControllers[Index].View;
         private Trace _trace;
         private int Count => Graph.Traces.Count;
-        private bool Updating;
 
         #endregion
 
@@ -96,7 +95,7 @@
         private void BrushTypeChanged(object sender, EventArgs e)
         {
             UpdateUI();
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor[Index].BrushType = (BrushType)View.cbBrushType.SelectedIndex;
         }
 
@@ -125,25 +124,25 @@
 
         private void FillColour1Changed(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor[Index].FillColour1 = ColourController.GetColour(View.cbFillColour1);
         }
 
         private void FillColour2Changed(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor[Index].FillColour2 = ColourController.GetColour(View.cbFillColour2);
         }
 
         private void FillTransparencyChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor[Index].FillTransparencyPercent = (int)View.seTransparency.Value;
         }
 
         private void GradientModeChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor[Index].GradientMode = (LinearGradientMode)View.cbGradientMode.SelectedIndex;
         }
 
@@ -214,25 +213,25 @@
 
         private void HatchStyleChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor[Index].HatchStyle = (HatchStyle)View.cbHatchStyle.SelectedIndex;
         }
 
         private void PenColourChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor[Index].PenColour = ColourController.GetColour(View.cbPenColour);
         }
 
         private void PenSizeChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor[Index].PenWidth = (float)View.sePenSize.Value;
         }
 
         private void PenStyleChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor[Index].PenStyle = (DashStyle)View.cbPenStyle.SelectedIndex;
         }
 
@@ -263,7 +262,7 @@
 
         private void WrapModeChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor[Index].WrapMode = (WrapMode)View.cbWrapMode.SelectedIndex;
         }
 
@@ -275,11 +274,11 @@
 
         private void IndexValueChanged(object Sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
             {
-                Loading = true;
+                Updating = true;
                 Trace = Graph.Traces[Count - (int)View.seIndex.Value - 1];
-                Loading = false;
+                Updating = false;
             }
             KeyboardController.IndexValueChanged();
         }
@@ -297,7 +296,7 @@
         {
             if (Trace != null)
             {
-                Loading = true;
+                Updating = true;
                 View.IndexLabel.Text = $"f{Index}";
                 View.seIndex.Maximum = Count - 1;
                 View.seIndex.Value = Count - Index - 1;
@@ -312,7 +311,7 @@
                 UpdateTexturePathLabel();
                 View.sePenSize.Value = (decimal)Trace.PenWidth;
                 View.seTransparency.Value = Trace.FillTransparencyPercent;
-                Loading = false;
+                Updating = false;
             }
             KeyboardController.LoadTrace();
         }

@@ -10,8 +10,6 @@
 
     partial class CommandProcessor
     {
-        internal StyleProxy this[int foo, int index] { get => new StyleProxy(this, index); }
-
         [DefaultProperty("PenColour")]
         internal class StyleProxy
         {

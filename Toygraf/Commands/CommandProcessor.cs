@@ -154,6 +154,8 @@
                     if (canGroup && tc2.Value == null)
                         tc2.Value = Graph.Traces[tp2.Index];
                 }
+                else
+                    canGroup = false;
             };
             if (!canGroup)
                 UndoStack.Push(command);
