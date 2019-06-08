@@ -1,272 +1,206 @@
-﻿namespace ToyGraf.Commands
+﻿using System.Drawing;
+using ToyGraf.Models.Enumerations;
+
+namespace ToyGraf.Commands
 {
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Drawing;
-    using System.Drawing.Design;
-    using System.Linq;
-    using ToyGraf.Controls;
-    using ToyGraf.Models;
-    using ToyGraf.Models.Enumerations;
-
-    [DefaultProperty("Traces")]
-    partial class GraphProxy
+    partial class CommandProcessor
     {
-        [Category("Colour")]
-        [DefaultValue(typeof(Color), "Black")]
-        [Description("The colour used to draw the graph's axes.")]
-        [DisplayName("Axis colour")]
-        public Color AxisColour
+        #region bool
+
+        private class GraphDomainGraphWidthCommand : GraphPropertyCommand<bool>
         {
-            get => Graph.AxisColour;
-            set => Run(new GraphAxisColourCommand(value));
+            public GraphDomainGraphWidthCommand(bool value) : base("unlimited domain",
+                value, g => g.DomainGraphWidth, (g, v) => g.DomainGraphWidth = v)
+            { }
         }
 
-        [Category("View")]
-        [Description("The Cartesian co-ordinates of the point at the centre of the graph display, in domain units.")]
-        [DisplayName("Centre")]
-        public PointF Centre
+        private class GraphDomainPolarDegreesCommand : GraphPropertyCommand<bool>
         {
-            get => Graph.Centre;
-            set => Run(new GraphCentreCommand(value));
+            public GraphDomainPolarDegreesCommand(bool value) : base("polar domain in degrees",
+                value, g => g.DomainPolarDegrees, (g, v) => g.DomainPolarDegrees = v)
+            { }
         }
 
-        [Category("Domain")]
-        [DefaultValue(true)]
-        [Description("If true, Cartesian plots will try to use the graph display width as the domain, ignoring any other settings.")]
-        [DisplayName("Use graph width?")]
-        public bool DomainGraphWidth
+        #endregion
+
+        #region Color
+
+        private class GraphAxisColourCommand : GraphPropertyCommand<Color>
         {
-            get => Graph.DomainGraphWidth;
-            set => Run(new GraphDomainGraphWidthCommand(value));
+            public GraphAxisColourCommand(Color value) : base("axis colour",
+                value, g => g.AxisColour, (g, v) => g.AxisColour = v)
+            { }
         }
 
-        [Category("Domain")]
-        [DefaultValue(10f)]
-        [Description("The right endpoint of a Cartesian plot's domain.")]
-        [DisplayName("Cartesian maximum")]
-        public float DomainMaxCartesian
+        private class GraphFillColour1Command : GraphPropertyCommand<Color>
         {
-            get => Graph.DomainMaxCartesian;
-            set => Run(new GraphDomainMaxCartesianCommand(value));
+            public GraphFillColour1Command(Color value) : base("fill colour",
+                value, g => g.FillColour1, (g, v) => g.FillColour1 = v)
+            { }
         }
 
-        [Category("Domain")]
-        [DefaultValue(180f)]
-        [Description("The finishing angle of a polar plot's domain.")]
-        [DisplayName("Polar maximum")]
-        public float DomainMaxPolar
+        private class GraphFillColour2Command : GraphPropertyCommand<Color>
         {
-            get => Graph.DomainMaxPolar;
-            set => Run(new GraphDomainMaxPolarCommand(value));
+            public GraphFillColour2Command(Color value) : base("2nd fill colour",
+                value, g => g.FillColour2, (g, v) => g.FillColour2 = v)
+            { }
         }
 
-        [Category("Domain")]
-        [DefaultValue(-10f)]
-        [Description("The left endpoint of a Cartesian plot's domain.")]
-        [DisplayName("Cartesian minimum")]
-        public float DomainMinCartesian
+        private class GraphLimitColourCommand : GraphPropertyCommand<Color>
         {
-            get => Graph.DomainMinCartesian;
-            set => Run(new GraphDomainMinCartesianCommand(value));
+            public GraphLimitColourCommand(Color value) : base("limit colour",
+                value, g => g.LimitColour, (g, v) => g.LimitColour = v)
+            { }
         }
 
-        [Category("Domain")]
-        [DefaultValue(-180f)]
-        [Description("The starting angle of a polar plot's domain.")]
-        [DisplayName("Polar minimum")]
-        public float DomainMinPolar
+        private class GraphPaperColourCommand : GraphPropertyCommand<Color>
         {
-            get => Graph.DomainMinPolar;
-            set => Run(new GraphDomainMinPolarCommand(value));
+            public GraphPaperColourCommand(Color value) : base("paper colour",
+                value, g => g.PaperColour, (g, v) => g.PaperColour = v)
+            { }
         }
 
-        [Category("Domain")]
-        [DefaultValue(true)]
-        [Description("If true, the domain of a polar plot is shown in degrees; otherwise, it is shown in radians.")]
-        [DisplayName("Polar in degrees?")]
-        public bool DomainPolarDegrees
+        private class GraphPenColourCommand : GraphPropertyCommand<Color>
         {
-            get => Graph.DomainPolarDegrees;
-            set => Run(new GraphDomainPolarDegreesCommand(value));
+            public GraphPenColourCommand(Color value) : base("pen colour",
+                value, g => g.PenColour, (g, v) => g.PenColour = v)
+            { }
         }
 
-        [Category("Style")]
-        [DefaultValue(typeof(Elements), "All")]
-        [Description("The set of visual elements included in the graph reticle (grid).")]
-        [DisplayName("Reticle elements")]
-        public Elements Elements
+        private class GraphReticleColourCommand : GraphPropertyCommand<Color>
         {
-            get => Graph.Elements;
-            set => Run(new GraphElementsCommand(value));
+            public GraphReticleColourCommand(Color value) : base("reticle colour",
+                value, g => g.ReticleColour, (g, v) => g.ReticleColour = v)
+            { }
         }
 
-        [Category("Colour")]
-        [DefaultValue(typeof(Color), "Transparent")]
-        [Description("The default primary fill colour used by traces. Applies to all brush types except \"Texture\".")]
-        [DisplayName("Fill colour #1")]
-        public Color FillColour1
+        #endregion
+
+        #region enum
+
+        private class GraphElementsCommand : GraphPropertyCommand<Elements>
         {
-            get => Graph.FillColour1;
-            set => Run(new GraphFillColour1Command(value));
+            public GraphElementsCommand(Elements value) : base("reticle elements",
+                value, g => g.Elements, (g, v) => g.Elements = v)
+            { }
         }
 
-        [Category("Colour")]
-        [DefaultValue(typeof(Color), "Transparent")]
-        [Description("The default secondary fill colour used by traces. Applies to brush types \"Hatch\", \"Linear Gradient\", and \"Path Gradient\".")]
-        [DisplayName("Fill colour #2")]
-        public Color FillColour2
+        private class GraphInterpolationCommand : GraphPropertyCommand<Interpolation>
         {
-            get => Graph.FillColour2;
-            set => Run(new GraphFillColour2Command(value));
+            public GraphInterpolationCommand(Interpolation value) : base("interpolation",
+                value, g => g.Interpolation, (g, v) => g.Interpolation = v)
+            { }
         }
 
-        [Category("Colour")]
-        [DefaultValue(0)]
-        [Description("The default level of transparency applied to trace filled areas. Applies to all brush types, including \"Texture\".")]
-        [DisplayName("Fill transparency %")]
-        public int FillTransparencyPercent
+        private class GraphOptimizationCommand : GraphPropertyCommand<Optimization>
         {
-            get => Graph.FillTransparencyPercent;
-            set => Run(new GraphFillTransparencyPercentCommand(value));
+            public GraphOptimizationCommand(Optimization value) : base("optimization",
+                value, g => g.Optimization, (g, v) => g.Optimization = v)
+            { }
         }
 
-        [Category("Style")]
-        [DefaultValue(typeof(Interpolation), "Linear")]
-        [Description("Traces are drawn and filled by joining up the computed points, using either straight lines (\"Linear\"), or cubic curves (\"CardinalSpline\").")]
-        [DisplayName("Interpolation")]
-        public Interpolation Interpolation
+        private class GraphPlotTypeCommand : GraphPropertyCommand<PlotType>
         {
-            get => Graph.Interpolation;
-            set => Run(new GraphInterpolationCommand(value));
+            public GraphPlotTypeCommand(PlotType value) : base("plot type",
+                value, g => g.PlotType, (g, v) => g.PlotType = v)
+            { }
         }
 
-        [Category("Colour")]
-        [DefaultValue(typeof(Color), "DarkGray")]
-        [Description("The default colour used by traces to draw asymptotes.")]
-        [DisplayName("Limit colour")]
-        public Color LimitColour
+        private class GraphTickStylesCommand : GraphPropertyCommand<TickStyles>
         {
-            get => Graph.LimitColour;
-            set => Run(new GraphLimitColourCommand(value));
+            public GraphTickStylesCommand(TickStyles value) : base("tick style",
+                value, g => g.TickStyles, (g, v) => g.TickStyles = v)
+            { }
         }
 
-        [Category("Style")]
-        [DefaultValue(typeof(Optimization), "HighQuality")]
-        [Description("Controls a number of settings in the graphics drawing code.")]
-        [DisplayName("Optimization")]
-        public Optimization Optimization
+        #endregion
+
+        #region float
+
+        private class GraphDomainMaxCartesianCommand : GraphPropertyCommand<float>
         {
-            get => Graph.Optimization;
-            set => Run(new GraphOptimizationCommand(value));
+            public GraphDomainMaxCartesianCommand(float value) : base("domain max (Cartesian)",
+                value, g => g.DomainMaxCartesian, (g, v) => g.DomainMaxCartesian = v)
+            { }
         }
 
-        [Category("Colour")]
-        [DefaultValue(typeof(Color), "White")]
-        [Description("The background colour used in the graph.")]
-        [DisplayName("Paper colour")]
-        public Color PaperColour
+        private class GraphDomainMaxPolarCommand : GraphPropertyCommand<float>
         {
-            get => Graph.PaperColour;
-            set => Run(new GraphPaperColourCommand(value));
+            public GraphDomainMaxPolarCommand(float value) : base("domain max (polar)",
+                value, g => g.DomainMaxPolar, (g, v) => g.DomainMaxPolar = v)
+            { }
         }
 
-        [Category("Colour")]
-        [DefaultValue(0)]
-        [Description("The level of transparency in the background colour used in the graph.")]
-        [DisplayName("Paper transparency %")]
-        public int PaperTransparencyPercent
+        private class GraphDomainMinCartesianCommand : GraphPropertyCommand<float>
         {
-            get => Graph.PaperTransparencyPercent;
-            set => Run(new GraphPaperTransparencyPercentCommand(value));
+            public GraphDomainMinCartesianCommand(float value) : base("domain min (Cartesian)",
+                value, g => g.DomainMinCartesian, (g, v) => g.DomainMinCartesian = v)
+            { }
         }
 
-        [Category("Colour")]
-        [DefaultValue(typeof(Color), "Black")]
-        [Description("The default pen colour used by traces in the graph.")]
-        [DisplayName("Pen colour")]
-        public Color PenColour
+        private class GraphDomainMinPolarCommand : GraphPropertyCommand<float>
         {
-            get => Graph.PenColour;
-            set => Run(new GraphPenColourCommand(value));
+            public GraphDomainMinPolarCommand(float value) : base("domain min (polar)",
+                value, g => g.DomainMinPolar, (g, v) => g.DomainMinPolar = v)
+            { }
         }
 
-        [Category("Style")]
-        [DefaultValue(typeof(PlotType), "Cartesian")]
-        [Description("The type of plot produced. Cartesian is the normal x-y plot. Polar plots use x and y respectively as the angle and distance from the origin.")]
-        [DisplayName("Plot type")]
-        public PlotType PlotType
+        private class GraphWidthCommand : GraphPropertyCommand<float>
         {
-            get => Graph.PlotType;
-            set => Run(new GraphPlotTypeCommand(value));
+            public GraphWidthCommand(float value) : base("zoom width",
+                value, g => g.Width, (g, v) => g.Width = v)
+            { }
         }
 
-        [Category("Colour")]
-        [DefaultValue(typeof(Color), "LightGray")]
-        [Description("The colour used to draw the graph reticle (grid).")]
-        [DisplayName("Reticle colour")]
-        public Color ReticleColour
+        #endregion
+
+        #region int
+
+        private class GraphFillTransparencyPercentCommand : GraphPropertyCommand<int>
         {
-            get => Graph.ReticleColour;
-            set => Run(new GraphReticleColourCommand(value));
+            public GraphFillTransparencyPercentCommand(int value) : base("fill transparency (%)",
+                value, g => g.FillTransparencyPercent, (g, v) => g.FillTransparencyPercent = v)
+            { }
         }
 
-        [Category("Style")]
-        [DefaultValue(1000)]
-        [Description("The default minimum number of steps used in calculating points on a trace. In steep sections of a trace, this number will be increased dynamically. "
-            + "Conversely, in sections where the Formula is undefined, steps will be dropped.")]
-        [DisplayName("# steps")]
-        public int StepCount
+        private class GraphPaperTransparencyPercentCommand : GraphPropertyCommand<int>
         {
-            get => Graph.StepCount;
-            set => Run(new GraphStepCountCommand(value));
+            public GraphPaperTransparencyPercentCommand(int value) : base("paper transparency (%)",
+                value, g => g.PaperTransparencyPercent, (g, v) => g.PaperTransparencyPercent = v)
+            { }
         }
 
-        [Category("Style")]
-        [Description("The list of default trace styles available to the graph.")]
-        [DisplayName("Styles")]
-        [Editor(typeof(TgCollectionEditor), typeof(UITypeEditor))]
-        public List<GraphStyle> Styles
+        private class GraphStepCountCommand : GraphPropertyCommand<int>
         {
-            get => Graph.Styles.Select(s => new GraphStyle(this, Graph.Styles.IndexOf(s))).ToList();
+            public GraphStepCountCommand(int value) : base("steps",
+                value, g => g.StepCount, (g, n) => g.StepCount = n)
+            { }
         }
 
-        [Category("Style")]
-        [DefaultValue(typeof(TickStyles), "Negative")]
-        [Description("The style of tick mark used to indicate axis gradations.")]
-        [DisplayName("Tick style")]
-        public TickStyles TickStyles
+        #endregion
+
+        #region PointF
+
+        private class GraphCentreCommand : GraphPropertyCommand<PointF>
         {
-            get => Graph.TickStyles;
-            set => Run(new GraphTickStylesCommand(value));
+            public GraphCentreCommand(PointF value) : base("centre",
+                value, g => g.Centre, (g, v) => g.Centre = v)
+            { }
+
+            public GraphCentreCommand(float x, float y) : this(new PointF(x, y)) { }
         }
 
-        [Category("Graph")]
-        [Description("A title for this graph.")]
-        [DisplayName("Title")]
-        public string Title
+        #endregion
+
+        #region string
+
+        private class GraphTitleCommand : GraphPropertyCommand<string>
         {
-            get => Graph.Title;
-            set => Run(new GraphTitleCommand(value));
+            internal GraphTitleCommand(string value) : base("title",
+                value, g => g.Title, (g, v) => g.Title = v)
+            { }
         }
 
-        [Category("Graph")]
-        [Description("The list of traces in the graph.")]
-        [DisplayName("Traces")]
-        [Editor(typeof(TgCollectionEditor), typeof(UITypeEditor))]
-        public List<GraphTrace> Traces
-        {
-            get => Graph.Traces.Select(s => new GraphTrace(this, Graph.Traces.IndexOf(s))).ToList();
-        }
-
-        [Category("View")]
-        [DefaultValue(22f)]
-        [Description("The horizontal dimension of the graph display, in domain units.")]
-        [DisplayName("Width")]
-        public float Width
-        {
-            get => Graph.Width;
-            set => Run(new GraphWidthCommand(value));
-        }
+        #endregion
     }
 }
