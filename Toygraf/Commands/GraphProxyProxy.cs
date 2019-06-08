@@ -7,7 +7,7 @@
     using ToyGraf.Controls;
     using ToyGraf.Views;
 
-    partial class CommandProcessor
+    partial class GraphProxy
     {
         internal class GraphProxyProxy
         {
@@ -25,9 +25,9 @@
                     form.Size = new System.Drawing.Size(512, 512);
                     form.Text = "Properties";
                     if (form.Owner is GraphForm graphForm)
-                        CommandProcessor = AppController.GraphControllers
+                        GraphProxy = AppController.GraphControllers
                             .FirstOrDefault(p => p.View == graphForm)
-                            .CommandProcessor;
+                            .GraphProxy;
                     var propertyGrid = form.Controls.Find("propertyBrowser", true)?[0] as PropertyGrid;
                     PropertyTableController.HidePropertyPagesButton(propertyGrid);
                     propertyGrid.HelpVisible = true;
@@ -35,12 +35,12 @@
             }
 
             private void TgCollectionEditor_CollectionFormClosed(object sender, FormClosedEventArgs e) =>
-                CommandProcessor = null;
+                GraphProxy = null;
 
             private void TgFileNameEditor_InitDialog(object sender, InitDialogEventArgs e) =>
                 GraphController.InitTextureDialog(e.OpenFileDialog);
 
-            internal static CommandProcessor CommandProcessor;
+            internal static GraphProxy GraphProxy;
         }
 
         internal static readonly GraphProxyProxy TheGraphProxyProxy = new GraphProxyProxy();

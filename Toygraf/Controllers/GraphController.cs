@@ -43,8 +43,8 @@
             LegendController.AdjustLegend();
             UpdateUI();
             PopupMenu_Opening(View, new CancelEventArgs());
-            CommandProcessor = new CommandProcessor(this);
-            View.PropertyTable.SelectedObject = CommandProcessor;
+            GraphProxy = new GraphProxy(this);
+            View.PropertyTable.SelectedObject = GraphProxy;
         }
 
         internal GraphForm View
@@ -82,7 +82,7 @@
         internal Graph Graph { get => Model.Graph; }
 
         internal ClockController ClockController => GraphicsController.ClockController;
-        internal readonly CommandProcessor CommandProcessor;
+        internal readonly GraphProxy GraphProxy;
         internal readonly LegendController LegendController;
         internal readonly PropertyTableController PropertyTableController;
         internal TracePropertiesController TracePropertiesController;
@@ -182,7 +182,7 @@
         {
             TracePropertiesController.Clear();
             LegendController.Clear();
-            CommandProcessor.Clear();
+            GraphProxy.Clear();
             Graph.ZoomSet();
             InitPaper();
             UpdateUI();
@@ -304,8 +304,8 @@
             {
                 var index = Graph.Traces.IndexOf(trace);
                 var filePath = dialog.FileName;
-                CommandProcessor[index].TexturePath = filePath;
-                CommandProcessor[index].Texture = ImageToBase64String(filePath);
+                GraphProxy[index].TexturePath = filePath;
+                GraphProxy[index].Texture = ImageToBase64String(filePath);
             }
             return ok;
         }

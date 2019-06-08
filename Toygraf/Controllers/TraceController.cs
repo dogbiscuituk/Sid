@@ -50,7 +50,7 @@
             {
                 View.cbVisible.Checked = value;
                 if (!LegendController.Loading)
-                    CommandProcessor[Index].Visible = value;
+                    GraphProxy[Index].Visible = value;
             }
         }
 
@@ -94,7 +94,7 @@
         private GraphController GraphController { get => LegendController.GraphController; }
         private LegendController LegendController;
         private ColourController ColourController;
-        private CommandProcessor CommandProcessor { get => GraphController.CommandProcessor; }
+        private GraphProxy GraphProxy { get => GraphController.GraphProxy; }
         private TracePropertiesController TracePropertiesController { get => GraphController.TracePropertiesController; }
         private KeyboardController KeyboardController { get => TracePropertiesController.KeyboardController; }
         private int Index { get => LegendController.IndexOf(this); }
@@ -128,19 +128,19 @@
         private void CbFillColour_SelectedValueChanged(object sender, System.EventArgs e)
         {
             if (!LegendController.Loading)
-                CommandProcessor[Index].FillColour1 = FillColour;
+                GraphProxy[Index].FillColour1 = FillColour;
         }
 
         private void CbPenColour_SelectedValueChanged(object sender, System.EventArgs e)
         {
             if (!LegendController.Loading)
-                CommandProcessor[Index].PenColour = PenColour;
+                GraphProxy[Index].PenColour = PenColour;
         }
 
         private void CbVisible_CheckedChanged(object sender, System.EventArgs e)
         {
             if (!LegendController.Loading)
-                CommandProcessor[Index].Visible = TraceVisible;
+                GraphProxy[Index].Visible = TraceVisible;
         }
 
         private void FunctionBox_TextChanged(object sender, System.EventArgs e)
@@ -149,7 +149,7 @@
             if (!string.IsNullOrWhiteSpace(Formula) && !Functions.Contains(Formula))
                 Functions[0] = Formula;
             if (!Updating && !LegendController.Loading && LegendController.Validate())
-                CommandProcessor[Index].Formula = Formula;
+                GraphProxy[Index].Formula = Formula;
         }
 
         private void GraphController_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -188,7 +188,7 @@
         private void SeTransparency_ValueChanged(object sender, System.EventArgs e)
         {
             if (!LegendController.Loading)
-                CommandProcessor[Index].FillTransparencyPercent = FillTransparencyPercent;
+                GraphProxy[Index].FillTransparencyPercent = FillTransparencyPercent;
         }
 
         #endregion

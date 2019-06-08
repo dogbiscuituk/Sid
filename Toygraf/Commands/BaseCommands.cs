@@ -1,22 +1,14 @@
 ﻿namespace ToyGraf.Commands
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using ToyGraf.Models;
 
-    partial class CommandProcessor
+    partial class GraphProxy
     {
-        #region Abstract Base Command
-
-        private abstract class Command<TValue> : ICommand
+        private abstract class GraphCommand<T> : IGraphCommand
         {
-            protected Command(int index = 0) { Index = index; }
-
-            public int Index { get; private set; }
-            public abstract string RedoAction { get; }
-            public abstract string UndoAction { get; }
-            public TValue Value { get; set; }
+            public virtual string RedoAction => Action;
+            public virtual string UndoAction => Action;
 
             /// <summary>
             /// Invoke the Run method of the command, then immediately invert
@@ -36,197 +28,99 @@
 
             public virtual void Invert() { }
             public abstract void Run(Graph graph);
+            public override string ToString() => $"{Target} {Detail} = {Value}";
 
-            protected string Detail { get; set; }
-            protected abstract string Target { get; }
+            protected virtual string Action => $"{Detail} change";
+            protected abstract string Detail { get; }
+            protected virtual string Target { get => "Graph"; }
+            protected T Value { get; set; }
         }
 
-        #endregion
-
-        #region Abstract Property Commands
-
-        private abstract class PropertyCommand<TItem, TValue> : Command<TValue>, IPropertyCommand
+        private abstract class GraphPropertyCommand<T> : GraphCommand<T>
         {
-            protected PropertyCommand(int index, string detail,
-                TValue value, Func<TItem, TValue> get, Action<TItem, TValue> set)
-                : base(index)
+            protected GraphPropertyCommand(T value, Func<Graph, T> get, Action<Graph, T> set) : base()
             {
-                Detail = detail;
                 Value = value;
                 Get = get;
                 Set = set;
             }
 
-            public override string RedoAction => Action;
-            public override string UndoAction => Action;
-
             public override void Run(Graph graph)
             {
-                TValue value = GetValue(graph);
+                T value = Get(graph);
                 if (!Equals(value, Value))
                 {
-                    SetValue(graph, Value);
+                    Set(graph, Value);
                     Value = value;
                 }
             }
 
-            public override string ToString() => $"{Target} {Detail} = {Value}";
-            private string Action => $"{Detail} change";
-
-            protected Func<TItem, TValue> Get;
-            protected Action<TItem, TValue> Set;
-
-            protected abstract TItem GetItem(Graph graph);
-            protected TValue GetValue(Graph graph) => Get(GetItem(graph));
-            protected void SetValue(Graph graph, TValue value) => Set(GetItem(graph), value);
+            protected Func<Graph, T> Get;
+            protected Action<Graph, T> Set;
         }
 
-        private abstract class GraphPropertyCommand<TValue> : PropertyCommand<Graph, TValue>, IGraphPropertyCommand
+        private abstract class StyleCommand<T> : GraphCommand<T>, IStyleCommand
         {
-            protected GraphPropertyCommand(string detail,
-                TValue value, Func<Graph, TValue> get, Action<Graph, TValue> set)
-                : base(0, detail, value, get, set) { }
+            protected StyleCommand(int index) : base() { Index = index; }
 
-            protected override string Target => "graph";
-
-            protected override Graph GetItem(Graph graph) => graph;
+            public int Index { get; set; }
         }
 
-        private abstract class StylePropertyCommand<TValue> : PropertyCommand<Style, TValue>, IStylePropertyCommand
+        private abstract class StylePropertyCommand<T> : StyleCommand<T>, IStylePropertyCommand
         {
-            protected StylePropertyCommand(int index, string detail,
-                TValue value, Func<Style, TValue> get, Action<Style, TValue> set)
-                : base(index, detail, value, get, set) { }
-
-            protected override string Target => $"style #{Index}";
-
-            protected override Style GetItem(Graph graph) => graph.Styles[Index];
-        }
-
-        private abstract class TracePropertyCommand<TValue> : PropertyCommand<Trace, TValue>, ITracePropertyCommand
-        {
-            protected TracePropertyCommand(int index, string detail,
-                TValue value, Func<Trace, TValue> get, Action<Trace, TValue> set)
-                : base(index, detail, value, get, set) { }
-
-            protected override string Target => $"f{Index}";
-
-            protected override Trace GetItem(Graph graph) => graph.Traces[Index];
-        }
-
-        #endregion
-
-        #region Collection Commands
-
-        /// <summary>
-        /// Common ancestor for collection management (item insert and delete) commands.
-        /// Those descendant classes differ only in the value of a private boolean flag,
-        /// "Adding", which controls their appearance and behaviour. While most commands
-        /// are their own inverses, since they just tell the Graph "Swap your property
-        /// value with the one I'm carrying", the Invert() method is usually empty. But
-        /// in the case of these commands, toggling the "Adding" flag converts one into
-        /// the other, prior to the command processor moving them between the Undo and
-        /// Redo stacks.
-        /// </summary>
-        private abstract class CollectionCommand<TItem> : Command<TItem>, ICollectionCommand
-        {
-            internal CollectionCommand(int index, bool add) : base(index) { Adding = add; }
-
-            public bool Adding { get; set; }
-            public override string RedoAction => GetAction(false);
-            public override string UndoAction => GetAction(true);
-
-            public override void Invert() { Adding = !Adding; }
-            public override string ToString() => $"{(Adding ? "Add" : "Remove")} {Target}";
+            protected StylePropertyCommand(int index, T value, Func<Style, T> get, Action<Style, T> set)
+                : base(index)
+            {
+                Value = value;
+                Get = get;
+                Set = set;
+            }
 
             public override void Run(Graph graph)
             {
-                var items = GetItems(graph);
-                if (Adding)
+                T value = Get(graph.Styles[Index]);
+                if (!Equals(value, Value))
                 {
-                    if (Value == null)
-                        Value = GetNewItem(graph);
-                    if (Index >= 0 && Index < items.Count)
-                        items.Insert(Index, Value);
-                    else if (Index == items.Count)
-                        items.Add(Value);
+                    Set(graph.Styles[Index], Value);
+                    Value = value;
                 }
-                else
-                    items.RemoveAt(Index);
             }
 
-            protected abstract List<TItem> GetItems(Graph graph);
-            protected abstract TItem GetNewItem(Graph graph);
-
-            private string GetAction(bool undo) => $"{Detail} {(Adding ^ undo ? "addition" : "removal")}";
+            protected Func<Style, T> Get;
+            protected Action<Style, T> Set;
+            protected override string Target => $"f{Index}";
         }
 
-        private class StylesCommand : CollectionCommand<Style>, IStylesCommand
+        private abstract class TraceCommand<T> : GraphCommand<T>, ITraceCommand
         {
-            internal StylesCommand(int index, bool add) : base(index, add)
-            {
-                Detail = "style";
-            }
+            protected TraceCommand(int index) : base() { Index = index; }
 
-            protected override string Target => $"style #{Index}";
-
-            protected override List<Style> GetItems(Graph graph) => graph.Styles;
-            protected override Style GetNewItem(Graph graph) => graph.NewStyle();
+            public int Index { get; set; }
         }
 
-        private class TracesCommand : CollectionCommand<Trace>, ITracesCommand
+        private abstract class TracePropertyCommand<T> : TraceCommand<T>, ITracePropertyCommand
         {
-            internal TracesCommand(int index, bool add) : base(index, add)
+            protected TracePropertyCommand(int index, T value, Func<Trace, T> get, Action<Trace, T> set)
+                : base(index)
             {
-                Detail = "trace";
-            }
-
-            protected override string Target =>
-                string.IsNullOrWhiteSpace(Value?.Formula)
-                ? $"f{Index}"
-                : $"f{Index} = {Value.Formula}";
-
-            protected override List<Trace> GetItems(Graph graph) => graph.Traces;
-            protected override Trace GetNewItem(Graph graph) => graph.NewTrace();
-        }
-
-        #endregion
-
-        #region Composite Command
-
-        private class CompositeCommand : Command<object>
-        {
-            protected CompositeCommand(params ICommand[] commands)
-            {
-                Detail = "multiple properties";
-                Commands.Clear();
-                Commands.AddRange(commands);
-            }
-
-            public override string RedoAction => Action;
-            public override string UndoAction => Action;
-
-            protected override string Target => null;
-
-            public override void Invert()
-            {
-                Commands.ForEach(p => p.Invert());
-                Commands.Reverse();
+                Value = value;
+                Get = get;
+                Set = set;
             }
 
             public override void Run(Graph graph)
             {
-                foreach (var command in Commands)
-                    command.Run(graph);
+                T value = Get(graph.Traces[Index]);
+                if (!Equals(value, Value))
+                {
+                    Set(graph.Traces[Index], Value);
+                    Value = value;
+                }
             }
 
-            public override string ToString() =>
-                Commands.Select(p => p.ToString()).Aggregate((s, t) => $"{s}; \n{t}");
-
-            private const string Action = "multiple changes";
-            private List<ICommand> Commands = new List<ICommand>();
+            protected Func<Trace, T> Get;
+            protected Action<Trace, T> Set;
+            protected override string Target => $"f{Index}";
         }
-
-        #endregion
     }
 }

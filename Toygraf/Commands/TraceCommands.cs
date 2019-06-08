@@ -1,166 +1,208 @@
 ﻿namespace ToyGraf.Commands
 {
+    using System.ComponentModel;
     using System.Drawing;
+    using System.Drawing.Design;
     using System.Drawing.Drawing2D;
+    using ToyGraf.Controls;
+    using ToyGraf.Models;
     using ToyGraf.Models.Enumerations;
 
-    partial class CommandProcessor
+    partial class GraphProxy
     {
-        #region Add/Remove
+        internal GraphTrace this[int index] { get => new GraphTrace(this, index); }
 
-        private class TraceInsertCommand : TracesCommand
+        [DefaultProperty("Formula")]
+        internal class GraphTrace
         {
-            internal TraceInsertCommand(int index) : base(index, true) { }
+            internal GraphTrace()
+            {
+                GraphProxy = GraphProxyProxy.GraphProxy;
+                var index = Graph.Traces.Count;
+                Run(new GraphInsertTraceCommand(index));
+                Index = index;
+            }
+
+            internal GraphTrace(GraphProxy graphProxy, int index)
+            {
+                GraphProxy = graphProxy;
+                Index = index;
+            }
+
+            private readonly GraphProxy GraphProxy;
+            private readonly int Index;
+            private Graph Graph => GraphProxy.Graph;
+            private Trace Trace => Graph.Traces[Index];
+
+            [Category("Style")]
+            [DefaultValue(typeof(BrushType), "Solid")]
+            [Description("The type of brush used by the trace to fill in its area of integration.")]
+            [DisplayName("Brush type")]
+            public BrushType BrushType
+            {
+                get => Trace.BrushType;
+                set => Run(new TraceBrushTypeCommand(Index, value));
+            }
+
+            [Category("Colour")]
+            [DefaultValue(typeof(Color), "Transparent")]
+            [Description("The primary fill colour used by the trace. Applies to all brush types except \"Texture\".")]
+            [DisplayName("Fill colour #1")]
+            public Color FillColour1
+            {
+                get => Trace.FillColour1;
+                set => Run(new TraceFillColour1Command(Index, value));
+            }
+
+            [Category("Colour")]
+            [DefaultValue(typeof(Color), "Transparent")]
+            [Description("The secondary fill colour used by the trace. Applies to brush types \"Hatch\", \"Linear Gradient\", and \"Path Gradient\".")]
+            [DisplayName("Fill colour #2")]
+            public Color FillColour2
+            {
+                get => Trace.FillColour2;
+                set => Run(new TraceFillColour2Command(Index, value));
+            }
+
+            [Category("Colour")]
+            [DefaultValue(0)]
+            [Description("The level of transparency applied to the trace filled areas. Applies to all brush types, including \"Texture\".")]
+            [DisplayName("Fill transparency %")]
+            public int FillTransparencyPercent
+            {
+                get => Trace.FillTransparencyPercent;
+                set => Run(new TraceFillTransparencyPercentCommand(Index, value));
+            }
+
+            [Category("Trace")]
+            [Description("The mathematical expression used to draw the trace.")]
+            [DisplayName("Formula")]
+            public string Formula
+            {
+                get => Trace.Formula;
+                set => Run(new TraceFormulaCommand(Index, value));
+            }
+
+            [Category("Style")]
+            [DefaultValue(typeof(LinearGradientMode), "Horizontal")]
+            [Description("The direction of the gradient between the two colours used by a \"Linear Gradient\" brush.")]
+            [DisplayName("Gradient mode")]
+            public LinearGradientMode GradientMode
+            {
+                get => Trace.GradientMode;
+                set => Run(new TraceGradientModeCommand(Index, value));
+            }
+
+            [Category("Style")]
+            [DefaultValue(typeof(HatchStyle), "Horizontal")]
+            [Description("The pattern used by a Hatch brush.")]
+            [DisplayName("Hatch pattern")]
+            public HatchStyle HatchStyle
+            {
+                get => Trace.HatchStyle;
+                set => Run(new TraceHatchStyleCommand(Index, value));
+            }
+
+            [Category("Colour")]
+            [DefaultValue(typeof(Color), "DarkGray")]
+            [Description("The default colour used by the trace to draw asymptotes.")]
+            [DisplayName("Limit colour")]
+            public Color LimitColour
+            {
+                get => Trace.LimitColour;
+                set => Run(new TraceLimitColourCommand(Index, value));
+            }
+
+            [Category("Colour")]
+            [DefaultValue(typeof(Color), "Black")]
+            [Description("The colour of pen used by the trace.")]
+            [DisplayName("Pen colour")]
+            public Color PenColour
+            {
+                get => Trace.PenColour;
+                set => Run(new TracePenColourCommand(Index, value));
+            }
+
+            [Category("Style")]
+            [DefaultValue(typeof(DashStyle), "Solid")]
+            [Description("The style of pen (solid, dotted, dashed, etc.) used to draw the trace.")]
+            [DisplayName("Pen style")]
+            public DashStyle PenStyle
+            {
+                get => Trace.PenStyle;
+                set => Run(new TracePenStyleCommand(Index, value));
+            }
+
+            [Category("Style")]
+            [DefaultValue(1.0f)]
+            [Description("The point size of the pen used to draw the trace.")]
+            [DisplayName("Pen size")]
+            public float PenWidth
+            {
+                get => Trace.PenWidth;
+                set => Run(new TracePenWidthCommand(Index, value));
+            }
+
+            [Category("Style")]
+            [DefaultValue(1000)]
+            [Description("The minimum number of steps used in calculating points on the trace. In steep sections, this number will be increased dynamically. "
+                + "Conversely, in sections where the Formula is undefined, steps will be dropped.")]
+            [DisplayName("# steps")]
+            public int StepCount
+            {
+                get => Trace.StepCount;
+                set => Run(new TraceStepCountCommand(Index, value));
+            }
+
+            [Browsable(false)]
+            public string Texture
+            {
+                get => Trace.Texture;
+                set => Run(new TraceTextureCommand(Index, value));
+            }
+
+            [Category("Style")]
+            [Editor(typeof(TgFileNameEditor), typeof(UITypeEditor))]
+            [Description("The image file used to provide the trace's \"Texture\" brush.")]
+            [DisplayName("Texture file")]
+            public string TexturePath
+            {
+                get => Trace.TexturePath;
+                set => Run(new TraceTexturePathCommand(Index, value));
+            }
+
+            [Category("Trace")]
+            [Description("A title for this trace.")]
+            [DisplayName("Title")]
+            public string Title
+            {
+                get => Trace.Title;
+                set => Run(new TraceTitleCommand(Index, value));
+            }
+
+            [Category("Trace")]
+            [DefaultValue(true)]
+            [Description("Take a wild guess.")]
+            [DisplayName("Visible?")]
+            public bool Visible
+            {
+                get => Trace.Visible;
+                set => Run(new TraceVisibleCommand(Index, value));
+            }
+
+            [Category("Style")]
+            [DefaultValue(typeof(WrapMode), "Tile")]
+            [Description("Determines how copies of a \"Texture\" brush image are tiled, or stitched together, to fill an area.")]
+            [DisplayName("Wrap mode")]
+            public WrapMode WrapMode
+            {
+                get => Trace.WrapMode;
+                set => Run(new TraceWrapModeCommand(Index, value));
+            }
+
+            public override string ToString() => $"Trace f{Index}";
+
+            private void Run(IGraphCommand command) => GraphProxy.Run(command);
         }
-
-        private class TraceDeleteCommand : TracesCommand
-        {
-            internal TraceDeleteCommand(int index) : base(index, false) { }
-        }
-
-        #endregion
-
-        #region bool
-
-        private class TraceVisibleCommand : TracePropertyCommand<bool>
-        {
-            public TraceVisibleCommand(int index, bool value) : base(index, "visibility",
-                value, s => s.Visible, (s, v) => s.Visible = v)
-            { }
-        }
-
-        #endregion
-
-        #region Color
-
-        private class TraceFillColour1Command : TracePropertyCommand<Color>
-        {
-            public TraceFillColour1Command(int index, Color value) : base(index, "fill colour",
-                value, s => s.FillColour1, (s, v) => s.FillColour1 = v)
-            { }
-        }
-
-        private class TraceFillColour2Command : TracePropertyCommand<Color>
-        {
-            public TraceFillColour2Command(int index, Color value) : base(index, "2nd fill colour",
-                value, s => s.FillColour2, (s, v) => s.FillColour2 = v)
-            { }
-        }
-
-        private class TraceLimitColourCommand : TracePropertyCommand<Color>
-        {
-            public TraceLimitColourCommand(int index, Color value) : base(index, "limit colour",
-                value, s => s.LimitColour, (s, v) => s.LimitColour = v)
-            { }
-        }
-
-        private class TracePenColourCommand : TracePropertyCommand<Color>
-        {
-            public TracePenColourCommand(int index, Color value) : base(index, "pen colour",
-                value, s => s.PenColour, (s, v) => s.PenColour = v)
-            { }
-        }
-
-        #endregion
-
-        #region enum
-
-        private class TraceBrushTypeCommand : TracePropertyCommand<BrushType>
-        {
-            public TraceBrushTypeCommand(int index, BrushType value) : base(index, "fill type",
-                value, s => s.BrushType, (s, v) => s.BrushType = v)
-            { }
-        }
-
-        private class TraceGradientModeCommand : TracePropertyCommand<LinearGradientMode>
-        {
-            public TraceGradientModeCommand(int index, LinearGradientMode value) : base(index, "gradient type",
-                value, s => s.GradientMode, (s, v) => s.GradientMode = v)
-            { }
-        }
-
-        private class TraceHatchStyleCommand : TracePropertyCommand<HatchStyle>
-        {
-            public TraceHatchStyleCommand(int index, HatchStyle value) : base(index, "hatch type",
-                value, s => s.HatchStyle, (s, v) => s.HatchStyle = v)
-            { }
-        }
-
-        private class TracePenStyleCommand : TracePropertyCommand<DashStyle>
-        {
-            public TracePenStyleCommand(int index, DashStyle value) : base(index, "pen type",
-                value, s => s.PenStyle, (s, v) => s.PenStyle = v)
-            { }
-        }
-
-        private class TraceWrapModeCommand : TracePropertyCommand<WrapMode>
-        {
-            public TraceWrapModeCommand(int index, WrapMode value) : base(index, "wrap mode",
-                value, s => s.WrapMode, (s, v) => s.WrapMode = v)
-            { }
-        }
-
-        #endregion
-
-        #region float
-
-        private class TracePenWidthCommand : TracePropertyCommand<float>
-        {
-            public TracePenWidthCommand(int index, float value) : base(index, "pen size",
-                value, s => s.PenWidth, (s, v) => s.PenWidth = v)
-            { }
-        }
-
-        #endregion
-
-        #region int
-
-        private class TraceFillTransparencyPercentCommand : TracePropertyCommand<int>
-        {
-            public TraceFillTransparencyPercentCommand(int index, int value) : base(index, "fill transparency (%)",
-                value, s => s.FillTransparencyPercent, (s, v) => s.FillTransparencyPercent = v)
-            { }
-        }
-
-        private class TraceStepCountCommand : TracePropertyCommand<int>
-        {
-            public TraceStepCountCommand(int index, int value) : base(index, "steps",
-                value, s => s.StepCount, (s, v) => s.StepCount = v)
-            { }
-        }
-
-        #endregion
-
-        #region string
-
-        private class TraceFormulaCommand : TracePropertyCommand<string>
-        {
-            public TraceFormulaCommand(int index, string value) : base(index, "formula",
-                value, s => s.Formula, (s, v) => s.Formula = v)
-            { }
-        }
-
-        private class TraceTextureCommand : TracePropertyCommand<string>
-        {
-            public TraceTextureCommand(int index, string value) : base(index, "texture",
-                value, s => s.Texture, (s, v) => s.Texture = v)
-            { }
-        }
-
-        private class TraceTexturePathCommand : TracePropertyCommand<string>
-        {
-            public TraceTexturePathCommand(int index, string value) : base(index, "texture path",
-                value, s => s.TexturePath, (s, v) => s.TexturePath = v)
-            { }
-        }
-
-        private class TraceTitleCommand : TracePropertyCommand<string>
-        {
-            public TraceTitleCommand(int index, string value) : base(index, "title",
-                value, s => s.Title, (s, v) => s.Title = v)
-            { }
-        }
-
-        #endregion
     }
 }
