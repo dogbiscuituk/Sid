@@ -52,7 +52,7 @@
 
         internal void LoadTrace()
         {
-            Loading = true;
+            Updating = true;
             if (Index >= 0)
             {
                 View.cbVisible.Checked = TraceView.cbVisible.Checked;
@@ -62,7 +62,7 @@
             {
                 FunctionBox.Text = string.Empty;
             }
-            Loading = false;
+            Updating = false;
         }
 
         #endregion
@@ -111,7 +111,7 @@
         private readonly TracePropertiesController TracePropertiesController;
         private GraphController GraphController => TracePropertiesController.GraphController;
         private CommandProcessor CommandProcessor => GraphController.CommandProcessor;
-        private List<TraceController> TraceControllers => GraphController.LegendController.Children;
+        private List<TraceController> TraceControllers => GraphController.LegendController.TraceControllers;
         private TraceView TraceView => TraceControllers[Index].View;
         private Control ActiveControl => TraceView.cbFunction;
         private readonly List<Button> CustomKeys = new List<Button>();
@@ -120,7 +120,7 @@
         private Graph Graph => TracePropertiesController.Graph;
         private int Index => GetIndex();
         private int SelStart, SelLength;
-        private bool CanCancel, Loading, Updating;
+        private bool CanCancel, Updating;
 
         #endregion
 
@@ -141,7 +141,7 @@
             var formula = FunctionBox.Text;
             if (!string.IsNullOrWhiteSpace(formula) && !Functions.Contains(formula))
                 Functions[0] = formula;
-            if (Index >= 0 && !Loading && !Updating && Validate())
+            if (Index >= 0 && !Updating && Validate())
                 CommandProcessor[Index].Formula = formula;
         }
 

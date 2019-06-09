@@ -89,7 +89,7 @@
         private ElementsController ElementsController;
         private CheckedListBox.ObjectCollection ElementItems { get => View.ElementCheckboxes.Items; }
         private Model Model { get => GraphController.Model; }
-        private bool Loading;
+        private bool Updating;
 
         #endregion
 
@@ -100,7 +100,7 @@
 
         private void AxisColourChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor.AxisColour = ColourController.GetColour(View.cbAxisColour);
         }
 
@@ -108,85 +108,85 @@
         {
             var domainGraphWidth = View.cbDomainGraphWidth.Checked;
             View.seDomainMinCartesian.Enabled = View.seDomainMaxCartesian.Enabled = !domainGraphWidth;
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor.DomainGraphWidth = domainGraphWidth;
         }
 
         private void DomainMaxCartesianChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor.DomainMaxCartesian = (float)View.seDomainMaxCartesian.Value;
         }
 
         private void DomainMaxPolarChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor.DomainMaxPolar = (float)View.seDomainMaxPolar.Value;
         }
 
         private void DomainMinCartesianChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor.DomainMinCartesian = (float)View.seDomainMinCartesian.Value;
         }
 
         private void DomainMinPolarChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor.DomainMinPolar = (float)View.seDomainMinPolar.Value;
         }
 
         private void DomainPolarDegreesChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor.DomainPolarDegrees = View.rbDegrees.Checked;
         }
 
         private void FillColourChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor.FillColour1 = ColourController.GetColour(View.cbFillColour);
         }
 
         private void FillTransparencyChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor.FillTransparencyPercent = (int)View.seFillTransparency.Value;
         }
 
         private void InterpolationChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor.Interpolation = (Interpolation)View.cbInterpolation.SelectedIndex;
         }
 
         private void LimitColourChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor.LimitColour = ColourController.GetColour(View.cbLimitColour);
         }
 
         private void OptimizationChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor.Optimization = (Optimization)View.cbOptimization.SelectedIndex;
         }
 
         private void PaperColourChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor.PaperColour = ColourController.GetColour(View.cbPaperColour);
         }
 
         private void PaperTransparencyChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor.PaperTransparencyPercent = (int)View.sePaperTransparency.Value;
         }
 
         private void PenColourChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor.PenColour = ColourController.GetColour(View.cbPenColour);
         }
 
@@ -199,19 +199,19 @@
                 View.seDomainMaxCartesian.Visible = !polar;
             View.seDomainMinPolar.Visible = View.seDomainMaxPolar.Visible =
                 View.rbDegrees.Visible = View.rbRadians.Visible = polar;
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor.PlotType = (PlotType)View.cbPlotType.SelectedIndex;
         }
 
         private void ReticleColourChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor.ReticleColour = ColourController.GetColour(View.cbReticleColour);
         }
 
         private void StepCountChanged(object sender, EventArgs e)
         {
-            if (!Loading)
+            if (!Updating)
                 CommandProcessor.StepCount = int.Parse(View.cbStepCount.Text);
         }
 
@@ -230,7 +230,7 @@
         private void GraphRead()
         {
             // Disable events while reading
-            Loading = true;
+            Updating = true;
             // Plot Type & Approximation Type
             View.cbPlotType.SelectedIndex = (int)Graph.PlotType;
             View.cbInterpolation.SelectedIndex = (int)Graph.Interpolation;
@@ -258,7 +258,7 @@
             View.cbOptimization.SelectedIndex = (int)Graph.Optimization;
             View.cbStepCount.Text = Graph.StepCount.ToString();
             // Done.
-            Loading = false;
+            Updating = false;
         }
 
         private void InitEnumControls()

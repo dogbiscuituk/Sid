@@ -294,7 +294,7 @@
             this.EditUndo.Name = "EditUndo";
             this.EditUndo.ShortcutKeyDisplayString = "^Z";
             this.EditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.EditUndo.Size = new System.Drawing.Size(125, 22);
+            this.EditUndo.Size = new System.Drawing.Size(180, 22);
             this.EditUndo.Text = "&Undo";
             // 
             // EditRedo
@@ -305,13 +305,13 @@
             this.EditRedo.Name = "EditRedo";
             this.EditRedo.ShortcutKeyDisplayString = "^Y";
             this.EditRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.EditRedo.Size = new System.Drawing.Size(125, 22);
+            this.EditRedo.Size = new System.Drawing.Size(180, 22);
             this.EditRedo.Text = "&Redo";
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(122, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
             // 
             // EditCut
             // 
@@ -321,7 +321,7 @@
             this.EditCut.Name = "EditCut";
             this.EditCut.ShortcutKeyDisplayString = "^X";
             this.EditCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.EditCut.Size = new System.Drawing.Size(125, 22);
+            this.EditCut.Size = new System.Drawing.Size(180, 22);
             this.EditCut.Text = "Cu&t";
             // 
             // EditCopy
@@ -332,7 +332,7 @@
             this.EditCopy.Name = "EditCopy";
             this.EditCopy.ShortcutKeyDisplayString = "^C";
             this.EditCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.EditCopy.Size = new System.Drawing.Size(125, 22);
+            this.EditCopy.Size = new System.Drawing.Size(180, 22);
             this.EditCopy.Text = "&Copy";
             // 
             // EditPaste
@@ -343,7 +343,7 @@
             this.EditPaste.Name = "EditPaste";
             this.EditPaste.ShortcutKeyDisplayString = "^V";
             this.EditPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.EditPaste.Size = new System.Drawing.Size(125, 22);
+            this.EditPaste.Size = new System.Drawing.Size(180, 22);
             this.EditPaste.Text = "&Paste";
             // 
             // EditDelete
@@ -352,18 +352,18 @@
             this.EditDelete.Image = global::ToyGraf.Properties.Resources.Delete;
             this.EditDelete.ImageTransparentColor = System.Drawing.Color.White;
             this.EditDelete.Name = "EditDelete";
-            this.EditDelete.Size = new System.Drawing.Size(125, 22);
+            this.EditDelete.Size = new System.Drawing.Size(180, 22);
             this.EditDelete.Text = "&Delete";
             // 
             // toolStripMenuItem9
             // 
             this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(122, 6);
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(177, 6);
             // 
             // EditOptions
             // 
             this.EditOptions.Name = "EditOptions";
-            this.EditOptions.Size = new System.Drawing.Size(125, 22);
+            this.EditOptions.Size = new System.Drawing.Size(180, 22);
             this.EditOptions.Text = "&Options...";
             // 
             // GraphMenu
@@ -694,7 +694,7 @@
             this.TimeDecelerate.Image = global::ToyGraf.Properties.Resources.RewindHS;
             this.TimeDecelerate.ImageTransparentColor = System.Drawing.Color.White;
             this.TimeDecelerate.Name = "TimeDecelerate";
-            this.TimeDecelerate.Size = new System.Drawing.Size(129, 22);
+            this.TimeDecelerate.Size = new System.Drawing.Size(180, 22);
             this.TimeDecelerate.Text = "&Decelerate";
             // 
             // TimeReverse
@@ -702,7 +702,7 @@
             this.TimeReverse.Image = global::ToyGraf.Properties.Resources.BackHS;
             this.TimeReverse.ImageTransparentColor = System.Drawing.Color.White;
             this.TimeReverse.Name = "TimeReverse";
-            this.TimeReverse.Size = new System.Drawing.Size(129, 22);
+            this.TimeReverse.Size = new System.Drawing.Size(180, 22);
             this.TimeReverse.Text = "&Reverse";
             // 
             // TimeStop
@@ -710,7 +710,7 @@
             this.TimeStop.Image = global::ToyGraf.Properties.Resources.StopHS;
             this.TimeStop.ImageTransparentColor = System.Drawing.Color.White;
             this.TimeStop.Name = "TimeStop";
-            this.TimeStop.Size = new System.Drawing.Size(129, 22);
+            this.TimeStop.Size = new System.Drawing.Size(180, 22);
             this.TimeStop.Text = "&Stop";
             // 
             // TimePause
@@ -718,14 +718,14 @@
             this.TimePause.Image = global::ToyGraf.Properties.Resources.PauseHS;
             this.TimePause.ImageTransparentColor = System.Drawing.Color.White;
             this.TimePause.Name = "TimePause";
-            this.TimePause.Size = new System.Drawing.Size(129, 22);
+            this.TimePause.Size = new System.Drawing.Size(180, 22);
             this.TimePause.Text = "&Pause";
             // 
             // TimeForward
             // 
             this.TimeForward.Image = global::ToyGraf.Properties.Resources.PlayHS;
             this.TimeForward.Name = "TimeForward";
-            this.TimeForward.Size = new System.Drawing.Size(129, 22);
+            this.TimeForward.Size = new System.Drawing.Size(180, 22);
             this.TimeForward.Text = "&Forward";
             // 
             // TimeAccelerate
@@ -733,7 +733,7 @@
             this.TimeAccelerate.Image = global::ToyGraf.Properties.Resources.FFwdHS;
             this.TimeAccelerate.ImageTransparentColor = System.Drawing.Color.White;
             this.TimeAccelerate.Name = "TimeAccelerate";
-            this.TimeAccelerate.Size = new System.Drawing.Size(129, 22);
+            this.TimeAccelerate.Size = new System.Drawing.Size(180, 22);
             this.TimeAccelerate.Text = "&Accelerate";
             // 
             // HelpMenu

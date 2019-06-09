@@ -44,8 +44,8 @@
         }
 
         internal GraphController GraphController;
-        internal List<TraceController> Children = new List<TraceController>();
-        internal bool Loading = true;
+        internal List<TraceController> TraceControllers = new List<TraceController>();
+        internal bool Updating = true;
 
         internal void AdjustLegend()
         {
@@ -81,34 +81,34 @@
         {
             View.StatusBar.Focus();
             TraceViews.Clear();
-            Children.Clear();
+            TraceControllers.Clear();
         }
 
         internal void GraphRead()
         {
-            if (Updating)
-                return;
-            Loading = true;
+            //if (Updating)
+            //    return;
+            Updating = true;
             Legend.SuspendLayout();
-            // First, remove any child without a corresponding Trace in the Graph.
-            for (var index = 0; index < Children.Count; index++)
-                if (!Graph.Traces.Contains(Children[index].Trace))
+            // First, remove any TraceController without a corresponding Trace in the Graph.
+            for (var index = 0; index < TraceControllers.Count; index++)
+                if (!Graph.Traces.Contains(TraceControllers[index].Trace))
                     RemoveTraceViewAt(index);
-            // Next, add any Graph Trace without a corresponding child.
+            // Next, add any Graph Trace without a corresponding TraceController.
             for (var index = 0; index < Graph.Traces.Count; index++)
             {
                 var trace = Graph.Traces[index];
-                if (!Children.Any(p => p.Trace == trace))
+                if (!TraceControllers.Any(p => p.Trace == trace))
                     InsertNewTraceView(index, trace);
             }
             // Done.
             Legend.ResumeLayout();
             Validate();
-            Loading = false;
+            Updating = false;
             AdjustLegend();
         }
 
-        internal int IndexOf(TraceController child) => Children.IndexOf(child);
+        internal int IndexOf(TraceController traceController) => TraceControllers.IndexOf(traceController);
         internal void RemoveTrace(int index) => CommandProcessor.GraphDeleteTrace(index);
 
         internal bool Validate()
@@ -126,7 +126,7 @@
 
         private GraphForm _view;
         private CommandProcessor CommandProcessor => GraphController.CommandProcessor;
-        private bool CanCancel, Updating;
+        private bool CanCancel;
         private Graph Graph { get => GraphController.Graph; }
         private Panel Client { get => View.ClientPanel; }
         private Panel Legend { get => View.LegendPanel; }
@@ -193,7 +193,7 @@
 
         #region Private Methods
 
-        private void AddNewTrace() => CommandProcessor.GraphInsertTrace(Children.Count);
+        private void AddNewTrace() => CommandProcessor.GraphInsertTrace(TraceControllers.Count);
 
         private static AnchorStyles AlignToAnchor(ContentAlignment align)
         {
@@ -213,27 +213,27 @@
 
         private void InsertNewTraceView(int index, Trace trace)
         {
-            Loading = true;
-            var child = new TraceController(this, trace);
-            Children.Insert(index, child);
-            child.TraceVisible = trace.Visible;
-            child.Formula = trace.Formula;
-            child.PenColour = trace.PenColour;
-            child.FillColour = trace.FillColour1;
-            child.FillTransparencyPercent = trace.FillTransparencyPercent;
-            child.View.cbFunction.Validating += CbFunction_Validating;
-            TraceViews.Add(child.View);
-            TraceViews.SetChildIndex(child.View, index);
-            Loading = false;
-            child.View.cbFunction.Focus();
+            Updating = true;
+            var traceController = new TraceController(this, trace);
+            TraceControllers.Insert(index, traceController);
+            traceController.TraceVisible = trace.Visible;
+            traceController.Formula = trace.Formula;
+            traceController.PenColour = trace.PenColour;
+            traceController.FillColour = trace.FillColour1;
+            traceController.FillTransparencyPercent = trace.FillTransparencyPercent;
+            traceController.View.cbFunction.Validating += CbFunction_Validating;
+            TraceViews.Add(traceController.View);
+            TraceViews.SetChildIndex(traceController.View, index);
+            Updating = false;
+            traceController.View.cbFunction.Focus();
         }
 
         private void RemoveTraceViewAt(int index)
         {
             View.StatusBar.Focus();
             TraceViews.RemoveAt(index);
-            Children[index].BeforeRemove();
-            Children.RemoveAt(index);
+            TraceControllers[index].BeforeRemove();
+            TraceControllers.RemoveAt(index);
         }
 
         #endregion

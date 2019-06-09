@@ -91,6 +91,7 @@
         #region Private Event Handlers
 
         // Edit
+        private static void UndoRedoItem_MouseEnter(object sender, EventArgs e) => HighlightUndoRedoItems((ToolStripItem)sender);
         private void EditUndo_Click(object sender, EventArgs e) => Undo();
         private void TbUndo_DropDownOpening(object sender, EventArgs e) => Copy(UndoStack, View.tbUndo, UndoMultiple);
         private void EditRedo_Click(object sender, EventArgs e) => Redo();
@@ -115,17 +116,29 @@
 
         #region Private Methods
 
-        private void Copy(Stack<ICommand> stack, ToolStripDropDownItem item, EventHandler handler)
+        private void Copy(Stack<ICommand> source, ToolStripDropDownItem target, EventHandler handler)
         {
             const int MaxItems = 20;
-            var commands = stack.ToArray();
-            var items = item.DropDownItems;
+            var commands = source.ToArray();
+            var items = target.DropDownItems;
             items.Clear();
             for (int n = 0; n < Math.Min(commands.Length, MaxItems); n++)
             {
                 var command = commands[n];
-                items.Add(command.ToString(), null, handler).Tag = command;
+                var item = items.Add(command.ToString(), null, handler);
+                item.Tag = command;
+                item.MouseEnter += UndoRedoItem_MouseEnter;
             }
+        }
+
+        private static void HighlightUndoRedoItems(ToolStripItem activeItem)
+        {
+            var parent = activeItem.GetCurrentParent();
+            var index = parent.Items.IndexOf(activeItem);
+            foreach (ToolStripItem item in parent.Items)
+                item.BackColor = Color.FromKnownColor(parent.Items.IndexOf(item) <= index
+                    ? KnownColor.GradientActiveCaption
+                    : KnownColor.Control);
         }
 
         private void Redo() { if (CanRedo) Redo(RedoStack.Pop()); }

@@ -101,7 +101,7 @@
         private ComboBox FunctionBox { get => View.cbFunction; }
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
         private Graph Graph { get => LegendController.GraphController.Graph; }
-        private bool Updating => UpdatingThis || LegendController.Loading;
+        private bool Updating => UpdatingThis || LegendController.Updating;
         private int FormulaSelStart, FormulaSelLength;
         private bool UpdatingThis;
 

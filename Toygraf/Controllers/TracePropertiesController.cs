@@ -83,7 +83,7 @@
 
         private ColourController ColourController;
         private CommandProcessor CommandProcessor => GraphController.CommandProcessor;
-        private List<TraceController> TraceControllers => GraphController.LegendController.Children;
+        private List<TraceController> TraceControllers => GraphController.LegendController.TraceControllers;
         private TraceView TraceView => TraceControllers[Index].View;
         private Trace _trace;
         private int Count => Graph.Traces.Count;
