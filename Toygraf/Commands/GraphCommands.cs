@@ -117,6 +117,20 @@ namespace ToyGraf.Commands
 
         #region float
 
+        private class GraphCentreXCommand : GraphPropertyCommand<float>
+        {
+            public GraphCentreXCommand(float value) : base("",
+                value, g => g.Centre.X, (g, v) => g.Centre = new PointF(v, g.Centre.Y))
+            { }
+        }
+
+        private class GraphCentreYCommand : GraphPropertyCommand<float>
+        {
+            public GraphCentreYCommand(float value) : base("",
+                value, g => g.Centre.Y, (g, v) => g.Centre = new PointF(g.Centre.X, v))
+            { }
+        }
+
         private class GraphDomainMaxCartesianCommand : GraphPropertyCommand<float>
         {
             public GraphDomainMaxCartesianCommand(float value) : base("domain max (Cartesian)",

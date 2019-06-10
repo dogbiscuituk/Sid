@@ -22,13 +22,31 @@
             set => Run(new GraphAxisColourCommand(value));
         }
 
-        [Category("View")]
-        [Description("The Cartesian co-ordinates of the point at the centre of the graph display, in domain units.")]
-        [DisplayName("Centre")]
+        [Browsable(false)]
         public PointF Centre
         {
             get => Graph.Centre;
             set => Run(new GraphCentreCommand(value));
+        }
+
+        [Category("View")]
+        [DefaultValue(0f)]
+        [Description("The X co-ordinate of the point at the visual centre of the graph display, in domain units.")]
+        [DisplayName("Centre X")]
+        public float CentreX
+        {
+            get => Graph.Centre.X;
+            set => Run(new GraphCentreXCommand(value));
+        }
+
+        [Category("View")]
+        [DefaultValue(0f)]
+        [Description("The Y co-ordinate of the point at the visual centre of the graph display, in domain units.")]
+        [DisplayName("Centre Y")]
+        public float CentreY
+        {
+            get => Graph.Centre.Y;
+            set => Run(new GraphCentreYCommand(value));
         }
 
         [Category("Domain")]
