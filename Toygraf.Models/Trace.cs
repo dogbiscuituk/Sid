@@ -246,6 +246,12 @@
         private Task<List<List<PointF>>> ComputePointsAsync(
             DomainInfo domainInfo, Viewport viewport, double time, bool polar)
         {
+            var r = viewport.Boundary;
+            float
+                xmin = r.Left,
+                ymin = r.Bottom,
+                xmax = r.Right,
+                ymax = r.Top;
             var result = new List<List<PointF>>();
             List<PointF> points = null;
             var domain = GetDomain(domainInfo, viewport, polar);
@@ -279,13 +285,12 @@
                             points = new List<PointF>();
                             result.Add(points);
                         }
+                        if (q.X < xmin) q.X = xmin; else if (q.X > xmax) q.X = xmax;
+                        if (q.Y < ymin) q.Y = ymin; else if (q.Y > ymax) q.Y = ymax;
                         points.Add(q);
                     }
                 }
-                if (IsValid(slope))
-                    dx = step / Math.Min(Math.Sqrt(1 + slope * slope), 10);
-                else
-                    dx = step;
+                dx = IsValid(slope) ? step / Math.Min(Math.Sqrt(1 + slope * slope), 10) : step;
             }
             // Every segment of the trace must include at least 2 points.
             result.RemoveAll(p => p.Count < 2);

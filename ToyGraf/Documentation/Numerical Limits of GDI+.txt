@@ -1,0 +1,19 @@
+﻿The logical canvas of a GDI+ Graphics object is limited in both X and Y directions to a little less
+than ±2³⁰, or ±10⁹. For more details on these limits, refer to Fábio Franco's answer at:
+
+https://social.msdn.microsoft.com/Forums/en-US/9f2b5bba-f725-45c1-9ada-383151267c13/overflow-exception-on-drawline-method-
+
+When plotting a graph which goes outside the physical limits of the display, it's important to be
+sure its logical coordinates - i.e., the values resulting from premultiplying the computed values
+by the Graphics object's transformation matrix - lie well within this range, otherwise they can
+throw an OverflowException during rendering.
+
+An earlier iteration of this project would simply catch these exceptions, then split the domain in
+two and try rendering each half, again catching any exceptions and recursively retrying down to a
+minimum domain size of less than eight points. However this proved impractical in even the simplest
+cases, with the time taken up retrying smaller and smaller subsets of wholly out-of-scope domains
+eventually grinding the application to a stop.
+
+A better strategy is to look ahead. Having computed a list of points to plot, calculate a maximum
+allowable X domain and Y range, given the current Graphics object's transformation, such that the
+absolute values of the scaled output points are constrained to about ±1 billion, as required.

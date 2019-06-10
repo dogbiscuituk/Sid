@@ -67,11 +67,11 @@
 
         private void PlotPoints(IEnumerable<PointF> points, List<GraphicsPath> paths)
         {
-            if (!TryPlotPart(points, paths))
-                PlotSplit(points, paths);
+            if (!TryPlotPointsPartial(points, paths))
+                PlotPointsSplit(points, paths);
         }
 
-        private bool PlotPart(IEnumerable<PointF> points, List<GraphicsPath> paths)
+        private void PlotPointsPartial(IEnumerable<PointF> points, List<GraphicsPath> paths)
         {
             var p = points.ToArray();
             var path = new GraphicsPath();
@@ -81,10 +81,9 @@
                 path.AddCurve(p);
             PlotPath(path);
             paths.Add(path);
-            return true;
         }
 
-        private void PlotSplit(IEnumerable<PointF> points, List<GraphicsPath> paths)
+        private void PlotPointsSplit(IEnumerable<PointF> points, List<GraphicsPath> paths)
         {
             var n = points.Count();
             if (n < 7)
@@ -93,16 +92,16 @@
             IEnumerable<PointF>
                 left = points.Take(p + 1),
                 right = points.Skip(p).Take(n - p);
-            if (TryPlotPart(left, paths))
-                PlotSplit(right, paths);
+            if (TryPlotPointsPartial(left, paths))
+                PlotPointsSplit(right, paths);
             else
             {
-                PlotSplit(left, paths);
+                PlotPointsSplit(left, paths);
                 PlotPoints(right, paths);
             }
         }
 
-        private bool TryPlotPart(IEnumerable<PointF> points, List<GraphicsPath> paths)
+        private bool TryPlotPointsPartial(IEnumerable<PointF> points, List<GraphicsPath> paths)
         {
             PointF[] p;
             if (Filling)
@@ -121,8 +120,15 @@
             }
             else
                 p = points.ToArray();
-            try { return PlotPart(p, paths); }
-            catch (OverflowException) { return false; }
+            try
+            {
+                PlotPointsPartial(p, paths);
+                return true;
+            }
+            catch (OverflowException)
+            {
+                return false;
+            }
         }
 
         #endregion

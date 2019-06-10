@@ -481,7 +481,13 @@
         {
             InitOptimization(g);
             using (var m = GetMatrix(r))
+            {
                 g.Transform = m;
+                m.Invert();
+                var p = new PointF[] { new PointF(-1e9f, -1e9f), new PointF(1e9f, 1e9f) };
+                m.TransformPoints(p);
+                Viewport.Boundary = new RectangleF(p[0].X, p[0].Y, p[1].X - p[0].X, p[1].Y - p[0].Y);
+            }
             Viewport.SetRatio(r.Size);
             if (LastViewport != Viewport)
             {
@@ -496,10 +502,12 @@
                     s.DrawAsync(g, DomainInfo, Viewport, penWidth, true, time, PlotType, Interpolation);
             });
             ValidateReticle(g, r, penWidth);
-            var transform = g.Transform;
-            g.ResetTransform();
-            g.DrawImageUnscaled(Reticle, 0, 0);
-            g.MultiplyTransform(transform);
+            using (var m = g.Transform)
+            {
+                g.ResetTransform();
+                g.DrawImageUnscaled(Reticle, 0, 0);
+                g.MultiplyTransform(m);
+            }
             using (var brush = new SolidBrush(AxisColour))
             using (var font = new Font("Arial", 5 * penWidth))
             using (var format = new StringFormat(StringFormat.GenericTypographic) { Alignment = StringAlignment.Far })

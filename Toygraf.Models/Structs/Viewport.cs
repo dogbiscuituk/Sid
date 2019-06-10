@@ -15,6 +15,7 @@
     {
         public Viewport(PointF centre, float width, float ratio = 1)
         {
+            Boundary = new RectangleF();
             Centre = centre;
             Width = width;
             _ratio = ratio;
@@ -23,19 +24,21 @@
         public Viewport(PointF centre, float width, Size ratio)
             : this(centre, width, (float)ratio.Height / ratio.Width) { }
 
+        public RectangleF Boundary { get; internal set; }
+        public RectangleF Limits => new RectangleF(Left, Top, Width, Height);
+
         public PointF Centre;
+        public PointF BottomLeft { get => new PointF(Left, Bottom); }
+        public PointF BottomRight { get => new PointF(Right, Bottom); }
+        public PointF TopLeft { get => new PointF(Left, Top); }
+        public PointF TopRight { get => new PointF(Right, Top); }
+
         public float Width;
         public float Height => Width * _ratio;
         public float Left => Centre.X - Width / 2;
         public float Top => Centre.Y - Height / 2;
         public float Right => Centre.X + Width / 2;
         public float Bottom => Centre.Y + Height / 2;
-        public RectangleF Limits => new RectangleF(Left, Top, Width, Height);
-
-        public PointF BottomLeft { get => new PointF(Left, Bottom); }
-        public PointF BottomRight { get => new PointF(Right, Bottom); }
-        public PointF TopLeft { get => new PointF(Left, Top); }
-        public PointF TopRight { get => new PointF(Right, Top); }
 
         private float _ratio;
 
