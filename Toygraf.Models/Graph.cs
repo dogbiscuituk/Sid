@@ -628,14 +628,17 @@
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing && Reticle != null)
+            if (disposing)
                 DisposeReticle();
         }
 
         private void DisposeReticle()
         {
-            Reticle.Dispose();
-            Reticle = null;
+            if (Reticle != null)
+            {
+                Reticle.Dispose();
+                Reticle = null;
+            }
         }
 
         #endregion

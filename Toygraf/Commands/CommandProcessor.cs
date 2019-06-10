@@ -145,7 +145,8 @@
 
         private void Redo(ICommand command)
         {
-            command.Do(Graph);
+            if (!command.Do(Graph))
+                return;
             var canGroup = false;
             if (GroupUndo && CanUndo)
             {

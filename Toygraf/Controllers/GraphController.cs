@@ -348,14 +348,17 @@
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing && TracePropertiesController != null)
+            if (disposing)
                 DisposeTracePropertiesController();
         }
 
         private void DisposeTracePropertiesController()
         {
-            TracePropertiesController.Dispose();
-            TracePropertiesController = null;
+            if (TracePropertiesController != null)
+            {
+                TracePropertiesController.Dispose();
+                TracePropertiesController = null;
+            }
         }
 
         #endregion

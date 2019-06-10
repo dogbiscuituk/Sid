@@ -91,14 +91,17 @@
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing && OptionsDialog != null)
+            if (disposing)
                 DisposeOptionsDialog();
         }
 
         private void DisposeOptionsDialog()
         {
-            OptionsDialog.Dispose();
-            OptionsDialog = null;
+            if (OptionsDialog != null)
+            {
+                OptionsDialog.Dispose();
+                OptionsDialog = null;
+            }
         }
 
         #endregion

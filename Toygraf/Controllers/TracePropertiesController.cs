@@ -352,14 +352,17 @@
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing && TracePropertiesDialog != null)
+            if (disposing)
                 DisposeTracePropertiesDialog();
         }
 
         private void DisposeTracePropertiesDialog()
         {
-            TracePropertiesDialog.Dispose();
-            TracePropertiesDialog = null;
+            if (TracePropertiesDialog != null)
+            {
+                TracePropertiesDialog.Dispose();
+                TracePropertiesDialog = null;
+            }
         }
 
         #endregion

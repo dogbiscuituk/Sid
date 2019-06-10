@@ -10,9 +10,9 @@
             string RedoAction { get; }
             string UndoAction { get; }
 
-            void Do(Graph graph);
+            bool Do(Graph graph);
             void Invert();
-            void Run(Graph Graph);
+            bool Run(Graph Graph);
         }
 
         private interface IPropertyCommand : ICommand { }

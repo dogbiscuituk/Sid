@@ -28,14 +28,15 @@
             /// for two notable exceptions to this rule.
             /// </summary>
             /// <param name="graph"></param>
-            public void Do(Graph graph)
+            public bool Do(Graph graph)
             {
-                Run(graph);
+                var result = Run(graph);
                 Invert();
+                return result;
             }
 
             public virtual void Invert() { }
-            public abstract void Run(Graph graph);
+            public abstract bool Run(Graph graph);
 
             protected string Detail { get; set; }
             protected abstract string Target { get; }
@@ -60,14 +61,16 @@
             public override string RedoAction => Action;
             public override string UndoAction => Action;
 
-            public override void Run(Graph graph)
+            public override bool Run(Graph graph)
             {
                 TValue value = GetValue(graph);
-                if (!Equals(value, Value))
+                var result = !Equals(value, Value);
+                if (result)
                 {
                     SetValue(graph, Value);
                     Value = value;
                 }
+                return result;
             }
 
             public override string ToString() => $"{Target} {Detail} = {Value}";
@@ -139,7 +142,7 @@
             public override void Invert() { Adding = !Adding; }
             public override string ToString() => $"{(Adding ? "Add" : "Remove")} {Target}";
 
-            public override void Run(Graph graph)
+            public override bool Run(Graph graph)
             {
                 var count = GetItemsCount(graph);
                 if (Adding)
@@ -153,6 +156,7 @@
                 }
                 else
                     RemoveItem(graph);
+                return true;
             }
 
             protected abstract int GetItemsCount(Graph graph);
@@ -226,10 +230,12 @@
                 Commands.Reverse();
             }
 
-            public override void Run(Graph graph)
+            public override bool Run(Graph graph)
             {
+                var result = false;
                 foreach (var command in Commands)
-                    command.Run(graph);
+                    result |= command.Run(graph);
+                return result;
             }
 
             public override string ToString() =>
