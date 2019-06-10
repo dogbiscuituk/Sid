@@ -5,6 +5,7 @@
     using System.Windows.Forms;
     using ToyGraf.Commands;
     using ToyGraf.Models;
+    using ToyGraf.Models.Enumerations;
     using ToyGraf.Views;
 
     internal class GraphicsController
@@ -15,43 +16,48 @@
         {
             GraphController = graphController;
             DoubleBuffered = doubleBuffered;
-            View = GraphController.View.PictureBox;
+            PictureBox = GraphForm.PictureBox;
             ClockController = new ClockController(this);
+            GraphForm.tbTool.ButtonClick += TbTool_ButtonClick;
+            GraphForm.tbToolArrow.Click += TbToolArrow_Click;
+            GraphForm.tbToolCross.Click += TbToolCross_Click;
+            GraphForm.tbToolHand.Click += TbToolHand_Click;
             AdjustPictureBox();
         }
 
         internal readonly GraphController GraphController;
-        internal GraphForm graphForm { get => GraphController.View; }
+        internal GraphForm GraphForm { get => GraphController.View; }
         internal ClockController ClockController;
 
-        internal PictureBox View
+        internal PictureBox PictureBox
         {
-            get => _view;
+            get => _PictureBox;
             set
             {
-                _view = value;
-                View.MouseDown += View_MouseDown;
-                View.MouseLeave += View_MouseLeave;
-                View.MouseMove += View_MouseMove;
-                View.MouseUp += View_MouseUp;
-                View.MouseWheel += View_MouseWheel;
-                View.Paint += View_Paint;
-                View.Parent.Resize += ParentView_Resize;
-                View.Resize += View_Resize;
+                _PictureBox = value;
+                PictureBox.MouseDown += View_MouseDown;
+                PictureBox.MouseLeave += View_MouseLeave;
+                PictureBox.MouseMove += View_MouseMove;
+                PictureBox.MouseUp += View_MouseUp;
+                PictureBox.MouseWheel += View_MouseWheel;
+                PictureBox.Paint += View_Paint;
+                PictureBox.Parent.Resize += ParentView_Resize;
+                PictureBox.Resize += View_Resize;
             }
         }
 
-        internal void AdjustPictureBox() => View.Bounds = View.Parent.ClientRectangle;
-        internal void InvalidateView() => View.Invalidate();
+        internal void AdjustPictureBox() => PictureBox.Bounds = PictureBox.Parent.ClientRectangle;
+        internal void InvalidateView() => PictureBox.Invalidate();
 
         #endregion
 
         #region Private Properties
 
-        private PictureBox _view;
+        private PictureBox _PictureBox;
         private CommandProcessor CommandController { get => GraphController.CommandProcessor; }
         private Graph Graph => GraphController.Graph;
         private Point DragFrom, MouseDownAt;
+        private Tool SelectedTool;
         private bool DoubleBuffered, Dragging;
 
         #endregion
@@ -60,15 +66,20 @@
 
         private void ParentView_Resize(object sender, System.EventArgs e) => AdjustPictureBox();
 
+        private void TbTool_ButtonClick(object sender, EventArgs e) => SelectNextTool();
+        private void TbToolArrow_Click(object sender, EventArgs e) => SelectTool(Tool.Arrow);
+        private void TbToolCross_Click(object sender, EventArgs e) => SelectTool(Tool.Cross);
+        private void TbToolHand_Click(object sender, EventArgs e) => SelectTool(Tool.Hand);
+
         private void View_MouseDown(object sender, MouseEventArgs e)
         {
             switch (e.Button)
             {
                 case MouseButtons.Left:
                     Dragging = true;
-                    View.Cursor = Cursors.Hand;
+                    PictureBox.Cursor = Cursors.Hand;
                     MouseDownAt = e.Location;
-                    DragFrom = View.Location;
+                    DragFrom = PictureBox.Location;
                     break;
                 case MouseButtons.Middle: // Click wheel
                     CommandController.ZoomReset();
@@ -83,9 +94,9 @@
         private void View_MouseMove(object sender, MouseEventArgs e)
         {
             if (Dragging)
-                View.Location = new Point(
-                    View.Left - MouseDownAt.X + e.X,
-                    View.Top - MouseDownAt.Y + e.Y);
+                PictureBox.Location = new Point(
+                    PictureBox.Left - MouseDownAt.X + e.X,
+                    PictureBox.Top - MouseDownAt.Y + e.Y);
             else
                 GraphController.UpdateMouseCoordinates(ClientToGraph(e.Location));
         }
@@ -94,10 +105,10 @@
         {
             if (Dragging)
             {
-                PointF p = ClientToGraph(DragFrom), q = ClientToGraph(View.Location);
+                PointF p = ClientToGraph(DragFrom), q = ClientToGraph(PictureBox.Location);
                 CommandController.ScrollBy(p.X - q.X, p.Y - q.Y);
                 AdjustPictureBox();
-                View.Cursor = Cursors.Default;
+                PictureBox.Cursor = Cursors.Default;
                 Dragging = false;
             }
         }
@@ -108,7 +119,7 @@
 
         private void View_Paint(object sender, PaintEventArgs e)
         {
-            var r = View.ClientRectangle;
+            var r = PictureBox.ClientRectangle;
             ClockController.BeforeDraw();
             var t = ClockController.VirtualSecondsElapsed;
             if (DoubleBuffered)
@@ -128,9 +139,9 @@
 
         private void View_Resize(object sender, EventArgs e)
         {
-            var w = View.Width;
+            var w = PictureBox.Width;
             if (w != 0)
-                Graph.Viewport.SetRatio(View.Height / w);
+                Graph.Viewport.SetRatio(PictureBox.Height / w);
             InvalidateView();
         }
 
@@ -138,11 +149,50 @@
 
         #region Private Methods
 
-        private PointF ClientToGraph(Point p) => Graph.ClientToGraph(p, View.ClientRectangle);
-        private PointF ScreenToGraph(Point p) => ClientToGraph(View.PointToClient(p));
+        private PointF ClientToGraph(Point p) => Graph.ClientToGraph(p, PictureBox.ClientRectangle);
+        private PointF ScreenToGraph(Point p) => ClientToGraph(PictureBox.PointToClient(p));
 
-        private Point GraphToClient(PointF p) => Graph.GraphToClient(p, View.ClientRectangle);
-        private Point GraphToScreen(PointF p) => View.PointToScreen(GraphToClient(p));
+        private Point GraphToClient(PointF p) => Graph.GraphToClient(p, PictureBox.ClientRectangle);
+        private Point GraphToScreen(PointF p) => PictureBox.PointToScreen(GraphToClient(p));
+
+        private void SelectNextTool() => SelectTool((Tool)((int)(SelectedTool + 1) % 3));
+
+        private void SelectTool(Tool tool)
+        {
+            SelectedTool = tool;
+            PictureBox.Cursor = ToolToCursor(tool);
+            GraphForm.tbTool.Image = ToolToImage(tool);
+        }
+
+        private static Cursor ToolToCursor(Tool tool)
+        {
+            switch (tool)
+            {
+                case Tool.Arrow:
+                    return Cursors.Arrow;
+                case Tool.Cross:
+                    return Cursors.Cross;
+                case Tool.Hand:
+                    return Cursors.Hand;
+                default:
+                    return Cursors.Default;
+            }
+        }
+
+        private static Image ToolToImage(Tool tool)
+        {
+            switch (tool)
+            {
+                case Tool.Arrow:
+                    return Properties.Resources.PointerHS;
+                case Tool.Cross:
+                    return Properties.Resources.Cross;
+                case Tool.Hand:
+                    return Properties.Resources.clock_16xLG;
+                default:
+                    return Properties.Resources.PointerHS;
+            }
+        }
 
         #endregion
     }

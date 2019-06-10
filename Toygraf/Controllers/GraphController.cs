@@ -295,6 +295,19 @@
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private static Image PlotTypeToImage(PlotType plotType)
+        {
+            switch (plotType)
+            {
+                case PlotType.Cartesian:
+                    return Properties.Resources.Cartesian;
+                case PlotType.Polar:
+                    return Properties.Resources.Polar;
+                default:
+                    return null;
+            }
+        }
+
         private bool SelectTexture(Trace trace)
         {
             var dialog = View.TextureDialog;
@@ -330,6 +343,7 @@
                 View.tbCartesian.Checked = Graph.PlotType == PlotType.Cartesian;
             View.GraphTypePolar.Checked =
                 View.tbPolar.Checked = Graph.PlotType == PlotType.Polar;
+            View.tbPlotType.Image = PlotTypeToImage(Graph.PlotType);
         }
 
         private void UpdateUI()

@@ -30,6 +30,7 @@
             View.tbCartesian.Click += GraphTypeCartesian_Click;
             View.GraphTypePolar.Click += GraphTypePolar_Click;
             View.tbPolar.Click += GraphTypePolar_Click;
+            View.tbPlotType.ButtonClick += GraphType_ButtonClick;
             // Zoom
             View.ZoomIn.Click += ZoomIn_Click;
             View.ZoomOut.Click += ZoomOut_Click;
@@ -97,8 +98,9 @@
         private void EditRedo_Click(object sender, EventArgs e) => Redo();
         private void TbRedo_DropDownOpening(object sender, EventArgs e) => Copy(RedoStack, View.tbRedo, RedoMultiple);
         // Graph
-        private void GraphTypePolar_Click(object sender, EventArgs e) => Run(new GraphPlotTypeCommand(PlotType.Polar));
-        private void GraphTypeCartesian_Click(object sender, EventArgs e) => Run(new GraphPlotTypeCommand(PlotType.Cartesian));
+        private void GraphTypePolar_Click(object sender, EventArgs e) => PlotType = PlotType.Polar;
+        private void GraphTypeCartesian_Click(object sender, EventArgs e) => PlotType = PlotType.Cartesian;
+        private void GraphType_ButtonClick(object sender, EventArgs e) => PlotType = 1 - PlotType;
         // Zoom
         private void ZoomIn_Click(object sender, EventArgs e) => Zoom(10.0f / 11.0f);
         private void ZoomOut_Click(object sender, EventArgs e) => Zoom(11.0f / 10.0f);

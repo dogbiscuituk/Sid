@@ -24,7 +24,7 @@
             graphForm.tbForward.Click += TimeForward_Click;
             graphForm.TimeAccelerate.Click += TimeAccelerate_Click;
             graphForm.tbAccelerate.Click += TimeAccelerate_Click;
-            Clock = new Clock { Sync = GraphicsController.View };
+            Clock = new Clock { Sync = GraphicsController.PictureBox };
             Clock.Tick += Clock_Tick;
             UpdateTimeControls();
         }
@@ -83,7 +83,7 @@
 
         private GraphicsController GraphicsController;
         private GraphController GraphController => GraphicsController.GraphController;
-        private GraphForm graphForm { get => GraphicsController.graphForm; }
+        private GraphForm graphForm { get => GraphicsController.GraphForm; }
         private System.Diagnostics.Stopwatch Stopwatch;
 
         private bool CanAccelerate => UsesTime && VirtualTimeFactor < +32;

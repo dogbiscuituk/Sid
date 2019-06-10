@@ -373,6 +373,8 @@
     <None Include="Graphics\Icons\WebInsertHyperlinkHS.png" />
     <None Include="Graphics\Icons\ZoomHS.png" />
     <Content Include="Documentation\Numerical Limits of GDI+.txt" />
+    <None Include="Graphics\Icons\Cross.png" />
+    <None Include="Graphics\Icons\SizeAll.png" />
     <Content Include="Icons\126_Edit_16x16_72.png" />
     <Content Include="Icons\3ph128.png" />
     <Content Include="Icons\3ph16.png" />

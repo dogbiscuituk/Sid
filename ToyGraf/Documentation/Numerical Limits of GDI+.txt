@@ -17,3 +17,6 @@ eventually grinding the application to a stop.
 A better strategy is to look ahead. Having computed a list of points to plot, calculate a maximum
 allowable X domain and Y range, given the current Graphics object's transformation, such that the
 absolute values of the scaled output points are constrained to about ±1 billion, as required.
+
+The current code, having implemented just such ringfencing, nevertheless retains the earlier fix
+(OverflowException catching). Belts, braces, Rawlplugs™, and all that.
