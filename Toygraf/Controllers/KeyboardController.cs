@@ -19,7 +19,7 @@
         internal KeyboardController(TracePropertiesController tracePropertiesController)
         {
             TracePropertiesController = tracePropertiesController;
-            View = tracePropertiesController.View;
+            View = tracePropertiesController.TracePropertiesDialog;
             GraphController.PropertyChanged += GraphController_PropertyChanged;
             InitFunctionNames();
         }

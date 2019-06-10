@@ -25,7 +25,7 @@
             view.edCentreX.Text = "0";
             var graph = TracePropertiesController.Graph;
             DomainInfo = graph.DomainInfo;
-            var ok = view.ShowDialog(TracePropertiesController.View) == DialogResult.OK;
+            var ok = view.ShowDialog(TracePropertiesController.TracePropertiesDialog) == DialogResult.OK;
             if (ok)
             {
                 Degree = (int)view.seDegree.Value;

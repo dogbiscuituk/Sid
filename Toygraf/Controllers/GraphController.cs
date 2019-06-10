@@ -344,21 +344,18 @@
 
         #region IDisposable
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        public void Dispose() => Dispose(true);
 
-        protected virtual void Dispose(bool disposing) => DisposeTracePropertiesController();
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing && TracePropertiesController != null)
+                DisposeTracePropertiesController();
+        }
 
         private void DisposeTracePropertiesController()
         {
-            if (TracePropertiesController != null)
-            {
-                TracePropertiesController.Dispose();
-                TracePropertiesController = null;
-            }
+            TracePropertiesController.Dispose();
+            TracePropertiesController = null;
         }
 
         #endregion

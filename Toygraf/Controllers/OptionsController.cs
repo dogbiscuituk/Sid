@@ -1,10 +1,11 @@
 ﻿namespace ToyGraf.Controllers
 {
+    using System;
     using System.Windows.Forms;
     using ToyGraf.Models.Structs;
     using ToyGraf.Views;
 
-    internal class OptionsController
+    internal class OptionsController : IDisposable
     {
         #region Internal Interface
 
@@ -80,6 +81,24 @@
             OptionsDialog.rbNoGroupUndo.Checked = !options.GroupUndo;
             OptionsDialog.edFilesFolder.Text = options.FilesFolderPath;
             OptionsDialog.edTemplatesFolder.Text = options.TemplatesFolderPath;
+        }
+
+        #endregion
+
+        #region IDisposable
+
+        public void Dispose() => Dispose(true);
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing && OptionsDialog != null)
+                DisposeOptionsDialog();
+        }
+
+        private void DisposeOptionsDialog()
+        {
+            OptionsDialog.Dispose();
+            OptionsDialog = null;
         }
 
         #endregion

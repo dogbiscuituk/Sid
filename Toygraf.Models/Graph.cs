@@ -624,21 +624,18 @@
 
         #region IDisposable
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        public void Dispose() => Dispose(true);
 
-        protected virtual void Dispose(bool disposing) => DisposeReticle();
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing && Reticle != null)
+                DisposeReticle();
+        }
 
         private void DisposeReticle()
         {
-            if (Reticle != null)
-            {
-                Reticle.Dispose();
-                Reticle = null;
-            }
+            Reticle.Dispose();
+            Reticle = null;
         }
 
         #endregion

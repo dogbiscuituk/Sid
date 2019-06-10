@@ -21,29 +21,29 @@
         {
             GraphController = graphController;
             GraphController.PropertyChanged += GraphController_PropertyChanged;
-            View = new TracePropertiesDialog();
-            View.FormClosing += View_FormClosing;
+            TracePropertiesDialog = new TracePropertiesDialog();
+            TracePropertiesDialog.FormClosing += View_FormClosing;
             ColourController = new ColourController();
-            ColourController.AddControls(View.cbPenColour, View.cbFillColour1, View.cbFillColour2);
+            ColourController.AddControls(TracePropertiesDialog.cbPenColour, TracePropertiesDialog.cbFillColour1, TracePropertiesDialog.cbFillColour2);
             KeyboardController = new KeyboardController(this);
             InitEnumControls();
-            View.btnClose.Click += BtnClose_Click;
-            View.btnFillColour1.Click += BtnFillColour1_Click;
-            View.btnFillColour2.Click += BtnFillColour2_Click;
-            View.btnPenColour.Click += BtnPenColour_Click;
-            View.btnTaylorPolynomial.Click += TaylorPolynomialClick;
-            View.btnTexture.Click += TextureClick;
-            View.cbBrushType.SelectedIndexChanged += BrushTypeChanged;
-            View.cbFillColour1.SelectedIndexChanged += FillColour1Changed;
-            View.cbFillColour2.SelectedIndexChanged += FillColour2Changed;
-            View.cbGradientMode.SelectedIndexChanged += GradientModeChanged;
-            View.cbHatchStyle.SelectedIndexChanged += HatchStyleChanged;
-            View.cbPenColour.SelectedIndexChanged += PenColourChanged;
-            View.cbPenStyle.SelectedIndexChanged += PenStyleChanged;
-            View.cbWrapMode.SelectedIndexChanged += WrapModeChanged;
-            View.seIndex.ValueChanged += IndexValueChanged;
-            View.seTransparency.ValueChanged += FillTransparencyChanged;
-            View.sePenSize.ValueChanged += PenSizeChanged;
+            TracePropertiesDialog.btnClose.Click += BtnClose_Click;
+            TracePropertiesDialog.btnFillColour1.Click += BtnFillColour1_Click;
+            TracePropertiesDialog.btnFillColour2.Click += BtnFillColour2_Click;
+            TracePropertiesDialog.btnPenColour.Click += BtnPenColour_Click;
+            TracePropertiesDialog.btnTaylorPolynomial.Click += TaylorPolynomialClick;
+            TracePropertiesDialog.btnTexture.Click += TextureClick;
+            TracePropertiesDialog.cbBrushType.SelectedIndexChanged += BrushTypeChanged;
+            TracePropertiesDialog.cbFillColour1.SelectedIndexChanged += FillColour1Changed;
+            TracePropertiesDialog.cbFillColour2.SelectedIndexChanged += FillColour2Changed;
+            TracePropertiesDialog.cbGradientMode.SelectedIndexChanged += GradientModeChanged;
+            TracePropertiesDialog.cbHatchStyle.SelectedIndexChanged += HatchStyleChanged;
+            TracePropertiesDialog.cbPenColour.SelectedIndexChanged += PenColourChanged;
+            TracePropertiesDialog.cbPenStyle.SelectedIndexChanged += PenStyleChanged;
+            TracePropertiesDialog.cbWrapMode.SelectedIndexChanged += WrapModeChanged;
+            TracePropertiesDialog.seIndex.ValueChanged += IndexValueChanged;
+            TracePropertiesDialog.seTransparency.ValueChanged += FillTransparencyChanged;
+            TracePropertiesDialog.sePenSize.ValueChanged += PenSizeChanged;
             UpdateUI();
         }
 
@@ -66,13 +66,13 @@
         internal void Show(IWin32Window owner, Point location, int index)
         {
             Trace = Graph.Traces[index];
-            View.Location = location;
-            View.Show(owner);
+            TracePropertiesDialog.Location = location;
+            TracePropertiesDialog.Show(owner);
         }
 
         internal readonly GraphController GraphController;
         internal KeyboardController KeyboardController;
-        internal TracePropertiesDialog View;
+        internal TracePropertiesDialog TracePropertiesDialog;
         internal Graph Graph => GraphController.Graph;
         internal int Index => Graph.Traces.IndexOf(Trace);
         internal bool Updating;
@@ -96,54 +96,54 @@
         {
             UpdateUI();
             if (!Updating)
-                CommandProcessor[Index].BrushType = (BrushType)View.cbBrushType.SelectedIndex;
+                CommandProcessor[Index].BrushType = (BrushType)TracePropertiesDialog.cbBrushType.SelectedIndex;
         }
 
         private void BtnClose_Click(object sender, EventArgs e) => Close();
 
         private void BtnFillColour1_Click(object sender, EventArgs e)
         {
-            View.ColourDialog.Color = Trace.FillColour1;
-            if (View.ColourDialog.ShowDialog(View) == DialogResult.OK)
-                CommandProcessor[Index].FillColour1 = View.ColourDialog.Color;
+            TracePropertiesDialog.ColourDialog.Color = Trace.FillColour1;
+            if (TracePropertiesDialog.ColourDialog.ShowDialog(TracePropertiesDialog) == DialogResult.OK)
+                CommandProcessor[Index].FillColour1 = TracePropertiesDialog.ColourDialog.Color;
         }
 
         private void BtnFillColour2_Click(object sender, EventArgs e)
         {
-            View.ColourDialog.Color = Trace.FillColour2;
-            if (View.ColourDialog.ShowDialog(View) == DialogResult.OK)
-                CommandProcessor[Index].FillColour2 = View.ColourDialog.Color;
+            TracePropertiesDialog.ColourDialog.Color = Trace.FillColour2;
+            if (TracePropertiesDialog.ColourDialog.ShowDialog(TracePropertiesDialog) == DialogResult.OK)
+                CommandProcessor[Index].FillColour2 = TracePropertiesDialog.ColourDialog.Color;
         }
 
         private void BtnPenColour_Click(object sender, EventArgs e)
         {
-            View.ColourDialog.Color = Trace.PenColour;
-            if (View.ColourDialog.ShowDialog(View) == DialogResult.OK)
-                CommandProcessor[Index].PenColour = View.ColourDialog.Color;
+            TracePropertiesDialog.ColourDialog.Color = Trace.PenColour;
+            if (TracePropertiesDialog.ColourDialog.ShowDialog(TracePropertiesDialog) == DialogResult.OK)
+                CommandProcessor[Index].PenColour = TracePropertiesDialog.ColourDialog.Color;
         }
 
         private void FillColour1Changed(object sender, EventArgs e)
         {
             if (!Updating)
-                CommandProcessor[Index].FillColour1 = ColourController.GetColour(View.cbFillColour1);
+                CommandProcessor[Index].FillColour1 = ColourController.GetColour(TracePropertiesDialog.cbFillColour1);
         }
 
         private void FillColour2Changed(object sender, EventArgs e)
         {
             if (!Updating)
-                CommandProcessor[Index].FillColour2 = ColourController.GetColour(View.cbFillColour2);
+                CommandProcessor[Index].FillColour2 = ColourController.GetColour(TracePropertiesDialog.cbFillColour2);
         }
 
         private void FillTransparencyChanged(object sender, EventArgs e)
         {
             if (!Updating)
-                CommandProcessor[Index].FillTransparencyPercent = (int)View.seTransparency.Value;
+                CommandProcessor[Index].FillTransparencyPercent = (int)TracePropertiesDialog.seTransparency.Value;
         }
 
         private void GradientModeChanged(object sender, EventArgs e)
         {
             if (!Updating)
-                CommandProcessor[Index].GradientMode = (LinearGradientMode)View.cbGradientMode.SelectedIndex;
+                CommandProcessor[Index].GradientMode = (LinearGradientMode)TracePropertiesDialog.cbGradientMode.SelectedIndex;
         }
 
         private void GraphController_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -169,41 +169,41 @@
                     switch (match.Groups[1].Value)
                     {
                         case "BrushType":
-                            View.cbBrushType.SelectedIndex = (int)Trace.BrushType;
+                            TracePropertiesDialog.cbBrushType.SelectedIndex = (int)Trace.BrushType;
                             break;
                         case "FillColour1":
-                            ColourController.SetColour(View.cbFillColour1, Trace.FillColour1);
+                            ColourController.SetColour(TracePropertiesDialog.cbFillColour1, Trace.FillColour1);
                             break;
                         case "FillColour2":
-                            ColourController.SetColour(View.cbFillColour2, Trace.FillColour2);
+                            ColourController.SetColour(TracePropertiesDialog.cbFillColour2, Trace.FillColour2);
                             break;
                         case "FillTransparencyPercent":
-                            View.seTransparency.Value = Trace.FillTransparencyPercent;
+                            TracePropertiesDialog.seTransparency.Value = Trace.FillTransparencyPercent;
                             break;
                         case "GradientMode":
-                            View.cbGradientMode.SelectedIndex = (int)Trace.GradientMode;
+                            TracePropertiesDialog.cbGradientMode.SelectedIndex = (int)Trace.GradientMode;
                             break;
                         case "HatchStyle":
-                            View.cbHatchStyle.SelectedIndex = (int)Trace.HatchStyle;
+                            TracePropertiesDialog.cbHatchStyle.SelectedIndex = (int)Trace.HatchStyle;
                             break;
                         case "PenColour":
-                            ColourController.SetColour(View.cbPenColour, Trace.PenColour);
+                            ColourController.SetColour(TracePropertiesDialog.cbPenColour, Trace.PenColour);
                             break;
                         case "PenStyle":
-                            View.cbPenStyle.SelectedIndex = (int)Trace.PenStyle;
+                            TracePropertiesDialog.cbPenStyle.SelectedIndex = (int)Trace.PenStyle;
                             break;
                         case "PenWidth":
-                            View.sePenSize.Value = (decimal)Trace.PenWidth;
+                            TracePropertiesDialog.sePenSize.Value = (decimal)Trace.PenWidth;
                             break;
                         case "Texture":
                         case "TexturePath":
-                            View.lblTexturePath.Text = Trace.TexturePath;
+                            TracePropertiesDialog.lblTexturePath.Text = Trace.TexturePath;
                             break;
                         case "Visible":
-                            View.cbVisible.Checked = Trace.Visible;
+                            TracePropertiesDialog.cbVisible.Checked = Trace.Visible;
                             break;
                         case "WrapMode":
-                            View.cbWrapMode.SelectedIndex = (int)Trace.WrapMode;
+                            TracePropertiesDialog.cbWrapMode.SelectedIndex = (int)Trace.WrapMode;
                             break;
                     }
                     Updating = false;
@@ -214,25 +214,25 @@
         private void HatchStyleChanged(object sender, EventArgs e)
         {
             if (!Updating)
-                CommandProcessor[Index].HatchStyle = (HatchStyle)View.cbHatchStyle.SelectedIndex;
+                CommandProcessor[Index].HatchStyle = (HatchStyle)TracePropertiesDialog.cbHatchStyle.SelectedIndex;
         }
 
         private void PenColourChanged(object sender, EventArgs e)
         {
             if (!Updating)
-                CommandProcessor[Index].PenColour = ColourController.GetColour(View.cbPenColour);
+                CommandProcessor[Index].PenColour = ColourController.GetColour(TracePropertiesDialog.cbPenColour);
         }
 
         private void PenSizeChanged(object sender, EventArgs e)
         {
             if (!Updating)
-                CommandProcessor[Index].PenWidth = (float)View.sePenSize.Value;
+                CommandProcessor[Index].PenWidth = (float)TracePropertiesDialog.sePenSize.Value;
         }
 
         private void PenStyleChanged(object sender, EventArgs e)
         {
             if (!Updating)
-                CommandProcessor[Index].PenStyle = (DashStyle)View.cbPenStyle.SelectedIndex;
+                CommandProcessor[Index].PenStyle = (DashStyle)TracePropertiesDialog.cbPenStyle.SelectedIndex;
         }
 
         private void TaylorPolynomialClick(object sender, EventArgs e)
@@ -263,21 +263,21 @@
         private void WrapModeChanged(object sender, EventArgs e)
         {
             if (!Updating)
-                CommandProcessor[Index].WrapMode = (WrapMode)View.cbWrapMode.SelectedIndex;
+                CommandProcessor[Index].WrapMode = (WrapMode)TracePropertiesDialog.cbWrapMode.SelectedIndex;
         }
 
         #endregion
 
         #region Private Methods
 
-        private void Close() => View.Hide();
+        private void Close() => TracePropertiesDialog.Hide();
 
         private void IndexValueChanged(object Sender, EventArgs e)
         {
             if (!Updating)
             {
                 Updating = true;
-                Trace = Graph.Traces[Count - (int)View.seIndex.Value - 1];
+                Trace = Graph.Traces[Count - (int)TracePropertiesDialog.seIndex.Value - 1];
                 Updating = false;
             }
             KeyboardController.IndexValueChanged();
@@ -285,11 +285,11 @@
 
         private void InitEnumControls()
         {
-            View.cbPenStyle.Items.PopulateWithNames(typeof(DashStyle));
-            View.cbBrushType.Items.PopulateWithDescriptions(typeof(BrushType));
-            View.cbHatchStyle.Items.PopulateWithNames(typeof(HatchStyle));
-            View.cbGradientMode.Items.PopulateWithNames(typeof(LinearGradientMode));
-            View.cbWrapMode.Items.PopulateWithNames(typeof(WrapMode));
+            TracePropertiesDialog.cbPenStyle.Items.PopulateWithNames(typeof(DashStyle));
+            TracePropertiesDialog.cbBrushType.Items.PopulateWithDescriptions(typeof(BrushType));
+            TracePropertiesDialog.cbHatchStyle.Items.PopulateWithNames(typeof(HatchStyle));
+            TracePropertiesDialog.cbGradientMode.Items.PopulateWithNames(typeof(LinearGradientMode));
+            TracePropertiesDialog.cbWrapMode.Items.PopulateWithNames(typeof(WrapMode));
         }
 
         private void LoadTrace()
@@ -297,72 +297,69 @@
             if (Trace != null)
             {
                 Updating = true;
-                View.IndexLabel.Text = $"f{Index}";
-                View.seIndex.Maximum = Count - 1;
-                View.seIndex.Value = Count - Index - 1;
-                ColourController.SetColour(View.cbPenColour, Trace.PenColour);
-                ColourController.SetColour(View.cbFillColour1, Trace.FillColour1);
-                ColourController.SetColour(View.cbFillColour2, Trace.FillColour2);
-                View.cbPenStyle.SelectedIndex = (int)Trace.PenStyle;
-                View.cbBrushType.SelectedIndex = (int)Trace.BrushType;
-                View.cbHatchStyle.SelectedIndex = (int)Trace.HatchStyle;
-                View.cbGradientMode.SelectedIndex = (int)Trace.GradientMode;
-                View.cbWrapMode.SelectedIndex = (int)Trace.WrapMode;
+                TracePropertiesDialog.IndexLabel.Text = $"f{Index}";
+                TracePropertiesDialog.seIndex.Maximum = Count - 1;
+                TracePropertiesDialog.seIndex.Value = Count - Index - 1;
+                ColourController.SetColour(TracePropertiesDialog.cbPenColour, Trace.PenColour);
+                ColourController.SetColour(TracePropertiesDialog.cbFillColour1, Trace.FillColour1);
+                ColourController.SetColour(TracePropertiesDialog.cbFillColour2, Trace.FillColour2);
+                TracePropertiesDialog.cbPenStyle.SelectedIndex = (int)Trace.PenStyle;
+                TracePropertiesDialog.cbBrushType.SelectedIndex = (int)Trace.BrushType;
+                TracePropertiesDialog.cbHatchStyle.SelectedIndex = (int)Trace.HatchStyle;
+                TracePropertiesDialog.cbGradientMode.SelectedIndex = (int)Trace.GradientMode;
+                TracePropertiesDialog.cbWrapMode.SelectedIndex = (int)Trace.WrapMode;
                 UpdateTexturePathLabel();
-                View.sePenSize.Value = (decimal)Trace.PenWidth;
-                View.seTransparency.Value = Trace.FillTransparencyPercent;
+                TracePropertiesDialog.sePenSize.Value = (decimal)Trace.PenWidth;
+                TracePropertiesDialog.seTransparency.Value = Trace.FillTransparencyPercent;
                 Updating = false;
             }
             KeyboardController.LoadTrace();
         }
 
-        private void UpdateIndexLabel() => View.IndexLabel.Text = $"f{Index}";
-        private void UpdateTexturePathLabel() => View.lblTexturePath.Text = Trace.TexturePath.AmpersandEscape();
+        private void UpdateIndexLabel() => TracePropertiesDialog.IndexLabel.Text = $"f{Index}";
+        private void UpdateTexturePathLabel() => TracePropertiesDialog.lblTexturePath.Text = Trace.TexturePath.AmpersandEscape();
 
         private void UpdateUI()
         {
-            var brushType = (BrushType)View.cbBrushType.SelectedIndex;
+            var brushType = (BrushType)TracePropertiesDialog.cbBrushType.SelectedIndex;
             bool
                 solid = brushType == BrushType.Solid,
                 hatch = brushType == BrushType.Hatch,
                 texture = brushType == BrushType.Texture,
                 path = brushType == BrushType.PathGradient,
                 linear = brushType == BrushType.LinearGradient;
-            View.lblFillColour.Visible =
-                View.cbFillColour1.Visible =
-                View.btnFillColour1.Visible = !texture;
-            View.lblTransparency.Visible =
-                View.seTransparency.Visible = true;
-            View.lblFillColour2.Visible =
-                View.cbFillColour2.Visible =
-                View.btnFillColour2.Visible = !(solid || texture);
-            View.cbHatchStyle.Visible = hatch;
-            View.cbGradientMode.Visible = linear;
-            View.lblType.Visible = hatch || texture || linear;
-            View.cbWrapMode.Visible =
-                View.lblTexturePath.Visible =
-                View.btnTexture.Visible = texture;
+            TracePropertiesDialog.lblFillColour.Visible =
+                TracePropertiesDialog.cbFillColour1.Visible =
+                TracePropertiesDialog.btnFillColour1.Visible = !texture;
+            TracePropertiesDialog.lblTransparency.Visible =
+                TracePropertiesDialog.seTransparency.Visible = true;
+            TracePropertiesDialog.lblFillColour2.Visible =
+                TracePropertiesDialog.cbFillColour2.Visible =
+                TracePropertiesDialog.btnFillColour2.Visible = !(solid || texture);
+            TracePropertiesDialog.cbHatchStyle.Visible = hatch;
+            TracePropertiesDialog.cbGradientMode.Visible = linear;
+            TracePropertiesDialog.lblType.Visible = hatch || texture || linear;
+            TracePropertiesDialog.cbWrapMode.Visible =
+                TracePropertiesDialog.lblTexturePath.Visible =
+                TracePropertiesDialog.btnTexture.Visible = texture;
         }
 
         #endregion
 
         #region IDisposable
 
-        public void Dispose()
+        public void Dispose() => Dispose(true);
+
+        protected virtual void Dispose(bool disposing)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            if (disposing && TracePropertiesDialog != null)
+                DisposeTracePropertiesDialog();
         }
 
-        protected virtual void Dispose(bool disposing) => DisposeView();
-
-        private void DisposeView()
+        private void DisposeTracePropertiesDialog()
         {
-            if (View != null)
-            {
-                View.Dispose();
-                View = null;
-            }
+            TracePropertiesDialog.Dispose();
+            TracePropertiesDialog = null;
         }
 
         #endregion

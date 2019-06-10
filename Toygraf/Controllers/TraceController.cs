@@ -112,7 +112,7 @@
         private void BtnDetails_Click(object sender, System.EventArgs e)
         {
             var index = LegendController.IndexOf(this);
-            if (!TracePropertiesController.View.Visible)
+            if (!TracePropertiesController.TracePropertiesDialog.Visible)
             {
                 int h = View.Height, h1 = KeyboardController.View.Height,
                     h2 = Screen.FromControl(View).Bounds.Height;
