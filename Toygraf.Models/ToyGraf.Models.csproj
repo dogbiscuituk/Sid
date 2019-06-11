@@ -49,6 +49,7 @@
     <Compile Include="Defaults.cs" />
     <Compile Include="Enumerations\BrushType.cs" />
     <Compile Include="Enumerations\FilterIndex.cs" />
+    <Compile Include="Enumerations\MouseMode.cs" />
     <Compile Include="Enumerations\Tool.cs" />
     <Compile Include="Structs\DomainInfo.cs" />
     <Compile Include="Enumerations\Elements.cs" />

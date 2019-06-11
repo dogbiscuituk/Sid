@@ -2,8 +2,8 @@
 {
     public enum Tool
     {
-        Arrow,
+        Pointer,
         Cross,
-        Hand
+        Grab
     }
 }

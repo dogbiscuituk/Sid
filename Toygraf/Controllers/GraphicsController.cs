@@ -56,9 +56,11 @@
         private PictureBox _PictureBox;
         private CommandProcessor CommandController { get => GraphController.CommandProcessor; }
         private Graph Graph => GraphController.Graph;
+        private Rectangle MouseMoveRect;
         private Point DragFrom, MouseDownAt;
         private Tool SelectedTool;
-        private bool DoubleBuffered, Dragging;
+        private MouseMode MouseMode;
+        private bool DoubleBuffered;
 
         #endregion
 
@@ -67,19 +69,29 @@
         private void ParentView_Resize(object sender, System.EventArgs e) => AdjustPictureBox();
 
         private void TbTool_ButtonClick(object sender, EventArgs e) => SelectNextTool();
-        private void TbToolArrow_Click(object sender, EventArgs e) => SelectTool(Tool.Arrow);
+        private void TbToolArrow_Click(object sender, EventArgs e) => SelectTool(Tool.Pointer);
         private void TbToolCross_Click(object sender, EventArgs e) => SelectTool(Tool.Cross);
-        private void TbToolHand_Click(object sender, EventArgs e) => SelectTool(Tool.Hand);
+        private void TbToolHand_Click(object sender, EventArgs e) => SelectTool(Tool.Grab);
 
         private void View_MouseDown(object sender, MouseEventArgs e)
         {
             switch (e.Button)
             {
                 case MouseButtons.Left:
-                    Dragging = true;
-                    PictureBox.Cursor = Cursors.Hand;
-                    MouseDownAt = e.Location;
-                    DragFrom = PictureBox.Location;
+                    switch (SelectedTool)
+                    {
+                        case Tool.Pointer:
+                            MouseMode = MouseMode.Selecting;
+                            MouseDownAt = ClientToScreen(e.Location);
+                            MouseMoveRect = new Rectangle(MouseDownAt, new Size());
+                            DrawLasso();
+                            break;
+                        case Tool.Grab:
+                            MouseMode = MouseMode.Dragging;
+                            MouseDownAt = e.Location;
+                            DragFrom = PictureBox.Location;
+                            break;
+                    }
                     break;
                 case MouseButtons.Middle: // Click wheel
                     CommandController.ZoomReset();
@@ -89,28 +101,53 @@
             }
         }
 
-        private void View_MouseLeave(object sender, EventArgs e) => GraphController.UpdateMouseCoordinates(PointF.Empty);
+        private void View_MouseLeave(object sender, EventArgs e) =>
+            GraphController.UpdateMouseCoordinates(PointF.Empty);
 
         private void View_MouseMove(object sender, MouseEventArgs e)
         {
-            if (Dragging)
-                PictureBox.Location = new Point(
-                    PictureBox.Left - MouseDownAt.X + e.X,
-                    PictureBox.Top - MouseDownAt.Y + e.Y);
-            else
-                GraphController.UpdateMouseCoordinates(ClientToGraph(e.Location));
+            switch (MouseMode)
+            {
+                case MouseMode.Default:
+                    GraphController.UpdateMouseCoordinates(ClientToGraph(e.Location));
+                    break;
+                case MouseMode.Selecting:
+                    var p = e.Location;
+                    p.X = Math.Min(Math.Max(0, p.X), PictureBox.Width);
+                    p.Y = Math.Min(Math.Max(0, p.Y), PictureBox.Height);
+                    p = ClientToScreen(p);
+                    Size s = MouseMoveRect.Size, t = new Size(p.X - MouseDownAt.X, p.Y - MouseDownAt.Y);
+                    if (s != t)
+                    {
+                        MouseMoveRect.Size = t;
+                        DrawLasso();
+                        MouseMoveRect.Size = s;
+                        DrawLasso();
+                        MouseMoveRect.Size = t;
+                    }
+                    break;
+                case MouseMode.Dragging:
+                    PictureBox.Location = new Point(
+                        PictureBox.Left - MouseDownAt.X + e.X,
+                        PictureBox.Top - MouseDownAt.Y + e.Y);
+                    break;
+            }
         }
 
         private void View_MouseUp(object sender, MouseEventArgs e)
         {
-            if (Dragging)
+            switch (MouseMode)
             {
-                PointF p = ClientToGraph(DragFrom), q = ClientToGraph(PictureBox.Location);
-                CommandController.ScrollBy(p.X - q.X, p.Y - q.Y);
-                AdjustPictureBox();
-                PictureBox.Cursor = Cursors.Default;
-                Dragging = false;
+                case MouseMode.Selecting:
+                    DrawLasso();
+                    break;
+                case MouseMode.Dragging:
+                    PointF p = ClientToGraph(DragFrom), q = ClientToGraph(PictureBox.Location);
+                    CommandController.ScrollBy(p.X - q.X, p.Y - q.Y);
+                    AdjustPictureBox();
+                    break;
             }
+            MouseMode = MouseMode.Default;
         }
 
         private void View_MouseWheel(object sender, MouseEventArgs e) =>
@@ -150,10 +187,14 @@
         #region Private Methods
 
         private PointF ClientToGraph(Point p) => Graph.ClientToGraph(p, PictureBox.ClientRectangle);
-        private PointF ScreenToGraph(Point p) => ClientToGraph(PictureBox.PointToClient(p));
-
+        private Point ClientToScreen(Point p) => PictureBox.PointToScreen(p);
         private Point GraphToClient(PointF p) => Graph.GraphToClient(p, PictureBox.ClientRectangle);
-        private Point GraphToScreen(PointF p) => PictureBox.PointToScreen(GraphToClient(p));
+        private Point GraphToScreen(PointF p) => ClientToScreen(GraphToClient(p));
+        private Point ScreenToClient(Point p) => PictureBox.PointToClient(p);
+        private PointF ScreenToGraph(Point p) => ClientToGraph(ScreenToClient(p));
+
+        private void DrawLasso() =>
+            ControlPaint.DrawReversibleFrame(MouseMoveRect, Graph.PaperColour, FrameStyle.Dashed);
 
         private void SelectNextTool() => SelectTool((Tool)((int)(SelectedTool + 1) % 3));
 
@@ -168,11 +209,11 @@
         {
             switch (tool)
             {
-                case Tool.Arrow:
+                case Tool.Pointer:
                     return Cursors.Arrow;
                 case Tool.Cross:
                     return Cursors.Cross;
-                case Tool.Hand:
+                case Tool.Grab:
                     return Cursors.Hand;
                 default:
                     return Cursors.Default;
@@ -183,12 +224,12 @@
         {
             switch (tool)
             {
-                case Tool.Arrow:
+                case Tool.Pointer:
                     return Properties.Resources.PointerHS;
                 case Tool.Cross:
                     return Properties.Resources.Cross;
-                case Tool.Hand:
-                    return Properties.Resources.clock_16xLG;
+                case Tool.Grab:
+                    return Properties.Resources.Hand;
                 default:
                     return Properties.Resources.PointerHS;
             }
