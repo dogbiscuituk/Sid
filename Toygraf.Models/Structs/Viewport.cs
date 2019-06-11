@@ -15,7 +15,6 @@
     {
         public Viewport(PointF centre, float width, float ratio = 1)
         {
-            Boundary = new RectangleF();
             ViewInfo = new ViewInfo(centre, width);
             _ratio = ratio;
         }
@@ -23,8 +22,8 @@
         public Viewport(PointF centre, float width, Size ratio)
             : this(centre, width, (float)ratio.Height / ratio.Width) { }
 
-        public RectangleF Boundary { get; internal set; }
         public RectangleF Limits => new RectangleF(Left, Top, Width, Height);
+        public RectangleF Boundary => GetBoundary();
 
         public ViewInfo ViewInfo;
 
@@ -73,5 +72,13 @@
 
         public override int GetHashCode() =>
             ViewInfo.GetHashCode() ^ _ratio.GetHashCode();
+
+        private RectangleF GetBoundary()
+        {
+            var boundary = Limits;
+            boundary.Inflate(boundary.Size);
+            return boundary;
+
+        }
     }
 }

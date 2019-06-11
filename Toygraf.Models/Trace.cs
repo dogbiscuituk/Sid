@@ -249,9 +249,9 @@
             var r = viewport.Boundary;
             float
                 xmin = r.Left,
-                ymin = r.Bottom,
+                ymin = r.Top,
                 xmax = r.Right,
-                ymax = r.Top;
+                ymax = r.Bottom;
             var result = new List<List<PointF>>();
             List<PointF> points = null;
             var domain = GetDomain(domainInfo, viewport, polar);

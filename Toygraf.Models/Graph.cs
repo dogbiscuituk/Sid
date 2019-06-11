@@ -494,13 +494,7 @@
         {
             InitOptimization(g);
             using (var m = GetMatrix(r))
-            {
                 g.Transform = m;
-                m.Invert();
-                var p = new PointF[] { new PointF(-1e9f, -1e9f), new PointF(1e9f, 1e9f) };
-                m.TransformPoints(p);
-                Viewport.Boundary = new RectangleF(p[0].X, p[0].Y, p[1].X - p[0].X, p[1].Y - p[0].Y);
-            }
             Viewport.SetRatio(r.Size);
             if (LastViewport != Viewport)
             {
