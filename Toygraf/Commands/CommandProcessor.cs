@@ -205,11 +205,7 @@
             ScrollTo(p.X + Graph.Width * xFactor, p.Y + Graph.Width * yFactor);
         }
 
-        private void ScrollTo(float x, float y)
-        {
-            var width = Graph.Width;
-            Run(new GraphViewCommand(x, y, width));
-        }
+        private void ScrollTo(float x, float y) => Centre = new PointF(x, y);
 
         private void Undo() { if (CanUndo) Undo(UndoStack.Pop()); }
 

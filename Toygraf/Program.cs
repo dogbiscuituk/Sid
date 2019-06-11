@@ -14,7 +14,8 @@
         {
             Expressions.Expressions.TestAll();
             Application.EnableVisualStyles();
-            Application.Run(AppController.View);
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(AppController.AboutDialog);
         }
     }
 }

@@ -3,26 +3,41 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Timers;
     using System.Windows.Forms;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Models.Structs;
     using ToyGraf.Views;
-    using Timer = System.Timers.Timer;
 
     internal static class AppController
     {
+        #region Internal Interface
+
         static AppController()
         {
-            Timer timer = new Timer(5000)
+            Timer = new Timer
             {
-                AutoReset = false,
-                Enabled = true,
-                SynchronizingObject = View
+                Interval = 5000,
+                Enabled = true
             };
-            timer.Elapsed += Timer_Elapsed;
+            Timer.Tick += Timer_Tick;
             AddNewGraphController();
         }
+
+        #region Properties
+
+        internal static AboutDialog AboutDialog
+        {
+            get
+            {
+                if (_AboutDialog == null)
+                    _AboutDialog = new AboutController().View;
+                return _AboutDialog;
+            }
+        }
+
+        internal static bool EpilepsyWarningAcknowledged;
+
+        internal static List<GraphController> GraphControllers = new List<GraphController>();
 
         internal static Options Options
         {
@@ -55,14 +70,9 @@
             }
         }
 
-        #region Private Properties
-
-        private static readonly string DefaultFilesFolderPath =
-            $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\{Application.ProductName}";
-
-        private static Properties.Settings Settings => Properties.Settings.Default;
-
         #endregion
+
+        #region Methods
 
         internal static GraphController AddNewGraphController()
         {
@@ -94,24 +104,28 @@
                 Application.Exit();
         }
 
-        private static AboutDialog _view;
-        internal static AboutDialog View
+        #endregion
+
+        #endregion
+
+        #region Private Event Handlers
+
+        private static void Timer_Tick(object sender, EventArgs e)
         {
-            get
-            {
-                if (_view == null)
-                {
-                    Application.SetCompatibleTextRenderingDefault(false);
-                    _view = new AboutController().View;
-                }
-                return _view;
-            }
+            Timer.Dispose();
+            Timer = null;
+            AboutDialog.Hide();
         }
 
-        internal static bool EpilepsyWarningAcknowledged;
+        #endregion
 
-        internal static List<GraphController> GraphControllers = new List<GraphController>();
+        #region Private Properties
 
-        private static void Timer_Elapsed(object sender, ElapsedEventArgs e) => View.Hide();
+        private static AboutDialog _AboutDialog;
+        private static readonly string DefaultFilesFolderPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\{Application.ProductName}";
+        private static Properties.Settings Settings => Properties.Settings.Default;
+        private static Timer Timer;
+
+        #endregion
     }
 }

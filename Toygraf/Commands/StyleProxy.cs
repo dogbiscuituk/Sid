@@ -16,9 +16,7 @@
             internal StyleProxy()
             {
                 CommandProcessor = GraphProxyProxy.CommandProcessor;
-                var index = Graph.Styles.Count;
-                //Run(new GraphInsertStyleCommand(index));
-                Index = index;
+                Index = Graph.Styles.Count;
             }
 
             internal StyleProxy(CommandProcessor graphProxy, int index)
