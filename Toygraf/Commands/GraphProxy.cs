@@ -8,6 +8,7 @@
     using ToyGraf.Controls;
     using ToyGraf.Models;
     using ToyGraf.Models.Enumerations;
+    using ToyGraf.Models.Structs;
 
     [DefaultProperty("Traces")]
     partial class CommandProcessor
@@ -26,7 +27,7 @@
         public PointF Centre
         {
             get => Graph.Centre;
-            set => Run(new GraphCentreCommand(value));
+            set => Run(new GraphViewCommand(value, Graph.Width));
         }
 
         [Category("View")]
@@ -36,7 +37,11 @@
         public float CentreX
         {
             get => Graph.Centre.X;
-            set => Run(new GraphCentreXCommand(value));
+            set
+            {
+                var viewInfo = Graph.Viewport.ViewInfo;
+                Run(new GraphViewCommand(value, viewInfo.Y, viewInfo.Width));
+            }
         }
 
         [Category("View")]
@@ -46,7 +51,11 @@
         public float CentreY
         {
             get => Graph.Centre.Y;
-            set => Run(new GraphCentreYCommand(value));
+            set
+            {
+                var viewInfo = Graph.Viewport.ViewInfo;
+                Run(new GraphViewCommand(viewInfo.X, value, viewInfo.Width));
+            }
         }
 
         [Category("Domain")]
@@ -284,7 +293,7 @@
         public float Width
         {
             get => Graph.Width;
-            set => Run(new GraphWidthCommand(value));
+            set => Run(new GraphViewCommand(Graph.Centre, value));
         }
     }
 }

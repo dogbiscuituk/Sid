@@ -188,6 +188,19 @@
         [JsonIgnore]
         public PointF OriginalCentre { get; private set; }
 
+        public ViewInfo ViewInfo
+        {
+            get => Viewport.ViewInfo;
+            set
+            {
+                if (ViewInfo != value)
+                {
+                    Viewport.ViewInfo = value;
+                    OnPropertyChanged("ViewInfo");
+                }
+            }
+        }
+
         public PointF Centre
         {
             get => Viewport.Centre;
@@ -195,7 +208,7 @@
             {
                 if (Centre != value)
                 {
-                    Viewport.Centre = value;
+                    Viewport.ViewInfo.Centre = value;
                     OnPropertyChanged("Centre");
                 }
             }
@@ -211,7 +224,7 @@
             {
                 if (Width != value)
                 {
-                    Viewport.Width = value;
+                    Viewport.ViewInfo.Width = value;
                     OnPropertyChanged("Width");
                 }
             }

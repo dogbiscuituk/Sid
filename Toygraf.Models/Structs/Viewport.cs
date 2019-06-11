@@ -16,8 +16,7 @@
         public Viewport(PointF centre, float width, float ratio = 1)
         {
             Boundary = new RectangleF();
-            Centre = centre;
-            Width = width;
+            ViewInfo = new ViewInfo(centre, width);
             _ratio = ratio;
         }
 
@@ -27,13 +26,15 @@
         public RectangleF Boundary { get; internal set; }
         public RectangleF Limits => new RectangleF(Left, Top, Width, Height);
 
-        public PointF Centre;
+        public ViewInfo ViewInfo;
+
+        public PointF Centre => ViewInfo.Centre;
         public PointF BottomLeft { get => new PointF(Left, Bottom); }
         public PointF BottomRight { get => new PointF(Right, Bottom); }
         public PointF TopLeft { get => new PointF(Left, Top); }
         public PointF TopRight { get => new PointF(Right, Top); }
 
-        public float Width;
+        public float Width => ViewInfo.Width;
         public float Height => Width * _ratio;
         public float Left => Centre.X - Width / 2;
         public float Top => Centre.Y - Height / 2;
@@ -64,13 +65,13 @@
         }
 
         public static bool operator ==(Viewport u, Viewport v) =>
-            u.Centre == v.Centre && u.Width == v.Width && u._ratio == v._ratio;
+            u.ViewInfo == v.ViewInfo && u._ratio == v._ratio;
 
         public static bool operator !=(Viewport u, Viewport v) => !(u == v);
 
         public override bool Equals(object obj) => obj is Viewport v && this == v;
 
         public override int GetHashCode() =>
-            Centre.GetHashCode() ^ Width.GetHashCode() ^ _ratio.GetHashCode();
+            ViewInfo.GetHashCode() ^ _ratio.GetHashCode();
     }
 }

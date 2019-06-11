@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using ToyGraf.Models.Enumerations;
+using ToyGraf.Models.Structs;
 
 namespace ToyGraf.Commands
 {
@@ -117,20 +118,6 @@ namespace ToyGraf.Commands
 
         #region float
 
-        private class GraphCentreXCommand : GraphPropertyCommand<float>
-        {
-            public GraphCentreXCommand(float value) : base("",
-                value, g => g.Centre.X, (g, v) => g.Centre = new PointF(v, g.Centre.Y))
-            { }
-        }
-
-        private class GraphCentreYCommand : GraphPropertyCommand<float>
-        {
-            public GraphCentreYCommand(float value) : base("",
-                value, g => g.Centre.Y, (g, v) => g.Centre = new PointF(g.Centre.X, v))
-            { }
-        }
-
         private class GraphDomainMaxCartesianCommand : GraphPropertyCommand<float>
         {
             public GraphDomainMaxCartesianCommand(float value) : base("domain max (Cartesian)",
@@ -156,13 +143,6 @@ namespace ToyGraf.Commands
         {
             public GraphDomainMinPolarCommand(float value) : base("domain min (polar)",
                 value, g => g.DomainMinPolar, (g, v) => g.DomainMinPolar = v)
-            { }
-        }
-
-        private class GraphWidthCommand : GraphPropertyCommand<float>
-        {
-            public GraphWidthCommand(float value) : base("zoom width",
-                value, g => g.Width, (g, v) => g.Width = v)
             { }
         }
 
@@ -193,15 +173,16 @@ namespace ToyGraf.Commands
 
         #endregion
 
-        #region PointF
+        #region ViewInfo
 
-        private class GraphCentreCommand : GraphPropertyCommand<PointF>
+        private class GraphViewCommand : GraphPropertyCommand<ViewInfo>
         {
-            public GraphCentreCommand(PointF value) : base("centre",
-                value, g => g.Centre, (g, v) => g.Centre = v)
+            public GraphViewCommand(ViewInfo value) : base("view",
+                value, g => g.ViewInfo, (g, v) => g.ViewInfo = v)
             { }
 
-            public GraphCentreCommand(float x, float y) : this(new PointF(x, y)) { }
+            public GraphViewCommand(PointF centre, float width) : this(new ViewInfo(centre, width)) { }
+            public GraphViewCommand(float x, float y, float width) : this(new ViewInfo(x, y, width)) { }
         }
 
         #endregion

@@ -118,6 +118,38 @@
 
         #region Private Methods
 
+        private bool CanGroup(ICommand cmd1, ICommand cmd2)
+        {
+            if (cmd2 is ICollectionCommand)
+                return false;
+            if (cmd1.GetType() == cmd2.GetType())
+                switch (cmd1)
+                {
+                    case IGraphPropertyCommand gpc1: return true;
+                    case IStylePropertyCommand spc1: return spc1.Index == ((IStylePropertyCommand)cmd2).Index;
+                    case ITracePropertyCommand tpc1: return tpc1.Index == ((ITracePropertyCommand)cmd2).Index;
+                }
+            else if (cmd1 is ICollectionCommand cc1 && !cc1.Adding)
+                switch (cc1)
+                {
+                    case IStylesCommand sc1:
+                        if (cmd2 is IStylePropertyCommand spc2 && spc2.Index == sc1.Index)
+                        {
+                            if (sc1.Value == null) sc1.Value = Graph.Styles[sc1.Index];
+                            return true;
+                        }
+                        break;
+                    case ITracesCommand tc1:
+                        if (cmd2 is ITracePropertyCommand tpc2 && tpc2.Index == tc1.Index)
+                        {
+                            if (tc1.Value == null) tc1.Value = Graph.Traces[tc1.Index];
+                            return true;
+                        }
+                        break;
+                }
+            return false;
+        }
+
         private void Copy(Stack<ICommand> source, ToolStripDropDownItem target, EventHandler handler)
         {
             const int MaxItems = 20;
@@ -149,31 +181,7 @@
         {
             if (!command.Do(Graph))
                 return;
-            var canGroup = false;
-            if (GroupUndo && CanUndo)
-            {
-                var prevCmd = UndoStack.Peek();
-                canGroup = !(command is ICollectionCommand) && command.GetType() == prevCmd.GetType();
-                if (canGroup && command is IStylePropertyCommand sp1)
-                    canGroup = sp1.Index == ((IStylePropertyCommand)prevCmd).Index;
-                else if (canGroup && command is ITracePropertyCommand tp1)
-                    canGroup = tp1.Index == ((ITracePropertyCommand)prevCmd).Index;
-                else if (command is IStylePropertyCommand sp2 && prevCmd is IStylesCommand sc2)
-                {
-                    canGroup = !sc2.Adding && sp2.Index == sc2.Index;
-                    if (canGroup && sc2.Value == null)
-                        sc2.Value = Graph.Styles[sp2.Index];
-                }
-                else if (command is ITracePropertyCommand tp2 && prevCmd is ITracesCommand tc2)
-                {
-                    canGroup = !tc2.Adding && tp2.Index == tc2.Index;
-                    if (canGroup && tc2.Value == null)
-                        tc2.Value = Graph.Traces[tp2.Index];
-                }
-                else
-                    canGroup = false;
-            };
-            if (!canGroup)
+            if (!(GroupUndo && CanUndo && CanGroup(UndoStack.Peek(), command)))
                 UndoStack.Push(command);
             UpdateUI();
         }
@@ -191,11 +199,17 @@
             UpdateUI();
         }
 
-        private void Scroll(float xFactor, float yFactor) => Run(new GraphCentreCommand(
-            Graph.Centre.X + Graph.Width * xFactor,
-            Graph.Centre.Y + Graph.Width * yFactor));
+        private void Scroll(float xFactor, float yFactor)
+        {
+            var p = Graph.Centre;
+            ScrollTo(p.X + Graph.Width * xFactor, p.Y + Graph.Width * yFactor);
+        }
 
-        private void ScrollTo(float x, float y) => Run(new GraphCentreCommand(x, y));
+        private void ScrollTo(float x, float y)
+        {
+            var width = Graph.Width;
+            Run(new GraphViewCommand(x, y, width));
+        }
 
         private void Undo() { if (CanUndo) Undo(UndoStack.Pop()); }
 
