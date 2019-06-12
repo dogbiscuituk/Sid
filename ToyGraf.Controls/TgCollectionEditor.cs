@@ -17,17 +17,18 @@
         /// <returns></returns>
         protected override CollectionForm CreateCollectionForm()
         {
-            var form = base.CreateCollectionForm();
-            form.Activated += CollectionFormActivated;
-            form.Deactivate += CollectionFormDeactivate;
-            form.Enter += CollectionFormEnter;
-            form.FormClosed += CollectionFormClosed;
-            form.FormClosing += CollectionFormClosing;
-            form.Layout += CollectionFormLayout;
-            form.Enter += CollectionFormLeave;
-            form.Load += CollectionFormLoad;
-            form.Shown += CollectionFormShown;
-            if (form.Controls[0] is TableLayoutPanel panel)
+            var collectionForm = base.CreateCollectionForm();
+            collectionForm.Activated += CollectionFormActivated;
+            collectionForm.Deactivate += CollectionFormDeactivate;
+            collectionForm.Enter += CollectionFormEnter;
+            collectionForm.FormClosed += CollectionForm_FormClosed;
+            collectionForm.FormClosed += CollectionFormClosed;
+            collectionForm.FormClosing += CollectionFormClosing;
+            collectionForm.Layout += CollectionFormLayout;
+            collectionForm.Enter += CollectionFormLeave;
+            collectionForm.Load += CollectionFormLoad;
+            collectionForm.Shown += CollectionFormShown;
+            if (collectionForm.Controls[0] is TableLayoutPanel panel)
             {
                 if (panel.Controls[4] is ListBox listBox)
                 {
@@ -39,15 +40,23 @@
                     propertyGrid.PropertyValueChanged += CollectionItemPropertyValueChanged;
                 }
             }
-            return form;
+            return collectionForm;
+        }
+
+        private void CollectionForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            DialogResult = ((Form)sender).DialogResult;
         }
 
         public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
         {
             var result = base.EditValue(context, provider, value);
-
+            if (DialogResult == DialogResult.OK)
+                CollectionEdited?.Invoke(this, new CollectionEditedEventArgs(context, provider, value));
             return result;
         }
+
+        private DialogResult DialogResult;
 
         public static event EventHandler
             CollectionFormActivated,
@@ -57,11 +66,26 @@
             CollectionFormLoad,
             CollectionFormShown;
 
+        public static event EventHandler<CollectionEditedEventArgs> CollectionEdited;
         public static event FormClosedEventHandler CollectionFormClosed;
         public static event FormClosingEventHandler CollectionFormClosing;
         public static event EventHandler<PropertyGridInitEventArgs> CollectionFormGridInit;
         public static event LayoutEventHandler CollectionFormLayout;
         public static event PropertyValueChangedEventHandler CollectionItemPropertyValueChanged;
+    }
+
+    public class CollectionEditedEventArgs : EventArgs
+    {
+        public CollectionEditedEventArgs(ITypeDescriptorContext context, IServiceProvider provider, object value)
+        {
+            Context = context;
+            Provider = provider;
+            Value = value;
+        }
+
+        ITypeDescriptorContext Context { get; set; }
+        IServiceProvider Provider { get; set; }
+        object Value { get; set; }
     }
 
     public class PropertyGridInitEventArgs : EventArgs

@@ -14,10 +14,19 @@
         {
             internal GraphProxyProxy()
             {
+                TgCollectionEditor.CollectionEdited += TgCollectionEditor_CollectionEdited;
                 TgCollectionEditor.CollectionFormShown += TgCollectionEditor_CollectionFormShown;
-                TgCollectionEditor.CollectionFormClosed += TgCollectionEditor_CollectionFormClosed;
+                //TgCollectionEditor.CollectionFormClosed += TgCollectionEditor_CollectionFormClosed;
                 TgFileNameEditor.InitDialog += TgFileNameEditor_InitDialog;
             }
+
+            private void TgCollectionEditor_CollectionEdited(object sender, CollectionEditedEventArgs e)
+            {
+                return;
+            }
+
+            //private void TgCollectionEditor_CollectionFormClosed(object sender, FormClosedEventArgs e) =>
+            //    CommandProcessor = null;
 
             private void TgCollectionEditor_CollectionFormShown(object sender, EventArgs e)
             {
@@ -38,15 +47,12 @@
                 }
             }
 
-            private void TgCollectionEditor_CollectionFormClosed(object sender, FormClosedEventArgs e) =>
-                CommandProcessor = null;
-
             private void TgFileNameEditor_InitDialog(object sender, InitDialogEventArgs e) =>
                 GraphController.InitTextureDialog(e.OpenFileDialog);
 
-            internal static CommandProcessor CommandProcessor;
+            private CommandProcessor CommandProcessor;
         }
 
-        internal static readonly GraphProxyProxy TheGraphProxyProxy = new GraphProxyProxy();
+        private static GraphProxyProxy TheGraphProxyProxy = new GraphProxyProxy();
     }
 }
