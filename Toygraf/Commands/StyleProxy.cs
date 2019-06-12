@@ -13,11 +13,8 @@
         [DefaultProperty("PenColour")]
         internal class StyleProxy
         {
-            internal StyleProxy()
-            {
-                CommandProcessor = GraphProxyProxy.CommandProcessor;
-                Index = Graph.Styles.Count;
-            }
+            internal StyleProxy() => _Style = new Style();
+            internal StyleProxy(Style style) => _Style = style;
 
             internal StyleProxy(CommandProcessor graphProxy, int index)
             {
@@ -28,7 +25,8 @@
             private readonly CommandProcessor CommandProcessor;
             private readonly int Index;
             private Graph Graph => CommandProcessor.Graph;
-            private Style Style => Graph.Styles[Index];
+            private Style _Style;
+            private Style Style => _Style ?? Graph.Styles[Index];
 
             [Category("Style")]
             [DefaultValue(typeof(BrushType), "Solid")]
@@ -166,9 +164,15 @@
                 set => Run(new StyleWrapModeCommand(Index, value));
             }
 
-            public override string ToString() => $"Style #{Index}";
+            public override string ToString() => !string.IsNullOrWhiteSpace(Title) ? Title : $"Style #{Index}";
 
-            private void Run(ICommand command) => CommandProcessor.Run(command);
+            private void Run(ICommand command)
+            {
+                if (CommandProcessor != null)
+                    CommandProcessor.Run(command);
+                else if (command is IStylePropertyCommand spc)
+                    spc.RunOn(Style);
+            }
         }
     }
 }

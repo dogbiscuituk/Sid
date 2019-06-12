@@ -90,8 +90,8 @@
                 TValue value, Func<Graph, TValue> get, Action<Graph, TValue> set)
                 : base(0, detail, value, get, set) { }
 
+            public void RunOn(Graph graph) => Set(graph, Value);
             protected override string Target => "graph";
-
             protected override Graph GetItem(Graph graph) => graph;
         }
 
@@ -101,8 +101,8 @@
                 TValue value, Func<Style, TValue> get, Action<Style, TValue> set)
                 : base(index, detail, value, get, set) { }
 
+            public void RunOn(Style style) => Set(style, Value);
             protected override string Target => $"style #{Index}";
-
             protected override Style GetItem(Graph graph) => graph.Styles[Index];
         }
 
@@ -112,8 +112,8 @@
                 TValue value, Func<Trace, TValue> get, Action<Trace, TValue> set)
                 : base(index, detail, value, get, set) { }
 
+            public void RunOn(Trace trace) => Set(trace, Value);
             protected override string Target => $"f{Index}";
-
             protected override Trace GetItem(Graph graph) => graph.Traces[Index];
         }
 
@@ -199,7 +199,7 @@
                 : $"f{Index} = {Value.Formula}";
 
             protected override int GetItemsCount(Graph graph) => graph.Traces.Count;
-            protected override Trace GetNewItem(Graph graph) => graph.NewTrace();
+            protected override Trace GetNewItem(Graph graph) => graph.NewTrace(Index);
 
             protected override void AddItem(Graph graph) => graph.AddTrace(Value);
             protected override void InsertItem(Graph graph) => graph.InsertTrace(Index, Value);

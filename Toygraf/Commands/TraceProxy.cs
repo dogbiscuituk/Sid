@@ -15,13 +15,8 @@
         [DefaultProperty("Formula")]
         internal class TraceProxy
         {
-            internal TraceProxy()
-            {
-                CommandProcessor = GraphProxyProxy.CommandProcessor;
-                var index = Graph.Traces.Count;
-                //Run(new GraphInsertTraceCommand(index));
-                Index = index;
-            }
+            internal TraceProxy() => _Trace = new Trace();
+            internal TraceProxy(Trace trace) => _Trace = trace;
 
             internal TraceProxy(CommandProcessor graphProxy, int index)
             {
@@ -32,7 +27,8 @@
             private readonly CommandProcessor CommandProcessor;
             private readonly int Index;
             private Graph Graph => CommandProcessor.Graph;
-            private Trace Trace => Graph.Traces[Index];
+            private Trace _Trace;
+            private Trace Trace => _Trace ?? Graph.Traces[Index];
 
             [Category("Style")]
             [DefaultValue(typeof(BrushType), "Solid")]
@@ -200,9 +196,15 @@
                 set => Run(new TraceWrapModeCommand(Index, value));
             }
 
-            public override string ToString() => $"Trace f{Index}";
+            public override string ToString() => !string.IsNullOrWhiteSpace(Title) ? Title : $"Trace #{Index}";
 
-            private void Run(ICommand command) => CommandProcessor.Run(command);
+            private void Run(ICommand command)
+            {
+                if (CommandProcessor != null)
+                    CommandProcessor.Run(command);
+                else if (command is ITracePropertyCommand tpc)
+                    tpc.RunOn(Trace);
+            }
         }
     }
 }

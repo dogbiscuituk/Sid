@@ -1,5 +1,7 @@
 ﻿namespace ToyGraf.Controllers
 {
+    using System;
+    using System.Diagnostics;
     using System.Reflection;
     using System.Windows.Forms;
     using ToyGraf.Views;
@@ -51,9 +53,9 @@
 
         #region Private Event Handlers
 
-        private void NewtonsoftLinkLabel_Click(object sender, System.EventArgs e)
+        private void NewtonsoftLinkLabel_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(View.NewtonsoftLinkLabel.Text);
+            Process.Start(View.NewtonsoftLinkLabel.Text);
             View.NewtonsoftLinkLabel.LinkVisited = true;
         }
 

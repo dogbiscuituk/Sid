@@ -66,7 +66,7 @@
 
         #region Private Event Handlers
 
-        private void ParentView_Resize(object sender, System.EventArgs e) => AdjustPictureBox();
+        private void ParentView_Resize(object sender, EventArgs e) => AdjustPictureBox();
 
         private void TbTool_ButtonClick(object sender, EventArgs e) => SelectNextTool();
         private void TbToolArrow_Click(object sender, EventArgs e) => SelectTool(Tool.Pointer);

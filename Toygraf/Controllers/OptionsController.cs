@@ -42,10 +42,10 @@
 
         #region Private Event Handlers
 
-        private void BtnFilesFolder_Click(object sender, System.EventArgs e) =>
+        private void BtnFilesFolder_Click(object sender, EventArgs e) =>
             BrowseFolder("files", OptionsDialog.edFilesFolder);
 
-        private void BtnTemplatesFolder_Click(object sender, System.EventArgs e) =>
+        private void BtnTemplatesFolder_Click(object sender, EventArgs e) =>
             BrowseFolder("templates", OptionsDialog.edTemplatesFolder);
 
         #endregion

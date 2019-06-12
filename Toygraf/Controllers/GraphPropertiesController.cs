@@ -1,6 +1,7 @@
 ﻿namespace ToyGraf.Controllers
 {
     using System;
+    using System.ComponentModel;
     using System.Windows.Forms;
     using ToyGraf.Commands;
     using ToyGraf.Expressions;
@@ -95,7 +96,7 @@
 
         #region Private Event Handlers
 
-        private void GraphController_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) => GraphRead();
+        private void GraphController_PropertyChanged(object sender, PropertyChangedEventArgs e) => GraphRead();
         private void BtnClose_Click(object sender, EventArgs e) => View.Hide();
 
         private void AxisColourChanged(object sender, EventArgs e)

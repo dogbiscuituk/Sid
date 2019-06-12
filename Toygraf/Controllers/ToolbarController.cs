@@ -1,5 +1,6 @@
 ﻿namespace ToyGraf.Controllers
 {
+    using System;
     using System.Windows.Forms;
     using ToyGraf.Views;
 
@@ -35,12 +36,12 @@
 
         #region Private Event Handlers
 
-        private void DockToolbarBottom(object sender, System.EventArgs e) => Toolbar.Dock = DockStyle.Bottom;
-        private void DockToolbarLeft(object sender, System.EventArgs e) => Toolbar.Dock = DockStyle.Left;
-        private void DockToolbarRight(object sender, System.EventArgs e) => Toolbar.Dock = DockStyle.Right;
-        private void DockToolbarTop(object sender, System.EventArgs e) => Toolbar.Dock = DockStyle.Top;
+        private void DockToolbarBottom(object sender, EventArgs e) => Toolbar.Dock = DockStyle.Bottom;
+        private void DockToolbarLeft(object sender, EventArgs e) => Toolbar.Dock = DockStyle.Left;
+        private void DockToolbarRight(object sender, EventArgs e) => Toolbar.Dock = DockStyle.Right;
+        private void DockToolbarTop(object sender, EventArgs e) => Toolbar.Dock = DockStyle.Top;
 
-        private void ViewToolbar_DropDownOpening(object sender, System.EventArgs e)
+        private void ViewToolbar_DropDownOpening(object sender, EventArgs e)
         {
             View.ViewToolbarBottom.Checked = Toolbar.Dock == DockStyle.Bottom;
             View.ViewToolbarLeft.Checked = Toolbar.Dock == DockStyle.Left;
@@ -49,7 +50,7 @@
             View.ViewToolbarHide.Checked = !Toolbar.Visible;
         }
 
-        private void ViewToolbarHide_Click(object sender, System.EventArgs e)
+        private void ViewToolbarHide_Click(object sender, EventArgs e)
         {
             Toolbar.Visible = !Toolbar.Visible;
         }

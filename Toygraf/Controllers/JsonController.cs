@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.IO;
     using System.Windows.Forms;
     using Newtonsoft.Json;
@@ -75,7 +76,7 @@
         private List<Trace> Traces { get => Graph.Traces; }
         private readonly Control View;
 
-        private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) { }
+        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e) { }
 
         private static JsonSerializer GetSerializer() => new JsonSerializer
         {

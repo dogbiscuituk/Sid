@@ -1,6 +1,7 @@
 ﻿namespace ToyGraf.Commands
 {
     using System;
+    using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
     using ToyGraf.Controllers;
@@ -22,7 +23,7 @@
             {
                 if (sender is Form form)
                 {
-                    form.Size = new System.Drawing.Size(512, 512);
+                    form.Size = new Size(512, 512);
                     form.Text = "Properties";
                     if (form.Owner is GraphForm graphForm)
                         CommandProcessor = AppController.GraphControllers

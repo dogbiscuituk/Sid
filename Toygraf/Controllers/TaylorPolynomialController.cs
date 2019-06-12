@@ -1,6 +1,5 @@
 ﻿namespace ToyGraf.Controllers
 {
-    using System.Drawing;
     using System.Linq.Expressions;
     using System.Windows.Forms;
     using ToyGraf.Expressions;
@@ -10,6 +9,8 @@
 
     internal class TaylorPolynomialController
     {
+        #region Internal Interface
+
         internal TaylorPolynomialController(TracePropertiesController tracePropertiesController) =>
             TracePropertiesController = tracePropertiesController;
 
@@ -36,7 +37,11 @@
             return ok;
         }
 
-        internal void PopulateTraces(Expression proxy)
+        #endregion
+
+        #region Private Methods
+
+        private void PopulateTraces(Expression proxy)
         {
             Graph.OnBeginUpdate();
             Graph.Clear();
@@ -47,7 +52,7 @@
             var oldFormula = string.Empty;
             Trace trace;
             var degree = 0;
-            for (int index = 0, penIndex = 0; index <= Degree; index++)
+            for (int index = 0; index <= Degree; index++)
             {
                 switch (index)
                 {
@@ -71,10 +76,6 @@
                 {
                     trace = Graph.AddTrace();
                     trace.Formula = newFormula;
-                    Color penColour;
-                    do penColour = Defaults.GetGraphPenColour(penIndex++);
-                    while (penColour == Color.Black || penColour == Color.White);
-                    trace.PenColour = penColour;
                     degree = index;
                 }
                 if (index < Degree)
@@ -92,13 +93,19 @@
             GraphController.Model.Modified = false;
         }
 
-        private readonly TracePropertiesController TracePropertiesController;
-        private GraphController GraphController;
-        private Graph Graph => GraphController.Graph;
-        private Trace Trace => TracePropertiesController.Trace;
-        private DomainInfo DomainInfo;
+        #endregion
+
+        #region Private Properties
+
         private string Centre;
         private double CentreX;
         private int Degree;
+        private DomainInfo DomainInfo;
+        private Graph Graph => GraphController.Graph;
+        private GraphController GraphController;
+        private Trace Trace => TracePropertiesController.Trace;
+        private readonly TracePropertiesController TracePropertiesController;
+
+        #endregion
     }
 }

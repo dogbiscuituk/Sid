@@ -12,17 +12,20 @@
     using Newtonsoft.Json;
     using ToyGraf.Expressions;
     using ToyGraf.Models.Enumerations;
+    using ToyGraf.Models.Interfaces;
     using ToyGraf.Models.Structs;
 
     [Serializable]
-    public class Trace : Style
+    public class Trace : Style, ITrace
     {
-        public Trace() { SetFormula("0"); }
+        public Trace() => SetFormula("0");
+        public Trace(Graph graph): this() => _stepCount = graph.StepCount;
 
-        public Trace(Graph graph): base(graph)
+        public new Trace Clone()
         {
-            SetFormula("0");
-            _stepCount = graph.StepCount;
+            var trace = new Trace();
+            trace.CopyFrom(this);
+            return trace;
         }
 
         #region Visual Properties
@@ -86,7 +89,7 @@
         /// <summary>
         /// Provided to avoid calling the virtual OnPropertyChanged() from the constructor.
         /// </summary>
-        /// <param name="formula"></param>
+        /// <param name="formula">Plain text version of the algebraic expression used by the Trace.</param>
         private void SetFormula(string formula)
         {
             Expression = new Parser().Parse(formula);

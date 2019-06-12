@@ -16,9 +16,21 @@
         }
 
         private interface IPropertyCommand : ICommand { }
-        private interface IGraphPropertyCommand : IPropertyCommand { }
-        private interface IStylePropertyCommand : IPropertyCommand { }
-        private interface ITracePropertyCommand : IPropertyCommand { }
+
+        private interface IGraphPropertyCommand : IPropertyCommand
+        {
+            void RunOn(Graph graph);
+        }
+
+        private interface IStylePropertyCommand : IPropertyCommand
+        {
+            void RunOn(Style style);
+        }
+
+        private interface ITracePropertyCommand : IPropertyCommand
+        {
+            void RunOn(Trace trace);
+        }
 
         private interface ICollectionCommand : ICommand
         {

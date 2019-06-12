@@ -69,7 +69,7 @@
         public const WrapMode
             GraphWrapMode = WrapMode.Tile;
 
-        private static readonly List<Color> GraphPenColours = new List<Color>
+        public static readonly List<Color> GraphPenColours = new List<Color>
         {
             Color.Black,
             Color.Brown,

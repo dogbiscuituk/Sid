@@ -1,6 +1,7 @@
 ﻿namespace ToyGraf.Controllers
 {
     using System;
+    using System.Diagnostics;
     using System.Windows.Forms;
     using ToyGraf.Models;
     using ToyGraf.Views;
@@ -58,7 +59,7 @@
         {
             if (Clock.Running)
             {
-                Stopwatch = new System.Diagnostics.Stopwatch();
+                Stopwatch = new Stopwatch();
                 Stopwatch.Start();
             }
         }
@@ -84,7 +85,7 @@
         private GraphicsController GraphicsController;
         private GraphController GraphController => GraphicsController.GraphController;
         private GraphForm graphForm { get => GraphicsController.GraphForm; }
-        private System.Diagnostics.Stopwatch Stopwatch;
+        private Stopwatch Stopwatch;
 
         private bool CanAccelerate => UsesTime && VirtualTimeFactor < +32;
         private bool CanDecelerate => UsesTime && VirtualTimeFactor > -32;

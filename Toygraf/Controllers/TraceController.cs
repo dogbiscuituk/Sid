@@ -1,5 +1,6 @@
 ﻿namespace ToyGraf.Controllers
 {
+    using System;
     using System.ComponentModel;
     using System.Drawing;
     using System.Linq;
@@ -109,7 +110,7 @@
 
         #region Private Event Handlers
 
-        private void BtnDetails_Click(object sender, System.EventArgs e)
+        private void BtnDetails_Click(object sender, EventArgs e)
         {
             var index = LegendController.IndexOf(this);
             if (!TracePropertiesController.TracePropertiesDialog.Visible)
@@ -124,27 +125,27 @@
                 TracePropertiesController.Trace = Graph.Traces[index];
         }
 
-        private void BtnRemove_Click(object sender, System.EventArgs e) => LegendController.RemoveTrace(Index);
+        private void BtnRemove_Click(object sender, EventArgs e) => LegendController.RemoveTrace(Index);
 
-        private void CbFillColour_SelectedValueChanged(object sender, System.EventArgs e)
+        private void CbFillColour_SelectedValueChanged(object sender, EventArgs e)
         {
             if (!Updating)
                 CommandProcessor[Index].FillColour1 = FillColour;
         }
 
-        private void CbPenColour_SelectedValueChanged(object sender, System.EventArgs e)
+        private void CbPenColour_SelectedValueChanged(object sender, EventArgs e)
         {
             if (!Updating)
                 CommandProcessor[Index].PenColour = PenColour;
         }
 
-        private void CbVisible_CheckedChanged(object sender, System.EventArgs e)
+        private void CbVisible_CheckedChanged(object sender, EventArgs e)
         {
             if (!Updating)
                 CommandProcessor[Index].Visible = TraceVisible;
         }
 
-        private void FunctionBox_TextChanged(object sender, System.EventArgs e)
+        private void FunctionBox_TextChanged(object sender, EventArgs e)
         {
             View.ToolTip.SetToolTip(FunctionBox, FunctionBox.Text);
             if (!string.IsNullOrWhiteSpace(Formula) && !Functions.Contains(Formula))
@@ -186,7 +187,7 @@
             }
         }
 
-        private void SeTransparency_ValueChanged(object sender, System.EventArgs e)
+        private void SeTransparency_ValueChanged(object sender, EventArgs e)
         {
             if (!Updating)
                 CommandProcessor[Index].FillTransparencyPercent = FillTransparencyPercent;

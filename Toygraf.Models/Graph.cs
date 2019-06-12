@@ -11,10 +11,11 @@
     using Newtonsoft.Json;
     using ToyGraf.Expressions;
     using ToyGraf.Models.Enumerations;
+    using ToyGraf.Models.Interfaces;
     using ToyGraf.Models.Structs;
 
     [Serializable]
-    public class Graph : Style, IDisposable
+    public class Graph : Style, IGraph, IDisposable
     {
         public Graph() { RestoreDefaults(); }
 
@@ -372,6 +373,10 @@
             Viewport = Defaults.GraphViewport;
             // WrapMode
             _wrapMode = Defaults.GraphWrapMode;
+            // Styles
+            OnBeginUpdate();
+            Defaults.GraphPenColours.ForEach(c => Styles.Add(new Style(this) { PenColour = c }));
+            OnEndUpdate();
         }
 
         private bool Updating;
@@ -393,6 +398,9 @@
             if (!Updating)
                 OnPropertyChanged("Styles");
         }
+
+        private void InitializeStyle(Trace trace, int index) =>
+            trace.CopyFrom(Styles.Any() ? Styles[index % Styles.Count] : this);
 
         public Style InsertStyle(int index)
         {
@@ -437,7 +445,7 @@
 
         public Trace AddTrace()
         {
-            var trace = NewTrace();
+            var trace = NewTrace(Traces.Count);
             AddTrace(trace);
             return trace;
         }
@@ -451,7 +459,7 @@
 
         public Trace InsertTrace(int index)
         {
-            var trace = NewTrace();
+            var trace = NewTrace(index);
             InsertTrace(index, trace);
             return trace;
         }
@@ -463,9 +471,10 @@
                 OnPropertyChanged("Traces");
         }
 
-        public Trace NewTrace()
+        public Trace NewTrace(int index)
         {
             var trace = new Trace(this);
+            InitializeStyle(trace, index);
             trace.PropertyChanged += Trace_PropertyChanged;
             return trace;
         }

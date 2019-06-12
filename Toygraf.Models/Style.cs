@@ -4,23 +4,24 @@
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using ToyGraf.Models.Enumerations;
+    using ToyGraf.Models.Interfaces;
 
-    public class Style
+    public class Style : IStyle
     {
         public Style() { }
 
         public Style(Graph graph) : this()
         {
-            _brushType = graph.BrushType;
-            _fillColour1 = graph.FillColour1;
-            _fillColour2 = graph.FillColour2;
-            _fillTransparencyPercent = graph.FillTransparencyPercent;
-            _gradientMode = graph.GradientMode;
-            _hatchStyle = graph.HatchStyle;
-            _limitColour = graph.LimitColour;
-            _penColour = graph.PenColour;
-            _penStyle = graph.PenStyle;
-            _penWidth = graph.PenWidth;
+            Updating = true;
+            this.CopyFrom(graph);
+            Updating = false;
+        }
+
+        public Style Clone()
+        {
+            var style = new Style();
+            style.CopyFrom(this);
+            return style;
         }
 
         protected BrushType _brushType;
@@ -226,7 +227,12 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged(string propertyName) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            if (!Updating)
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private bool Updating;
     }
 }

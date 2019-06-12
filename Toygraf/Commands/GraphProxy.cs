@@ -8,7 +8,6 @@
     using ToyGraf.Controls;
     using ToyGraf.Models;
     using ToyGraf.Models.Enumerations;
-    using ToyGraf.Models.Structs;
 
     [DefaultProperty("Traces")]
     partial class CommandProcessor
@@ -255,7 +254,7 @@
         [Editor(typeof(TgCollectionEditor), typeof(UITypeEditor))]
         public List<StyleProxy> Styles
         {
-            get => Graph.Styles.Select(s => new StyleProxy(this, Graph.Styles.IndexOf(s))).ToList();
+            get => Graph.Styles.Select(style => new StyleProxy(style.Clone())).ToList();
         }
 
         [Category("Style")]
@@ -283,7 +282,7 @@
         [Editor(typeof(TgCollectionEditor), typeof(UITypeEditor))]
         public List<TraceProxy> Traces
         {
-            get => Graph.Traces.Select(s => new TraceProxy(this, Graph.Traces.IndexOf(s))).ToList();
+            get => Graph.Traces.Select(trace => new TraceProxy(trace.Clone())).ToList();
         }
 
         [Category("View")]
