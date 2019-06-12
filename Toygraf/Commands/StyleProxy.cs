@@ -13,7 +13,8 @@
         [DefaultProperty("PenColour")]
         internal class StyleProxy
         {
-            internal StyleProxy() => _Style = new Style();
+            internal StyleProxy() => _Style = new Style() { Title = "New Style" };
+
             internal StyleProxy(Style style) => _Style = style;
 
             internal StyleProxy(CommandProcessor graphProxy, int index)
@@ -22,8 +23,9 @@
                 Index = index;
             }
 
+            public int Index;
+
             private readonly CommandProcessor CommandProcessor;
-            private readonly int Index;
             private Graph Graph => CommandProcessor.Graph;
             private Style _Style;
             private Style Style => _Style ?? Graph.Styles[Index];

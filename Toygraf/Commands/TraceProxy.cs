@@ -15,7 +15,8 @@
         [DefaultProperty("Formula")]
         internal class TraceProxy
         {
-            internal TraceProxy() => _Trace = new Trace();
+            internal TraceProxy() => _Trace = new Trace() { Title = "New Function" };
+
             internal TraceProxy(Trace trace) => _Trace = trace;
 
             internal TraceProxy(CommandProcessor graphProxy, int index)
@@ -24,8 +25,9 @@
                 Index = index;
             }
 
+            public int Index;
+
             private readonly CommandProcessor CommandProcessor;
-            private readonly int Index;
             private Graph Graph => CommandProcessor.Graph;
             private Trace _Trace;
             private Trace Trace => _Trace ?? Graph.Traces[Index];

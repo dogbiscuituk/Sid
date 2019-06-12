@@ -26,9 +26,12 @@
                     form.Size = new Size(512, 512);
                     form.Text = "Properties";
                     if (form.Owner is GraphForm graphForm)
+                    {
+                        form.Font = graphForm.Font;
                         CommandProcessor = AppController.GraphControllers
                             .FirstOrDefault(p => p.View == graphForm)
                             .CommandProcessor;
+                    }
                     var propertyGrid = form.Controls.Find("propertyBrowser", true)?[0] as PropertyGrid;
                     PropertyTableController.HidePropertyPagesButton(propertyGrid);
                     propertyGrid.HelpVisible = true;

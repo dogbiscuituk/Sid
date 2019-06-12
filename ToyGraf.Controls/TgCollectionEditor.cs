@@ -28,11 +28,17 @@
             form.Load += CollectionFormLoad;
             form.Shown += CollectionFormShown;
             if (form.Controls[0] is TableLayoutPanel panel)
-                if (panel.Controls[5] is PropertyGrid grid)
+            {
+                if (panel.Controls[4] is ListBox listBox)
                 {
-                    CollectionFormGridInit?.Invoke(this, new PropertyGridInitEventArgs(grid));
-                    grid.PropertyValueChanged += CollectionItemPropertyValueChanged;
+                    listBox.DrawMode = DrawMode.Normal;
                 }
+                if (panel.Controls[5] is PropertyGrid propertyGrid)
+                {
+                    CollectionFormGridInit?.Invoke(this, new PropertyGridInitEventArgs(propertyGrid));
+                    propertyGrid.PropertyValueChanged += CollectionItemPropertyValueChanged;
+                }
+            }
             return form;
         }
 

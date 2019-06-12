@@ -12,11 +12,10 @@
     using Newtonsoft.Json;
     using ToyGraf.Expressions;
     using ToyGraf.Models.Enumerations;
-    using ToyGraf.Models.Interfaces;
     using ToyGraf.Models.Structs;
 
     [Serializable]
-    public class Trace : Style, ITrace
+    public class Trace : Style
     {
         public Trace() => SetFormula("0");
         public Trace(Graph graph): this() => _stepCount = graph.StepCount;

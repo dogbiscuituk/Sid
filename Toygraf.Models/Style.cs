@@ -4,9 +4,8 @@
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using ToyGraf.Models.Enumerations;
-    using ToyGraf.Models.Interfaces;
 
-    public class Style : IStyle
+    public class Style
     {
         public Style() { }
 

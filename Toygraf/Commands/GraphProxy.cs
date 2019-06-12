@@ -254,7 +254,11 @@
         [Editor(typeof(TgCollectionEditor), typeof(UITypeEditor))]
         public List<StyleProxy> Styles
         {
-            get => Graph.Styles.Select(style => new StyleProxy(style.Clone())).ToList();
+            get
+            {
+                var index = 0;
+                return Graph.Styles.Select(style => new StyleProxy(style.Clone()) { Index = index++ }).ToList();
+            }
         }
 
         [Category("Style")]
@@ -282,7 +286,11 @@
         [Editor(typeof(TgCollectionEditor), typeof(UITypeEditor))]
         public List<TraceProxy> Traces
         {
-            get => Graph.Traces.Select(trace => new TraceProxy(trace.Clone())).ToList();
+            get
+            {
+                var index = 0;
+                return Graph.Traces.Select(trace => new TraceProxy(trace.Clone()) { Index = index++ }).ToList();
+            }
         }
 
         [Category("View")]
