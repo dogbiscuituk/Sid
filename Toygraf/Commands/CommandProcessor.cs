@@ -73,8 +73,6 @@
         internal void GraphDeleteTrace(int index) => Run(new TraceDeleteCommand(index));
         internal void GraphInsertStyle(int index) => Run(new StyleInsertCommand(index));
         internal void GraphInsertTrace(int index) => Run(new TraceInsertCommand(index));
-        //internal void GraphMoveStyle(int index, int value) => Run(new StyleMoveCommand(index, value));
-        //internal void GraphMoveTrace(int index, int value) => Run(new TraceMoveCommand(index, value));
 
         #endregion
 
@@ -98,11 +96,12 @@
         #region Private Event Handlers
 
         // Edit
-        private static void UndoRedoItem_MouseEnter(object sender, EventArgs e) => HighlightUndoRedoItems((ToolStripItem)sender);
         private void EditUndo_Click(object sender, EventArgs e) => Undo();
         private void TbUndo_DropDownOpening(object sender, EventArgs e) => Copy(UndoStack, View.tbUndo, UndoMultiple);
         private void EditRedo_Click(object sender, EventArgs e) => Redo();
         private void TbRedo_DropDownOpening(object sender, EventArgs e) => Copy(RedoStack, View.tbRedo, RedoMultiple);
+        private static void UndoRedoItems_MouseEnter(object sender, EventArgs e) => HighlightUndoRedoItems((ToolStripItem)sender);
+        private static void UndoRedoItems_Paint(object sender, PaintEventArgs e) => HighlightUndoRedoItems((ToolStripItem)sender);
         // Graph
         private void GraphTypePolar_Click(object sender, EventArgs e) => PlotType = PlotType.Polar;
         private void GraphTypeCartesian_Click(object sender, EventArgs e) => PlotType = PlotType.Cartesian;
@@ -167,16 +166,19 @@
                 var command = commands[n];
                 var item = items.Add(command.ToString(), null, handler);
                 item.Tag = command;
-                item.MouseEnter += UndoRedoItem_MouseEnter;
+                item.MouseEnter += UndoRedoItems_MouseEnter;
+                item.Paint += UndoRedoItems_Paint;
             }
         }
 
         private static void HighlightUndoRedoItems(ToolStripItem activeItem)
         {
-            var parent = activeItem.GetCurrentParent();
-            var index = parent.Items.IndexOf(activeItem);
-            foreach (ToolStripItem item in parent.Items)
-                item.BackColor = Color.FromKnownColor(parent.Items.IndexOf(item) <= index
+            if (!activeItem.Selected)
+                return;
+            var items = activeItem.GetCurrentParent().Items;
+            var index = items.IndexOf(activeItem);
+            foreach (ToolStripItem item in items)
+                item.BackColor = Color.FromKnownColor(items.IndexOf(item) <= index
                     ? KnownColor.GradientActiveCaption
                     : KnownColor.Control);
         }

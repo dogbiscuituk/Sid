@@ -1,9 +1,9 @@
-﻿using System.Drawing;
-using ToyGraf.Models.Enumerations;
-using ToyGraf.Models.Structs;
-
-namespace ToyGraf.Commands
+﻿namespace ToyGraf.Commands
 {
+    using System.Drawing;
+    using ToyGraf.Models.Enumerations;
+    using ToyGraf.Models.Structs;
+
     partial class CommandProcessor
     {
         #region bool
