@@ -399,7 +399,7 @@
                 OnPropertyChanged("Styles");
         }
 
-        private void InitializeStyle(Trace trace, int index) =>
+        public void InitializeStyle(ITrace trace, int index) =>
             trace.CopyFrom(Styles.Any() ? Styles[index % Styles.Count] : this);
 
         public Style InsertStyle(int index)

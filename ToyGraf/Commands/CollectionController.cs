@@ -23,47 +23,37 @@
 
             private void ProcessStyles(List<StyleProxy> sources)
             {
-                List<StyleProxy> targets;
                 // First step: remove any deleted Styles.
-                targets = CommandProcessor.StylesLive;
                 for (int index = Graph.Styles.Count - 1; index >= 0; index--)
                     if (sources.FirstOrDefault(p => p.Index == index) == null)
                         CommandProcessor.GraphDeleteStyle(index);
                 // Second step: insert/append any new Styles.
-                targets = CommandProcessor.StylesLive;
                 foreach (var source in sources)
                     if (source.Index < 0)
                     {
                         CommandProcessor.GraphAppendStyle();
                         source.Index = Graph.Styles.Count - 1;
                     }
-                // Third step: adjust the ordering if necessary.
-                targets = CommandProcessor.StylesLive;
-                // Fourth & final step: update all Style properties.
-                targets = CommandProcessor.StylesLive;
+                // Third & final step: update all Style properties.
+                var targets = CommandProcessor.StylesLive;
                 for (int index = 0; index < sources.Count; index++)
                     sources[index].CopyTo(targets[index]);
             }
 
             private void ProcessTraces(List<TraceProxy> sources)
             {
-                List<TraceProxy> targets;
                 // First step: remove any deleted Traces.
-                targets = CommandProcessor.TracesLive;
                 for (int index = Graph.Traces.Count - 1; index >= 0; index--)
                     if (sources.FirstOrDefault(p => p.Index == index) == null)
                         CommandProcessor.GraphDeleteTrace(index);
                 // Second step: insert/append any new Traces.
-                targets = CommandProcessor.TracesLive;
                 foreach (var source in sources.Where(p => p.Index < 0))
                 {
                     CommandProcessor.GraphAppendTrace();
                     source.Index = Graph.Traces.Count - 1;
                 }
-                // Third step: adjust the ordering if necessary.
-                targets = CommandProcessor.TracesLive;
-                // Fourth & final step: update all Trace properties.
-                targets = CommandProcessor.TracesLive;
+                // Third & final step: update all Trace properties.
+                var targets = CommandProcessor.TracesLive;
                 for (int index = 0; index < sources.Count; index++)
                     sources[index].CopyTo(targets[index]);
             }
@@ -97,7 +87,15 @@
                     var propertyGrid = form.Controls.Find("propertyBrowser", true)?[0] as PropertyGrid;
                     PropertyTableController.HidePropertyPagesButton(propertyGrid);
                     propertyGrid.HelpVisible = true;
+                    TraceCounter = Graph.Traces.Count;
                 }
+            }
+
+            public int TraceCounter;
+
+            public void AssignStyle(Trace trace)
+            {
+                Graph.InitializeStyle(trace, TraceCounter++);
             }
 
             private void TgFileNameEditor_InitDialog(object sender, InitDialogEventArgs e) =>

@@ -18,8 +18,10 @@
         {
             internal TraceProxy()
             {
-                _Trace = new Trace() { Title = "New Function" };
+                _Trace = new Trace();
                 Index = -1;
+                TheCollectionController.AssignStyle(_Trace);
+                _Trace.Title = "New Function";
             }
 
             internal TraceProxy(Trace trace) => _Trace = trace;

@@ -73,6 +73,8 @@
         internal void GraphDeleteTrace(int index) => Run(new TraceDeleteCommand(index));
         internal void GraphInsertStyle(int index) => Run(new StyleInsertCommand(index));
         internal void GraphInsertTrace(int index) => Run(new TraceInsertCommand(index));
+        //internal void GraphMoveStyle(int index, int value) => Run(new StyleMoveCommand(index, value));
+        //internal void GraphMoveTrace(int index, int value) => Run(new TraceMoveCommand(index, value));
 
         #endregion
 

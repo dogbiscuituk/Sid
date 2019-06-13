@@ -332,17 +332,6 @@
                 var angle = Math.Abs(Math.Atan(slope) - Math.Atan2(y - y1, x - x1));
                 if (angle > Math.PI / 2)
                     yield return PointF.Empty;
-                // Otherwise, if there's a sign change between two points in a Cartesian
-                // plot, send a break to connect the two segments more cleanly to the x-
-                // axis (this improves cardinal spline rendering of areas of integration,
-                // and is unnecessary for polar plots).
-                else if (!polar && Math.Sign(y) != Math.Sign(y1))
-                {
-                    var q = new PointF((float)(x1 - y1 * (x - x1) / (y - y1)), 0);
-                    yield return q;
-                    yield return PointF.Empty;
-                    yield return q;
-                }
             }
             yield return p;
         }
