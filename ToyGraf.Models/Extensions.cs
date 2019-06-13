@@ -1,14 +1,16 @@
 ﻿namespace ToyGraf.Models
 {
+    using ToyGraf.Models.Interfaces;
+
     public static class Extensions
     {
-        public static void CopyFrom(this Graph target, Graph source) => source.CopyTo(target);
-        public static void CopyFrom(this Style target, Style source) => source.CopyTo(target);
-        public static void CopyFrom(this Trace target, Trace source) => source.CopyTo(target);
+        public static void CopyFrom(this IGraph target, IGraph source) => source.CopyTo(target);
+        public static void CopyFrom(this IStyle target, IStyle source) => source.CopyTo(target);
+        public static void CopyFrom(this ITrace target, ITrace source) => source.CopyTo(target);
 
-        public static void CopyTo(this Graph source, Graph target)
+        public static void CopyTo(this IGraph source, IGraph target)
         {
-            ((Style)source).CopyTo(target);
+            ((IStyle)source).CopyTo(target);
             target.AxisColour = source.AxisColour;
             target.Centre = source.Centre;
             target.DomainGraphWidth = source.DomainGraphWidth;
@@ -29,7 +31,7 @@
             target.Width = source.Width;
         }
 
-        public static void CopyTo(this Style source, Style target)
+        public static void CopyTo(this IStyle source, IStyle target)
         {
             target.BrushType = source.BrushType;
             target.FillColour1 = source.FillColour1;
@@ -47,9 +49,9 @@
             target.WrapMode = source.WrapMode;
         }
 
-        public static void CopyTo(this Trace source, Trace target)
+        public static void CopyTo(this ITrace source, ITrace target)
         {
-            ((Style)source).CopyTo(target);
+            ((IStyle)source).CopyTo(target);
             target.Formula = source.Formula;
             target.StepCount = source.StepCount;
             target.Visible = source.Visible;

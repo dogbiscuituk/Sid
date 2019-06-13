@@ -11,10 +11,11 @@
     using Newtonsoft.Json;
     using ToyGraf.Expressions;
     using ToyGraf.Models.Enumerations;
+    using ToyGraf.Models.Interfaces;
     using ToyGraf.Models.Structs;
 
     [Serializable]
-    public class Graph : Style, IDisposable
+    public class Graph : Style, IGraph, IDisposable
     {
         public Graph() { RestoreDefaults(); }
 

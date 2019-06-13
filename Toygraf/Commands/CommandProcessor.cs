@@ -67,7 +67,11 @@
 
         #region Command Runners
 
+        internal void GraphAppendStyle() => Run(new StyleInsertCommand(Graph.Styles.Count));
+        internal void GraphAppendTrace() => Run(new TraceInsertCommand(Graph.Traces.Count));
+        internal void GraphDeleteStyle(int index) => Run(new StyleDeleteCommand(index));
         internal void GraphDeleteTrace(int index) => Run(new TraceDeleteCommand(index));
+        internal void GraphInsertStyle(int index) => Run(new StyleInsertCommand(index));
         internal void GraphInsertTrace(int index) => Run(new TraceInsertCommand(index));
 
         #endregion

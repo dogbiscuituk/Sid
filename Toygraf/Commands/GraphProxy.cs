@@ -261,6 +261,10 @@
             }
         }
 
+        [Browsable(false)]
+        public List<StyleProxy> StylesLive =>
+            Graph.Styles.Select(style => new StyleProxy(this, Graph.Styles.IndexOf(style))).ToList();
+
         [Category("Style")]
         [DefaultValue(typeof(TickStyles), "Negative")]
         [Description("The style of tick mark used to indicate axis gradations.")]
@@ -292,6 +296,10 @@
                 return Graph.Traces.Select(trace => new TraceProxy(trace.Clone()) { Index = index++ }).ToList();
             }
         }
+
+        [Browsable(false)]
+        public List<TraceProxy> TracesLive =>
+            Graph.Traces.Select(trace => new TraceProxy(this, Graph.Traces.IndexOf(trace))).ToList();
 
         [Category("View")]
         [DefaultValue(22f)]

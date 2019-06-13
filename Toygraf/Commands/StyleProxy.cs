@@ -7,13 +7,18 @@
     using ToyGraf.Controls;
     using ToyGraf.Models;
     using ToyGraf.Models.Enumerations;
+    using ToyGraf.Models.Interfaces;
 
     partial class CommandProcessor
     {
         [DefaultProperty("PenColour")]
-        internal class StyleProxy
+        internal class StyleProxy : IStyle
         {
-            internal StyleProxy() => _Style = new Style() { Title = "New Style" };
+            internal StyleProxy()
+            {
+                _Style = new Style() { Title = "New Style" };
+                Index = -1;
+            }
 
             internal StyleProxy(Style style) => _Style = style;
 

@@ -7,15 +7,20 @@
     using ToyGraf.Controls;
     using ToyGraf.Models;
     using ToyGraf.Models.Enumerations;
+    using ToyGraf.Models.Interfaces;
 
     partial class CommandProcessor
     {
         internal TraceProxy this[int index] { get => new TraceProxy(this, index); }
 
         [DefaultProperty("Formula")]
-        internal class TraceProxy
+        internal class TraceProxy : ITrace
         {
-            internal TraceProxy() => _Trace = new Trace() { Title = "New Function" };
+            internal TraceProxy()
+            {
+                _Trace = new Trace() { Title = "New Function" };
+                Index = -1;
+            }
 
             internal TraceProxy(Trace trace) => _Trace = trace;
 

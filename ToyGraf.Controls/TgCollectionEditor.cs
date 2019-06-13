@@ -21,9 +21,8 @@
             collectionForm.Activated += CollectionFormActivated;
             collectionForm.Deactivate += CollectionFormDeactivate;
             collectionForm.Enter += CollectionFormEnter;
-            collectionForm.FormClosed += CollectionForm_FormClosed;
             collectionForm.FormClosed += CollectionFormClosed;
-            collectionForm.FormClosing += CollectionFormClosing;
+            collectionForm.FormClosing += CollectionForm_FormClosing;
             collectionForm.Layout += CollectionFormLayout;
             collectionForm.Enter += CollectionFormLeave;
             collectionForm.Load += CollectionFormLoad;
@@ -43,16 +42,16 @@
             return collectionForm;
         }
 
-        private void CollectionForm_FormClosed(object sender, FormClosedEventArgs e)
+        private void CollectionForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             DialogResult = ((Form)sender).DialogResult;
+            CollectionFormClosing?.Invoke(sender, e);
         }
 
         public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
         {
             var result = base.EditValue(context, provider, value);
-            if (DialogResult == DialogResult.OK)
-                CollectionEdited?.Invoke(this, new CollectionEditedEventArgs(context, provider, value));
+            CollectionEdited?.Invoke(this, new CollectionEditedEventArgs(context, provider, value, DialogResult));
             return result;
         }
 
@@ -76,16 +75,19 @@
 
     public class CollectionEditedEventArgs : EventArgs
     {
-        public CollectionEditedEventArgs(ITypeDescriptorContext context, IServiceProvider provider, object value)
+        public CollectionEditedEventArgs(ITypeDescriptorContext context,
+            IServiceProvider provider, object value, DialogResult dialogResult)
         {
             Context = context;
             Provider = provider;
             Value = value;
+            DialogResult = dialogResult;
         }
 
-        ITypeDescriptorContext Context { get; set; }
-        IServiceProvider Provider { get; set; }
-        object Value { get; set; }
+        public ITypeDescriptorContext Context { get; set; }
+        public DialogResult DialogResult;
+        public IServiceProvider Provider { get; set; }
+        public object Value { get; set; }
     }
 
     public class PropertyGridInitEventArgs : EventArgs

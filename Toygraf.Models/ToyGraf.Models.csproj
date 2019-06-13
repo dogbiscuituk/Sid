@@ -52,6 +52,9 @@
     <Compile Include="Enumerations\MouseMode.cs" />
     <Compile Include="Enumerations\Tool.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Interfaces\IGraph.cs" />
+    <Compile Include="Interfaces\IStyle.cs" />
+    <Compile Include="Interfaces\ITrace.cs" />
     <Compile Include="Structs\DomainInfo.cs" />
     <Compile Include="Enumerations\Elements.cs" />
     <Compile Include="Enumerations\Interpolation.cs" />
@@ -85,5 +88,6 @@
       <Name>ToyGraf.Expressions</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
