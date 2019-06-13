@@ -203,7 +203,10 @@
             return e;
         }
 
-        public static string AsString(this Expression e) => e.AsString(Precedence.Assignment);
+        public static string AsString(this Expression e) => e.AsString(Precedence.Assignment)
+            .Replace("+-", "-")
+            .Replace("Sqrt ", "√")
+            .Replace("Sqrt", "√");
 
         public static string AsString(this Expression e, Precedence context)
         {
@@ -263,7 +266,7 @@
                             }
                             break;
                     }
-                    var binary = $"{left.AsString(ours)}{op.AsString()}{right.AsString(ours)}";
+                    var binary = AsString(left, op, right, ours);
                     return context <= ours ? binary : $"({binary})";
                 case ConditionalExpression cond:
                     const Precedence pt = Precedence.Ternary;
@@ -273,6 +276,21 @@
                 default:
                     return e.ToString();
             }
+        }
+
+        private static string AsString(Expression left, ExpressionType op, Expression right, Precedence context)
+        {
+            switch (op)
+            {
+                case ExpressionType.Multiply when left is ConstantExpression ce && !(right is ConstantExpression):
+                    return $"{ce.Value}{right.AsString(Precedence.Implied)}";
+                case ExpressionType.Power when right is ConstantExpression ce:
+                    var c = (double)ce.Value;
+                    if (c == Math.Floor(c))
+                        return $"{left.AsString(Precedence.Superscript)}{c.ToString().ToSuperscript()}";
+                    break;
+            }
+            return $"{left.AsString(context)}{op.AsString()}{right.AsString(context)}";
         }
 
         public static Expression Parse(this string formula) => new Parser().Parse(formula);

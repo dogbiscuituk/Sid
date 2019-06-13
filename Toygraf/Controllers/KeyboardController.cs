@@ -63,6 +63,7 @@
                 FunctionBox.Text = string.Empty;
             }
             Updating = false;
+            UpdateProxyLabel();
         }
 
         #endregion

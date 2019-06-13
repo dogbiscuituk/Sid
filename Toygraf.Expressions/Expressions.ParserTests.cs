@@ -55,10 +55,10 @@
             TestParse("-x", "-x");
             TestParse("X+1", "x+1");
             TestParse("((x+1))", "x+1");
-            TestParse("x+2t", "x+2*t");
-            TestParse("t+2x", "t+2*x");
+            TestParse("x+2t", "x+2t");
+            TestParse("t+2x", "t+2x");
             TestParse("x+x*x^x/x-x", "x+x*x^x/x-x");
-            TestParse("3*x+x/5", "3*x+x/5");
+            TestParse("3*x+x/5", "3x+x/5");
             TestParse("x-2-x", "x-2-x");                                 // Subtraction is left associative
             TestParse("x-(2+x)", "x-2-x");
             TestParse("x-(2-x)", "x-2+x");
@@ -67,30 +67,30 @@
             TestParse("x/(2/x)", "x/2*x");
             TestParse("x^2^x", "x^2^x");                                 // Exponentiation is right associative
             TestParse("x^(2^x)", "x^2^x");
-            TestParse("(x^2)^x", "x^(2*x)");
+            TestParse("(x^2)^x", "x^(2x)");
             TestParse("(x-3)*(5-x)/10", "(x-3)*(5-x)/10");
             TestParse("sin x * cos x", "Sin x*Cos x");
             TestParse("Ln(sin x - tanh(x)) - 1", "Ln(Sin x-Tanh x)-1");
             TestParse("Abs Cos Sin Tan 1.5", "0.540839774154307");
             TestParse("Abs Cos Sin Tan (x/2)", "Abs Cos Sin Tan(x/2)");
-            TestParse("2*(sin x + cos x ^ 3 - tan(x^3))/3", "2*(Sin x+Cos x^3-Tan(x^3))/3");
-            TestParse("2*(x+3*(x-4^x)-5)/6", "2*(x+3*(x-4^x)-5)/6");
+            TestParse("2*(sin x + cos x ^ 3 - tan(x^3))/3", "2(Sin x+Cos(x)³-Tan(x³))/3");
+            TestParse("2*(x+3*(x-4^x)-5)/6", "2(x+3(x-4^x)-5)/6");
             TestParse("1/5x", "1/5/x");                                  // Implied products have higher precedence
-            TestParse("1/2sqrt(x)", "1/2/Sqrt x");
+            TestParse("1/2√(x)", "1/2/√x");
             TestParse("sin(x-120°)", "Sin(x-2.0943951023932)");          // Convert degrees to radians
-            TestParse("2 sin 3x", "2*Sin(3*x)");
-            TestParse("2 sin 3x * 5 cos 7x", "2*Sin(3*x)*5*Cos(7*x)");
+            TestParse("2 sin 3x", "2Sin((3x))");
+            TestParse("2 sin 3x * 5 cos 7x", "2Sin((3x))*5Cos((7x))");
             TestParse("2 3", "2*3");
-            TestParse("2(x+3)", "2*(x+3)");
-            TestParse("2x^3)", "(2*x)^3");
-            TestParse("2(x^3)", "2*x^3");
-            TestParse("x⁴-4x³+6x²-4x+1", "x^4-4*x^3+6*x^2-4*x+1");
-            TestParse("1/2√(1-x²)", "1/2/Sqrt(1-x^2)");
+            TestParse("2(x+3)", "2(x+3)");
+            TestParse("2x^3)", "(2x)³");
+            TestParse("2(x^3)", "2(x³)");
+            TestParse("x⁴-4x³+6x²-4x+1", "x⁴-4(x³)+6(x²)-4x+1");
+            TestParse("1/2√(1-x²)", "1/2/√(1-x²)");
             TestParse("eˣ", "2.71828182845905^x");
             TestParse("eᶜᵒˢ⁽ˣ⁾", "2.71828182845905^Cos x");
             TestParse("x'", "1");                                        // d(x)/dx = 1
             TestParse("(sin x)'", "Cos x");                              // d(sin x)/dx = cos x
-            TestParse("(x³)'", "x^2*3");                                 // d(x³)/dx = 3x²
+            TestParse("(x³)'", "x²*3");                                  // d(x³)/dx = 3x²
             TestParse("(exp(cos x))'", "Exp Cos x*-Sin x");              // d(eᶜᵒˢ⁽ˣ⁾)/dx = -(sin x)eᶜᵒˢ⁽ˣ⁾
             TestParse("(sin x)''", "-Sin x");                            // d²(sin x)/dx² = -sin x
             TestParse("x<1|x>2&x<3", "x<1|x>2&x<3");                     // Precedence('&') > Precedence('|')
@@ -101,16 +101,16 @@
             TestParse("x<2 ? (x<1 ? 0 : 1) : (x>3 ? 3 : 2)", "x<2?x<1?0:1:x>3?3:2");
             TestParse("x<2 ? x<1 ? 0 : 1 : x>3 ? 3 : 2", "x<2?x<1?0:1:x>3?3:2");
             TestParse("0<x<1", "0<x&x<1");
-            TestParse("0<x<2x<1", "0<x&x<2*x&2*x<1");
+            TestParse("0<x<2x<1", "0<x&x<2x&2x<1");
             TestParse("t*x", "t*x");
-            TestParse("x⁴-4x³*t+6x²*t²-4x*t³+t⁴)", "x^4-4*x^3*t+6*x^2*t^2-4*x*t^3+t^4");
-            TestParse("(x⁴-4x³*t+6x²*t²-4x*t³+t⁴)'", "x^3*4-x^2*12*t+x*12*t^2-t^3*4");
+            TestParse("x⁴-4x³*t+6x²*t²-4x*t³+t⁴)", "x⁴-4(x³)*t+6(x²)*t²-4x*t³+t⁴");
+            TestParse("(x⁴-4x³*t+6x²*t²-4x*t³+t⁴)'", "x³*4-x²*12*t+x*12*t²-t³*4");
             TestParse("sin x;f0(x)", "Sin x;Sin x");
             TestParse("sin x;(f0(x))'", "Sin x;Cos x");
             TestParse("sin(x+t);cos(x-t);f0(x,t)+f1(x,t)", "Sin(x+t);Cos(x-t);Sin(x+t)+Cos(x-t)");
-            TestParse("(x+t)^3;(x-t)^5;(f0(x,t))'+(f1(x,t))''", "(x+t)^3;(x-t)^5;(x+t)^2*3+(x-t)^3*20");
-            TestParse("sin²x", "Sin x^2");
-            TestParse("4sec²x * tan²x + 2sec⁴x", "4*Sec x^2*Tan x^2+2*Sec x^4");
+            TestParse("(x+t)^3;(x-t)^5;(f0(x,t))'+(f1(x,t))''", "(x+t)³;(x-t)⁵;(x+t)²*3+(x-t)³*20");
+            TestParse("sin²x", "Sin(x)²");
+            TestParse("4sec²x * tan²x + 2sec⁴x", "4(Sec(x)²)*Tan(x)²+2(Sec(x)⁴)");
         }
     }
 }
