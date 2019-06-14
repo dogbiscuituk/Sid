@@ -203,7 +203,8 @@
             return e;
         }
 
-        public static string AsString(this Expression e) => e.AsString(Precedence.Assignment)
+        public static string AsString(this Expression e) => e
+            .AsString(Precedence.Assignment)
             .Replace("+-", "-")
             .Replace("Sqrt ", "√")
             .Replace("Sqrt", "√");
@@ -266,7 +267,7 @@
                             }
                             break;
                     }
-                    var binary = AsString(left, op, right, ours);
+                    var binary = AsString(left, op, right, ref ours);
                     return context <= ours ? binary : $"({binary})";
                 case ConditionalExpression cond:
                     const Precedence pt = Precedence.Ternary;
@@ -278,16 +279,24 @@
             }
         }
 
-        private static string AsString(Expression left, ExpressionType op, Expression right, Precedence context)
+        public static string AsString(Expression left, ExpressionType op, Expression right, ref Precedence context)
         {
             switch (op)
             {
                 case ExpressionType.Multiply when left is ConstantExpression ce && !(right is ConstantExpression):
                     return $"{ce.Value}{right.AsString(Precedence.Implied)}";
                 case ExpressionType.Power when right is ConstantExpression ce:
-                    var c = (double)ce.Value;
-                    if (c == Math.Floor(c))
-                        return $"{left.AsString(Precedence.Superscript)}{c.ToString().ToSuperscript()}";
+                    var ceValue = (double)ce.Value;
+                    var ceFloor = (int)Math.Floor(ceValue);
+                    if (ceFloor == ceValue && ceFloor != -1) // Avoid confusion with inverse function syntax!
+                    {
+                        var ceSuper = ceFloor.ToString().ToSuperscript();
+                        context = Precedence.Superscript;
+                        return
+                            left is MethodCallExpression me && me.Arguments.Count == 1 && me.Method.Name != "Sqrt"
+                            ? $"{me.Method.Name}{ceSuper}{me.Arguments[0].AsString(context)}"
+                            : $"{left.AsString(Precedence.Superscript)}{ceSuper}";
+                    }
                     break;
             }
             return $"{left.AsString(context)}{op.AsString()}{right.AsString(context)}";

@@ -3,7 +3,8 @@
     /// <summary>
     /// The precedence levels attributed to operators.
     /// Note that Precedence = Fraction refers to the
-    /// Unicode Fraction Slash character, '⁄'.
+    /// Unicode "Fraction Slash" character, '⁄' which
+    /// is distinct from the "normal" slash '/'.
     /// 
     /// </summary>
     public enum Precedence

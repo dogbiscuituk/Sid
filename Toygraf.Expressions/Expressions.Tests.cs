@@ -17,9 +17,6 @@
 
         public static void TestAll()
         {
-            var foo = Environment.SpecialFolder.MyDocuments;
-            var bar = Environment.GetFolderPath(foo);
-
             TestAlphaConversions();
             TestComparisons();
             TestCompoundExpression();
@@ -42,10 +39,10 @@
 
         public static void TestChainRule()
         {
-            TestDerivative(Exp(x.Squared()), "Exp(x²)*x*2");             // d(exp(x²))/dx = exp(x²)*2x
+            TestDerivative(Exp(x.Squared()), "Exp x²*x*2");              // d(exp(x²))/dx = exp(x²)*2x
             TestDerivative(Ln(Sin(x)), "1/Sin x*Cos x");                 // d(ln(sin(x)))/dx = cot(x)
             TestDerivative(Tan(x.Cubed().Plus(8.Times(x))),
-                "Sec((x³+x*8))²*(x²*3+8)");                              // d(tan(x³+8x))/dx = sec²(x³+8x)*(3x²+8)
+                "Sec²(x³+x*8)*(x²*3+8)");                                // d(tan(x³+8x))/dx = sec²(x³+8x)*(3x²+8)
             TestDerivative(Sqrt(x.Power(4).Minus(1)),
                 "0.5/√(x⁴-1)*x³*4");                                     // d(√(x⁴-1))/dx = 2x³/√(x⁴-1)
         }
@@ -89,11 +86,11 @@
             TestDerivative(Ceiling(x), "0");                             // d(ceiling x)/dx = 0
             TestDerivative(Cos(x), "-Sin x");                            // d(cos x)/dx = -sin x
             TestDerivative(Cosh(x), "Sinh x");                           // d(cosh x)/dx = sinh x
-            TestDerivative(Cot(x), "-(Csc(x)²)");                        // d(cot x)/dx = -csc²x
-            TestDerivative(Coth(x), "-(Csch(x)²)");                      // d(coth x)/dx = -csch²x,        x≠0
+            TestDerivative(Cot(x), "-Csc²x");                            // d(cot x)/dx = -csc²x
+            TestDerivative(Coth(x), "-Csch²x");                          // d(coth x)/dx = -csch²x,        x≠0
             TestDerivative(Csc(x), "-(Csc x*Cot x)");                    // d(csc x)/dx = -csc x cot x
             TestDerivative(Csch(x), "-(Csch x*Coth x)");                 // d(csch x)/dx = -csch x coth x, x≠0
-            TestDerivative(Erf(x), "Exp -(x²)*1.12837916709551");        // d(erf x)/dx = exp(-x²)*2/√π
+            TestDerivative(Erf(x), "Exp -x²*1.12837916709551");          // d(erf x)/dx = exp(-x²)*2/√π
             TestDerivative(Exp(x), "Exp x");                             // d(eˣ)/dx = eˣ
             TestDerivative(Floor(x), "0");                               // d(floor x)/dx = 0
             TestDerivative(Ln(x), "1/x");                                // d(ln x)/dx = 1/x
@@ -106,8 +103,8 @@
             TestDerivative(Sinh(x), "Cosh x");                           // d(sinh x)/dx = cosh x
             TestDerivative(Sqrt(x), "0.5/√x");                           // d(√x)/dx = 1/(2√x)
             TestDerivative(Step(x), "0");                                // d(step x)/dx = 0
-            TestDerivative(Tan(x), "Sec(x)²");                           // d(tan x)/dx = sec²x
-            TestDerivative(Tanh(x), "Sech(x)²");                         // d(tanh x)/dx = sech²x
+            TestDerivative(Tan(x), "Sec²x");                             // d(tan x)/dx = sec²x
+            TestDerivative(Tanh(x), "Sech²x");                           // d(tanh x)/dx = sech²x
             TestDerivative(t, "0");                                      // d/dx(t) = 0
             TestDerivative(Sin(x.Plus(t)), "Cos(x+t)");                  // d/dx(sin(x+t)) = cos(x+t)
             TestDerivative(Sin(x).Times(Sin(t)), "Cos x*Sin t");         // d/dx(sin x sin t) = cos x sin t
@@ -143,7 +140,7 @@
         public static void TestTrigonometricExpression()
         {
             var f = Sin(x).Squared().Plus(Cos(x).Squared());             // f(x) = sin²x+cos²x
-            Check("Sin(x)²+Cos(x)²", f.AsString());                      // Check the built expression formula
+            Check("Sin²x+Cos²x", f.AsString());                          // Check the built expression formula
             double p3 = Math.PI / 3, s = Math.Sin(p3), c = Math.Cos(p3); // Check the expression value at x = π/3
             Check(Math.Pow(s, 2) + Math.Pow(c, 2), f.AsDouble(p3));      // (should be 1)
         }

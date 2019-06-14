@@ -73,7 +73,8 @@
             TestParse("Ln(sin x - tanh(x)) - 1", "Ln(Sin x-Tanh x)-1");
             TestParse("Abs Cos Sin Tan 1.5", "0.540839774154307");
             TestParse("Abs Cos Sin Tan (x/2)", "Abs Cos Sin Tan(x/2)");
-            TestParse("2*(sin x + cos x ^ 3 - tan(x^3))/3", "2(Sin x+Cos(x)³-Tan(x³))/3");
+            TestParse("2*(sin x + cos x ^ 3 - tan(x^3))/3", "2(Sin x+Cos³x-Tan x³)/3");
+            TestParse("2(sin x + cos³x - tan x³)/3", "2(Sin x+Cos³x-Tan x³)/3");
             TestParse("2*(x+3*(x-4^x)-5)/6", "2(x+3(x-4^x)-5)/6");
             TestParse("1/5x", "1/5/x");                                  // Implied products have higher precedence
             TestParse("1/2√(x)", "1/2/√x");
@@ -83,8 +84,8 @@
             TestParse("2 3", "2*3");
             TestParse("2(x+3)", "2(x+3)");
             TestParse("2x^3)", "(2x)³");
-            TestParse("2(x^3)", "2(x³)");
-            TestParse("x⁴-4x³+6x²-4x+1", "x⁴-4(x³)+6(x²)-4x+1");
+            TestParse("2(x^3)", "2x³");
+            TestParse("x⁴-4x³+6x²-4x+1", "x⁴-4x³+6x²-4x+1");
             TestParse("1/2√(1-x²)", "1/2/√(1-x²)");
             TestParse("eˣ", "2.71828182845905^x");
             TestParse("eᶜᵒˢ⁽ˣ⁾", "2.71828182845905^Cos x");
@@ -103,14 +104,14 @@
             TestParse("0<x<1", "0<x&x<1");
             TestParse("0<x<2x<1", "0<x&x<2x&2x<1");
             TestParse("t*x", "t*x");
-            TestParse("x⁴-4x³*t+6x²*t²-4x*t³+t⁴)", "x⁴-4(x³)*t+6(x²)*t²-4x*t³+t⁴");
+            TestParse("x⁴-4x³*t+6x²*t²-4x*t³+t⁴)", "x⁴-4x³*t+6x²*t²-4x*t³+t⁴");
             TestParse("(x⁴-4x³*t+6x²*t²-4x*t³+t⁴)'", "x³*4-x²*12*t+x*12*t²-t³*4");
             TestParse("sin x;f0(x)", "Sin x;Sin x");
             TestParse("sin x;(f0(x))'", "Sin x;Cos x");
             TestParse("sin(x+t);cos(x-t);f0(x,t)+f1(x,t)", "Sin(x+t);Cos(x-t);Sin(x+t)+Cos(x-t)");
             TestParse("(x+t)^3;(x-t)^5;(f0(x,t))'+(f1(x,t))''", "(x+t)³;(x-t)⁵;(x+t)²*3+(x-t)³*20");
-            TestParse("sin²x", "Sin(x)²");
-            TestParse("4sec²x * tan²x + 2sec⁴x", "4(Sec(x)²)*Tan(x)²+2(Sec(x)⁴)");
+            TestParse("sin²x", "Sin²x");
+            TestParse("4sec²x * tan²x + 2sec⁴x", "4Sec²x*Tan²x+2Sec⁴x");
         }
     }
 }
