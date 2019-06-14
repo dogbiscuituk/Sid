@@ -1574,7 +1574,7 @@
             this.btnTaylorPolynomial.Size = new System.Drawing.Size(119, 25);
             this.btnTaylorPolynomial.TabIndex = 24;
             this.btnTaylorPolynomial.Tag = "Fixed";
-            this.btnTaylorPolynomial.Text = "Taylor polynomial...";
+            this.btnTaylorPolynomial.Text = "&Taylor polynomial...";
             this.btnTaylorPolynomial.UseVisualStyleBackColor = true;
             // 
             // lblType
