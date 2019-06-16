@@ -26,6 +26,7 @@
             TestPolynomialDerivative();
             TestChainRule();
             TestParser();
+            TestMaxima();
         }
 
         /// <summary>

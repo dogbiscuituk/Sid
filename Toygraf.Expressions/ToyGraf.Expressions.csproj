@@ -45,10 +45,12 @@
     <Compile Include="Expressions.cs" />
     <Compile Include="Expressions.Differentiation.cs" />
     <Compile Include="Expressions.Integration.cs" />
+    <Compile Include="Expressions.MaximaTests.cs" />
     <Compile Include="Expressions.ParserTests.cs" />
     <Compile Include="Expressions.Tests.cs" />
     <Compile Include="Functions.cs" />
     <Compile Include="Enumerations\OperandTypes.cs" />
+    <Compile Include="Maxima.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Enumerations\Precedence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
