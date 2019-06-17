@@ -313,13 +313,16 @@
             switch (constant.ToLower())
             {
                 case "e":
-                    return Math.E;
+                    return Math.E;                 // Base of natural logarithms.
+                case "γ":
+                case "gamma":
+                    return 0.57721566490153286;    // Euler–Mascheroni constant (also called Euler's constant).
                 case "π":
                 case "pi":
-                    return Math.PI;
+                    return Math.PI;                // Circle's circumference to diameter ratio.
                 case "ϕ":
                 case "phi":
-                    return (1 + Math.Sqrt(5)) / 2;
+                    return (1 + Math.Sqrt(5)) / 2; // Golden ratio.
             }
             return 0;
         }

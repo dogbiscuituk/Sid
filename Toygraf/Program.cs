@@ -12,8 +12,10 @@
         [STAThread]
         static void Main()
         {
-            //if (!AppController.Options.UseMaxima)
-            //    Expressions.Expressions.TestAll();
+            if (AppController.Options.UseMaxima)
+                Expressions.Expressions.TestAllMaxima();
+            else
+                Expressions.Expressions.TestAllIce();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(AppController.AboutDialog);

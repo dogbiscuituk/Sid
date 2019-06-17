@@ -4,12 +4,14 @@ namespace ToyGraf.Expressions
 {
     public static class LinqToMaxima
     {
-        public static Expression FromMaxima(this string s) => s.FromMaxima(new[] { "x", "t" });
+        public static Expression FromMaxima(this string s) => s.FromMaxima("x", "t");
 
-        public static Expression FromMaxima(this string s, string[] paramNames)
+        public static Expression FromMaxima(this string s, params string[] paramNames)
         {
             var ok = new Parser().TryParse(s
                 .Replace("%e", "e")
+                .Replace("%gamma", "γ")
+                .Replace("%phi", "ϕ")
                 .Replace("%pi", "π"),
                 out object result);
             return ok ? (Expression)result : Expressions.DefaultVoid;
@@ -19,12 +21,6 @@ namespace ToyGraf.Expressions
 
         public static string ToMaxima(this Expression e, string[] paramNames)
         {
-            /*
-            var result = e.ToString();
-            for (var index = 0; index < paramNames.Length; index++)
-                result.Replace($"param_{index}", paramNames[index]);
-            return result;
-            */
             switch (e)
             {
                 case ParameterExpression pe:
@@ -51,7 +47,7 @@ namespace ToyGraf.Expressions
                             return $"{functionName}({argument})";
                     }
                 case BinaryExpression be:
-                    return $"{be.Left.ToMaxima()}{be.NodeType.ToString()}{be.Right.ToMaxima()}";
+                    return $"{be.Left.ToMaxima()}{be.NodeType.AsString()}{be.Right.ToMaxima()}";
             }
             return string.Empty;
         }

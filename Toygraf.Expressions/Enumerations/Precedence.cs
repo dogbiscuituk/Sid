@@ -11,6 +11,7 @@
     {
         Assignment,     // End of expression
         Sequential,     // f0(x,t)
+        Integral,       // ∫sin x dx
         Ternary,        // x<0 ? -x : +x
         LogicalOr,      // x<1 || x>2
         LogicalAnd,     // x>1 && x<2

@@ -15,18 +15,29 @@
             System.Diagnostics.Debug.Assert(actual == expected, message, details);
         }
 
-        public static void TestAll()
+        public static void TestAllIce()
+        {
+            TestAllCommon();
+            TestParserIce();
+            TestFunctionDerivatives();
+            TestPolynomialDerivative();
+            TestChainRule();
+        }
+
+        public static void TestAllMaxima()
+        {
+            TestAllCommon();
+            TestParserMaxima();
+            TestMaxima();
+        }
+
+        private static void TestAllCommon()
         {
             TestAlphaConversions();
             TestComparisons();
             TestCompoundExpression();
             TestTrigonometricExpression();
             TestSimplifications();
-            TestFunctionDerivatives();
-            TestPolynomialDerivative();
-            TestChainRule();
-            TestParser();
-            TestMaxima();
         }
 
         /// <summary>
