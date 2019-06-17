@@ -40,13 +40,16 @@
             this.label5 = new System.Windows.Forms.Label();
             this.NewtonsoftLinkLabel = new System.Windows.Forms.LinkLabel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.GplLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblProductName = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnOK
             // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnOK.Location = new System.Drawing.Point(165, 146);
+            this.btnOK.Location = new System.Drawing.Point(317, 163);
             this.btnOK.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(87, 26);
@@ -58,30 +61,33 @@
             // lblDescription
             // 
             this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(91, 11);
+            this.lblDescription.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDescription.Location = new System.Drawing.Point(175, 11);
             this.lblDescription.Margin = new System.Windows.Forms.Padding(3);
             this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(67, 15);
+            this.lblDescription.Size = new System.Drawing.Size(71, 15);
             this.lblDescription.TabIndex = 1;
             this.lblDescription.Text = "Description";
             // 
             // lblAuthor
             // 
             this.lblAuthor.AutoSize = true;
+            this.lblAuthor.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAuthor.Location = new System.Drawing.Point(175, 53);
             this.lblAuthor.Margin = new System.Windows.Forms.Padding(3);
             this.lblAuthor.Name = "lblAuthor";
-            this.lblAuthor.Size = new System.Drawing.Size(44, 15);
+            this.lblAuthor.Size = new System.Drawing.Size(46, 15);
             this.lblAuthor.TabIndex = 2;
             this.lblAuthor.Text = "Author";
             // 
             // lblCopyright
             // 
             this.lblCopyright.AutoSize = true;
+            this.lblCopyright.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCopyright.Location = new System.Drawing.Point(175, 74);
             this.lblCopyright.Margin = new System.Windows.Forms.Padding(3);
             this.lblCopyright.Name = "lblCopyright";
-            this.lblCopyright.Size = new System.Drawing.Size(60, 15);
+            this.lblCopyright.Size = new System.Drawing.Size(61, 15);
             this.lblCopyright.TabIndex = 3;
             this.lblCopyright.Text = "Copyright";
             // 
@@ -118,17 +124,18 @@
             // lblVersion
             // 
             this.lblVersion.AutoSize = true;
+            this.lblVersion.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVersion.Location = new System.Drawing.Point(175, 32);
             this.lblVersion.Margin = new System.Windows.Forms.Padding(3);
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(45, 15);
+            this.lblVersion.Size = new System.Drawing.Size(48, 15);
             this.lblVersion.TabIndex = 9;
             this.lblVersion.Text = "Version";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(122, 103);
+            this.label5.Location = new System.Drawing.Point(9, 103);
             this.label5.Margin = new System.Windows.Forms.Padding(3);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(163, 15);
@@ -138,7 +145,7 @@
             // NewtonsoftLinkLabel
             // 
             this.NewtonsoftLinkLabel.AutoSize = true;
-            this.NewtonsoftLinkLabel.Location = new System.Drawing.Point(12, 124);
+            this.NewtonsoftLinkLabel.Location = new System.Drawing.Point(9, 124);
             this.NewtonsoftLinkLabel.Margin = new System.Windows.Forms.Padding(3);
             this.NewtonsoftLinkLabel.Name = "NewtonsoftLinkLabel";
             this.NewtonsoftLinkLabel.Size = new System.Drawing.Size(395, 15);
@@ -155,6 +162,38 @@
             this.pictureBox1.TabIndex = 12;
             this.pictureBox1.TabStop = false;
             // 
+            // GplLinkLabel
+            // 
+            this.GplLinkLabel.AutoSize = true;
+            this.GplLinkLabel.Location = new System.Drawing.Point(9, 174);
+            this.GplLinkLabel.Margin = new System.Windows.Forms.Padding(3);
+            this.GplLinkLabel.Name = "GplLinkLabel";
+            this.GplLinkLabel.Size = new System.Drawing.Size(230, 15);
+            this.GplLinkLabel.TabIndex = 14;
+            this.GplLinkLabel.TabStop = true;
+            this.GplLinkLabel.Text = "http://www.gnu.org/licenses/gpl-3.0.html";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 153);
+            this.label1.Margin = new System.Windows.Forms.Padding(3);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(279, 15);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Maxima uses the GNU General Public License (GPL):";
+            // 
+            // lblProductName
+            // 
+            this.lblProductName.AutoSize = true;
+            this.lblProductName.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProductName.Location = new System.Drawing.Point(91, 11);
+            this.lblProductName.Margin = new System.Windows.Forms.Padding(3);
+            this.lblProductName.Name = "lblProductName";
+            this.lblProductName.Size = new System.Drawing.Size(87, 15);
+            this.lblProductName.TabIndex = 15;
+            this.lblProductName.Text = "Product Name";
+            // 
             // AboutDialog
             // 
             this.AcceptButton = this.btnOK;
@@ -162,7 +201,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.CancelButton = this.btnOK;
-            this.ClientSize = new System.Drawing.Size(417, 178);
+            this.ClientSize = new System.Drawing.Size(417, 201);
+            this.Controls.Add(this.lblProductName);
+            this.Controls.Add(this.GplLinkLabel);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.NewtonsoftLinkLabel);
             this.Controls.Add(this.label5);
@@ -202,5 +244,8 @@
         internal System.Windows.Forms.LinkLabel NewtonsoftLinkLabel;
         internal System.Windows.Forms.PictureBox pictureBox1;
         internal System.Windows.Forms.Button btnOK;
+        internal System.Windows.Forms.LinkLabel GplLinkLabel;
+        internal System.Windows.Forms.Label label1;
+        internal System.Windows.Forms.Label lblProductName;
     }
 }

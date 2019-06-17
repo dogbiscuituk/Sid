@@ -5,7 +5,10 @@
 
     partial class Expressions
     {
-        public static Expression Integrate(this Expression e) => Simplify(I(e));
+        public static Expression Integrate(this Expression e) =>
+            UseMaxima
+            ? e.ToMaxima().Integrate().FromMaxima()
+            : Simplify(I(e));
 
         private static Expression I(this Expression e)
         {

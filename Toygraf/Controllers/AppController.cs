@@ -48,7 +48,8 @@
                     OpenInNewWindow = Settings.Options_OpenInNewWindow,
                     GroupUndo = Settings.Options_GroupUndo,
                     FilesFolderPath = Settings.FilesFolderPath,
-                    TemplatesFolderPath = Settings.TemplatesFolderPath
+                    TemplatesFolderPath = Settings.TemplatesFolderPath,
+                    UseMaxima = Settings.UseMaxima
                 };
                 if (string.IsNullOrWhiteSpace(options.FilesFolderPath))
                     options.FilesFolderPath = DefaultFilesFolderPath;
@@ -62,6 +63,7 @@
                 Settings.Options_GroupUndo = value.GroupUndo;
                 Settings.FilesFolderPath = value.FilesFolderPath;
                 Settings.TemplatesFolderPath = value.TemplatesFolderPath;
+                Settings.UseMaxima = value.UseMaxima;
                 Settings.Save();
                 if (!Directory.Exists(value.FilesFolderPath))
                     Directory.CreateDirectory(value.FilesFolderPath);

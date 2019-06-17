@@ -50,6 +50,7 @@
     <Compile Include="Expressions.Tests.cs" />
     <Compile Include="Functions.cs" />
     <Compile Include="Enumerations\OperandTypes.cs" />
+    <Compile Include="LinqToMaxima.cs" />
     <Compile Include="Maxima.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Enumerations\Precedence.cs" />

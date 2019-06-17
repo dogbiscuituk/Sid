@@ -7,6 +7,12 @@
 
     public static partial class Expressions
     {
+        #region Configuration
+
+        public static bool UseMaxima = true;
+
+        #endregion
+
         #region Parameters
 
         public static ParameterExpression x = Expression.Variable(typeof(double), "x");

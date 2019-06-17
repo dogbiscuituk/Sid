@@ -7,7 +7,10 @@
     {
         #region Differentiation
 
-        public static Expression Differentiate(this Expression e) => Simplify(D(e));
+        public static Expression Differentiate(this Expression e) =>
+            UseMaxima
+            ? e.ToMaxima().Differentiate().FromMaxima()
+            : Simplify(D(e));
 
         private static Expression D(this Expression e)
         {

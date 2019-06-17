@@ -1,6 +1,7 @@
 ﻿namespace ToyGraf.Controllers
 {
     using System;
+    using System.Diagnostics;
     using System.Windows.Forms;
     using ToyGraf.Models.Structs;
     using ToyGraf.Views;
@@ -15,6 +16,7 @@
             OptionsDialog = new OptionsDialog();
             OptionsDialog.btnFilesFolder.Click += BtnFilesFolder_Click;
             OptionsDialog.btnTemplatesFolder.Click += BtnTemplatesFolder_Click;
+            OptionsDialog.MaximaLinkLabel.LinkClicked += MaximaLinkLabel_LinkClicked;
         }
 
         internal DialogResult ShowModal(IWin32Window owner)
@@ -48,6 +50,12 @@
         private void BtnTemplatesFolder_Click(object sender, EventArgs e) =>
             BrowseFolder("templates", OptionsDialog.edTemplatesFolder);
 
+        private void MaximaLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(OptionsDialog.MaximaLinkLabel.Text);
+            OptionsDialog.MaximaLinkLabel.LinkVisited = true;
+        }
+
         #endregion
 
         #region Private Methods
@@ -70,7 +78,8 @@
             OpenInNewWindow = OptionsDialog.rbWindowNew.Checked,
             GroupUndo = OptionsDialog.rbGroupUndo.Checked,
             FilesFolderPath = OptionsDialog.edFilesFolder.Text,
-            TemplatesFolderPath = OptionsDialog.edTemplatesFolder.Text
+            TemplatesFolderPath = OptionsDialog.edTemplatesFolder.Text,
+            UseMaxima = OptionsDialog.rbCalculusMaxima.Checked
         };
 
         private void SetOptions(Options options)
@@ -81,6 +90,8 @@
             OptionsDialog.rbNoGroupUndo.Checked = !options.GroupUndo;
             OptionsDialog.edFilesFolder.Text = options.FilesFolderPath;
             OptionsDialog.edTemplatesFolder.Text = options.TemplatesFolderPath;
+            OptionsDialog.rbCalculusInternal.Checked = !options.UseMaxima;
+            OptionsDialog.rbCalculusMaxima.Checked = options.UseMaxima;
         }
 
         #endregion

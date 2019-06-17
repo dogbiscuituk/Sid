@@ -12,7 +12,8 @@
         [STAThread]
         static void Main()
         {
-            Expressions.Expressions.TestAll();
+            //if (!AppController.Options.UseMaxima)
+            //    Expressions.Expressions.TestAll();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(AppController.AboutDialog);
