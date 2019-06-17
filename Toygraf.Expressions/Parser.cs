@@ -71,16 +71,19 @@
 
         #endregion
 
-            #region Fields
+        #region Private Fields
 
         private string Formula;
         private int Index;
         private Stack<Expression> Operands;
         private Stack<string> Operators;
 
+        private string OperandStack => Operands.Reverse().Select(p => p.AsString()).Aggregate((p, q) => $"{p} | {q}");
+        private string OperatorStack => Operators.Reverse().Aggregate((p, q) => $"{p} | {q}");
+
         #endregion
 
-        #region Match methods
+        #region Private Match methods
 
         private string MatchFunction() => MatchRegex(@"^[\p{Lu}\p{Ll}\d]+").ToLower();
         private string MatchNumber() => MatchRegex(@"^\d*\.?\d*([eE][+-]?\d+)?");
@@ -90,7 +93,7 @@
 
         #endregion
 
-        #region Parse methods
+        #region Private Parse methods
 
         private void ParseDegree()
         {
@@ -144,6 +147,10 @@
                         if (op == ")")
                             return;
                         break;
+                    case "dx":
+                    case "dt":
+                        ParseOperator(op);
+                        goto nextOperator;
                     case "°": // Postfix degree symbol => convert to radians
                         ParseDegree();
                         goto nextOperator;
@@ -260,6 +267,10 @@
                 case char c when char.IsNumber(c):
                     ParseVulgarFraction(c);
                     break;
+                case '∫':
+                    ParseOperator(token);
+                    ParseOperand();
+                    break;
                 default:
                     throw new FormatException(
                         $"Missing operand, input='{Formula}', index={Index}");
@@ -323,10 +334,15 @@
                             var then = Operands.Pop();
                             operand = Operands.Pop().MakeConditional(then, operand);
                         }
+                        else if (oldOp == "∫" && (newOp == "dx" || newOp == "dt"))
+                        {
+                            Operands.Push(operand.Integrate());
+                            ReadPast(newOp);
+                            return;
+                        }
                         else
                         {
                             var left = Operands.Pop();
-
                             if (oldOp.GetPrecedence() == Precedence.Relational && left.IsRelational())
                                 operand = "&".MakeBinary(left, 
                                     oldOp.MakeBinary(left.GetRightmostRelation(), operand));
@@ -396,7 +412,7 @@
 
         #endregion
 
-        #region Read methods
+        #region Private Read methods
 
         private char PeekChar()
         {
@@ -409,7 +425,7 @@
         private string PeekToken()
         {
             var nextChar = PeekChar();
-            if ("()?:≠≤≥≮≯≰≱+-*/⁄^~°√∛∜',".IndexOf(nextChar) >= 0)
+            if ("()?:≠≤≥≮≯≰≱+-*/⁄^~°√∛∜',∫".IndexOf(nextChar) >= 0)
                 return nextChar.ToString();
             switch (nextChar)
             {
@@ -421,6 +437,16 @@
                 case char c when c.IsSuperscript():
                     return MatchSuperscript();
                 case char c when char.IsLetter(c):
+                    if (c == 'd' && Index < Formula.Length - 2)
+                    {
+                        var lookahead = Formula.Substring(Index, 2);
+                        switch (lookahead)
+                        {
+                            case "dx":
+                            case "dt":
+                                return lookahead;
+                        }
+                    }
                     return MatchFunction();
                 case char c when char.IsNumber(c):
                     return nextChar.ToString();

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Windows.Forms;
+    using ToyGraf.Expressions;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Models.Structs;
     using ToyGraf.Views;
@@ -21,6 +22,7 @@
             };
             Timer.Tick += Timer_Tick;
             AddNewGraphController();
+            ApplyOptions();
         }
 
         #region Properties
@@ -65,10 +67,7 @@
                 Settings.TemplatesFolderPath = value.TemplatesFolderPath;
                 Settings.UseMaxima = value.UseMaxima;
                 Settings.Save();
-                if (!Directory.Exists(value.FilesFolderPath))
-                    Directory.CreateDirectory(value.FilesFolderPath);
-                if (!Directory.Exists(value.TemplatesFolderPath))
-                    Directory.CreateDirectory(value.TemplatesFolderPath);
+                ApplyOptions();
             }
         }
 
@@ -127,6 +126,19 @@
         private static readonly string DefaultFilesFolderPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\{Application.ProductName}";
         private static Properties.Settings Settings => Properties.Settings.Default;
         private static Timer Timer;
+
+        #endregion
+
+        #region Private Methods
+
+        private static void ApplyOptions()
+        {
+            if (!Directory.Exists(Options.FilesFolderPath))
+                Directory.CreateDirectory(Options.FilesFolderPath);
+            if (!Directory.Exists(Options.TemplatesFolderPath))
+                Directory.CreateDirectory(Options.TemplatesFolderPath);
+            Expressions.UseMaxima = Options.UseMaxima;
+        }
 
         #endregion
     }

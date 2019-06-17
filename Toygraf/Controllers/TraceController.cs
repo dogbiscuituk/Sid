@@ -147,11 +147,20 @@
 
         private void FunctionBox_TextChanged(object sender, EventArgs e)
         {
-            View.ToolTip.SetToolTip(FunctionBox, FunctionBox.Text);
-            if (!string.IsNullOrWhiteSpace(Formula) && !Functions.Contains(Formula))
-                Functions[0] = Formula;
-            if (!Updating && LegendController.Validate())
-                CommandProcessor[Index].Formula = Formula;
+            if (Formula.Contains("@"))
+            {
+                SaveFormulaSelection();
+                Formula = Formula.Replace("@", "∫");
+                LoadFormulaSelection();
+            }
+            else
+            {
+                View.ToolTip.SetToolTip(FunctionBox, FunctionBox.Text);
+                if (!string.IsNullOrWhiteSpace(Formula) && !Functions.Contains(Formula))
+                    Functions[0] = Formula;
+                if (!Updating && LegendController.Validate())
+                    CommandProcessor[Index].Formula = Formula;
+            }
         }
 
         private void GraphController_PropertyChanged(object sender, PropertyChangedEventArgs e)

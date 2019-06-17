@@ -13,7 +13,7 @@
             for (int index = 0; index < inputs.Length; index++)
                 expressions[index] =
                     new Parser().TryParse(inputs[index], out object result)
-                    ? (Expression)result : Expressions.DefaultVoid;
+                    ? (Expression)result : DefaultVoid;
             var proxies = expressions.Select(p => p.AsProxy(x, t, expressions));
             var actual = proxies.Select(p => p.AsString()).Aggregate((s, t) => $"{s};{t}");
             Check(expected, actual);
@@ -116,9 +116,7 @@
             TestParse("t*x", "t*x");
             TestParse("x⁴-4x³*t+6x²*t²-4x*t³+t⁴)", "x⁴-4x³*t+6x²*t²-4x*t³+t⁴");
             TestParse("sin x;f0(x)", "Sin x;Sin x");
-            TestParse("sin x;(f0(x))'", "Sin x;Cos x");
             TestParse("sin(x+t);cos(x-t);f0(x,t)+f1(x,t)", "Sin(x+t);Cos(x-t);Sin(x+t)+Cos(x-t)");
-            TestParse("(x+t)^3;(x-t)^5;(f0(x,t))'+(f1(x,t))''", "(x+t)³;(x-t)⁵;(x+t)²*3+(x-t)³*20");
             TestParse("sin²x", "Sin²x");
             TestParse("4sec²x * tan²x + 2sec⁴x", "4Sec²x*Tan²x+2Sec⁴x");
         }
@@ -129,11 +127,13 @@
             TestParse("(x³)'", "x²*3");                                  // d(x³)/dx = 3x²
             TestParse("(exp(cos x))'", "Exp Cos x*-Sin x");              // d(eᶜᵒˢ⁽ˣ⁾)/dx = -(sin x)eᶜᵒˢ⁽ˣ⁾
             TestParse("(x⁴-4x³*t+6x²*t²-4x*t³+t⁴)'", "x³*4-x²*12*t+x*12*t²-t³*4");
+            TestParse("sin x;(f0(x))'", "Sin x;Cos x");
+            TestParse("(x+t)^3;(x-t)^5;(f0(x,t))'+(f1(x,t))''", "(x+t)³;(x-t)⁵;(x+t)²*3+(x-t)³*20");
         }
 
         private static void TestParserSuccessMaxima()
         {
-            TestParserSuccessCommon();
+            //TestParserSuccessCommon();
             TestParse("(x³)'", "3x²");                                   // d(x³)/dx = 3x²
             TestParse("(exp(cos x))'", "-2.71828182845905^Cos x*Sin x"); // d(eᶜᵒˢ⁽ˣ⁾)/dx = -(sin x)eᶜᵒˢ⁽ˣ⁾
             TestParse("(x⁴-4x³*t+6x²*t²-4x*t³+t⁴)'", "4x³-12t*x²+12t²*x-4t³");

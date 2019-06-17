@@ -17,6 +17,7 @@
 
         public static void TestAllIce()
         {
+            return;
             TestAllCommon();
             TestParserIce();
             TestFunctionDerivatives();
@@ -26,9 +27,11 @@
 
         public static void TestAllMaxima()
         {
+            return;
             TestAllCommon();
             TestParserMaxima();
             TestMaxima();
+            TestFunctionIntegralsMaxima();
         }
 
         private static void TestAllCommon()
@@ -120,6 +123,12 @@
             TestDerivative(t, "0");                                      // d/dx(t) = 0
             TestDerivative(Sin(x.Plus(t)), "Cos(x+t)");                  // d/dx(sin(x+t)) = cos(x+t)
             TestDerivative(Sin(x).Times(Sin(t)), "Cos x*Sin t");         // d/dx(sin x sin t) = cos x sin t
+        }
+
+        public static void TestFunctionIntegralsMaxima()
+        {
+            TestParse("∫Sin x dx", "-Cos x");
+
         }
 
         public static void TestPolynomialDerivative()

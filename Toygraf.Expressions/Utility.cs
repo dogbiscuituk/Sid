@@ -335,6 +335,10 @@
                     return Precedence.Assignment;
                 case ",":
                     return Precedence.Sequential;
+                case "∫":
+                case "dx":
+                case "dt":
+                    return Precedence.Integral;
                 case "?":
                 case ":":
                     return Precedence.Ternary;
