@@ -10,49 +10,53 @@
     {
         public const bool
             GraphDomainGraphWidth = true,
-            GraphDomainPolarDegrees = true;
+            GraphDomainPolarDegrees = true,
+            TraceVisible = true;
 
         public const int
-            GraphFillTransparencyPercent = 0,
             GraphPaperTransparencyPercent = 0,
-            GraphStepCount = 1000;
+            StyleFillTransparencyPercent = 0,
+            StyleStepCount = 1000;
 
         public const float
             GraphDomainMaxCartesian = +10,
             GraphDomainMaxPolar = 180,
             GraphDomainMinCartesian = -10,
             GraphDomainMinPolar = -180,
-            GraphPenWidth = 1;
+            StylePenWidth = 1;
 
         public const string
-            GraphTitle = "";
+            StyleTexture = null,
+            StyleTexturePath = null,
+            StyleTitle = "",
+            TraceFormula = "";
 
         public static readonly Color
             GraphAxisColour = Color.Black,
-            GraphFillColour1 = Color.Transparent,
-            GraphFillColour2 = Color.Transparent,
-            GraphLimitColour = Color.DarkGray,
             GraphPaperColour = Color.White,
-            GraphPenColour = Color.Black,
-            GraphReticleColour = Color.LightGray;
+            GraphReticleColour = Color.LightGray,
+            StyleFillColour1 = Color.Transparent,
+            StyleFillColour2 = Color.Transparent,
+            StyleLimitColour = Color.DarkGray,
+            StylePenColour = Color.Black;
 
         public const BrushType
-            GraphBrushType = BrushType.Solid;
+            StyleBrushType = BrushType.Solid;
 
         public const DashStyle
-            GraphPenStyle = DashStyle.Solid;
+            StylePenStyle = DashStyle.Solid;
 
         public const Elements
             GraphElements = Elements.All;
 
         public const HatchStyle
-            GraphHatchStyle = HatchStyle.Horizontal;
+            StyleHatchStyle = HatchStyle.Horizontal;
 
         public const Interpolation
             GraphInterpolation = Interpolation.Linear;
 
         public const LinearGradientMode
-            GraphGradientMode = LinearGradientMode.Horizontal;
+            StyleGradientMode = LinearGradientMode.Horizontal;
 
         public const Optimization
             GraphOptimization = Optimization.HighQuality;
@@ -67,7 +71,7 @@
             GraphViewport = new Viewport(new PointF(0, 0), 22);
 
         public const WrapMode
-            GraphWrapMode = WrapMode.Tile;
+            StyleWrapMode = WrapMode.Tile;
 
         public static readonly List<Color> GraphPenColours = new List<Color>
         {

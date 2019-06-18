@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Drawing.Imaging;
@@ -18,7 +19,7 @@
     [Serializable]
     public class Trace : Style, ITrace
     {
-        public Trace() => SetFormula("0");
+        public Trace() : base() => RestoreDefaults();
         public Trace(Graph graph): this() => _stepCount = graph.StepCount;
 
         public new Trace Clone()
@@ -47,7 +48,8 @@
         [NonSerialized]
         private Viewport Viewport;
 
-        private bool _visible = true;
+        private bool _visible;
+        [DefaultValue(true)]
         public bool Visible
         {
             get => _visible;
@@ -73,6 +75,7 @@
         /// <summary>
         /// Plain text version of the algebraic expression used by the Trace.
         /// </summary>
+        [DefaultValue("")]
         public string Formula
         {
             get => _formula;
@@ -346,6 +349,12 @@
         private void InvalidatePoints()
         {
             PointLists.Clear();
+        }
+
+        private void RestoreDefaults()
+        {
+            _formula = Defaults.TraceFormula;
+            _visible = Defaults.TraceVisible;
         }
 
         private static bool IsInvalid(float x) => float.IsInfinity(x) || float.IsNaN(x);

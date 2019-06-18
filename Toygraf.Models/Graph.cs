@@ -17,11 +17,12 @@
     [Serializable]
     public class Graph : Style, IGraph, IDisposable
     {
-        public Graph() { RestoreDefaults(); }
+        public Graph() : base() => RestoreDefaults();
 
         #region Properties
 
         private Color _axisColour;
+        [DefaultValue(typeof(Color), "Black")]
         public Color AxisColour
         {
             get => _axisColour;
@@ -35,7 +36,137 @@
             }
         }
 
+        [DefaultValue(true)]
+        public bool DomainGraphWidth
+        {
+            get => DomainInfo.UseGraphWidth;
+            set
+            {
+                if (DomainGraphWidth != value)
+                {
+                    DomainInfo.UseGraphWidth = value;
+                    OnPropertyChanged("DomainGraphWidth");
+                }
+            }
+        }
+
+        [DefaultValue(10f)]
+        public float DomainMaxCartesian
+        {
+            get => DomainInfo.MaxCartesian;
+            set
+            {
+                if (DomainMaxCartesian != value)
+                {
+                    DomainInfo.MaxCartesian = value;
+                    OnPropertyChanged("DomainMaxCartesian");
+                }
+            }
+        }
+
+        [DefaultValue(180f)]
+        public float DomainMaxPolar
+        {
+            get => DomainInfo.MaxPolar;
+            set
+            {
+                if (DomainMaxPolar != value)
+                {
+                    DomainInfo.MaxPolar = value;
+                    OnPropertyChanged("DomainMaxPolar");
+                }
+            }
+        }
+
+        [DefaultValue(-10f)]
+        public float DomainMinCartesian
+        {
+            get => DomainInfo.MinCartesian;
+            set
+            {
+                if (DomainMinCartesian != value)
+                {
+                    DomainInfo.MinCartesian = value;
+                    OnPropertyChanged("DomainMinCartesian");
+                }
+            }
+        }
+
+        [DefaultValue(-180f)]
+        public float DomainMinPolar
+        {
+            get => DomainInfo.MinPolar;
+            set
+            {
+                if (DomainMinPolar != value)
+                {
+                    DomainInfo.MinPolar = value;
+                    OnPropertyChanged("DomainMinPolar");
+                }
+            }
+        }
+
+        [DefaultValue(true)]
+        public bool DomainPolarDegrees
+        {
+            get => DomainInfo.PolarDegrees;
+            set
+            {
+                if (DomainPolarDegrees != value)
+                {
+                    DomainInfo.PolarDegrees = value;
+                    OnPropertyChanged("DomainPolarDegrees");
+                }
+            }
+        }
+
+        private Elements _elements;
+        [DefaultValue(typeof(Elements), "All")]
+        public Elements Elements
+        {
+            get => _elements;
+            set
+            {
+                if (Elements != value)
+                {
+                    _elements = value;
+                    OnPropertyChanged("Elements");
+                }
+            }
+        }
+
+        private Interpolation _interpolation;
+        [DefaultValue(typeof(Interpolation), "Linear")]
+        public Interpolation Interpolation
+        {
+            get => _interpolation;
+            set
+            {
+                if (Interpolation != value)
+                {
+                    _interpolation = value;
+                    OnPropertyChanged("Interpolation");
+                }
+            }
+        }
+
+        private Optimization _optimization;
+        [DefaultValue(typeof(Optimization), "HighQuality")]
+        public Optimization Optimization
+        {
+            get => _optimization;
+            set
+            {
+                if (Optimization != value)
+                {
+                    _optimization = value;
+                    OnPropertyChanged("Optimization");
+                }
+            }
+        }
+
         private Color _paperColour;
+        [DefaultValue(typeof(Color), "White")]
         public Color PaperColour
         {
             get => _paperColour;
@@ -50,6 +181,7 @@
         }
 
         private int _paperTransparencyPercent;
+        [DefaultValue(0)]
         public int PaperTransparencyPercent
         {
             get => _paperTransparencyPercent;
@@ -63,21 +195,8 @@
             }
         }
 
-        private Optimization _optimization;
-        public Optimization Optimization
-        {
-            get => _optimization;
-            set
-            {
-                if (Optimization != value)
-                {
-                    _optimization = value;
-                    OnPropertyChanged("Optimization");
-                }
-            }
-        }
-
         private PlotType _plotType;
+        [DefaultValue(typeof(PlotType), "Cartesian")]
         public PlotType PlotType
         {
             get => _plotType;
@@ -91,100 +210,38 @@
             }
         }
 
-        private Interpolation _interpolation;
-        public Interpolation Interpolation
+        private Color _reticleColour;
+        [DefaultValue(typeof(Color), "LightGray")]
+        public Color ReticleColour
         {
-            get => _interpolation;
+            get => _reticleColour;
             set
             {
-                if (Interpolation != value)
+                if (ReticleColour != value)
                 {
-                    _interpolation = value;
-                    OnPropertyChanged("Interpolation");
+                    _reticleColour = value;
+                    OnPropertyChanged("ReticleColour");
+                }
+            }
+        }
+
+        private TickStyles _tickStyles;
+        [DefaultValue(typeof(TickStyles), "Negative")]
+        public TickStyles TickStyles
+        {
+            get => _tickStyles;
+            set
+            {
+                if (TickStyles != value)
+                {
+                    _tickStyles = value;
+                    OnPropertyChanged("TickStyles");
                 }
             }
         }
 
         [JsonIgnore, NonSerialized]
         public DomainInfo DomainInfo;
-
-        public bool DomainGraphWidth
-        {
-            get => DomainInfo.UseGraphWidth;
-            set
-            {
-                if (DomainGraphWidth != value)
-                {
-                    DomainInfo.UseGraphWidth = value;
-                    OnPropertyChanged("DomainGraphWidth");
-                }
-            }
-        }
-
-        public float DomainMinCartesian
-        {
-            get => DomainInfo.MinCartesian;
-            set
-            {
-                if (DomainMinCartesian != value)
-                {
-                    DomainInfo.MinCartesian = value;
-                    OnPropertyChanged("DomainMinCartesian");
-                }
-            }
-        }
-
-        public float DomainMaxCartesian
-        {
-            get => DomainInfo.MaxCartesian;
-            set
-            {
-                if (DomainMaxCartesian != value)
-                {
-                    DomainInfo.MaxCartesian = value;
-                    OnPropertyChanged("DomainMaxCartesian");
-                }
-            }
-        }
-
-        public float DomainMinPolar
-        {
-            get => DomainInfo.MinPolar;
-            set
-            {
-                if (DomainMinPolar != value)
-                {
-                    DomainInfo.MinPolar = value;
-                    OnPropertyChanged("DomainMinPolar");
-                }
-            }
-        }
-
-        public float DomainMaxPolar
-        {
-            get => DomainInfo.MaxPolar;
-            set
-            {
-                if (DomainMaxPolar != value)
-                {
-                    DomainInfo.MaxPolar = value;
-                    OnPropertyChanged("DomainMaxPolar");
-                }
-            }
-        }
-
-        public bool DomainPolarDegrees
-        {
-            get => DomainInfo.PolarDegrees;
-            set
-            {
-                if (DomainPolarDegrees != value)
-                {
-                    DomainInfo.PolarDegrees = value;
-                    OnPropertyChanged("DomainPolarDegrees");
-                }
-            }
-        }
 
         [JsonIgnore]
         public PointF OriginalCentre { get; private set; }
@@ -218,6 +275,7 @@
         [JsonIgnore]
         public float OriginalWidth { get; private set; }
 
+        [DefaultValue(22f)]
         public float Width
         {
             get => Viewport.Width;
@@ -234,34 +292,6 @@
         [JsonIgnore, NonSerialized]
         public Viewport Viewport = Defaults.GraphViewport;
 
-        private Elements _elements;
-        public Elements Elements
-        {
-            get => _elements;
-            set
-            {
-                if (Elements != value)
-                {
-                    _elements = value;
-                    OnPropertyChanged("Elements");
-                }
-            }
-        }
-
-        private Color _reticleColour;
-        public Color ReticleColour
-        {
-            get => _reticleColour;
-            set
-            {
-                if (ReticleColour != value)
-                {
-                    _reticleColour = value;
-                    OnPropertyChanged("ReticleColour");
-                }
-            }
-        }
-
         private List<Style> _styles = new List<Style>();
         public List<Style> Styles
         {
@@ -270,20 +300,6 @@
             {
                 _styles = value;
                 OnPropertyChanged("Styles");
-            }
-        }
-
-        private TickStyles _tickStyles;
-        public TickStyles TickStyles
-        {
-            get => _tickStyles;
-            set
-            {
-                if (TickStyles != value)
-                {
-                    _tickStyles = value;
-                    OnPropertyChanged("TickStyles");
-                }
             }
         }
 
@@ -324,56 +340,24 @@
 
         private void RestoreDefaults()
         {
-            // bool
+            _axisColour = Defaults.GraphAxisColour;
             DomainInfo.UseGraphWidth = Defaults.GraphDomainGraphWidth;
-            DomainInfo.PolarDegrees = Defaults.GraphDomainPolarDegrees;
-            // int
-            _fillTransparencyPercent = Defaults.GraphFillTransparencyPercent;
-            _paperTransparencyPercent = Defaults.GraphPaperTransparencyPercent;
-            _stepCount = Defaults.GraphStepCount;
-            // float
             DomainInfo.MaxCartesian = Defaults.GraphDomainMaxCartesian;
             DomainInfo.MaxPolar = Defaults.GraphDomainMaxPolar;
             DomainInfo.MinCartesian = Defaults.GraphDomainMinCartesian;
             DomainInfo.MinPolar = Defaults.GraphDomainMinPolar;
-            _penWidth = Defaults.GraphPenWidth;
-            // string
-            _title = Defaults.GraphTitle;
-            // Color
-            _axisColour = Defaults.GraphAxisColour;
-            _fillColour1 = Defaults.GraphFillColour1;
-            _fillColour2 = Defaults.GraphFillColour2;
-            _reticleColour = Defaults.GraphReticleColour;
-            _limitColour = Defaults.GraphLimitColour;
-            _paperColour = Defaults.GraphPaperColour;
-            _penColour = Defaults.GraphPenColour;
-            // BrushType
-            _brushType = Defaults.GraphBrushType;
-            // DashStyle
-            _penStyle = Defaults.GraphPenStyle;
-            // Elements
+            DomainInfo.PolarDegrees = Defaults.GraphDomainPolarDegrees;
             _elements = Defaults.GraphElements;
-            // HatchStyle
-            _hatchStyle = Defaults.GraphHatchStyle;
-            // Interpolation
             _interpolation = Defaults.GraphInterpolation;
-            // LinearGradientMode
-            _gradientMode = Defaults.GraphGradientMode;
-            //Optimization
             _optimization = Defaults.GraphOptimization;
-            // PlotType
+            _paperColour = Defaults.GraphPaperColour;
+            _paperTransparencyPercent = Defaults.GraphPaperTransparencyPercent;
             _plotType = Defaults.GraphPlotType;
-            // PointF
-            OriginalCentre = Defaults.GraphViewport.Centre;
-            // SizeF
-            OriginalWidth = Defaults.GraphViewport.Width;
-            // TickStyles
+            _reticleColour = Defaults.GraphReticleColour;
             _tickStyles = Defaults.GraphTickStyles;
-            // Viewport
+            OriginalCentre = Defaults.GraphViewport.Centre;
+            OriginalWidth = Defaults.GraphViewport.Width;
             Viewport = Defaults.GraphViewport;
-            // WrapMode
-            _wrapMode = Defaults.GraphWrapMode;
-            // Styles
             OnBeginUpdate();
             Defaults.GraphPenColours.ForEach(c => Styles.Add(new Style(this) { PenColour = c }));
             OnEndUpdate();

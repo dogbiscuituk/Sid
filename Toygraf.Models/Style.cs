@@ -8,7 +8,7 @@
 
     public class Style : IStyle
     {
-        public Style() { }
+        public Style() => RestoreDefaults();
 
         public Style(Graph graph) : this()
         {
@@ -246,6 +246,25 @@
         {
             if (!Updating)
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void RestoreDefaults()
+        {
+            _brushType = Defaults.StyleBrushType;
+            _fillColour1 = Defaults.StyleFillColour1;
+            _fillColour2 = Defaults.StyleFillColour2;
+            _fillTransparencyPercent = Defaults.StyleFillTransparencyPercent;
+            _gradientMode = Defaults.StyleGradientMode;
+            _hatchStyle = Defaults.StyleHatchStyle;
+            _limitColour = Defaults.StyleLimitColour;
+            _penColour = Defaults.StylePenColour;
+            _penStyle = Defaults.StylePenStyle;
+            _penWidth = Defaults.StylePenWidth;
+            _stepCount = Defaults.StyleStepCount;
+            _texture = Defaults.StyleTexture;
+            _texturePath = Defaults.StyleTexturePath;
+            _title = Defaults.StyleTitle;
+            _wrapMode = Defaults.StyleWrapMode;
         }
 
         private bool Updating;

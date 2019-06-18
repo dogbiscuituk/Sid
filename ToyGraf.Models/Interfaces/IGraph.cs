@@ -20,7 +20,6 @@
         int PaperTransparencyPercent { get; set; }
         PlotType PlotType { get; set; }
         Color ReticleColour { get; set; }
-        int StepCount { get; set; }
         TickStyles TickStyles { get; set; }
         float Width { get; set; }
     }
