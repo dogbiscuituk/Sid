@@ -80,7 +80,7 @@
 
         private static JsonSerializer GetSerializer() => new JsonSerializer
         {
-            //DefaultValueHandling = DefaultValueHandling.Ignore,
+            DefaultValueHandling = DefaultValueHandling.Ignore,
             Formatting = Formatting.Indented
         };
 

@@ -7,18 +7,14 @@
     {
         public static Expression Differentiate(this Expression e)
         {
+            if (e.IsDefaultVoid())
+                return e;
             if (!UseMaxima)
                 return Simplify(D(e));
             var s = e.ToMaxima();
             s = s.Differentiate();
             return s.FromMaxima();
         }
-
-            /*
-            UseMaxima
-            ? e.ToMaxima().Differentiate().FromMaxima()
-            : Simplify(D(e));
-            */
 
         private static Expression D(this Expression e)
         {

@@ -111,6 +111,13 @@
             { }
         }
 
+        private class StyleStepCountCommand : StylePropertyCommand<int>
+        {
+            public StyleStepCountCommand(int index, int value) : base(index, "step count",
+                value, s => s.StepCount, (s, v) => s.StepCount = v)
+            { }
+        }
+
         #endregion
 
         #region string

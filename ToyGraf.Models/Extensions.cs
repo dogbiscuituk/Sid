@@ -26,7 +26,6 @@
             target.PaperTransparencyPercent = source.PaperTransparencyPercent;
             target.PlotType = source.PlotType;
             target.ReticleColour = source.ReticleColour;
-            target.StepCount = source.StepCount;
             target.TickStyles = source.TickStyles;
             target.Width = source.Width;
         }
@@ -43,6 +42,7 @@
             target.PenColour = source.PenColour;
             target.PenStyle = source.PenStyle;
             target.PenWidth = source.PenWidth;
+            target.StepCount = source.StepCount;
             target.Texture = source.Texture;
             target.TexturePath = source.TexturePath;
             target.Title = source.Title;
@@ -53,7 +53,6 @@
         {
             ((IStyle)source).CopyTo(target);
             target.Formula = source.Formula;
-            target.StepCount = source.StepCount;
             target.Visible = source.Visible;
         }
     }

@@ -16,6 +16,7 @@
         Color PenColour { get; set; }
         DashStyle PenStyle { get; set; }
         float PenWidth { get; set; }
+        int StepCount { get; set; }
         string Texture { get; set; }
         string TexturePath { get; set; }
         string Title { get; set; }

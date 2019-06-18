@@ -126,13 +126,23 @@
             }
 
             [Category("Style")]
-            [DefaultValue(1.0f)]
+            [DefaultValue(1f)]
             [Description("The point size of the pen used to draw the Style.")]
             [DisplayName("Pen size")]
             public float PenWidth
             {
                 get => Style.PenWidth;
                 set => Run(new StylePenWidthCommand(Index, value));
+            }
+
+            [Category("Style")]
+            [DefaultValue(1000)]
+            [Description("The point size of the pen used to draw the Style.")]
+            [DisplayName("Steps")]
+            public int StepCount
+            {
+                get => Style.StepCount;
+                set => Run(new StyleStepCountCommand(Index, value));
             }
 
             [Browsable(false)]
@@ -144,6 +154,7 @@
 
             [Category("Style")]
             [Editor(typeof(TgFileNameEditor), typeof(UITypeEditor))]
+            [DefaultValue("")]
             [Description("The image file used to provide the Style's \"Texture\" brush.")]
             [DisplayName("Texture file")]
             public string TexturePath
@@ -153,6 +164,7 @@
             }
 
             [Category("Style")]
+            [DefaultValue("")]
             [Description("A title for this style.")]
             [DisplayName("Title")]
             public string Title

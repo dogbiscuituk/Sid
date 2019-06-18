@@ -25,6 +25,7 @@
         }
 
         protected BrushType _brushType;
+        [DefaultValue(typeof(BrushType), "Solid")]
         public BrushType BrushType
         {
             get => _brushType;
@@ -39,6 +40,7 @@
         }
 
         protected Color _fillColour1;
+        [DefaultValue(typeof(Color), "Transparent")]
         public Color FillColour1
         {
             get => _fillColour1;
@@ -53,6 +55,7 @@
         }
 
         protected Color _fillColour2;
+        [DefaultValue(typeof(Color), "Transparent")]
         public Color FillColour2
         {
             get => _fillColour2;
@@ -67,6 +70,7 @@
         }
 
         protected int _fillTransparencyPercent;
+        [DefaultValue(0)]
         public int FillTransparencyPercent
         {
             get => _fillTransparencyPercent;
@@ -81,6 +85,7 @@
         }
 
         protected LinearGradientMode _gradientMode;
+        [DefaultValue(typeof(LinearGradientMode), "Horizontal")]
         public LinearGradientMode GradientMode
         {
             get => _gradientMode;
@@ -95,6 +100,7 @@
         }
 
         protected HatchStyle _hatchStyle;
+        [DefaultValue(typeof(HatchStyle), "Horizontal")]
         public HatchStyle HatchStyle
         {
             get => _hatchStyle;
@@ -109,6 +115,7 @@
         }
 
         protected Color _limitColour;
+        [DefaultValue(typeof(Color), "DarkGray")]
         public Color LimitColour
         {
             get => _limitColour;
@@ -123,6 +130,7 @@
         }
 
         protected Color _penColour;
+        [DefaultValue(typeof(Color), "Black")]
         public Color PenColour
         {
             get => _penColour;
@@ -137,6 +145,7 @@
         }
 
         protected DashStyle _penStyle;
+        [DefaultValue(typeof(DashStyle), "Solid")]
         public DashStyle PenStyle
         {
             get => _penStyle;
@@ -151,6 +160,7 @@
         }
 
         protected float _penWidth;
+        [DefaultValue(1f)]
         public float PenWidth
         {
             get => _penWidth;
@@ -165,6 +175,7 @@
         }
 
         protected int _stepCount;
+        [DefaultValue(1000)]
         public int StepCount
         {
             get => _stepCount;
@@ -179,6 +190,7 @@
         }
 
         protected string _texture;
+        [DefaultValue(null)]
         public string Texture
         {
             get => _texture;
@@ -190,6 +202,7 @@
         }
 
         protected string _texturePath;
+        [DefaultValue(null)]
         public string TexturePath
         {
             get => _texturePath;
@@ -201,6 +214,7 @@
         }
 
         protected string _title;
+        [DefaultValue("")]
         public string Title
         {
             get => _title;
@@ -215,6 +229,7 @@
         }
 
         protected WrapMode _wrapMode;
+        [DefaultValue(typeof(WrapMode), "Tile")]
         public WrapMode WrapMode
         {
             get => _wrapMode;
