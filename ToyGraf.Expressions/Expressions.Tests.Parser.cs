@@ -6,7 +6,7 @@
 
     partial class Expressions
     {
-        public static void TestParse(string input, string expected)
+        private static void TestParse(string input, string expected)
         {
             var inputs = input.Split(';');
             var expressions = new Expression[inputs.Length];
@@ -19,7 +19,7 @@
             Check(expected, actual);
         }
 
-        public static void TestParseFail(string input, string error)
+        private static void TestParseFail(string input, string error)
         {
             try
             {
@@ -32,19 +32,19 @@
             }
         }
 
-        public static void TestParserIce()
+        private static void TestParser_Ice()
         {
             TestParserFailure();
-            TestParserSuccessIce();
+            TestParserSuccess_Ice();
         }
 
-        public static void TestParserMaxima()
+        private static void TestParser_Maxima()
         {
             TestParserFailure();
-            TestParserSuccessMaxima();
+            TestParserSuccess_Maxima();
         }
 
-        public static void TestParserFailure()
+        private static void TestParserFailure()
         {
             TestParseFail("x~2", "Unexpected token '~', input='x~2', index=1");
             TestParseFail("x+1$2", "Unexpected character '$', input='x+1$2', index=3");
@@ -56,7 +56,7 @@
             TestParseFail("2 sin x cos x", "Unexpected token 'cos', input='2 sin x cos x', index=8");
         }
 
-        public static void TestParserSuccessCommon()
+        private static void TestParserSuccess_Common()
         {
             TestParse("0", "0");
             TestParse("e", "2.71828182845905");
@@ -121,9 +121,9 @@
             TestParse("4sec²x * tan²x + 2sec⁴x", "4Sec²x*Tan²x+2Sec⁴x");
         }
 
-        private static void TestParserSuccessIce()
+        private static void TestParserSuccess_Ice()
         {
-            TestParserSuccessCommon();
+            TestParserSuccess_Common();
             TestParse("(x³)'", "x²*3");                                  // d(x³)/dx = 3x²
             TestParse("(exp(cos x))'", "Exp Cos x*-Sin x");              // d(eᶜᵒˢ⁽ˣ⁾)/dx = -(sin x)eᶜᵒˢ⁽ˣ⁾
             TestParse("(x⁴-4x³*t+6x²*t²-4x*t³+t⁴)'", "x³*4-x²*12*t+x*12*t²-t³*4");
@@ -131,7 +131,7 @@
             TestParse("(x+t)^3;(x-t)^5;(f0(x,t))'+(f1(x,t))''", "(x+t)³;(x-t)⁵;(x+t)²*3+(x-t)³*20");
         }
 
-        private static void TestParserSuccessMaxima()
+        private static void TestParserSuccess_Maxima()
         {
             //TestParserSuccessCommon();
             TestParse("(x³)'", "3x²");                                   // d(x³)/dx = 3x²

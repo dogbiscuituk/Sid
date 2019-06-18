@@ -5,12 +5,12 @@
 
     partial class Expressions
     {
-        public static Expression Integrate(this Expression e) =>
+        public static Expression Integrate(this Expression e, string wrt = "x") =>
             UseMaxima
-            ? e.ToMaxima().Integrate().FromMaxima()
-            : Simplify(I(e));
+            ? e.ToMaxima().Integrate(wrt).FromMaxima()
+            : Simplify(I(e, wrt));
 
-        private static Expression I(this Expression e)
+        private static Expression I(this Expression e, string wrt = "x")
         {
             if (e.IsDefaultVoid())
                 return e;

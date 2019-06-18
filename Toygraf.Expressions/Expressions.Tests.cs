@@ -5,36 +5,32 @@
 
     partial class Expressions
     {
-        public static void Check(double expected, double actual) =>
+        #region Public Interface
+
+        public static void TestAll()
+        {
+            TestParse("(∫x³cos 2x dx)'", "x³*Cos(2x)");
+            if (!UseMaxima)
+                TestAll_Ice();
+            else
+                TestAll_Maxima();
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private static void Check(double expected, double actual) =>
             Check(expected.ToString(), actual.ToString());
 
-        public static void Check(string expected, string actual)
+        private static void Check(string expected, string actual)
         {
             const string message = "Comparison failed";
             var details = $"Expected: \"{expected}\", Actual: \"{actual}\".";
             System.Diagnostics.Debug.Assert(actual == expected, message, details);
         }
 
-        public static void TestAllIce()
-        {
-            return;
-            TestAllCommon();
-            TestParserIce();
-            TestFunctionDerivatives();
-            TestPolynomialDerivative();
-            TestChainRule();
-        }
-
-        public static void TestAllMaxima()
-        {
-            return;
-            TestAllCommon();
-            TestParserMaxima();
-            TestMaxima();
-            TestFunctionIntegralsMaxima();
-        }
-
-        private static void TestAllCommon()
+        private static void TestAll_Common()
         {
             TestAlphaConversions();
             TestComparisons();
@@ -43,16 +39,35 @@
             TestSimplifications();
         }
 
+        private static void TestAll_Ice()
+        {
+            return;
+            TestAll_Common();
+            TestParser_Ice();
+            TestFunctionDerivatives();
+            TestPolynomialDerivative();
+            TestChainRule();
+        }
+
+        private static void TestAll_Maxima()
+        {
+            return;
+            TestAll_Common();
+            TestParser_Maxima();
+            TestMaxima();
+            TestFunctionIntegrals_Maxima();
+        }
+
         /// <summary>
         /// Check the alpha conversion functions correctly round-trip any transparency percent between 0 and 100.
         /// </summary>
-        public static void TestAlphaConversions()
+        private static void TestAlphaConversions()
         {
             for (int percent = 0; percent <= 100; percent++)
                 Check(percent, Utility.AlphaToTransparencyPercent(Utility.AlphaFromTransparencyPercent(percent)));
         }
 
-        public static void TestChainRule()
+        private static void TestChainRule()
         {
             TestDerivative(Exp(x.Squared()), "Exp x²*x*2");              // d(exp(x²))/dx = exp(x²)*2x
             TestDerivative(Ln(Sin(x)), "1/Sin x*Cos x");                 // d(ln(sin(x)))/dx = cot(x)
@@ -62,7 +77,7 @@
                 "0.5/√(x⁴-1)*x³*4");                                     // d(√(x⁴-1))/dx = 2x³/√(x⁴-1)
         }
 
-        public static void TestComparisons()
+        private static void TestComparisons()
         {
             Check("x=10", x.Equal(10).AsString());
             Check("x≠10", x.NotEqual(10).AsString());
@@ -72,17 +87,17 @@
             Check("x≥10", x.GreaterThanOrEqual(10).AsString());
         }
 
-        public static void TestCompoundExpression()
+        private static void TestCompoundExpression()
         {
             var f = x.Squared().Plus(3.Times(x)).Minus(5);               // f(x) = x²+3x-5
             Check("x²+3x-5", f.AsString());                              // Check the built expression formula
             Check(Math.Pow(7, 2) + 3 * 7 - 5, f.AsDouble(7));            // Check the expression value at x = 7 (should be 65)
         }
 
-        public static void TestDerivative(Expression e, string expected) =>
+        private static void TestDerivative(Expression e, string expected) =>
             Check(expected, Differentiate(e).AsString());
 
-        public static void TestFunctionDerivatives()
+        private static void TestFunctionDerivatives()
         {
             TestDerivative(x, "1");                                      // d/dx(x) = 1
             TestDerivative(Abs(x), "x/Abs x");                           // d(|x|)/dx = x/|x|
@@ -125,19 +140,19 @@
             TestDerivative(Sin(x).Times(Sin(t)), "Cos x*Sin t");         // d/dx(sin x sin t) = cos x sin t
         }
 
-        public static void TestFunctionIntegralsMaxima()
+        private static void TestFunctionIntegrals_Maxima()
         {
             TestParse("∫Sin x dx", "-Cos x");
 
         }
 
-        public static void TestPolynomialDerivative()
+        private static void TestPolynomialDerivative()
         {
             TestDerivative(x.Power(4).Minus(3.Times(x.Cubed())).Plus(6.Times(x.Squared())).Minus(3.Times(x)).Plus(1),
                 "x³*4-x²*9+x*12-3");                                     // d(x⁴-3x³+6x²-3x+1)/dx = 4x³-9x²+12x-3
         }
 
-        public static void TestSimplifications()
+        private static void TestSimplifications()
         {
             TestSimplify(x.Plus(6).Plus(2), "x+8");
             TestSimplify(6.Plus(x).Plus(2), "x+8");
@@ -155,15 +170,17 @@
             TestSimplify(x.Over(2).Over(8), "x/16");
         }
 
-        public static void TestSimplify(Expression e, string expected) =>
+        private static void TestSimplify(Expression e, string expected) =>
             Check(expected, Simplify(e).AsString());
 
-        public static void TestTrigonometricExpression()
+        private static void TestTrigonometricExpression()
         {
             var f = Sin(x).Squared().Plus(Cos(x).Squared());             // f(x) = sin²x+cos²x
             Check("Sin²x+Cos²x", f.AsString());                          // Check the built expression formula
             double p3 = Math.PI / 3, s = Math.Sin(p3), c = Math.Cos(p3); // Check the expression value at x = π/3
             Check(Math.Pow(s, 2) + Math.Pow(c, 2), f.AsDouble(p3));      // (should be 1)
         }
+
+        #endregion
     }
 }

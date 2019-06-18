@@ -12,12 +12,9 @@
         [STAThread]
         static void Main()
         {
+            Expressions.Expressions.TestAll();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            if (AppController.Options.UseMaxima)
-                Expressions.Expressions.TestAllMaxima();
-            else
-                Expressions.Expressions.TestAllIce();
             Application.Run(AppController.AboutDialog);
         }
     }

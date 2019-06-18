@@ -31,9 +31,9 @@ namespace ToyGraf.Expressions
                     switch (ue.NodeType)
                     {
                         case ExpressionType.Negate:
-                            return $"-{ue.Operand.ToMaxima()}";
+                            return $"-({ue.Operand.ToMaxima()})";
                         default:
-                            return ue.Operand.ToMaxima();
+                            return $"({ue.Operand.ToMaxima()})";
                     }
                 case MethodCallExpression me:
                     string
@@ -47,10 +47,9 @@ namespace ToyGraf.Expressions
                             return $"{functionName}({argument})";
                     }
                 case BinaryExpression be:
-                    return $"{be.Left.ToMaxima()}{be.NodeType.AsString()}{be.Right.ToMaxima()}";
+                    return $"({be.Left.ToMaxima()}){be.NodeType.AsString()}({be.Right.ToMaxima()})";
             }
             return string.Empty;
         }
-
     }
 }

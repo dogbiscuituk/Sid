@@ -29,9 +29,74 @@
 
         public static string Integrate(this string s, string wrt = "x") => s.integrate(wrt).Simplify();
         public static string Integrate(this string s, double from, double to, string wrt = "x") => s.integrate(wrt, from, to).Simplify();
+        public static bool IsEquivalentTo(this string s, string t) => s.equal(t).@is().True();
+        public static bool True(this string s) => s.Evaluate() == "true";
         public static string Simplify(this string s) => s.simplify().Evaluate();
 
-        public static string SimplificationFormat { get; set; } = "trigreduce(trigsimp(fullratsimp(factor({0}))))";
+        /// <summary>
+        /// The Maxima function applied to a formula before returning a value to the user. Examples:
+        /// 
+        /// [1] "{0}" - default - no additional simplification beyond Maxoima's internal processing.
+        /// 
+        /// [2] "factor(fullratsimp(trigsimp({0})))" - the default used by MaximaSharp.
+        /// 
+        /// [3] "trigreduce(trigsimp(fullratsimp(factor({0}))))"
+        /// 
+        /// First place for Expression Size, and 21st for Execution Time, when a complete survey of
+        /// all 326 possible permutations of five functions, and none, was performed. The five were:
+        /// 
+        /// factor       Factors an expression, containing any number of variables or functions,
+        ///              into factors irreducible over the integers.
+        /// fullratsimp  Repeatedly applies "ratsimp" followed by non-rational simplification to an
+        ///              expression until no further change occurs, and returns the result.
+        /// radcan       Simplifies expr, which can contain logs, exponentials, and radicals, by
+        ///              converting it into a form which is canonical over a large class of
+        ///              expressions and a given ordering of variables.
+        /// trigreduce   Combines products and powers of trigonometric and hyperbolic sin's and
+        ///              cos's of x into those of multiples of x.It also tries to eliminate these
+        ///              functions when they occur in denominators.
+        /// trigsimp     Employs identities sin(x)^2 + cos(x)^2 = 1 and cosh(x)^2 - sinh(x)^2 = 1
+        ///              to simplify expressions containing tan, sec, etc., to sin, cos, sinh, cosh.
+        ///              "trigreduce", "ratsimp" and "radcan" may be able to further simplify the
+        ///              result.
+        /// 
+        /// A further analysis of just three functions was later performed on an extended dataset,
+        /// after dropping the functions "radcan" (because it can be quite slow) and "trigreduce"
+        /// (which introduces multiple angle formulae). The full results of this survey, in which
+        /// the MaximaSharp default came joint 1st (ignoring no-function) for Size, but 2nd last for
+        /// Time, were:
+        /// 
+        ///       Simplification Analysis: unsorted results
+        ///       *no time recorded due to startup overhead
+        ///     ---------------------------------------------
+        ///     Size  Time Function
+        ///     ---------------------------------------------
+        ///     2305    *  {0}
+        ///     2488  142  factor({0})
+        ///     2538  216  fullratsimp(factor({0}))
+        ///     2419  833  trigsimp(fullratsimp(factor({0})))
+        ///     2419  528  trigsimp(factor({0}))
+        ///     2419  513  fullratsimp(trigsimp(factor({0})))
+        ///     2538   76  fullratsimp({0})
+        ///     2488  147  factor(fullratsimp({0}))
+        ///     2419  469  trigsimp(factor(fullratsimp({0})))
+        ///     2419  346  trigsimp(fullratsimp({0}))
+        ///     2357  522  factor(trigsimp(fullratsimp({0})))
+        ///     2419  432  trigsimp({0})
+        ///     2357  433  factor(trigsimp({0}))
+        ///     2419  524  fullratsimp(factor(trigsimp({0})))
+        ///     2419  428  fullratsimp(trigsimp({0}))
+        ///     2357  568  factor(fullratsimp(trigsimp({0})))
+        ///     
+        /// Surprisingly the "empty" default value of "{0}" came out top in the Size category. Since
+        /// obviously it also wins on Time, by virtue of being essentially a NOP, it was promoted to
+        /// ToyGraf default. Then, a number of additional integration-differentiation round-trip
+        /// tests were added to the suite, and soon, the MaximaSharp default was quietly reinstated.
+        /// For example, it allows "x³*Cos(2x)" to round-trip back to itself, instead of an entirely
+        /// unweildy "((24x²-12)*Sin(2x)-2(12x²-6)*Sin(2x)+2(8x³-12x)*Cos(2x)+24x*Cos(2x))/16".
+        /// 
+        /// </summary>
+        public static string SimplificationFormat { get; set; } = "factor(fullratsimp(trigsimp({0})))";
 
         #endregion
 
@@ -112,6 +177,14 @@
         /// <returns></returns>
         private static string diff(this string s, string wrt = "x") =>
             string.Format("diff({0}, {1})", s, wrt);
+
+        /// <summary>
+        /// Attempts to determine whether the two input expressions are equivalent to one another.
+        /// </summary>
+        /// <param name="s">The first input expression.</param>
+        /// <param name="t">The second input expression.</param>
+        /// <returns>true/false, acccording as the input expressions are equivalent.</returns>
+        private static string equal(this string s, string t) => $"equal({s}, {t})";
 
         /// <summary>
         /// Factors the expression expr, containing any number of variables or functions, into
@@ -211,6 +284,14 @@
         private static string integrate(this string s, string wrt) => $"integrate({s}, {wrt})";
         private static string integrate(this string s, string wrt, double from, double to) =>
             $"integrate({s}, {wrt}, {from}, {to})";
+
+        /// <summary>
+        /// Attempts to determine whether its predicate is provable from the facts in the "assume"
+        /// database. 
+        /// </summary>
+        /// <param name="s">The input predicate.</param>
+        /// <returns>true/false, acccording as the input expression is provable.</returns>
+        private static string @is(this string s) => $"is({s})";
 
         /// <summary>
         /// Simplifies expr, which can contain logs, exponentials, and radicals, by converting it

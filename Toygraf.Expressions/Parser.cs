@@ -78,8 +78,26 @@
         private Stack<Expression> Operands;
         private Stack<string> Operators;
 
+        /// <summary>
+        /// Intended for use in the debugger, the two properties OperandStack and OperatorStack
+        /// afford a graphic view of each stack's contents, with the stack top at the right-hand
+        /// end, and elements separated by vertical bars " | ". There is no protection against an
+        /// empty stack, because these properties are intended never to be accessed by client code,
+        /// only by the debugger.
+        /// </summary>
         private string OperandStack => Operands.Reverse().Select(p => p.AsString()).Aggregate((p, q) => $"{p} | {q}");
         private string OperatorStack => Operators.Reverse().Aggregate((p, q) => $"{p} | {q}");
+
+        #endregion
+
+        #region Private Integrate Methods
+
+        private void IntegrateStacktop(string wrt)
+        {
+            var operand = Operands.Pop();
+            operand = operand.Integrate(wrt);
+            Operands.Push(operand);
+        }
 
         #endregion
 
@@ -113,6 +131,8 @@
                 switch (op)
                 {
                     case ")":
+                    case "dx":
+                    case "dt":
                     case ",":
                     case "?":
                     case ":":
@@ -144,13 +164,18 @@
                     case "÷":
                     case "^":
                         ParseOperator(op);
-                        if (op == ")")
-                            return;
+                        switch (op)
+                        {
+                            case "dx":
+                                IntegrateStacktop("x");
+                                return;
+                            case "dt":
+                                IntegrateStacktop("t");
+                                return;
+                            case ")":
+                                return;
+                        }
                         break;
-                    case "dx":
-                    case "dt":
-                        ParseOperator(op);
-                        goto nextOperator;
                     case "°": // Postfix degree symbol => convert to radians
                         ParseDegree();
                         goto nextOperator;
@@ -243,6 +268,7 @@
                     ParseSuperscript(token);
                     break;
                 case '(':
+                case '∫':
                     Operators.Push(token);
                     ReadPast(token);
                     ParseExpression();
@@ -267,10 +293,6 @@
                 case char c when char.IsNumber(c):
                     ParseVulgarFraction(c);
                     break;
-                case '∫':
-                    ParseOperator(token);
-                    ParseOperand();
-                    break;
                 default:
                     throw new FormatException(
                         $"Missing operand, input='{Formula}', index={Index}");
@@ -283,7 +305,7 @@
             {
                 var ours = newOp.GetPrecedence();
                 var oldOp = Operators.Peek();
-                if (oldOp == "(")
+                if (oldOp == "(" || oldOp == "∫")
                     break;
                 var theirs = oldOp.GetPrecedence();
                 if (ours < theirs || ours == theirs && newOp != "^" // Operator '^' is right associative: a^b^c = a^(b^c).
@@ -334,12 +356,6 @@
                             var then = Operands.Pop();
                             operand = Operands.Pop().MakeConditional(then, operand);
                         }
-                        else if (oldOp == "∫" && (newOp == "dx" || newOp == "dt"))
-                        {
-                            Operands.Push(operand.Integrate());
-                            ReadPast(newOp);
-                            return;
-                        }
                         else
                         {
                             var left = Operands.Pop();
@@ -358,7 +374,7 @@
                     break;
             }
             while (true);
-            if (newOp == ")")
+            if (newOp == ")" || newOp == "dx" || newOp == "dt")
                 Operators.Pop();
             else
                 Operators.Push(newOp);

@@ -244,7 +244,7 @@
                 case BinaryExpression be:
                     Expression left = be.Left, right = be.Right;
                     ExpressionType op = be.NodeType, opChild = op, opOther = ExpressionType.Multiply;
-                    var ours = op.GetPrecedence();
+                    var ours = op.GetBinaryPrecedence();
                     bool flip = false;
                     switch (op)
                     {
@@ -253,7 +253,7 @@
                             if (right is BinaryExpression beRight)
                             {
                                 opChild = beRight.NodeType;
-                                var theirs = opChild.GetPrecedence();
+                                var theirs = opChild.GetBinaryPrecedence();
                                 flip = ours == theirs;
                                 if (flip)
                                 {
@@ -266,7 +266,7 @@
                             if (left is BinaryExpression beLeft)
                             {
                                 opChild = beLeft.NodeType;
-                                var theirs = opChild.GetPrecedence();
+                                var theirs = opChild.GetBinaryPrecedence();
                                 flip = ours == theirs;
                                 if (flip)
                                     return MakeBinary(op, beLeft.Left, MakeBinary(opOther, beLeft.Right, right)).AsString(context);
