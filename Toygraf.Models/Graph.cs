@@ -483,6 +483,8 @@
 
         #region Drawing
 
+        private static bool CanDraw(Trace trace) => trace.Visible && !string.IsNullOrWhiteSpace(trace.Formula);
+
         public void Draw(Graphics g, Rectangle r, double time)
         {
             InitOptimization(g);
@@ -498,7 +500,7 @@
             ValidateProxies();
             Traces.ForEach(s =>
             {
-                if (s.Visible)
+                if (CanDraw(s))
                     s.DrawAsync(g, DomainInfo, Viewport, penWidth, true, time, PlotType, Interpolation);
             });
             ValidateReticle(g, r, penWidth);
@@ -514,7 +516,7 @@
                 Labels.ForEach(p => p.Draw(g, brush, font, format));
             Traces.ForEach(s =>
             {
-                if (s.Visible)
+                if (CanDraw(s))
                     s.DrawAsync(g, DomainInfo, Viewport, penWidth, false, time, PlotType, Interpolation);
             });
         }

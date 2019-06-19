@@ -32,6 +32,7 @@
             TracePropertiesDialog.btnFillColour2.Click += BtnFillColour2_Click;
             TracePropertiesDialog.btnPenColour.Click += BtnPenColour_Click;
             TracePropertiesDialog.btnTaylorPolynomial.Click += TaylorPolynomialClick;
+            TracePropertiesDialog.btnFourierSeries.Click += FourierSeriesClick;
             TracePropertiesDialog.btnTexture.Click += TextureClick;
             TracePropertiesDialog.cbBrushType.SelectedIndexChanged += BrushTypeChanged;
             TracePropertiesDialog.cbFillColour1.SelectedIndexChanged += FillColour1Changed;
@@ -138,6 +139,16 @@
         {
             if (!Updating)
                 CommandProcessor[Index].FillTransparencyPercent = (int)TracePropertiesDialog.seTransparency.Value;
+        }
+
+        private void FourierSeriesClick(object sender, EventArgs e)
+        {
+            var fourierSeriesController = new FourierSeriesController(this);
+            if (fourierSeriesController.Execute())
+            {
+                Close();
+                fourierSeriesController.CreateGraph();
+            }
         }
 
         private void GradientModeChanged(object sender, EventArgs e)

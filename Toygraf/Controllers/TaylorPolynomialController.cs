@@ -4,29 +4,21 @@
     using System.Windows.Forms;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
-    using ToyGraf.Models.Structs;
     using ToyGraf.Views;
 
-    internal class TaylorPolynomialController
+    internal class TaylorPolynomialController : ApproximationController
     {
         #region Internal Interface
 
-        internal TaylorPolynomialController(TracePropertiesController tracePropertiesController) =>
-            TracePropertiesController = tracePropertiesController;
-
-        internal void CreateGraph()
-        {
-            GraphController = AppController.AddNewGraphController();
-            PopulateTraces(TracePropertiesController.Trace.Proxy);
-        }
+        internal TaylorPolynomialController(TracePropertiesController tracePropertiesController) :
+            base(tracePropertiesController)
+        { }
 
         internal bool Execute()
         {
             var view = new TaylorPolynomialParamsDialog();
             view.edCentreX.Text = "0";
-            var graph = TracePropertiesController.Graph;
-            DomainInfo = graph.DomainInfo;
-            var ok = view.ShowDialog(TracePropertiesController.TracePropertiesDialog) == DialogResult.OK;
+            var ok = view.ShowDialog(SourceOwner) == DialogResult.OK;
             if (ok)
             {
                 Degree = (int)view.seDegree.Value;
@@ -39,13 +31,18 @@
 
         #endregion
 
-        #region Private Methods
+        #region Private Properties
 
-        private void PopulateTraces(Expression proxy)
+        private string Centre;
+        private double CentreX;
+        private int Degree;
+
+        #endregion
+
+        #region Protected Override Methods
+
+        protected override void PopulateTraces(Graph targetGraph, Expression proxy)
         {
-            Graph.OnBeginUpdate();
-            Graph.Clear();
-            var targetFormula = proxy.AsString();
             double denominator = 1;
             var linearFactor = Expressions.x.Minus(CentreX);
             Expression powerFactor, runningTotal = 0.0.Constant();
@@ -74,7 +71,7 @@
                 var newFormula = runningTotal.AsString();
                 if (newFormula != oldFormula)
                 {
-                    trace = Graph.AddTrace();
+                    trace = targetGraph.AddTrace();
                     trace.Formula = newFormula;
                     degree = index;
                 }
@@ -84,27 +81,8 @@
                     proxy = proxy.Differentiate();
                 }
             }
-            trace = Graph.AddTrace();
-            trace.Formula = targetFormula;
-            trace.PenColour = Graph.PaperColour.Contrast();
-            Graph.DomainInfo = DomainInfo;
-            Graph.Title = $"Taylor Polynomial of degree {degree} for {targetFormula} at x={Centre}";
-            Graph.OnEndUpdate();
-            GraphController.Model.Modified = false;
+            targetGraph.Title = $"Taylor Polynomial of degree {degree} for {proxy.AsString()} at x={Centre}";
         }
-
-        #endregion
-
-        #region Private Properties
-
-        private string Centre;
-        private double CentreX;
-        private int Degree;
-        private DomainInfo DomainInfo;
-        private Graph Graph => GraphController.Graph;
-        private GraphController GraphController;
-        private Trace Trace => TracePropertiesController.Trace;
-        private readonly TracePropertiesController TracePropertiesController;
 
         #endregion
     }

@@ -144,6 +144,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.ColourDialog = new System.Windows.Forms.ColorDialog();
             this.ErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btnFourierSeries = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.seTransparency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sePenSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seIndex)).BeginInit();
@@ -1536,6 +1537,7 @@
             // tpTraceProperties
             // 
             this.tpTraceProperties.BackColor = System.Drawing.SystemColors.Control;
+            this.tpTraceProperties.Controls.Add(this.btnFourierSeries);
             this.tpTraceProperties.Controls.Add(this.btnFillColour2);
             this.tpTraceProperties.Controls.Add(this.btnFillColour1);
             this.tpTraceProperties.Controls.Add(this.btnPenColour);
@@ -1571,10 +1573,11 @@
             // 
             this.btnTaylorPolynomial.Location = new System.Drawing.Point(8, 92);
             this.btnTaylorPolynomial.Name = "btnTaylorPolynomial";
-            this.btnTaylorPolynomial.Size = new System.Drawing.Size(119, 25);
+            this.btnTaylorPolynomial.Size = new System.Drawing.Size(72, 25);
             this.btnTaylorPolynomial.TabIndex = 24;
             this.btnTaylorPolynomial.Tag = "Fixed";
-            this.btnTaylorPolynomial.Text = "&Taylor polynomial...";
+            this.btnTaylorPolynomial.Text = "&Taylor...";
+            this.ToolTip.SetToolTip(this.btnTaylorPolynomial, "Create a Taylor Polynomial for this trace");
             this.btnTaylorPolynomial.UseVisualStyleBackColor = true;
             // 
             // lblType
@@ -1784,6 +1787,17 @@
             // 
             this.ErrorProvider.ContainerControl = this;
             // 
+            // btnFourierSeries
+            // 
+            this.btnFourierSeries.Location = new System.Drawing.Point(86, 92);
+            this.btnFourierSeries.Name = "btnFourierSeries";
+            this.btnFourierSeries.Size = new System.Drawing.Size(72, 25);
+            this.btnFourierSeries.TabIndex = 28;
+            this.btnFourierSeries.Tag = "Fixed";
+            this.btnFourierSeries.Text = "&Fourier...";
+            this.ToolTip.SetToolTip(this.btnFourierSeries, "Create a Fourier Series for this trace");
+            this.btnFourierSeries.UseVisualStyleBackColor = true;
+            // 
             // TracePropertiesDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1931,5 +1945,6 @@
         internal System.Windows.Forms.Button btnFillColour1;
         internal System.Windows.Forms.ColorDialog ColourDialog;
         internal System.Windows.Forms.ErrorProvider ErrorProvider;
+        internal System.Windows.Forms.Button btnFourierSeries;
     }
 }
