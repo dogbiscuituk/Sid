@@ -241,7 +241,7 @@
         [DefaultValue(1000)]
         [Description("The default minimum number of steps used in calculating points on a trace. In steep sections of a trace, this number will be increased dynamically. "
             + "Conversely, in sections where the Formula is undefined, steps will be dropped.")]
-        [DisplayName("# steps")]
+        [DisplayName("Steps")]
         public int StepCount
         {
             get => Graph.StepCount;

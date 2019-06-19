@@ -152,7 +152,7 @@
             [DefaultValue(1000)]
             [Description("The minimum number of steps used in calculating points on the trace. In steep sections, this number will be increased dynamically. "
                 + "Conversely, in sections where the Formula is undefined, steps will be dropped.")]
-            [DisplayName("# steps")]
+            [DisplayName("Steps")]
             public int StepCount
             {
                 get => Trace.StepCount;
@@ -177,7 +177,7 @@
             }
 
             [Category("Trace")]
-            [Description("A title for this trace.")]
+            [Description("A title for the trace.")]
             [DisplayName("Title")]
             public string Title
             {

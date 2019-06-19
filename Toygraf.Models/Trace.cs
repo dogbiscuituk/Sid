@@ -180,20 +180,12 @@
             }
             bool usePaths;
             if (fill)
-                using (var pen = new Pen(LimitColour, penWidth))
-                {
-                    usePaths = FillPaths.Any();
-                    pen.DashStyle = DashStyle.Dash;
-                    using (var brush = CreateBrush(g.Transform))
-                        PointLists.ForEach(p => FillSection(g, brush, plotType, interpolation, p, usePaths));
-                }
+                using (var pen = new Pen(LimitColour, penWidth) { DashStyle = DashStyle.Dash })
+                using (var brush = CreateBrush(g.Transform))
+                    PointLists.ForEach(p => FillSection(g, brush, plotType, interpolation, p, FillPaths.Any()));
             else
-                using (var pen = new Pen(PenColour, PenWidth * penWidth))
-                {
-                    usePaths = DrawPaths.Any();
-                    pen.DashStyle = PenStyle;
-                    PointLists.ForEach(p => DrawSection(g, pen, interpolation, p, usePaths));
-                }
+                using (var pen = new Pen(PenColour, PenWidth * penWidth) { DashStyle = PenStyle })
+                    PointLists.ForEach(p => DrawSection(g, pen, interpolation, p, DrawPaths.Any()));
             if (DrawPaths.Any() && FillPaths.Any())
                 InvalidatePoints();
         }

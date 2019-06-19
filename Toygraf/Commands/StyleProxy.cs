@@ -165,7 +165,7 @@
 
             [Category("Style")]
             [DefaultValue("")]
-            [Description("A title for this style.")]
+            [Description("A title for the style.")]
             [DisplayName("Title")]
             public string Title
             {
