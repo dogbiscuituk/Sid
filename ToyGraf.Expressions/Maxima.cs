@@ -28,7 +28,7 @@
         }
 
         public static string Integrate(this string s, string wrt = "x") => s.integrate(wrt).Simplify();
-        public static string Integrate(this string s, double from, double to, string wrt = "x") => s.integrate(wrt, from, to).Simplify();
+        public static string Integrate(this string s, double from, double to, string wrt = "x") => s.integrate(wrt, from, to).Evaluate();
         public static bool IsEquivalentTo(this string s, string t) => s.equal(t).@is().True();
         public static bool True(this string s) => s.Evaluate() == "true";
         public static string Simplify(this string s) => s.simplify().Evaluate();

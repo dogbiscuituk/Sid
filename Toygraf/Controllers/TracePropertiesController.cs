@@ -143,7 +143,7 @@
 
         private void FourierSeriesClick(object sender, EventArgs e)
         {
-            var fourierSeriesController = new FourierSeriesController(this);
+            var fourierSeriesController = new FourierController(this);
             if (fourierSeriesController.Execute())
             {
                 Close();
@@ -248,7 +248,7 @@
 
         private void TaylorPolynomialClick(object sender, EventArgs e)
         {
-            var taylorPolynomialController = new TaylorPolynomialController(this);
+            var taylorPolynomialController = new TaylorController(this);
             if (taylorPolynomialController.Execute())
             {
                 Close();

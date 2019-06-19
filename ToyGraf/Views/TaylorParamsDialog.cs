@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    public partial class TaylorPolynomialParamsDialog : Form
+    public partial class TaylorParamsDialog : Form
     {
-        public TaylorPolynomialParamsDialog()
+        public TaylorParamsDialog()
         {
             InitializeComponent();
         }

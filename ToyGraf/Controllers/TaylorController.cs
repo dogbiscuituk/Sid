@@ -6,17 +6,17 @@
     using ToyGraf.Models;
     using ToyGraf.Views;
 
-    internal class TaylorPolynomialController : ApproximationController
+    internal class TaylorController : ApproximationController
     {
         #region Internal Interface
 
-        internal TaylorPolynomialController(TracePropertiesController tracePropertiesController) :
+        internal TaylorController(TracePropertiesController tracePropertiesController) :
             base(tracePropertiesController)
         { }
 
         internal bool Execute()
         {
-            var view = new TaylorPolynomialParamsDialog();
+            var view = new TaylorParamsDialog();
             view.edCentreX.Text = "0";
             var ok = view.ShowDialog(SourceOwner) == DialogResult.OK;
             if (ok)
@@ -45,10 +45,11 @@
         {
             double denominator = 1;
             var linearFactor = Expressions.x.Minus(CentreX);
-            Expression powerFactor, runningTotal = 0.0.Constant();
+            Expression powerFactor, sum = 0.0.Constant();
             var oldFormula = string.Empty;
             Trace trace;
             var degree = 0;
+            var target = proxy.AsString();
             for (int index = 0; index <= Degree; index++)
             {
                 switch (index)
@@ -66,9 +67,9 @@
                 if (index > 1)
                     denominator *= index;
                 var coefficient = proxy.AsFunction()(CentreX, 0);
-                var termTaylor = coefficient.Times(powerFactor).Over(denominator).Simplify();
-                runningTotal = runningTotal.Plus(termTaylor).Simplify();
-                var newFormula = runningTotal.AsString();
+                var term = coefficient.Times(powerFactor).Over(denominator).Simplify();
+                sum = sum.Plus(term).Simplify();
+                var newFormula = sum.AsString();
                 if (newFormula != oldFormula)
                 {
                     trace = targetGraph.AddTrace();
@@ -81,7 +82,7 @@
                     proxy = proxy.Differentiate();
                 }
             }
-            targetGraph.Title = $"Taylor Polynomial of degree {degree} for {proxy.AsString()} at x={Centre}";
+            targetGraph.Title = $"Taylor Polynomial of degree {degree} for {target} at x={Centre}";
         }
 
         #endregion

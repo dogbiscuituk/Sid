@@ -534,11 +534,6 @@
         /// <returns>The input string with all escaped (doubled) ampersands unescaped.</returns>
         public static string AmpersandUnescape(this string s) => s?.Replace("&&", "&");
 
-        public static string ToTitleCase(this string s) =>
-            s == string.Empty
-            ? string.Empty
-            : $"{char.ToUpper(s[0])}{s.ToLower().Substring(1)}";
-
         /// <summary>
         /// Make a legal file name from a given string which may contain prohibited
         /// characters or substrings.
@@ -565,6 +560,31 @@
             return Regex.IsMatch(s, @"(^CON$|^PRN$|^AUX$|^CLOCK\$$|^NUL$|^COM[0-9]$|^LPT[0-9]$)",
                 RegexOptions.IgnoreCase) ? s + "_" : s;
         }
+
+        public static string ToOrdinal(this int cardinal) => $"{cardinal}{cardinal.ToOrdinalSuffix()}";
+
+        public static string ToOrdinalSuffix(this int cardinal)
+        {
+            switch (cardinal % 100)
+            {
+                case 11:
+                case 12:
+                case 13:
+                    return "th";
+            }
+            switch (cardinal % 10)
+            {
+                case 1: return "st";
+                case 2: return "nd";
+                case 3: return "rd";
+            }
+            return "th";
+        }
+
+        public static string ToTitleCase(this string s) =>
+            s == string.Empty
+            ? string.Empty
+            : $"{char.ToUpper(s[0])}{s.ToLower().Substring(1)}";
 
         #endregion
 

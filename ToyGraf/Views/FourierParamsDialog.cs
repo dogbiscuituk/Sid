@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace ToyGraf.Views
 {
-    public partial class FourierSeriesParamsDialog : Form
+    public partial class FourierParamsDialog : Form
     {
-        public FourierSeriesParamsDialog()
+        public FourierParamsDialog()
         {
             InitializeComponent();
         }
