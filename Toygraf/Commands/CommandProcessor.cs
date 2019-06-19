@@ -80,7 +80,7 @@
 
         private GraphController GraphController;
         private GraphForm View => GraphController.View;
-        private Graph Graph => GraphController.Graph;
+        internal Graph Graph => GraphController.Graph;
         private readonly Stack<ICommand> UndoStack = new Stack<ICommand>();
         private readonly Stack<ICommand> RedoStack = new Stack<ICommand>();
 

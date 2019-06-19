@@ -71,6 +71,7 @@
     <Compile Include="Commands\StyleProxy.cs" />
     <Compile Include="Commands\TraceProxy.cs" />
     <Compile Include="Commands\TraceCommands.cs" />
+    <Compile Include="Commands\TraceSelection.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\ApproximationController.cs" />

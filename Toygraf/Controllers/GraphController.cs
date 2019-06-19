@@ -44,7 +44,9 @@
             UpdateUI();
             PopupMenu_Opening(View, new CancelEventArgs());
             CommandProcessor = new CommandProcessor(this);
-            View.PropertyTable.SelectedObject = CommandProcessor;
+            TraceSelection = new TraceSelection(CommandProcessor);
+            TraceSelection.Changed += TraceSelection_Changed;
+            TraceSelectionChanged();
         }
 
         internal GraphForm View
@@ -66,6 +68,8 @@
                 View.tbSave.Click += TbSave_Click;
                 View.FileClose.Click += FileClose_Click;
                 View.FileExit.Click += FileExit_Click;
+                View.EditSelectAll.Click += EditSelectAll_Click;
+                View.EditInvertSelection.Click += EditInvertSelection_Click;
                 View.EditOptions.Click += EditOptions_Click;
                 View.GraphProperties.Click += GraphProperties_Click;
                 View.tbProperties.Click += GraphProperties_Click;
@@ -80,6 +84,7 @@
 
         internal readonly Model Model;
         internal Graph Graph { get => Model.Graph; }
+        internal TraceSelection TraceSelection;
 
         internal ClockController ClockController => GraphicsController.ClockController;
         internal readonly CommandProcessor CommandProcessor;
@@ -135,6 +140,8 @@
         private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
         private void FileClose_Click(object sender, EventArgs e) => View.Close();
         private void FileExit_Click(object sender, EventArgs e) => AppController.Close();
+        private void EditSelectAll_Click(object sender, EventArgs e) => SelectAll();
+        private void EditInvertSelection_Click(object sender, EventArgs e) => InvertSelection();
         private void EditOptions_Click(object sender, EventArgs e) => EditOptions();
         private void GraphProperties_Click(object sender, EventArgs e) => GraphPropertiesController.Show(View);
         private void ViewCoordinatesTooltip_Click(object sender, EventArgs e) => ToggleCoordinatesTooltip();
@@ -150,6 +157,9 @@
         private void JsonController_FileReopen(object sender, SdiController.FilePathEventArgs e) => OpenFile(e.FilePath);
         private void JsonController_FileSaved(object sender, EventArgs e) => FileSaved();
         private void JsonController_FileSaving(object sender, CancelEventArgs e) => e.Cancel = !ContinueSaving();
+
+        private void TraceSelection_Changed(object sender, EventArgs e) => TraceSelectionChanged();
+
         private void View_FormClosing(object sender, FormClosingEventArgs e) => e.Cancel = !FormClosing(e.CloseReason);
 
         private bool FormClosing(CloseReason closeReason)
@@ -259,6 +269,7 @@
         }
 
         private void InitPaper() => ClientPanel.BackColor = Graph.PaperColour;
+        private void InvertSelection() => TraceSelection.Invert(Graph.Traces);
         private void ModelCleared() => InitPaper();
 
         private void ModifiedChanged()
@@ -308,6 +319,8 @@
             }
         }
 
+        private void SelectAll() => TraceSelection.Set(Graph.Traces);
+
         private bool SelectTexture(Trace trace)
         {
             var dialog = View.TextureDialog;
@@ -335,6 +348,15 @@
         }
 
         private void ToggleCoordinatesTooltip() => ShowCoordinatesTooltip = !ShowCoordinatesTooltip;
+
+        private void TraceSelectionChanged()
+        {
+            if (!TraceSelection.IsEmpty)
+                View.PropertyTable.SelectedObjects = TraceSelection.Traces;
+            else
+                View.PropertyTable.SelectedObject = CommandProcessor;
+        }
+
         private void UpdateCaption() { View.Text = JsonController.WindowCaption; }
 
         private void UpdatePlotType()
