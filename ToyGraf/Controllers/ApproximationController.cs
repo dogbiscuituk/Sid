@@ -1,5 +1,6 @@
 ﻿namespace ToyGraf.Controllers
 {
+    using System;
     using System.Linq.Expressions;
     using System.Windows.Forms;
     using ToyGraf.Expressions;
@@ -20,16 +21,38 @@
         {
             var graphController = AppController.AddNewGraphController();
             var targetGraph = graphController.Graph;
-            targetGraph.OnBeginUpdate();
-            targetGraph.Clear();
-            var proxy = SourceTrace.Proxy;
-            PopulateTraces(targetGraph, proxy);
-            var trace = targetGraph.AddTrace();
-            trace.Formula = proxy.AsString();
-            trace.PenColour = targetGraph.PaperColour.Contrast();
-            targetGraph.DomainInfo = SourceGraph.DomainInfo;
-            targetGraph.OnEndUpdate();
-            graphController.Model.Modified = false;
+            try
+            {
+                targetGraph.OnBeginUpdate();
+                targetGraph.Clear();
+                var proxy = SourceTrace.Proxy;
+                try
+                {
+                    PopulateTraces(targetGraph, proxy);
+                    var trace = targetGraph.AddTrace();
+                    trace.Formula = proxy.AsString();
+                    trace.PenColour = targetGraph.PaperColour.Contrast();
+                    targetGraph.DomainInfo = SourceGraph.DomainInfo;
+                }
+                catch (FormatException ex)
+                {
+                    MessageBox.Show(
+                        graphController.View,
+                        $@"An error occurred during graph construction:
+
+{ex.Message}
+
+This may be caused by a discontinuity in the target function.",
+                        "FormatException",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
+            finally
+            {
+                targetGraph.OnEndUpdate();
+                graphController.Model.Modified = false;
+            }
         }
 
         #endregion
