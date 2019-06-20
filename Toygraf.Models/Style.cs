@@ -69,6 +69,21 @@
             }
         }
 
+        protected FillMode _fillMode;
+        [DefaultValue(typeof(FillMode), "Alternate")]
+        public FillMode FillMode
+        {
+            get => _fillMode;
+            set
+            {
+                if (FillMode != value)
+                {
+                    _fillMode = value;
+                    OnPropertyChanged("FillMode");
+                }
+            }
+        }
+
         protected int _fillTransparencyPercent;
         [DefaultValue(0)]
         public int FillTransparencyPercent
@@ -253,6 +268,7 @@
             _brushType = Defaults.StyleBrushType;
             _fillColour1 = Defaults.StyleFillColour1;
             _fillColour2 = Defaults.StyleFillColour2;
+            _fillMode = Defaults.StyleFillMode;
             _fillTransparencyPercent = Defaults.StyleFillTransparencyPercent;
             _gradientMode = Defaults.StyleGradientMode;
             _hatchStyle = Defaults.StyleHatchStyle;

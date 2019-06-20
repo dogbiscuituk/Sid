@@ -231,7 +231,7 @@
                             { Transform = m, WrapMode = WrapMode };
                     }
                 case BrushType.PathGradient:
-                    var path = new GraphicsPath();
+                    var path = new GraphicsPath(FillMode);
                     path.AddRectangle(Viewport.Limits);
                     return new PathGradientBrush(path)
                     {
@@ -246,11 +246,11 @@
 
         private void DrawSection(Graphics g, Pen pen, Interpolation interpolation,
             List<PointF> points, bool usePaths) =>
-            new Plotter().Draw(g, pen, interpolation, points, DrawPaths, usePaths);
+            new Plotter(g, FillMode, interpolation, points, DrawPaths, usePaths).Draw(pen);
 
         private void FillSection(Graphics g, Brush brush, PlotType plotType, Interpolation interpolation,
             List<PointF> points, bool usePaths) =>
-            new Plotter().Fill(g, brush, plotType, interpolation, points, FillPaths, usePaths);
+            new Plotter(g, FillMode, interpolation, points, FillPaths, usePaths).Fill(brush, plotType);
 
         private Task<List<List<PointF>>> ComputePointsAsync(
             DomainInfo domainInfo, Viewport viewport, double time, bool polar)

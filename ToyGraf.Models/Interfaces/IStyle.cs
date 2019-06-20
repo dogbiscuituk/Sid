@@ -9,6 +9,7 @@
         BrushType BrushType { get; set; }
         Color FillColour1 { get; set; }
         Color FillColour2 { get; set; }
+        FillMode FillMode { get; set; }
         int FillTransparencyPercent { get; set; }
         LinearGradientMode GradientMode { get; set; }
         HatchStyle HatchStyle { get; set; }

@@ -61,6 +61,13 @@
             { }
         }
 
+        private class StyleFillModeCommand : StylePropertyCommand<FillMode>
+        {
+            public StyleFillModeCommand(int index, FillMode value) : base(index, "fill mode",
+                value, s => s.FillMode, (s, v) => s.FillMode = v)
+            { }
+        }
+
         private class StyleGradientModeCommand : StylePropertyCommand<LinearGradientMode>
         {
             public StyleGradientModeCommand(int index, LinearGradientMode value) : base(index, "gradient type",

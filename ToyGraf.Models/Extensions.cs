@@ -35,6 +35,7 @@
             target.BrushType = source.BrushType;
             target.FillColour1 = source.FillColour1;
             target.FillColour2 = source.FillColour2;
+            target.FillMode = source.FillMode;
             target.FillTransparencyPercent = source.FillTransparencyPercent;
             target.GradientMode = source.GradientMode;
             target.HatchStyle = source.HatchStyle;

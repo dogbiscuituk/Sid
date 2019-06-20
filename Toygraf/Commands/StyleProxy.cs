@@ -65,6 +65,16 @@
                 set => Run(new StyleFillColour2Command(Index, value));
             }
 
+            [Category("Style")]
+            [DefaultValue(typeof(FillMode), "Alternate")]
+            [Description("How to fill and clip the interior of a closed figure.")]
+            [DisplayName("Fill mode")]
+            public FillMode FillMode
+            {
+                get => Style.FillMode;
+                set => Run(new StyleFillModeCommand(Index, value));
+            }
+
             [Category("Colour")]
             [DefaultValue(0)]
             [Description("The level of transparency applied to the Style filled areas. Applies to all brush types, including \"Texture\".")]

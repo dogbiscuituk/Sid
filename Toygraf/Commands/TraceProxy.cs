@@ -1,19 +1,15 @@
 ﻿namespace ToyGraf.Commands
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing;
     using System.Drawing.Design;
     using System.Drawing.Drawing2D;
-    using System.Linq;
-    using System.Linq.Expressions;
     using ToyGraf.Controls;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Models.Interfaces;
-    using ToyGraf.Models.Structs;
 
     partial class CommandProcessor
     {
@@ -42,7 +38,7 @@
 
             #endregion
 
-            #region Public Read/Write Properties
+            #region Public User Properties
 
             public int Index;
 
@@ -74,6 +70,16 @@
             {
                 get => Trace.FillColour2;
                 set => Run(new TraceFillColour2Command(Index, value));
+            }
+
+            [Category("Style")]
+            [DefaultValue(typeof(FillMode), "Alternate")]
+            [Description("How to fill and clip the interior of a closed figure.")]
+            [DisplayName("Fill mode")]
+            public FillMode FillMode
+            {
+                get => Trace.FillMode;
+                set => Run(new TraceFillModeCommand(Index, value));
             }
 
             [Category("Colour")]
@@ -214,18 +220,20 @@
 
             #endregion
 
-            #region Public Read Only Properties
+            #region Public System Properties
 
             [Category("System")]
             public string Derivative => Trace.DerivativeExpression.AsString();
 
             [Category("System")]
+            [Editor(typeof(TgCollectionEditor), typeof(UITypeEditor))]
             public List<GraphicsPath> DrawPaths => Trace.DrawPaths;
 
             [Category("System")]
             public string Expression => Trace.Expression.AsString();
 
             [Category("System")]
+            [Editor(typeof(TgCollectionEditor), typeof(UITypeEditor))]
             public List<GraphicsPath> FillPaths => Trace.FillPaths;
 
             [Category("System")]

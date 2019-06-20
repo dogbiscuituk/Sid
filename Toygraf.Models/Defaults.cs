@@ -49,6 +49,9 @@
         public const Elements
             GraphElements = Elements.All;
 
+        public const FillMode
+            StyleFillMode = FillMode.Alternate;
+
         public const HatchStyle
             StyleHatchStyle = HatchStyle.Horizontal;
 

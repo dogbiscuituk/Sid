@@ -11,50 +11,58 @@
     {
         #region Public Interface
 
-        public void Draw(Graphics g, Pen pen, Interpolation interpolation,
-            IEnumerable<PointF> points, List<GraphicsPath> paths, bool usePaths)
+        public Plotter(Graphics g, FillMode fillMode, Interpolation interpolation,
+            List<PointF> points, List<GraphicsPath> drawPaths, bool usePaths)
         {
-            Pen = pen;
-            Plot(g, interpolation, false, points, paths, usePaths);
+            Graphics = g;
+            FillMode = fillMode;
+            Interpolation = interpolation;
+            Points = points;
+            Paths = drawPaths;
+            UsePaths = usePaths;
         }
 
-        public void Fill(Graphics g, Brush brush, PlotType plotType, Interpolation interpolation,
-            IEnumerable<PointF> points, List<GraphicsPath> paths, bool usePaths)
+        public void Draw(Pen pen)
+        {
+            Pen = pen;
+            Plot(false);
+        }
+
+        public void Fill(Brush brush, PlotType plotType)
         {
             Brush = brush;
             PlotType = plotType;
-            Plot(g, interpolation, true, points, paths, usePaths);
+            Plot(true);
         }
 
         #endregion
 
         #region Private Properties
 
-        private Graphics Graphics;
-        private Pen Pen;
         private Brush Brush;
-        private PlotType PlotType;
-        private Interpolation Interpolation;
         private bool Filling;
+        private Pen Pen;
+        private PlotType PlotType;
+
+        private readonly FillMode FillMode;
+        private readonly Graphics Graphics;
+        private readonly Interpolation Interpolation;
+        private readonly List<GraphicsPath> Paths;
+        private readonly List<PointF> Points;
+        private readonly bool UsePaths;
 
         #endregion
 
         #region Private Methods
 
-        private void Plot(Graphics g, Interpolation interpolation, bool filling,
-            IEnumerable<PointF> points, List<GraphicsPath> paths, bool usePaths)
+        private void Plot(bool filling)
         {
-            Graphics = g;
-            Interpolation = interpolation;
             Filling = filling;
-            if (usePaths)
-                foreach (var path in paths)
+            if (UsePaths)
+                foreach (var path in Paths)
                     PlotPath(path);
             else
-                PlotPoints(points, paths);
-            Graphics = null;
-            Pen = null;
-            Brush = null;
+                PlotPoints(Points);
         }
 
         private void PlotPath(GraphicsPath path)
@@ -65,25 +73,25 @@
                 Graphics.DrawPath(Pen, path);
         }
 
-        private void PlotPoints(IEnumerable<PointF> points, List<GraphicsPath> paths)
+        private void PlotPoints(IEnumerable<PointF> points)
         {
-            if (!TryPlotPointsPartial(points, paths))
-                PlotPointsSplit(points, paths);
+            if (!TryPlotPointsPartial(points))
+                PlotPointsSplit(points);
         }
 
-        private void PlotPointsPartial(IEnumerable<PointF> points, List<GraphicsPath> paths)
+        private void PlotPointsPartial(IEnumerable<PointF> points)
         {
             var p = points.ToArray();
-            var path = new GraphicsPath();
+            var path = new GraphicsPath(FillMode);
             if (Interpolation == Interpolation.Linear)
                 path.AddLines(p);
             else
                 path.AddCurve(p);
             PlotPath(path);
-            paths.Add(path);
+            Paths.Add(path);
         }
 
-        private void PlotPointsSplit(IEnumerable<PointF> points, List<GraphicsPath> paths)
+        private void PlotPointsSplit(IEnumerable<PointF> points)
         {
             var n = points.Count();
             if (n < 7)
@@ -92,16 +100,16 @@
             IEnumerable<PointF>
                 left = points.Take(p + 1),
                 right = points.Skip(p).Take(n - p);
-            if (TryPlotPointsPartial(left, paths))
-                PlotPointsSplit(right, paths);
+            if (TryPlotPointsPartial(left))
+                PlotPointsSplit(right);
             else
             {
-                PlotPointsSplit(left, paths);
-                PlotPoints(right, paths);
+                PlotPointsSplit(left);
+                PlotPoints(right);
             }
         }
 
-        private bool TryPlotPointsPartial(IEnumerable<PointF> points, List<GraphicsPath> paths)
+        private bool TryPlotPointsPartial(IEnumerable<PointF> points)
         {
             PointF[] p;
             if (Filling)
@@ -122,7 +130,7 @@
                 p = points.ToArray();
             try
             {
-                PlotPointsPartial(p, paths);
+                PlotPointsPartial(p);
                 return true;
             }
             catch (OverflowException)

@@ -72,6 +72,13 @@
             { }
         }
 
+        private class TraceFillModeCommand : TracePropertyCommand<FillMode>
+        {
+            public TraceFillModeCommand(int index, FillMode value) : base(index, "fill mode",
+                value, s => s.FillMode, (s, v) => s.FillMode = v)
+            { }
+        }
+
         private class TraceGradientModeCommand : TracePropertyCommand<LinearGradientMode>
         {
             public TraceGradientModeCommand(int index, LinearGradientMode value) : base(index, "gradient type",
