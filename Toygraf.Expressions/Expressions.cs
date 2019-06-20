@@ -145,7 +145,8 @@
         public static MethodCallExpression Erf(this Expression e) => Function("Erf", e);
         public static MethodCallExpression Exp(this Expression e) => Function("Exp", e);
         public static MethodCallExpression Floor(this Expression e) => Function("Floor", e);
-        public static MethodCallExpression Ln(this Expression e) => Function("Ln", e);
+        public static MethodCallExpression Hstep(this Expression e) => Function("Hstep", e);
+        public static MethodCallExpression Log(this Expression e) => Function("Log", e);
         public static MethodCallExpression Log10(this Expression e) => Function("Log10", e);
         public static MethodCallExpression Round(this Expression e) => Function("Round", e);
         public static MethodCallExpression Sec(this Expression e) => Function("Sec", e);
@@ -154,7 +155,6 @@
         public static MethodCallExpression Sin(this Expression e) => Function("Sin", e);
         public static MethodCallExpression Sinh(this Expression e) => Function("Sinh", e);
         public static MethodCallExpression Sqrt(this Expression e) => Function("Sqrt", e);
-        public static MethodCallExpression Step(this Expression e) => Function("Step", e);
         public static MethodCallExpression Tan(this Expression e) => Function("Tan", e);
         public static MethodCallExpression Tanh(this Expression e) => Function("Tanh", e);
 

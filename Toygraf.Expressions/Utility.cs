@@ -520,8 +520,8 @@
         {
             "Abs", "Acos", "Acosh", "Acot", "Acoth", "Acsc", "Acsch", "Asec", "Asech", "Asin",
             "Asinh", "Atan", "Atanh", "Ceiling", "Cos", "Cosh", "Cot", "Coth", "Csc", "Csch",
-            "Erf", "Exp", "Floor", "Ln", "Log10", "Round", "Sec", "Sech", "Sign", "Sin",
-            "Sinh", "Sqrt", "Step", "Tan", "Tanh"
+            "Erf", "Exp", "Floor", "Hstep", "Log", "Log10", "Round", "Sec", "Sech", "Sign",
+            "Sin", "Sinh", "Sqrt", "Tan", "Tanh"
         };
 
         #endregion

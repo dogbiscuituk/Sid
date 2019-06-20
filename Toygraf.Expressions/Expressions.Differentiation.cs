@@ -54,7 +54,7 @@
                         case ExpressionType.Divide:   // (f÷g)' = (f'g-fg')÷(g^2) = f'÷g-fg'÷(g^2)
                             return D(f).Over(g).Minus(f.Times(D(g)).Over(g.Squared()));
                         case ExpressionType.Power:    // (f^g)' = (f^g)*(f'g÷f+g'Ln(f)) = (f'g+fg'Ln(f))f^(g-1)
-                            return D(f).Times(g).Plus(f.Times(D(g)).Times(Ln(f))).Times(f.Power(g.Minus(1)));
+                            return D(f).Times(g).Plus(f.Times(D(g)).Times(Log(f))).Times(f.Power(g.Minus(1)));
                     }
                     return Constant(0);               // Logical/Equality/Relational
                 case ConditionalExpression cond:      // (e?f:g)' = e?f':g'
@@ -90,7 +90,7 @@
                 case "Csch": return Negate(Csch(x).Times(Coth(x)));                          // d(csch x)/dx = -csch x coth x, x≠0
                 case "Erf": return x.Squared().Negate().Exp().Times(2 / Math.Sqrt(Math.PI)); // d(erf x)/dx = exp(-x²)*2/√π
                 case "Exp": return Exp(x);                                                   // d(eˣ)/dx = eˣ
-                case "Ln": return 1.Over(x);                                                 // d(ln x)/dx = 1/x
+                case "Log": return 1.Over(x);                                                // d(ln x)/dx = 1/x
                 case "Log10": return Math.Log10(Math.E).Over(x);                             // d(log₁₀ x)/dx = log₁₀e/x
                 case "Sec": return Sec(x).Times(Tan(x));                                     // d(sec x)/dx = sec x tan x
                 case "Sech": return Negate(Sech(x).Times(Tanh(x)));                          // d(sech x)/dx = -sech x tanh x

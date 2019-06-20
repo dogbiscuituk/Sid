@@ -82,7 +82,7 @@
             TestParse("(x^2)^x", "x^(2x)");
             TestParse("(x-3)*(5-x)/10", "(x-3)*(5-x)/10");
             TestParse("sin x * cos x", "Sin x*Cos x");
-            TestParse("Ln(sin x - tanh(x)) - 1", "Ln(Sin x-Tanh x)-1");
+            TestParse("Log(sin x - tanh(x)) - 1", "Log(Sin x-Tanh x)-1");
             TestParse("Abs Cos Sin Tan 1.5", "0.540839774154307");
             TestParse("Abs Cos Sin Tan (x/2)", "Abs Cos Sin Tan(x/2)");
             TestParse("2*(sin x + cos x ^ 3 - tan(x^3))/3", "2(Sin x+Cos³x-Tan x³)/3");

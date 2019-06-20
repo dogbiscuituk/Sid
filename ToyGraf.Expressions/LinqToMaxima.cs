@@ -43,6 +43,8 @@ namespace ToyGraf.Expressions
                     {
                         case "exp":
                             return $"%e^({argument})";
+                        case "log10":
+                            return $"(log({argument})/log(10))";
                         default:
                             return $"{functionName}({argument})";
                     }

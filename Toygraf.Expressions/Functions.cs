@@ -4,7 +4,7 @@
 
     /// <summary>
     /// Several math functions are either absent from System.Math (Asec, Sech, Asech,
-    /// Step) or unsuitable (Sign, which has an integer output), so they are provided
+    /// Hstep) or unsuitable (Sign, which has an integer output), so they are provided
     /// in this class. Might as well include the whole System.Math lot here too; then
     /// we never need perform two reflection operations to find any function by name.
     /// </summary>
@@ -34,7 +34,8 @@
         public static double Csch(double x) => 1 / Math.Sinh(x);
         public static double Exp(double x) => Math.Exp(x);
         public static double Floor(double x) => Math.Floor(x);
-        public static double Ln(double x) => Math.Log(x);
+        public static double Hstep(double x) => x < 0 ? 0 : 1;
+        public static double Log(double x) => Math.Log(x);
         public static double Log10(double x) => Math.Log10(x);
         public static double Round(double x) => Math.Round(x);
         public static double Sec(double x) => 1 / Math.Cos(x);
@@ -43,7 +44,6 @@
         public static double Sin(double x) => Math.Sin(x);
         public static double Sinh(double x) => Math.Sinh(x);
         public static double Sqrt(double x) => Math.Sqrt(x);
-        public static double Step(double x) => x < 0 ? 0 : 1;
         public static double Tan(double x) => Math.Tan(x);
         public static double Tanh(double x) => Math.Tanh(x);
 
