@@ -85,7 +85,7 @@
         /// <param name="t">The time input parameter.</param>
         /// <returns>Zero. However the replacement expression will instead
         /// return the value of the selected expression at specified x and t.</returns>
-        public static double Udf(int index, int ticks, double x, double t) => 0;
+        public static double Xref(int index, int ticks, double x, double t) => 0;
 
         #endregion
     }

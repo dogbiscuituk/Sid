@@ -214,6 +214,7 @@
     <Content Include="Documentation\INotifyPropertyChanged.txt" />
     <Content Include="Documentation\Cache Invalidation.txt" />
     <Content Include="3ph.ico" />
+    <Content Include="Documentation\Signal Processing Waveforms.txt" />
     <None Include="Graphics\Icons\3ph16.png" />
     <None Include="Graphics\Icons\3ph16A.png" />
     <None Include="Graphics\Icons\3ph24.png" />

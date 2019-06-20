@@ -22,8 +22,8 @@
         public static Expression SimplifyMethodCall(MethodCallExpression m)
         {
             var methodName = m.Method.Name;
-            if (methodName == "Udf")
-                return Function("Udf",
+            if (methodName == "Xref")
+                return Function("Xref",
                     m.Arguments[0], m.Arguments[1], m.Arguments[2].Simplify(), m.Arguments[3]);
             var operand = Simplify(m.Arguments[0]);
             if (operand is ConstantExpression ce)

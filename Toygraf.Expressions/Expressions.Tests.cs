@@ -9,7 +9,8 @@
 
         public static void TestAll()
         {
-            TestParse("(∫x³cos 2x dx)'", "x³*Cos(2x)");
+            Maxima.DebugOn();
+            //TestParse("(∫x³cos 2x dx)'", "x³*Cos(2x)");
             if (!UseMaxima)
                 TestAll_Ice();
             else

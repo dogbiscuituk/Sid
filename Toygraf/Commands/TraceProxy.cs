@@ -1,13 +1,19 @@
 ﻿namespace ToyGraf.Commands
 {
+    using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing;
     using System.Drawing.Design;
     using System.Drawing.Drawing2D;
+    using System.Linq;
+    using System.Linq.Expressions;
     using ToyGraf.Controls;
+    using ToyGraf.Expressions;
     using ToyGraf.Models;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Models.Interfaces;
+    using ToyGraf.Models.Structs;
 
     partial class CommandProcessor
     {
@@ -16,6 +22,8 @@
         [DefaultProperty("Formula")]
         internal class TraceProxy : ITrace
         {
+            #region Internal Interface
+
             internal TraceProxy()
             {
                 _Trace = new Trace();
@@ -32,12 +40,11 @@
                 Index = index;
             }
 
-            public int Index;
+            #endregion
 
-            private readonly CommandProcessor CommandProcessor;
-            private Graph Graph => CommandProcessor.Graph;
-            private Trace _Trace;
-            private Trace Trace => _Trace ?? Graph.Traces[Index];
+            #region Public Read/Write Properties
+
+            public int Index;
 
             [Category("Style")]
             [DefaultValue(typeof(BrushType), "Solid")]
@@ -205,8 +212,45 @@
                 set => Run(new TraceWrapModeCommand(Index, value));
             }
 
+            #endregion
+
+            #region Public Read Only Properties
+
+            [Category("System")]
+            public string Derivative => Trace.DerivativeExpression.AsString();
+
+            [Category("System")]
+            public List<GraphicsPath> DrawPaths => Trace.DrawPaths;
+
+            [Category("System")]
+            public string Expression => Trace.Expression.AsString();
+
+            [Category("System")]
+            public List<GraphicsPath> FillPaths => Trace.FillPaths;
+
+            [Category("System")]
+            public string Proxy => Trace.Proxy.AsString();
+
+            [Category("System")]
+            public bool UsesTime => Trace.UsesTime;
+
+            [Category("System")]
+            public bool UsesXref => Trace.UsesXref;
+
+            #endregion
+
+            #region Public Methods
+
             public override string ToString() => !string.IsNullOrWhiteSpace(Title) ? Title : $"Trace #{Index}";
 
+            #endregion
+
+            #region Private Implementation
+
+            private readonly CommandProcessor CommandProcessor;
+            private Graph Graph => CommandProcessor.Graph;
+            private Trace _Trace;
+            private Trace Trace => _Trace ?? Graph.Traces[Index];
             private void Run(ICommand command)
             {
                 if (CommandProcessor != null)
@@ -214,6 +258,8 @@
                 else if (command is ITracePropertyCommand tpc)
                     tpc.RunOn(Trace);
             }
+
+            #endregion
         }
     }
 }

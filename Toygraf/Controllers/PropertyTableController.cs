@@ -49,7 +49,7 @@
         #region Private Event Handlers
 
         private void CloseButton_Click(object sender, EventArgs e) => PropertyTableVisible = false;
-        private void GraphController_PropertyChanged(object sender, PropertyChangedEventArgs e) => PropertyChanged(e.PropertyName);
+        private void GraphController_PropertyChanged(object sender, PropertyChangedEventArgs e) => PropertyChanged();
         private void TogglePropertyTable(object sender, EventArgs e) => PropertyTableVisible = !PropertyTableVisible;
         private void ViewMenu_DropDownOpening(object sender, EventArgs e) => Form.ViewPropertyTable.Checked = PropertyTableVisible;
 
@@ -79,13 +79,7 @@
             toolStrip.Items[3].Visible = false; // Separator
         }
 
-        private void PropertyChanged(string propertyName)
-        {
-            // Only Graph properties need cause a PropertyTable.Refresh();
-            // Trace properties will be refreshed on the collection fetch.
-            if (!propertyName.StartsWith("Model.Graph.Traces["))
-                PropertyTable.Refresh();
-        }
+        private void PropertyChanged() => PropertyTable.Refresh();
 
         #endregion
     }

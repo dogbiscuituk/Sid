@@ -475,6 +475,17 @@
             return false;
         }
 
+        public static bool UsesXref(this Expression e)
+        {
+            if (e is UnaryExpression u)
+                return u.Operand.UsesXref();
+            if (e is MethodCallExpression m)
+                return m.Method.Name == "Xref" ? true : m.Arguments.Any(p => p.UsesXref());
+            if (e is BinaryExpression b)
+                return b.Left.UsesXref() || b.Right.UsesXref();
+            return false;
+        }
+
         public static double VulgarFractionToDouble(this char fraction)
         {
             switch (fraction)

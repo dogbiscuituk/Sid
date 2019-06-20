@@ -1,0 +1,6 @@
+﻿Signal Processing Waveforms
+
+SquareWave          x / 2 - floor(x / 2) < 1 / 2    = (1 - sign((x - 1) / 2 - floor (x / 2))) / 2
+InverseSquareWave   x / 2 - floor(x / 2) > 1 / 2    = (1 + sign(x / 2 - floor (x / 2) - 1 / 2)) / 2
+Sawtooth            x - floor(x)
+ReverseSawtooth     floor(x) + 1 - x

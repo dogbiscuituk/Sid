@@ -172,11 +172,11 @@
         }
 
         /// <summary>
-        /// Rewrite an expression, possibly containing encoded references to other expressions in a given array.
-        /// Since expressions are immutable, this is done by duplicating the original structure, and replacing
-        /// any such references with similarly decoded versions of expressions in the original array. References,
-        /// aka User Defined Functions, have the form "Udf(index, x, t)", where "index" is the position of the
-        /// referred expression in the array.
+        /// Rewrite an expression, possibly containing encoded references to other expressions in a
+        /// given array. Since expressions are immutable, this is done by duplicating the original
+        /// structure, and replacing any such references with similarly decoded versions of express-
+        /// ions in the original array. Cross-references have the form "Xref(index, x, t)", where
+        /// "index" is the position of the referred expression in the array.
         /// </summary>
         /// <param name="e">The expression to be rewritten.</param>
         /// <param name="ex">The expression representing the "x" parameter.</param>
@@ -192,7 +192,7 @@
             if (e is MethodCallExpression m)
             {
                 var methodName = m.Method.Name;
-                if (methodName == "Udf")
+                if (methodName == "Xref")
                 {
                     var index = (int)((ConstantExpression)m.Arguments[0]).Value;
                     if (index < 0 || index >= refs.Length)
@@ -362,7 +362,7 @@
                     left = operand;
                     right = 0.0.Constant();
                 }
-                return Function("Udf", index, Expression.Constant(0), left, right);
+                return Function("Xref", index, Expression.Constant(0), left, right);
             }
             var result = Function(f, operand);
             if (operand is ConstantExpression c)

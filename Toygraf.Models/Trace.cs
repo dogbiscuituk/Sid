@@ -46,7 +46,7 @@
         }
 
         [NonSerialized]
-        private Viewport Viewport;
+        public Viewport Viewport;
 
         private bool _visible;
         [DefaultValue(true)]
@@ -111,8 +111,8 @@
         private Expression _proxy;
 
         /// <summary>
-        /// The System.Linq.Expressions representation of the algebraic expression used by the Trace.
-        /// This is obtained from the Expression property by replacing all Udf tokens (User Defined Functions)
+        /// The System.Linq.Expressions representation of the algebraic expression used by the
+        /// Trace. This is obtained from the Expression property by replacing all Xref tokens
         /// with calls to other Traces in the Graph.
         /// </summary>
         [JsonIgnore]
@@ -122,7 +122,8 @@
             set
             {
                 _proxy = value;
-                SetFunc(Proxy);
+                if (_proxy.ToString() != Expression.ToString())
+                    SetFunc(Proxy);
                 InvalidatePaths();
             }
         }
@@ -139,12 +140,16 @@
         [JsonIgnore]
         public Func<double, double, double> Derivative { get; private set; }
 
+        public Expression DerivativeExpression { get; private set; }
+
         public bool UsesTime => Proxy != null && Proxy.UsesTime() || Expression.UsesTime();
+        public bool UsesXref => Expression.UsesXref();
 
         private void SetFunc(Expression e)
         {
             Func = e.AsFunction();
-            Derivative = e.Differentiate().AsFunction();
+            DerivativeExpression = e.Differentiate();
+            Derivative = DerivativeExpression.AsFunction();
         }
 
         #endregion
@@ -152,7 +157,7 @@
         #region Drawing
 
         private List<List<PointF>> PointLists = new List<List<PointF>>();
-        private readonly List<GraphicsPath>
+        public readonly List<GraphicsPath>
             DrawPaths = new List<GraphicsPath>(),
             FillPaths = new List<GraphicsPath>();
 
@@ -180,12 +185,18 @@
             }
             bool usePaths;
             if (fill)
+            {
+                usePaths = FillPaths.Any();
                 using (var pen = new Pen(LimitColour, penWidth) { DashStyle = DashStyle.Dash })
                 using (var brush = CreateBrush(g.Transform))
-                    PointLists.ForEach(p => FillSection(g, brush, plotType, interpolation, p, FillPaths.Any()));
+                    PointLists.ForEach(p => FillSection(g, brush, plotType, interpolation, p, usePaths));
+            }
             else
+            {
+                usePaths = DrawPaths.Any();
                 using (var pen = new Pen(PenColour, PenWidth * penWidth) { DashStyle = PenStyle })
-                    PointLists.ForEach(p => DrawSection(g, pen, interpolation, p, DrawPaths.Any()));
+                    PointLists.ForEach(p => DrawSection(g, pen, interpolation, p, usePaths));
+            }
             if (DrawPaths.Any() && FillPaths.Any())
                 InvalidatePoints();
         }
