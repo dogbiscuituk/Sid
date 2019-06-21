@@ -45,6 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="TgKeyboard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TgKeyboard.Designer.cs">
+      <DependentUpon>TgKeyboard.cs</DependentUpon>
+    </Compile>
     <Compile Include="TgCollectionEditor.cs" />
     <Compile Include="TgControls.cs" />
     <Compile Include="TgMenuStrip.cs">
@@ -58,6 +64,11 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TgKeyboard.resx">
+      <DependentUpon>TgKeyboard.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

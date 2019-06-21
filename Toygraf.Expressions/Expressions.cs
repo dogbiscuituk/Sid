@@ -5,6 +5,8 @@
     using System.Text.RegularExpressions;
     using ToyGraf.Expressions.Enumerations;
 
+    using System.Runtime;
+
     public static partial class Expressions
     {
         #region Configuration

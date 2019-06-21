@@ -71,6 +71,8 @@
             return (1 - t * Math.Exp(v - x * x)) * Math.Sign(x);
         }
 
+        public static double Erfc(double x) => 1 - Erf(x);
+
         #endregion
 
         #region User Defined Functions

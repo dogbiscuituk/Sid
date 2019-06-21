@@ -8,6 +8,7 @@
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
     using ToyGraf.Commands;
+    using ToyGraf.Controls;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
     using ToyGraf.Views;
@@ -36,14 +37,16 @@
                 FunctionBox.MouseUp += FunctionBox_MouseUp;
                 FunctionBox.TextChanged += FunctionBox_TextChanged;
                 FunctionBox.Validating += FunctionBox_Validating;
-                View.btnBackspace.Click += Key_Press;
-                View.btnLshift.Click += BtnShift_Click;
-                View.btnRshift.Click += BtnShift_Click;
-                View.btnShiftLock.Click += BtnShiftLock_Click;
-                View.btnGreek.Click += BtnGreek_Click;
-                View.btnMaths.Click += BtnMaths_Click;
-                View.btnSubscript.Click += BtnSubscript_Click;
-                View.btnSuperscript.Click += BtnSuperscript_Click;
+                Keyboard.btnInverse.Click += BtnInverse_Click;
+                Keyboard.btnHyper.Click += BtnHyper_Click;
+                Keyboard.btnBackspace.Click += Key_Press;
+                Keyboard.btnLshift.Click += BtnShift_Click;
+                Keyboard.btnRshift.Click += BtnShift_Click;
+                Keyboard.btnShiftLock.Click += BtnShiftLock_Click;
+                Keyboard.btnGreek.Click += BtnGreek_Click;
+                Keyboard.btnMaths.Click += BtnMaths_Click;
+                Keyboard.btnSubscript.Click += BtnSubscript_Click;
+                Keyboard.btnSuperscript.Click += BtnSuperscript_Click;
                 InitKeys();
             }
         }
@@ -70,20 +73,30 @@
 
         #region Private Properties
 
-        /// <summary>
-        /// Greek keyboard based on https://en.wikipedia.org/wiki/Keyboard_layout#/media/File:KB_Greek.svg
-        /// </summary>
-        private static readonly Keyboard[] Keyboards =
+        private TgKeyboard Keyboard => View.Keyboard;
+
+        private static readonly Layout[] FkLayouts =
         {
-            new Keyboard{Keys = @"`1234567890-= /*-qwertyuiop[]789+asdfghjkl;'#456\zxcvbnm,./123 0.", Name = "Latin Lowercase"},
-            new Keyboard{Keys = @"¬!""£$%^&*()_+ /*-QWERTYUIOP{}789+ASDFGHJKL:@~456|ZXCVBNM<>?123 0.", Name = "Latin Uppercase"},
-            new Keyboard{Keys = @"`1234567890-= /*- ςερτυθιοπ[]789+ασδφγηξκλ;'#456\ζχψωβνμ,./123 0.", Name = "Greek Lowercase"},
-            new Keyboard{Keys = @"¬!""£$%^&*()_+ /*-  ΕΡΤΥΘΙΟΠ{}789+ΑΣΔΦΓΗΞΚΛ:@~456|ΖΧΨΩΒΝΜ<>?123 0.", Name = "Greek Uppercase"},
-            new Keyboard{Keys = @"½⅓⅔¼¾⅕⅖⅗⅘≮≯-≠°÷×-qwertyuiop≰≱789+asdfghjkl;'#456\zxcvbnm≤≥/123 0.", Name = "Mathematical Lowercase"},
-            new Keyboard{Keys = @"⅙⅚⅐⅛⅜⅝⅞⅑⅒≮≯-≠∫√∛∜QWERTYUIOP≰≱789+ASDFGHJKL;'#456\ZXCVBNM≤≥/123 0.", Name = "Mathematical Uppercase"},
-            new Keyboard{Keys = @"ᵦᵧᵩᵪᵨ    ₍₎₋₌ ⁄ ₋  ₑᵣₜ ᵤᵢₒₚ  ₇₈₉₊ₐₛ   ₕⱼₖₗ   ₄₅₆  ₓ ᵥ ₙₘ   ₁₂₃ ₀ ", Name = "Subscript"},
-            new Keyboard{Keys = @"ᵝᵞᵠᵡᵅᵟᵋᶿᶥ⁽⁾⁻⁼ ⁄ ⁻ᶲʷᵉʳᵗʸᵘⁱᵒᵖ  ⁷⁸⁹⁺ᵃˢᵈᶠᵍʰʲᵏˡ   ⁴⁵⁶ ᶻˣᶜᵛᵇⁿᵐ   ¹²³ ⁰ ", Name = "Superscript Lowercase"},
-            new Keyboard{Keys = @"         ⁽⁾⁻⁼   ⁻ ᵂᴱᴿᵀ ᵁᴵᴼᴾ  ⁷⁸⁹⁺ᴬ ᴰ ᴳᴴᴶᴷᴸ   ⁴⁵⁶    ⱽᴮᴺᴹ   ¹²³ ⁰ ", Name = "Superscript Uppercase"}
+            new Layout{Keys="sin|cos|tan|log|abs|erf|ceiling|round|hstep|csc|sec|cot|log10|sqrt|erfc|floor|sign|", Name = "Normal"},
+            new Layout{Keys="asin|acos|atan|exp|abs|erf|ceiling|round|hstep|acsc|asec|acot|alog|sqr|erfc|floor|sign|", Name = "Inverse"},
+            new Layout{Keys="sinh|cosh|tanh|log|abs|erf|ceiling|round|hstep|csch|sech|coth|log10|sqrt|erfc|floor|sign|", Name = "Hyperbolic"},
+            new Layout{Keys="asinh|acosh|atanh|exp|abs|erf|ceiling|round|hstep|acsch|asech|acoth|alog|sqr|erfc|floor|sign|", Name = "Inverse Hyperbolic"}
+        };
+
+        /// <summary>
+        /// Greek keyboard layout based on https://en.wikipedia.org/wiki/Keyboard_layout#/media/File:KB_Greek.svg
+        /// </summary>
+        private static readonly Layout[] KbLayouts =
+        {
+            new Layout{Keys = @"`1234567890-= /*-qwertyuiop[]789+asdfghjkl;'#456\zxcvbnm,./123 0.", Name = "Latin Lowercase"},
+            new Layout{Keys = @"¬!""£$%^&*()_+ /*-QWERTYUIOP{}789+ASDFGHJKL:@~456|ZXCVBNM<>?123 0.", Name = "Latin Uppercase"},
+            new Layout{Keys = @"`1234567890-= /*- ςερτυθιοπ[]789+ασδφγηξκλ;'#456\ζχψωβνμ,./123 0.", Name = "Greek Lowercase"},
+            new Layout{Keys = @"¬!""£$%^&*()_+ /*-  ΕΡΤΥΘΙΟΠ{}789+ΑΣΔΦΓΗΞΚΛ:@~456|ΖΧΨΩΒΝΜ<>?123 0.", Name = "Greek Uppercase"},
+            new Layout{Keys = @"½⅓⅔¼¾⅕⅖⅗⅘≮≯-≠°÷×-qwertyuiop≰≱789+asdfghjkl;'#456\zxcvbnm≤≥/123 0.", Name = "Mathematical Lowercase"},
+            new Layout{Keys = @"⅙⅚⅐⅛⅜⅝⅞⅑⅒≮≯-≠∫√∛∜QWERTYUIOP≰≱789+ASDFGHJKL;'#456\ZXCVBNM≤≥/123 0.", Name = "Mathematical Uppercase"},
+            new Layout{Keys = @"ᵦᵧᵩᵪᵨ    ₍₎₋₌ ⁄ ₋  ₑᵣₜ ᵤᵢₒₚ  ₇₈₉₊ₐₛ   ₕⱼₖₗ   ₄₅₆  ₓ ᵥ ₙₘ   ₁₂₃ ₀ ", Name = "Subscript"},
+            new Layout{Keys = @"ᵝᵞᵠᵡᵅᵟᵋᶿᶥ⁽⁾⁻⁼ ⁄ ⁻ᶲʷᵉʳᵗʸᵘⁱᵒᵖ  ⁷⁸⁹⁺ᵃˢᵈᶠᵍʰʲᵏˡ   ⁴⁵⁶ ᶻˣᶜᵛᵇⁿᵐ   ¹²³ ⁰ ", Name = "Superscript Lowercase"},
+            new Layout{Keys = @"         ⁽⁾⁻⁼   ⁻ ᵂᴱᴿᵀ ᵁᴵᴼᴾ  ⁷⁸⁹⁺ᴬ ᴰ ᴳᴴᴶᴷᴸ   ⁴⁵⁶    ⱽᴮᴺᴹ   ¹²³ ⁰ ", Name = "Superscript Uppercase"}
         };
 
         private KeyStates _state;
@@ -96,13 +109,15 @@
                 if (State != value)
                 {
                     _state = value;
-                    InitBackColour(View.btnLshift, KeyStates.Shift);
-                    InitBackColour(View.btnRshift, KeyStates.Shift);
-                    InitBackColour(View.btnShiftLock, KeyStates.ShiftLock);
-                    InitBackColour(View.btnGreek, KeyStates.Greek);
-                    InitBackColour(View.btnMaths, KeyStates.Maths);
-                    InitBackColour(View.btnSubscript, KeyStates.Subs);
-                    InitBackColour(View.btnSuperscript, KeyStates.Super);
+                    InitBackColour(Keyboard.btnInverse, KeyStates.Inverse);
+                    InitBackColour(Keyboard.btnHyper, KeyStates.Hyperbolic);
+                    InitBackColour(Keyboard.btnLshift, KeyStates.Shift);
+                    InitBackColour(Keyboard.btnRshift, KeyStates.Shift);
+                    InitBackColour(Keyboard.btnShiftLock, KeyStates.ShiftLock);
+                    InitBackColour(Keyboard.btnGreek, KeyStates.Greek);
+                    InitBackColour(Keyboard.btnMaths, KeyStates.Maths);
+                    InitBackColour(Keyboard.btnSubscript, KeyStates.Subs);
+                    InitBackColour(Keyboard.btnSuperscript, KeyStates.Super);
                     InitKeys();
                 }
             }
@@ -116,6 +131,7 @@
         private TraceView TraceView => TraceControllers[Index].View;
         private Control ActiveControl => TraceView.cbFunction;
         private readonly List<Button> CustomKeys = new List<Button>();
+        private readonly List<Button> FunctionKeys = new List<Button>();
         private ComboBox FunctionBox { get => View.FunctionBox; }
         private ComboBox.ObjectCollection Functions { get => FunctionBox.Items; }
         private Graph Graph => TracePropertiesController.Graph;
@@ -128,6 +144,8 @@
         #region Private Event Handlers
 
         private void BtnGreek_Click(object sender, EventArgs e) => ToggleLanguage(KeyStates.Greek);
+        private void BtnHyper_Click(object sender, EventArgs e) => ToggleLanguage(KeyStates.Hyperbolic);
+        private void BtnInverse_Click(object sender, EventArgs e) => ToggleLanguage(KeyStates.Inverse);
         private void BtnMaths_Click(object sender, EventArgs e) => ToggleLanguage(KeyStates.Maths);
         private void BtnShift_Click(object sender, EventArgs e) => State = State & ~KeyStates.ShiftLock ^ KeyStates.Shift;
         private void BtnShiftLock_Click(object sender, EventArgs e) => State = State & ~KeyStates.Shift ^ KeyStates.ShiftLock;
@@ -166,7 +184,7 @@
                     {
                         case "Formula":
                             SaveSelection();
-                            View.FunctionBox.Text = Graph.Traces[Index].Formula;
+                            FunctionBox.Text = Graph.Traces[Index].Formula;
                             LoadSelection();
                             UpdateProxyLabel();
                             break;
@@ -177,6 +195,16 @@
         }
 
         private void IndexValueChanged(object sender, EventArgs e) => IndexValueChanged();
+
+        private void FunctionKey_Press(object sender, EventArgs e)
+        {
+            var text = ((Control)sender).Text;
+            FocusFunctionBox();
+            FunctionBox.SelectedText = $"{text}()";
+            //SelStart += text.Length;
+            //SelLength = 0;
+            SaveSelection();
+        }
 
         private void Key_Press(object sender, EventArgs e)
         {
@@ -227,29 +255,45 @@
             LoadSelection();
         }
 
+        private string GetFkKeys(FkLayoutType type) => FkLayouts[(int)type].Keys;
+
+        private FkLayoutType GetFkLayoutType()
+        {
+            switch (State & KeyStates.Functions)
+            {
+                case KeyStates.Inverse:
+                    return FkLayoutType.Inverse;
+                case KeyStates.Hyperbolic:
+                    return FkLayoutType.Hyperbolic;
+                case KeyStates.Functions:
+                    return FkLayoutType.InverseHyperbolic;
+                default:
+                    return FkLayoutType.Normal;
+            }
+        }
+
         private int GetIndex() => TracePropertiesController.Index;
+        private string GetKbLayoutName(KbLayoutType type) => KbLayouts[(int)type].Name;
 
-        private string GetKeyboardName(KeyboardType type) => Keyboards[(int)type].Name;
-
-        private KeyboardType GetKeyboardType()
+        private KbLayoutType GetKbLayoutType()
         {
             var shift = (State & KeyStates.Shifted) != 0;
             switch (State & KeyStates.Languages)
             {
                 case KeyStates.Greek:
-                    return shift ? KeyboardType.GreekUpper : KeyboardType.GreekLower;
+                    return shift ? KbLayoutType.GreekUpper : KbLayoutType.GreekLower;
                 case KeyStates.Maths:
-                    return shift ? KeyboardType.MathsUpper : KeyboardType.MathsLower;
+                    return shift ? KbLayoutType.MathsUpper : KbLayoutType.MathsLower;
                 case KeyStates.Subs:
-                    return KeyboardType.Subscript;
+                    return KbLayoutType.Subscript;
                 case KeyStates.Super:
-                    return shift ? KeyboardType.SuperUpper : KeyboardType.SuperLower;
+                    return shift ? KbLayoutType.SuperUpper : KbLayoutType.SuperLower;
                 default:
-                    return shift ? KeyboardType.LatinUpper : KeyboardType.LatinLower;
+                    return shift ? KbLayoutType.LatinUpper : KbLayoutType.LatinLower;
             }
         }
 
-        private string GetKeys(KeyboardType type) => Keyboards[(int)type].Keys;
+        private string GetKbKeys(KbLayoutType type) => KbLayouts[(int)type].Keys;
 
         private void InitBackColour(Control control, KeyStates state) =>
             control.BackColor = Color.FromKnownColor(
@@ -264,25 +308,40 @@
 
         private void InitKeys()
         {
-            var type = GetKeyboardType();
-            View.Text = GetKeyboardName(type);
-            var map = GetKeys(type);
+            var type = GetKbLayoutType();
+            View.Text = GetKbLayoutName(type);
+            var map = GetKbKeys(type);
             for (var index = 0; index < CustomKeys.Count; index++)
             {
                 var key = CustomKeys[index];
-                var c = map[index];
-                key.Text = c.ToString().AmpersandEscape();
-                View.ToolTip.SetToolTip(key, $"{char.GetUnicodeCategory(c)} '{c}'");
+                var cap = map[index];
+                key.Text = cap.ToString().AmpersandEscape();
+                View.ToolTip.SetToolTip(key, $"{char.GetUnicodeCategory(cap)} '{cap}'");
+            }
+            var fkLayoutType = GetFkLayoutType();
+            var fkMap = GetFkKeys(fkLayoutType).Split('|');
+            for (var index = 0; index < FunctionKeys.Count; index++)
+            {
+                var key = FunctionKeys[index];
+                var cap = fkMap[index];
+                key.Text = cap.ToString().AmpersandEscape();
             }
         }
 
         private void LoadKeys()
         {
-            var keys = View.tpKeyboard.Controls.OfType<Button>().Where(p => (string)p.Tag == "KB");
+            var keys = GetKeys("FK");
+            FunctionKeys.AddRange(keys);
+            foreach (var key in keys)
+                key.Click += FunctionKey_Press;
+            keys = GetKeys("KB");
             CustomKeys.AddRange(keys);
             foreach (var key in keys)
                 key.Click += Key_Press;
         }
+
+        private IEnumerable<Button> GetKeys(string tag) =>
+            Keyboard.Controls.OfType<Button>().Where(p => (string)p.Tag == tag).OrderBy(p => p.TabIndex);
 
         private void LoadSelection()
         {
@@ -301,6 +360,9 @@
 
         private void UnloadKeys()
         {
+            foreach (var key in FunctionKeys)
+                key.Click -= FunctionKey_Press;
+            FunctionKeys.Clear();
             foreach (var key in CustomKeys)
                 key.Click -= Key_Press;
             CustomKeys.Clear();
@@ -319,9 +381,17 @@
 
         #region Private Types
 
-        private struct Keyboard { internal string Name, Keys; }
+        private struct Layout { internal string Name, Keys; }
 
-        private enum KeyboardType
+        private enum FkLayoutType
+        {
+            Normal,
+            Inverse,
+            Hyperbolic,
+            InverseHyperbolic
+        }
+
+        private enum KbLayoutType
         {
             LatinLower, LatinUpper,
             GreekLower, GreekUpper,
@@ -341,7 +411,10 @@
             Maths = 0x08,
             Subs = 0x10,
             Super = 0x20,
-            Languages = Greek | Maths | Subs | Super
+            Languages = Greek | Maths | Subs | Super,
+            Inverse = 0x40,
+            Hyperbolic = 0x80,
+            Functions = Inverse | Hyperbolic
         }
 
         #endregion
