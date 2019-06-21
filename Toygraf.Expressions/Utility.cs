@@ -480,7 +480,7 @@
             if (e is UnaryExpression u)
                 return u.Operand.UsesXref();
             if (e is MethodCallExpression m)
-                return m.Method.Name == "Xref" ? true : m.Arguments.Any(p => p.UsesXref());
+                return m.Method.Name == "xref" ? true : m.Arguments.Any(p => p.UsesXref());
             if (e is BinaryExpression b)
                 return b.Left.UsesXref() || b.Right.UsesXref();
             return false;
@@ -518,10 +518,10 @@
 
         public static string[] FunctionNames = new[]
         {
-            "Abs", "Acos", "Acosh", "Acot", "Acoth", "Acsc", "Acsch", "Asec", "Asech", "Asin",
-            "Asinh", "Atan", "Atanh", "Ceiling", "Cos", "Cosh", "Cot", "Coth", "Csc", "Csch",
-            "Erf", "Erfc", "Exp", "Floor", "Hstep", "Log", "Log10", "Round", "Sec", "Sech",
-            "Sign", "Sin", "Sinh", "Sqrt", "Tan", "Tanh"
+            "abs", "acos", "acosh", "acot", "acoth", "acsc", "acsch", "asec", "asech", "asin",
+            "asinh", "atan", "atanh", "ceiling", "cos", "cosh", "cot", "coth", "csc", "csch",
+            "erf", "erfc", "exp", "floor", "hstep", "log", "log₁₀", "round", "sec", "sech",
+            "sign", "sin", "sinh", "sqrt", "tan", "tanh"
         };
 
         #endregion
@@ -613,7 +613,9 @@
         public static string FromSuperscript(this string s) => Transcribe(s, Superscripts, Transcripts);
         public static string SubToSuperscript(this string s) => Transcribe(s, Subscripts, Superscripts);
         public static string SuperToSubscript(this string s) => Transcribe(s, Superscripts, Subscripts);
+        public static string ToSubscript(this int n) => n.ToString().ToSubscript();
         public static string ToSubscript(this string s) => Transcribe(s, Transcripts, Subscripts);
+        public static string ToSuperscript(this int n) => n.ToString().ToSuperscript();
         public static string ToSuperscript(this string s) => Transcribe(s, Transcripts, Superscripts);
 
         public static string Transcribe(this string s, string source, string target)

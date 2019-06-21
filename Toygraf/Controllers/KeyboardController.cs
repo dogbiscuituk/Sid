@@ -77,9 +77,9 @@
 
         private static readonly Layout[] FkLayouts =
         {
-            new Layout{Keys="sin|cos|tan|log|abs|erf|ceiling|round|hstep|csc|sec|cot|log10|sqrt|erfc|floor|sign|", Name = "Normal"},
+            new Layout{Keys="sin|cos|tan|log|abs|erf|ceiling|round|hstep|csc|sec|cot|log₁₀|sqrt|erfc|floor|sign|", Name = "Normal"},
             new Layout{Keys="asin|acos|atan|exp|abs|erf|ceiling|round|hstep|acsc|asec|acot|alog|sqr|erfc|floor|sign|", Name = "Inverse"},
-            new Layout{Keys="sinh|cosh|tanh|log|abs|erf|ceiling|round|hstep|csch|sech|coth|log10|sqrt|erfc|floor|sign|", Name = "Hyperbolic"},
+            new Layout{Keys="sinh|cosh|tanh|log|abs|erf|ceiling|round|hstep|csch|sech|coth|log₁₀|sqrt|erfc|floor|sign|", Name = "Hyperbolic"},
             new Layout{Keys="asinh|acosh|atanh|exp|abs|erf|ceiling|round|hstep|acsch|asech|acoth|alog|sqr|erfc|floor|sign|", Name = "Inverse Hyperbolic"}
         };
 

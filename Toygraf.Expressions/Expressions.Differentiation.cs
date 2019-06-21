@@ -31,13 +31,13 @@
                     return ue.NodeType == ExpressionType.UnaryPlus ? v : Negate(v);
                 case MethodCallExpression me:         // Use the Chain Rule
                     var methodName = me.Method.Name;
-                    if (methodName == "Xref")
+                    if (methodName == "xref")
                     {
                         var index = me.Arguments[0];
                         var ticks = Expression.Constant((int)((ConstantExpression)me.Arguments[1]).Value + 1);
                         var fx = me.Arguments[2];
                         var ft = me.Arguments[3];
-                        return Function("Xref", index, ticks, fx, ft).Times(D(fx));
+                        return Function("xref", index, ticks, fx, ft).Times(D(fx));
                     }
                     var gx = me.Arguments[0];
                     return DifferentiateFunction(methodName, gx).Times(D(gx));

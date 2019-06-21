@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using ToyGraf.Expressions;
     using ToyGraf.Models;
 
     partial class CommandProcessor
@@ -113,7 +114,7 @@
                 : base(index, detail, value, get, set) { }
 
             public void RunOn(Trace trace) => Set(trace, Value);
-            protected override string Target => $"f{Index}";
+            protected override string Target => $"f{Index.ToSubscript()}";
             protected override Trace GetItem(Graph graph) => graph.Traces[Index];
         }
 
@@ -195,8 +196,8 @@
 
             protected override string Target =>
                 string.IsNullOrWhiteSpace(Value?.Formula)
-                ? $"f{Index}"
-                : $"f{Index} = {Value.Formula}";
+                ? $"f{Index.ToSubscript()}"
+                : $"f{Index.ToSubscript()} = {Value.Formula}";
 
             protected override int GetItemsCount(Graph graph) => graph.Traces.Count;
             protected override Trace GetNewItem(Graph graph) => graph.NewTrace(Index);

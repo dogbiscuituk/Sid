@@ -112,7 +112,7 @@
 
         /// <summary>
         /// The System.Linq.Expressions representation of the algebraic expression used by the
-        /// Trace. This is obtained from the Expression property by replacing all Xref tokens
+        /// Trace. This is obtained from the Expression property by replacing all "xref" tokens
         /// with calls to other Traces in the Graph.
         /// </summary>
         [JsonIgnore]
@@ -122,7 +122,7 @@
             set
             {
                 _proxy = value;
-                if (_proxy.ToString() != Expression.ToString())
+                if (_proxy != null && _proxy.ToString() != Expression.ToString())
                     SetFunc(Proxy);
                 InvalidatePaths();
             }

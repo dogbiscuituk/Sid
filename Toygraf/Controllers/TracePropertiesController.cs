@@ -308,7 +308,7 @@
             if (Trace != null)
             {
                 Updating = true;
-                TracePropertiesDialog.IndexLabel.Text = $"f{Index}";
+                TracePropertiesDialog.IndexLabel.Text = $"f{Index.ToSubscript()}";
                 TracePropertiesDialog.seIndex.Maximum = Count - 1;
                 TracePropertiesDialog.seIndex.Value = Count - Index - 1;
                 ColourController.SetColour(TracePropertiesDialog.cbPenColour, Trace.PenColour);
@@ -327,7 +327,7 @@
             KeyboardController.LoadTrace();
         }
 
-        private void UpdateIndexLabel() => TracePropertiesDialog.IndexLabel.Text = $"f{Index}";
+        private void UpdateIndexLabel() => TracePropertiesDialog.IndexLabel.Text = $"f{Index.ToSubscript()}";
         private void UpdateTexturePathLabel() => TracePropertiesDialog.lblTexturePath.Text = Trace.TexturePath.AmpersandEscape();
 
         private void UpdateUI()

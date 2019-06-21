@@ -60,7 +60,7 @@
             foreach (TraceView traceView in TraceViews)
             {
                 traceView.Location = new Point(0, top);
-                traceView.Label.Text = $"f{index++}";
+                traceView.Label.Text = $"f{index++.ToSubscript()}";
                 top += rowHeight;
             }
             var anchor = AlignToAnchor(LegendAlignment);

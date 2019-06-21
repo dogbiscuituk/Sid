@@ -103,7 +103,7 @@
 
         #region Private Match methods
 
-        private string MatchFunction() => MatchRegex(@"^[\p{Lu}\p{Ll}\d]+").ToLower();
+        private string MatchFunction() => MatchRegex($@"^[\p{{Lu}}\p{{Ll}}\d]+[{Utility.Subscripts}]*").ToLower();
         private string MatchNumber() => MatchRegex(@"^\d*\.?\d*([eE][+-]?\d+)?");
         private string MatchRegex(string pattern) => Regex.Match(Formula.Substring(Index), pattern).Value;
         private string MatchSubscript() => MatchRegex($"^[{Utility.Subscripts}]+");

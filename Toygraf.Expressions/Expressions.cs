@@ -177,7 +177,7 @@
         /// Rewrite an expression, possibly containing encoded references to other expressions in a
         /// given array. Since expressions are immutable, this is done by duplicating the original
         /// structure, and replacing any such references with similarly decoded versions of express-
-        /// ions in the original array. Cross-references have the form "Xref(index, x, t)", where
+        /// ions in the original array. Cross-references have the form "xref(index, x, t)", where
         /// "index" is the position of the referred expression in the array.
         /// </summary>
         /// <param name="e">The expression to be rewritten.</param>
@@ -194,7 +194,7 @@
             if (e is MethodCallExpression m)
             {
                 var methodName = m.Method.Name;
-                if (methodName == "Xref")
+                if (methodName == "xref")
                 {
                     var index = (int)((ConstantExpression)m.Arguments[0]).Value;
                     if (index < 0 || index >= refs.Length)
@@ -348,8 +348,8 @@
 
         public static Expression MakeFunction(this string f, Expression operand)
         {
-            f = f.ToTitleCase();
-            var match = Regex.Match(f, @"^F(\d+)$");
+            f = f.FromSubscript().ToLower();
+            var match = Regex.Match(f, @"^f(\d+)$");
             if (match.Success)
             {
                 var index = Expression.Constant(int.Parse(match.Groups[1].Value));
@@ -364,7 +364,7 @@
                     left = operand;
                     right = 0.0.Constant();
                 }
-                return Function("Xref", index, Expression.Constant(0), left, right);
+                return Function("xref", index, Expression.Constant(0), left, right);
             }
             var result = Function(f, operand);
             if (operand is ConstantExpression c)
