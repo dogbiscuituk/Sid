@@ -6,6 +6,7 @@
     using ToyGraf.Expressions.Enumerations;
 
     using System.Runtime;
+    using System.Text;
 
     public static partial class Expressions
     {
@@ -124,41 +125,41 @@
             Expression.Call(typeof(Functions).GetMethod(functionName,
                 new[] { typeof(int), typeof(int), typeof(double), typeof(double) }), index, ticks, e1, e2);
 
-        public static MethodCallExpression Abs(this Expression e) => Function("Abs", e);
-        public static MethodCallExpression Acos(this Expression e) => Function("Acos", e);
-        public static MethodCallExpression Acosh(this Expression e) => Function("Acosh", e);
-        public static MethodCallExpression Acot(this Expression e) => Function("Acot", e);
-        public static MethodCallExpression Acoth(this Expression e) => Function("Acoth", e);
-        public static MethodCallExpression Acsc(this Expression e) => Function("Acsc", e);
-        public static MethodCallExpression Acsch(this Expression e) => Function("Acsch", e);
-        public static MethodCallExpression Asec(this Expression e) => Function("Asec", e);
-        public static MethodCallExpression Asech(this Expression e) => Function("Asech", e);
-        public static MethodCallExpression Asin(this Expression e) => Function("Asin", e);
-        public static MethodCallExpression Asinh(this Expression e) => Function("Asinh", e);
-        public static MethodCallExpression Atan(this Expression e) => Function("Atan", e);
-        public static MethodCallExpression Atanh(this Expression e) => Function("Atanh", e);
-        public static MethodCallExpression Ceiling(this Expression e) => Function("Ceiling", e);
-        public static MethodCallExpression Cos(this Expression e) => Function("Cos", e);
-        public static MethodCallExpression Cosh(this Expression e) => Function("Cosh", e);
-        public static MethodCallExpression Cot(this Expression e) => Function("Cot", e);
-        public static MethodCallExpression Coth(this Expression e) => Function("Coth", e);
-        public static MethodCallExpression Csc(this Expression e) => Function("Csc", e);
-        public static MethodCallExpression Csch(this Expression e) => Function("Csch", e);
-        public static MethodCallExpression Erf(this Expression e) => Function("Erf", e);
-        public static MethodCallExpression Exp(this Expression e) => Function("Exp", e);
-        public static MethodCallExpression Floor(this Expression e) => Function("Floor", e);
-        public static MethodCallExpression Hstep(this Expression e) => Function("Hstep", e);
-        public static MethodCallExpression Log(this Expression e) => Function("Log", e);
-        public static MethodCallExpression Log10(this Expression e) => Function("Log10", e);
-        public static MethodCallExpression Round(this Expression e) => Function("Round", e);
-        public static MethodCallExpression Sec(this Expression e) => Function("Sec", e);
-        public static MethodCallExpression Sech(this Expression e) => Function("Sech", e);
-        public static MethodCallExpression Sign(this Expression e) => Function("Sign", e);
-        public static MethodCallExpression Sin(this Expression e) => Function("Sin", e);
-        public static MethodCallExpression Sinh(this Expression e) => Function("Sinh", e);
-        public static MethodCallExpression Sqrt(this Expression e) => Function("Sqrt", e);
-        public static MethodCallExpression Tan(this Expression e) => Function("Tan", e);
-        public static MethodCallExpression Tanh(this Expression e) => Function("Tanh", e);
+        public static MethodCallExpression abs(this Expression e) => Function("abs", e);
+        public static MethodCallExpression acos(this Expression e) => Function("acos", e);
+        public static MethodCallExpression acosh(this Expression e) => Function("acosh", e);
+        public static MethodCallExpression acot(this Expression e) => Function("acot", e);
+        public static MethodCallExpression acoth(this Expression e) => Function("acoth", e);
+        public static MethodCallExpression acsc(this Expression e) => Function("acsc", e);
+        public static MethodCallExpression acsch(this Expression e) => Function("acsch", e);
+        public static MethodCallExpression asec(this Expression e) => Function("asec", e);
+        public static MethodCallExpression asech(this Expression e) => Function("asech", e);
+        public static MethodCallExpression asin(this Expression e) => Function("asin", e);
+        public static MethodCallExpression asinh(this Expression e) => Function("asinh", e);
+        public static MethodCallExpression atan(this Expression e) => Function("atan", e);
+        public static MethodCallExpression atanh(this Expression e) => Function("atanh", e);
+        public static MethodCallExpression ceiling(this Expression e) => Function("ceiling", e);
+        public static MethodCallExpression cos(this Expression e) => Function("cos", e);
+        public static MethodCallExpression cosh(this Expression e) => Function("cosh", e);
+        public static MethodCallExpression cot(this Expression e) => Function("cot", e);
+        public static MethodCallExpression coth(this Expression e) => Function("coth", e);
+        public static MethodCallExpression csc(this Expression e) => Function("csc", e);
+        public static MethodCallExpression csch(this Expression e) => Function("csch", e);
+        public static MethodCallExpression erf(this Expression e) => Function("erf", e);
+        public static MethodCallExpression exp(this Expression e) => Function("exp", e);
+        public static MethodCallExpression floor(this Expression e) => Function("floor", e);
+        public static MethodCallExpression hstep(this Expression e) => Function("hstep", e);
+        public static MethodCallExpression log(this Expression e) => Function("log", e);
+        public static MethodCallExpression log10(this Expression e) => Function("log10", e);
+        public static MethodCallExpression round(this Expression e) => Function("round", e);
+        public static MethodCallExpression sec(this Expression e) => Function("sec", e);
+        public static MethodCallExpression sech(this Expression e) => Function("sech", e);
+        public static MethodCallExpression sign(this Expression e) => Function("sign", e);
+        public static MethodCallExpression sin(this Expression e) => Function("sin", e);
+        public static MethodCallExpression sinh(this Expression e) => Function("sinh", e);
+        public static MethodCallExpression sqrt(this Expression e) => Function("sqrt", e);
+        public static MethodCallExpression tan(this Expression e) => Function("tan", e);
+        public static MethodCallExpression tanh(this Expression e) => Function("tanh", e);
 
         #endregion
 
@@ -212,10 +213,10 @@
         }
 
         public static string AsString(this Expression e) => e
-            .AsString(Precedence.Assignment)
-            .Replace("+-", "-")
-            .Replace("Sqrt ", "√")
-            .Replace("Sqrt", "√");
+            ?.AsString(Precedence.Assignment)
+            ?.Replace("+-", "-")
+            ?.Replace("sqrt ", "√")
+            ?.Replace("sqrt", "√");
 
         public static string AsString(this Expression e, Precedence context)
         {
@@ -237,12 +238,25 @@
                     }
                 case MethodCallExpression me:
                     var name = me.Method.Name;
-                    var operand = me.Arguments[0].AsString(Precedence.Unary);
-                    return context <= Precedence.Unary
-                        ? operand.StartsWith("(")
-                            ? $"{name}{operand}"
-                            : $"{name} {operand}"
-                        : $"{name}({operand})";
+                    var result = new StringBuilder(name);
+                    var count = me.Arguments.Count;
+                    var group = count > 1;
+                    var precedence = group ? Precedence.Sequential : Precedence.Unary;
+                    group |= context > precedence;
+                    if (group)
+                        result.Append('(');
+                    for (var index = 0; index < count; index++)
+                    {
+                        var operand = me.Arguments[index].AsString(precedence);
+                        if (!group && !operand.StartsWith("("))
+                            result.Append(' ');
+                        result.Append(operand);
+                        if (index < count - 1)
+                            result.Append(',');
+                    }
+                    if (group)
+                        result.Append(')');
+                    return result.ToString();
                 case BinaryExpression be:
                     Expression left = be.Left, right = be.Right;
                     ExpressionType op = be.NodeType, opChild = op, opOther = ExpressionType.Multiply;
@@ -283,7 +297,7 @@
                     var condition = $"{test.AsString(pt)}?{ifSo.AsString(pt)}:{ifNot.AsString(pt)}";
                     return context <= pt ? condition : $"({condition})";
                 default:
-                    return e.ToString();
+                    return e?.ToString();
             }
         }
 
@@ -301,7 +315,7 @@
                         var ceSuper = ceFloor.ToString().ToSuperscript();
                         context = Precedence.Superscript;
                         return
-                            left is MethodCallExpression me && me.Arguments.Count == 1 && me.Method.Name != "Sqrt"
+                            left is MethodCallExpression me && me.Arguments.Count == 1 && me.Method.Name != "sqrt"
                             ? $"{me.Method.Name}{ceSuper}{me.Arguments[0].AsString(context)}"
                             : $"{left.AsString(Precedence.Superscript)}{ceSuper}";
                     }
@@ -401,7 +415,7 @@
                 case Ops.UnaryPlus:
                     return operand;
                 case Ops.SquareRoot:
-                    return MakeFunction("Sqrt", operand);
+                    return MakeFunction("sqrt", operand);
                 case Ops.CubeRoot:
                     return operand.Power(1.0 / 3.0);
                 case Ops.FourthRoot:

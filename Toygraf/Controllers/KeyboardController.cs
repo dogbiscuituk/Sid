@@ -167,8 +167,8 @@
         private void FunctionBox_Validating(object sender, CancelEventArgs e)
         {
             var comboBox = (ComboBox)sender;
-            var ok = new Parser().TryParse(comboBox.Text, out object result);
-            View.ErrorProvider.SetError(comboBox, ok ? string.Empty : result.ToString());
+            var ok = new Parser().TryParse(comboBox.Text, out _, out string error);
+            View.ErrorProvider.SetError(comboBox, ok ? string.Empty : error);
             e.Cancel = CanCancel && !ok;
         }
 

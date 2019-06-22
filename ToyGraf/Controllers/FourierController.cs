@@ -64,8 +64,8 @@
                 else
                 {
                     angle = Expressions.x.Times(k * n * Math.PI);
-                    a = k * proxy.Times(angle.Cos()).Integrate(MinimumX, MaximumX);
-                    b = k * proxy.Times(angle.Sin()).Integrate(MinimumX, MaximumX);
+                    a = k * proxy.Times(angle.cos()).Integrate(MinimumX, MaximumX);
+                    b = k * proxy.Times(angle.sin()).Integrate(MinimumX, MaximumX);
                 }
                 if (a != 0 || b != 0)
                 {
@@ -73,7 +73,7 @@
                     var φ = Math.Atan2(b, a);
                     Expression term = n == 0
                         ? (Expression)(A / 2).Constant()
-                        : A.Constant().Times(angle.Minus(φ).Cos()).Simplify();
+                        : A.Constant().Times(angle.Minus(φ).cos()).Simplify();
                     sum = sum.Plus(term).Simplify();
                     var newFormula = sum.AsString();
                     var trace = targetGraph.AddTrace();

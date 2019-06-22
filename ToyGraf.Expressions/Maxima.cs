@@ -92,8 +92,8 @@
         /// obviously it also wins on Time, by virtue of being essentially a NOP, it was promoted to
         /// ToyGraf default. Then, a number of additional integration-differentiation round-trip
         /// tests were added to the suite, and soon, the MaximaSharp default was quietly reinstated.
-        /// For example, it allows "x³*Cos(2x)" to round-trip back to itself, instead of an entirely
-        /// unweildy "((24x²-12)*Sin(2x)-2(12x²-6)*Sin(2x)+2(8x³-12x)*Cos(2x)+24x*Cos(2x))/16".
+        /// For example, it allows "x³*cos(2x)" to round-trip back to itself, instead of an entirely
+        /// unweildy "((24x²-12)*sin(2x)-2(12x²-6)*sin(2x)+2(8x³-12x)*cos(2x)+24x*cos(2x))/16".
         /// 
         /// </summary>
         public static string SimplificationFormat { get; set; } = "factor(fullratsimp(trigsimp({0})))";

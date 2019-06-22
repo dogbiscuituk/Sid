@@ -39,16 +39,18 @@
         /// <param name="result">On success, a System.Linq.Expressions.Expression equivalent to the input string.
         /// On failure, an exception (usually System.FormatException) detailing the reason for the failure.</param>
         /// <returns>True if the conversion succeeded, otherwise false.</returns>
-        public bool TryParse(string formula, out object result)
+        public bool TryParse(string formula, out Expression result, out string error)
         {
             try
             {
                 result = Parse(formula);
+                error = string.Empty;
                 return true;
             }
             catch (Exception e)
             {
-                result = e.Message;
+                result = null;
+                error = e.Message;
                 return false;
             }
         }
@@ -324,7 +326,7 @@
                                 operand = oldOp.MakeUnary(operand);
                                 break;
                             case Ops.SquareRoot:
-                                operand = "Sqrt".MakeFunction(operand);
+                                operand = "sqrt".MakeFunction(operand);
                                 break;
                             case Ops.CubeRoot:
                                 operand = operand.Power(1.0 / 3.0);

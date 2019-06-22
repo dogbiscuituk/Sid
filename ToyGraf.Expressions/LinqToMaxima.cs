@@ -4,22 +4,30 @@ namespace ToyGraf.Expressions
 {
     public static class LinqToMaxima
     {
+        #region Public Interface
+
         public static Expression FromMaxima(this string s) => s.FromMaxima("x", "t");
 
-        public static Expression FromMaxima(this string s, params string[] paramNames)
+        public static Expression FromMaxima(this string s, params string[] wrt)
         {
             var ok = new Parser().TryParse(s
                 .Replace("%e", "e")
                 .Replace("%gamma", "γ")
                 .Replace("%phi", "ϕ")
                 .Replace("%pi", "π"),
-                out object result);
-            return ok ? (Expression)result : Expressions.DefaultVoid;
+                out Expression result, out _);
+            return ok ? result : Expressions.DefaultVoid;
         }
 
-        public static string ToMaxima(this Expression e) => e.ToMaxima(new[] { "x", "t" });
+        public static string ToMaxima(this Expression e) => e.ToMaxima("x");
 
-        public static string ToMaxima(this Expression e, string[] paramNames)
+        public static string ToMaxima(this Expression e, params string[] wrt) => e.ToMax(wrt).Simplify();
+
+        #endregion
+
+        #region Private Methods
+
+        private static string ToMax(this Expression e, string[] wrt)
         {
             switch (e)
             {
@@ -31,14 +39,14 @@ namespace ToyGraf.Expressions
                     switch (ue.NodeType)
                     {
                         case ExpressionType.Negate:
-                            return $"-({ue.Operand.ToMaxima()})";
+                            return $"-({ue.Operand.ToMax(wrt)})";
                         default:
-                            return $"({ue.Operand.ToMaxima()})";
+                            return $"({ue.Operand.ToMax(wrt)})";
                     }
                 case MethodCallExpression me:
                     string
                         functionName = me.Method.Name.ToLower(),
-                        argument = me.Arguments[0].ToMaxima();
+                        argument = me.Arguments[0].ToMax(wrt);
                     switch (functionName)
                     {
                         case "exp":
@@ -49,9 +57,11 @@ namespace ToyGraf.Expressions
                             return $"{functionName}({argument})";
                     }
                 case BinaryExpression be:
-                    return $"({be.Left.ToMaxima()}){be.NodeType.AsString()}({be.Right.ToMaxima()})";
+                    return $"({be.Left.ToMax(wrt)}){be.NodeType.AsString()}({be.Right.ToMax(wrt)})";
             }
             return string.Empty;
         }
+
+        #endregion
     }
 }

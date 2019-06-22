@@ -46,8 +46,6 @@
     <Compile Include="Expressions.cs" />
     <Compile Include="Expressions.Differentiation.cs" />
     <Compile Include="Expressions.Integration.cs" />
-    <Compile Include="Expressions.Tests.Maxima.cs" />
-    <Compile Include="Expressions.Tests.Parser.cs" />
     <Compile Include="Expressions.Simplification.cs" />
     <Compile Include="Expressions.Tests.cs" />
     <Compile Include="Functions.cs" />
