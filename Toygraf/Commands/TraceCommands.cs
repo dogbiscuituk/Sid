@@ -2,6 +2,8 @@
 {
     using System.Drawing;
     using System.Drawing.Drawing2D;
+    using ToyGraf.Expressions;
+    using ToyGraf.Expressions.Enumerations;
     using ToyGraf.Models.Enumerations;
 
     partial class CommandProcessor
@@ -22,10 +24,10 @@
 
         #region bool
 
-        private class TraceVisibleCommand : TracePropertyCommand<bool>
+        private class TraceVisibleCommand : TracePropertyCommand<YN>
         {
-            public TraceVisibleCommand(int index, bool value) : base(index, "visibility",
-                value, s => s.Visible, (s, v) => s.Visible = v)
+            public TraceVisibleCommand(int index, YN value) : base(index, "visibility",
+                value, s => s.Visible.BoolToYN(), (s, v) => s.Visible = v.BoolFromYN())
             { }
         }
 

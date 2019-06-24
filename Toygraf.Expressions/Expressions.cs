@@ -4,8 +4,6 @@
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
     using ToyGraf.Expressions.Enumerations;
-
-    using System.Runtime;
     using System.Text;
 
     public static partial class Expressions

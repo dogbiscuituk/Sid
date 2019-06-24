@@ -11,6 +11,10 @@
     {
         #region Public interface
 
+        public Parser() : this(Language.ToyGraf) { }
+
+        public Parser(Language language) => Language = language;
+
         /// <summary>
         /// Convert the string representation of an expression to a System.Linq.Expressions equivalent.
         /// </summary>
@@ -70,6 +74,8 @@
             catch (Exception) { ok = false; }
             return ok;
         }
+
+        public Language Language;
 
         #endregion
 
@@ -305,17 +311,18 @@
         {
             do
             {
-                var ours = newOp.GetPrecedence();
+                var ours = GetPrecedence(newOp);
                 var oldOp = Operators.Peek();
                 if (oldOp == "(" || oldOp == "∫")
                     break;
-                var theirs = oldOp.GetPrecedence();
+                var theirs = GetPrecedence(oldOp);
                 if (ours < theirs || ours == theirs && newOp != "^" // Operator '^' is right associative: a^b^c = a^(b^c).
                     && oldOp != "?" && newOp != "?") // Conditional '?:' needs all 3 operands assembled before evaluation.
                 {
                     Operators.Pop();
                     var operand = Operands.Pop();
-                    if (theirs == Precedence.Unary)
+                    // if (theirs == Precedence.Unary)
+                    if (theirs == Precedence.Unary || oldOp == Ops.UnaryMinus)
                         switch (oldOp)
                         {
                             case Ops.UnaryPlus:
@@ -361,11 +368,13 @@
                         else
                         {
                             var left = Operands.Pop();
-                            if (oldOp.GetPrecedence() == Precedence.Relational && left.IsRelational())
-                                operand = "&".MakeBinary(left, 
+                            if (GetPrecedence(oldOp) == Precedence.Relational && left.IsRelational())
+                                operand = "&".MakeBinary(left,
                                     oldOp.MakeBinary(left.GetRightmostRelation(), operand));
                             else if (oldOp == Ops.SuperscriptPowerSwap)
                                 operand = Ops.SuperscriptPower.MakeBinary(operand, left);
+                            else if (left is ConstantExpression ce && (double)ce.Value == Math.E && oldOp == "^")
+                                operand = "exp".MakeFunction(operand);
                             else
                                 operand = oldOp.MakeBinary(left, operand);
                         }
@@ -398,17 +407,14 @@
             ReadPast(token);
         }
 
-        private void ParseSubscript(string token)
+        private void ParseScript(string token)
         {
-            Operands.Push(new Parser().Parse(token.FromSubscript()));
+            Operands.Push(new Parser().Parse(token));
             ReadPast(token);
         }
 
-        private void ParseSuperscript(string token)
-        {
-            Operands.Push(new Parser().Parse(token.FromSuperscript()));
-            ReadPast(token);
-        }
+        private void ParseSubscript(string token) => ParseScript(token.FromSubscript());
+        private void ParseSuperscript(string token) => ParseScript(token.FromSuperscript());
 
         private void ParseTick()
         {
@@ -491,6 +497,79 @@
 
         private void ReadPast(char c) => Index++;
         private void ReadPast(string token) => Index += token.Length;
+
+        #endregion
+
+        #region Private Utility methods
+
+        public Precedence GetPrecedence(string op)
+        {
+            switch (op)
+            {
+                case ")":
+                case "dx":
+                case "dt":
+                    return Precedence.Assignment;
+                case ",":
+                    return Precedence.Sequential;
+                case "?":
+                case ":":
+                    return Precedence.Ternary;
+                case "||":
+                    return Precedence.LogicalOr;
+                case "&&":
+                    return Precedence.LogicalAnd;
+                case "|":
+                    return Precedence.BitwiseOr;
+                case "&":
+                    return Precedence.BitwiseAnd;
+                case "=":
+                case "==":
+                case "≠":
+                case "<>":
+                case "!=":
+                    return Precedence.Equality;
+                case "<":
+                case ">":
+                case "≮":
+                case "≯":
+                case "≤":
+                case "≥":
+                case "<=":
+                case ">=":
+                case "≰":
+                case "≱":
+                    return Precedence.Relational;
+                case "+":
+                case "-":
+                    return Precedence.Additive;
+                case "*":
+                case "×":
+                case "/":
+                case "÷":
+                    return Precedence.Multiplicative;
+                case "^":
+                    return Precedence.Exponential;
+                case Ops.ImpliedProduct:
+                    return Precedence.Implied;
+                case "'":
+                    return Precedence.Postfix;
+                case Ops.SuperscriptPower:
+                case Ops.SuperscriptPowerSwap:
+                    return Precedence.Superscript;
+                case "⁄": // Unicode Fraction Slash (U+2044)
+                    return Precedence.Fraction;
+                case Ops.UnaryMinus:
+                    switch (Language)
+                    {
+                        case Language.ToyGraf:
+                            return Precedence.Unary;
+                        default:
+                            return Precedence.Additive;
+                    }
+            }
+            return Precedence.Unary;
+        }
 
         #endregion
     }

@@ -1,7 +1,8 @@
-﻿using System.Linq.Expressions;
-
-namespace ToyGraf.Expressions
+﻿namespace ToyGraf.Expressions
 {
+    using System.Linq.Expressions;
+    using ToyGraf.Expressions.Enumerations;
+
     public static class LinqToMaxima
     {
         #region Public Interface
@@ -10,7 +11,7 @@ namespace ToyGraf.Expressions
 
         public static Expression FromMaxima(this string s, params string[] wrt)
         {
-            var ok = new Parser().TryParse(s
+            var ok = new Parser(Language.Maxima).TryParse(s
                 .Replace("%e", "e")
                 .Replace("%gamma", "γ")
                 .Replace("%phi", "ϕ")
@@ -49,8 +50,8 @@ namespace ToyGraf.Expressions
                         argument = me.Arguments[0].ToMax(wrt);
                     switch (functionName)
                     {
-                        case "exp":
-                            return $"%e^({argument})";
+                        //case "exp":
+                        //    return $"%e^({argument})";
                         case "log10":
                             return $"(log({argument})/log(10))";
                         default:

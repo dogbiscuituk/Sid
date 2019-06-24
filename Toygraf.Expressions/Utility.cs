@@ -95,6 +95,11 @@
 
         #region Enums
 
+        public static AngleUnit BoolDegreesToAngleUnit(this bool value) => value ? AngleUnit.Degrees : AngleUnit.Radians;
+        public static bool BoolDegreesFromAngleUnit(this AngleUnit angleUnit) => angleUnit == AngleUnit.Degrees;
+        public static YN BoolToYN(this bool value) => value ? YN.Yes : YN.No;
+        public static bool BoolFromYN(this YN yn) => yn == YN.Yes;
+
         public static void PopulateWithDescriptions(this IList list, Type enumType)
         {
             list.Clear();
@@ -325,67 +330,6 @@
                     return (1 + Math.Sqrt(5)) / 2; // Golden ratio.
             }
             return 0;
-        }
-
-        public static Precedence GetPrecedence(this string op)
-        {
-            switch (op)
-            {
-                case ")":
-                case "dx":
-                case "dt":
-                    return Precedence.Assignment;
-                case ",":
-                    return Precedence.Sequential;
-                case "?":
-                case ":":
-                    return Precedence.Ternary;
-                case "||":
-                    return Precedence.LogicalOr;
-                case "&&":
-                    return Precedence.LogicalAnd;
-                case "|":
-                    return Precedence.BitwiseOr;
-                case "&":
-                    return Precedence.BitwiseAnd;
-                case "=":
-                case "==":
-                case "≠":
-                case "<>":
-                case "!=":
-                    return Precedence.Equality;
-                case "<":
-                case ">":
-                case "≮":
-                case "≯":
-                case "≤":
-                case "≥":
-                case "<=":
-                case ">=":
-                case "≰":
-                case "≱":
-                    return Precedence.Relational;
-                case "+":
-                case "-":
-                    return Precedence.Additive;
-                case "*":
-                case "×":
-                case "/":
-                case "÷":
-                    return Precedence.Multiplicative;
-                case "^":
-                    return Precedence.Exponential;
-                case Ops.ImpliedProduct:
-                    return Precedence.Implied;
-                case "'":
-                    return Precedence.Postfix;
-                case Ops.SuperscriptPower:
-                case Ops.SuperscriptPowerSwap:
-                    return Precedence.Superscript;
-                case "⁄": // Unicode Fraction Slash (U+2044)
-                    return Precedence.Fraction;
-            }
-            return Precedence.Unary;
         }
 
         /// <summary>

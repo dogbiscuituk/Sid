@@ -1,6 +1,8 @@
 ﻿namespace ToyGraf.Commands
 {
     using System.Drawing;
+    using ToyGraf.Expressions;
+    using ToyGraf.Expressions.Enumerations;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Models.Structs;
 
@@ -8,17 +10,21 @@
     {
         #region bool
 
-        private class GraphDomainGraphWidthCommand : GraphPropertyCommand<bool>
+        private class GraphDomainGraphWidthCommand : GraphPropertyCommand<YN>
         {
-            public GraphDomainGraphWidthCommand(bool value) : base("unlimited domain",
-                value, g => g.DomainGraphWidth, (g, v) => g.DomainGraphWidth = v)
+            public GraphDomainGraphWidthCommand(YN value) : base("unlimited domain",
+                value,
+                g => g.DomainGraphWidth.BoolToYN(),
+                (g, v) => g.DomainGraphWidth = v.BoolFromYN())
             { }
         }
 
-        private class GraphDomainPolarDegreesCommand : GraphPropertyCommand<bool>
+        private class GraphDomainAngleUnitCommand : GraphPropertyCommand<AngleUnit>
         {
-            public GraphDomainPolarDegreesCommand(bool value) : base("polar domain in degrees",
-                value, g => g.DomainPolarDegrees, (g, v) => g.DomainPolarDegrees = v)
+            public GraphDomainAngleUnitCommand(AngleUnit value) : base("polar domain unit",
+                value,
+                g => g.DomainPolarDegrees.BoolDegreesToAngleUnit(),
+                (g, v) => g.DomainPolarDegrees = v.BoolDegreesFromAngleUnit())
             { }
         }
 

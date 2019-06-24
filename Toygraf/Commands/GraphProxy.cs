@@ -6,6 +6,8 @@
     using System.Drawing.Design;
     using System.Linq;
     using ToyGraf.Controls;
+    using ToyGraf.Expressions;
+    using ToyGraf.Expressions.Enumerations;
     using ToyGraf.Models;
     using ToyGraf.Models.Enumerations;
 
@@ -58,12 +60,12 @@
         }
 
         [Category("Domain")]
-        [DefaultValue(true)]
-        [Description("If true, Cartesian plots will try to use the graph display width as the domain, ignoring any other settings.")]
+        [DefaultValue(typeof(YN), "Yes")]
+        [Description("If Yes, Cartesian plots will try to use the graph display width as the domain, ignoring any other settings.")]
         [DisplayName("Use graph width?")]
-        public bool DomainGraphWidth
+        public YN DomainGraphWidth
         {
-            get => Graph.DomainGraphWidth;
+            get => Graph.DomainGraphWidth.BoolToYN();
             set => Run(new GraphDomainGraphWidthCommand(value));
         }
 
@@ -108,13 +110,13 @@
         }
 
         [Category("Domain")]
-        [DefaultValue(true)]
-        [Description("If true, the domain of a polar plot is shown in degrees; otherwise, it is shown in radians.")]
-        [DisplayName("Polar in degrees?")]
-        public bool DomainPolarDegrees
+        [DefaultValue(typeof(AngleUnit), "Degrees")]
+        [Description("If Degrees, the domain of a polar plot is shown in degrees; if Radians, it is shown in radians.")]
+        [DisplayName("Polar angle unit")]
+        public AngleUnit DomainPolarDegrees
         {
-            get => Graph.DomainPolarDegrees;
-            set => Run(new GraphDomainPolarDegreesCommand(value));
+            get => Graph.DomainPolarDegrees.BoolDegreesToAngleUnit();
+            set => Run(new GraphDomainAngleUnitCommand(value));
         }
 
         [Category("Style")]

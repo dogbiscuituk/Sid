@@ -2,6 +2,7 @@
 {
     using System.Diagnostics;
     using System.Linq.Expressions;
+    using ToyGraf.Expressions.Enumerations;
 
     partial class Expressions
     {
@@ -10,9 +11,16 @@
         public static void TestAll()
         {
             Maxima.DebugOn();
-            TestDiffFunctions();
-            TestDiffPolynomials();
-            TestIntegrateFunctions();
+
+            //TestIntegrate("csch x", "log(tanh(x/2))", TestType.OneWay);
+
+            //TestIntegrate("csch x", "-(log exp -(x*(exp x+1))-log -exp -(x*(exp x-1)))", TestType.OneWay);
+            //TestIntegrate("csch x", " log abs tanh(x/2)");
+
+            // TestParsers();
+            //TestDiffFunctions();
+            //TestDiffPolynomials();
+            //TestIntegrateFunctions();
             Maxima.DebugOff();
         }
 
@@ -63,7 +71,7 @@
             TestDiff("coth x", "-1/sinh²x");
             TestDiff("csc x", "-cos x/sin²x");
             TestDiff("csch x", "-cosh x/sinh²x");
-            //TestDiff("exp x", "0");
+            TestDiff("exp x", "exp x");
             //TestDiff("floor x", "default(Void)");
             //TestDiff("hstep x", "default(Void)");
             TestDiff("log x", "1/x");
@@ -94,13 +102,13 @@
             TestDiff("x⁶+6x⁵+15x⁴+20x³+15x²+6x+1", "6x⁵+30x⁴+60x³+60x²+30x+6");
         }
 
-        private static void TestIntegrate(string source, string expected, bool roundTrip = true)
+        private static void TestIntegrate(string source, string expected, TestType testType = TestType.RoundTrip)
         {
             var e_source = Parser.Parse(source);
             var integral = e_source.Integrate();
             var actual = integral.AsString();
             Check($"∫{source} dx", expected, actual);
-            if (roundTrip)
+            if (testType == TestType.RoundTrip)
                 TestDiff(source: actual, expected: source);
         }
 
@@ -120,20 +128,20 @@
             TestIntegrate("asinh x", "x*asinh x-√(x²+1)");
             TestIntegrate("atan x", "-(log(x²+1)-2x*atan x)/2");
             TestIntegrate("atanh x", "(log(1-x²)+2x*atanh x)/2");
-            TestIntegrate("ceiling x", "-ceiling x*(ceiling x-2x-1)/2", false);
+            TestIntegrate("ceiling x", "-ceiling x*(ceiling x-2x-1)/2", TestType.OneWay);
             TestIntegrate("cos x", "sin x");
             TestIntegrate("cosh x", "sinh x");
             TestIntegrate("cot x", "log sin x");
             TestIntegrate("coth x", "log sinh x");
-            TestIntegrate("csc x", "-(log(cos x+1)-log(cos x-1))/2", false);
-            //TestIntegrate("csch x", "0");
+            TestIntegrate("csc x", "-(log(cos x+1)-log(cos x-1))/2", TestType.OneWay);
+            TestIntegrate("csch x", "0");
             //TestIntegrate("exp x", "0");
-            TestIntegrate("floor x", "-floor x*(floor x-2x+1)/2", false);
+            TestIntegrate("floor x", "-floor x*(floor x-2x+1)/2", TestType.OneWay);
             //TestIntegrate("hstep x", "0");
             TestIntegrate("log x", "x*(log x-1)");
             //TestIntegrate("log10 x", "0");
             //TestIntegrate("round x", "0", false);
-            TestIntegrate("sec x", "(log(sin x+1)-log(sin x-1))/2", false);
+            TestIntegrate("sec x", "(log(sin x+1)-log(sin x-1))/2", TestType.OneWay);
             //TestIntegrate("sech x", "0");
             //TestIntegrate("sign x", "0");
             TestIntegrate("sin x", "-cos x");
@@ -141,6 +149,20 @@
             TestIntegrate("sqrt x", "2(x^(3/2))/3");
             TestIntegrate("tan x", "-log cos x");
             TestIntegrate("tanh x", "log cosh x");
+        }
+
+        private static void TestParse(string source, string expected, Language language = Language.ToyGraf)
+        {
+            Parser.Language = language;
+            var actual = Parser.Parse(source).Simplify().AsString();
+            Parser.Language = Language.ToyGraf;
+            Check(source, expected, actual);
+        }
+
+        private static void TestParsers()
+        {
+            TestParse("-2^2", "4");
+            TestParse("-2^2", "-4", Language.Maxima);
         }
 
         #endregion

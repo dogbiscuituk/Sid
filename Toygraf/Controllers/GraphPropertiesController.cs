@@ -110,7 +110,7 @@
             var domainGraphWidth = View.cbDomainGraphWidth.Checked;
             View.seDomainMinCartesian.Enabled = View.seDomainMaxCartesian.Enabled = !domainGraphWidth;
             if (!Updating)
-                CommandProcessor.DomainGraphWidth = domainGraphWidth;
+                CommandProcessor.DomainGraphWidth = domainGraphWidth.BoolToYN();
         }
 
         private void DomainMaxCartesianChanged(object sender, EventArgs e)
@@ -140,7 +140,7 @@
         private void DomainPolarDegreesChanged(object sender, EventArgs e)
         {
             if (!Updating)
-                CommandProcessor.DomainPolarDegrees = View.rbDegrees.Checked;
+                CommandProcessor.DomainPolarDegrees = View.rbDegrees.Checked.BoolDegreesToAngleUnit();
         }
 
         private void FillColourChanged(object sender, EventArgs e)

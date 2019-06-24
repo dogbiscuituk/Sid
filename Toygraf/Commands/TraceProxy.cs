@@ -7,6 +7,7 @@
     using System.Drawing.Drawing2D;
     using ToyGraf.Controls;
     using ToyGraf.Expressions;
+    using ToyGraf.Expressions.Enumerations;
     using ToyGraf.Models;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Models.Interfaces;
@@ -198,13 +199,20 @@
                 set => Run(new TraceTitleCommand(Index, value));
             }
 
-            [Category("Trace")]
-            [DefaultValue(true)]
-            [Description("Take a wild guess.")]
-            [DisplayName("Visible?")]
+            [Browsable(false)]
             public bool Visible
             {
                 get => Trace.Visible;
+                set => IsVisible = value.BoolToYN();
+            }
+
+            [Category("Trace")]
+            [DefaultValue(typeof(YN), "Yes")]
+            [Description("Take a wild guess.")]
+            [DisplayName("Visible?")]
+            public YN IsVisible
+            {
+                get => Visible.BoolToYN();
                 set => Run(new TraceVisibleCommand(Index, value));
             }
 
