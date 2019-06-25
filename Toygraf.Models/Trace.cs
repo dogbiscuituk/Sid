@@ -33,6 +33,20 @@
 
         #region Visual Properties
 
+        private Interpolation _interpolation;
+        public Interpolation Interpolation
+        {
+            get => _interpolation;
+            set
+            {
+                if (Interpolation != value)
+                {
+                    _interpolation = value;
+                    OnPropertyChanged("Interpolation");
+                }
+            }
+        }
+
         private bool _selected;
         public bool Selected
         {
@@ -167,7 +181,7 @@
         // All drawing must take place on the main Windows UI thread, and no time
         // is saved by multithreading the ComputePointsAsync() point computations.
         public async void DrawAsync(Graphics g, DomainInfo domainInfo, Viewport viewport,
-            float penWidth, bool fill, double time, PlotType plotType, Interpolation interpolation)
+            float penWidth, bool fill, double time, PlotType plotType)
         {
             if (Func == null
                 || LastDomainInfo != domainInfo
@@ -191,13 +205,13 @@
                 usePaths = FillPaths.Any();
                 using (var pen = new Pen(LimitColour, penWidth) { DashStyle = DashStyle.Dash })
                 using (var brush = CreateBrush(g.Transform))
-                    PointLists.ForEach(p => FillSection(g, brush, plotType, interpolation, p, usePaths));
+                    PointLists.ForEach(p => FillSection(g, brush, plotType, p, usePaths));
             }
             else
             {
                 usePaths = DrawPaths.Any();
                 using (var pen = new Pen(PenColour, PenWidth * penWidth) { DashStyle = PenStyle })
-                    PointLists.ForEach(p => DrawSection(g, pen, interpolation, p, usePaths));
+                    PointLists.ForEach(p => DrawSection(g, pen, p, usePaths));
             }
             if (DrawPaths.Any() && FillPaths.Any())
                 InvalidatePoints();
@@ -246,13 +260,11 @@
             return new SolidBrush(paint1);
         }
 
-        private void DrawSection(Graphics g, Pen pen, Interpolation interpolation,
-            List<PointF> points, bool usePaths) =>
-            new Plotter(g, FillMode, interpolation, points, DrawPaths, usePaths).Draw(pen);
+        private void DrawSection(Graphics g, Pen pen, List<PointF> points, bool usePaths) =>
+            new Plotter(g, FillMode, Interpolation, points, DrawPaths, usePaths).Draw(pen);
 
-        private void FillSection(Graphics g, Brush brush, PlotType plotType, Interpolation interpolation,
-            List<PointF> points, bool usePaths) =>
-            new Plotter(g, FillMode, interpolation, points, FillPaths, usePaths).Fill(brush, plotType);
+        private void FillSection(Graphics g, Brush brush, PlotType plotType, List<PointF> points, bool usePaths) =>
+            new Plotter(g, FillMode, Interpolation, points, FillPaths, usePaths).Fill(brush, plotType);
 
         private Task<List<List<PointF>>> ComputePointsAsync(
             DomainInfo domainInfo, Viewport viewport, double time, bool polar)
@@ -359,6 +371,7 @@
         private void RestoreDefaults()
         {
             _formula = Defaults.TraceFormula;
+            _interpolation = Defaults.TraceInterpolation;
             _visible = Defaults.TraceVisible;
         }
 

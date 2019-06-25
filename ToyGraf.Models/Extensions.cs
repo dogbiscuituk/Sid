@@ -54,6 +54,7 @@
         {
             ((IStyle)source).CopyTo(target);
             target.Formula = source.Formula;
+            target.Interpolation = source.Interpolation;
             target.Visible = source.Visible;
         }
     }

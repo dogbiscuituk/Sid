@@ -56,7 +56,8 @@
             StyleHatchStyle = HatchStyle.Horizontal;
 
         public const Interpolation
-            GraphInterpolation = Interpolation.Linear;
+            GraphInterpolation = Interpolation.Linear,
+            TraceInterpolation = Interpolation.Linear;
 
         public const LinearGradientMode
             StyleGradientMode = LinearGradientMode.Horizontal;

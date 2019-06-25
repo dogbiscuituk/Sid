@@ -501,7 +501,7 @@
             Traces.ForEach(s =>
             {
                 if (CanDraw(s))
-                    s.DrawAsync(g, DomainInfo, Viewport, penWidth, true, time, PlotType, Interpolation);
+                    s.DrawAsync(g, DomainInfo, Viewport, penWidth, true, time, PlotType);
             });
             ValidateReticle(g, r, penWidth);
             using (var m = g.Transform)
@@ -517,7 +517,7 @@
             Traces.ForEach(s =>
             {
                 if (CanDraw(s))
-                    s.DrawAsync(g, DomainInfo, Viewport, penWidth, false, time, PlotType, Interpolation);
+                    s.DrawAsync(g, DomainInfo, Viewport, penWidth, false, time, PlotType);
             });
         }
 

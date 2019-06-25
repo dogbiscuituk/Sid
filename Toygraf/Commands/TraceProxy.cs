@@ -122,6 +122,16 @@
                 set => Run(new TraceHatchStyleCommand(Index, value));
             }
 
+            [Category("Style")]
+            [DefaultValue(typeof(Interpolation), "Linear")]
+            [Description("Traces are drawn and filled by joining up the computed points, using either straight lines (\"Linear\"), or cubic curves (\"CardinalSpline\").")]
+            [DisplayName("Interpolation")]
+            public Interpolation Interpolation
+            {
+                get => Trace.Interpolation;
+                set => Run(new TraceInterpolationCommand(Index, value));
+            }
+
             [Category("Colour")]
             [DefaultValue(typeof(Color), "DarkGray")]
             [Description("The default colour used by the trace to draw asymptotes.")]

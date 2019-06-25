@@ -95,6 +95,13 @@
             { }
         }
 
+        private class TraceInterpolationCommand : TracePropertyCommand<Interpolation>
+        {
+            public TraceInterpolationCommand(int index, Interpolation value) : base(index, "interpolation",
+                value, s => s.Interpolation, (s, v) => s.Interpolation = v)
+            { }
+        }
+       
         private class TracePenStyleCommand : TracePropertyCommand<DashStyle>
         {
             public TracePenStyleCommand(int index, DashStyle value) : base(index, "pen type",
