@@ -81,7 +81,7 @@
 
         private void PlotPointsPartial(IEnumerable<PointF> points)
         {
-            var p = points.ToArray();
+            var p = GetPointsArray(points);
             var path = new GraphicsPath(FillMode);
             if (Interpolation == Interpolation.Linear)
                 path.AddLines(p);
@@ -136,6 +136,31 @@
             catch (OverflowException)
             {
                 return false;
+            }
+        }
+
+        private PointF[] GetPointsArray(IEnumerable<PointF> points)
+        {
+            switch (Interpolation)
+            {
+                case Interpolation.Linear:
+                    // Inspect every group of 3 adjacent points,
+                    // and if their Y coordinates are all equal,
+                    // remove the middle point from the list.
+                    var list = new List<PointF>(points.Take(2));
+                    float y0 = list[0].Y, y1 = list[1].Y;
+                    foreach (var p in points.Skip(2))
+                        if (p.Y == y1 && y1 == y0)
+                            list[list.Count - 1] = p;
+                        else
+                        {
+                            list.Add(p);
+                            y0 = y1;
+                            y1 = p.Y;
+                        }
+                    return list.ToArray();
+                default:
+                    return points.ToArray();
             }
         }
 

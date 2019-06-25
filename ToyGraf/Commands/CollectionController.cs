@@ -62,7 +62,6 @@
             {
                 if (e.DialogResult == DialogResult.OK)
                 {
-                    var result = e.Value;
                     if (e.Value is List<StyleProxy> styleProxies)
                         ProcessStyles(styleProxies);
                     else if (e.Value is List<TraceProxy> traceProxies)
@@ -87,7 +86,8 @@
                     var propertyGrid = form.Controls.Find("propertyBrowser", true)?[0] as PropertyGrid;
                     PropertyTableController.HidePropertyPagesButton(propertyGrid);
                     propertyGrid.HelpVisible = true;
-                    TraceCounter = Graph.Traces.Count;
+                    if (Graph != null)
+                        TraceCounter = Graph.Traces.Count;
                 }
             }
 
@@ -102,7 +102,7 @@
                 GraphController.InitTextureDialog(e.OpenFileDialog);
 
             private CommandProcessor CommandProcessor;
-            private Graph Graph => CommandProcessor.Graph;
+            private Graph Graph => CommandProcessor?.Graph;
         }
 
         private static CollectionController TheCollectionController = new CollectionController();

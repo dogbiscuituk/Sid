@@ -26,6 +26,8 @@
         {
             var trace = new Trace();
             trace.CopyFrom(this);
+            trace.DrawPaths = DrawPaths;
+            trace.FillPaths = FillPaths;
             return trace;
         }
 
@@ -157,7 +159,7 @@
         #region Drawing
 
         private List<List<PointF>> PointLists = new List<List<PointF>>();
-        public readonly List<GraphicsPath>
+        public List<GraphicsPath>
             DrawPaths = new List<GraphicsPath>(),
             FillPaths = new List<GraphicsPath>();
 
