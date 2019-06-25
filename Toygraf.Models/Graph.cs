@@ -501,7 +501,7 @@
             Traces.ForEach(s =>
             {
                 if (CanDraw(s))
-                    s.DrawAsync(g, DomainInfo, Viewport, penWidth, true, time, PlotType);
+                    s.DrawAsync(g, DomainInfo, Viewport, penWidth, Phase.Fill, time, PlotType);
             });
             ValidateReticle(g, r, penWidth);
             using (var m = g.Transform)
@@ -517,7 +517,7 @@
             Traces.ForEach(s =>
             {
                 if (CanDraw(s))
-                    s.DrawAsync(g, DomainInfo, Viewport, penWidth, false, time, PlotType);
+                    s.DrawAsync(g, DomainInfo, Viewport, penWidth, Phase.Draw, time, PlotType);
             });
         }
 
@@ -566,7 +566,7 @@
         }
 
         public void InvalidateReticle() { DisposeReticle(); Labels.Clear(); }
-        private void InvalidatePoints() => Traces.ForEach(p => p.InvalidatePaths());
+        private void InvalidatePoints() => Traces.ForEach(p => p.InvalidatePoints());
         public void InvalidateProxies() => _proxiesValid = false;
 
         private void ValidateReticle(Graphics g, Rectangle r, float penWidth)

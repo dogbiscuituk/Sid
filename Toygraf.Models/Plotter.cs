@@ -11,28 +11,25 @@
     {
         #region Public Interface
 
-        public Plotter(Graphics g, FillMode fillMode, Interpolation interpolation,
-            List<PointF> points, List<GraphicsPath> drawPaths, bool usePaths)
+        public Plotter(Graphics g, FillMode fillMode, Interpolation interpolation, List<PointF> points)
         {
             Graphics = g;
             FillMode = fillMode;
             Interpolation = interpolation;
             Points = points;
-            Paths = drawPaths;
-            UsePaths = usePaths;
         }
 
         public void Draw(Pen pen)
         {
             Pen = pen;
-            Plot(false);
+            Plot(Phase.Draw);
         }
 
         public void Fill(Brush brush, PlotType plotType)
         {
             Brush = brush;
             PlotType = plotType;
-            Plot(true);
+            Plot(Phase.Fill);
         }
 
         #endregion
@@ -40,37 +37,36 @@
         #region Private Properties
 
         private Brush Brush;
-        private bool Filling;
         private Pen Pen;
+        private Phase Phase;
         private PlotType PlotType;
 
         private readonly FillMode FillMode;
         private readonly Graphics Graphics;
         private readonly Interpolation Interpolation;
-        private readonly List<GraphicsPath> Paths;
         private readonly List<PointF> Points;
-        private readonly bool UsePaths;
 
         #endregion
 
         #region Private Methods
 
-        private void Plot(bool filling)
+        private void Plot(Phase phase)
         {
-            Filling = filling;
-            if (UsePaths)
-                foreach (var path in Paths)
-                    PlotPath(path);
-            else
-                PlotPoints(Points);
+            Phase = phase;
+            PlotPoints(Points);
         }
 
         private void PlotPath(GraphicsPath path)
         {
-            if (Filling)
-                Graphics.FillPath(Brush, path);
-            else
-                Graphics.DrawPath(Pen, path);
+            switch (Phase)
+            {
+                case Phase.Fill:
+                    Graphics.FillPath(Brush, path);
+                    break;
+                case Phase.Draw:
+                    Graphics.DrawPath(Pen, path);
+                    break;
+            }
         }
 
         private void PlotPoints(IEnumerable<PointF> points)
@@ -81,14 +77,13 @@
 
         private void PlotPointsPartial(IEnumerable<PointF> points)
         {
-            var p = GetPointsArray(points);
+            var p = points.ToArray();
             var path = new GraphicsPath(FillMode);
             if (Interpolation == Interpolation.Linear)
                 path.AddLines(p);
             else
                 path.AddCurve(p);
             PlotPath(path);
-            Paths.Add(path);
         }
 
         private void PlotPointsSplit(IEnumerable<PointF> points)
@@ -111,23 +106,26 @@
 
         private bool TryPlotPointsPartial(IEnumerable<PointF> points)
         {
-            PointF[] p;
-            if (Filling)
+            PointF[] p = null;
+            switch (Phase)
             {
-                var n = points.Count();
-                p = new PointF[n + 2];
-                points.ToList().CopyTo(p, 1);
-                float x1 = 0, x2 = 0;
-                if (PlotType == PlotType.Cartesian)
-                {
-                    x1 = p[1].X;
-                    x2 = p[n].X;
-                }
-                p[0] = new PointF(x1, 0);
-                p[++n] = new PointF(x2, 0);
+                case Phase.Fill:
+                    var n = points.Count();
+                    p = new PointF[n + 2];
+                    points.ToList().CopyTo(p, 1);
+                    float x1 = 0, x2 = 0;
+                    if (PlotType == PlotType.Cartesian)
+                    {
+                        x1 = p[1].X;
+                        x2 = p[n].X;
+                    }
+                    p[0] = new PointF(x1, 0);
+                    p[++n] = new PointF(x2, 0);
+                    break;
+                case Phase.Draw:
+                    p = points.ToArray();
+                    break;
             }
-            else
-                p = points.ToArray();
             try
             {
                 PlotPointsPartial(p);
@@ -136,31 +134,6 @@
             catch (OverflowException)
             {
                 return false;
-            }
-        }
-
-        private PointF[] GetPointsArray(IEnumerable<PointF> points)
-        {
-            switch (Interpolation)
-            {
-                case Interpolation.Linear:
-                    // Inspect every group of 3 adjacent points,
-                    // and if their Y coordinates are all equal,
-                    // remove the middle point from the list.
-                    var list = new List<PointF>(points.Take(2));
-                    float y0 = list[0].Y, y1 = list[1].Y;
-                    foreach (var p in points.Skip(2))
-                        if (p.Y == y1 && y1 == y0)
-                            list[list.Count - 1] = p;
-                        else
-                        {
-                            list.Add(p);
-                            y0 = y1;
-                            y1 = p.Y;
-                        }
-                    return list.ToArray();
-                default:
-                    return points.ToArray();
             }
         }
 

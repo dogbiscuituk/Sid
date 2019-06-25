@@ -26,8 +26,7 @@
         {
             var trace = new Trace();
             trace.CopyFrom(this);
-            trace.DrawPaths = DrawPaths;
-            trace.FillPaths = FillPaths;
+            trace.PointLists = PointLists;
             return trace;
         }
 
@@ -140,7 +139,7 @@
                 _proxy = value;
                 if (_proxy != null && _proxy.ToString() != Expression.ToString())
                     SetFunc(Proxy);
-                InvalidatePaths();
+                InvalidatePoints();
             }
         }
 
@@ -172,17 +171,16 @@
 
         #region Drawing
 
-        private List<List<PointF>> PointLists = new List<List<PointF>>();
-        public List<GraphicsPath>
-            DrawPaths = new List<GraphicsPath>(),
-            FillPaths = new List<GraphicsPath>();
+        public List<List<PointF>> PointLists = new List<List<PointF>>();
 
         // Method DrawAsync is made asynchronous purely as a programming exercise.
         // All drawing must take place on the main Windows UI thread, and no time
         // is saved by multithreading the ComputePointsAsync() point computations.
         public async void DrawAsync(Graphics g, DomainInfo domainInfo, Viewport viewport,
-            float penWidth, bool fill, double time, PlotType plotType)
+            float penWidth, Phase phase, double time, PlotType plotType)
         {
+            if (phase == Phase.Fill && BrushIsTransparent())
+                return;
             if (Func == null
                 || LastDomainInfo != domainInfo
                 || Viewport != viewport
@@ -190,7 +188,7 @@
                 || LastPlotType != plotType
                 || !PointLists.Any())
             {
-                InvalidatePaths();
+                InvalidatePoints();
                 LastDomainInfo = domainInfo;
                 Viewport = viewport;
                 LastTime = time;
@@ -199,22 +197,36 @@
                 PointLists.AddRange(pointLists);
                 pointLists.Clear();
             }
-            bool usePaths;
-            if (fill)
+            switch (phase)
             {
-                usePaths = FillPaths.Any();
-                using (var pen = new Pen(LimitColour, penWidth) { DashStyle = DashStyle.Dash })
-                using (var brush = CreateBrush(g.Transform))
-                    PointLists.ForEach(p => FillSection(g, brush, plotType, p, usePaths));
+                case Phase.Fill:
+                    //using (var pen = new Pen(LimitColour, penWidth) { DashStyle = DashStyle.Dash })
+                    using (var brush = CreateBrush(g.Transform))
+                        PointLists.ForEach(p => FillSection(g, brush, plotType, p));
+                    break;
+                case Phase.Draw:
+                    using (var pen = new Pen(PenColour, PenWidth * penWidth) { DashStyle = PenStyle })
+                        PointLists.ForEach(p => DrawSection(g, pen, p));
+                    break;
             }
-            else
+        }
+
+        private bool BrushIsTransparent()
+        {
+            if (FillTransparencyPercent == 100)
+                return true;
+            switch (BrushType)
             {
-                usePaths = DrawPaths.Any();
-                using (var pen = new Pen(PenColour, PenWidth * penWidth) { DashStyle = PenStyle })
-                    PointLists.ForEach(p => DrawSection(g, pen, p, usePaths));
+                case BrushType.Solid:
+                    return FillColour1.A == 0;
+                case BrushType.Hatch:
+                case BrushType.LinearGradient:
+                case BrushType.PathGradient:
+                    return FillColour1.A == 0 && FillColour2.A== 0;
+                case BrushType.Texture:
+                    return string.IsNullOrWhiteSpace(Texture);
             }
-            if (DrawPaths.Any() && FillPaths.Any())
-                InvalidatePoints();
+            return false;
         }
 
         private Brush CreateBrush(Matrix m)
@@ -260,23 +272,22 @@
             return new SolidBrush(paint1);
         }
 
-        private void DrawSection(Graphics g, Pen pen, List<PointF> points, bool usePaths) =>
-            new Plotter(g, FillMode, Interpolation, points, DrawPaths, usePaths).Draw(pen);
+        private void DrawSection(Graphics g, Pen pen, List<PointF> points) =>
+            new Plotter(g, FillMode, Interpolation, points).Draw(pen);
 
-        private void FillSection(Graphics g, Brush brush, PlotType plotType, List<PointF> points, bool usePaths) =>
-            new Plotter(g, FillMode, Interpolation, points, FillPaths, usePaths).Fill(brush, plotType);
+        private void FillSection(Graphics g, Brush brush, PlotType plotType, List<PointF> points) =>
+            new Plotter(g, FillMode, Interpolation, points).Fill(brush, plotType);
 
         private Task<List<List<PointF>>> ComputePointsAsync(
             DomainInfo domainInfo, Viewport viewport, double time, bool polar)
         {
-            var r = viewport.Boundary;
-            float
-                xmin = r.Left,
-                ymin = r.Top,
-                xmax = r.Right,
-                ymax = r.Bottom;
             var result = new List<List<PointF>>();
-            List<PointF> points = null;
+            var bounds = viewport.Boundary;
+            float
+                xmin = bounds.Left,
+                ymin = bounds.Top,
+                xmax = bounds.Right,
+                ymax = bounds.Bottom;
             var domain = GetDomain(domainInfo, viewport, polar);
             var start = domain.Item1;
             var finish = domain.Item2;
@@ -284,6 +295,7 @@
             double dx = step;
             var previousPoint = PointF.Empty;
             var skip = true;
+            List<PointF> list = null;
             for (double x = start; x <= finish; x += dx)
             {
                 var slope = Derivative(x, time);
@@ -305,18 +317,22 @@
                         if (skip)
                         {
                             skip = false;
-                            points = new List<PointF>();
-                            result.Add(points);
+                            list = new List<PointF>();
+                            result.Add(list);
                         }
                         if (q.X < xmin) q.X = xmin; else if (q.X > xmax) q.X = xmax;
                         if (q.Y < ymin) q.Y = ymin; else if (q.Y > ymax) q.Y = ymax;
-                        points.Add(q);
+                        list.Add(q);
                     }
                 }
                 dx = IsValid(slope) ? step / Math.Min(Math.Sqrt(1 + slope * slope), 10) : step;
             }
             // Every segment of the trace must include at least 2 points.
             result.RemoveAll(p => p.Count < 2);
+            // Remove any redundant points.
+            if (Interpolation == Interpolation.Linear)
+                result = result.Select(p => Pare(p)).ToList();
+            // Done.
             return Task.FromResult(result);
         }
 
@@ -356,16 +372,29 @@
             yield return p;
         }
 
-        public void InvalidatePaths()
-        {
-            InvalidatePoints();
-            DrawPaths.Clear();
-            FillPaths.Clear();
-        }
-
-        private void InvalidatePoints()
+        public void InvalidatePoints()
         {
             PointLists.Clear();
+        }
+
+        private static List<PointF> Pare(List<PointF> list)
+        {
+            // Inspect every group of 3 adjacent points,
+            // and if collinear, remove the middle one.
+            var result = new List<PointF>(list.Take(2));
+            PointF p = result[0], q = result[1];
+            foreach (var r in list.Skip(2))
+            {
+                if ((q.X - p.X) * (r.Y - p.Y) == (r.X - p.X) * (q.Y - p.Y))
+                    result[result.Count - 1] = r;
+                else
+                {
+                    result.Add(r);
+                    p = q;
+                    q = r;
+                }
+            }
+            return result;
         }
 
         private void RestoreDefaults()

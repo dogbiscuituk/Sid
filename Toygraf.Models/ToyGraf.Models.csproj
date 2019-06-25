@@ -50,6 +50,7 @@
     <Compile Include="Enumerations\BrushType.cs" />
     <Compile Include="Enumerations\FilterIndex.cs" />
     <Compile Include="Enumerations\MouseMode.cs" />
+    <Compile Include="Enumerations\Phase.cs" />
     <Compile Include="Enumerations\Tool.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Interfaces\IGraph.cs" />

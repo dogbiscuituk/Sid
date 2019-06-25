@@ -5,6 +5,7 @@
     using System.Drawing;
     using System.Drawing.Design;
     using System.Drawing.Drawing2D;
+    using System.Linq;
     using ToyGraf.Controls;
     using ToyGraf.Expressions;
     using ToyGraf.Expressions.Enumerations;
@@ -244,15 +245,18 @@
             public string Derivative => Trace.DerivativeExpression.AsString();
 
             [Category("System")]
-            [Editor(typeof(TgCollectionEditor), typeof(UITypeEditor))]
-            public List<GraphicsPath> DrawPaths => Trace.DrawPaths;
-
-            [Category("System")]
             public string Expression => Trace.Expression.AsString();
 
             [Category("System")]
             [Editor(typeof(TgCollectionEditor), typeof(UITypeEditor))]
-            public List<GraphicsPath> FillPaths => Trace.FillPaths;
+            public PointF[][] Points
+            {
+                get
+                {
+                    var result = Trace.PointLists.Select(p => p.ToArray()).ToArray();
+                    return result;
+                }
+            }
 
             [Category("System")]
             public string Proxy => Trace.Proxy.AsString();
