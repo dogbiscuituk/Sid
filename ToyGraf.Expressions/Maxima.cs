@@ -2,7 +2,6 @@
 {
     using System;
     using System.Diagnostics;
-    using System.IO;
     using System.Linq;
     using System.Text;
 
@@ -14,7 +13,8 @@
         public static void DebugOff() => Debugging = false;
         public static void DebugOn() => Debugging = true;
 
-        public static string Differentiate(this string s, string wrt = "x") => s.diff(wrt).Shorten();
+        public static string Differentiate(this string s, string wrt = "x") =>
+            s.diff(wrt).Shorten();
 
         public static string Evaluate(this string s)
         {
@@ -35,15 +35,17 @@
             throw new Exception(string.Format("Unexpected result: {0}", stringBuilder));
         }
 
-        public static string Integrate(this string s, string wrt = "x") => s.integrate(wrt).Shorten();
-        public static string Integrate(this string s, double from, double to, string wrt = "x") => s.integrate(wrt, from, to).Evaluate();
+        public static string Integrate(this string s, string wrt = "x") =>
+            s.integrate(wrt).Shorten();
+        public static string Integrate(this string s, double from, double to, string wrt = "x") =>
+            s.integrate(wrt, from, to).Evaluate();
         public static bool IsEquivalentTo(this string s, string t) => s.equal(t).@is().True();
         public static bool True(this string s) => s.Evaluate() == "true";
-        public static string Shorten(this string s)
-        {
-            var result = $"{s},{simplify1(s)},{simplify2(s)}".Evaluate().Split('$');
-            return result.OrderBy(p => p.Length).FirstOrDefault();
-        }
+        public static string Shorten(this string s) => $"{s},{simplify1(s)},{simplify2(s)}"
+            .Evaluate()
+            .Split('$')
+            .OrderBy(p => p.Length)
+            .FirstOrDefault();
 
         /// <summary>
         /// The Maxima function(s) applied to a formula before returning its value to the user.
@@ -111,8 +113,8 @@
         /// tries a selection of simplification strategies and selects the shortest.
         /// 
         /// </summary>
-        public static string SimplificationFormat1 { get; set; } = "factor(fullratsimp(trigsimp({0})))";
-        public static string SimplificationFormat2 { get; set; } = "trigreduce(trigsimp(fullratsimp(factor({0}))))";
+        public static string SimpFormat1 { get; set; } = "factor(fullratsimp(trigsimp({0})))";
+        public static string SimpFormat2 { get; set; } = "trigreduce(trigsimp(fullratsimp(factor({0}))))";
 
         #endregion
 
@@ -326,20 +328,20 @@
         private static string radcan(this string s) => $"radcan({s})";
 
         /// <summary>
-        /// Apply SimplificationFormat1 string to an expression.
+        /// Apply simplification format #1 string to an expression.
         /// </summary>
         /// <param name="s">The input expression.</param>
         /// <returns>A formula which will cause the Maxima process to apply the given simplification
         /// functions in order to the result of evaluating the input expression.</returns>
-        private static string simplify1(this string s) => string.Format(SimplificationFormat1, s);
+        private static string simplify1(this string s) => string.Format(SimpFormat1, s);
 
         /// <summary>
-        /// Apply SimplificationFormat2 string to an expression.
+        /// Apply simplification format #2 string to an expression.
         /// </summary>
         /// <param name="s">The input expression.</param>
         /// <returns>A formula which will cause the Maxima process to apply the given simplification
         /// functions in order to the result of evaluating the input expression.</returns>
-        private static string simplify2(this string s) => string.Format(SimplificationFormat2, s);
+        private static string simplify2(this string s) => string.Format(SimpFormat2, s);
 
         /// <summary>
         /// Combines products and powers of trigonometric and hyperbolic sin's and cos's of x into

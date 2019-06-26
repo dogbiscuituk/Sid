@@ -50,8 +50,6 @@
                         argument = me.Arguments[0].ToMax(wrt);
                     switch (functionName)
                     {
-                        //case "exp":
-                        //    return $"%e^({argument})";
                         case "log10":
                             return $"(log({argument})/log(10))";
                         default:

@@ -175,38 +175,38 @@
         /// <summary>
         /// Rewrite an expression, possibly containing encoded references to other expressions in a
         /// given array. Since expressions are immutable, this is done by duplicating the original
-        /// structure, and replacing any such references with similarly decoded versions of express-
-        /// ions in the original array. Cross-references have the form "xref(index, x, t)", where
-        /// "index" is the position of the referred expression in the array.
+        /// structure, replacing such references with similarly decoded versions of expressions in
+        /// the original array. Cross-references have the form "xref(index, x, t)", where "index" is
+        /// the position of the referred expression in the array.
         /// </summary>
         /// <param name="e">The expression to be rewritten.</param>
         /// <param name="ex">The expression representing the "x" parameter.</param>
         /// <param name="et">The expression representing the "t" parameter.</param>
-        /// <param name="refs">The array of expressions available for referencing.</param>
+        /// <param name="xrefs">The array of expressions available for referencing.</param>
         /// <returns>The input expression, rewritten with references replaced by the referred expressions.</returns>
-        public static Expression AsProxy(this Expression e, Expression ex, Expression et, Expression[] refs)
+        public static Expression AsProxy(this Expression e, Expression ex, Expression et, Expression[] xrefs)
         {
-            if (e == x) return ex == x ? ex : ex.AsProxy(x, t, refs);
-            if (e == t) return et == t ? et : et.AsProxy(x, t, refs);
+            if (e == x) return ex == x ? ex : ex.AsProxy(x, t, xrefs);
+            if (e == t) return et == t ? et : et.AsProxy(x, t, xrefs);
             if (e is UnaryExpression u)
-                return u.NodeType.MakeUnary(u.Operand.AsProxy(ex, et, refs), u.Type);
+                return u.NodeType.MakeUnary(u.Operand.AsProxy(ex, et, xrefs), u.Type);
             if (e is MethodCallExpression m)
             {
                 var methodName = m.Method.Name;
                 if (methodName == "xref")
                 {
                     var index = (int)((ConstantExpression)m.Arguments[0]).Value;
-                    if (index < 0 || index >= refs.Length)
+                    if (index < 0 || index >= xrefs.Length)
                         return DefaultVoid;
-                    var result = refs[index].AsProxy(m.Arguments[2], m.Arguments[3], refs);
+                    var result = xrefs[index].AsProxy(m.Arguments[2], m.Arguments[3], xrefs);
                     for (var ticks = 0; ticks < (int)((ConstantExpression)m.Arguments[1]).Value; ticks++)
                         result = Differentiate(result);
                     return result;
                 }
-                return methodName.Function(m.Arguments[0].AsProxy(ex, et, refs));
+                return methodName.Function(m.Arguments[0].AsProxy(ex, et, xrefs));
             }
             if (e is BinaryExpression b)
-                return MakeBinary(b.NodeType, b.Left.AsProxy(ex, et, refs), b.Right.AsProxy(ex, et, refs));
+                return MakeBinary(b.NodeType, b.Left.AsProxy(ex, et, xrefs), b.Right.AsProxy(ex, et, xrefs));
             return e;
         }
 
