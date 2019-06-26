@@ -2,39 +2,52 @@
 {
     using System;
     using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
     using System.Text;
 
     public static class Maxima
     {
         #region Public Interface
 
+        //static Maxima() => NewProcess();
         public static void DebugOff() => Debugging = false;
         public static void DebugOn() => Debugging = true;
 
-        public static string Differentiate(this string s, string wrt = "x") => s.diff(wrt).Simplify();
+        public static string Differentiate(this string s, string wrt = "x") => s.diff(wrt).Shorten();
 
         public static string Evaluate(this string s)
         {
             WriteLine($"grind({s.ToLower()});");
             var stringBuilder = new StringBuilder();
-            do stringBuilder.Append(ReadLine().TrimStart());
-            while (!stringBuilder.ToString().EndsWith("$"));
-            ReadLine();
+            do
+            {
+                var line = ReadLine().TrimStart();
+                if (line == "done")
+                    break;
+                stringBuilder.Append(line);
+            }
+            while (true);
             var result = stringBuilder.ToString();
             if (result.EndsWith("$"))
                 return result.TrimEnd('$');
-            Process = NewProcess();
+            NewProcess();
             throw new Exception(string.Format("Unexpected result: {0}", stringBuilder));
         }
 
-        public static string Integrate(this string s, string wrt = "x") => s.integrate(wrt).Simplify();
+        public static string Integrate(this string s, string wrt = "x") => s.integrate(wrt).Shorten();
         public static string Integrate(this string s, double from, double to, string wrt = "x") => s.integrate(wrt, from, to).Evaluate();
         public static bool IsEquivalentTo(this string s, string t) => s.equal(t).@is().True();
         public static bool True(this string s) => s.Evaluate() == "true";
-        public static string Simplify(this string s) => s.simplify().Evaluate();
+        public static string Shorten(this string s)
+        {
+            var result = $"{s},{simplify1(s)},{simplify2(s)}".Evaluate().Split('$');
+            return result.OrderBy(p => p.Length).FirstOrDefault();
+        }
 
         /// <summary>
-        /// The Maxima function applied to a formula before returning a value to the user. Examples:
+        /// The Maxima function(s) applied to a formula before returning its value to the user.
+        /// Examples:
         /// 
         /// [1] "{0}" - default - no additional simplification beyond Maxoima's internal processing.
         /// 
@@ -93,24 +106,17 @@
         /// ToyGraf default. Then, a number of additional integration-differentiation round-trip
         /// tests were added to the suite, and soon, the MaximaSharp default was quietly reinstated.
         /// For example, it allows "x³*cos(2x)" to round-trip back to itself, instead of an entirely
-        /// unweildy "((24x²-12)*sin(2x)-2(12x²-6)*sin(2x)+2(8x³-12x)*cos(2x)+24x*cos(2x))/16".
+        /// unweildy "((24x²-12)*sin(2x)-2(12x²-6)*sin(2x)+2(8x³-12x)*cos(2x)+24x*cos(2x))/16". Then
+        /// finally the general Simplify() function was superseded by the Shorten() function, which
+        /// tries a selection of simplification strategies and selects the shortest.
         /// 
         /// </summary>
-        public static string SimplificationFormat { get; set; } = "factor(fullratsimp(trigsimp({0})))";
+        public static string SimplificationFormat1 { get; set; } = "factor(fullratsimp(trigsimp({0})))";
+        public static string SimplificationFormat2 { get; set; } = "trigreduce(trigsimp(fullratsimp(factor({0}))))";
 
         #endregion
 
         #region Private Properties
-
-        private const string
-            PrefixName = "maxima_prefix",
-            ProcessArgs = "-eval \"(cl-user::run)\" -f -- -very-quiet",
-            Version = "5.30.0";
-
-        private static readonly string
-            PrefixValue = $@"..\..\Maxima-{Version}",
-            ProcessPath = $@"Maxima-{Version}\lib\maxima\{Version}\binary-gcl\maxima.exe",
-            WorkingDir = $@"Maxima-{Version}\bin\";
 
         private static bool Debugging;
         private static Process Process = NewProcess();
@@ -121,6 +127,14 @@
 
         private static Process NewProcess()
         {
+            const string
+                PrefixName = "maxima_prefix",
+                ProcessArgs = "-eval \"(cl-user::run)\" -f -- -very-quiet",
+                Version = "5.30.0";
+            string
+                PrefixValue = $@"..\..\Maxima-{Version}",
+                ProcessPath = $@"Maxima-{Version}\lib\maxima\{Version}\binary-gcl\maxima.exe",
+                WorkingDir = $@"Maxima-{Version}\bin\";
             if (Process != null)
                 Process.Dispose();
             var processStartInfo = new ProcessStartInfo(ProcessPath, ProcessArgs)
@@ -133,7 +147,9 @@
                 WorkingDirectory = WorkingDir
             };
             processStartInfo.EnvironmentVariables.Add(PrefixName, PrefixValue);
-            return Process.Start(processStartInfo);
+            Process = Process.Start(processStartInfo);
+            DebugOn();
+            return Process;
         }
 
         private static string ReadLine()
@@ -310,13 +326,20 @@
         private static string radcan(this string s) => $"radcan({s})";
 
         /// <summary>
-        /// Apply the current SimplificationFormat string to an expression.
+        /// Apply SimplificationFormat1 string to an expression.
         /// </summary>
         /// <param name="s">The input expression.</param>
         /// <returns>A formula which will cause the Maxima process to apply the given simplification
         /// functions in order to the result of evaluating the input expression.</returns>
-        private static string simplify(this string s) => string.Format(SimplificationFormat, s);
-            //s.trigsimp().trigreduce().fullratsimp().factor();
+        private static string simplify1(this string s) => string.Format(SimplificationFormat1, s);
+
+        /// <summary>
+        /// Apply SimplificationFormat2 string to an expression.
+        /// </summary>
+        /// <param name="s">The input expression.</param>
+        /// <returns>A formula which will cause the Maxima process to apply the given simplification
+        /// functions in order to the result of evaluating the input expression.</returns>
+        private static string simplify2(this string s) => string.Format(SimplificationFormat2, s);
 
         /// <summary>
         /// Combines products and powers of trigonometric and hyperbolic sin's and cos's of x into

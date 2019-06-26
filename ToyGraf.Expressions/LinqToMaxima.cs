@@ -22,7 +22,7 @@
 
         public static string ToMaxima(this Expression e) => e.ToMaxima("x");
 
-        public static string ToMaxima(this Expression e, params string[] wrt) => e.ToMax(wrt).Simplify();
+        public static string ToMaxima(this Expression e, params string[] wrt) => e.ToMax(wrt).Shorten();
 
         #endregion
 

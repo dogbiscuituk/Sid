@@ -10,23 +10,22 @@
 
         public static void TestAll()
         {
-            Maxima.DebugOn();
-
-            //TestIntegrate("csch x", "log(tanh(x/2))", TestType.OneWay);
-
-            //TestIntegrate("csch x", "-(log exp -(x*(exp x+1))-log -exp -(x*(exp x-1)))", TestType.OneWay);
-            //TestIntegrate("csch x", " log abs tanh(x/2)");
-
-            // TestParsers();
-            //TestDiffFunctions();
-            //TestDiffPolynomials();
-            //TestIntegrateFunctions();
+            TestParsers();
+            TestDiffFunctions();
+            TestDiffPolynomials();
+            TestIntegrateFunctions();
             Maxima.DebugOff();
         }
 
         #endregion
 
-        #region Private Methods
+        #region Private Properties
+
+        private static Parser Parser = new Parser();
+
+        #endregion
+
+        #region Private Helpers
 
         private static void Check(string source, string expected, string actual)
         {
@@ -36,17 +35,51 @@
                     && Parser.TryParse(actual, out Expression m_actual, out _)
                     && m_actual.ToMaxima().IsEquivalentTo(m_expected.ToMaxima());
             if (!ok)
-                Debug.WriteLine($"*** ERROR *** source: {source}; expected: {expected}; actual: {actual}.");
+                Debug.WriteLine($"*** ERROR *** source: {source}, expected: {expected}, actual: {actual}.");
             Debug.Assert(ok);
         }
 
-        private static void TestDiff(string source, string expected)
+        private static string TestDiff(string source, string expected)
         {
             var e_source = Parser.Parse(source);
             var derivative = e_source.Differentiate();
             var actual = derivative.AsString();
             Check($"({source})'", expected, actual);
+            return actual;
         }
+
+        private static void TestDiffInt(string source, string expected)
+        {
+            var actual = TestDiff(source, expected);
+            TestIntegrate(source: actual, expected: source);
+        }
+
+        private static void TestIntDiff(string source, string expected)
+        {
+            var actual = TestIntegrate(source, expected);
+            TestDiff(source: actual, expected: source);
+        }
+
+        private static string TestIntegrate(string source, string expected)
+        {
+            var e_source = Parser.Parse(source);
+            var integral = e_source.Integrate();
+            var actual = integral.AsString();
+            Check($"∫{source} dx", expected, actual);
+            return actual;
+        }
+
+        private static void TestParse(string source, string expected, Language language = Language.ToyGraf)
+        {
+            Parser.Language = language;
+            var actual = Parser.Parse(source).Simplify().AsString();
+            Parser.Language = Language.ToyGraf;
+            Check(source, expected, actual);
+        }
+
+        #endregion
+
+        #region Private Tests
 
         private static void TestDiffFunctions()
         {
@@ -102,61 +135,46 @@
             TestDiff("x⁶+6x⁵+15x⁴+20x³+15x²+6x+1", "6x⁵+30x⁴+60x³+60x²+30x+6");
         }
 
-        private static void TestIntegrate(string source, string expected, TestType testType = TestType.RoundTrip)
+        private static void TestIntDiffFunctions()
         {
-            var e_source = Parser.Parse(source);
-            var integral = e_source.Integrate();
-            var actual = integral.AsString();
-            Check($"∫{source} dx", expected, actual);
-            if (testType == TestType.RoundTrip)
-                TestDiff(source: actual, expected: source);
+            TestIntDiff("abs x", "x*abs x/2");
+            TestIntDiff("acos x", "x*acos x-√(1-x²)");
+            TestIntDiff("acosh x", "x*acosh x-√(x²-1)");
+            TestIntDiff("acot x", "(log(x²+1)+2x*acot x)/2");
+            TestIntDiff("acoth x", "(log(x²-1)+2x*acoth x)/2");
+            TestIntDiff("acsc x", "(log((abs x+√(x²-1))/abs x)-log((√(x²-1)-abs x)/abs x)+2x*acsc x)/2");
+            TestIntDiff("acsch x", "(log((abs x+√(x²+1))/abs x)-log((√(x²+1)-abs x)/abs x)+2x*acsch x)/2");
+            TestIntDiff("asec x", "-(log((abs x+√(x²-1))/abs x)-log((√(x²-1)-abs x)/abs x)-2x*asec x)/2");
+            TestIntDiff("asech x", "-(atan(√(1-x²)/abs x)-x*asech x)");
+            TestIntDiff("asin x", "x*asin x+√(1-x²)");
+            TestIntDiff("asinh x", "x*asinh x-√(x²+1)");
+            TestIntDiff("atan x", "-(log(x²+1)-2x*atan x)/2");
+            TestIntDiff("atanh x", "(log(1-x²)+2x*atanh x)/2");
+            TestIntDiff("cos x", "sin x");
+            TestIntDiff("cosh x", "sinh x");
+            TestIntDiff("cot x", "log sin x");
+            TestIntDiff("coth x", "log sinh x");
+            TestIntDiff("csc x", "-log(csc x+cot x)");
+            TestIntDiff("csch x", "log tanh(x/2)");
+            TestIntDiff("exp x", "exp x");
+            TestIntDiff("log x", "x*(log x-1)");
+            //TestIntDiff("log10 x", "0");
+            TestIntDiff("sec x", "log(tan x+sec x)");
+            TestIntDiff("sech x", "atan sinh x");
+            TestIntDiff("sin x", "-cos x");
+            TestIntDiff("sinh x", "cosh x");
+            TestIntDiff("sqrt x", "2(x^(3/2))/3");
+            TestIntDiff("tan x", "log sec x");
+            TestIntDiff("tanh x", "log cosh x");
         }
 
         private static void TestIntegrateFunctions()
         {
-            Debug.WriteLine("########################################## TestIntegrateFunctions()");
-            TestIntegrate("abs x", "x*abs x/2");
-            TestIntegrate("acos x", "x*acos x-√(1-x²)");
-            TestIntegrate("acosh x", "x*acosh x-√(x²-1)");
-            TestIntegrate("acot x", "(log(x²+1)+2x*acot x)/2");
-            TestIntegrate("acoth x", "(log(x²-1)+2x*acoth x)/2");
-            TestIntegrate("acsc x", "(log((abs x+√(x²-1))/abs x)-log((√(x²-1)-abs x)/abs x)+2x*acsc x)/2");
-            TestIntegrate("acsch x", "(log((abs x+√(x²+1))/abs x)-log((√(x²+1)-abs x)/abs x)+2x*acsch x)/2");
-            TestIntegrate("asec x", "-(log((abs x+√(x²-1))/abs x)-log((√(x²-1)-abs x)/abs x)-2x*asec x)/2");
-            TestIntegrate("asech x", "-(atan(√(1-x²)/abs x)-x*asech x)");
-            TestIntegrate("asin x", "x*asin x+√(1-x²)");
-            TestIntegrate("asinh x", "x*asinh x-√(x²+1)");
-            TestIntegrate("atan x", "-(log(x²+1)-2x*atan x)/2");
-            TestIntegrate("atanh x", "(log(1-x²)+2x*atanh x)/2");
-            TestIntegrate("ceiling x", "-ceiling x*(ceiling x-2x-1)/2", TestType.OneWay);
-            TestIntegrate("cos x", "sin x");
-            TestIntegrate("cosh x", "sinh x");
-            TestIntegrate("cot x", "log sin x");
-            TestIntegrate("coth x", "log sinh x");
-            TestIntegrate("csc x", "-(log(cos x+1)-log(cos x-1))/2", TestType.OneWay);
-            TestIntegrate("csch x", "0");
-            //TestIntegrate("exp x", "0");
-            TestIntegrate("floor x", "-floor x*(floor x-2x+1)/2", TestType.OneWay);
+            TestIntegrate("ceiling x", "-ceiling x*(ceiling x-2x-1)/2");
+            TestIntegrate("floor x", "-floor x*(floor x-2x+1)/2");
             //TestIntegrate("hstep x", "0");
-            TestIntegrate("log x", "x*(log x-1)");
-            //TestIntegrate("log10 x", "0");
             //TestIntegrate("round x", "0", false);
-            TestIntegrate("sec x", "(log(sin x+1)-log(sin x-1))/2", TestType.OneWay);
-            //TestIntegrate("sech x", "0");
             //TestIntegrate("sign x", "0");
-            TestIntegrate("sin x", "-cos x");
-            TestIntegrate("sinh x", "cosh x");
-            TestIntegrate("sqrt x", "2(x^(3/2))/3");
-            TestIntegrate("tan x", "-log cos x");
-            TestIntegrate("tanh x", "log cosh x");
-        }
-
-        private static void TestParse(string source, string expected, Language language = Language.ToyGraf)
-        {
-            Parser.Language = language;
-            var actual = Parser.Parse(source).Simplify().AsString();
-            Parser.Language = Language.ToyGraf;
-            Check(source, expected, actual);
         }
 
         private static void TestParsers()
@@ -164,12 +182,6 @@
             TestParse("-2^2", "4");
             TestParse("-2^2", "-4", Language.Maxima);
         }
-
-        #endregion
-
-        #region Private Properties
-
-        private static Parser Parser = new Parser();
 
         #endregion
     }
