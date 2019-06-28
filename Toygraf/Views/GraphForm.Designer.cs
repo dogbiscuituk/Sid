@@ -29,9 +29,62 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphForm));
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.ClientPanel = new System.Windows.Forms.Panel();
+            this.LegendPanel = new System.Windows.Forms.Panel();
+            this.PictureBox = new System.Windows.Forms.PictureBox();
+            this.TextureDialog = new System.Windows.Forms.OpenFileDialog();
+            this.PropertyTable = new System.Windows.Forms.PropertyGrid();
+            this.SplitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.SplitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.DataGridView = new System.Windows.Forms.DataGridView();
+            this.colFormula = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDerivative = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colProxy = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ToolStripContainer = new System.Windows.Forms.ToolStripContainer();
+            this.StatusBar = new ToyGraf.Controls.TgStatusStrip();
+            this.tbDecelerate = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tbReverse = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tbStop = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tbPause = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tbForward = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tbAccelerate = new System.Windows.Forms.ToolStripDropDownButton();
+            this.SpeedLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.Tlabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.FPSlabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.XYlabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.Rϴlabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ModifiedLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.Toolbar = new ToyGraf.Controls.TgToolStrip();
+            this.tbNew = new System.Windows.Forms.ToolStripSplitButton();
+            this.tbNewEmptyGraph = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbNewFromTemplate = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbOpen = new System.Windows.Forms.ToolStripSplitButton();
+            this.tbSave = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tbUndo = new System.Windows.Forms.ToolStripSplitButton();
+            this.tbRedo = new System.Windows.Forms.ToolStripSplitButton();
+            this.tbCut = new System.Windows.Forms.ToolStripButton();
+            this.tbCopy = new System.Windows.Forms.ToolStripButton();
+            this.tbPaste = new System.Windows.Forms.ToolStripButton();
+            this.tbDelete = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tbAdd = new System.Windows.Forms.ToolStripButton();
+            this.tbPlotType = new System.Windows.Forms.ToolStripSplitButton();
+            this.tbCartesian = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbPolar = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbProperties = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.tbFullScreen = new System.Windows.Forms.ToolStripButton();
+            this.tbLegend = new System.Windows.Forms.ToolStripSplitButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.tbTool = new System.Windows.Forms.ToolStripSplitButton();
+            this.tbToolArrow = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbToolCross = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbToolHand = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu = new ToyGraf.Controls.TgMenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FileNew = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,65 +157,9 @@
             this.TimeAccelerate = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.StatusBar = new ToyGraf.Controls.TgStatusStrip();
-            this.tbDecelerate = new System.Windows.Forms.ToolStripDropDownButton();
-            this.tbReverse = new System.Windows.Forms.ToolStripDropDownButton();
-            this.tbStop = new System.Windows.Forms.ToolStripDropDownButton();
-            this.tbPause = new System.Windows.Forms.ToolStripDropDownButton();
-            this.tbForward = new System.Windows.Forms.ToolStripDropDownButton();
-            this.tbAccelerate = new System.Windows.Forms.ToolStripDropDownButton();
-            this.SpeedLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.Tlabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.FPSlabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.XYlabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.Rϴlabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ModifiedLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.ClientPanel = new System.Windows.Forms.Panel();
-            this.LegendPanel = new System.Windows.Forms.Panel();
-            this.PictureBox = new System.Windows.Forms.PictureBox();
-            this.Toolbar = new ToyGraf.Controls.TgToolStrip();
-            this.tbNew = new System.Windows.Forms.ToolStripSplitButton();
-            this.tbNewEmptyGraph = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbNewFromTemplate = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbOpen = new System.Windows.Forms.ToolStripSplitButton();
-            this.tbSave = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.tbUndo = new System.Windows.Forms.ToolStripSplitButton();
-            this.tbRedo = new System.Windows.Forms.ToolStripSplitButton();
-            this.tbCut = new System.Windows.Forms.ToolStripButton();
-            this.tbCopy = new System.Windows.Forms.ToolStripButton();
-            this.tbPaste = new System.Windows.Forms.ToolStripButton();
-            this.tbDelete = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tbAdd = new System.Windows.Forms.ToolStripButton();
-            this.tbPlotType = new System.Windows.Forms.ToolStripSplitButton();
-            this.tbCartesian = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbPolar = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbProperties = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.tbFullScreen = new System.Windows.Forms.ToolStripButton();
-            this.tbLegend = new System.Windows.Forms.ToolStripSplitButton();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.tbTool = new System.Windows.Forms.ToolStripSplitButton();
-            this.tbToolArrow = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbToolCross = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbToolHand = new System.Windows.Forms.ToolStripMenuItem();
-            this.TextureDialog = new System.Windows.Forms.OpenFileDialog();
-            this.PropertyTable = new System.Windows.Forms.PropertyGrid();
-            this.SplitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.SplitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.DataGridView = new System.Windows.Forms.DataGridView();
-            this.colFormula = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDerivative = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colProxy = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MainMenu.SuspendLayout();
-            this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.ClientPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
-            this.Toolbar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).BeginInit();
             this.SplitContainer1.Panel1.SuspendLayout();
             this.SplitContainer1.Panel2.SuspendLayout();
@@ -172,10 +169,568 @@
             this.SplitContainer2.Panel2.SuspendLayout();
             this.SplitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView)).BeginInit();
+            this.ToolStripContainer.BottomToolStripPanel.SuspendLayout();
+            this.ToolStripContainer.ContentPanel.SuspendLayout();
+            this.ToolStripContainer.LeftToolStripPanel.SuspendLayout();
+            this.ToolStripContainer.TopToolStripPanel.SuspendLayout();
+            this.ToolStripContainer.SuspendLayout();
+            this.StatusBar.SuspendLayout();
+            this.Toolbar.SuspendLayout();
+            this.MainMenu.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // PopupMenu
+            // 
+            this.PopupMenu.Name = "PopupMenu";
+            this.PopupMenu.Size = new System.Drawing.Size(61, 4);
+            this.PopupMenu.Text = "Popup Menu";
+            // 
+            // ErrorProvider
+            // 
+            this.ErrorProvider.ContainerControl = this;
+            // 
+            // ClientPanel
+            // 
+            this.ClientPanel.BackColor = System.Drawing.Color.White;
+            this.ClientPanel.Controls.Add(this.LegendPanel);
+            this.ClientPanel.Controls.Add(this.PictureBox);
+            this.ClientPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ClientPanel.Location = new System.Drawing.Point(0, 0);
+            this.ClientPanel.Name = "ClientPanel";
+            this.ClientPanel.Size = new System.Drawing.Size(519, 414);
+            this.ClientPanel.TabIndex = 6;
+            // 
+            // LegendPanel
+            // 
+            this.LegendPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.LegendPanel.Location = new System.Drawing.Point(0, 0);
+            this.LegendPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.LegendPanel.Name = "LegendPanel";
+            this.LegendPanel.Size = new System.Drawing.Size(19, 16);
+            this.LegendPanel.TabIndex = 9;
+            // 
+            // PictureBox
+            // 
+            this.PictureBox.Location = new System.Drawing.Point(22, 19);
+            this.PictureBox.Name = "PictureBox";
+            this.PictureBox.Size = new System.Drawing.Size(19, 16);
+            this.PictureBox.TabIndex = 3;
+            this.PictureBox.TabStop = false;
+            // 
+            // PropertyTable
+            // 
+            this.PropertyTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PropertyTable.Location = new System.Drawing.Point(0, 0);
+            this.PropertyTable.Name = "PropertyTable";
+            this.PropertyTable.Size = new System.Drawing.Size(229, 414);
+            this.PropertyTable.TabIndex = 14;
+            // 
+            // SplitContainer1
+            // 
+            this.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.SplitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.SplitContainer1.Name = "SplitContainer1";
+            // 
+            // SplitContainer1.Panel1
+            // 
+            this.SplitContainer1.Panel1.Controls.Add(this.ClientPanel);
+            // 
+            // SplitContainer1.Panel2
+            // 
+            this.SplitContainer1.Panel2.Controls.Add(this.PropertyTable);
+            this.SplitContainer1.Size = new System.Drawing.Size(752, 414);
+            this.SplitContainer1.SplitterDistance = 519;
+            this.SplitContainer1.TabIndex = 17;
+            // 
+            // SplitContainer2
+            // 
+            this.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.SplitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.SplitContainer2.Name = "SplitContainer2";
+            this.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // SplitContainer2.Panel1
+            // 
+            this.SplitContainer2.Panel1.Controls.Add(this.SplitContainer1);
+            // 
+            // SplitContainer2.Panel2
+            // 
+            this.SplitContainer2.Panel2.Controls.Add(this.DataGridView);
+            this.SplitContainer2.Size = new System.Drawing.Size(752, 512);
+            this.SplitContainer2.SplitterDistance = 414;
+            this.SplitContainer2.TabIndex = 7;
+            // 
+            // DataGridView
+            // 
+            this.DataGridView.AllowUserToAddRows = false;
+            this.DataGridView.AllowUserToDeleteRows = false;
+            this.DataGridView.AllowUserToOrderColumns = true;
+            this.DataGridView.AllowUserToResizeRows = false;
+            this.DataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.DataGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.DataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleVertical;
+            this.DataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.DataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colFormula,
+            this.colDerivative,
+            this.colProxy});
+            this.DataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DataGridView.ImeMode = System.Windows.Forms.ImeMode.Katakana;
+            this.DataGridView.Location = new System.Drawing.Point(0, 0);
+            this.DataGridView.Name = "DataGridView";
+            this.DataGridView.ReadOnly = true;
+            this.DataGridView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.DataGridView.RowHeadersVisible = false;
+            this.DataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DataGridView.Size = new System.Drawing.Size(752, 94);
+            this.DataGridView.TabIndex = 0;
+            // 
+            // colFormula
+            // 
+            this.colFormula.DataPropertyName = "Formula";
+            this.colFormula.HeaderText = "Formula";
+            this.colFormula.Name = "colFormula";
+            this.colFormula.ReadOnly = true;
+            this.colFormula.Width = 250;
+            // 
+            // colDerivative
+            // 
+            this.colDerivative.DataPropertyName = "Derivative";
+            this.colDerivative.HeaderText = "Derivative";
+            this.colDerivative.Name = "colDerivative";
+            this.colDerivative.ReadOnly = true;
+            this.colDerivative.Width = 251;
+            // 
+            // colProxy
+            // 
+            this.colProxy.DataPropertyName = "Proxy";
+            this.colProxy.HeaderText = "Proxy";
+            this.colProxy.Name = "colProxy";
+            this.colProxy.ReadOnly = true;
+            this.colProxy.Width = 251;
+            // 
+            // ToolStripContainer
+            // 
+            // 
+            // ToolStripContainer.BottomToolStripPanel
+            // 
+            this.ToolStripContainer.BottomToolStripPanel.Controls.Add(this.StatusBar);
+            // 
+            // ToolStripContainer.ContentPanel
+            // 
+            this.ToolStripContainer.ContentPanel.Controls.Add(this.SplitContainer2);
+            this.ToolStripContainer.ContentPanel.Size = new System.Drawing.Size(752, 512);
+            this.ToolStripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            // 
+            // ToolStripContainer.LeftToolStripPanel
+            // 
+            this.ToolStripContainer.LeftToolStripPanel.Controls.Add(this.Toolbar);
+            this.ToolStripContainer.Location = new System.Drawing.Point(0, 0);
+            this.ToolStripContainer.Name = "ToolStripContainer";
+            this.ToolStripContainer.Size = new System.Drawing.Size(784, 561);
+            this.ToolStripContainer.TabIndex = 18;
+            this.ToolStripContainer.Text = "toolStripContainer1";
+            // 
+            // ToolStripContainer.TopToolStripPanel
+            // 
+            this.ToolStripContainer.TopToolStripPanel.Controls.Add(this.MainMenu);
+            // 
+            // StatusBar
+            // 
+            this.StatusBar.Dock = System.Windows.Forms.DockStyle.None;
+            this.StatusBar.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbDecelerate,
+            this.tbReverse,
+            this.tbStop,
+            this.tbPause,
+            this.tbForward,
+            this.tbAccelerate,
+            this.SpeedLabel,
+            this.Tlabel,
+            this.FPSlabel,
+            this.XYlabel,
+            this.Rϴlabel,
+            this.ModifiedLabel});
+            this.StatusBar.Location = new System.Drawing.Point(0, 0);
+            this.StatusBar.Name = "StatusBar";
+            this.StatusBar.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+            this.StatusBar.ShowItemToolTips = true;
+            this.StatusBar.Size = new System.Drawing.Size(784, 25);
+            this.StatusBar.TabIndex = 3;
+            this.StatusBar.Text = "statusStrip1";
+            // 
+            // tbDecelerate
+            // 
+            this.tbDecelerate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbDecelerate.Image = global::ToyGraf.Properties.Resources.RewindHS;
+            this.tbDecelerate.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbDecelerate.Name = "tbDecelerate";
+            this.tbDecelerate.ShowDropDownArrow = false;
+            this.tbDecelerate.Size = new System.Drawing.Size(20, 23);
+            this.tbDecelerate.ToolTipText = "Decelerate";
+            // 
+            // tbReverse
+            // 
+            this.tbReverse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbReverse.Image = global::ToyGraf.Properties.Resources.BackHS;
+            this.tbReverse.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbReverse.Name = "tbReverse";
+            this.tbReverse.ShowDropDownArrow = false;
+            this.tbReverse.Size = new System.Drawing.Size(20, 23);
+            this.tbReverse.ToolTipText = "Reverse";
+            // 
+            // tbStop
+            // 
+            this.tbStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbStop.Image = global::ToyGraf.Properties.Resources.StopHS;
+            this.tbStop.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbStop.Name = "tbStop";
+            this.tbStop.ShowDropDownArrow = false;
+            this.tbStop.Size = new System.Drawing.Size(20, 23);
+            this.tbStop.ToolTipText = "Stop";
+            // 
+            // tbPause
+            // 
+            this.tbPause.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbPause.Image = global::ToyGraf.Properties.Resources.PauseHS;
+            this.tbPause.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbPause.Name = "tbPause";
+            this.tbPause.ShowDropDownArrow = false;
+            this.tbPause.Size = new System.Drawing.Size(20, 23);
+            this.tbPause.ToolTipText = "Pause";
+            // 
+            // tbForward
+            // 
+            this.tbForward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbForward.Image = global::ToyGraf.Properties.Resources.PlayHS;
+            this.tbForward.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbForward.Name = "tbForward";
+            this.tbForward.ShowDropDownArrow = false;
+            this.tbForward.Size = new System.Drawing.Size(20, 23);
+            this.tbForward.ToolTipText = "Forward";
+            // 
+            // tbAccelerate
+            // 
+            this.tbAccelerate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbAccelerate.Image = global::ToyGraf.Properties.Resources.FFwdHS;
+            this.tbAccelerate.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbAccelerate.Name = "tbAccelerate";
+            this.tbAccelerate.ShowDropDownArrow = false;
+            this.tbAccelerate.Size = new System.Drawing.Size(20, 23);
+            this.tbAccelerate.ToolTipText = "Accelerate";
+            // 
+            // SpeedLabel
+            // 
+            this.SpeedLabel.AutoSize = false;
+            this.SpeedLabel.Name = "SpeedLabel";
+            this.SpeedLabel.Size = new System.Drawing.Size(64, 20);
+            this.SpeedLabel.Text = "time × 1";
+            // 
+            // Tlabel
+            // 
+            this.Tlabel.AutoSize = false;
+            this.Tlabel.Name = "Tlabel";
+            this.Tlabel.Size = new System.Drawing.Size(64, 20);
+            this.Tlabel.Text = "t=0.0";
+            this.Tlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // FPSlabel
+            // 
+            this.FPSlabel.AutoSize = false;
+            this.FPSlabel.Name = "FPSlabel";
+            this.FPSlabel.Size = new System.Drawing.Size(64, 20);
+            this.FPSlabel.Text = "fps=0.0";
+            this.FPSlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // XYlabel
+            // 
+            this.XYlabel.AutoSize = false;
+            this.XYlabel.Name = "XYlabel";
+            this.XYlabel.Size = new System.Drawing.Size(192, 20);
+            this.XYlabel.Text = "{x=0, y=0}";
+            this.XYlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // Rϴlabel
+            // 
+            this.Rϴlabel.AutoSize = false;
+            this.Rϴlabel.Name = "Rϴlabel";
+            this.Rϴlabel.Size = new System.Drawing.Size(192, 20);
+            this.Rϴlabel.Text = "{r=0, θ=0}";
+            this.Rϴlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // ModifiedLabel
+            // 
+            this.ModifiedLabel.AutoSize = false;
+            this.ModifiedLabel.Name = "ModifiedLabel";
+            this.ModifiedLabel.Size = new System.Drawing.Size(55, 20);
+            this.ModifiedLabel.Text = "Modified";
+            // 
+            // Toolbar
+            // 
+            this.Toolbar.Dock = System.Windows.Forms.DockStyle.None;
+            this.Toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbNew,
+            this.tbOpen,
+            this.tbSave,
+            this.toolStripSeparator2,
+            this.tbUndo,
+            this.tbRedo,
+            this.tbCut,
+            this.tbCopy,
+            this.tbPaste,
+            this.tbDelete,
+            this.toolStripSeparator1,
+            this.tbAdd,
+            this.tbPlotType,
+            this.tbProperties,
+            this.toolStripSeparator3,
+            this.tbFullScreen,
+            this.tbLegend,
+            this.toolStripSeparator5,
+            this.tbTool});
+            this.Toolbar.Location = new System.Drawing.Point(0, 3);
+            this.Toolbar.Name = "Toolbar";
+            this.Toolbar.Padding = new System.Windows.Forms.Padding(0);
+            this.Toolbar.Size = new System.Drawing.Size(32, 288);
+            this.Toolbar.TabIndex = 12;
+            // 
+            // tbNew
+            // 
+            this.tbNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbNew.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbNewEmptyGraph,
+            this.tbNewFromTemplate});
+            this.tbNew.Image = global::ToyGraf.Properties.Resources.NewDocumentHS;
+            this.tbNew.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbNew.Name = "tbNew";
+            this.tbNew.Size = new System.Drawing.Size(31, 20);
+            this.tbNew.ToolTipText = "Create a new file (^N)";
+            // 
+            // tbNewEmptyGraph
+            // 
+            this.tbNewEmptyGraph.Name = "tbNewEmptyGraph";
+            this.tbNewEmptyGraph.ShortcutKeyDisplayString = "^N";
+            this.tbNewEmptyGraph.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.tbNewEmptyGraph.Size = new System.Drawing.Size(194, 22);
+            this.tbNewEmptyGraph.Text = "&New Empty Graph";
+            // 
+            // tbNewFromTemplate
+            // 
+            this.tbNewFromTemplate.Name = "tbNewFromTemplate";
+            this.tbNewFromTemplate.Size = new System.Drawing.Size(194, 22);
+            this.tbNewFromTemplate.Text = "New From &Template...";
+            // 
+            // tbOpen
+            // 
+            this.tbOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbOpen.Image = global::ToyGraf.Properties.Resources.OpenFile;
+            this.tbOpen.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbOpen.Name = "tbOpen";
+            this.tbOpen.Size = new System.Drawing.Size(31, 20);
+            this.tbOpen.ToolTipText = "Open an existing file (^O)";
+            // 
+            // tbSave
+            // 
+            this.tbSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbSave.Image = global::ToyGraf.Properties.Resources.saveHS;
+            this.tbSave.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbSave.Name = "tbSave";
+            this.tbSave.Size = new System.Drawing.Size(31, 20);
+            this.tbSave.ToolTipText = "Save to file (^S)";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(31, 6);
+            // 
+            // tbUndo
+            // 
+            this.tbUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbUndo.Image = global::ToyGraf.Properties.Resources.Edit_UndoHS;
+            this.tbUndo.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbUndo.Name = "tbUndo";
+            this.tbUndo.Size = new System.Drawing.Size(31, 20);
+            this.tbUndo.ToolTipText = "Undo (^Z)";
+            // 
+            // tbRedo
+            // 
+            this.tbRedo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbRedo.Image = global::ToyGraf.Properties.Resources.Edit_RedoHS;
+            this.tbRedo.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbRedo.Name = "tbRedo";
+            this.tbRedo.Size = new System.Drawing.Size(31, 20);
+            this.tbRedo.Text = "toolStripSplitButton2";
+            this.tbRedo.ToolTipText = "Redo (^Y)";
+            // 
+            // tbCut
+            // 
+            this.tbCut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbCut.Image = global::ToyGraf.Properties.Resources.CutHS;
+            this.tbCut.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbCut.Name = "tbCut";
+            this.tbCut.Size = new System.Drawing.Size(31, 20);
+            this.tbCut.Text = "toolStripButton1";
+            this.tbCut.ToolTipText = "Cut";
+            this.tbCut.Visible = false;
+            // 
+            // tbCopy
+            // 
+            this.tbCopy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbCopy.Image = global::ToyGraf.Properties.Resources.CopyHS;
+            this.tbCopy.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbCopy.Name = "tbCopy";
+            this.tbCopy.Size = new System.Drawing.Size(31, 20);
+            this.tbCopy.Text = "toolStripButton2";
+            this.tbCopy.ToolTipText = "Copy";
+            this.tbCopy.Visible = false;
+            // 
+            // tbPaste
+            // 
+            this.tbPaste.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbPaste.Image = global::ToyGraf.Properties.Resources.PasteHS;
+            this.tbPaste.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbPaste.Name = "tbPaste";
+            this.tbPaste.Size = new System.Drawing.Size(31, 20);
+            this.tbPaste.Text = "toolStripButton3";
+            this.tbPaste.ToolTipText = "Paste";
+            this.tbPaste.Visible = false;
+            // 
+            // tbDelete
+            // 
+            this.tbDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbDelete.Image = global::ToyGraf.Properties.Resources.Delete;
+            this.tbDelete.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbDelete.Name = "tbDelete";
+            this.tbDelete.Size = new System.Drawing.Size(31, 20);
+            this.tbDelete.Text = "toolStripButton4";
+            this.tbDelete.ToolTipText = "Delete";
+            this.tbDelete.Visible = false;
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(31, 6);
+            // 
+            // tbAdd
+            // 
+            this.tbAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbAdd.Image = global::ToyGraf.Properties.Resources.action_add_16xLG;
+            this.tbAdd.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbAdd.Name = "tbAdd";
+            this.tbAdd.Size = new System.Drawing.Size(31, 20);
+            this.tbAdd.ToolTipText = "Add a new function (F2)";
+            // 
+            // tbPlotType
+            // 
+            this.tbPlotType.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbPlotType.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbCartesian,
+            this.tbPolar});
+            this.tbPlotType.Image = global::ToyGraf.Properties.Resources.Cartesian;
+            this.tbPlotType.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbPlotType.Name = "tbPlotType";
+            this.tbPlotType.Size = new System.Drawing.Size(31, 20);
+            this.tbPlotType.Text = "toolStripSplitButton2";
+            this.tbPlotType.ToolTipText = "Type of Plot";
+            // 
+            // tbCartesian
+            // 
+            this.tbCartesian.Image = global::ToyGraf.Properties.Resources.Cartesian;
+            this.tbCartesian.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbCartesian.Name = "tbCartesian";
+            this.tbCartesian.Size = new System.Drawing.Size(123, 22);
+            this.tbCartesian.Text = "Cartesian";
+            // 
+            // tbPolar
+            // 
+            this.tbPolar.Image = global::ToyGraf.Properties.Resources.Polar;
+            this.tbPolar.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbPolar.Name = "tbPolar";
+            this.tbPolar.Size = new System.Drawing.Size(123, 22);
+            this.tbPolar.Text = "Polar";
+            // 
+            // tbProperties
+            // 
+            this.tbProperties.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbProperties.Image = global::ToyGraf.Properties.Resources.gear_16xLG;
+            this.tbProperties.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbProperties.Name = "tbProperties";
+            this.tbProperties.Size = new System.Drawing.Size(31, 20);
+            this.tbProperties.ToolTipText = "Graph properties (F3)";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(31, 6);
+            // 
+            // tbFullScreen
+            // 
+            this.tbFullScreen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbFullScreen.Image = global::ToyGraf.Properties.Resources.FullScreenHS;
+            this.tbFullScreen.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbFullScreen.Name = "tbFullScreen";
+            this.tbFullScreen.Size = new System.Drawing.Size(31, 20);
+            this.tbFullScreen.ToolTipText = "Full screen (F11)";
+            // 
+            // tbLegend
+            // 
+            this.tbLegend.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbLegend.Image = global::ToyGraf.Properties.Resources.LegendHS;
+            this.tbLegend.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbLegend.Name = "tbLegend";
+            this.tbLegend.Size = new System.Drawing.Size(31, 20);
+            this.tbLegend.ToolTipText = "Show/Hide Legend";
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(31, 6);
+            // 
+            // tbTool
+            // 
+            this.tbTool.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbTool.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbToolArrow,
+            this.tbToolCross,
+            this.tbToolHand});
+            this.tbTool.Image = global::ToyGraf.Properties.Resources.PointerHS;
+            this.tbTool.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbTool.Name = "tbTool";
+            this.tbTool.Size = new System.Drawing.Size(31, 20);
+            this.tbTool.ToolTipText = "Select Tool";
+            // 
+            // tbToolArrow
+            // 
+            this.tbToolArrow.Image = global::ToyGraf.Properties.Resources.PointerHS;
+            this.tbToolArrow.Name = "tbToolArrow";
+            this.tbToolArrow.Size = new System.Drawing.Size(112, 22);
+            this.tbToolArrow.Text = "&Pointer";
+            // 
+            // tbToolCross
+            // 
+            this.tbToolCross.Image = global::ToyGraf.Properties.Resources.Cross;
+            this.tbToolCross.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbToolCross.Name = "tbToolCross";
+            this.tbToolCross.Size = new System.Drawing.Size(112, 22);
+            this.tbToolCross.Text = "&Cross";
+            // 
+            // tbToolHand
+            // 
+            this.tbToolHand.Image = global::ToyGraf.Properties.Resources.Hand;
+            this.tbToolHand.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbToolHand.Name = "tbToolHand";
+            this.tbToolHand.Size = new System.Drawing.Size(112, 22);
+            this.tbToolHand.Text = "&Grab";
             // 
             // MainMenu
             // 
+            this.MainMenu.AutoSize = false;
+            this.MainMenu.Dock = System.Windows.Forms.DockStyle.None;
+            this.MainMenu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenu,
             this.EditMenu,
@@ -186,8 +741,8 @@
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.MainMenu.Size = new System.Drawing.Size(944, 24);
-            this.MainMenu.TabIndex = 1;
+            this.MainMenu.Size = new System.Drawing.Size(784, 24);
+            this.MainMenu.TabIndex = 2;
             this.MainMenu.Text = "Main Menu";
             // 
             // FileMenu
@@ -794,556 +1349,21 @@
             this.HelpAbout.Text = "&About";
             this.HelpAbout.ToolTipText = "Show version information";
             // 
-            // StatusBar
-            // 
-            this.StatusBar.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tbDecelerate,
-            this.tbReverse,
-            this.tbStop,
-            this.tbPause,
-            this.tbForward,
-            this.tbAccelerate,
-            this.SpeedLabel,
-            this.Tlabel,
-            this.FPSlabel,
-            this.XYlabel,
-            this.Rϴlabel,
-            this.ModifiedLabel});
-            this.StatusBar.Location = new System.Drawing.Point(0, 476);
-            this.StatusBar.Name = "StatusBar";
-            this.StatusBar.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.StatusBar.ShowItemToolTips = true;
-            this.StatusBar.Size = new System.Drawing.Size(944, 25);
-            this.StatusBar.TabIndex = 2;
-            this.StatusBar.Text = "statusStrip1";
-            // 
-            // tbDecelerate
-            // 
-            this.tbDecelerate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbDecelerate.Image = global::ToyGraf.Properties.Resources.RewindHS;
-            this.tbDecelerate.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbDecelerate.Name = "tbDecelerate";
-            this.tbDecelerate.ShowDropDownArrow = false;
-            this.tbDecelerate.Size = new System.Drawing.Size(20, 23);
-            this.tbDecelerate.ToolTipText = "Decelerate";
-            // 
-            // tbReverse
-            // 
-            this.tbReverse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbReverse.Image = global::ToyGraf.Properties.Resources.BackHS;
-            this.tbReverse.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbReverse.Name = "tbReverse";
-            this.tbReverse.ShowDropDownArrow = false;
-            this.tbReverse.Size = new System.Drawing.Size(20, 23);
-            this.tbReverse.ToolTipText = "Reverse";
-            // 
-            // tbStop
-            // 
-            this.tbStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbStop.Image = global::ToyGraf.Properties.Resources.StopHS;
-            this.tbStop.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbStop.Name = "tbStop";
-            this.tbStop.ShowDropDownArrow = false;
-            this.tbStop.Size = new System.Drawing.Size(20, 23);
-            this.tbStop.ToolTipText = "Stop";
-            // 
-            // tbPause
-            // 
-            this.tbPause.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbPause.Image = global::ToyGraf.Properties.Resources.PauseHS;
-            this.tbPause.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbPause.Name = "tbPause";
-            this.tbPause.ShowDropDownArrow = false;
-            this.tbPause.Size = new System.Drawing.Size(20, 23);
-            this.tbPause.ToolTipText = "Pause";
-            // 
-            // tbForward
-            // 
-            this.tbForward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbForward.Image = global::ToyGraf.Properties.Resources.PlayHS;
-            this.tbForward.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbForward.Name = "tbForward";
-            this.tbForward.ShowDropDownArrow = false;
-            this.tbForward.Size = new System.Drawing.Size(20, 23);
-            this.tbForward.ToolTipText = "Forward";
-            // 
-            // tbAccelerate
-            // 
-            this.tbAccelerate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbAccelerate.Image = global::ToyGraf.Properties.Resources.FFwdHS;
-            this.tbAccelerate.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbAccelerate.Name = "tbAccelerate";
-            this.tbAccelerate.ShowDropDownArrow = false;
-            this.tbAccelerate.Size = new System.Drawing.Size(20, 23);
-            this.tbAccelerate.ToolTipText = "Accelerate";
-            // 
-            // SpeedLabel
-            // 
-            this.SpeedLabel.AutoSize = false;
-            this.SpeedLabel.Name = "SpeedLabel";
-            this.SpeedLabel.Size = new System.Drawing.Size(64, 20);
-            this.SpeedLabel.Text = "time × 1";
-            // 
-            // Tlabel
-            // 
-            this.Tlabel.AutoSize = false;
-            this.Tlabel.Name = "Tlabel";
-            this.Tlabel.Size = new System.Drawing.Size(64, 20);
-            this.Tlabel.Text = "t=0.0";
-            this.Tlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // FPSlabel
-            // 
-            this.FPSlabel.AutoSize = false;
-            this.FPSlabel.Name = "FPSlabel";
-            this.FPSlabel.Size = new System.Drawing.Size(64, 20);
-            this.FPSlabel.Text = "fps=0.0";
-            this.FPSlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // XYlabel
-            // 
-            this.XYlabel.AutoSize = false;
-            this.XYlabel.Name = "XYlabel";
-            this.XYlabel.Size = new System.Drawing.Size(192, 20);
-            this.XYlabel.Text = "{x=0, y=0}";
-            this.XYlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // Rϴlabel
-            // 
-            this.Rϴlabel.AutoSize = false;
-            this.Rϴlabel.Name = "Rϴlabel";
-            this.Rϴlabel.Size = new System.Drawing.Size(192, 20);
-            this.Rϴlabel.Text = "{r=0, θ=0}";
-            this.Rϴlabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // ModifiedLabel
-            // 
-            this.ModifiedLabel.AutoSize = false;
-            this.ModifiedLabel.Name = "ModifiedLabel";
-            this.ModifiedLabel.Size = new System.Drawing.Size(55, 20);
-            this.ModifiedLabel.Text = "Modified";
-            // 
-            // PopupMenu
-            // 
-            this.PopupMenu.Name = "PopupMenu";
-            this.PopupMenu.Size = new System.Drawing.Size(61, 4);
-            this.PopupMenu.Text = "Popup Menu";
-            // 
-            // ErrorProvider
-            // 
-            this.ErrorProvider.ContainerControl = this;
-            // 
-            // ClientPanel
-            // 
-            this.ClientPanel.BackColor = System.Drawing.Color.White;
-            this.ClientPanel.Controls.Add(this.LegendPanel);
-            this.ClientPanel.Controls.Add(this.PictureBox);
-            this.ClientPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ClientPanel.Location = new System.Drawing.Point(0, 0);
-            this.ClientPanel.Name = "ClientPanel";
-            this.ClientPanel.Size = new System.Drawing.Size(625, 354);
-            this.ClientPanel.TabIndex = 6;
-            // 
-            // LegendPanel
-            // 
-            this.LegendPanel.BackColor = System.Drawing.SystemColors.Control;
-            this.LegendPanel.Location = new System.Drawing.Point(0, 0);
-            this.LegendPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.LegendPanel.Name = "LegendPanel";
-            this.LegendPanel.Size = new System.Drawing.Size(19, 16);
-            this.LegendPanel.TabIndex = 9;
-            // 
-            // PictureBox
-            // 
-            this.PictureBox.Location = new System.Drawing.Point(22, 19);
-            this.PictureBox.Name = "PictureBox";
-            this.PictureBox.Size = new System.Drawing.Size(19, 16);
-            this.PictureBox.TabIndex = 3;
-            this.PictureBox.TabStop = false;
-            // 
-            // Toolbar
-            // 
-            this.Toolbar.Dock = System.Windows.Forms.DockStyle.Left;
-            this.Toolbar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.Toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tbNew,
-            this.tbOpen,
-            this.tbSave,
-            this.toolStripSeparator2,
-            this.tbUndo,
-            this.tbRedo,
-            this.tbCut,
-            this.tbCopy,
-            this.tbPaste,
-            this.tbDelete,
-            this.toolStripSeparator1,
-            this.tbAdd,
-            this.tbPlotType,
-            this.tbProperties,
-            this.toolStripSeparator3,
-            this.tbFullScreen,
-            this.tbLegend,
-            this.toolStripSeparator5,
-            this.tbTool});
-            this.Toolbar.Location = new System.Drawing.Point(0, 24);
-            this.Toolbar.Name = "Toolbar";
-            this.Toolbar.Padding = new System.Windows.Forms.Padding(0);
-            this.Toolbar.Size = new System.Drawing.Size(32, 452);
-            this.Toolbar.TabIndex = 11;
-            // 
-            // tbNew
-            // 
-            this.tbNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbNew.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tbNewEmptyGraph,
-            this.tbNewFromTemplate});
-            this.tbNew.Image = global::ToyGraf.Properties.Resources.NewDocumentHS;
-            this.tbNew.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbNew.Name = "tbNew";
-            this.tbNew.Size = new System.Drawing.Size(31, 20);
-            this.tbNew.ToolTipText = "Create a new file (^N)";
-            // 
-            // tbNewEmptyGraph
-            // 
-            this.tbNewEmptyGraph.Name = "tbNewEmptyGraph";
-            this.tbNewEmptyGraph.ShortcutKeyDisplayString = "^N";
-            this.tbNewEmptyGraph.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.tbNewEmptyGraph.Size = new System.Drawing.Size(194, 22);
-            this.tbNewEmptyGraph.Text = "&New Empty Graph";
-            // 
-            // tbNewFromTemplate
-            // 
-            this.tbNewFromTemplate.Name = "tbNewFromTemplate";
-            this.tbNewFromTemplate.Size = new System.Drawing.Size(194, 22);
-            this.tbNewFromTemplate.Text = "New From &Template...";
-            // 
-            // tbOpen
-            // 
-            this.tbOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbOpen.Image = global::ToyGraf.Properties.Resources.OpenFile;
-            this.tbOpen.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbOpen.Name = "tbOpen";
-            this.tbOpen.Size = new System.Drawing.Size(31, 20);
-            this.tbOpen.ToolTipText = "Open an existing file (^O)";
-            // 
-            // tbSave
-            // 
-            this.tbSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbSave.Image = global::ToyGraf.Properties.Resources.saveHS;
-            this.tbSave.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbSave.Name = "tbSave";
-            this.tbSave.Size = new System.Drawing.Size(31, 20);
-            this.tbSave.ToolTipText = "Save to file (^S)";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(31, 6);
-            // 
-            // tbUndo
-            // 
-            this.tbUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbUndo.Image = global::ToyGraf.Properties.Resources.Edit_UndoHS;
-            this.tbUndo.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbUndo.Name = "tbUndo";
-            this.tbUndo.Size = new System.Drawing.Size(31, 20);
-            this.tbUndo.ToolTipText = "Undo (^Z)";
-            // 
-            // tbRedo
-            // 
-            this.tbRedo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbRedo.Image = global::ToyGraf.Properties.Resources.Edit_RedoHS;
-            this.tbRedo.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbRedo.Name = "tbRedo";
-            this.tbRedo.Size = new System.Drawing.Size(31, 20);
-            this.tbRedo.Text = "toolStripSplitButton2";
-            this.tbRedo.ToolTipText = "Redo (^Y)";
-            // 
-            // tbCut
-            // 
-            this.tbCut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbCut.Image = global::ToyGraf.Properties.Resources.CutHS;
-            this.tbCut.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbCut.Name = "tbCut";
-            this.tbCut.Size = new System.Drawing.Size(31, 20);
-            this.tbCut.Text = "toolStripButton1";
-            this.tbCut.ToolTipText = "Cut";
-            this.tbCut.Visible = false;
-            // 
-            // tbCopy
-            // 
-            this.tbCopy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbCopy.Image = global::ToyGraf.Properties.Resources.CopyHS;
-            this.tbCopy.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbCopy.Name = "tbCopy";
-            this.tbCopy.Size = new System.Drawing.Size(31, 20);
-            this.tbCopy.Text = "toolStripButton2";
-            this.tbCopy.ToolTipText = "Copy";
-            this.tbCopy.Visible = false;
-            // 
-            // tbPaste
-            // 
-            this.tbPaste.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbPaste.Image = global::ToyGraf.Properties.Resources.PasteHS;
-            this.tbPaste.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbPaste.Name = "tbPaste";
-            this.tbPaste.Size = new System.Drawing.Size(31, 20);
-            this.tbPaste.Text = "toolStripButton3";
-            this.tbPaste.ToolTipText = "Paste";
-            this.tbPaste.Visible = false;
-            // 
-            // tbDelete
-            // 
-            this.tbDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbDelete.Image = global::ToyGraf.Properties.Resources.Delete;
-            this.tbDelete.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbDelete.Name = "tbDelete";
-            this.tbDelete.Size = new System.Drawing.Size(31, 20);
-            this.tbDelete.Text = "toolStripButton4";
-            this.tbDelete.ToolTipText = "Delete";
-            this.tbDelete.Visible = false;
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(31, 6);
-            // 
-            // tbAdd
-            // 
-            this.tbAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbAdd.Image = global::ToyGraf.Properties.Resources.action_add_16xLG;
-            this.tbAdd.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbAdd.Name = "tbAdd";
-            this.tbAdd.Size = new System.Drawing.Size(31, 20);
-            this.tbAdd.ToolTipText = "Add a new function (F2)";
-            // 
-            // tbPlotType
-            // 
-            this.tbPlotType.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbPlotType.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tbCartesian,
-            this.tbPolar});
-            this.tbPlotType.Image = global::ToyGraf.Properties.Resources.Cartesian;
-            this.tbPlotType.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbPlotType.Name = "tbPlotType";
-            this.tbPlotType.Size = new System.Drawing.Size(31, 20);
-            this.tbPlotType.Text = "toolStripSplitButton2";
-            this.tbPlotType.ToolTipText = "Type of Plot";
-            // 
-            // tbCartesian
-            // 
-            this.tbCartesian.Image = global::ToyGraf.Properties.Resources.Cartesian;
-            this.tbCartesian.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbCartesian.Name = "tbCartesian";
-            this.tbCartesian.Size = new System.Drawing.Size(123, 22);
-            this.tbCartesian.Text = "Cartesian";
-            // 
-            // tbPolar
-            // 
-            this.tbPolar.Image = global::ToyGraf.Properties.Resources.Polar;
-            this.tbPolar.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbPolar.Name = "tbPolar";
-            this.tbPolar.Size = new System.Drawing.Size(123, 22);
-            this.tbPolar.Text = "Polar";
-            // 
-            // tbProperties
-            // 
-            this.tbProperties.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbProperties.Image = global::ToyGraf.Properties.Resources.gear_16xLG;
-            this.tbProperties.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbProperties.Name = "tbProperties";
-            this.tbProperties.Size = new System.Drawing.Size(31, 20);
-            this.tbProperties.ToolTipText = "Graph properties (F3)";
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(31, 6);
-            // 
-            // tbFullScreen
-            // 
-            this.tbFullScreen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbFullScreen.Image = global::ToyGraf.Properties.Resources.FullScreenHS;
-            this.tbFullScreen.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbFullScreen.Name = "tbFullScreen";
-            this.tbFullScreen.Size = new System.Drawing.Size(31, 20);
-            this.tbFullScreen.ToolTipText = "Full screen (F11)";
-            // 
-            // tbLegend
-            // 
-            this.tbLegend.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbLegend.Image = global::ToyGraf.Properties.Resources.LegendHS;
-            this.tbLegend.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbLegend.Name = "tbLegend";
-            this.tbLegend.Size = new System.Drawing.Size(31, 20);
-            this.tbLegend.ToolTipText = "Show/Hide Legend";
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(31, 6);
-            // 
-            // tbTool
-            // 
-            this.tbTool.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbTool.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tbToolArrow,
-            this.tbToolCross,
-            this.tbToolHand});
-            this.tbTool.Image = global::ToyGraf.Properties.Resources.PointerHS;
-            this.tbTool.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbTool.Name = "tbTool";
-            this.tbTool.Size = new System.Drawing.Size(31, 20);
-            this.tbTool.ToolTipText = "Select Tool";
-            // 
-            // tbToolArrow
-            // 
-            this.tbToolArrow.Image = global::ToyGraf.Properties.Resources.PointerHS;
-            this.tbToolArrow.Name = "tbToolArrow";
-            this.tbToolArrow.Size = new System.Drawing.Size(112, 22);
-            this.tbToolArrow.Text = "&Pointer";
-            // 
-            // tbToolCross
-            // 
-            this.tbToolCross.Image = global::ToyGraf.Properties.Resources.Cross;
-            this.tbToolCross.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbToolCross.Name = "tbToolCross";
-            this.tbToolCross.Size = new System.Drawing.Size(112, 22);
-            this.tbToolCross.Text = "&Cross";
-            // 
-            // tbToolHand
-            // 
-            this.tbToolHand.Image = global::ToyGraf.Properties.Resources.Hand;
-            this.tbToolHand.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbToolHand.Name = "tbToolHand";
-            this.tbToolHand.Size = new System.Drawing.Size(112, 22);
-            this.tbToolHand.Text = "&Grab";
-            // 
-            // PropertyTable
-            // 
-            this.PropertyTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PropertyTable.Location = new System.Drawing.Point(0, 0);
-            this.PropertyTable.Name = "PropertyTable";
-            this.PropertyTable.Size = new System.Drawing.Size(283, 452);
-            this.PropertyTable.TabIndex = 14;
-            // 
-            // SplitContainer1
-            // 
-            this.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.SplitContainer1.Location = new System.Drawing.Point(32, 24);
-            this.SplitContainer1.Name = "SplitContainer1";
-            // 
-            // SplitContainer1.Panel1
-            // 
-            this.SplitContainer1.Panel1.Controls.Add(this.SplitContainer2);
-            // 
-            // SplitContainer1.Panel2
-            // 
-            this.SplitContainer1.Panel2.Controls.Add(this.PropertyTable);
-            this.SplitContainer1.Size = new System.Drawing.Size(912, 452);
-            this.SplitContainer1.SplitterDistance = 625;
-            this.SplitContainer1.TabIndex = 17;
-            // 
-            // SplitContainer2
-            // 
-            this.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.SplitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.SplitContainer2.Name = "SplitContainer2";
-            this.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // SplitContainer2.Panel1
-            // 
-            this.SplitContainer2.Panel1.Controls.Add(this.ClientPanel);
-            // 
-            // SplitContainer2.Panel2
-            // 
-            this.SplitContainer2.Panel2.Controls.Add(this.DataGridView);
-            this.SplitContainer2.Size = new System.Drawing.Size(625, 452);
-            this.SplitContainer2.SplitterDistance = 354;
-            this.SplitContainer2.TabIndex = 7;
-            // 
-            // DataGridView
-            // 
-            this.DataGridView.AllowUserToAddRows = false;
-            this.DataGridView.AllowUserToDeleteRows = false;
-            this.DataGridView.AllowUserToOrderColumns = true;
-            this.DataGridView.AllowUserToResizeRows = false;
-            this.DataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.DataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.DataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.DataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.DataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.DataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colFormula,
-            this.colDerivative,
-            this.colProxy});
-            this.DataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DataGridView.ImeMode = System.Windows.Forms.ImeMode.Katakana;
-            this.DataGridView.Location = new System.Drawing.Point(0, 0);
-            this.DataGridView.Name = "DataGridView";
-            this.DataGridView.ReadOnly = true;
-            this.DataGridView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.DataGridView.RowHeadersVisible = false;
-            this.DataGridView.Size = new System.Drawing.Size(625, 94);
-            this.DataGridView.TabIndex = 0;
-            // 
-            // colFormula
-            // 
-            this.colFormula.DataPropertyName = "Formula";
-            this.colFormula.HeaderText = "Formula";
-            this.colFormula.Name = "colFormula";
-            this.colFormula.ReadOnly = true;
-            // 
-            // colDerivative
-            // 
-            this.colDerivative.DataPropertyName = "Derivative";
-            this.colDerivative.HeaderText = "Derivative";
-            this.colDerivative.Name = "colDerivative";
-            this.colDerivative.ReadOnly = true;
-            // 
-            // colProxy
-            // 
-            this.colProxy.DataPropertyName = "Proxy";
-            this.colProxy.HeaderText = "Proxy";
-            this.colProxy.Name = "colProxy";
-            this.colProxy.ReadOnly = true;
-            // 
             // GraphForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(944, 501);
+            this.ClientSize = new System.Drawing.Size(784, 561);
             this.ContextMenuStrip = this.PopupMenu;
-            this.Controls.Add(this.SplitContainer1);
-            this.Controls.Add(this.Toolbar);
-            this.Controls.Add(this.StatusBar);
-            this.Controls.Add(this.MainMenu);
+            this.Controls.Add(this.ToolStripContainer);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MainMenu;
             this.Name = "GraphForm";
             this.Text = "ToyGraf";
-            this.MainMenu.ResumeLayout(false);
-            this.MainMenu.PerformLayout();
-            this.StatusBar.ResumeLayout(false);
-            this.StatusBar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).EndInit();
             this.ClientPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
-            this.Toolbar.ResumeLayout(false);
-            this.Toolbar.PerformLayout();
             this.SplitContainer1.Panel1.ResumeLayout(false);
             this.SplitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).EndInit();
@@ -1353,48 +1373,101 @@
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer2)).EndInit();
             this.SplitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView)).EndInit();
+            this.ToolStripContainer.BottomToolStripPanel.ResumeLayout(false);
+            this.ToolStripContainer.BottomToolStripPanel.PerformLayout();
+            this.ToolStripContainer.ContentPanel.ResumeLayout(false);
+            this.ToolStripContainer.LeftToolStripPanel.ResumeLayout(false);
+            this.ToolStripContainer.LeftToolStripPanel.PerformLayout();
+            this.ToolStripContainer.TopToolStripPanel.ResumeLayout(false);
+            this.ToolStripContainer.ResumeLayout(false);
+            this.ToolStripContainer.PerformLayout();
+            this.StatusBar.ResumeLayout(false);
+            this.StatusBar.PerformLayout();
+            this.Toolbar.ResumeLayout(false);
+            this.Toolbar.PerformLayout();
+            this.MainMenu.ResumeLayout(false);
+            this.MainMenu.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        internal System.Windows.Forms.ToolStripMenuItem FileSave;
-        internal System.Windows.Forms.ToolStripMenuItem FileSaveAs;
-        internal System.Windows.Forms.ToolStripMenuItem FileReopen;
-        internal System.Windows.Forms.ToolStripMenuItem FileMenu;
-        internal System.Windows.Forms.ToolStripMenuItem FileClose;
-        internal System.Windows.Forms.ToolStripMenuItem FileOpen;
-        internal System.Windows.Forms.ToolStripMenuItem HelpAbout;
-        internal System.Windows.Forms.ToolStripStatusLabel ModifiedLabel;
         internal System.Windows.Forms.ToolTip ToolTip;
-        internal System.Windows.Forms.ToolStripMenuItem ViewMenu;
-        internal System.Windows.Forms.ToolStripMenuItem ViewCoordinatesTooltip;
-        internal ToyGraf.Controls.TgStatusStrip StatusBar;
         internal System.Windows.Forms.ContextMenuStrip PopupMenu;
-        internal ToyGraf.Controls.TgMenuStrip MainMenu;
         internal System.Windows.Forms.ErrorProvider ErrorProvider;
-        internal System.Windows.Forms.ToolStripMenuItem ViewLegend;
         internal System.Windows.Forms.Panel ClientPanel;
         internal System.Windows.Forms.PictureBox PictureBox;
         internal System.Windows.Forms.Panel LegendPanel;
-        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
-        internal System.Windows.Forms.ToolStripMenuItem ViewLegendTopLeft;
-        internal System.Windows.Forms.ToolStripMenuItem ViewLegendTopRight;
-        internal System.Windows.Forms.ToolStripMenuItem ViewLegendBottomLeft;
-        internal System.Windows.Forms.ToolStripMenuItem ViewLegendBottomRight;
-        internal System.Windows.Forms.ToolStripMenuItem ViewLegendHide;
+        internal System.Windows.Forms.OpenFileDialog TextureDialog;
+        internal System.Windows.Forms.PropertyGrid PropertyTable;
+        internal System.Windows.Forms.SplitContainer SplitContainer1;
+        internal System.Windows.Forms.SplitContainer SplitContainer2;
+        internal System.Windows.Forms.DataGridView DataGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colFormula;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDerivative;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colProxy;
+        private System.Windows.Forms.ToolStripContainer ToolStripContainer;
+        internal Controls.TgStatusStrip StatusBar;
+        internal Controls.TgToolStrip Toolbar;
+        internal System.Windows.Forms.ToolStripSplitButton tbNew;
+        internal System.Windows.Forms.ToolStripMenuItem tbNewEmptyGraph;
+        internal System.Windows.Forms.ToolStripMenuItem tbNewFromTemplate;
+        internal System.Windows.Forms.ToolStripSplitButton tbOpen;
+        internal System.Windows.Forms.ToolStripButton tbSave;
+        internal System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        internal System.Windows.Forms.ToolStripSplitButton tbUndo;
+        internal System.Windows.Forms.ToolStripSplitButton tbRedo;
+        internal System.Windows.Forms.ToolStripButton tbCut;
+        internal System.Windows.Forms.ToolStripButton tbCopy;
+        internal System.Windows.Forms.ToolStripButton tbPaste;
+        internal System.Windows.Forms.ToolStripButton tbDelete;
+        internal System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        internal System.Windows.Forms.ToolStripButton tbAdd;
+        internal System.Windows.Forms.ToolStripSplitButton tbPlotType;
+        internal System.Windows.Forms.ToolStripMenuItem tbCartesian;
+        internal System.Windows.Forms.ToolStripMenuItem tbPolar;
+        internal System.Windows.Forms.ToolStripButton tbProperties;
+        internal System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        internal System.Windows.Forms.ToolStripButton tbFullScreen;
+        internal System.Windows.Forms.ToolStripSplitButton tbLegend;
+        internal System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        internal System.Windows.Forms.ToolStripSplitButton tbTool;
+        internal System.Windows.Forms.ToolStripMenuItem tbToolArrow;
+        internal System.Windows.Forms.ToolStripMenuItem tbToolCross;
+        internal System.Windows.Forms.ToolStripMenuItem tbToolHand;
+        internal Controls.TgMenuStrip MainMenu;
+        internal System.Windows.Forms.ToolStripMenuItem FileMenu;
+        internal System.Windows.Forms.ToolStripMenuItem FileNew;
+        internal System.Windows.Forms.ToolStripMenuItem FileNewEmptyGraph;
+        internal System.Windows.Forms.ToolStripMenuItem FileNewFromTemplate;
+        internal System.Windows.Forms.ToolStripMenuItem FileOpen;
+        internal System.Windows.Forms.ToolStripMenuItem FileReopen;
+        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        internal System.Windows.Forms.ToolStripMenuItem FileSave;
+        internal System.Windows.Forms.ToolStripMenuItem FileSaveAs;
+        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        internal System.Windows.Forms.ToolStripMenuItem FileClose;
+        internal System.Windows.Forms.ToolStripMenuItem FileExit;
+        internal System.Windows.Forms.ToolStripMenuItem EditMenu;
+        internal System.Windows.Forms.ToolStripMenuItem EditUndo;
+        internal System.Windows.Forms.ToolStripMenuItem EditRedo;
+        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        internal System.Windows.Forms.ToolStripMenuItem EditCut;
+        internal System.Windows.Forms.ToolStripMenuItem EditCopy;
+        internal System.Windows.Forms.ToolStripMenuItem EditPaste;
+        internal System.Windows.Forms.ToolStripMenuItem EditDelete;
+        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
+        internal System.Windows.Forms.ToolStripMenuItem EditSelectAll;
+        internal System.Windows.Forms.ToolStripMenuItem EditInvertSelection;
+        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem10;
+        internal System.Windows.Forms.ToolStripMenuItem EditOptions;
         internal System.Windows.Forms.ToolStripMenuItem GraphMenu;
         internal System.Windows.Forms.ToolStripMenuItem GraphAddNewFunction;
-        internal System.Windows.Forms.ToolStripMenuItem HelpMenu;
-        internal System.Windows.Forms.ToolStripStatusLabel XYlabel;
-        internal System.Windows.Forms.ToolStripStatusLabel Rϴlabel;
+        internal System.Windows.Forms.ToolStripMenuItem GraphType;
+        internal System.Windows.Forms.ToolStripMenuItem GraphTypeCartesian;
+        internal System.Windows.Forms.ToolStripMenuItem GraphTypePolar;
         internal System.Windows.Forms.ToolStripMenuItem GraphProperties;
-        internal System.Windows.Forms.ToolStripMenuItem TimeMenu;
-        internal System.Windows.Forms.ToolStripMenuItem TimeStop;
-        internal System.Windows.Forms.ToolStripStatusLabel Tlabel;
+        internal System.Windows.Forms.ToolStripMenuItem ViewMenu;
         internal System.Windows.Forms.ToolStripMenuItem ZoomMenu;
         internal System.Windows.Forms.ToolStripMenuItem ZoomIn;
         internal System.Windows.Forms.ToolStripMenuItem ZoomOut;
@@ -1408,82 +1481,43 @@
         internal System.Windows.Forms.ToolStripMenuItem ScrollDown;
         internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
         internal System.Windows.Forms.ToolStripMenuItem ScrollCentre;
-        internal System.Windows.Forms.ToolStripMenuItem GraphType;
-        internal System.Windows.Forms.ToolStripMenuItem GraphTypeCartesian;
-        internal System.Windows.Forms.ToolStripMenuItem GraphTypePolar;
-        internal ToyGraf.Controls.TgToolStrip Toolbar;
-        internal System.Windows.Forms.ToolStripSplitButton tbNew;
-        internal System.Windows.Forms.ToolStripSplitButton tbOpen;
-        internal System.Windows.Forms.ToolStripButton tbSave;
-        internal System.Windows.Forms.ToolStripButton tbAdd;
-        internal System.Windows.Forms.ToolStripButton tbProperties;
-        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
-        internal System.Windows.Forms.ToolStripStatusLabel FPSlabel;
-        internal System.Windows.Forms.ToolStripButton tbFullScreen;
-        internal System.Windows.Forms.ToolStripStatusLabel SpeedLabel;
-        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
-        internal System.Windows.Forms.ToolStripMenuItem EditUndo;
-        internal System.Windows.Forms.ToolStripMenuItem EditRedo;
-        internal System.Windows.Forms.ToolStripMenuItem EditCut;
-        internal System.Windows.Forms.ToolStripMenuItem EditCopy;
-        internal System.Windows.Forms.ToolStripMenuItem EditPaste;
-        internal System.Windows.Forms.ToolStripMenuItem EditDelete;
+        internal System.Windows.Forms.ToolStripMenuItem ViewLegend;
+        internal System.Windows.Forms.ToolStripMenuItem ViewLegendTopLeft;
+        internal System.Windows.Forms.ToolStripMenuItem ViewLegendTopRight;
+        internal System.Windows.Forms.ToolStripMenuItem ViewLegendBottomLeft;
+        internal System.Windows.Forms.ToolStripMenuItem ViewLegendBottomRight;
+        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        internal System.Windows.Forms.ToolStripMenuItem ViewLegendHide;
         internal System.Windows.Forms.ToolStripMenuItem ViewToolbar;
-        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         internal System.Windows.Forms.ToolStripMenuItem ViewToolbarLeft;
         internal System.Windows.Forms.ToolStripMenuItem ViewToolbarTop;
         internal System.Windows.Forms.ToolStripMenuItem ViewToolbarRight;
         internal System.Windows.Forms.ToolStripMenuItem ViewToolbarBottom;
+        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         internal System.Windows.Forms.ToolStripMenuItem ViewToolbarHide;
-        internal System.Windows.Forms.ToolStripMenuItem EditMenu;
-        internal System.Windows.Forms.ToolStripSplitButton tbUndo;
-        internal System.Windows.Forms.ToolStripSplitButton tbRedo;
-        internal System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        internal System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
-        internal System.Windows.Forms.ToolStripButton tbCut;
-        internal System.Windows.Forms.ToolStripButton tbCopy;
-        internal System.Windows.Forms.ToolStripButton tbPaste;
-        internal System.Windows.Forms.ToolStripButton tbDelete;
-        internal System.Windows.Forms.ToolStripMenuItem TimeForward;
-        internal System.Windows.Forms.ToolStripMenuItem TimePause;
-        internal System.Windows.Forms.ToolStripDropDownButton tbForward;
-        internal System.Windows.Forms.ToolStripDropDownButton tbPause;
-        internal System.Windows.Forms.ToolStripDropDownButton tbStop;
-        internal System.Windows.Forms.ToolStripDropDownButton tbDecelerate;
-        internal System.Windows.Forms.ToolStripDropDownButton tbReverse;
-        internal System.Windows.Forms.ToolStripDropDownButton tbAccelerate;
+        internal System.Windows.Forms.ToolStripMenuItem ViewPropertyTable;
+        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
+        internal System.Windows.Forms.ToolStripMenuItem ViewCoordinatesTooltip;
+        internal System.Windows.Forms.ToolStripMenuItem TimeMenu;
         internal System.Windows.Forms.ToolStripMenuItem TimeDecelerate;
         internal System.Windows.Forms.ToolStripMenuItem TimeReverse;
+        internal System.Windows.Forms.ToolStripMenuItem TimeStop;
+        internal System.Windows.Forms.ToolStripMenuItem TimePause;
+        internal System.Windows.Forms.ToolStripMenuItem TimeForward;
         internal System.Windows.Forms.ToolStripMenuItem TimeAccelerate;
-        internal System.Windows.Forms.ToolStripSplitButton tbLegend;
-        internal System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        internal System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        internal System.Windows.Forms.OpenFileDialog TextureDialog;
-        internal System.Windows.Forms.PropertyGrid PropertyTable;
-        internal System.Windows.Forms.ToolStripMenuItem ViewPropertyTable;
-        internal System.Windows.Forms.SplitContainer SplitContainer1;
-        internal System.Windows.Forms.ToolStripMenuItem FileExit;
-        internal System.Windows.Forms.ToolStripMenuItem FileNew;
-        internal System.Windows.Forms.ToolStripMenuItem FileNewEmptyGraph;
-        internal System.Windows.Forms.ToolStripMenuItem FileNewFromTemplate;
-        internal System.Windows.Forms.ToolStripMenuItem EditOptions;
-        internal System.Windows.Forms.ToolStripMenuItem tbNewEmptyGraph;
-        internal System.Windows.Forms.ToolStripMenuItem tbNewFromTemplate;
-        internal System.Windows.Forms.ToolStripSplitButton tbTool;
-        internal System.Windows.Forms.ToolStripMenuItem tbToolArrow;
-        internal System.Windows.Forms.ToolStripMenuItem tbToolHand;
-        internal System.Windows.Forms.ToolStripMenuItem tbCartesian;
-        internal System.Windows.Forms.ToolStripMenuItem tbPolar;
-        internal System.Windows.Forms.ToolStripSplitButton tbPlotType;
-        internal System.Windows.Forms.ToolStripMenuItem tbToolCross;
-        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem10;
-        internal System.Windows.Forms.ToolStripMenuItem EditSelectAll;
-        internal System.Windows.Forms.ToolStripMenuItem EditInvertSelection;
-        internal System.Windows.Forms.SplitContainer SplitContainer2;
-        internal System.Windows.Forms.DataGridView DataGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colFormula;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colDerivative;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colProxy;
+        internal System.Windows.Forms.ToolStripMenuItem HelpMenu;
+        internal System.Windows.Forms.ToolStripMenuItem HelpAbout;
+        internal System.Windows.Forms.ToolStripDropDownButton tbDecelerate;
+        internal System.Windows.Forms.ToolStripDropDownButton tbReverse;
+        internal System.Windows.Forms.ToolStripDropDownButton tbStop;
+        internal System.Windows.Forms.ToolStripDropDownButton tbPause;
+        internal System.Windows.Forms.ToolStripDropDownButton tbForward;
+        internal System.Windows.Forms.ToolStripDropDownButton tbAccelerate;
+        internal System.Windows.Forms.ToolStripStatusLabel SpeedLabel;
+        internal System.Windows.Forms.ToolStripStatusLabel Tlabel;
+        internal System.Windows.Forms.ToolStripStatusLabel FPSlabel;
+        internal System.Windows.Forms.ToolStripStatusLabel XYlabel;
+        internal System.Windows.Forms.ToolStripStatusLabel Rϴlabel;
+        internal System.Windows.Forms.ToolStripStatusLabel ModifiedLabel;
     }
 }

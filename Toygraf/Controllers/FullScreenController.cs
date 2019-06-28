@@ -22,6 +22,8 @@
         private GraphController GraphController;
         private GraphForm Form => GraphController.View;
         private PropertyTableController PropertyTableController => GraphController.PropertyTableController;
+        private DataGridController DataGridController => GraphController.DataGridController;
+
         private FormState SavedFormState;
 
         private bool FullScreen
@@ -44,6 +46,7 @@
                 | (Form.Toolbar.Visible ? FormElements.Toolbar : 0)
                 | (Form.StatusBar.Visible ? FormElements.StatusBar : 0)
                 | (PropertyTableController.PropertyTableVisible ? FormElements.PropertyTable : 0)
+                | (DataGridController.DataGridVisible ? FormElements.DataGrid : 0)
                 | (Form.LegendPanel.Visible ? FormElements.Legend : 0),
                 WindowState = Form.WindowState
             };
@@ -55,6 +58,7 @@
                 Form.Toolbar.Visible = (elements & FormElements.Toolbar) != 0;
                 Form.StatusBar.Visible = (elements & FormElements.StatusBar) != 0;
                 PropertyTableController.PropertyTableVisible = (elements & FormElements.PropertyTable) != 0;
+                DataGridController.DataGridVisible = (elements & FormElements.DataGrid) != 0;
                 Form.LegendPanel.Visible = (elements & FormElements.Legend) != 0;
                 Form.WindowState = value.WindowState;
             }
@@ -102,7 +106,8 @@
             Toolbar = 0x02,
             StatusBar = 0x04,
             PropertyTable = 0x08,
-            Legend = 0x10
+            DataGrid = 0x10,
+            Legend = 0x20
         }
 
         private struct FormState

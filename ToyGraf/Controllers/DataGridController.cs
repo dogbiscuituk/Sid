@@ -15,6 +15,12 @@
             Grid.AutoGenerateColumns = false;
         }
 
+        internal bool DataGridVisible
+        {
+            get => !Form.SplitContainer2.Panel2Collapsed;
+            set => Form.SplitContainer2.Panel2Collapsed = !value;
+        }
+
         private void GraphController_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             Grid.DataSource = CommandProcessor.Traces;
