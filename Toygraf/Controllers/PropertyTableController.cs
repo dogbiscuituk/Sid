@@ -26,8 +26,8 @@
 
         internal bool PropertyTableVisible
         {
-            get => !Form.SplitContainer.Panel2Collapsed;
-            set => Form.SplitContainer.Panel2Collapsed = !value;
+            get => !Form.SplitContainer1.Panel2Collapsed;
+            set => Form.SplitContainer1.Panel2Collapsed = !value;
         }
 
         internal static void HidePropertyPagesButton(PropertyGrid propertyGrid) =>

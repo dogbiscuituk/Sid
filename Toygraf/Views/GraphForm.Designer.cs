@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphForm));
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.MainMenu = new ToyGraf.Controls.TgMenuStrip();
@@ -54,6 +55,7 @@
             this.EditDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
             this.EditSelectAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditInvertSelection = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripSeparator();
             this.EditOptions = new System.Windows.Forms.ToolStripMenuItem();
             this.GraphMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -149,18 +151,27 @@
             this.tbToolHand = new System.Windows.Forms.ToolStripMenuItem();
             this.TextureDialog = new System.Windows.Forms.OpenFileDialog();
             this.PropertyTable = new System.Windows.Forms.PropertyGrid();
-            this.SplitContainer = new System.Windows.Forms.SplitContainer();
-            this.EditInvertSelection = new System.Windows.Forms.ToolStripMenuItem();
+            this.SplitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.SplitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.DataGridView = new System.Windows.Forms.DataGridView();
+            this.colFormula = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDerivative = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colProxy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MainMenu.SuspendLayout();
             this.StatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.ClientPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
             this.Toolbar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer)).BeginInit();
-            this.SplitContainer.Panel1.SuspendLayout();
-            this.SplitContainer.Panel2.SuspendLayout();
-            this.SplitContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).BeginInit();
+            this.SplitContainer1.Panel1.SuspendLayout();
+            this.SplitContainer1.Panel2.SuspendLayout();
+            this.SplitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer2)).BeginInit();
+            this.SplitContainer2.Panel1.SuspendLayout();
+            this.SplitContainer2.Panel2.SuspendLayout();
+            this.SplitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // MainMenu
@@ -305,7 +316,7 @@
             this.EditUndo.Name = "EditUndo";
             this.EditUndo.ShortcutKeyDisplayString = "^Z";
             this.EditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.EditUndo.Size = new System.Drawing.Size(180, 22);
+            this.EditUndo.Size = new System.Drawing.Size(155, 22);
             this.EditUndo.Text = "&Undo";
             // 
             // EditRedo
@@ -316,13 +327,13 @@
             this.EditRedo.Name = "EditRedo";
             this.EditRedo.ShortcutKeyDisplayString = "^Y";
             this.EditRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.EditRedo.Size = new System.Drawing.Size(180, 22);
+            this.EditRedo.Size = new System.Drawing.Size(155, 22);
             this.EditRedo.Text = "&Redo";
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(152, 6);
             // 
             // EditCut
             // 
@@ -332,7 +343,7 @@
             this.EditCut.Name = "EditCut";
             this.EditCut.ShortcutKeyDisplayString = "^X";
             this.EditCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.EditCut.Size = new System.Drawing.Size(180, 22);
+            this.EditCut.Size = new System.Drawing.Size(155, 22);
             this.EditCut.Text = "Cu&t";
             // 
             // EditCopy
@@ -343,7 +354,7 @@
             this.EditCopy.Name = "EditCopy";
             this.EditCopy.ShortcutKeyDisplayString = "^C";
             this.EditCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.EditCopy.Size = new System.Drawing.Size(180, 22);
+            this.EditCopy.Size = new System.Drawing.Size(155, 22);
             this.EditCopy.Text = "&Copy";
             // 
             // EditPaste
@@ -354,7 +365,7 @@
             this.EditPaste.Name = "EditPaste";
             this.EditPaste.ShortcutKeyDisplayString = "^V";
             this.EditPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.EditPaste.Size = new System.Drawing.Size(180, 22);
+            this.EditPaste.Size = new System.Drawing.Size(155, 22);
             this.EditPaste.Text = "&Paste";
             // 
             // EditDelete
@@ -363,31 +374,37 @@
             this.EditDelete.Image = global::ToyGraf.Properties.Resources.Delete;
             this.EditDelete.ImageTransparentColor = System.Drawing.Color.White;
             this.EditDelete.Name = "EditDelete";
-            this.EditDelete.Size = new System.Drawing.Size(180, 22);
+            this.EditDelete.Size = new System.Drawing.Size(155, 22);
             this.EditDelete.Text = "&Delete";
             // 
             // toolStripMenuItem9
             // 
             this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(152, 6);
             // 
             // EditSelectAll
             // 
             this.EditSelectAll.Name = "EditSelectAll";
             this.EditSelectAll.ShortcutKeyDisplayString = "^A";
             this.EditSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.EditSelectAll.Size = new System.Drawing.Size(180, 22);
+            this.EditSelectAll.Size = new System.Drawing.Size(155, 22);
             this.EditSelectAll.Text = "Select &All";
+            // 
+            // EditInvertSelection
+            // 
+            this.EditInvertSelection.Name = "EditInvertSelection";
+            this.EditInvertSelection.Size = new System.Drawing.Size(155, 22);
+            this.EditInvertSelection.Text = "&Invert Selection";
             // 
             // toolStripMenuItem10
             // 
             this.toolStripMenuItem10.Name = "toolStripMenuItem10";
-            this.toolStripMenuItem10.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(152, 6);
             // 
             // EditOptions
             // 
             this.EditOptions.Name = "EditOptions";
-            this.EditOptions.Size = new System.Drawing.Size(180, 22);
+            this.EditOptions.Size = new System.Drawing.Size(155, 22);
             this.EditOptions.Text = "&Options...";
             // 
             // GraphMenu
@@ -925,7 +942,7 @@
             this.ClientPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ClientPanel.Location = new System.Drawing.Point(0, 0);
             this.ClientPanel.Name = "ClientPanel";
-            this.ClientPanel.Size = new System.Drawing.Size(625, 452);
+            this.ClientPanel.Size = new System.Drawing.Size(625, 354);
             this.ClientPanel.TabIndex = 6;
             // 
             // LegendPanel
@@ -1211,29 +1228,97 @@
             this.PropertyTable.Size = new System.Drawing.Size(283, 452);
             this.PropertyTable.TabIndex = 14;
             // 
-            // SplitContainer
+            // SplitContainer1
             // 
-            this.SplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.SplitContainer.Location = new System.Drawing.Point(32, 24);
-            this.SplitContainer.Name = "SplitContainer";
+            this.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.SplitContainer1.Location = new System.Drawing.Point(32, 24);
+            this.SplitContainer1.Name = "SplitContainer1";
             // 
-            // SplitContainer.Panel1
+            // SplitContainer1.Panel1
             // 
-            this.SplitContainer.Panel1.Controls.Add(this.ClientPanel);
+            this.SplitContainer1.Panel1.Controls.Add(this.SplitContainer2);
             // 
-            // SplitContainer.Panel2
+            // SplitContainer1.Panel2
             // 
-            this.SplitContainer.Panel2.Controls.Add(this.PropertyTable);
-            this.SplitContainer.Size = new System.Drawing.Size(912, 452);
-            this.SplitContainer.SplitterDistance = 625;
-            this.SplitContainer.TabIndex = 17;
+            this.SplitContainer1.Panel2.Controls.Add(this.PropertyTable);
+            this.SplitContainer1.Size = new System.Drawing.Size(912, 452);
+            this.SplitContainer1.SplitterDistance = 625;
+            this.SplitContainer1.TabIndex = 17;
             // 
-            // EditInvertSelection
+            // SplitContainer2
             // 
-            this.EditInvertSelection.Name = "EditInvertSelection";
-            this.EditInvertSelection.Size = new System.Drawing.Size(180, 22);
-            this.EditInvertSelection.Text = "&Invert Selection";
+            this.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.SplitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.SplitContainer2.Name = "SplitContainer2";
+            this.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // SplitContainer2.Panel1
+            // 
+            this.SplitContainer2.Panel1.Controls.Add(this.ClientPanel);
+            // 
+            // SplitContainer2.Panel2
+            // 
+            this.SplitContainer2.Panel2.Controls.Add(this.DataGridView);
+            this.SplitContainer2.Size = new System.Drawing.Size(625, 452);
+            this.SplitContainer2.SplitterDistance = 354;
+            this.SplitContainer2.TabIndex = 7;
+            // 
+            // DataGridView
+            // 
+            this.DataGridView.AllowUserToAddRows = false;
+            this.DataGridView.AllowUserToDeleteRows = false;
+            this.DataGridView.AllowUserToOrderColumns = true;
+            this.DataGridView.AllowUserToResizeRows = false;
+            this.DataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.DataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.DataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.DataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.DataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.DataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colFormula,
+            this.colDerivative,
+            this.colProxy});
+            this.DataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DataGridView.ImeMode = System.Windows.Forms.ImeMode.Katakana;
+            this.DataGridView.Location = new System.Drawing.Point(0, 0);
+            this.DataGridView.Name = "DataGridView";
+            this.DataGridView.ReadOnly = true;
+            this.DataGridView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.DataGridView.RowHeadersVisible = false;
+            this.DataGridView.Size = new System.Drawing.Size(625, 94);
+            this.DataGridView.TabIndex = 0;
+            // 
+            // colFormula
+            // 
+            this.colFormula.DataPropertyName = "Formula";
+            this.colFormula.HeaderText = "Formula";
+            this.colFormula.Name = "colFormula";
+            this.colFormula.ReadOnly = true;
+            // 
+            // colDerivative
+            // 
+            this.colDerivative.DataPropertyName = "Derivative";
+            this.colDerivative.HeaderText = "Derivative";
+            this.colDerivative.Name = "colDerivative";
+            this.colDerivative.ReadOnly = true;
+            // 
+            // colProxy
+            // 
+            this.colProxy.DataPropertyName = "Proxy";
+            this.colProxy.HeaderText = "Proxy";
+            this.colProxy.Name = "colProxy";
+            this.colProxy.ReadOnly = true;
             // 
             // GraphForm
             // 
@@ -1241,7 +1326,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(944, 501);
             this.ContextMenuStrip = this.PopupMenu;
-            this.Controls.Add(this.SplitContainer);
+            this.Controls.Add(this.SplitContainer1);
             this.Controls.Add(this.Toolbar);
             this.Controls.Add(this.StatusBar);
             this.Controls.Add(this.MainMenu);
@@ -1259,10 +1344,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
             this.Toolbar.ResumeLayout(false);
             this.Toolbar.PerformLayout();
-            this.SplitContainer.Panel1.ResumeLayout(false);
-            this.SplitContainer.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer)).EndInit();
-            this.SplitContainer.ResumeLayout(false);
+            this.SplitContainer1.Panel1.ResumeLayout(false);
+            this.SplitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).EndInit();
+            this.SplitContainer1.ResumeLayout(false);
+            this.SplitContainer2.Panel1.ResumeLayout(false);
+            this.SplitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer2)).EndInit();
+            this.SplitContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1372,7 +1462,7 @@
         internal System.Windows.Forms.OpenFileDialog TextureDialog;
         internal System.Windows.Forms.PropertyGrid PropertyTable;
         internal System.Windows.Forms.ToolStripMenuItem ViewPropertyTable;
-        internal System.Windows.Forms.SplitContainer SplitContainer;
+        internal System.Windows.Forms.SplitContainer SplitContainer1;
         internal System.Windows.Forms.ToolStripMenuItem FileExit;
         internal System.Windows.Forms.ToolStripMenuItem FileNew;
         internal System.Windows.Forms.ToolStripMenuItem FileNewEmptyGraph;
@@ -1387,8 +1477,13 @@
         internal System.Windows.Forms.ToolStripMenuItem tbPolar;
         internal System.Windows.Forms.ToolStripSplitButton tbPlotType;
         internal System.Windows.Forms.ToolStripMenuItem tbToolCross;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem10;
+        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem10;
         internal System.Windows.Forms.ToolStripMenuItem EditSelectAll;
         internal System.Windows.Forms.ToolStripMenuItem EditInvertSelection;
+        internal System.Windows.Forms.SplitContainer SplitContainer2;
+        internal System.Windows.Forms.DataGridView DataGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colFormula;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDerivative;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colProxy;
     }
 }

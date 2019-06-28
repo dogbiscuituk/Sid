@@ -44,6 +44,7 @@
             UpdateUI();
             PopupMenu_Opening(View, new CancelEventArgs());
             CommandProcessor = new CommandProcessor(this);
+            DataGridController = new DataGridController(this);
             TraceSelection = new TraceSelection(CommandProcessor);
             TraceSelection.Changed += TraceSelection_Changed;
             TraceSelectionChanged();
@@ -88,6 +89,7 @@
 
         internal ClockController ClockController => GraphicsController.ClockController;
         internal readonly CommandProcessor CommandProcessor;
+        internal readonly DataGridController DataGridController;
         internal readonly LegendController LegendController;
         internal readonly PropertyTableController PropertyTableController;
         internal TracePropertiesController TracePropertiesController;

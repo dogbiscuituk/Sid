@@ -297,6 +297,7 @@
                 var index = 0;
                 return Graph.Traces.Select(trace => new TraceProxy(trace.Clone()) { Index = index++ }).ToList();
             }
+            set { }
         }
 
         [Browsable(false)]
