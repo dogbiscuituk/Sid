@@ -20,13 +20,13 @@
 
         internal GraphController()
         {
-            View = new GraphForm { MinimumSize = Properties.Settings.Default.GraphForm_MinimumSize };
+            GraphForm = new GraphForm { MinimumSize = Properties.Settings.Default.GraphForm_MinimumSize };
             Model = new Model();
             Model.Cleared += Model_Cleared;
             Model.ModifiedChanged += Model_ModifiedChanged;
             Model.PropertyChanged += Model_PropertyChanged;
             GraphicsController = new GraphicsController(this, doubleBuffered: false);
-            JsonController = new JsonController(Model, View, View.FileReopen);
+            JsonController = new JsonController(Model, GraphForm, GraphForm.FileReopen);
             JsonController.FileLoaded += JsonController_FileLoaded;
             JsonController.FilePathChanged += JsonController_FilePathChanged;
             JsonController.FilePathRequest += JsonController_FilePathRequest;
@@ -37,49 +37,49 @@
             GraphPropertiesController = new GraphPropertiesController(this);
             TracePropertiesController = new TracePropertiesController(this);
             ToolbarController = new ToolbarController(this);
-            PropertyTableController = new PropertyTableController(this);
+            PropertyGridController = new PropertyGridController(this);
             FullScreenController = new FullScreenController(this);
             ModifiedChanged();
             LegendController.AdjustLegend();
             UpdateUI();
-            PopupMenu_Opening(View, new CancelEventArgs());
+            PopupMenu_Opening(GraphForm, new CancelEventArgs());
             CommandProcessor = new CommandProcessor(this);
-            DataGridController = new DataGridController(this);
+            TraceTableController = new TraceTableController(this);
             TraceSelection = new TraceSelection(CommandProcessor);
             TraceSelection.Changed += TraceSelection_Changed;
             TraceSelectionChanged();
         }
 
-        internal GraphForm View
+        internal GraphForm GraphForm
         {
-            get => _view;
+            get => _GraphForm;
             set
             {
-                _view = value;
-                View.FileNewEmptyGraph.Click += FileNewEmptyGraph_Click;
-                View.FileNewFromTemplate.Click += FileNewFromTemplate_Click;
-                View.tbNew.ButtonClick += FileNewEmptyGraph_Click;
-                View.tbNewEmptyGraph.Click += FileNewEmptyGraph_Click;
-                View.tbNewFromTemplate.Click += FileNewFromTemplate_Click;
-                View.FileOpen.Click += FileOpen_Click;
-                View.tbOpen.ButtonClick += FileOpen_Click;
-                View.tbOpen.DropDownOpening += TbOpen_DropDownOpening;
-                View.FileSave.Click += FileSave_Click;
-                View.FileSaveAs.Click += FileSaveAs_Click;
-                View.tbSave.Click += TbSave_Click;
-                View.FileClose.Click += FileClose_Click;
-                View.FileExit.Click += FileExit_Click;
-                View.EditSelectAll.Click += EditSelectAll_Click;
-                View.EditInvertSelection.Click += EditInvertSelection_Click;
-                View.EditOptions.Click += EditOptions_Click;
-                View.GraphProperties.Click += GraphProperties_Click;
-                View.tbProperties.Click += GraphProperties_Click;
-                View.ViewCoordinatesTooltip.Click += ViewCoordinatesTooltip_Click;
-                View.HelpAbout.Click += HelpAbout_Click;
-                View.PopupMenu.Opening += PopupMenu_Opening;
-                View.FormClosing += View_FormClosing;
-                View.SizeChanged += View_SizeChanged;
-                InitTextureDialog(View.TextureDialog);
+                _GraphForm = value;
+                GraphForm.FileNewEmptyGraph.Click += FileNewEmptyGraph_Click;
+                GraphForm.FileNewFromTemplate.Click += FileNewFromTemplate_Click;
+                GraphForm.tbNew.ButtonClick += FileNewEmptyGraph_Click;
+                GraphForm.tbNewEmptyGraph.Click += FileNewEmptyGraph_Click;
+                GraphForm.tbNewFromTemplate.Click += FileNewFromTemplate_Click;
+                GraphForm.FileOpen.Click += FileOpen_Click;
+                GraphForm.tbOpen.ButtonClick += FileOpen_Click;
+                GraphForm.tbOpen.DropDownOpening += TbOpen_DropDownOpening;
+                GraphForm.FileSave.Click += FileSave_Click;
+                GraphForm.FileSaveAs.Click += FileSaveAs_Click;
+                GraphForm.tbSave.Click += TbSave_Click;
+                GraphForm.FileClose.Click += FileClose_Click;
+                GraphForm.FileExit.Click += FileExit_Click;
+                GraphForm.EditSelectAll.Click += EditSelectAll_Click;
+                GraphForm.EditInvertSelection.Click += EditInvertSelection_Click;
+                GraphForm.EditOptions.Click += EditOptions_Click;
+                GraphForm.GraphProperties.Click += GraphProperties_Click;
+                GraphForm.tbProperties.Click += GraphProperties_Click;
+                GraphForm.ViewCoordinatesTooltip.Click += ViewCoordinatesTooltip_Click;
+                GraphForm.HelpAbout.Click += HelpAbout_Click;
+                GraphForm.PopupMenu.Opening += PopupMenu_Opening;
+                GraphForm.FormClosing += View_FormClosing;
+                GraphForm.SizeChanged += View_SizeChanged;
+                InitTextureDialog(GraphForm.TextureDialog);
             }
         }
 
@@ -89,9 +89,9 @@
 
         internal ClockController ClockController => GraphicsController.ClockController;
         internal readonly CommandProcessor CommandProcessor;
-        internal readonly DataGridController DataGridController;
+        internal readonly TraceTableController TraceTableController;
         internal readonly LegendController LegendController;
-        internal readonly PropertyTableController PropertyTableController;
+        internal readonly PropertyGridController PropertyGridController;
         internal TracePropertiesController TracePropertiesController;
 
         internal bool ExecuteTextureDialog(Trace trace) => SelectTexture(trace);
@@ -102,15 +102,15 @@
             dialog.Title = "Select Texture";
         }
 
-        internal void Show() => View.Show();
+        internal void Show() => GraphForm.Show();
 
         internal void UpdateMouseCoordinates(PointF p)
         {
             string
                 xy = $"{{x={p.X}, y={p.Y}}}",
                 rθ = new PolarPointF(p).ToString(Graph.DomainPolarDegrees);
-            View.XYlabel.Text = xy;
-            View.Rϴlabel.Text = rθ;
+            GraphForm.XYlabel.Text = xy;
+            GraphForm.Rϴlabel.Text = rθ;
             if (ShowCoordinatesTooltip)
                 InitCoordinatesToolTip($"{xy}\n{rθ}");
         }
@@ -121,9 +121,9 @@
 
         #region Private Properties
 
-        private GraphForm _view;
-        private Panel ClientPanel { get => View.ClientPanel; }
-        private PictureBox PictureBox { get => View.PictureBox; }
+        private GraphForm _GraphForm;
+        private Panel ClientPanel { get => GraphForm.ClientPanel; }
+        private PictureBox PictureBox { get => GraphForm.PictureBox; }
 
         private readonly FullScreenController FullScreenController;
         private readonly GraphicsController GraphicsController;
@@ -140,16 +140,16 @@
         private void FileOpen_Click(object sender, EventArgs e) => OpenFile();
         private void FileSave_Click(object sender, EventArgs e) => JsonController.Save();
         private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
-        private void FileClose_Click(object sender, EventArgs e) => View.Close();
+        private void FileClose_Click(object sender, EventArgs e) => GraphForm.Close();
         private void FileExit_Click(object sender, EventArgs e) => AppController.Close();
         private void EditSelectAll_Click(object sender, EventArgs e) => SelectAll();
         private void EditInvertSelection_Click(object sender, EventArgs e) => InvertSelection();
         private void EditOptions_Click(object sender, EventArgs e) => EditOptions();
-        private void GraphProperties_Click(object sender, EventArgs e) => GraphPropertiesController.Show(View);
+        private void GraphProperties_Click(object sender, EventArgs e) => GraphPropertiesController.Show(GraphForm);
         private void ViewCoordinatesTooltip_Click(object sender, EventArgs e) => ToggleCoordinatesTooltip();
-        private void HelpAbout_Click(object sender, EventArgs e) => new AboutController().ShowDialog(View);
-        private void PopupMenu_Opening(object sender, CancelEventArgs e) => View.MainMenu.CloneTo(View.PopupMenu);
-        private void TbOpen_DropDownOpening(object sender, EventArgs e) => View.FileReopen.CloneTo(View.tbOpen);
+        private void HelpAbout_Click(object sender, EventArgs e) => new AboutController().ShowDialog(GraphForm);
+        private void PopupMenu_Opening(object sender, CancelEventArgs e) => GraphForm.MainMenu.CloneTo(GraphForm.PopupMenu);
+        private void TbOpen_DropDownOpening(object sender, EventArgs e) => GraphForm.FileReopen.CloneTo(GraphForm.tbOpen);
         private void Model_Cleared(object sender, EventArgs e) => ModelCleared();
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
         private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e) => OnPropertyChanged($"Model.{e.PropertyName}");
@@ -177,14 +177,14 @@
 
         private void TbSave_Click(object sender, EventArgs e)
         {
-            if (View.FileSave.Enabled)
+            if (GraphForm.FileSave.Enabled)
                 FileSave_Click(sender, e);
             else
                 FileSaveAs_Click(sender, e);
         }
 
         private void View_SizeChanged(object sender, EventArgs e) =>
-            View.StatusBar.ShowItemToolTips = View.WindowState != FormWindowState.Maximized;
+            GraphForm.StatusBar.ShowItemToolTips = GraphForm.WindowState != FormWindowState.Maximized;
 
         #endregion
 
@@ -252,7 +252,7 @@
         #region Private Methods
 
         private bool ContinueSaving() => true;
-        private void EditOptions() => new OptionsController(this).ShowModal(View);
+        private void EditOptions() => new OptionsController(this).ShowModal(GraphForm);
 
         private static string ImageToBase64String(string filePath)
         {
@@ -266,8 +266,8 @@
 
         private void InitCoordinatesToolTip(string toolTip)
         {
-            if (View.ToolTip.GetToolTip(PictureBox) != toolTip)
-                View.ToolTip.SetToolTip(PictureBox, toolTip);
+            if (GraphForm.ToolTip.GetToolTip(PictureBox) != toolTip)
+                GraphForm.ToolTip.SetToolTip(PictureBox, toolTip);
         }
 
         private void InitPaper() => ClientPanel.BackColor = Graph.PaperColour;
@@ -277,8 +277,8 @@
         private void ModifiedChanged()
         {
             UpdateCaption();
-            View.FileSave.Enabled = Model.Modified;
-            View.ModifiedLabel.Visible = Model.Modified;
+            GraphForm.FileSave.Enabled = Model.Modified;
+            GraphForm.ModifiedLabel.Visible = Model.Modified;
         }
 
         private void OnPropertyChanged(string propertyName)
@@ -325,9 +325,9 @@
 
         private bool SelectTexture(Trace trace)
         {
-            var dialog = View.TextureDialog;
+            var dialog = GraphForm.TextureDialog;
             dialog.FileName = trace.TexturePath;
-            bool ok = dialog.ShowDialog(View) == DialogResult.OK;
+            bool ok = dialog.ShowDialog(GraphForm) == DialogResult.OK;
             if (ok)
             {
                 var index = Graph.Traces.IndexOf(trace);
@@ -340,10 +340,10 @@
 
         private bool ShowCoordinatesTooltip
         {
-            get => View.ViewCoordinatesTooltip.Checked;
+            get => GraphForm.ViewCoordinatesTooltip.Checked;
             set
             {
-                View.ViewCoordinatesTooltip.Checked = value;
+                GraphForm.ViewCoordinatesTooltip.Checked = value;
                 if (!value)
                     InitCoordinatesToolTip(string.Empty);
             }
@@ -354,20 +354,20 @@
         private void TraceSelectionChanged()
         {
             if (!TraceSelection.IsEmpty)
-                View.PropertyTable.SelectedObjects = TraceSelection.Traces;
+                GraphForm.PropertyGrid.SelectedObjects = TraceSelection.Traces;
             else
-                View.PropertyTable.SelectedObject = CommandProcessor;
+                GraphForm.PropertyGrid.SelectedObject = CommandProcessor;
         }
 
-        private void UpdateCaption() { View.Text = JsonController.WindowCaption; }
+        private void UpdateCaption() { GraphForm.Text = JsonController.WindowCaption; }
 
         private void UpdatePlotType()
         {
-            View.GraphTypeCartesian.Checked =
-                View.tbCartesian.Checked = Graph.PlotType == PlotType.Cartesian;
-            View.GraphTypePolar.Checked =
-                View.tbPolar.Checked = Graph.PlotType == PlotType.Polar;
-            View.tbPlotType.Image = PlotTypeToImage(Graph.PlotType);
+            GraphForm.GraphTypeCartesian.Checked =
+                GraphForm.tbCartesian.Checked = Graph.PlotType == PlotType.Cartesian;
+            GraphForm.GraphTypePolar.Checked =
+                GraphForm.tbPolar.Checked = Graph.PlotType == PlotType.Polar;
+            GraphForm.tbPlotType.Image = PlotTypeToImage(Graph.PlotType);
         }
 
         private void UpdateUI()
@@ -375,7 +375,7 @@
             UpdatePlotType();
             ClockController.UpdateTimeControls();
             LegendController.GraphRead();
-            PropertyTableController.Refresh();
+            PropertyGridController.Refresh();
         }
 
         #endregion

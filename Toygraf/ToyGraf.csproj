@@ -77,7 +77,8 @@
     <Compile Include="Controllers\ApproximationController.cs" />
     <Compile Include="Controllers\ClockController.cs" />
     <Compile Include="Controllers\ColourController.cs" />
-    <Compile Include="Controllers\DataGridController.cs" />
+    <Compile Include="Controllers\HostController.cs" />
+    <Compile Include="Controllers\TraceTableController.cs" />
     <Compile Include="Controllers\ElementsController.cs" />
     <Compile Include="Controllers\FourierController.cs" />
     <Compile Include="Controllers\FullScreenController.cs" />
@@ -87,7 +88,7 @@
     <Compile Include="Controllers\JsonController.cs" />
     <Compile Include="Controllers\LegendController.cs" />
     <Compile Include="Controllers\OptionsController.cs" />
-    <Compile Include="Controllers\PropertyTableController.cs" />
+    <Compile Include="Controllers\PropertyGridController.cs" />
     <Compile Include="Controllers\TraceController.cs" />
     <Compile Include="Controllers\GraphController.cs" />
     <Compile Include="Controllers\MruController.cs" />

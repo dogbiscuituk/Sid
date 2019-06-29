@@ -119,7 +119,7 @@
                     h2 = Screen.FromControl(View).Bounds.Height;
                 var p = View.PointToScreen(new Point(0, h));
                 if (p.Y + h1 > h2) p.Y -= h + h1;
-                TracePropertiesController.Show(GraphController.View, p, index);
+                TracePropertiesController.Show(GraphController.GraphForm, p, index);
             }
             else
                 TracePropertiesController.Trace = Graph.Traces[index];

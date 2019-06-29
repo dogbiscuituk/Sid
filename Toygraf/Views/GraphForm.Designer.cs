@@ -37,16 +37,19 @@
             this.LegendPanel = new System.Windows.Forms.Panel();
             this.PictureBox = new System.Windows.Forms.PictureBox();
             this.TextureDialog = new System.Windows.Forms.OpenFileDialog();
-            this.PropertyTable = new System.Windows.Forms.PropertyGrid();
+            this.PropertyGrid = new System.Windows.Forms.PropertyGrid();
+            this.PopupPropertyGridMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.PopupPropertyGridFloat = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupPropertyGridHide = new System.Windows.Forms.ToolStripMenuItem();
             this.SplitContainer1 = new System.Windows.Forms.SplitContainer();
             this.SplitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.DataGridView = new System.Windows.Forms.DataGridView();
+            this.TraceTable = new System.Windows.Forms.DataGridView();
             this.colFormula = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDerivative = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colProxy = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PopupDataGridMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.PopupDataGridDock = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupDataGridHide = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupTraceTableMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.PopupTraceTableFloat = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupTraceTableHide = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.StatusBar = new ToyGraf.Controls.TgStatusStrip();
             this.tbDecelerate = new System.Windows.Forms.ToolStripDropDownButton();
@@ -134,22 +137,18 @@
             this.ScrollDown = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.ScrollCentre = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
+            this.ViewToolbar = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewLegend = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewLegendFloat = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewLegendHide = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.ViewLegendTopLeft = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewLegendTopRight = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewLegendBottomLeft = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewLegendBottomRight = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
-            this.ViewLegendHide = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewToolbar = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewToolbarLeft = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewToolbarTop = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewToolbarRight = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewToolbarBottom = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
-            this.ViewToolbarHide = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewPropertyTable = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewDataGrid = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewPropertyGrid = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewTraceTable = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
             this.ViewCoordinatesTooltip = new System.Windows.Forms.ToolStripMenuItem();
             this.TimeMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -161,12 +160,18 @@
             this.TimeAccelerate = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupPropertyTableMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.PopupPropertyTableDock = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupPropertyTableHide = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupLegendMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.PopupLegendFloat = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem15 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem13 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.ClientPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
+            this.PopupPropertyGridMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).BeginInit();
             this.SplitContainer1.Panel1.SuspendLayout();
             this.SplitContainer1.Panel2.SuspendLayout();
@@ -175,8 +180,8 @@
             this.SplitContainer2.Panel1.SuspendLayout();
             this.SplitContainer2.Panel2.SuspendLayout();
             this.SplitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DataGridView)).BeginInit();
-            this.PopupDataGridMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TraceTable)).BeginInit();
+            this.PopupTraceTableMenu.SuspendLayout();
             this.ToolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.ToolStripContainer.ContentPanel.SuspendLayout();
             this.ToolStripContainer.LeftToolStripPanel.SuspendLayout();
@@ -185,7 +190,7 @@
             this.StatusBar.SuspendLayout();
             this.Toolbar.SuspendLayout();
             this.MainMenu.SuspendLayout();
-            this.PopupPropertyTableMenu.SuspendLayout();
+            this.PopupLegendMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // PopupMenu
@@ -212,6 +217,7 @@
             // LegendPanel
             // 
             this.LegendPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.LegendPanel.ContextMenuStrip = this.PopupLegendMenu;
             this.LegendPanel.Location = new System.Drawing.Point(0, 0);
             this.LegendPanel.Margin = new System.Windows.Forms.Padding(0);
             this.LegendPanel.Name = "LegendPanel";
@@ -226,14 +232,34 @@
             this.PictureBox.TabIndex = 3;
             this.PictureBox.TabStop = false;
             // 
-            // PropertyTable
+            // PropertyGrid
             // 
-            this.PropertyTable.ContextMenuStrip = this.PopupPropertyTableMenu;
-            this.PropertyTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PropertyTable.Location = new System.Drawing.Point(0, 0);
-            this.PropertyTable.Name = "PropertyTable";
-            this.PropertyTable.Size = new System.Drawing.Size(229, 414);
-            this.PropertyTable.TabIndex = 14;
+            this.PropertyGrid.ContextMenuStrip = this.PopupPropertyGridMenu;
+            this.PropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PropertyGrid.Location = new System.Drawing.Point(0, 0);
+            this.PropertyGrid.Name = "PropertyGrid";
+            this.PropertyGrid.Size = new System.Drawing.Size(229, 414);
+            this.PropertyGrid.TabIndex = 14;
+            // 
+            // PopupPropertyGridMenu
+            // 
+            this.PopupPropertyGridMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PopupPropertyGridFloat,
+            this.PopupPropertyGridHide});
+            this.PopupPropertyGridMenu.Name = "PopupPropertyGridMenu";
+            this.PopupPropertyGridMenu.Size = new System.Drawing.Size(101, 48);
+            // 
+            // PopupPropertyGridFloat
+            // 
+            this.PopupPropertyGridFloat.Name = "PopupPropertyGridFloat";
+            this.PopupPropertyGridFloat.Size = new System.Drawing.Size(100, 22);
+            this.PopupPropertyGridFloat.Text = "&Float";
+            // 
+            // PopupPropertyGridHide
+            // 
+            this.PopupPropertyGridHide.Name = "PopupPropertyGridHide";
+            this.PopupPropertyGridHide.Size = new System.Drawing.Size(100, 22);
+            this.PopupPropertyGridHide.Text = "&Hide";
             // 
             // SplitContainer1
             // 
@@ -248,7 +274,7 @@
             // 
             // SplitContainer1.Panel2
             // 
-            this.SplitContainer1.Panel2.Controls.Add(this.PropertyTable);
+            this.SplitContainer1.Panel2.Controls.Add(this.PropertyGrid);
             this.SplitContainer1.Size = new System.Drawing.Size(752, 414);
             this.SplitContainer1.SplitterDistance = 519;
             this.SplitContainer1.TabIndex = 17;
@@ -267,37 +293,37 @@
             // 
             // SplitContainer2.Panel2
             // 
-            this.SplitContainer2.Panel2.Controls.Add(this.DataGridView);
+            this.SplitContainer2.Panel2.Controls.Add(this.TraceTable);
             this.SplitContainer2.Size = new System.Drawing.Size(752, 512);
             this.SplitContainer2.SplitterDistance = 414;
             this.SplitContainer2.TabIndex = 7;
             // 
-            // DataGridView
+            // TraceTable
             // 
-            this.DataGridView.AllowUserToAddRows = false;
-            this.DataGridView.AllowUserToDeleteRows = false;
-            this.DataGridView.AllowUserToOrderColumns = true;
-            this.DataGridView.AllowUserToResizeRows = false;
-            this.DataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.DataGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.DataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleVertical;
-            this.DataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.DataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.TraceTable.AllowUserToAddRows = false;
+            this.TraceTable.AllowUserToDeleteRows = false;
+            this.TraceTable.AllowUserToOrderColumns = true;
+            this.TraceTable.AllowUserToResizeRows = false;
+            this.TraceTable.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.TraceTable.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.TraceTable.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleVertical;
+            this.TraceTable.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.TraceTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.TraceTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colFormula,
             this.colDerivative,
             this.colProxy});
-            this.DataGridView.ContextMenuStrip = this.PopupDataGridMenu;
-            this.DataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DataGridView.ImeMode = System.Windows.Forms.ImeMode.Katakana;
-            this.DataGridView.Location = new System.Drawing.Point(0, 0);
-            this.DataGridView.Name = "DataGridView";
-            this.DataGridView.ReadOnly = true;
-            this.DataGridView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.DataGridView.RowHeadersVisible = false;
-            this.DataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DataGridView.Size = new System.Drawing.Size(752, 94);
-            this.DataGridView.TabIndex = 0;
+            this.TraceTable.ContextMenuStrip = this.PopupTraceTableMenu;
+            this.TraceTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TraceTable.ImeMode = System.Windows.Forms.ImeMode.Katakana;
+            this.TraceTable.Location = new System.Drawing.Point(0, 0);
+            this.TraceTable.Name = "TraceTable";
+            this.TraceTable.ReadOnly = true;
+            this.TraceTable.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.TraceTable.RowHeadersVisible = false;
+            this.TraceTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.TraceTable.Size = new System.Drawing.Size(752, 94);
+            this.TraceTable.TabIndex = 0;
             // 
             // colFormula
             // 
@@ -323,25 +349,25 @@
             this.colProxy.ReadOnly = true;
             this.colProxy.Width = 251;
             // 
-            // PopupDataGridMenu
+            // PopupTraceTableMenu
             // 
-            this.PopupDataGridMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.PopupDataGridDock,
-            this.PopupDataGridHide});
-            this.PopupDataGridMenu.Name = "PopupDataGridMenu";
-            this.PopupDataGridMenu.Size = new System.Drawing.Size(102, 48);
+            this.PopupTraceTableMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PopupTraceTableFloat,
+            this.PopupTraceTableHide});
+            this.PopupTraceTableMenu.Name = "PopupDataGridMenu";
+            this.PopupTraceTableMenu.Size = new System.Drawing.Size(101, 48);
             // 
-            // PopupDataGridDock
+            // PopupTraceTableFloat
             // 
-            this.PopupDataGridDock.Name = "PopupDataGridDock";
-            this.PopupDataGridDock.Size = new System.Drawing.Size(101, 22);
-            this.PopupDataGridDock.Text = "&Dock";
+            this.PopupTraceTableFloat.Name = "PopupTraceTableFloat";
+            this.PopupTraceTableFloat.Size = new System.Drawing.Size(100, 22);
+            this.PopupTraceTableFloat.Text = "&Float";
             // 
-            // PopupDataGridHide
+            // PopupTraceTableHide
             // 
-            this.PopupDataGridHide.Name = "PopupDataGridHide";
-            this.PopupDataGridHide.Size = new System.Drawing.Size(101, 22);
-            this.PopupDataGridHide.Text = "&Hide";
+            this.PopupTraceTableHide.Name = "PopupTraceTableHide";
+            this.PopupTraceTableHide.Size = new System.Drawing.Size(100, 22);
+            this.PopupTraceTableHide.Text = "&Hide";
             // 
             // ToolStripContainer
             // 
@@ -1057,10 +1083,11 @@
             this.ViewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ZoomMenu,
             this.ScrollMenu,
-            this.ViewLegend,
+            this.toolStripMenuItem5,
             this.ViewToolbar,
-            this.ViewPropertyTable,
-            this.ViewDataGrid,
+            this.ViewLegend,
+            this.ViewPropertyGrid,
+            this.ViewTraceTable,
             this.toolStripMenuItem7,
             this.ViewCoordinatesTooltip});
             this.ViewMenu.Name = "ViewMenu";
@@ -1183,20 +1210,50 @@
             this.ScrollCentre.Text = "&Centre";
             this.ScrollCentre.ToolTipText = "Return the origin (0,0) to the centre of the display area";
             // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(180, 6);
+            // 
+            // ViewToolbar
+            // 
+            this.ViewToolbar.Name = "ViewToolbar";
+            this.ViewToolbar.Size = new System.Drawing.Size(183, 22);
+            this.ViewToolbar.Text = "&Toolbar";
+            // 
             // ViewLegend
             // 
             this.ViewLegend.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ViewLegendFloat,
+            this.ViewLegendHide,
+            this.toolStripMenuItem4,
             this.ViewLegendTopLeft,
             this.ViewLegendTopRight,
             this.ViewLegendBottomLeft,
-            this.ViewLegendBottomRight,
-            this.toolStripMenuItem4,
-            this.ViewLegendHide});
+            this.ViewLegendBottomRight});
             this.ViewLegend.Image = global::ToyGraf.Properties.Resources.LegendHS;
             this.ViewLegend.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ViewLegend.Name = "ViewLegend";
             this.ViewLegend.Size = new System.Drawing.Size(183, 22);
             this.ViewLegend.Text = "&Legend";
+            // 
+            // ViewLegendFloat
+            // 
+            this.ViewLegendFloat.Name = "ViewLegendFloat";
+            this.ViewLegendFloat.Size = new System.Drawing.Size(145, 22);
+            this.ViewLegendFloat.Text = "&Float";
+            // 
+            // ViewLegendHide
+            // 
+            this.ViewLegendHide.Name = "ViewLegendHide";
+            this.ViewLegendHide.ShortcutKeyDisplayString = "";
+            this.ViewLegendHide.Size = new System.Drawing.Size(145, 22);
+            this.ViewLegendHide.Text = "&Hide";
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(142, 6);
             // 
             // ViewLegendTopLeft
             // 
@@ -1224,77 +1281,17 @@
             this.ViewLegendBottomRight.Size = new System.Drawing.Size(145, 22);
             this.ViewLegendBottomRight.Text = "Bottom R&ight";
             // 
-            // toolStripMenuItem4
+            // ViewPropertyGrid
             // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(142, 6);
+            this.ViewPropertyGrid.Name = "ViewPropertyGrid";
+            this.ViewPropertyGrid.Size = new System.Drawing.Size(183, 22);
+            this.ViewPropertyGrid.Text = "&Property Grid";
             // 
-            // ViewLegendHide
+            // ViewTraceTable
             // 
-            this.ViewLegendHide.Name = "ViewLegendHide";
-            this.ViewLegendHide.ShortcutKeyDisplayString = "";
-            this.ViewLegendHide.Size = new System.Drawing.Size(145, 22);
-            this.ViewLegendHide.Text = "&Hide";
-            // 
-            // ViewToolbar
-            // 
-            this.ViewToolbar.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ViewToolbarLeft,
-            this.ViewToolbarTop,
-            this.ViewToolbarRight,
-            this.ViewToolbarBottom,
-            this.toolStripMenuItem5,
-            this.ViewToolbarHide});
-            this.ViewToolbar.Name = "ViewToolbar";
-            this.ViewToolbar.Size = new System.Drawing.Size(183, 22);
-            this.ViewToolbar.Text = "&Toolbar";
-            // 
-            // ViewToolbarLeft
-            // 
-            this.ViewToolbarLeft.Name = "ViewToolbarLeft";
-            this.ViewToolbarLeft.Size = new System.Drawing.Size(114, 22);
-            this.ViewToolbarLeft.Text = "&Left";
-            // 
-            // ViewToolbarTop
-            // 
-            this.ViewToolbarTop.Name = "ViewToolbarTop";
-            this.ViewToolbarTop.Size = new System.Drawing.Size(114, 22);
-            this.ViewToolbarTop.Text = "&Top";
-            // 
-            // ViewToolbarRight
-            // 
-            this.ViewToolbarRight.Name = "ViewToolbarRight";
-            this.ViewToolbarRight.Size = new System.Drawing.Size(114, 22);
-            this.ViewToolbarRight.Text = "&Right";
-            // 
-            // ViewToolbarBottom
-            // 
-            this.ViewToolbarBottom.Name = "ViewToolbarBottom";
-            this.ViewToolbarBottom.Size = new System.Drawing.Size(114, 22);
-            this.ViewToolbarBottom.Text = "&Bottom";
-            // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(111, 6);
-            // 
-            // ViewToolbarHide
-            // 
-            this.ViewToolbarHide.Name = "ViewToolbarHide";
-            this.ViewToolbarHide.Size = new System.Drawing.Size(114, 22);
-            this.ViewToolbarHide.Text = "&Hide";
-            // 
-            // ViewPropertyTable
-            // 
-            this.ViewPropertyTable.Name = "ViewPropertyTable";
-            this.ViewPropertyTable.Size = new System.Drawing.Size(183, 22);
-            this.ViewPropertyTable.Text = "&Property Table";
-            // 
-            // ViewDataGrid
-            // 
-            this.ViewDataGrid.Name = "ViewDataGrid";
-            this.ViewDataGrid.Size = new System.Drawing.Size(183, 22);
-            this.ViewDataGrid.Text = "&Data Grid";
+            this.ViewTraceTable.Name = "ViewTraceTable";
+            this.ViewTraceTable.Size = new System.Drawing.Size(183, 22);
+            this.ViewTraceTable.Text = "T&race Table";
             // 
             // toolStripMenuItem7
             // 
@@ -1387,25 +1384,61 @@
             this.HelpAbout.Text = "&About";
             this.HelpAbout.ToolTipText = "Show version information";
             // 
-            // PopupPropertyTableMenu
+            // PopupLegendMenu
             // 
-            this.PopupPropertyTableMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.PopupPropertyTableDock,
-            this.PopupPropertyTableHide});
-            this.PopupPropertyTableMenu.Name = "PopupPropertyTableMenu";
-            this.PopupPropertyTableMenu.Size = new System.Drawing.Size(102, 48);
+            this.PopupLegendMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PopupLegendFloat,
+            this.hideToolStripMenuItem,
+            this.toolStripMenuItem15,
+            this.toolStripMenuItem11,
+            this.toolStripMenuItem12,
+            this.toolStripMenuItem13,
+            this.toolStripMenuItem14});
+            this.PopupLegendMenu.Name = "PopupLegendMenu";
+            this.PopupLegendMenu.Size = new System.Drawing.Size(146, 142);
             // 
-            // PopupPropertyTableDock
+            // PopupLegendFloat
             // 
-            this.PopupPropertyTableDock.Name = "PopupPropertyTableDock";
-            this.PopupPropertyTableDock.Size = new System.Drawing.Size(101, 22);
-            this.PopupPropertyTableDock.Text = "&Dock";
+            this.PopupLegendFloat.Name = "PopupLegendFloat";
+            this.PopupLegendFloat.Size = new System.Drawing.Size(145, 22);
+            this.PopupLegendFloat.Text = "&Float";
             // 
-            // PopupPropertyTableHide
+            // hideToolStripMenuItem
             // 
-            this.PopupPropertyTableHide.Name = "PopupPropertyTableHide";
-            this.PopupPropertyTableHide.Size = new System.Drawing.Size(101, 22);
-            this.PopupPropertyTableHide.Text = "&Hide";
+            this.hideToolStripMenuItem.Name = "hideToolStripMenuItem";
+            this.hideToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.hideToolStripMenuItem.Text = "&Hide";
+            // 
+            // toolStripMenuItem15
+            // 
+            this.toolStripMenuItem15.Name = "toolStripMenuItem15";
+            this.toolStripMenuItem15.Size = new System.Drawing.Size(142, 6);
+            // 
+            // toolStripMenuItem11
+            // 
+            this.toolStripMenuItem11.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripMenuItem11.Name = "toolStripMenuItem11";
+            this.toolStripMenuItem11.Size = new System.Drawing.Size(145, 22);
+            this.toolStripMenuItem11.Tag = "";
+            this.toolStripMenuItem11.Text = "Top &Left";
+            // 
+            // toolStripMenuItem12
+            // 
+            this.toolStripMenuItem12.Name = "toolStripMenuItem12";
+            this.toolStripMenuItem12.Size = new System.Drawing.Size(145, 22);
+            this.toolStripMenuItem12.Text = "Top &Right";
+            // 
+            // toolStripMenuItem13
+            // 
+            this.toolStripMenuItem13.Name = "toolStripMenuItem13";
+            this.toolStripMenuItem13.Size = new System.Drawing.Size(145, 22);
+            this.toolStripMenuItem13.Text = "Bottom L&eft";
+            // 
+            // toolStripMenuItem14
+            // 
+            this.toolStripMenuItem14.Name = "toolStripMenuItem14";
+            this.toolStripMenuItem14.Size = new System.Drawing.Size(145, 22);
+            this.toolStripMenuItem14.Text = "Bottom R&ight";
             // 
             // GraphForm
             // 
@@ -1422,6 +1455,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).EndInit();
             this.ClientPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
+            this.PopupPropertyGridMenu.ResumeLayout(false);
             this.SplitContainer1.Panel1.ResumeLayout(false);
             this.SplitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).EndInit();
@@ -1430,8 +1464,8 @@
             this.SplitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer2)).EndInit();
             this.SplitContainer2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.DataGridView)).EndInit();
-            this.PopupDataGridMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.TraceTable)).EndInit();
+            this.PopupTraceTableMenu.ResumeLayout(false);
             this.ToolStripContainer.BottomToolStripPanel.ResumeLayout(false);
             this.ToolStripContainer.BottomToolStripPanel.PerformLayout();
             this.ToolStripContainer.ContentPanel.ResumeLayout(false);
@@ -1446,7 +1480,7 @@
             this.Toolbar.PerformLayout();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
-            this.PopupPropertyTableMenu.ResumeLayout(false);
+            this.PopupLegendMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1459,10 +1493,10 @@
         internal System.Windows.Forms.PictureBox PictureBox;
         internal System.Windows.Forms.Panel LegendPanel;
         internal System.Windows.Forms.OpenFileDialog TextureDialog;
-        internal System.Windows.Forms.PropertyGrid PropertyTable;
+        internal System.Windows.Forms.PropertyGrid PropertyGrid;
         internal System.Windows.Forms.SplitContainer SplitContainer1;
         internal System.Windows.Forms.SplitContainer SplitContainer2;
-        internal System.Windows.Forms.DataGridView DataGridView;
+        internal System.Windows.Forms.DataGridView TraceTable;
         internal System.Windows.Forms.DataGridViewTextBoxColumn colFormula;
         internal System.Windows.Forms.DataGridViewTextBoxColumn colDerivative;
         internal System.Windows.Forms.DataGridViewTextBoxColumn colProxy;
@@ -1549,13 +1583,7 @@
         internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
         internal System.Windows.Forms.ToolStripMenuItem ViewLegendHide;
         internal System.Windows.Forms.ToolStripMenuItem ViewToolbar;
-        internal System.Windows.Forms.ToolStripMenuItem ViewToolbarLeft;
-        internal System.Windows.Forms.ToolStripMenuItem ViewToolbarTop;
-        internal System.Windows.Forms.ToolStripMenuItem ViewToolbarRight;
-        internal System.Windows.Forms.ToolStripMenuItem ViewToolbarBottom;
-        internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
-        internal System.Windows.Forms.ToolStripMenuItem ViewToolbarHide;
-        internal System.Windows.Forms.ToolStripMenuItem ViewPropertyTable;
+        internal System.Windows.Forms.ToolStripMenuItem ViewPropertyGrid;
         internal System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
         internal System.Windows.Forms.ToolStripMenuItem ViewCoordinatesTooltip;
         internal System.Windows.Forms.ToolStripMenuItem TimeMenu;
@@ -1579,12 +1607,22 @@
         internal System.Windows.Forms.ToolStripStatusLabel XYlabel;
         internal System.Windows.Forms.ToolStripStatusLabel Rϴlabel;
         internal System.Windows.Forms.ToolStripStatusLabel ModifiedLabel;
-        internal System.Windows.Forms.ContextMenuStrip PopupDataGridMenu;
-        internal System.Windows.Forms.ToolStripMenuItem PopupDataGridDock;
-        internal System.Windows.Forms.ToolStripMenuItem ViewDataGrid;
-        internal System.Windows.Forms.ToolStripMenuItem PopupDataGridHide;
-        internal System.Windows.Forms.ContextMenuStrip PopupPropertyTableMenu;
-        internal System.Windows.Forms.ToolStripMenuItem PopupPropertyTableDock;
-        internal System.Windows.Forms.ToolStripMenuItem PopupPropertyTableHide;
+        internal System.Windows.Forms.ContextMenuStrip PopupTraceTableMenu;
+        internal System.Windows.Forms.ToolStripMenuItem PopupTraceTableFloat;
+        internal System.Windows.Forms.ToolStripMenuItem ViewTraceTable;
+        internal System.Windows.Forms.ToolStripMenuItem PopupTraceTableHide;
+        internal System.Windows.Forms.ContextMenuStrip PopupPropertyGridMenu;
+        internal System.Windows.Forms.ToolStripMenuItem PopupPropertyGridFloat;
+        internal System.Windows.Forms.ToolStripMenuItem PopupPropertyGridHide;
+        internal System.Windows.Forms.ContextMenuStrip PopupLegendMenu;
+        internal System.Windows.Forms.ToolStripMenuItem PopupLegendFloat;
+        internal System.Windows.Forms.ToolStripMenuItem hideToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem ViewLegendFloat;
+        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItem11;
+        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItem12;
+        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItem13;
+        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItem14;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem15;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
     }
 }

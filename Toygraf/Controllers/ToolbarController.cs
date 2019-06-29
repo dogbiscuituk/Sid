@@ -11,49 +11,27 @@
         internal ToolbarController(GraphController graphController)
         {
             GraphController = graphController;
-            View.ViewToolbar.DropDownOpening += ViewToolbar_DropDownOpening;
-            View.ViewToolbarBottom.Click += DockToolbarBottom;
-            View.ViewToolbarLeft.Click += DockToolbarLeft;
-            View.ViewToolbarRight.Click += DockToolbarRight;
-            View.ViewToolbarTop.Click += DockToolbarTop;
-            View.ViewToolbarHide.Click += ViewToolbarHide_Click;
+            GraphForm.ViewMenu.DropDownOpening += ViewMenu_DropDownOpening;
+            GraphForm.ViewToolbar.Click += ViewToolbarHide_Click;
         }
 
         #endregion
 
         #region Private Properties
 
-        private GraphController GraphController;
-        private GraphForm View => GraphController.View;
-        private ToolStrip Toolbar => View.Toolbar;
-
-        private const AnchorStyles
-            TopRight = AnchorStyles.Top | AnchorStyles.Right,
-            BottomLeft = AnchorStyles.Bottom | AnchorStyles.Left,
-            BottomRight = AnchorStyles.Bottom | AnchorStyles.Right;
+        private readonly GraphController GraphController;
+        private GraphForm GraphForm => GraphController.GraphForm;
+        private ToolStrip Toolbar => GraphForm.Toolbar;
 
         #endregion
 
         #region Private Event Handlers
 
-        private void DockToolbarBottom(object sender, EventArgs e) => Toolbar.Dock = DockStyle.Bottom;
-        private void DockToolbarLeft(object sender, EventArgs e) => Toolbar.Dock = DockStyle.Left;
-        private void DockToolbarRight(object sender, EventArgs e) => Toolbar.Dock = DockStyle.Right;
-        private void DockToolbarTop(object sender, EventArgs e) => Toolbar.Dock = DockStyle.Top;
+        private void ViewMenu_DropDownOpening(object sender, EventArgs e) =>
+            GraphForm.ViewToolbar.Checked = Toolbar.Visible;
 
-        private void ViewToolbar_DropDownOpening(object sender, EventArgs e)
-        {
-            View.ViewToolbarBottom.Checked = Toolbar.Dock == DockStyle.Bottom;
-            View.ViewToolbarLeft.Checked = Toolbar.Dock == DockStyle.Left;
-            View.ViewToolbarRight.Checked = Toolbar.Dock == DockStyle.Right;
-            View.ViewToolbarTop.Checked = Toolbar.Dock == DockStyle.Top;
-            View.ViewToolbarHide.Checked = !Toolbar.Visible;
-        }
-
-        private void ViewToolbarHide_Click(object sender, EventArgs e)
-        {
+        private void ViewToolbarHide_Click(object sender, EventArgs e) =>
             Toolbar.Visible = !Toolbar.Visible;
-        }
 
         #endregion
     }

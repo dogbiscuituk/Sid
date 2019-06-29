@@ -53,9 +53,9 @@ Mediator
 
 The GraphProxy (nee CommandProcessor) acts as Mediator between the set of available commands, and
 the various clients (Controller classes e.g. GraphPropertiesController, TracePropertiesController,
-TraceController and PropertyTableController). One important decoupling it provided was that between
+TraceController and PropertyGridController). One important decoupling it provided was that between
 actually running a command, as most clients do, and simply noting its effects for the purposes of
-Undo/Redo suppport. Such was the case with the original PropertyTableController, which bypassed the
+Undo/Redo suppport. Such was the case with the original PropertyGridController, which bypassed the
 command running mechanism in favour of modifying the model directly. This entire evolution is, of
 course, A Long Story...
 

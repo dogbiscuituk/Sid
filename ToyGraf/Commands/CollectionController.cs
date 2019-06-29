@@ -80,11 +80,11 @@
                     {
                         form.Font = graphForm.Font;
                         CommandProcessor = AppController.GraphControllers
-                            .FirstOrDefault(p => p.View == graphForm)
+                            .FirstOrDefault(p => p.GraphForm == graphForm)
                             .CommandProcessor;
                     }
                     var propertyGrid = form.Controls.Find("propertyBrowser", true)?[0] as PropertyGrid;
-                    PropertyTableController.HidePropertyPagesButton(propertyGrid);
+                    PropertyGridController.HidePropertyPagesButton(propertyGrid);
                     propertyGrid.HelpVisible = true;
                     if (Graph != null)
                         TraceCounter = Graph.Traces.Count;

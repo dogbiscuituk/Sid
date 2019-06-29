@@ -79,7 +79,7 @@
         #region Private Properties
 
         private GraphController GraphController;
-        private GraphForm View => GraphController.View;
+        private GraphForm View => GraphController.GraphForm;
         internal Graph Graph => GraphController.Graph;
         private readonly Stack<ICommand> UndoStack = new Stack<ICommand>();
         private readonly Stack<ICommand> RedoStack = new Stack<ICommand>();

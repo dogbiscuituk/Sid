@@ -19,27 +19,27 @@
         {
             GraphController = graphController;
             GraphController.Model.Cleared += Model_Cleared;
-            View = graphController.View;
+            GraphForm = graphController.GraphForm;
             Graph.BeginUpdate += GraphBeginUpdate;
             Graph.EndUpdate += GraphEndUpdate;
         }
 
-        internal GraphForm View
+        internal GraphForm GraphForm
         {
-            get => _view;
+            get => _GraphForm;
             set
             {
-                _view = value;
-                View.GraphAddNewFunction.Click += GraphAddNewFunction_Click;
-                View.tbAdd.Click += GraphAddNewFunction_Click;
-                View.ViewLegend.DropDownOpening += ViewLegend_DropDownOpening;
-                View.tbLegend.DropDownOpening += TbLegend_DropDownOpening;
-                View.ViewLegendTopLeft.Click += ViewLegendTopLeft_Click;
-                View.ViewLegendTopRight.Click += ViewLegendTopRight_Click;
-                View.ViewLegendBottomLeft.Click += ViewLegendBottomLeft_Click;
-                View.ViewLegendBottomRight.Click += ViewLegendBottomRight_Click;
-                View.ViewLegendHide.Click += ViewLegendHide_Click;
-                View.tbLegend.ButtonClick += ViewLegendHide_Click;
+                _GraphForm = value;
+                GraphForm.GraphAddNewFunction.Click += GraphAddNewFunction_Click;
+                GraphForm.tbAdd.Click += GraphAddNewFunction_Click;
+                GraphForm.ViewLegend.DropDownOpening += ViewLegend_DropDownOpening;
+                GraphForm.tbLegend.DropDownOpening += TbLegend_DropDownOpening;
+                GraphForm.ViewLegendTopLeft.Click += ViewLegendTopLeft_Click;
+                GraphForm.ViewLegendTopRight.Click += ViewLegendTopRight_Click;
+                GraphForm.ViewLegendBottomLeft.Click += ViewLegendBottomLeft_Click;
+                GraphForm.ViewLegendBottomRight.Click += ViewLegendBottomRight_Click;
+                GraphForm.ViewLegendHide.Click += ViewLegendHide_Click;
+                GraphForm.tbLegend.ButtonClick += ViewLegendHide_Click;
             }
         }
 
@@ -79,7 +79,7 @@
 
         internal void Clear()
         {
-            View.StatusBar.Focus();
+            GraphForm.StatusBar.Focus();
             TraceViews.Clear();
             TraceControllers.Clear();
         }
@@ -115,7 +115,7 @@
         {
             Graph.ValidateProxies();
             CanCancel = true;
-            var ok = View.ValidateChildren();
+            var ok = GraphForm.ValidateChildren();
             CanCancel = false;
             return ok;
         }
@@ -124,12 +124,12 @@
 
         #region Private Properties
 
-        private GraphForm _view;
+        private GraphForm _GraphForm;
         private CommandProcessor CommandProcessor => GraphController.CommandProcessor;
         private bool CanCancel;
         private Graph Graph { get => GraphController.Graph; }
-        private Panel Client { get => View.ClientPanel; }
-        private Panel Legend { get => View.LegendPanel; }
+        private Panel Client { get => GraphForm.ClientPanel; }
+        private Panel Legend { get => GraphForm.LegendPanel; }
         private Control.ControlCollection TraceViews { get => Legend.Controls; }
         private ContentAlignment _legendAlignment = ContentAlignment.TopLeft;
         private ContentAlignment LegendAlignment
@@ -161,7 +161,7 @@
         {
             var comboBox = (ComboBox)sender;
             var ok = new Parser().TryParse(comboBox.Text, out _, out string error);
-            View.ErrorProvider.SetError(comboBox, ok ? string.Empty : error);
+            GraphForm.ErrorProvider.SetError(comboBox, ok ? string.Empty : error);
             e.Cancel = CanCancel && !ok;
         }
 
@@ -169,17 +169,17 @@
 
         private void ViewLegend_DropDownOpening(object sender, EventArgs e)
         {
-            View.ViewLegendTopLeft.Checked = LegendAlignment == ContentAlignment.TopLeft;
-            View.ViewLegendTopRight.Checked = LegendAlignment == ContentAlignment.TopRight;
-            View.ViewLegendBottomLeft.Checked = LegendAlignment == ContentAlignment.BottomLeft;
-            View.ViewLegendBottomRight.Checked = LegendAlignment == ContentAlignment.BottomRight;
-            View.ViewLegendHide.Checked = !Legend.Visible;
+            GraphForm.ViewLegendTopLeft.Checked = LegendAlignment == ContentAlignment.TopLeft;
+            GraphForm.ViewLegendTopRight.Checked = LegendAlignment == ContentAlignment.TopRight;
+            GraphForm.ViewLegendBottomLeft.Checked = LegendAlignment == ContentAlignment.BottomLeft;
+            GraphForm.ViewLegendBottomRight.Checked = LegendAlignment == ContentAlignment.BottomRight;
+            GraphForm.ViewLegendHide.Checked = !Legend.Visible;
         }
 
         private void TbLegend_DropDownOpening(object sender, EventArgs e)
         {
             ViewLegend_DropDownOpening(sender, e);
-            View.ViewLegend.CloneTo(View.tbLegend);
+            GraphForm.ViewLegend.CloneTo(GraphForm.tbLegend);
         }
 
         private void GraphAddNewFunction_Click(object sender, EventArgs e) => AddNewTrace();
@@ -230,7 +230,7 @@
 
         private void RemoveTraceViewAt(int index)
         {
-            View.StatusBar.Focus();
+            GraphForm.StatusBar.Focus();
             TraceViews.RemoveAt(index);
             TraceControllers[index].BeforeRemove();
             TraceControllers.RemoveAt(index);

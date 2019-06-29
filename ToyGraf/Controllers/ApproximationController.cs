@@ -37,7 +37,7 @@
                 catch (FormatException ex)
                 {
                     MessageBox.Show(
-                        graphController.View,
+                        graphController.GraphForm,
                         $@"An error occurred during graph construction:
 
 {ex.Message}

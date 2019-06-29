@@ -26,7 +26,7 @@
         }
 
         internal readonly GraphController GraphController;
-        internal GraphForm GraphForm { get => GraphController.View; }
+        internal GraphForm GraphForm { get => GraphController.GraphForm; }
         internal ClockController ClockController;
 
         internal PictureBox PictureBox

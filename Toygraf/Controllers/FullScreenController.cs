@@ -20,9 +20,9 @@
         #region Private Properties
 
         private GraphController GraphController;
-        private GraphForm Form => GraphController.View;
-        private PropertyTableController PropertyTableController => GraphController.PropertyTableController;
-        private DataGridController DataGridController => GraphController.DataGridController;
+        private GraphForm Form => GraphController.GraphForm;
+        private PropertyGridController PropertyGridController => GraphController.PropertyGridController;
+        private TraceTableController TraceTableController => GraphController.TraceTableController;
 
         private FormState SavedFormState;
 
@@ -45,8 +45,8 @@
                 | (Form.MainMenuStrip.Visible ? FormElements.MainMenu : 0)
                 | (Form.Toolbar.Visible ? FormElements.Toolbar : 0)
                 | (Form.StatusBar.Visible ? FormElements.StatusBar : 0)
-                | (PropertyTableController.PropertyTableVisible ? FormElements.PropertyTable : 0)
-                | (DataGridController.DataGridVisible ? FormElements.DataGrid : 0)
+                | (PropertyGridController.PropertyGridVisible ? FormElements.PropertyGrid : 0)
+                | (TraceTableController.TraceTableVisible ? FormElements.TraceTable : 0)
                 | (Form.LegendPanel.Visible ? FormElements.Legend : 0),
                 WindowState = Form.WindowState
             };
@@ -57,8 +57,8 @@
                 Form.MainMenuStrip.Visible = (elements & FormElements.MainMenu) != 0;
                 Form.Toolbar.Visible = (elements & FormElements.Toolbar) != 0;
                 Form.StatusBar.Visible = (elements & FormElements.StatusBar) != 0;
-                PropertyTableController.PropertyTableVisible = (elements & FormElements.PropertyTable) != 0;
-                DataGridController.DataGridVisible = (elements & FormElements.DataGrid) != 0;
+                PropertyGridController.PropertyGridVisible = (elements & FormElements.PropertyGrid) != 0;
+                TraceTableController.TraceTableVisible = (elements & FormElements.TraceTable) != 0;
                 Form.LegendPanel.Visible = (elements & FormElements.Legend) != 0;
                 Form.WindowState = value.WindowState;
             }
@@ -105,8 +105,8 @@
             MainMenu = 0x01,
             Toolbar = 0x02,
             StatusBar = 0x04,
-            PropertyTable = 0x08,
-            DataGrid = 0x10,
+            PropertyGrid = 0x08,
+            TraceTable = 0x10,
             Legend = 0x20
         }
 
