@@ -32,20 +32,40 @@
                 _GraphForm = value;
                 GraphForm.GraphAddNewFunction.Click += GraphAddNewFunction_Click;
                 GraphForm.tbAdd.Click += GraphAddNewFunction_Click;
+
                 GraphForm.ViewLegend.DropDownOpening += ViewLegend_DropDownOpening;
-                GraphForm.tbLegend.DropDownOpening += TbLegend_DropDownOpening;
+                GraphForm.ViewLegendFloat.Click += ViewLegendFloat_Click;
+                GraphForm.ViewLegendHide.Click += ViewLegendHide_Click;
                 GraphForm.ViewLegendTopLeft.Click += ViewLegendTopLeft_Click;
                 GraphForm.ViewLegendTopRight.Click += ViewLegendTopRight_Click;
                 GraphForm.ViewLegendBottomLeft.Click += ViewLegendBottomLeft_Click;
                 GraphForm.ViewLegendBottomRight.Click += ViewLegendBottomRight_Click;
-                GraphForm.ViewLegendHide.Click += ViewLegendHide_Click;
+
+                GraphForm.PopupLegendMenu.Opening += ViewLegend_DropDownOpening;
+                GraphForm.PopupLegendFloat.Click += ViewLegendFloat_Click;
+                GraphForm.PopupLegendHide.Click += ViewLegendHide_Click;
+                GraphForm.PopupLegendTopLeft.Click += ViewLegendTopLeft_Click;
+                GraphForm.PopupLegendTopRight.Click += ViewLegendTopRight_Click;
+                GraphForm.PopupLegendBottomLeft.Click += ViewLegendBottomLeft_Click;
+                GraphForm.PopupLegendBottomRight.Click += ViewLegendBottomRight_Click;
+
+                GraphForm.tbLegend.DropDownOpening += TbLegend_DropDownOpening;
                 GraphForm.tbLegend.ButtonClick += ViewLegendHide_Click;
             }
         }
 
+        private void ViewLegendFloat_Click(object sender, EventArgs e) =>
+            LegendDocked = !LegendDocked;
+
         internal GraphController GraphController;
         internal List<TraceController> TraceControllers = new List<TraceController>();
         internal bool Updating = true;
+
+        internal bool LegendVisible
+        {
+            get => Legend.Visible;
+            set => Legend.Visible = value;
+        }
 
         internal void AdjustLegend()
         {
@@ -124,6 +144,7 @@
 
         #region Private Properties
 
+        private HostController HostController;
         private GraphForm _GraphForm;
         private CommandProcessor CommandProcessor => GraphController.CommandProcessor;
         private bool CanCancel;
@@ -142,9 +163,40 @@
             }
         }
 
+        private bool LegendDocked
+        {
+            get => Legend.FindForm() == GraphForm;
+            set
+            {
+                if (LegendDocked != value)
+                    if (value)
+                    {
+                        HostController.HostFormClosing -= HostFormClosing;
+                        HostController.Close();
+                        HostController = null;
+                        //LegendVisible = true;
+                    }
+                    else
+                    {
+                        //LegendVisible = false;
+                        HostController = new HostController("Legend", Legend);
+                        HostController.HostFormClosing += HostFormClosing;
+                        HostController.Show(GraphForm);
+                    }
+            }
+        }
+
         #endregion
 
         #region Private Event Handlers
+
+        private void CbFunction_Validating(object sender, CancelEventArgs e)
+        {
+            var comboBox = (ComboBox)sender;
+            var ok = new Parser().TryParse(comboBox.Text, out _, out string error);
+            GraphForm.ErrorProvider.SetError(comboBox, ok ? string.Empty : error);
+            e.Cancel = CanCancel && !ok;
+        }
 
         private void GraphBeginUpdate(object sender, EventArgs e)
         {
@@ -157,15 +209,16 @@
             GraphRead();
         }
 
-        private void CbFunction_Validating(object sender, CancelEventArgs e)
-        {
-            var comboBox = (ComboBox)sender;
-            var ok = new Parser().TryParse(comboBox.Text, out _, out string error);
-            GraphForm.ErrorProvider.SetError(comboBox, ok ? string.Empty : error);
-            e.Cancel = CanCancel && !ok;
-        }
+        private void HostFormClosing(object sender, FormClosingEventArgs e) =>
+            LegendDocked = true;
 
         private void Model_Cleared(object sender, EventArgs e) => Clear();
+
+        private void TbLegend_DropDownOpening(object sender, EventArgs e)
+        {
+            ViewLegend_DropDownOpening(sender, e);
+            GraphForm.ViewLegend.CloneTo(GraphForm.tbLegend);
+        }
 
         private void ViewLegend_DropDownOpening(object sender, EventArgs e)
         {
@@ -176,13 +229,27 @@
             GraphForm.ViewLegendHide.Checked = !Legend.Visible;
         }
 
-        private void TbLegend_DropDownOpening(object sender, EventArgs e)
+        private void GraphAddNewFunction_Click(object sender, EventArgs e) => AddNewTrace();
+
+        private void PopupLegendDock_Click(object sender, EventArgs e) =>
+            LegendDocked = !LegendDocked;
+
+        private void PopupLegendHide_Click(object sender, EventArgs e)
         {
-            ViewLegend_DropDownOpening(sender, e);
-            GraphForm.ViewLegend.CloneTo(GraphForm.tbLegend);
+            LegendDocked = true;
+            LegendVisible = false;
         }
 
-        private void GraphAddNewFunction_Click(object sender, EventArgs e) => AddNewTrace();
+        private void PopupLegendMenu_Opening(object sender, CancelEventArgs e) =>
+            GraphForm.PopupLegendFloat.Checked = !LegendDocked;
+
+        private void ToggleLegend(object sender, EventArgs e)
+        {
+            LegendDocked = true;
+            LegendVisible = !LegendVisible;
+        }
+
+
         private void ViewLegendBottomLeft_Click(object sender, EventArgs e) => LegendAlignment = ContentAlignment.BottomLeft;
         private void ViewLegendBottomRight_Click(object sender, EventArgs e) => LegendAlignment = ContentAlignment.BottomRight;
         private void ViewLegendHide_Click(object sender, EventArgs e) => Legend.Visible = !Legend.Visible;

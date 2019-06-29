@@ -35,6 +35,14 @@
             this.ErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.ClientPanel = new System.Windows.Forms.Panel();
             this.LegendPanel = new System.Windows.Forms.Panel();
+            this.PopupLegendMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.PopupLegendFloat = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupLegendHide = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem15 = new System.Windows.Forms.ToolStripSeparator();
+            this.PopupLegendTopLeft = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupLegendTopRight = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupLegendBottomLeft = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupLegendBottomRight = new System.Windows.Forms.ToolStripMenuItem();
             this.PictureBox = new System.Windows.Forms.PictureBox();
             this.TextureDialog = new System.Windows.Forms.OpenFileDialog();
             this.PropertyGrid = new System.Windows.Forms.PropertyGrid();
@@ -160,16 +168,9 @@
             this.TimeAccelerate = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupLegendMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.PopupLegendFloat = new System.Windows.Forms.ToolStripMenuItem();
-            this.hideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem15 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem13 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.ClientPanel.SuspendLayout();
+            this.PopupLegendMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
             this.PopupPropertyGridMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).BeginInit();
@@ -190,7 +191,6 @@
             this.StatusBar.SuspendLayout();
             this.Toolbar.SuspendLayout();
             this.MainMenu.SuspendLayout();
-            this.PopupLegendMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // PopupMenu
@@ -223,6 +223,62 @@
             this.LegendPanel.Name = "LegendPanel";
             this.LegendPanel.Size = new System.Drawing.Size(19, 16);
             this.LegendPanel.TabIndex = 9;
+            // 
+            // PopupLegendMenu
+            // 
+            this.PopupLegendMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PopupLegendFloat,
+            this.PopupLegendHide,
+            this.toolStripMenuItem15,
+            this.PopupLegendTopLeft,
+            this.PopupLegendTopRight,
+            this.PopupLegendBottomLeft,
+            this.PopupLegendBottomRight});
+            this.PopupLegendMenu.Name = "PopupLegendMenu";
+            this.PopupLegendMenu.Size = new System.Drawing.Size(181, 164);
+            // 
+            // PopupLegendFloat
+            // 
+            this.PopupLegendFloat.Name = "PopupLegendFloat";
+            this.PopupLegendFloat.Size = new System.Drawing.Size(180, 22);
+            this.PopupLegendFloat.Text = "&Float";
+            // 
+            // PopupLegendHide
+            // 
+            this.PopupLegendHide.Name = "PopupLegendHide";
+            this.PopupLegendHide.Size = new System.Drawing.Size(180, 22);
+            this.PopupLegendHide.Text = "&Hide";
+            // 
+            // toolStripMenuItem15
+            // 
+            this.toolStripMenuItem15.Name = "toolStripMenuItem15";
+            this.toolStripMenuItem15.Size = new System.Drawing.Size(177, 6);
+            // 
+            // PopupLegendTopLeft
+            // 
+            this.PopupLegendTopLeft.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.PopupLegendTopLeft.Name = "PopupLegendTopLeft";
+            this.PopupLegendTopLeft.Size = new System.Drawing.Size(180, 22);
+            this.PopupLegendTopLeft.Tag = "";
+            this.PopupLegendTopLeft.Text = "Top &Left";
+            // 
+            // PopupLegendTopRight
+            // 
+            this.PopupLegendTopRight.Name = "PopupLegendTopRight";
+            this.PopupLegendTopRight.Size = new System.Drawing.Size(180, 22);
+            this.PopupLegendTopRight.Text = "Top &Right";
+            // 
+            // PopupLegendBottomLeft
+            // 
+            this.PopupLegendBottomLeft.Name = "PopupLegendBottomLeft";
+            this.PopupLegendBottomLeft.Size = new System.Drawing.Size(180, 22);
+            this.PopupLegendBottomLeft.Text = "Bottom L&eft";
+            // 
+            // PopupLegendBottomRight
+            // 
+            this.PopupLegendBottomRight.Name = "PopupLegendBottomRight";
+            this.PopupLegendBottomRight.Size = new System.Drawing.Size(180, 22);
+            this.PopupLegendBottomRight.Text = "Bottom R&ight";
             // 
             // PictureBox
             // 
@@ -1384,62 +1440,6 @@
             this.HelpAbout.Text = "&About";
             this.HelpAbout.ToolTipText = "Show version information";
             // 
-            // PopupLegendMenu
-            // 
-            this.PopupLegendMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.PopupLegendFloat,
-            this.hideToolStripMenuItem,
-            this.toolStripMenuItem15,
-            this.toolStripMenuItem11,
-            this.toolStripMenuItem12,
-            this.toolStripMenuItem13,
-            this.toolStripMenuItem14});
-            this.PopupLegendMenu.Name = "PopupLegendMenu";
-            this.PopupLegendMenu.Size = new System.Drawing.Size(146, 142);
-            // 
-            // PopupLegendFloat
-            // 
-            this.PopupLegendFloat.Name = "PopupLegendFloat";
-            this.PopupLegendFloat.Size = new System.Drawing.Size(145, 22);
-            this.PopupLegendFloat.Text = "&Float";
-            // 
-            // hideToolStripMenuItem
-            // 
-            this.hideToolStripMenuItem.Name = "hideToolStripMenuItem";
-            this.hideToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
-            this.hideToolStripMenuItem.Text = "&Hide";
-            // 
-            // toolStripMenuItem15
-            // 
-            this.toolStripMenuItem15.Name = "toolStripMenuItem15";
-            this.toolStripMenuItem15.Size = new System.Drawing.Size(142, 6);
-            // 
-            // toolStripMenuItem11
-            // 
-            this.toolStripMenuItem11.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripMenuItem11.Name = "toolStripMenuItem11";
-            this.toolStripMenuItem11.Size = new System.Drawing.Size(145, 22);
-            this.toolStripMenuItem11.Tag = "";
-            this.toolStripMenuItem11.Text = "Top &Left";
-            // 
-            // toolStripMenuItem12
-            // 
-            this.toolStripMenuItem12.Name = "toolStripMenuItem12";
-            this.toolStripMenuItem12.Size = new System.Drawing.Size(145, 22);
-            this.toolStripMenuItem12.Text = "Top &Right";
-            // 
-            // toolStripMenuItem13
-            // 
-            this.toolStripMenuItem13.Name = "toolStripMenuItem13";
-            this.toolStripMenuItem13.Size = new System.Drawing.Size(145, 22);
-            this.toolStripMenuItem13.Text = "Bottom L&eft";
-            // 
-            // toolStripMenuItem14
-            // 
-            this.toolStripMenuItem14.Name = "toolStripMenuItem14";
-            this.toolStripMenuItem14.Size = new System.Drawing.Size(145, 22);
-            this.toolStripMenuItem14.Text = "Bottom R&ight";
-            // 
             // GraphForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1454,6 +1454,7 @@
             this.Text = "ToyGraf";
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).EndInit();
             this.ClientPanel.ResumeLayout(false);
+            this.PopupLegendMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
             this.PopupPropertyGridMenu.ResumeLayout(false);
             this.SplitContainer1.Panel1.ResumeLayout(false);
@@ -1480,7 +1481,6 @@
             this.Toolbar.PerformLayout();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
-            this.PopupLegendMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1616,12 +1616,12 @@
         internal System.Windows.Forms.ToolStripMenuItem PopupPropertyGridHide;
         internal System.Windows.Forms.ContextMenuStrip PopupLegendMenu;
         internal System.Windows.Forms.ToolStripMenuItem PopupLegendFloat;
-        internal System.Windows.Forms.ToolStripMenuItem hideToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem PopupLegendHide;
         internal System.Windows.Forms.ToolStripMenuItem ViewLegendFloat;
-        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItem11;
-        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItem12;
-        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItem13;
-        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItem14;
+        internal System.Windows.Forms.ToolStripMenuItem PopupLegendTopLeft;
+        internal System.Windows.Forms.ToolStripMenuItem PopupLegendTopRight;
+        internal System.Windows.Forms.ToolStripMenuItem PopupLegendBottomLeft;
+        internal System.Windows.Forms.ToolStripMenuItem PopupLegendBottomRight;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem15;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
     }
