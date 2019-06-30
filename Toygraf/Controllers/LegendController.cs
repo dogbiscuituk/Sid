@@ -90,11 +90,14 @@
                 case ContentAlignment.TopRight: x -= margin; y = margin; break;
                 case ContentAlignment.BottomLeft: x = margin; y -= margin; break;
                 case ContentAlignment.BottomRight: x -= margin; y -= margin; break;
+                case ContentAlignment.MiddleCenter: x = 0; y = 0; break; // Undocked
             }
             Legend.Anchor = anchor;
             Legend.AutoScroll = scroll;
             Legend.Size = new Size(w, h);
             Legend.SetBounds(x, y, w, h);
+            if (!LegendDocked)
+                HostController.AdjustFormSize();
         }
 
         internal void Clear()
@@ -128,8 +131,11 @@
             AdjustLegend();
         }
 
-        internal int IndexOf(TraceController traceController) => TraceControllers.IndexOf(traceController);
-        internal void RemoveTrace(int index) => CommandProcessor.GraphDeleteTrace(index);
+        internal int IndexOf(TraceController traceController) =>
+            TraceControllers.IndexOf(traceController);
+
+        internal void RemoveTrace(int index) =>
+            CommandProcessor.GraphDeleteTrace(index);
 
         internal bool Validate()
         {
@@ -144,21 +150,35 @@
 
         #region Private Properties
 
-        private HostController HostController;
+        private HostController _HostController;
+        private HostController HostController
+        {
+            get
+            {
+                if (_HostController == null)
+                    _HostController = new HostController("Legend", Legend, FormBorderStyle.FixedToolWindow);
+                return _HostController;
+            }
+        }
+
         private GraphForm _GraphForm;
-        private CommandProcessor CommandProcessor => GraphController.CommandProcessor;
+        private CommandProcessor CommandProcessor =>
+            GraphController.CommandProcessor;
         private bool CanCancel;
         private Graph Graph { get => GraphController.Graph; }
         private Panel Client { get => GraphForm.ClientPanel; }
         private Panel Legend { get => GraphForm.LegendPanel; }
         private Control.ControlCollection TraceViews { get => Legend.Controls; }
-        private ContentAlignment _legendAlignment = ContentAlignment.TopLeft;
+        private ContentAlignment
+            DockedAlignment,
+            _LegendAlignment = ContentAlignment.TopLeft;
+
         private ContentAlignment LegendAlignment
         {
-            get => _legendAlignment;
+            get => _LegendAlignment;
             set
             {
-                _legendAlignment = value;
+                _LegendAlignment = value;
                 AdjustLegend();
             }
         }
@@ -169,20 +189,22 @@
             set
             {
                 if (LegendDocked != value)
-                    if (value)
+                {
+                    if (LegendDocked)
                     {
-                        HostController.HostFormClosing -= HostFormClosing;
-                        HostController.Close();
-                        HostController = null;
-                        //LegendVisible = true;
+                        HostController.HostFormClosing += HostFormClosing;
+                        HostController.Show(GraphForm);
+                        DockedAlignment = LegendAlignment;
+                        LegendAlignment = ContentAlignment.MiddleCenter;
                     }
                     else
                     {
-                        //LegendVisible = false;
-                        HostController = new HostController("Legend", Legend);
-                        HostController.HostFormClosing += HostFormClosing;
-                        HostController.Show(GraphForm);
+                        HostController.HostFormClosing -= HostFormClosing;
+                        HostController.Close();
+                        LegendAlignment = DockedAlignment;
                     }
+                    AdjustLegend();
+                }
             }
         }
 
@@ -274,6 +296,8 @@
                     return AnchorStyles.Top | AnchorStyles.Left;
                 case ContentAlignment.TopRight:
                     return AnchorStyles.Top | AnchorStyles.Right;
+                case ContentAlignment.MiddleCenter: // Undocked
+                    return AnchorStyles.Top | AnchorStyles.Left;
             }
             return 0;
         }

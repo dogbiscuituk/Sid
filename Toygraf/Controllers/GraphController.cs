@@ -162,7 +162,8 @@
 
         private void TraceSelection_Changed(object sender, EventArgs e) => TraceSelectionChanged();
 
-        private void View_FormClosing(object sender, FormClosingEventArgs e) => e.Cancel = !FormClosing(e.CloseReason);
+        private void View_FormClosing(object sender, FormClosingEventArgs e) =>
+            e.Cancel = !FormClosing(e.CloseReason);
 
         private bool FormClosing(CloseReason closeReason)
         {

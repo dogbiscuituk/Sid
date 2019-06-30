@@ -13,21 +13,21 @@
         internal TraceTableController(GraphController graphController)
         {
             GraphController = graphController;
-            TraceTable = Form.TraceTable;
+            TraceTable = GraphForm.TraceTable;
             GraphController.PropertyChanged += GraphController_PropertyChanged;
             TraceTable.AutoGenerateColumns = false;
-            Form.ViewMenu.DropDownOpening += ViewMenu_DropDownOpening;
-            Form.ViewTraceTable.Click += ToggleTraceTable;
-            Form.PopupTraceTableMenu.Opening += PopupTraceTableMenu_Opening;
-            Form.PopupTraceTableFloat.Click += PopupTraceTableDock_Click;
-            Form.PopupTraceTableHide.Click += PopupTraceTableHide_Click;
+            GraphForm.ViewMenu.DropDownOpening += ViewMenu_DropDownOpening;
+            GraphForm.ViewTraceTable.Click += ToggleTraceTable;
+            GraphForm.PopupTraceTableMenu.Opening += PopupTraceTableMenu_Opening;
+            GraphForm.PopupTraceTableFloat.Click += PopupTraceTableDock_Click;
+            GraphForm.PopupTraceTableHide.Click += PopupTraceTableHide_Click;
 
         }
 
         internal bool TraceTableVisible
         {
-            get => !Form.SplitContainer2.Panel2Collapsed;
-            set => Form.SplitContainer2.Panel2Collapsed = !value;
+            get => !GraphForm.SplitContainer2.Panel2Collapsed;
+            set => GraphForm.SplitContainer2.Panel2Collapsed = !value;
         }
 
         #endregion
@@ -36,31 +36,41 @@
 
         private CommandProcessor CommandProcessor => GraphController.CommandProcessor;
         private readonly GraphController GraphController;
-        private HostController HostController;
-        private GraphForm Form => GraphController.GraphForm;
+
+
+        private HostController _HostController;
+        private HostController HostController
+        {
+            get
+            {
+                if (_HostController == null)
+                    _HostController = new HostController("Trace Table", TraceTable);
+                return _HostController;
+            }
+        }
+
+        private GraphForm GraphForm => GraphController.GraphForm;
         private readonly DataGridView TraceTable;
 
         private bool TraceTableDocked
         {
-            get => TraceTable.FindForm() == Form;
+            get => TraceTable.FindForm() == GraphForm;
             set
             {
                 if (TraceTableDocked != value)
-                    if (value)
+                    if (TraceTableDocked)
                     {
-                        HostController.HostFormClosing -= HostFormClosing;
-                        HostController.Close();
-                        HostController = null;
+                        TraceTableVisible = false;
+                        HostController.HostFormClosing += HostFormClosing;
+                        HostController.Show(GraphForm);
                         ResizeRows();
-                        TraceTableVisible = true;
                     }
                     else
                     {
-                        TraceTableVisible = false;
-                        HostController = new HostController("Trace Table", TraceTable);
-                        HostController.HostFormClosing += HostFormClosing;
-                        HostController.Show(Form);
+                        HostController.HostFormClosing -= HostFormClosing;
+                        HostController.Close();
                         ResizeRows();
+                        TraceTableVisible = true;
                     }
             }
         }
@@ -88,7 +98,7 @@
         }
 
         private void PopupTraceTableMenu_Opening(object sender, CancelEventArgs e) =>
-            Form.PopupTraceTableFloat.Checked = !TraceTableDocked;
+            GraphForm.PopupTraceTableFloat.Checked = !TraceTableDocked;
 
         private void ToggleTraceTable(object sender, EventArgs e)
         {
@@ -97,7 +107,7 @@
         }
 
         private void ViewMenu_DropDownOpening(object sender, EventArgs e) =>
-            Form.ViewTraceTable.Checked = TraceTableVisible;
+            GraphForm.ViewTraceTable.Checked = TraceTableVisible;
 
         #endregion
 

@@ -14,12 +14,12 @@
         internal PropertyGridController(GraphController graphController)
         {
             GraphController = graphController;
-            PropertyGrid = Form.PropertyGrid;
-            Form.ViewMenu.DropDownOpening += ViewMenu_DropDownOpening;
-            Form.ViewPropertyGrid.Click += TogglePropertyGrid;
-            Form.PopupPropertyGridMenu.Opening += PopupPropertyGridMenu_Opening;
-            Form.PopupPropertyGridFloat.Click += PopupPropertyGridDock_Click;
-            Form.PopupPropertyGridHide.Click += PopupPropertyGridHide_Click;
+            PropertyGrid = GraphForm.PropertyGrid;
+            GraphForm.ViewMenu.DropDownOpening += ViewMenu_DropDownOpening;
+            GraphForm.ViewPropertyGrid.Click += TogglePropertyGrid;
+            GraphForm.PopupPropertyGridMenu.Opening += PopupPropertyGridMenu_Opening;
+            GraphForm.PopupPropertyGridFloat.Click += PopupPropertyGridDock_Click;
+            GraphForm.PopupPropertyGridHide.Click += PopupPropertyGridHide_Click;
             var toolStrip = FindToolStrip(PropertyGrid);
             HidePropertyPagesButton(toolStrip);
             AddCloseButton(toolStrip);
@@ -28,8 +28,8 @@
 
         internal bool PropertyGridVisible
         {
-            get => !Form.SplitContainer1.Panel2Collapsed;
-            set => Form.SplitContainer1.Panel2Collapsed = !value;
+            get => !GraphForm.SplitContainer1.Panel2Collapsed;
+            set => GraphForm.SplitContainer1.Panel2Collapsed = !value;
         }
 
         internal static void HidePropertyPagesButton(PropertyGrid propertyGrid) =>
@@ -42,29 +42,38 @@
         #region Private Properties
 
         private readonly GraphController GraphController;
-        private HostController HostController;
-        private GraphForm Form => GraphController.GraphForm;
+
+        private HostController _HostController;
+        private HostController HostController
+        {
+            get
+            {
+                if (_HostController == null)
+                    _HostController = new HostController("Property Grid", PropertyGrid);
+                return _HostController;
+            }
+        }
+
+        private GraphForm GraphForm => GraphController.GraphForm;
         private readonly PropertyGrid PropertyGrid;
 
         private bool PropertyGridDocked
         {
-            get => PropertyGrid.FindForm() == Form;
+            get => PropertyGrid.FindForm() == GraphForm;
             set
             {
                 if (PropertyGridDocked != value)
-                    if (value)
+                    if (PropertyGridDocked)
                     {
-                        HostController.HostFormClosing -= HostFormClosing;
-                        HostController.Close();
-                        HostController = null;
-                        PropertyGridVisible = true;
+                        PropertyGridVisible = false;
+                        HostController.HostFormClosing += HostFormClosing;
+                        HostController.Show(GraphForm);
                     }
                     else
                     {
-                        PropertyGridVisible = false;
-                        HostController = new HostController("Property Grid", PropertyGrid);
-                        HostController.HostFormClosing += HostFormClosing;
-                        HostController.Show(Form);
+                        HostController.HostFormClosing -= HostFormClosing;
+                        HostController.Close();
+                        PropertyGridVisible = true;
                     }
             }
         }
@@ -92,7 +101,7 @@
         }
 
         private void PopupPropertyGridMenu_Opening(object sender, CancelEventArgs e) =>
-            Form.PopupPropertyGridFloat.Checked = !PropertyGridDocked;
+            GraphForm.PopupPropertyGridFloat.Checked = !PropertyGridDocked;
 
         private void TogglePropertyGrid(object sender, EventArgs e)
         {
@@ -101,7 +110,7 @@
         }
 
         private void ViewMenu_DropDownOpening(object sender, EventArgs e) =>
-            Form.ViewPropertyGrid.Checked = PropertyGridVisible;
+            GraphForm.ViewPropertyGrid.Checked = PropertyGridVisible;
 
         #endregion
 
