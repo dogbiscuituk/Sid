@@ -52,10 +52,10 @@
         private void TraceTableController_SelectionChanged(object sender, EventArgs e)
         {
             var selection = TraceTableController.Selection;
-            if (selection.Any())
-                PropertyGridController.SelectedObjects = selection.ToArray();
-            else
-                PropertyGridController.SelectedObjects = new[] { Graph };
+            PropertyGridController.SelectedObjects =
+                !selection.Any()
+                    ? new object[] { CommandProcessor }
+                    : selection.ToArray();
         }
 
         internal GraphForm GraphForm

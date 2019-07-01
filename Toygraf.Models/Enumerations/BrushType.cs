@@ -2,6 +2,10 @@
 {
     using System.ComponentModel;
 
+    /// <summary>
+    /// Values chosen to match those used in the C++ GDI+ header file, gdiplusenims.h:
+    /// https://docs.microsoft.com/en-us/windows/desktop/api/gdiplusenums/ne-gdiplusenums-brushtype
+    /// </summary>
     public enum BrushType
     {
         [Description("Solid")]

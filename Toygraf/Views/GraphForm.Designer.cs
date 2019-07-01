@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphForm));
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -45,9 +48,6 @@
             this.SplitContainer1 = new System.Windows.Forms.SplitContainer();
             this.SplitContainer2 = new System.Windows.Forms.SplitContainer();
             this.TraceTable = new System.Windows.Forms.DataGridView();
-            this.colFormula = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDerivative = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colProxy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PopupTraceTableMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.PopupTraceTableFloat = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupTraceTableHide = new System.Windows.Forms.ToolStripMenuItem();
@@ -161,6 +161,13 @@
             this.TimeAccelerate = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.colFormula = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPen = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBrush = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSteps = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPoints = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colProxy = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDerivative = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.ClientPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
@@ -244,18 +251,18 @@
             this.PopupPropertyGridFloat,
             this.PopupPropertyGridHide});
             this.PopupPropertyGridMenu.Name = "PopupPropertyGridMenu";
-            this.PopupPropertyGridMenu.Size = new System.Drawing.Size(181, 70);
+            this.PopupPropertyGridMenu.Size = new System.Drawing.Size(101, 48);
             // 
             // PopupPropertyGridFloat
             // 
             this.PopupPropertyGridFloat.Name = "PopupPropertyGridFloat";
-            this.PopupPropertyGridFloat.Size = new System.Drawing.Size(180, 22);
+            this.PopupPropertyGridFloat.Size = new System.Drawing.Size(100, 22);
             this.PopupPropertyGridFloat.Text = "&Float";
             // 
             // PopupPropertyGridHide
             // 
             this.PopupPropertyGridHide.Name = "PopupPropertyGridHide";
-            this.PopupPropertyGridHide.Size = new System.Drawing.Size(180, 22);
+            this.PopupPropertyGridHide.Size = new System.Drawing.Size(100, 22);
             this.PopupPropertyGridHide.Text = "&Hide";
             // 
             // SplitContainer1
@@ -305,14 +312,25 @@
             this.TraceTable.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.TraceTable.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleVertical;
             this.TraceTable.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.TraceTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.TraceTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.TraceTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colFormula,
-            this.colDerivative,
-            this.colProxy});
+            this.colPen,
+            this.colBrush,
+            this.colSteps,
+            this.colPoints,
+            this.colProxy,
+            this.colDerivative});
             this.TraceTable.ContextMenuStrip = this.PopupTraceTableMenu;
             this.TraceTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TraceTable.ImeMode = System.Windows.Forms.ImeMode.Katakana;
             this.TraceTable.Location = new System.Drawing.Point(0, 0);
             this.TraceTable.Name = "TraceTable";
             this.TraceTable.ReadOnly = true;
@@ -321,30 +339,6 @@
             this.TraceTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.TraceTable.Size = new System.Drawing.Size(752, 94);
             this.TraceTable.TabIndex = 0;
-            // 
-            // colFormula
-            // 
-            this.colFormula.DataPropertyName = "Formula";
-            this.colFormula.HeaderText = "Formula";
-            this.colFormula.Name = "colFormula";
-            this.colFormula.ReadOnly = true;
-            this.colFormula.Width = 250;
-            // 
-            // colDerivative
-            // 
-            this.colDerivative.DataPropertyName = "Derivative";
-            this.colDerivative.HeaderText = "Derivative";
-            this.colDerivative.Name = "colDerivative";
-            this.colDerivative.ReadOnly = true;
-            this.colDerivative.Width = 251;
-            // 
-            // colProxy
-            // 
-            this.colProxy.DataPropertyName = "Proxy";
-            this.colProxy.HeaderText = "Proxy";
-            this.colProxy.Name = "colProxy";
-            this.colProxy.ReadOnly = true;
-            this.colProxy.Width = 251;
             // 
             // PopupTraceTableMenu
             // 
@@ -1381,6 +1375,64 @@
             this.HelpAbout.Text = "&About";
             this.HelpAbout.ToolTipText = "Show version information";
             // 
+            // colFormula
+            // 
+            this.colFormula.DataPropertyName = "Formula";
+            this.colFormula.HeaderText = "Formula";
+            this.colFormula.Name = "colFormula";
+            this.colFormula.ReadOnly = true;
+            this.colFormula.Width = 250;
+            // 
+            // colPen
+            // 
+            this.colPen.DataPropertyName = "Pen";
+            this.colPen.HeaderText = "Pen";
+            this.colPen.Name = "colPen";
+            this.colPen.ReadOnly = true;
+            // 
+            // colBrush
+            // 
+            this.colBrush.DataPropertyName = "Brush";
+            this.colBrush.HeaderText = "Brush";
+            this.colBrush.Name = "colBrush";
+            this.colBrush.ReadOnly = true;
+            // 
+            // colSteps
+            // 
+            this.colSteps.DataPropertyName = "StepCount";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.colSteps.DefaultCellStyle = dataGridViewCellStyle2;
+            this.colSteps.HeaderText = "Steps";
+            this.colSteps.Name = "colSteps";
+            this.colSteps.ReadOnly = true;
+            this.colSteps.Width = 50;
+            // 
+            // colPoints
+            // 
+            this.colPoints.DataPropertyName = "PointCount";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.colPoints.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colPoints.HeaderText = "Points";
+            this.colPoints.Name = "colPoints";
+            this.colPoints.ReadOnly = true;
+            this.colPoints.Width = 50;
+            // 
+            // colProxy
+            // 
+            this.colProxy.DataPropertyName = "Proxy";
+            this.colProxy.HeaderText = "Proxy";
+            this.colProxy.Name = "colProxy";
+            this.colProxy.ReadOnly = true;
+            this.colProxy.Width = 251;
+            // 
+            // colDerivative
+            // 
+            this.colDerivative.DataPropertyName = "Derivative";
+            this.colDerivative.HeaderText = "Derivative";
+            this.colDerivative.Name = "colDerivative";
+            this.colDerivative.ReadOnly = true;
+            this.colDerivative.Width = 251;
+            // 
             // GraphForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1437,9 +1489,6 @@
         internal System.Windows.Forms.SplitContainer SplitContainer1;
         internal System.Windows.Forms.SplitContainer SplitContainer2;
         internal System.Windows.Forms.DataGridView TraceTable;
-        internal System.Windows.Forms.DataGridViewTextBoxColumn colFormula;
-        internal System.Windows.Forms.DataGridViewTextBoxColumn colDerivative;
-        internal System.Windows.Forms.DataGridViewTextBoxColumn colProxy;
         internal System.Windows.Forms.ToolStripContainer ToolStripContainer;
         internal Controls.TgStatusStrip StatusBar;
         internal Controls.TgToolStrip Toolbar;
@@ -1557,5 +1606,12 @@
         internal System.Windows.Forms.ContextMenuStrip PopupLegendMenu;
         internal System.Windows.Forms.ToolStripMenuItem ViewLegendFloat;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colFormula;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPen;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colBrush;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSteps;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPoints;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colProxy;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDerivative;
     }
 }

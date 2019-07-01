@@ -99,7 +99,7 @@
 
         private void GraphController_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            TraceTable.DataSource = CommandProcessor.Traces;
+            TraceTable.DataSource = CommandProcessor.TracesLive;
             ResizeRows();
         }
 

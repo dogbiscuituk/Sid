@@ -82,6 +82,33 @@
         [NonSerialized] private DomainInfo LastDomainInfo;
         [NonSerialized] private double LastTime = -1;
 
+        [JsonIgnore]
+        public string Brush => $"{OpaqueBrush} ({FillTransparencyPercent}% transparent)";
+
+        private string OpaqueBrush
+        {
+            get
+            {
+                switch (BrushType)
+                {
+                    case BrushType.Solid:
+                        return $"Solid {FillColour1.Name}";
+                    case BrushType.Hatch:
+                        return $"{HatchStyle} {FillColour1.Name}/{FillColour2.Name} {BrushType}";
+                    case BrushType.Texture:
+                        return $"{BrushType} \"{TexturePath}\"";
+                    case BrushType.PathGradient:
+                        return $"{FillColour1.Name}/{FillColour2.Name} {BrushType}";
+                    case BrushType.LinearGradient:
+                        return $"{GradientMode} {FillColour1.Name}/{FillColour2.Name} {BrushType}";
+                }
+                return null;
+            }
+        }
+
+        [JsonIgnore]
+        public string Pen => $"{PenColour.Name} size {PenWidth} {PenStyle}";
+       
         #endregion
 
         #region Formula, Expression, Proxy, Func, Derivative
@@ -155,6 +182,7 @@
         [JsonIgnore]
         public Func<double, double, double> Derivative { get; private set; }
 
+        [JsonIgnore]
         public Expression DerivativeExpression { get; private set; }
 
         public bool UsesTime => Proxy != null && Proxy.UsesTime() || Expression.UsesTime();
@@ -171,6 +199,7 @@
 
         #region Drawing
 
+        [JsonIgnore]
         public List<List<PointF>> PointLists = new List<List<PointF>>();
 
         // Method DrawAsync is made asynchronous purely as a programming exercise.

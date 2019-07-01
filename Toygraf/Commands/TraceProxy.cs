@@ -240,6 +240,19 @@
 
             #endregion
 
+            #region Public Summary Properties
+
+            [Category("Summary")]
+            public string Brush => Trace.Brush;
+
+            [Category("Summary")]
+            public string Pen => Trace.Pen;
+
+            [Category("Summary")]
+            public int PointCount => Trace.PointLists.Sum(p => p.Count);
+
+            #endregion
+
             #region Public System Properties
 
             [Category("System")]

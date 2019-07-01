@@ -28,5 +28,14 @@
             MaxCartesian.GetHashCode() ^ MaxPolar.GetHashCode() ^
             MinCartesian.GetHashCode() ^ MinPolar.GetHashCode() ^
             PolarDegrees.GetHashCode() ^ UseGraphWidth.GetHashCode();
+
+        public override string ToString() => $@"Cartesian: {
+            CartesianDomain}, Polar: {
+            (PolarDegrees ? PolarDomainDegrees : PolarDomainRadians)}, UseGraphWidth = {
+            UseGraphWidth}";
+
+        private string CartesianDomain => $"{MinCartesian} < x < {MaxCartesian}";
+        private string PolarDomainDegrees => $"{MinDegrees} < x < {MaxDegrees}";
+        private string PolarDomainRadians => $"{MinRadians} < x < {MaxRadians}";
     }
 }
