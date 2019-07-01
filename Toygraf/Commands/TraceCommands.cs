@@ -1,7 +1,11 @@
 ﻿namespace ToyGraf.Commands
 {
+    using System;
     using System.Drawing;
     using System.Drawing.Drawing2D;
+    using System.Drawing.Imaging;
+    using System.IO;
+    using ToyGraf.Controls;
     using ToyGraf.Expressions;
     using ToyGraf.Expressions.Enumerations;
     using ToyGraf.Models.Enumerations;
@@ -156,11 +160,27 @@
             { }
         }
 
-        private class TraceTextureCommand : TracePropertyCommand<string>
+        private class TraceTextureCommand : CompositeCommand
         {
-            public TraceTextureCommand(int index, string value) : base(index, "texture",
+            public TraceTextureCommand(int index, string filePath) : base
+                (
+                    new TraceTexturePathCommand(index, filePath),
+                    new TraceTextureImageCommand(index, ImageToBase64String(filePath))
+                )
+            {
+                Detail = "texture";
+            }
+
+            protected override string Action => $"{Detail} change";
+        }
+
+        private class TraceTextureImageCommand : TracePropertyCommand<string>
+        {
+            public TraceTextureImageCommand(int index, string value) : base(index, "texture",
                 value, s => s.Texture, (s, v) => s.Texture = v)
             { }
+
+            public override string ToString() => $"{Target} {Detail} = {Value?.Substring(0, 20)}...";
         }
 
         private class TraceTexturePathCommand : TracePropertyCommand<string>
@@ -168,6 +188,8 @@
             public TraceTexturePathCommand(int index, string value) : base(index, "texture path",
                 value, s => s.TexturePath, (s, v) => s.TexturePath = v)
             { }
+
+            public override string ToString() => $"{Target} {Detail} = {Value?.CompactMenuText()}";
         }
 
         private class TraceTitleCommand : TracePropertyCommand<string>
@@ -175,6 +197,20 @@
             public TraceTitleCommand(int index, string value) : base(index, "title",
                 value, s => s.Title, (s, v) => s.Title = v)
             { }
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private static string ImageToBase64String(string filePath)
+        {
+            using (var image = Image.FromFile(filePath))
+            using (var stream = new MemoryStream())
+            {
+                image.Save(stream, ImageFormat.Bmp);
+                return Convert.ToBase64String(stream.GetBuffer());
+            }
         }
 
         #endregion

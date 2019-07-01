@@ -240,10 +240,10 @@
             }
 
             public override string ToString() =>
-                Commands.Select(p => p.ToString()).Aggregate((s, t) => $"{s}; \n{t}");
+                Commands.Select(p => p.ToString()).Aggregate((s, t) => $"{s}; {t}");
 
-            private const string Action = "multiple changes";
-            private List<ICommand> Commands = new List<ICommand>();
+            protected virtual string Action { get => "multiple changes"; }
+            private readonly List<ICommand> Commands = new List<ICommand>();
         }
 
         #endregion

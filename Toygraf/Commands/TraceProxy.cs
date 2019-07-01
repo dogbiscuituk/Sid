@@ -189,7 +189,7 @@
             public string Texture
             {
                 get => Trace.Texture;
-                set => Run(new TraceTextureCommand(Index, value));
+                set => Run(new TraceTextureImageCommand(Index, value));
             }
 
             [Category("Style")]
@@ -199,7 +199,7 @@
             public string TexturePath
             {
                 get => Trace.TexturePath;
-                set => Run(new TraceTexturePathCommand(Index, value));
+                set => Run(new TraceTextureCommand(Index, value));
             }
 
             [Category("Trace")]

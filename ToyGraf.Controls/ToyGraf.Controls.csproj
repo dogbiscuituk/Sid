@@ -70,5 +70,11 @@
       <DependentUpon>TgKeyboard.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Toygraf.Expressions\ToyGraf.Expressions.csproj">
+      <Project>{091B2974-E44B-49C4-A3AA-355FC2558FEF}</Project>
+      <Name>ToyGraf.Expressions</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

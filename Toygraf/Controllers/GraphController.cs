@@ -256,16 +256,6 @@
         private bool ContinueSaving() => true;
         private void EditOptions() => new OptionsController(this).ShowModal(GraphForm);
 
-        private static string ImageToBase64String(string filePath)
-        {
-            using (var image = Image.FromFile(filePath))
-            using (var stream = new MemoryStream())
-            {
-                image.Save(stream, ImageFormat.Bmp);
-                return Convert.ToBase64String(stream.GetBuffer());
-            }
-        }
-
         private void InitCoordinatesToolTip(string toolTip)
         {
             if (GraphForm.ToolTip.GetToolTip(PictureBox) != toolTip)
@@ -332,7 +322,6 @@
                 var index = Graph.Traces.IndexOf(trace);
                 var filePath = dialog.FileName;
                 CommandProcessor[index].TexturePath = filePath;
-                CommandProcessor[index].Texture = ImageToBase64String(filePath);
             }
             return ok;
         }

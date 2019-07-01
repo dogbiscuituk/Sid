@@ -1,11 +1,9 @@
 ﻿namespace ToyGraf.Controllers
 {
     using System;
-    using System.Drawing;
-    using System.IO;
     using System.Linq;
     using System.Windows.Forms;
-    using ToyGraf.Expressions;
+    using ToyGraf.Controls;
     using ToyGraf.Models;
     using Win32 = Microsoft.Win32;
 
@@ -138,26 +136,6 @@
 
         #region Private Methods
 
-        private static string CompactMenuText(string text)
-        {
-            var result = Path.ChangeExtension(text, string.Empty).TrimEnd('.');
-            /*
-                https://stackoverflow.com/questions/1764204/how-to-display-abbreviated-path-names-in-net
-                "Important: Passing in a formatting option of TextFormatFlags.ModifyString actually causes
-                the MeasureText method to alter the string argument [...] to be a compacted string. This
-                seems very weird since no explicit ref or out method parameter keyword is specified and
-                strings are immutable. However, its definitely the case. I assume the string's pointer was
-                updated via unsafe code to the new compacted string." -- Sam.
-            */
-            TextRenderer.MeasureText(
-                result, SystemFonts.MenuFont, new Size(320, 0),
-                TextFormatFlags.PathEllipsis | TextFormatFlags.ModifyString);
-            var length = result.IndexOf((char)0);
-            if (length >= 0)
-                result = result.Substring(0, length);
-            return result.AmpersandEscape();
-        }
-
         private Win32.RegistryKey CreateSubKey()
         {
             return Win32.Registry.CurrentUser.CreateSubKey(
@@ -201,7 +179,7 @@
                         continue;
                     try
                     {
-                        var text = CompactMenuText(value.Split('|')[0]);
+                        var text = value.Split('|')[0].CompactMenuText();
                         var item = items.Add(text, null, OnItemClick);
                         item.Tag = value;
                         item.ToolTipText = value.Replace('|', '\n');
