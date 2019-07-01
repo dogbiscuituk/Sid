@@ -20,6 +20,8 @@
             GraphController.PropertyChanged += GraphController_PropertyChanged;
             TraceTable.AutoGenerateColumns = false;
             TraceTable.SelectionChanged += TraceTable_SelectionChanged;
+            GraphForm.EditSelectAll.Click += EditSelectAll_Click;
+            GraphForm.EditInvertSelection.Click += EditInvertSelection_Click;
             GraphForm.ViewMenu.DropDownOpening += ViewMenu_DropDownOpening;
             GraphForm.ViewTraceTable.Click += ToggleTraceTable;
             GraphForm.PopupTraceTableMenu.Opening += PopupTraceTableMenu_Opening;
@@ -89,6 +91,12 @@
 
         #region Private Event Handlers
 
+        private void EditInvertSelection_Click(object sender, EventArgs e) =>
+            InvertSelection();
+
+        private void EditSelectAll_Click(object sender, EventArgs e) =>
+            TraceTable.SelectAll();
+
         private void GraphController_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             TraceTable.DataSource = CommandProcessor.Traces;
@@ -125,6 +133,12 @@
         #endregion
 
         #region Private Methods
+
+        private void InvertSelection()
+        {
+            foreach (DataGridViewRow row in TraceTable.Rows)
+                row.Selected = !row.Selected;
+        }
 
         private void ResizeRows()
         {
