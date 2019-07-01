@@ -47,11 +47,11 @@
                             return I(f).Plus(I(g));
                         case ExpressionType.Subtract: // ∫(f-g)dx = ∫f dx - ∫g dx
                             return I(f).Minus(I(g));
-                        /*case ExpressionType.Multiply: // ∫f dg = fg - ∫g df
-                            return IntegrateByParts(be);
-                        case ExpressionType.Divide:   // ∫f dg = fg - ∫g df
-                            return IntegrateByParts(MakeBinary(
-                                "*", be.Left, be.Right.Reciprocal()));*/
+                            /*case ExpressionType.Multiply: // ∫f dg = fg - ∫g df
+                                return IntegrateByParts(be);
+                            case ExpressionType.Divide:   // ∫f dg = fg - ∫g df
+                                return IntegrateByParts(MakeBinary(
+                                    "*", be.Left, be.Right.Reciprocal()));*/
                     }
                     return NI(e);
                 case ConditionalExpression cond:      // ∫(e?f:g)dx = e ? ∫f dx : ∫g dx

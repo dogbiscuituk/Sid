@@ -57,7 +57,7 @@
         private void HostForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             HostFormClosing?.Invoke(sender, e);
-            if (e.CloseReason ==  CloseReason.UserClosing)
+            if (e.CloseReason == CloseReason.UserClosing)
             {
                 e.Cancel = true;
                 HostForm.Hide();

@@ -15,15 +15,15 @@
     /// (for example, prior to "File|New" or "File|Open", or application closing).
     /// </summary>
     internal abstract class SdiController : MruController
-	{
+    {
         #region Protected Constructor
 
         protected SdiController(Model model, string filter, string subKeyName, ToolStripDropDownItem recentMenu)
-			: base(model, subKeyName, recentMenu)
-		{
-			OpenFileDialog = new OpenFileDialog { Filter = filter, Title = "Select the file to open" };
-			SaveFileDialog = new SaveFileDialog { Filter = filter, Title = "Save file" };
-		}
+            : base(model, subKeyName, recentMenu)
+        {
+            OpenFileDialog = new OpenFileDialog { Filter = filter, Title = "Select the file to open" };
+            SaveFileDialog = new SaveFileDialog { Filter = filter, Title = "Save file" };
+        }
 
         #endregion
 
@@ -107,23 +107,23 @@
         }
 
         internal bool SaveIfModified()
-		{
-			if (Model.Modified)
-				switch (MessageBox.Show(
-					"The contents of this file have changed. Do you want to save the changes?",
-					"File modified",
-					MessageBoxButtons.YesNoCancel,
-					MessageBoxIcon.Warning))
-				{
-					case DialogResult.Yes:
-						return Save();
-					case DialogResult.No:
-						return true;
-					case DialogResult.Cancel:
-						return false;
-				}
-			return true;
-		}
+        {
+            if (Model.Modified)
+                switch (MessageBox.Show(
+                    "The contents of this file have changed. Do you want to save the changes?",
+                    "File modified",
+                    MessageBoxButtons.YesNoCancel,
+                    MessageBoxIcon.Warning))
+                {
+                    case DialogResult.Yes:
+                        return Save();
+                    case DialogResult.No:
+                        return true;
+                    case DialogResult.Cancel:
+                        return false;
+                }
+            return true;
+        }
 
         internal event EventHandler<CancelEventArgs> FileLoading, FileSaving;
         internal event EventHandler FileLoaded, FilePathChanged, FileSaved;
@@ -166,29 +166,29 @@
 
         protected abstract void ClearDocument();
 
-		protected abstract bool LoadFromStream(Stream stream, string format);
+        protected abstract bool LoadFromStream(Stream stream, string format);
 
-		protected abstract bool SaveToStream(Stream stream, string format);
+        protected abstract bool SaveToStream(Stream stream, string format);
 
-		protected bool UseStream(Action action)
-		{
-			var result = true;
-			try
-			{
-				action();
-				Model.Modified = false;
-			}
-			catch (Exception x)
-			{
-				MessageBox.Show(
-					x.Message,
-					x.GetType().Name,
-					MessageBoxButtons.OK,
-					MessageBoxIcon.Error);
-				result = false;
-			}
-			return result;
-		}
+        protected bool UseStream(Action action)
+        {
+            var result = true;
+            try
+            {
+                action();
+                Model.Modified = false;
+            }
+            catch (Exception x)
+            {
+                MessageBox.Show(
+                    x.Message,
+                    x.GetType().Name,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                result = false;
+            }
+            return result;
+        }
 
         protected virtual void OnFilePathChanged()
         {
@@ -230,21 +230,21 @@
         #region Private Methods
 
         internal bool LoadFromFile(string filePath)
-		{
-			var result = false;
-			if (OnFileLoading())
-			{
+        {
+            var result = false;
+            if (OnFileLoading())
+            {
                 using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-					result = LoadFromStream(stream, Path.GetExtension(filePath));
-				if (result)
-				{
-					FilePath = filePath;
-					AddItem(filePath);
+                    result = LoadFromStream(stream, Path.GetExtension(filePath));
+                if (result)
+                {
+                    FilePath = filePath;
+                    AddItem(filePath);
                     OnFileLoaded();
-				}
-			}
-			return result;
-		}
+                }
+            }
+            return result;
+        }
 
         private void OnFilePathRequest()
         {
@@ -254,20 +254,20 @@
         }
 
         private bool SaveToFile(string filePath)
-		{
-			var result = false;
-			if (OnFileSaving())
-				using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-				{
-					result = SaveToStream(stream, Path.GetExtension(filePath));
-					if (result)
-					{
-						FilePath = filePath;
-						AddItem(filePath);
-					}
-				}
-			return result;
-		}
+        {
+            var result = false;
+            if (OnFileSaving())
+                using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                {
+                    result = SaveToStream(stream, Path.GetExtension(filePath));
+                    if (result)
+                    {
+                        FilePath = filePath;
+                        AddItem(filePath);
+                    }
+                }
+            return result;
+        }
 
         #endregion
     }

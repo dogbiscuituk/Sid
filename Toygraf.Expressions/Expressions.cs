@@ -2,9 +2,9 @@
 {
     using System;
     using System.Linq.Expressions;
+    using System.Text;
     using System.Text.RegularExpressions;
     using ToyGraf.Expressions.Enumerations;
-    using System.Text;
 
     public static partial class Expressions
     {

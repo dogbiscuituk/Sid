@@ -9,21 +9,35 @@
 
         /// <summary>
         /// Copy the Items from one ToolStrip to another.
-        /// ToolStrip may be either a MenuStrip or a ContextMenuStrip.
         /// </summary>
-        /// <param name="s">The source menu, contributing the Items to be copied.</param>
-        /// <param name="t">The target menu, receiving the copies.</param>
-        internal static void CloneTo(this ToolStrip s, ToolStrip t) => s.Items.CloneTo(t.Items);
+        /// <param name="s">The source, contributing the items to be copied.</param>
+        /// <param name="t">The target, receiving the copies.</param>
+        internal static void CloneTo(this ToolStrip s, ToolStrip t) =>
+            s.Items.CloneTo(t.Items);
 
         /// <summary>
-        /// Copy the DropDownItems from one ToolStripDropDownItem to another.
-        /// ToolStripDropDownItem may be a ToolStripMenuItem in a main or context menu,
-        /// or a ToolStripSplitButton in a Toolbar.
+        /// Copy the Items from one ToolStripDropDownItem to another.
         /// </summary>
-        /// <param name="s">The source parent item, contributing the DropDownItems to be copied.</param>
-        /// <param name="t">The target parent item, receiving the copies.</param>
+        /// <param name="s">The source, contributing the items to be copied.</param>
+        /// <param name="t">The target, receiving the copies.</param>
         internal static void CloneTo(this ToolStripDropDownItem s, ToolStripDropDownItem t) =>
             s.DropDownItems.CloneTo(t.DropDownItems);
+
+        /// <summary>
+        /// Copy the Items from a ToolStrip to a ToolStripDropDownItem.
+        /// </summary>
+        /// <param name="s">The source, contributing the items to be copied.</param>
+        /// <param name="t">The target, receiving the copies.</param>
+        internal static void CloneTo(this ToolStrip s, ToolStripDropDownItem t) =>
+            s.Items.CloneTo(t.DropDownItems);
+
+        /// <summary>
+        /// Copy the DropDownItems from a ToolStripDropDownItem to a ToolStrip.
+        /// </summary>
+        /// <param name="s">The source, contributing the items to be copied.</param>
+        /// <param name="t">The target, receiving the copies.</param>
+        internal static void CloneTo(this ToolStripDropDownItem s, ToolStrip t) =>
+            s.DropDownItems.CloneTo(t.Items);
 
         #endregion
 

@@ -189,7 +189,7 @@
                             UpdateProxyLabel();
                             break;
                     }
-                Updating = false;
+                    Updating = false;
                 }
             }
         }

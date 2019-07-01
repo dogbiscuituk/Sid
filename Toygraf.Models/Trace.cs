@@ -1,5 +1,6 @@
 ﻿namespace ToyGraf.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -10,7 +11,6 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
-    using Newtonsoft.Json;
     using ToyGraf.Expressions;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Models.Interfaces;
@@ -20,7 +20,7 @@
     public class Trace : Style, ITrace
     {
         public Trace() : base() => RestoreDefaults();
-        public Trace(Graph graph): this() => _stepCount = graph.StepCount;
+        public Trace(Graph graph) : this() => _stepCount = graph.StepCount;
 
         public new Trace Clone()
         {
@@ -222,7 +222,7 @@
                 case BrushType.Hatch:
                 case BrushType.LinearGradient:
                 case BrushType.PathGradient:
-                    return FillColour1.A == 0 && FillColour2.A== 0;
+                    return FillColour1.A == 0 && FillColour2.A == 0;
                 case BrushType.Texture:
                     return string.IsNullOrWhiteSpace(Texture);
             }

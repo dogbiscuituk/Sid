@@ -104,7 +104,7 @@
 
         #endregion
 
-            #region Private Event Handlers
+        #region Private Event Handlers
 
         private void Clock_Tick(object sender, EventArgs e) => UpdateTimeDisplay();
         private void TimeDecelerate_Click(object sender, EventArgs e) => ClockDecelerate();

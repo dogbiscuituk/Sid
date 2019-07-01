@@ -199,7 +199,7 @@
         /// <param name="pen">The pen used to draw the reticle.</param>
         /// <param name="info">A struct containing miscellaneous information about the reticle being drawn.</param>
         /// <param name="r">The radius of the arc.</param>
-        private static void DrawWireArc(this Graphics g, List<Label>labels, Pen pen, ReticleInfo info, float r)
+        private static void DrawWireArc(this Graphics g, List<Label> labels, Pen pen, ReticleInfo info, float r)
         {
             var vp = info.Viewport;
             if (vp.Left > r || vp.Right < -r || vp.Top > r || vp.Bottom < -r)

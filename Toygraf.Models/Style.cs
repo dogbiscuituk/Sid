@@ -121,7 +121,7 @@
             get => _hatchStyle;
             set
             {
-                if (HatchStyle != value )
+                if (HatchStyle != value)
                 {
                     _hatchStyle = value;
                     OnPropertyChanged("HatchStyle");

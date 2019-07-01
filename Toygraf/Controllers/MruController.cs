@@ -5,9 +5,9 @@
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
-    using Win32 = Microsoft.Win32;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
+    using Win32 = Microsoft.Win32;
 
     /// <summary>
     /// "Most Recently Used" Controller.
@@ -19,7 +19,7 @@
     /// Note: unsafe code is used to abbreviate long paths (see CompactMenuText method).
     /// </summary>
     internal class MruController
-	{
+    {
         #region Protected Constructor
 
         protected MruController(Model model, string subKeyName, ToolStripDropDownItem recentMenu)
@@ -173,7 +173,7 @@
                 key.DeleteValue(name);
         }
 
-        private Win32.RegistryKey OpenSubKey(bool writable) => 
+        private Win32.RegistryKey OpenSubKey(bool writable) =>
             Win32.Registry.CurrentUser.OpenSubKey(SubKeyName, writable);
 
         private void RefreshRecentMenu()
@@ -222,5 +222,5 @@
         }
 
         #endregion
-	}
+    }
 }

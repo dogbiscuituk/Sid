@@ -1,5 +1,6 @@
 ﻿namespace ToyGraf.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -8,7 +9,6 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
-    using Newtonsoft.Json;
     using ToyGraf.Expressions;
     using ToyGraf.Models.Enumerations;
     using ToyGraf.Models.Interfaces;

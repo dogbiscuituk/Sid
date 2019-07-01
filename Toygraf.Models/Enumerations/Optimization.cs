@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum  Optimization
+    public enum Optimization
     {
         [Description("Default")]
         Default,

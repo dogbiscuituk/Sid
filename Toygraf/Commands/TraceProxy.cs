@@ -1,6 +1,5 @@
 ﻿namespace ToyGraf.Commands
 {
-    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing;
     using System.Drawing.Design;

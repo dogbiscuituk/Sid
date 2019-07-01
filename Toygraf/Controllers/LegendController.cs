@@ -41,13 +41,7 @@
                 GraphForm.ViewLegendBottomLeft.Click += ViewLegendBottomLeft_Click;
                 GraphForm.ViewLegendBottomRight.Click += ViewLegendBottomRight_Click;
 
-                GraphForm.PopupLegendMenu.Opening += ViewLegend_DropDownOpening;
-                GraphForm.PopupLegendFloat.Click += ViewLegendFloat_Click;
-                GraphForm.PopupLegendHide.Click += ViewLegendHide_Click;
-                GraphForm.PopupLegendTopLeft.Click += ViewLegendTopLeft_Click;
-                GraphForm.PopupLegendTopRight.Click += ViewLegendTopRight_Click;
-                GraphForm.PopupLegendBottomLeft.Click += ViewLegendBottomLeft_Click;
-                GraphForm.PopupLegendBottomRight.Click += ViewLegendBottomRight_Click;
+                GraphForm.PopupLegendMenu.Opening += PopupLegendMenu_Opening;
 
                 GraphForm.tbLegend.DropDownOpening += TbLegend_DropDownOpening;
                 GraphForm.tbLegend.ButtonClick += ViewLegendHide_Click;
@@ -64,12 +58,17 @@
         internal bool LegendVisible
         {
             get => Legend.Visible;
-            set => Legend.Visible = value;
+            set
+            {
+                if (!value)
+                    LegendDocked = true;
+                Legend.Visible = value;
+            }
         }
 
         internal void AdjustLegend()
         {
-            Legend.Visible = true;
+            LegendVisible = true;
             const int margin = 0, rowHeight = 23, maxRows = 17;
             var scroll = TraceViews.Count > maxRows;
             int w = 448 + (scroll ? SystemInformation.VerticalScrollBarWidth : 0),
@@ -178,6 +177,8 @@
             get => _LegendAlignment;
             set
             {
+                if (value != ContentAlignment.MiddleCenter && !LegendDocked)
+                    LegendDocked = true;
                 _LegendAlignment = value;
                 AdjustLegend();
             }
@@ -236,19 +237,26 @@
 
         private void Model_Cleared(object sender, EventArgs e) => Clear();
 
-        private void TbLegend_DropDownOpening(object sender, EventArgs e)
-        {
-            ViewLegend_DropDownOpening(sender, e);
-            GraphForm.ViewLegend.CloneTo(GraphForm.tbLegend);
-        }
-
         private void ViewLegend_DropDownOpening(object sender, EventArgs e)
         {
+            GraphForm.ViewLegendFloat.Checked = !LegendDocked;
+            GraphForm.ViewLegendHide.Checked = !LegendVisible;
             GraphForm.ViewLegendTopLeft.Checked = LegendAlignment == ContentAlignment.TopLeft;
             GraphForm.ViewLegendTopRight.Checked = LegendAlignment == ContentAlignment.TopRight;
             GraphForm.ViewLegendBottomLeft.Checked = LegendAlignment == ContentAlignment.BottomLeft;
             GraphForm.ViewLegendBottomRight.Checked = LegendAlignment == ContentAlignment.BottomRight;
-            GraphForm.ViewLegendHide.Checked = !Legend.Visible;
+        }
+
+        private void PopupLegendMenu_Opening(object sender, CancelEventArgs e)
+        {
+            ViewLegend_DropDownOpening(sender, e);
+            GraphForm.ViewLegend.CloneTo(GraphForm.PopupLegendMenu);
+        }
+
+        private void TbLegend_DropDownOpening(object sender, EventArgs e)
+        {
+            ViewLegend_DropDownOpening(sender, e);
+            GraphForm.ViewLegend.CloneTo(GraphForm.tbLegend);
         }
 
         private void GraphAddNewFunction_Click(object sender, EventArgs e) => AddNewTrace();
@@ -262,19 +270,15 @@
             LegendVisible = false;
         }
 
-        private void PopupLegendMenu_Opening(object sender, CancelEventArgs e) =>
-            GraphForm.PopupLegendFloat.Checked = !LegendDocked;
-
         private void ToggleLegend(object sender, EventArgs e)
         {
             LegendDocked = true;
             LegendVisible = !LegendVisible;
         }
 
-
         private void ViewLegendBottomLeft_Click(object sender, EventArgs e) => LegendAlignment = ContentAlignment.BottomLeft;
         private void ViewLegendBottomRight_Click(object sender, EventArgs e) => LegendAlignment = ContentAlignment.BottomRight;
-        private void ViewLegendHide_Click(object sender, EventArgs e) => Legend.Visible = !Legend.Visible;
+        private void ViewLegendHide_Click(object sender, EventArgs e) => LegendVisible = !LegendVisible;
         private void ViewLegendTopLeft_Click(object sender, EventArgs e) => LegendAlignment = ContentAlignment.TopLeft;
         private void ViewLegendTopRight_Click(object sender, EventArgs e) => LegendAlignment = ContentAlignment.TopRight;
 

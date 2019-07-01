@@ -74,7 +74,8 @@
             }
         }
 
-        private Options GetOptions() => new Options {
+        private Options GetOptions() => new Options
+        {
             OpenInNewWindow = OptionsDialog.rbWindowNew.Checked,
             GroupUndo = OptionsDialog.rbGroupUndo.Checked,
             FilesFolderPath = OptionsDialog.edFilesFolder.Text,

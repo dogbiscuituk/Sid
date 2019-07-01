@@ -1,11 +1,11 @@
 ﻿namespace ToyGraf.Controllers
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.IO;
     using System.Windows.Forms;
-    using Newtonsoft.Json;
     using ToyGraf.Expressions;
     using ToyGraf.Models;
 

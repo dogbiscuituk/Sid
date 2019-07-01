@@ -36,13 +36,6 @@
             this.ClientPanel = new System.Windows.Forms.Panel();
             this.LegendPanel = new System.Windows.Forms.Panel();
             this.PopupLegendMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.PopupLegendFloat = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupLegendHide = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem15 = new System.Windows.Forms.ToolStripSeparator();
-            this.PopupLegendTopLeft = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupLegendTopRight = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupLegendBottomLeft = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupLegendBottomRight = new System.Windows.Forms.ToolStripMenuItem();
             this.PictureBox = new System.Windows.Forms.PictureBox();
             this.TextureDialog = new System.Windows.Forms.OpenFileDialog();
             this.PropertyGrid = new System.Windows.Forms.PropertyGrid();
@@ -170,7 +163,6 @@
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.ClientPanel.SuspendLayout();
-            this.PopupLegendMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
             this.PopupPropertyGridMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).BeginInit();
@@ -226,59 +218,8 @@
             // 
             // PopupLegendMenu
             // 
-            this.PopupLegendMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.PopupLegendFloat,
-            this.PopupLegendHide,
-            this.toolStripMenuItem15,
-            this.PopupLegendTopLeft,
-            this.PopupLegendTopRight,
-            this.PopupLegendBottomLeft,
-            this.PopupLegendBottomRight});
             this.PopupLegendMenu.Name = "PopupLegendMenu";
-            this.PopupLegendMenu.Size = new System.Drawing.Size(181, 164);
-            // 
-            // PopupLegendFloat
-            // 
-            this.PopupLegendFloat.Name = "PopupLegendFloat";
-            this.PopupLegendFloat.Size = new System.Drawing.Size(180, 22);
-            this.PopupLegendFloat.Text = "&Float";
-            // 
-            // PopupLegendHide
-            // 
-            this.PopupLegendHide.Name = "PopupLegendHide";
-            this.PopupLegendHide.Size = new System.Drawing.Size(180, 22);
-            this.PopupLegendHide.Text = "&Hide";
-            // 
-            // toolStripMenuItem15
-            // 
-            this.toolStripMenuItem15.Name = "toolStripMenuItem15";
-            this.toolStripMenuItem15.Size = new System.Drawing.Size(177, 6);
-            // 
-            // PopupLegendTopLeft
-            // 
-            this.PopupLegendTopLeft.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.PopupLegendTopLeft.Name = "PopupLegendTopLeft";
-            this.PopupLegendTopLeft.Size = new System.Drawing.Size(180, 22);
-            this.PopupLegendTopLeft.Tag = "";
-            this.PopupLegendTopLeft.Text = "Top &Left";
-            // 
-            // PopupLegendTopRight
-            // 
-            this.PopupLegendTopRight.Name = "PopupLegendTopRight";
-            this.PopupLegendTopRight.Size = new System.Drawing.Size(180, 22);
-            this.PopupLegendTopRight.Text = "Top &Right";
-            // 
-            // PopupLegendBottomLeft
-            // 
-            this.PopupLegendBottomLeft.Name = "PopupLegendBottomLeft";
-            this.PopupLegendBottomLeft.Size = new System.Drawing.Size(180, 22);
-            this.PopupLegendBottomLeft.Text = "Bottom L&eft";
-            // 
-            // PopupLegendBottomRight
-            // 
-            this.PopupLegendBottomRight.Name = "PopupLegendBottomRight";
-            this.PopupLegendBottomRight.Size = new System.Drawing.Size(180, 22);
-            this.PopupLegendBottomRight.Text = "Bottom R&ight";
+            this.PopupLegendMenu.Size = new System.Drawing.Size(61, 4);
             // 
             // PictureBox
             // 
@@ -303,18 +244,18 @@
             this.PopupPropertyGridFloat,
             this.PopupPropertyGridHide});
             this.PopupPropertyGridMenu.Name = "PopupPropertyGridMenu";
-            this.PopupPropertyGridMenu.Size = new System.Drawing.Size(101, 48);
+            this.PopupPropertyGridMenu.Size = new System.Drawing.Size(181, 70);
             // 
             // PopupPropertyGridFloat
             // 
             this.PopupPropertyGridFloat.Name = "PopupPropertyGridFloat";
-            this.PopupPropertyGridFloat.Size = new System.Drawing.Size(100, 22);
+            this.PopupPropertyGridFloat.Size = new System.Drawing.Size(180, 22);
             this.PopupPropertyGridFloat.Text = "&Float";
             // 
             // PopupPropertyGridHide
             // 
             this.PopupPropertyGridHide.Name = "PopupPropertyGridHide";
-            this.PopupPropertyGridHide.Size = new System.Drawing.Size(100, 22);
+            this.PopupPropertyGridHide.Size = new System.Drawing.Size(180, 22);
             this.PopupPropertyGridHide.Text = "&Hide";
             // 
             // SplitContainer1
@@ -1454,7 +1395,6 @@
             this.Text = "ToyGraf";
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).EndInit();
             this.ClientPanel.ResumeLayout(false);
-            this.PopupLegendMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
             this.PopupPropertyGridMenu.ResumeLayout(false);
             this.SplitContainer1.Panel1.ResumeLayout(false);
@@ -1615,14 +1555,7 @@
         internal System.Windows.Forms.ToolStripMenuItem PopupPropertyGridFloat;
         internal System.Windows.Forms.ToolStripMenuItem PopupPropertyGridHide;
         internal System.Windows.Forms.ContextMenuStrip PopupLegendMenu;
-        internal System.Windows.Forms.ToolStripMenuItem PopupLegendFloat;
-        internal System.Windows.Forms.ToolStripMenuItem PopupLegendHide;
         internal System.Windows.Forms.ToolStripMenuItem ViewLegendFloat;
-        internal System.Windows.Forms.ToolStripMenuItem PopupLegendTopLeft;
-        internal System.Windows.Forms.ToolStripMenuItem PopupLegendTopRight;
-        internal System.Windows.Forms.ToolStripMenuItem PopupLegendBottomLeft;
-        internal System.Windows.Forms.ToolStripMenuItem PopupLegendBottomRight;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem15;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
     }
 }
