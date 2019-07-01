@@ -14,7 +14,7 @@
     [DefaultProperty("Traces")]
     partial class CommandProcessor
     {
-        [Category("Colour")]
+        [Category("Style Colours")]
         [DefaultValue(typeof(Color), "Black")]
         [Description("The colour used to draw the graph's axes.")]
         [DisplayName("Axis colour")]
@@ -129,7 +129,7 @@
             set => Run(new GraphElementsCommand(value));
         }
 
-        [Category("Colour")]
+        [Category("Style Colours")]
         [DefaultValue(typeof(Color), "Transparent")]
         [Description("The default primary fill colour used by traces. Applies to all brush types except \"Texture\".")]
         [DisplayName("Fill colour #1")]
@@ -139,7 +139,7 @@
             set => Run(new GraphFillColour1Command(value));
         }
 
-        [Category("Colour")]
+        [Category("Style Colours")]
         [DefaultValue(typeof(Color), "Transparent")]
         [Description("The default secondary fill colour used by traces. Applies to brush types \"Hatch\", \"Linear Gradient\", and \"Path Gradient\".")]
         [DisplayName("Fill colour #2")]
@@ -149,7 +149,7 @@
             set => Run(new GraphFillColour2Command(value));
         }
 
-        [Category("Colour")]
+        [Category("Style Colours")]
         [DefaultValue(0)]
         [Description("The default level of transparency applied to trace filled areas. Applies to all brush types, including \"Texture\".")]
         [DisplayName("Fill transparency %")]
@@ -169,7 +169,7 @@
             set => Run(new GraphInterpolationCommand(value));
         }
 
-        [Category("Colour")]
+        [Category("Style Colours")]
         [DefaultValue(typeof(Color), "DarkGray")]
         [Description("The default colour used by traces to draw asymptotes.")]
         [DisplayName("Limit colour")]
@@ -189,7 +189,7 @@
             set => Run(new GraphOptimizationCommand(value));
         }
 
-        [Category("Colour")]
+        [Category("Style Colours")]
         [DefaultValue(typeof(Color), "White")]
         [Description("The background colour used in the graph.")]
         [DisplayName("Paper colour")]
@@ -199,7 +199,7 @@
             set => Run(new GraphPaperColourCommand(value));
         }
 
-        [Category("Colour")]
+        [Category("Style Colours")]
         [DefaultValue(0)]
         [Description("The level of transparency in the background colour used in the graph.")]
         [DisplayName("Paper transparency %")]
@@ -209,7 +209,7 @@
             set => Run(new GraphPaperTransparencyPercentCommand(value));
         }
 
-        [Category("Colour")]
+        [Category("Style Colours")]
         [DefaultValue(typeof(Color), "Black")]
         [Description("The default pen colour used by traces in the graph.")]
         [DisplayName("Pen colour")]
@@ -229,7 +229,7 @@
             set => Run(new GraphPlotTypeCommand(value));
         }
 
-        [Category("Colour")]
+        [Category("Style Colours")]
         [DefaultValue(typeof(Color), "LightGray")]
         [Description("The colour used to draw the graph reticle (grid).")]
         [DisplayName("Reticle colour")]

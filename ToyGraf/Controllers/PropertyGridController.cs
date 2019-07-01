@@ -32,6 +32,12 @@
             set => GraphForm.SplitContainer1.Panel2Collapsed = !value;
         }
 
+        internal object[] SelectedObjects
+        {
+            get => PropertyGrid.SelectedObjects;
+            set => PropertyGrid.SelectedObjects = value;
+        }
+
         internal static void HidePropertyPagesButton(PropertyGrid propertyGrid) =>
             HidePropertyPagesButton(FindToolStrip(propertyGrid));
 

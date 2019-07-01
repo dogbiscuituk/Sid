@@ -45,7 +45,7 @@
                 set => Run(new StyleBrushTypeCommand(Index, value));
             }
 
-            [Category("Colour")]
+            [Category("Style Colours")]
             [DefaultValue(typeof(Color), "Transparent")]
             [Description("The primary fill colour used by the Style. Applies to all brush types except \"Texture\".")]
             [DisplayName("Fill colour #1")]
@@ -55,7 +55,7 @@
                 set => Run(new StyleFillColour1Command(Index, value));
             }
 
-            [Category("Colour")]
+            [Category("Style Colours")]
             [DefaultValue(typeof(Color), "Transparent")]
             [Description("The secondary fill colour used by the Style. Applies to brush types \"Hatch\", \"Linear Gradient\", and \"Path Gradient\".")]
             [DisplayName("Fill colour #2")]
@@ -75,7 +75,7 @@
                 set => Run(new StyleFillModeCommand(Index, value));
             }
 
-            [Category("Colour")]
+            [Category("Style Colours")]
             [DefaultValue(0)]
             [Description("The level of transparency applied to the Style filled areas. Applies to all brush types, including \"Texture\".")]
             [DisplayName("Fill transparency %")]
@@ -105,7 +105,7 @@
                 set => Run(new StyleHatchStyleCommand(Index, value));
             }
 
-            [Category("Colour")]
+            [Category("Style Colours")]
             [DefaultValue(typeof(Color), "DarkGray")]
             [Description("The default colour used by the Style to draw asymptotes.")]
             [DisplayName("Limit colour")]
@@ -115,7 +115,7 @@
                 set => Run(new StyleLimitColourCommand(Index, value));
             }
 
-            [Category("Colour")]
+            [Category("Style Colours")]
             [DefaultValue(typeof(Color), "Black")]
             [Description("The colour of pen used by the Style.")]
             [DisplayName("Pen colour")]

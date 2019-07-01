@@ -5,6 +5,7 @@
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.IO;
+    using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
     using ToyGraf.Commands;
@@ -45,9 +46,16 @@
             PopupMenu_Opening(GraphForm, new CancelEventArgs());
             CommandProcessor = new CommandProcessor(this);
             TraceTableController = new TraceTableController(this);
-            TraceSelection = new TraceSelection(CommandProcessor);
-            TraceSelection.Changed += TraceSelection_Changed;
-            TraceSelectionChanged();
+            TraceTableController.SelectionChanged += TraceTableController_SelectionChanged;
+        }
+
+        private void TraceTableController_SelectionChanged(object sender, EventArgs e)
+        {
+            var selection = TraceTableController.Selection;
+            if (selection.Any())
+                PropertyGridController.SelectedObjects = selection.ToArray();
+            else
+                PropertyGridController.SelectedObjects = new[] { Graph };
         }
 
         internal GraphForm GraphForm
@@ -69,8 +77,6 @@
                 GraphForm.tbSave.Click += TbSave_Click;
                 GraphForm.FileClose.Click += FileClose_Click;
                 GraphForm.FileExit.Click += FileExit_Click;
-                GraphForm.EditSelectAll.Click += EditSelectAll_Click;
-                GraphForm.EditInvertSelection.Click += EditInvertSelection_Click;
                 GraphForm.EditOptions.Click += EditOptions_Click;
                 GraphForm.GraphProperties.Click += GraphProperties_Click;
                 GraphForm.tbProperties.Click += GraphProperties_Click;
@@ -85,7 +91,6 @@
 
         internal readonly Model Model;
         internal Graph Graph { get => Model.Graph; }
-        internal TraceSelection TraceSelection;
 
         internal ClockController ClockController => GraphicsController.ClockController;
         internal readonly CommandProcessor CommandProcessor;
@@ -142,8 +147,6 @@
         private void FileSaveAs_Click(object sender, EventArgs e) => JsonController.SaveAs();
         private void FileClose_Click(object sender, EventArgs e) => GraphForm.Close();
         private void FileExit_Click(object sender, EventArgs e) => AppController.Close();
-        private void EditSelectAll_Click(object sender, EventArgs e) => SelectAll();
-        private void EditInvertSelection_Click(object sender, EventArgs e) => InvertSelection();
         private void EditOptions_Click(object sender, EventArgs e) => EditOptions();
         private void GraphProperties_Click(object sender, EventArgs e) => GraphPropertiesController.Show(GraphForm);
         private void ViewCoordinatesTooltip_Click(object sender, EventArgs e) => ToggleCoordinatesTooltip();
@@ -159,8 +162,6 @@
         private void JsonController_FileReopen(object sender, SdiController.FilePathEventArgs e) => OpenFile(e.FilePath);
         private void JsonController_FileSaved(object sender, EventArgs e) => FileSaved();
         private void JsonController_FileSaving(object sender, CancelEventArgs e) => e.Cancel = !ContinueSaving();
-
-        private void TraceSelection_Changed(object sender, EventArgs e) => TraceSelectionChanged();
 
         private void View_FormClosing(object sender, FormClosingEventArgs e) =>
             e.Cancel = !FormClosing(e.CloseReason);
@@ -272,7 +273,6 @@
         }
 
         private void InitPaper() => ClientPanel.BackColor = Graph.PaperColour;
-        private void InvertSelection() => TraceSelection.Invert(Graph.Traces);
         private void ModelCleared() => InitPaper();
 
         private void ModifiedChanged()
@@ -322,8 +322,6 @@
             }
         }
 
-        private void SelectAll() => TraceSelection.Set(Graph.Traces);
-
         private bool SelectTexture(Trace trace)
         {
             var dialog = GraphForm.TextureDialog;
@@ -351,14 +349,6 @@
         }
 
         private void ToggleCoordinatesTooltip() => ShowCoordinatesTooltip = !ShowCoordinatesTooltip;
-
-        private void TraceSelectionChanged()
-        {
-            if (!TraceSelection.IsEmpty)
-                GraphForm.PropertyGrid.SelectedObjects = TraceSelection.Traces;
-            else
-                GraphForm.PropertyGrid.SelectedObject = CommandProcessor;
-        }
 
         private void UpdateCaption() { GraphForm.Text = JsonController.WindowCaption; }
 

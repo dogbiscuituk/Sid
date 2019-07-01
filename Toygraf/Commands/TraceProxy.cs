@@ -29,6 +29,8 @@
                 _Trace.Title = "New Function";
             }
 
+            private Trace Trace => _Trace ?? Graph.Traces[Index];
+
             internal TraceProxy(Trace trace) => _Trace = trace;
 
             internal TraceProxy(CommandProcessor graphProxy, int index)
@@ -53,7 +55,7 @@
                 set => Run(new TraceBrushTypeCommand(Index, value));
             }
 
-            [Category("Colour")]
+            [Category("Style Colours")]
             [DefaultValue(typeof(Color), "Transparent")]
             [Description("The primary fill colour used by the trace. Applies to all brush types except \"Texture\".")]
             [DisplayName("Fill colour #1")]
@@ -63,7 +65,7 @@
                 set => Run(new TraceFillColour1Command(Index, value));
             }
 
-            [Category("Colour")]
+            [Category("Style Colours")]
             [DefaultValue(typeof(Color), "Transparent")]
             [Description("The secondary fill colour used by the trace. Applies to brush types \"Hatch\", \"Linear Gradient\", and \"Path Gradient\".")]
             [DisplayName("Fill colour #2")]
@@ -83,7 +85,7 @@
                 set => Run(new TraceFillModeCommand(Index, value));
             }
 
-            [Category("Colour")]
+            [Category("Style Colours")]
             [DefaultValue(0)]
             [Description("The level of transparency applied to the trace filled areas. Applies to all brush types, including \"Texture\".")]
             [DisplayName("Fill transparency %")]
@@ -132,7 +134,7 @@
                 set => Run(new TraceInterpolationCommand(Index, value));
             }
 
-            [Category("Colour")]
+            [Category("Style Colours")]
             [DefaultValue(typeof(Color), "DarkGray")]
             [Description("The default colour used by the trace to draw asymptotes.")]
             [DisplayName("Limit colour")]
@@ -142,7 +144,7 @@
                 set => Run(new TraceLimitColourCommand(Index, value));
             }
 
-            [Category("Colour")]
+            [Category("Style Colours")]
             [DefaultValue(typeof(Color), "Black")]
             [Description("The colour of pen used by the trace.")]
             [DisplayName("Pen colour")]
@@ -279,7 +281,6 @@
             private readonly CommandProcessor CommandProcessor;
             private Graph Graph => CommandProcessor.Graph;
             private Trace _Trace;
-            private Trace Trace => _Trace ?? Graph.Traces[Index];
             private void Run(ICommand command)
             {
                 if (CommandProcessor != null)

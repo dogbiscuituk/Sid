@@ -1,10 +1,13 @@
 ﻿namespace ToyGraf.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq;
     using System.Windows.Forms;
     using ToyGraf.Commands;
     using ToyGraf.Views;
+    using static ToyGraf.Commands.CommandProcessor;
 
     internal class TraceTableController
     {
@@ -16,19 +19,26 @@
             TraceTable = GraphForm.TraceTable;
             GraphController.PropertyChanged += GraphController_PropertyChanged;
             TraceTable.AutoGenerateColumns = false;
+            TraceTable.SelectionChanged += TraceTable_SelectionChanged;
             GraphForm.ViewMenu.DropDownOpening += ViewMenu_DropDownOpening;
             GraphForm.ViewTraceTable.Click += ToggleTraceTable;
             GraphForm.PopupTraceTableMenu.Opening += PopupTraceTableMenu_Opening;
             GraphForm.PopupTraceTableFloat.Click += PopupTraceTableDock_Click;
             GraphForm.PopupTraceTableHide.Click += PopupTraceTableHide_Click;
-
         }
+
+        internal IEnumerable<TraceProxy> Selection => TraceTable.SelectedRows
+            .OfType<DataGridViewRow>()
+            .Select(p => p.DataBoundItem)
+            .Cast<TraceProxy>();
 
         internal bool TraceTableVisible
         {
             get => !GraphForm.SplitContainer2.Panel2Collapsed;
             set => GraphForm.SplitContainer2.Panel2Collapsed = !value;
         }
+
+        internal event EventHandler SelectionChanged;
 
         #endregion
 
@@ -105,6 +115,9 @@
             TraceTableDocked = true;
             TraceTableVisible = !TraceTableVisible;
         }
+
+        private void TraceTable_SelectionChanged(object sender, EventArgs e) =>
+            SelectionChanged?.Invoke(sender, e);
 
         private void ViewMenu_DropDownOpening(object sender, EventArgs e) =>
             GraphForm.ViewTraceTable.Checked = TraceTableVisible;
